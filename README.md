@@ -3,7 +3,7 @@
 
 Dueuno Elements
 ===
-[Dueuno Elements](https://dueuno.org) is a framework built on top of the [Grails Framework](https://grails.org) to build Backoffice web applications (aka Internal Tools) with a single programming language: the amazing [Apache Groovy](https://groovy-lang.org).
+[Dueuno Elements](https://dueuno.com) is a framework built on top of the [Grails Framework](https://grails.org) to build Backoffice web applications (aka Internal Tools) with a single programming language: the amazing [Apache Groovy](https://groovy-lang.org).
 
 The main goal is to strongly decouple the Business Logic from the GUI rising the abstraction level to a point where we don't need to know HTML, CSS, JavaScript to build CRUDs & common UIs.
 
