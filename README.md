@@ -9,7 +9,7 @@ Dueuno Elements
 
 The main goal is to strongly decouple the Business Logic from the GUI rising the abstraction level to a point where we don't need to know HTML, CSS, JavaScript to build CRUDs & common UIs.
 
-We rely on the beautiful [Grails Framework](https://grails.org) and its [Conventions over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration#:~:text=Convention%20over%20configuration%20(also%20known,repeat%20yourself%20(DRY)%20principles.) paradigm to lower the cost of  new developers onboarding, build projects faster and keep them organized.
+We rely on the beautiful [Grails Framework](https://grails.org) and its [Conventions over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm to lower the cost of  new developers onboarding, build projects faster and keep them organized.
 
 Work is ongoing to support [Grace Framework](https://graceframework.org/) as well.
 
