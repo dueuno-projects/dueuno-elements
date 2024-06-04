@@ -16,7 +16,7 @@ We are going to create our first _Dueuno Elements_ application, ready?
 
 . Download and install https://www.jetbrains.com/idea/[IntelliJ IDEA Community Edition,window=_blank].
 
-. Download the https://dueuno.com/dueuno-app-template.zip[Application Template,window=_blank]
+. Download the https://github.com/dueuno-projects/dueuno-app-template[Application Template,window=_blank]
 .. Unzip it into your home directory
 .. Open it with IntelliJ IDEA
 .. Run the application from the Gradle sidebar clicking on `project-name -> Tasks -> application -> bootRun`
