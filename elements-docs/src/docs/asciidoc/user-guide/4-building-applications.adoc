@@ -1,7 +1,7 @@
 
 == Building Applications
 
-In this chapter we are going through the building of a _dueuno:elements_ application.
+In this chapter we are going through the building of a _Dueuno Elements_ application.
 
 [[building-crud]]
 === CRUD
@@ -96,7 +96,7 @@ class MovieController implements ElementsController { // <2>
 }
 ----
 <1> Only users with the `ROLE_CAN_EDIT_MOVIES` authority can access the actions in this controller.
-<2> Implementing `ElementsController` the _dueuno:elements_ API will become available
+<2> Implementing `ElementsController` the _Dueuno Elements_ API will become available
 <3> As a convention, all actions building and displaying a GUI are named after a verb or a name while all actions that execute a business logic are identified by a name starting with `on`.
 
 We are going to use the `ContentList` content to list the records, the `ContentCreate` and `ContentEdit` contents to create a new record and edit an existing one (See <<contents>>).

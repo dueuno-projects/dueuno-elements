@@ -11,5 +11,5 @@ out/
 .project
 .settings
 .classpath
-
+docs/
 app-test/app-test/

@@ -225,7 +225,7 @@ dataSource:
   dialect: org.hibernate.dialect.MySQL8Dialect
   #    dialect: org.hibernate.dialect.MySQL5Dialect
 
-  url: jdbc:mysql://localhost:3306/dueuno_elements?useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+  url: jdbc:mysql://localhost:3306/dueuno_elements?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
   username: root
   password: root
 

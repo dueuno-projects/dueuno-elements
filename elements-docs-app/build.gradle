@@ -10,12 +10,13 @@ plugins {
     id "idea"
 }
 
-group = "org.dueuno"
+group = 'org.dueuno'
+version = '1.0'
 
 repositories {
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core/" }
-    maven { url "http://repo.dueuno.com:8888/repository/snapshot"; allowInsecureProtocol = true }
+    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 configurations {

@@ -2,5 +2,6 @@ plugins {
     id 'dueuno-asciidoctor'
 }
 
-dependencies {
+repositories {
+    mavenCentral()
 }

@@ -4,10 +4,6 @@ plugins {
     id "signing"
 }
 
-repositories {
-    mavenCentral()
-}
-
 group = projectGroup
 version = projectVersion
 

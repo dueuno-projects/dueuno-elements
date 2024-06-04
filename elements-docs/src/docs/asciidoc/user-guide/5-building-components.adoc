@@ -1,7 +1,7 @@
 
 == Building Components
 
-In this chapter we are going through the building of a _dueuno:elements_ component.
+In this chapter we are going through the building of a _Dueuno Elements_ component.
 
 === Pages
 TBD
