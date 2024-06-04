@@ -1,7 +1,7 @@
 
 *<<1-introduction.adoc#_goals, Dueuno Elements>> is a https://grails.org/[Grails,window=_blank] plugin useful to develop backoffice applications.*
 
-== Quick Start
+== API Reference
 === Create an application
 Use https://start.grails.org[Grails Forge,window=_blank] to generate a *Web Application* with *Java 17* (we support only Java 17) then add the following repository and dependency to your newly created Grails application:
 
@@ -10,7 +10,7 @@ Use https://start.grails.org[Grails Forge,window=_blank] to generate a *Web Appl
 ----
 dependencies {
     ...
-    implementation "org.Dueuno Elements:{revnumber}"
+    implementation "org.dueuno:elements-core:{revnumber}"
 }
 ----
 
