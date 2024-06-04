@@ -1,0 +1,37 @@
+.component-filters-buttons.btn-group .btn:hover,
+.component-filters-buttons.btn-group .btn:active,
+.component-filters-buttons.btn-group .btn:focus,
+.component-filters-buttons.btn-group .btn {
+    color: #333333;
+    background-color: white;
+}
+
+.component-filters-search {
+    margin-left: 1px;
+}
+
+.component-filters-toggle:not(.btn.collapsed) {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.component-filters-toggle.dropdown-toggle:after {
+    transform: rotate(-180deg);
+}
+
+.component-filters-toggle.dropdown-toggle.collapsed:after {
+    transform: rotate(0deg);
+}
+
+.component-filters-toggle.dropdown-toggle:after {
+    transition: 0.35s;
+}
+
+.component-filters-counter {
+    font-size: 14px;
+    border-radius: var(--bs-border-radius-xl);
+    display: inline-block;
+    min-width: 21px;
+    margin-left: -5px;
+    transform: scale(0.8);
+}

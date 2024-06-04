@@ -1,0 +1,7 @@
+model {
+    Map obj
+}
+
+json {
+    error g.render(obj.error, [excludes: ['stackTrace']])
+}

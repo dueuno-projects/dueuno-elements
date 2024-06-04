@@ -1,0 +1,20 @@
+.btn i > img, li a i > img {
+    margin-top: calc(var(--elements-font-size) * -0.2);
+    height: var(--elements-font-size);
+}
+
+.input-group:has(.component-link[readonly]) {
+    cursor: default;
+}
+
+.component-link {
+    cursor: pointer;
+}
+
+.component-link[readonly] {
+    pointer-events: none;
+}
+
+.component-link:focus-visible {
+    box-shadow: 0 0 0 0.25rem rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+}

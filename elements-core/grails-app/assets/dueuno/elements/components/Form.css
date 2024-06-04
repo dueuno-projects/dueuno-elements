@@ -1,0 +1,10 @@
+.component-form {
+    border-radius: var(--bs-border-radius-lg);
+    background-color: white;
+    margin-top: 0.25rem;
+}
+
+.error-highlight {
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: 0 0 0 1px rgba(204, 0, 0, .5) !important;
+}

@@ -1,0 +1,28 @@
+.control-textarea textarea,
+.control-textarea textarea:focus {
+    border-radius: var(--bs-border-radius-lg) !important;
+    border: none;
+    padding: var(--elements-padding-x);
+    font-size: var(--elements-font-size);
+    font-weight: bold;
+    resize: none;
+}
+
+.control-textarea label {
+    position: absolute;
+}
+
+.control-textarea.maxlength:not(.readonly) textarea {
+    padding-bottom: 35px !important;
+}
+
+.control-textarea.maxlength label {
+    padding: 5px 15px;
+    bottom: 0;
+    right: 0;
+    font-weight: normal;
+}
+
+.control-textarea.maxlength.readonly label {
+    display: none;
+}

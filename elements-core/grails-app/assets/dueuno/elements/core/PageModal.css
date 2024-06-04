@@ -1,0 +1,110 @@
+#page-modal-body {
+    background-color: rgb(var(--elements-secondary-bg));
+}
+
+@media (min-width: 650px) {
+    #page-modal .modal,
+    #page-modal .modal-lg,
+    #page-modal .modal-xl {
+        --bs-modal-width: 620px;
+    }
+}
+
+@media (min-width: 740px) {
+    #page-modal .modal-lg,
+    #page-modal .modal-xl {
+        --bs-modal-width: 700px;
+    }
+}
+
+@media (min-width: 840px) {
+    #page-modal .modal-xl {
+        --bs-modal-width: 800px;
+    }
+}
+
+@media (min-width: 940px) {
+    #page-modal .modal-xl {
+        --bs-modal-width: 900px;
+    }
+}
+
+@media (min-width: 1040px) {
+    #page-modal .modal-xl {
+        --bs-modal-width: 1000px;
+    }
+}
+
+@media (min-width: 1140px) {
+    #page-modal .modal-xl {
+        --bs-modal-width: 1100px;
+    }
+}
+
+@media (min-width: 1240px) {
+    #page-modal .modal-xl {
+        --bs-modal-width: 1200px;
+    }
+}
+
+#page-modal .modal-header {
+    border: none;
+    padding: var(--elements-font-size);
+}
+
+#page-modal .component-header {
+    padding: 0;
+}
+
+#page-modal .modal-header .btn-group a.btn,
+#page-modal .modal-header .btn-group a.btn:hover,
+#page-modal .modal-header .btn-group a.btn:focus,
+#page-modal .modal-header .btn-group a.btn:active,
+#page-modal .modal-header .btn-group button:hover,
+#page-modal .modal-header .btn-group button:focus,
+#page-modal .modal-header .btn-group button:active,
+#page-modal .modal-header .btn-group button {
+    background-color: white;
+    color: #333333;
+    font-weight: normal;
+}
+
+#page-modal [data-21-id="closeButton"] {
+    margin-right: 0.25rem;
+}
+
+#page-modal-body .simplebar-content > :nth-child(2) {
+    margin-top: 0 !important;
+}
+
+.modal-backdrop.show {
+    opacity: 1;
+    background-color: rgba(100,100,100,0.5);
+    backdrop-filter: blur(21px) grayscale(100%);
+    -webkit-backdrop-filter: blur(21px) grayscale(100%);
+}
+
+.modal-backdrop {
+    opacity: 0;
+    background-color: rgba(100,100,100,0.5);
+    backdrop-filter: blur(21px) grayscale(100%);
+    -webkit-backdrop-filter: blur(21px) grayscale(100%);
+}
+
+#page-modal-body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#page-modal-body {
+    padding: calc(var(--elements-font-size) * 0.5) !important;
+    padding-top: 0 !important;
+}
+
+#page-modal-body::-webkit-scrollbar {
+    display: none;
+}
+
+#page-modal-body .simplebar-content-wrapper {
+    overscroll-behavior: contain;
+}

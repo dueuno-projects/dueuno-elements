@@ -1,0 +1,44 @@
+.progress {
+    position: relative;
+    margin-bottom: 0;
+    overflow-x: hidden;
+}
+
+.progress.indefinite .progress-bar, .progress.indefinite .progress-label {
+    display: none;
+}
+
+.progress.definite .progress-line, .progress.definite .progress-subline {
+    display: none;
+}
+
+.progress .progress-line{
+    position: absolute;
+    opacity: 0.4;
+    background: #3465a4;
+    width: 150%;
+    height: 20px;
+}
+
+.progress .progress-subline{
+    position: absolute;
+    background: #3465a4;
+    height: 20px;
+}
+
+.progress .progress-inc{
+    animation: increase 2s infinite;
+}
+
+.progress .progress-dec{
+    animation: decrease 2s 0.5s infinite;
+}
+
+@keyframes increase {
+    from { left: -5%; width: 5%; }
+    to { left: 130%; width: 100%;}
+}
+@keyframes decrease {
+    from { left: -80%; width: 80%; }
+    to { left: 110%; width: 10%;}
+}

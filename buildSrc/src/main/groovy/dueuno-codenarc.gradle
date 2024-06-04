@@ -1,0 +1,11 @@
+plugins {
+    id "groovy"
+    id 'codenarc'
+}
+
+codenarc {
+    toolVersion = '3.2.0'
+    ignoreFailures = true
+    configFile = file("${rootDir}/codenarc/config.groovy")
+    reportsDir = file("$rootDir/codenarc/${project.name}")
+}

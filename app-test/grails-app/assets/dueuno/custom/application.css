@@ -1,0 +1,3 @@
+.shell-navbar-home::after {
+    content: "APP CSS!";
+}

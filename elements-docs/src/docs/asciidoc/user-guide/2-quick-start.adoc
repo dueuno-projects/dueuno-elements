@@ -1,0 +1,38 @@
+
+== Quick Start
+
+=== Basics
+
+To develop _dueuno:elements_ applications you need to learn the basics of the https://groovy-lang.org/[Apache Groovy,window=_blank] programming language and the basics of the https://grails.org/[Grails framework,window=_blank].
+
+==== Learning Groovy
+The Groovy programming language has been around for more than 20 years now, it's been the second language to be developed for the JVM. You can https://groovy-lang.org/documentation.html[read the documentation,window=_blank] and access the https://groovy-lang.org/learn.html[Groovy learning resources,window=_blank]
+
+==== Learning Grails
+Grails has been helping web developers for 20 years now, it still is a growing and evolving technology so what you want to do is https://grails.org/documentation.html[reading the latest documentation on the Grails website,window=_blank]
+
+=== Run
+We are going to create our first _dueuno:elements_ application, ready?
+
+. Download and install https://www.jetbrains.com/idea/[IntelliJ IDEA Community Edition,window=_blank].
+
+. Download the https://dueuno.com/dueuno-app-template.zip[Application Template,window=_blank]
+.. Unzip it into your home directory
+.. Open it with IntelliJ IDEA
+.. Run the application from the Gradle sidebar clicking on `project-name -> Tasks -> application -> bootRun`
+
+[source,bash,background-color="black",subs="attributes,normal"]
+----
+| Running application...
+
+Configuring Spring Security Core ...
+... finished configuring Spring Security Core
+
+Grails application running at https://localhost:8080[window=_blank] in environment: development
+----
+
+NOTE: The first run will take some time since it has to download all the needed dependencies.
+
+We can now navigate to https://localhost:8080[window=_blank] to see the login screen. Login with the credentials `*super/super*` to play around with the basic features of a plain _dueuno:elements_ application.
+
+image::images/user-guide-login.png[Application Login]

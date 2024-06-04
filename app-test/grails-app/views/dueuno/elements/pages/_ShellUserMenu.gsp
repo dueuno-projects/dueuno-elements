@@ -1,0 +1,48 @@
+<div id="shell-user-menu"
+     class="shell-user-menu offcanvas ${c.animations ? '' : 'no-slide'} offcanvas-end"
+     tabindex="-1"
+
+     data-21-component="${c.getClassName()}"
+     data-21-id="${c.getId()}"
+     data-21-properties="${c.propertiesAsJSON}"
+     data-21-events="${c.eventsAsJSON}"
+>
+
+    <div class="offcanvas-header">
+        <p class="offcanvas-title no-wrap fw-bold">
+            <i><asset:image src="libs/flags/${shell.displayFlagCode()}.svg" class="nav-flag me-1" /></i>
+            <span>${c.title}</span>
+        </p>
+        <button type="button" class="btn btn-secondary"
+                data-bs-dismiss="offcanvas"
+                data-bs-target="#shell-user-menu"
+                aria-label="Close">
+            <i class="fa-solid fa-circle-xmark text-dark"></i>
+        </button>
+    </div>
+
+    <div id="shell-user-menu-items" class="offcanvas-body">
+
+        <nav>
+            <ul class="nav nav-pills flex-column">
+                <g:each var="item" in="${c.listAllItems()}">
+                    <g:if test="${item.display}">
+                        <g:if test="${item.separator}">
+                            <li class="nav-item">
+                                <hr>
+                            </li>
+                        </g:if>
+                        <g:else>
+                            <li class="nav-item">
+                                <dev:ifDisplayHints><span>[${item.order}]</span></dev:ifDisplayHints>
+                                <render:component instance="${item.link}" properties="[cssClass: 'nav-link p-0 pb-1', iconClass: 'fa-fw']" />
+                            </li>
+                        </g:else>
+                    </g:if>
+                </g:each>
+            </ul>
+        </nav>
+
+    </div>
+
+</div>

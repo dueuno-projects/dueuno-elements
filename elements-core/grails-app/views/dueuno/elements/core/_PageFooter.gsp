@@ -1,0 +1,52 @@
+<%-- Modal --%>
+<render:component instance="${c.modal}" />
+
+<%-- MessageBox --%>
+<render:component instance="${c.messageBox}" />
+
+<%-- JavaScript Helpers --%>
+<script>
+    const _21_ = {
+        app: {
+            url: "${g.createLink(absolute:true, uri:"/")}",
+        },
+        <g:if test="${c}">
+        user: {
+            username: "${security.username()}",
+            language: "${c.locale}",
+            decimalFormat: "${c.decimalFormat}",
+            prefixedUnit: ${c.prefixedUnit},
+            invertedMonth: ${c.invertedMonth},
+            twelveHours: ${c.twelveHours},
+            firstDaySunday: ${c.firstDaySunday},
+            fontSize: ${c.fontSize},
+            animations: ${c.animations},
+        },
+        </g:if>
+        <g:if env="development">
+        log: {
+            error: true,
+            debug: true,
+            trace: false,
+        },
+        </g:if>
+    }
+</script>
+
+<%-- Elements Javascript --%>
+<asset:javascript src="elements/includes.js"/>
+
+<g:each var="elementsImplementation" in="${c.elementsRegistry}">
+    <asset:javascript src="${elementsImplementation}.js"/>
+</g:each>
+
+<%-- Application Specific Javascript --%>
+<asset:assetPathExists src="custom/application.js">
+    <asset:javascript src="custom/application.js"/>
+</asset:assetPathExists>
+
+<%-- Page Specific Javascripts --%>
+<asset:assetPathExists src="custom/${controllerName + '-' + actionName}.js">
+    <asset:javascript src="custom/${controllerName + '-' + actionName}.js"/>
+</asset:assetPathExists>
+

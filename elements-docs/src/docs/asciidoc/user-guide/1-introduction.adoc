@@ -1,0 +1,26 @@
+
+== Introduction
+
+=== Goals
+*With _dueuno:elements_ you can develop backoffice web applications writing code in a single programming language: https://groovy-lang.org/[Apache Groovy,window=_blank]. No need to know HTML, CSS o Javascript.*
+
+With _dueuno:elements_ you can develop and maintain web applications with requirements such as:
+
+. Authenticate & authorize users (who can access and what they can do)
+. Implement several business features with a coherent user interface
+. Display and edit data in table format (CRUD)
+. Display charts, dashboards, etc. to build Business Intelligence applications
+. Let users customize their localization preferences with country specific formats (languages, dates, numbers, currencies, quantities, etc.)
+. Develop multi-device applications. Each application will automatically work on a desktop pc with a mouse as well as on a mobile device with a finger.
+. Develop multi-tenant applications. The same application can serve different clients with separate databases.
+
+NOTE: The main purpose of _dueuno:elements_ is to decouple the business logic from the _User Interface (GUI)_. This lowers the costs of maintaining the application: just one language instead of 5 (HTML, CSS, JavaScript, Java, SQL), less skilled people can join the team and no need to upgrade the GUI when new web technologies/standards gets available.
+
+=== Non-Goals
+*_dueuno:elements_ is NOT a solution for:*
+
+. Creating classical websites (text + images + basic user interaction)
+. Creating graphical/animated web applications
+. Developing applications where the client retains strict control on how the user interface will look like
+
+For such cases you can just use the beautiful https://grails.org/[Grails,window=_blank].

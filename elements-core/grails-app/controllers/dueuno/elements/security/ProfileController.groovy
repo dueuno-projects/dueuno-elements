@@ -1,0 +1,237 @@
+/*
+ * Copyright 2021 the original author or authors.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package dueuno.elements.security
+
+import dueuno.elements.components.Separator
+import dueuno.elements.contents.ContentForm
+import dueuno.elements.controls.*
+import dueuno.elements.core.ApplicationService
+import dueuno.elements.core.ElementsController
+import dueuno.elements.core.PrettyPrinterDecimalFormat
+import grails.gorm.multitenancy.WithoutTenant
+import grails.plugin.springsecurity.annotation.Secured
+
+/**
+ * User profile
+ *
+ * @author Gianluca Sartori
+ */
+@WithoutTenant
+@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+class ProfileController implements ElementsController {
+
+    ApplicationService applicationService
+    SecurityService securityService
+
+    private buildSensitiveDataForm(ContentForm c) {
+        c.form.with {
+            grid = true
+            addField(
+                    class: TextField,
+                    id: 'firstname',
+                    cols: 6,
+            )
+            addField(
+                    class: TextField,
+                    id: 'lastname',
+                    cols: 6,
+            )
+            addField(
+                    class: EmailField,
+                    id: 'email',
+                    cols: 6,
+            )
+            addField(
+                    class: TelephoneField,
+                    id: 'telephone',
+                    cols: 6,
+            )
+        }
+    }
+
+    private buildPreferencesForm(ContentForm c) {
+        c.form.with {
+            grid = true
+            addField(
+                    class: Separator,
+                    id: 'preferences',
+                    cols: 12,
+            )
+            addField(
+                    class: Select,
+                    id: 'language',
+                    optionsFromList: applicationService.languages,
+                    messagePrefix: 'default.language',
+                    search: false,
+                    cols: 6,
+            )
+            addField(
+                    class: Select,
+                    id: 'firstDaySunday',
+                    options: [false: 'false', true: 'true'],
+                    messagePrefix: 'default.firstDaySunday',
+                    search: false,
+                    cols: 6,
+            )
+            addField(
+                    class: Select,
+                    id: 'invertedMonth',
+                    options: [false: 'false', true: 'true'],
+                    messagePrefix: 'default.invertedMonth',
+                    search: false,
+                    cols: 6,
+            )
+            addField(
+                    class: Select,
+                    id: 'twelveHours',
+                    options: [false: 'false', true: 'true'],
+                    messagePrefix: 'default.twelveHours',
+                    search: false,
+                    cols: 6,
+            )
+            addField(
+                    class: Select,
+                    id: 'decimalFormat',
+                    optionsFromEnum: PrettyPrinterDecimalFormat,
+                    messagePrefix: 'default.decimalFormat',
+                    search: false,
+                    cols: 6,
+            )
+            addField(
+                    class: Select,
+                    id: 'prefixedUnit',
+                    options: [false: 'false', true: 'true'],
+                    messagePrefix: 'default.prefixedUnit',
+                    search: false,
+                    cols: 6,
+            )
+            addField(
+                    class: Select,
+                    id: 'symbolicCurrency',
+                    options: [false: 'false', true: 'true'],
+                    messagePrefix: 'default.symbolicCurrency',
+                    search: false,
+                    cols: 6,
+            )
+            addField(
+                    class: Select,
+                    id: 'symbolicQuantity',
+                    options: [false: 'false', true: 'true'],
+                    messagePrefix: 'default.symbolicQuantity',
+                    search: false,
+                    cols: 6,
+            )
+            addField(
+                    class: NumberField,
+                    id: 'fontSize',
+                    cols: 6,
+            )
+            addField(
+                    class: Checkbox,
+                    id: 'animations',
+                    cols: 6,
+            )
+        }
+    }
+
+    def index() {
+        def c = createContent(ContentForm)
+        c.header.with {
+            nextButton.action = 'onSave'
+            nextButton.text = 'default.save'
+            removeBackButton()
+        }
+
+        c.form.with {
+            if (devDisplayHints) {
+                addField(
+                        class: Textarea,
+                        id: 'authorities',
+                        text: '',
+                        readonly: true,
+                        cols: 12,
+                )
+            }
+            addField(
+                    class: TextField,
+                    id: 'username',
+                    readonly: true,
+                    icon: 'fa-user',
+                    helpMessage: 'profile.edit.username.help',
+                    cols: 12,
+            )
+        }
+
+        buildSensitiveDataForm(c)
+
+        buildPreferencesForm(c)
+
+        c.form.with {
+            addField(
+                    class: Separator,
+                    id: 'change.password',
+                    cols: 12,
+            )
+            addField(
+                    class: PasswordField,
+                    id: 'newPassword',
+                    cols: 6,
+            )
+            addField(
+                    class: PasswordField,
+                    id: 'confirmNewPassword',
+                    cols: 6,
+            )
+        }
+
+        def obj = securityService.getCurrentUser(true)
+        if (obj) {
+            c.form.values = obj
+        }
+
+        if (devDisplayHints) {
+            c.form.authorities.value = securityService.getCurrentUserAuthorities().join(',\n') + '.'
+        }
+
+        display content: c, modal: true
+    }
+
+    def onSave(ProfileValidator val) {
+        if (val.hasErrors()) {
+            display errors: val
+            return
+        }
+
+        if (params.newPassword) {
+            params.password = params.newPassword
+        }
+
+        securityService.updateUser(params)
+
+        currentLanguage = params.language
+        decimalFormat = params.decimalFormat
+        prefixedUnit = (params.prefixedUnit == 'false') ? false : true
+        symbolicCurrency = (params.symbolicCurrency == 'false') ? false : true
+        symbolicQuantity = (params.symbolicQuantity == 'false') ? false : true
+        invertedMonth = (params.invertedMonth == 'false') ? false : true
+        twelveHours = (params.twelveHours == 'false') ? false : true
+        firstDaySunday = (params.firstDaySunday == 'false') ? false : true
+        fontSize = params.fontSize as Integer
+        animations = params.animations as Boolean
+
+        display controller: securityService.landingPage ?: 'shell', direct: true
+    }
+}
+

@@ -1,0 +1,98 @@
+/*
+ * Copyright 2021 the original author or authors.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package dueuno.elements.controls
+
+import dueuno.elements.components.Button
+import dueuno.elements.core.Control
+import dueuno.elements.core.Elements
+import dueuno.elements.style.TextTransform
+import groovy.transform.CompileStatic
+
+/**
+ * @author Gianluca Sartori
+ * @author Francesco Piceghello
+ */
+
+@CompileStatic
+class TextField extends Control {
+
+    TextFieldKeyboardType keyboardType
+
+    Button actions
+    String icon
+    String prefix
+
+    Integer maxSize
+    String placeholder
+    Boolean autocomplete
+    Boolean monospace
+    TextTransform textTransform
+    //Integer onChangeMinChars // Maybe in future
+
+    TextField(Map args) {
+        super(args)
+
+        valueType = 'TEXT'
+
+        keyboardType = args.keyboardType as TextFieldKeyboardType ?: TextFieldKeyboardType.TEXT
+        icon = args.icon ?: ''
+        prefix = args.prefix ?: ''
+        maxSize = args.maxSize as Integer ?: 0
+        placeholder = args.placeholder == null ? '' : args.placeholder
+        monospace = args.monospace == null ? false : args.monospace
+        autocomplete = (args.autocomplete == null) ? false : args.autocomplete
+        textTransform = args.textTransform as TextTransform ?: TextTransform.NONE
+        //onChangeMinChars = args.onChangeMinChars ?: 0 // forse in futuro
+
+        actions = createControl(
+                class: Button,
+                id: 'actions',
+                group: true,
+                dontCreateDefaultAction: true,
+        )
+    }
+
+    String getKeyboardType() {
+        return (keyboardType as String).toLowerCase()
+    }
+
+    Control addAction(Map args) {
+        actions.addAction(args)
+        return this
+    }
+
+    void removeAction(Map args) {
+        actions.removeAction(args)
+    }
+
+    @Override
+    String getPropertiesAsJSON(Map properties = [:]) {
+        Map thisProperties = [
+                autocomplete: autocomplete,
+                textTransform: textTransform as String,
+        ]
+        return super.getPropertiesAsJSON(thisProperties + properties)
+    }
+
+    @Override
+    String getValueAsJSON() {
+        Map valueMap = [
+                type: valueType,
+                value: prettyPrint(value),
+        ]
+
+        return Elements.encodeAsJSON(valueMap)
+    }
+}

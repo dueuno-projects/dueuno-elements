@@ -1,0 +1,12 @@
+.component-actionbar .btn-group a.btn,
+.component-actionbar .btn-group a.btn:hover,
+.component-actionbar .btn-group a.btn:focus,
+.component-actionbar .btn-group a.btn:active,
+.component-actionbar .btn-group button.dropdown-toggle,
+.component-actionbar .btn-group button.dropdown-toggle:focus,
+.component-actionbar .btn-group button.dropdown-toggle:active,
+.component-actionbar .btn-group button.dropdown-toggle:hover {
+    background-color: white;
+    color: #333333;
+    font-weight: normal;
+}

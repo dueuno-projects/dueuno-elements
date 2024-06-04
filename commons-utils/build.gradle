@@ -1,0 +1,23 @@
+plugins {
+    id 'dueuno-commons'
+}
+
+dependencies {
+    // Servlet
+    implementation 'javax.servlet:javax.servlet-api:4.0.0'
+
+    // SSH
+    implementation 'com.jcraft:jsch:0.1.55'
+
+    // FTP
+    implementation 'commons-net:commons-net:3.10.0'
+
+    // 1D/2D codes generation
+    implementation 'com.google.zxing:core:3.5.1'
+    implementation 'com.google.zxing:javase:3.5.1'
+
+    // PDF Generation
+    implementation 'org.apache.pdfbox:pdfbox:2.0.31'
+    implementation 'com.github.dhorions:boxable:1.7.0'
+}
+

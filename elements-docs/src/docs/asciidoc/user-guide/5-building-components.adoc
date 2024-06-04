@@ -1,0 +1,18 @@
+
+== Building Components
+
+In this chapter we are going through the building of a _dueuno:elements_ component.
+
+=== Pages
+TBD
+
+=== Contents
+TBD
+
+=== Components
+TBD
+
+=== Controls
+TBD
+
+

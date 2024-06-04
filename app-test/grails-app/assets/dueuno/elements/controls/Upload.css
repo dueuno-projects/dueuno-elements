@@ -1,0 +1,70 @@
+.control-upload {
+    padding: 0;
+}
+
+.control-upload .dz-message .dz-button {
+    font-size: calc(var(--elements-font-size) * 1.3);
+    font-weight: bold;
+}
+
+.control-upload .dz-preview .dz-details .dz-size {
+    margin-bottom: 0.25rem;
+}
+
+.control-upload .dz-preview .dz-image {
+    width: calc(var(--elements-font-size) * 6);
+    height: calc(var(--elements-font-size) * 6);
+}
+
+.control-upload .dz-preview.dz-file-preview,
+.control-upload .dz-preview.dz-image-preview {
+    background-color: transparent;
+}
+
+.dropzone .dz-preview.dz-file-preview .dz-details {
+    margin-top: calc(var(--elements-font-size) / -5);
+}
+
+.control-upload .dz-preview.dz-file-preview .dz-image,
+.control-upload .dz-preview.dz-image-preview .dz-image {
+    border-radius: var(--bs-border-radius-xl);
+}
+
+.control-upload .dz-preview.dz-file-preview .dz-details::before {
+    font-family: var(--fa-style-family-classic);
+    font-size: calc(var(--elements-font-size) * 1.5);
+    font-weight: 900;
+    margin-bottom: calc(var(--elements-font-size) / 1.5);
+    display: block;
+    content: "\f15b";
+}
+
+.control-upload .dz-preview .dz-details {
+    font-size: calc(var(--elements-font-size) / 1.3);
+}
+
+.control-upload .dz-preview .dz-remove {
+    font-size: calc(var(--elements-font-size) / 1.3);
+}
+
+.control-upload .dz-preview.dz-error .dz-error-message{
+    display: none !important;
+}
+
+/* COLORS
+*/
+.control-upload {
+    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+}
+
+.control-upload .dz-message .dz-button {
+    color: rgb(var(--elements-primary-bg)) !important;
+}
+
+.control-upload .dz-preview.dz-file-preview .dz-image {
+    background: rgba(var(--elements-tertiary-bg), 0.5);
+}
+
+.control-upload .dz-preview .dz-remove {
+    color: rgb(var(--elements-primary-bg));
+}

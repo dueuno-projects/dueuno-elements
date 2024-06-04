@@ -1,0 +1,21 @@
+.input-group-addon.type-search i {
+    width: 1em;
+}
+
+.ui-widget-content {
+    background: #fff;
+    margin-left: -100px;
+}
+
+.ui-widget-content .ui-menu-item {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.ui-widget-content .ui-menu-item.ui-state-focus {
+    color: #fff;
+    border: 1px solid transparent;
+    font-weight: normal;
+    font-size: 14px;
+}

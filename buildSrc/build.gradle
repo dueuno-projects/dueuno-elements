@@ -1,0 +1,18 @@
+plugins {
+    id 'groovy-gradle-plugin'
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.grails.org/grails/core" }
+}
+
+dependencies {
+    implementation "com.bertramlabs.plugins:asset-pipeline-gradle:4.3.0"
+    implementation 'com.github.erdi:webdriver-binaries-gradle-plugin:3.0'
+    implementation "org.grails:grails-gradle-plugin:6.0.0"
+    implementation "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:2.2.2"
+    implementation "org.asciidoctor:asciidoctor-gradle-jvm:4.0.0-alpha.1"
+    implementation "org.asciidoctor:asciidoctor-gradle-jvm-pdf:4.0.0-alpha.1"
+    implementation "org.asciidoctor.jvm.convert:org.asciidoctor.jvm.convert.gradle.plugin:3.3.2"
+}

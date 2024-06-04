@@ -1,0 +1,6 @@
+plugins {
+    id 'dueuno-asciidoctor'
+}
+
+dependencies {
+}

@@ -1,0 +1,93 @@
+.input-group-text[data-td-toggle=datetimepicker] {
+    cursor: pointer;
+}
+
+.control-date .input-group-text {
+    border-top-right-radius: var(--bs-border-radius-lg);
+    border-bottom-right-radius: var(--bs-border-radius-lg);
+}
+
+.tempus-dominus-widget {
+    box-shadow: 0 0.5rem 1rem rgba(var(--bs-body-color-rgb), .15);
+    padding-top: var(--elements-font-size);
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: calc(var(--elements-padding-y));
+}
+
+.tempus-dominus-widget .date-container,
+.tempus-dominus-widget .time-container,
+.tempus-dominus-widget .time-container-clock {
+    margin: 0;
+}
+
+.tempus-dominus-widget .toolbar div {
+    margin-right: calc(var(--elements-padding-y));
+    margin-bottom: calc(var(--elements-padding-y));
+}
+
+.tempus-dominus-widget.light {
+    background-color: rgba(255, 255, 255, .6);
+    backdrop-filter: blur(21px);
+    -webkit-backdrop-filter: blur(21px);
+}
+
+.tempus-dominus-widget .calendar-header {
+    padding: 0.5rem;
+}
+
+.tempus-dominus-widget,
+.tempus-dominus-widget .toolbar div,
+.tempus-dominus-widget .calendar-header,
+.tempus-dominus-widget .time-container-clock div:hover,
+.tempus-dominus-widget .time-container-hour div:hover,
+.tempus-dominus-widget .time-container-minute div:hover,
+.tempus-dominus-widget .date-container-decades div:not(.no-highlight),
+.tempus-dominus-widget .date-container-years div:not(.no-highlight),
+.tempus-dominus-widget .date-container-months div:not(.no-highlight),
+.tempus-dominus-widget .date-container-days div:not(.no-highlight) {
+    border-radius: var(--bs-border-radius-lg);
+}
+
+.tempus-dominus-widget.light .date-container-days :not(.no-highlight).today:hover:before {
+    border-bottom-color: white;
+}
+
+.tempus-dominus-widget .time-container-clock div,
+.tempus-dominus-widget .time-container-hour div,
+.tempus-dominus-widget .time-container-minute div,
+.tempus-dominus-widget.light .date-container-days div,
+.tempus-dominus-widget.light .date-container-months div,
+.tempus-dominus-widget.light .date-container-years div,
+.tempus-dominus-widget.light .date-container-decades div,
+.tempus-dominus-widget .time-container-clock div:not(.no-highlight),
+.tempus-dominus-widget .time-container-minute div:not(.no-highlight),
+.tempus-dominus-widget .time-container-hour div:not(.no-highlight) {
+    width: calc(100% - var(--elements-padding-y));
+    height: calc(100% - var(--elements-padding-y));
+}
+
+/* COLORS
+*/
+.tempus-dominus-widget.light .date-container-decades div:not(.no-highlight).hover,
+.tempus-dominus-widget.light .date-container-years div:not(.no-highlight):hover,
+.tempus-dominus-widget.light .date-container-months div:not(.no-highlight):hover,
+.tempus-dominus-widget.light .date-container-days div:not(.no-highlight):hover,
+.tempus-dominus-widget.light .time-container-clock div:not(.no-highlight,.separator):hover,
+.tempus-dominus-widget.light .time-container-hour div:not(.no-highlight):hover,
+.tempus-dominus-widget.light .time-container-minute div:not(.no-highlight):hover,
+.tempus-dominus-widget.light .toolbar div:hover {
+    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+}
+
+.tempus-dominus-widget.light .date-container-decades div:not(.no-highlight).active,
+.tempus-dominus-widget.light .date-container-years div:not(.no-highlight).active,
+.tempus-dominus-widget.light .date-container-months div:not(.no-highlight).active,
+.tempus-dominus-widget.light .date-container-days div:not(.no-highlight).active {
+    background-color: rgb(var(--elements-primary-bg));
+}
+
+.tempus-dominus-widget.light .date-container-days div:not(.no-highlight).today:before,
+.tempus-dominus-widget.light .date-container-days div:not(.no-highlight):not(.active):hover:before {
+    border-bottom-color: rgb(var(--elements-primary-bg));
+}

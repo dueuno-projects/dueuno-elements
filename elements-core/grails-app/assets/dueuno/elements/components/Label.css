@@ -1,0 +1,49 @@
+.component-label {
+    border-radius: 0;
+}
+
+.component-label.border {
+    padding: var(--elements-padding-y) var(--elements-padding-x);
+    border-radius: var(--bs-border-radius-lg);
+    border: none !important;
+    height: 100%;
+}
+
+.component-label.text-monospace.border {
+    padding: 7px 9px;
+}
+
+.no-wrap,
+.no-wrap span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.soft-wrap span {
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.line-wrap span {
+    white-space: pre-line;
+    word-wrap: break-word;
+}
+
+.line-break span {
+    white-space: pre;
+    word-wrap: break-word;
+    overflow-x: scroll;
+}
+
+/* COLORS
+*/
+.component-label.border {
+    background-color: rgb(var(--elements-secondary-bg));
+    color: rgb(var(--elements-secondary-text));
+}
+
+.component-label a,
+.component-label a:hover {
+    color: rgb(var(--elements-primary-bg));
+}

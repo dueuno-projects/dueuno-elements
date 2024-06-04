@@ -1,0 +1,120 @@
+/*
+ * Copyright 2021 the original author or authors.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package dueuno.elements.test
+
+import dueuno.elements.components.Button
+import dueuno.elements.contents.ContentForm
+import dueuno.elements.controls.TextField
+import dueuno.elements.controls.Upload
+import dueuno.elements.core.ElementsController
+import dueuno.elements.tenants.TenantService
+
+class UploadController implements ElementsController {
+
+    TenantService tenantService
+
+    private buildForm(TDemo obj) {
+        def c = createContent(ContentForm)
+        c.header.nextButton.text = 'Ok'
+        c.with {
+            form.with {
+                addField(
+                        class: Button,
+                        id: 'file',
+                        action: 'onDownloadAttachment',
+                        params: [filename: obj.filename],
+                        icon: 'fa-file-download',
+                        text: obj.filename,
+                        targetNew: true,
+                )
+                addField(
+                        class: TextField,
+                        id: 'test1',
+                        value: 'This is a test',
+                )
+                addField(
+                        class: Upload,
+                        id: 'somefile',
+                        onUpload: 'onUploadFile',
+                        onSuccess: 'onUploadSuccess',
+                        maxFiles: 1,
+                        acceptedFiles: ['.jpg', '.jpeg'],
+                        submit: ['form'],
+                )
+                addField(
+                        class: TextField,
+                        id: 'test2',
+                        value: 'This is another test',
+                )
+            }
+        }
+
+        if (obj) {
+            c.form.values = obj
+        }
+
+        return c
+    }
+
+    def index() {
+        def obj = TDemo.get(1)
+        def c = buildForm(obj)
+        display content: c, modal: true
+    }
+
+    def onUploadFile() {
+        try {
+            println params
+            def path = tenantService.getPublicDir() + 'upload/'
+            Upload.save(path)
+
+            println 'Uploaded file "' + Upload.filename + '" to path ' + path
+            display
+
+        } catch (e) {
+            e.printStackTrace()
+            display exception: e
+        }
+    }
+
+    def onUploadSuccess() {
+        TDemo obj = TDemo.get(1)
+        obj.properties = params
+        obj.filename = params.somefile[0]
+        obj.save(flush: true, failOnError: true)
+
+        def t = createTransition()
+        t.set('file', 'text', obj.filename)
+        t.set('file', 'icon', 'fa-solid fa-check')
+        t.call('somefile', 'clear')
+        display transition: t
+    }
+
+    def onConfirm() {
+        def demo = TDemo.get(1)
+        demo.filename = params.somefile
+        demo.save(flush: true, failOnError: true)
+
+        display action: 'index'
+    }
+
+    def onDownloadAttachment() {
+        def obj = TDemo.get(1)
+        def path = tenantService.getPublicDir() + 'upload/'
+        String filename = path + obj.filename
+
+        download filename, true
+    }
+}

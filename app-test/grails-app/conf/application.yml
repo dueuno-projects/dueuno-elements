@@ -1,0 +1,270 @@
+# ===================================================
+# SSL CONSIGURATION
+# ===================================================
+#
+# CREATE DEV CERTIFICATE
+# cd ${project-dir}/src/main/resources/certificates
+# openssl req -x509 -newkey rsa:4096 -keyout dev-key.pem -out dev-cert.pem -days 3650 -subj '/CN=localhost'
+# openssl pkcs12 -export -in dev-cert.pem -inkey dev-key.pem -out dev-keystore.p12 -name tomcat -caname root
+#
+# IMPORTANT: You may give "always trust" permissions to the certificate "certificates/dev-cert.pem" in your
+# operating system specific Keychain Tool to be able to visit the website
+#
+# NOTE: Comment all HTTPS configuration to start in HTTP only
+#
+environments:
+  development:
+    server:
+      port: 9080
+#      port: 9443
+#      port-http: 9080
+      servlet:
+        context-path: /test
+        session:
+          persistent: true
+          store-dir: app-test
+#      ssl:
+#        enabled: true
+#        key-store-type: PKCS12
+#        key-store: classpath:certificates/dev-keystore.p12
+#        key-store-password: password
+#        key-alias: tomcat
+
+# CREATE PRODUCTION CERTIFICATE
+# See: https://certbot.eff.org/en/instructions
+#
+#  production:
+#    server:
+#      port: 443
+#      port-http: 80
+#      servlet:
+#        context-path: /
+#      ssl:
+#        enabled: true
+#        key-store-type: PKCS12
+#        key-store: /etc/letsencrypt/live/domain.com/keystore.p12
+#        key-store-password: KeyStorePassword
+#        key-alias: tomcat
+
+---
+
+# ===================================================
+# LDAP CONFIGURATION
+# ===================================================
+grails:
+  plugin:
+    springsecurity:
+      providerNames:
+        - rememberMeAuthenticationProvider
+        - daoAuthenticationProvider
+        - ldapAuthProvider
+
+      # Configure the server connection using the variables you find below
+      # Test the conneciton logging in with the managerDn credentials
+      ldap:
+        useRememberMe: false
+        context:
+          managerDn: 'timesheet'
+          managerPassword: 'TimeSh$$t'
+          # server: 'ldap://gpawdc01p.conse.priv'
+          server: 'ldap://172.28.3.2'
+        search:
+          base: 'OU=Conse-USERS,OU=CONSE,OU=GPA,DC=conse,DC=priv'
+          filter: 'sAMAccountName={0}' # for Active Directory you need this
+          searchSubtree: true
+          attributesToReturn:
+            - mail
+            - displayName # extra attributes you want returned; see below for custom classes that access this data
+        auth:
+          hideUserNotFoundExceptions: false
+        authorities:
+          defaultRole: ROLE_USER
+          retrieveGroupRoles: true
+          retrieveDatabaseRoles: true
+          ignorePartialResultException: true # typically needed for Active Directory
+          #groupSearchBase: 'dc=company,dc=group'
+          #groupSearchFilter: 'member={0}'
+          # groupSearchBase: '[the base directory to start the search.  usually something like dc=mycompany,dc=com]'
+          # If you don't want to support group membership recursion (groups in groups),
+          # then use the following setting
+          # grails.plugin.springsecurity.ldap.authorities.groupSearchFilter = 'member={0}'
+          # If you wish to support groups with group as members (recursive groups), use
+          # the following:
+          # groupSearchFilter: '(member:1.2.840.113556.1.4.1941:={0})'
+---
+spring:
+  h2:
+    console:
+      enabled: true
+---
+grails:
+  controllers:
+    upload:
+      maxFileSize: 20000000
+      maxRequestSize: 20000000
+
+---
+grails:
+  profile: web
+  codegen:
+    defaultPackage: test.app
+  gorm:
+    reactor:
+      # Whether to translate GORM events into Reactor events
+      # Disabled by default for performance reasons
+      events: false
+info:
+  app:
+    name: '@info.app.name@'
+    version: '@info.app.version@'
+    grailsVersion: '@info.app.grailsVersion@'
+spring:
+  jmx:
+    unique-names: true
+  main:
+    banner-mode: "log"
+  groovy:
+    template:
+      check-template-location: false
+  devtools:
+    restart:
+      trigger-file: BootStrap.groovy
+      quiet-period: 2000
+      poll-interval: 3000
+      additional-paths: .
+      additional-exclude:
+        - '*.gsp'
+        - '**/*.gsp'
+        - '*.gson'
+        - '**/*.gson'
+        - 'logback.groovy'
+        - '*.properties'
+        - '**/*BootStrap.groovy'
+management:
+  endpoints:
+    enabled-by-default: false
+
+---
+grails:
+  mime:
+    disable:
+      accept:
+        header:
+          userAgents:
+            - Gecko
+            - WebKit
+            - Presto
+            - Trident
+    types:
+      all: '*/*'
+      atom: application/atom+xml
+      css: text/css
+      csv: text/csv
+      form: application/x-www-form-urlencoded
+      html:
+        - text/html
+        - application/xhtml+xml
+      js: text/javascript
+      json:
+        - application/json
+        - text/json
+      multipartForm: multipart/form-data
+      pdf: application/pdf
+      rss: application/rss+xml
+      text: text/plain
+      hal:
+        - application/hal+json
+        - application/hal+xml
+      xml:
+        - text/xml
+        - application/xml
+  urlmapping:
+    cache:
+      maxsize: 1000
+  controllers:
+    defaultScope: singleton
+  converters:
+    encoding: UTF-8
+  views:
+    default:
+      codec: html
+    gsp:
+      encoding: UTF-8
+      htmlcodec: xml
+      codecs:
+        expression: html
+        scriptlet: html
+        taglib: none
+        staticparts: none
+management:
+  endpoints:
+    jmx:
+      unique-names: true
+
+---
+hibernate:
+  # Necessario per poter eseguire operazioni DB nei controller demo
+  # Aggiunto in "elements"
+  #allow_update_outside_transaction: true
+
+  cache:
+    queries: false
+    use_second_level_cache: false
+    use_query_cache: false
+
+# Create DB with:
+# CREATE DATABASE database_name CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+# Create USER with:
+# CREATE USER myuser@localhost IDENTIFIED BY 'MyPassword';
+# GRANT ALL ON *.* TO myuser@localhost;
+dataSource:
+  pooled: true
+  jmxExport: true
+  driverClassName: com.mysql.cj.jdbc.Driver
+  dialect: org.hibernate.dialect.MySQL8Dialect
+  #    dialect: org.hibernate.dialect.MySQL5Dialect
+
+  url: jdbc:mysql://localhost:3306/dueuno_elements?useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+  username: root
+  password: root
+
+  properties:
+    jmxEnabled: true
+    initialSize: 5
+    maxActive: 50
+    minIdle: 5
+    maxIdle: 25
+    maxWait: 10000
+    maxAge: 600000
+    timeBetweenEvictionRunsMillis: 5000
+    minEvictableIdleTimeMillis: 60000
+    validationQuery: "SELECT 1"
+    validationQueryTimeout: 3
+    validationInterval: 15000
+    testOnBorrow: true
+    testWhileIdle: true
+    testOnReturn: false
+    jdbcInterceptors: "ConnectionState;StatementCache(max=200)"
+    defaultTransactionIsolation: 2
+
+environments:
+  development:
+    grails:
+      logging:
+        jul:
+          usebridge: true
+      plugin:
+        springsecurity:
+          debug:
+            useFilter: true
+    dataSource:
+      dbCreate: update
+
+  test:
+    dataSource:
+      dbCreate: update
+
+  production:
+    dataSource:
+      dbCreate: update

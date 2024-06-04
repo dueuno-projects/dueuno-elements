@@ -1,0 +1,277 @@
+
+server:
+    port: 8888
+    servlet:
+        context-path: /elements
+
+spring:
+    h2:
+        console:
+            enabled: true
+
+---
+grails:
+    profile: web
+    codegen:
+        defaultPackage: dueuno
+    gorm:
+        reactor:
+            # Whether to translate GORM events into Reactor events
+            # Disabled by default for performance reasons
+            events: false
+info:
+    app:
+        name: '@info.app.name@'
+        version: '@info.app.version@'
+        grailsVersion: '@info.app.grailsVersion@'
+spring:
+    jmx:
+        unique-names: true
+    main:
+        banner-mode: "off"
+    groovy:
+        template:
+            check-template-location: false
+    devtools:
+        restart:
+            additional-exclude:
+                - '*.gsp'
+                - '**/*.gsp'
+                - '*.gson'
+                - '**/*.gson'
+                - 'logback.groovy'
+                - '*.properties'
+management:
+    endpoints:
+        enabled-by-default: false
+
+---
+grails:
+    mime:
+        disable:
+            accept:
+                header:
+                    userAgents:
+                        - Gecko
+                        - WebKit
+                        - Presto
+                        - Trident
+        types:
+            all: '*/*'
+            atom: application/atom+xml
+            css: text/css
+            csv: text/csv
+            form: application/x-www-form-urlencoded
+            html:
+                - text/html
+                - application/xhtml+xml
+            js: text/javascript
+            json:
+                - application/json
+                - text/json
+            multipartForm: multipart/form-data
+            pdf: application/pdf
+            rss: application/rss+xml
+            text: text/plain
+            hal:
+                - application/hal+json
+                - application/hal+xml
+            xml:
+                - text/xml
+                - application/xml
+    urlmapping:
+        cache:
+            maxsize: 1000
+    controllers:
+        defaultScope: singleton
+    converters:
+        encoding: UTF-8
+    views:
+        default:
+            codec: html
+        gsp:
+            encoding: UTF-8
+            htmlcodec: xml
+            codecs:
+                expression: html
+                scriptlet: html
+                taglib: none
+                staticparts: none
+management:
+    endpoints:
+        jmx:
+            unique-names: true
+        
+---
+hibernate:
+    cache:
+        queries: false
+        use_second_level_cache: false
+        use_query_cache: false
+
+dataSource:
+    pooled: true
+    jmxExport: true
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:devDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: ''
+
+    properties:
+        jmxEnabled: true
+        initialSize: 5
+        maxActive: 50
+        minIdle: 5
+        maxIdle: 25
+        maxWait: 10000
+        maxAge: 600000
+        timeBetweenEvictionRunsMillis: 5000
+        minEvictableIdleTimeMillis: 60000
+        validationQuery: SELECT 1
+        validationQueryTimeout: 3
+        validationInterval: 15000
+        testOnBorrow: true
+        testWhileIdle: true
+        testOnReturn: false
+        jdbcInterceptors: ConnectionState
+        defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+dataSources:
+#    sqlServer_example:
+#        pooled: true
+#        jmxExport: true
+#        driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#        dialect: org.hibernate.dialect.SQLServerDialect
+#
+#        properties:
+#            jmxEnabled: true
+#            initialSize: 5
+#            maxActive: 50
+#            minIdle: 5
+#            maxIdle: 25
+#            maxWait: 10000
+#            maxAge: 600000
+#            timeBetweenEvictionRunsMillis: 5000
+#            minEvictableIdleTimeMillis: 60000
+#            validationQuery: "SELECT 1"
+#            validationQueryTimeout: 3
+#            validationInterval: 15000
+#            testOnBorrow: true
+#            testWhileIdle: true
+#            testOnReturn: false
+#            jdbcInterceptors: "ConnectionState;StatementCache(max=200)"
+#            defaultTransactionIsolation: 2
+#
+#        url: jdbc:sqlserver://localhost\instance_name:1433;databaseName=database_name
+#
+#        username: sa
+#        password:
+
+#    mySql_example:
+#        pooled: true
+#        jmxExport: true
+#        driverClassName: com.mysql.cj.jdbc.Driver
+#        dialect: org.hibernate.dialect.MySQL5Dialect
+#
+#        properties:
+#            jmxEnabled: true
+#            initialSize: 5
+#            maxActive: 50
+#            minIdle: 5
+#            maxIdle: 25
+#            maxWait: 10000
+#            maxAge: 600000
+#            timeBetweenEvictionRunsMillis: 5000
+#            minEvictableIdleTimeMillis: 60000
+#            validationQuery: "SELECT 1"
+#            validationQueryTimeout: 3
+#            validationInterval: 15000
+#            testOnBorrow: true
+#            testWhileIdle: true
+#            testOnReturn: false
+#            jdbcInterceptors: "ConnectionState;StatementCache(max=200)"
+#            defaultTransactionIsolation: 2
+#
+#        # Create DB with:
+#        # CREATE DATABASE database_name CHARACTER SET utf8 COLLATE utf8_general_ci;
+#        url: jdbc:mysql://localhost:3306/database_name?useUnicode=true&characterEncoding=UTF-8
+#
+#        # Create USER with:
+#        # CREATE USER myuser@localhost IDENTIFIED BY 'MyPassword';
+#        # GRANT ALL ON *.* TO myuser@localhost;
+#        username: root
+#        password: root
+
+#    as400_example:
+#        pooled: true
+#        jmxExport: true
+#        driverClassName: com.ibm.as400.access.AS400JDBCDriver
+#        dialect: org.hibernate.dialect.DB2400Dialect
+#
+#        properties:
+#            jmxEnabled: true
+#            initialSize: 5
+#            maxActive: 50
+#            minIdle: 5
+#            maxIdle: 25
+#            maxWait: 10000
+#            maxAge: 600000
+#            timeBetweenEvictionRunsMillis: 5000
+#            minEvictableIdleTimeMillis: 60000
+#            validationQuery: SELECT 1 FROM sysibm.sysdummy1 #Valid for DB2
+#            validationQueryTimeout: 3
+#            validationInterval: 15000
+#            testOnBorrow: true
+#            testWhileIdle: true
+#            testOnReturn: false
+#            jdbcInterceptors: ConnectionState
+#            defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+        # If you get this error:
+        #
+        #     SQL7008 -(table) in (file) not valid for the operation
+        #
+        # You need to activate the journaling. Execute the following commands on AS/400
+        # substituting {LIBRARY} and {FILE} with the library and file names:
+        #
+        # CRTJRNRCV JRNRCV({LIBRARY}/{CV_FILE}) THRESHOLD(1000000000)
+        # RTJRN JRN({LIBRARY}/{JRN_FILE}) JRNRCV({LIBRARY}/{CV_FILE})
+        # STRJRNPF FILE({LIBRARY}/*ALL) JRN({LIBRARY}/{JRN_FILE})
+        #
+        # See: http://www.querytool.com/help/876.htm
+
+#        url: jdbc:as400://192.168.100.236
+#        username: USERNAME
+#        password: PASSWORD
+
+environments:
+    development:
+        dataSource:
+            dbCreate: create-drop
+        dataSources:
+            # sqlServer_example:
+            #     dbCreate: update
+            # mySql_example:
+            #     dbCreate: create-drop
+            # as400_example:
+            #     dbCreate: update
+    test:
+        dataSource:
+            dbCreate: update
+        dataSources:
+            # sqlServer_example:
+            #     dbCreate: update
+            # mySql_example:
+            #     dbCreate: update
+            # as400_example:
+            #     dbCreate: update
+    production:
+        dataSource:
+            dbCreate: none
+        dataSources:
+            # sqlServer_example:
+            #     dbCreate: update
+            # mySql_example:
+            #     dbCreate: update
+            # as400_example:
+            #     dbCreate: update

@@ -1,0 +1,113 @@
+a.btn,
+button,
+.input-group a.btn,
+.input-group button,
+.dropdown-toggle {
+    border-radius: var(--bs-border-radius-lg);
+    padding: var(--elements-padding-y) var(--elements-padding-x);
+    font-size: var(--elements-font-size);
+    border: none;
+}
+
+.component-button .component-button-default-action {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.component-button[readonly] {
+    cursor: default;
+    opacity: 0.5;
+}
+
+.component-button[readonly] .dropdown-toggle {
+    opacity: 1;
+}
+
+.component-button.btn-group:has(.component-link) a,
+.component-button:has(.component-link) a {
+    margin-right: 2px;
+}
+
+.input-group:has(.component-link) a {
+    margin-right: 1px;
+}
+
+a.btn,
+a.btn:hover,
+a.btn:focus,
+a.btn:active,
+button:hover,
+button:focus,
+button:active,
+button {
+    font-weight: normal;
+    color: #f0f0f0;
+}
+
+.dropdown, .dropdown-menu {
+    font-size: var(--elements-font-size);
+    padding: var(--elements-padding-y);
+}
+
+.dropdown-toggle,
+.dropdown-toggle:focus,
+.dropdown-toggle:active,
+.dropdown-toggle:hover {
+    color: #f0f0f0;
+}
+
+.dropdown-menu {
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: 0 0.25rem 0.75rem rgba(var(--bs-body-color-rgb), .15);
+    background-color: rgba(255, 255, 255, .6);
+    backdrop-filter: blur(21px);
+    -webkit-backdrop-filter: blur(21px);
+    border: none;
+}
+
+.dropdown-item {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+    border-radius: var(--bs-border-radius);
+    outline: none;
+}
+
+a.btn:active,
+button:active {
+    transform: translateY(0.10rem);
+}
+
+/* COLORS
+*/
+.btn.dropdown-toggle:focus-visible,
+.form-control:focus-visible {
+    box-shadow: 0 0 0 0.25rem rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+}
+
+a.btn,
+a.btn:hover,
+a.btn:focus,
+a.btn:active,
+button,
+button:hover,
+button:focus,
+button:active,
+.btn-group a.btn,
+.btn-group a.btn:hover,
+.btn-group a.btn:focus,
+.btn-group a.btn:active,
+.btn-group button:hover,
+.btn-group button:focus,
+.btn-group button:active,
+.btn-group button,
+.dropdown-item:hover,
+.dropdown-item:focus,
+.dropdown-item:active,
+.btn-group :not(.btn-check)+.btn:active {
+    background-color: rgb(var(--elements-tertiary-bg));
+    color: rgb(var(--elements-tertiary-text));
+}

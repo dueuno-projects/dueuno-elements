@@ -1,0 +1,107 @@
+/*
+ * Copyright 2021 the original author or authors.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package dueuno.elements.test
+
+import dueuno.elements.components.Button
+import dueuno.elements.components.Form
+import dueuno.elements.components.Separator
+import dueuno.elements.controls.Checkbox
+import dueuno.elements.controls.Select
+import dueuno.elements.controls.TextField
+import dueuno.elements.core.ElementsController
+import dueuno.elements.core.TransitionService
+import dueuno.elements.security.SecurityService
+import grails.gorm.multitenancy.CurrentTenant
+
+@CurrentTenant
+class WebsocketController implements ElementsController {
+
+    TransitionService transitionService
+    SecurityService securityService
+
+    def index() {
+        def c = createContent()
+        c.header.removeNextButton()
+        def form = c.addComponent(Form)
+        form.with {
+            addField(
+                    class: Separator,
+                    id: 'info',
+                    text: 'websocket.info',
+            )
+            addField(
+                    class: Select,
+                    id: 'queue',
+                    optionsFromList: ['channel', 'user'],
+                    renderMessagePrefix: false,
+            )
+            addField(
+                    class: TextField,
+                    id: 'channel',
+            )
+            addField(
+                    class: Select,
+                    id: 'usr',
+                    optionsFromRecordset: securityService.listAllUser(),
+                    keys: ['username'],
+                    renderMessagePrefix: false,
+            )
+            addField(
+                    class: TextField,
+                    id: 'contr',
+            )
+            addField(
+                    class: TextField,
+                    id: 'acti',
+            )
+            addField(
+                    class: Checkbox,
+                    id: 'moda',
+            )
+            addField(
+                    class: Button,
+                    id: 'send',
+                    action: 'onSend',
+                    submit: 'form',
+                    stretch: true,
+            )
+            channel.value = 'macchina-1'
+            usr.value = securityService.currentUser.username
+            contr.value = 'form'
+            moda.value = true
+        }
+
+        display content: c
+    }
+
+    def onSend() {
+        def t = transitionService.createTransition()
+        t.redirect(
+                controller: params.contr,
+                action: params.acti,
+                modal: params.moda,
+        )
+        t.set('form.modal', true)
+        t.set('form.wide', true)
+        t.set('form.closeButton', true)
+
+        if (params.queue == 'user')
+            transitionService.send(params.usr, t)
+        else
+            transitionService.publish(params.channel, t)
+
+        display
+    }
+}
