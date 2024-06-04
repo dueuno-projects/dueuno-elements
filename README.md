@@ -3,8 +3,6 @@
 
 Dueuno Elements
 ===
-> Do you know? The name `Dueuno` is made up of two italian words: `due` which means two, and `uno` which means one. It represents two teams playing together to achieve the same goal.
-
 [Dueuno Elements](https://dueuno.org) is a framework built on top of the [Grails Framework](https://grails.org) to build Backoffice web applications (aka Internal Tools) with a single programming language: the amazing [Apache Groovy](https://groovy-lang.org).
 
 The main goal is to strongly decouple the Business Logic from the GUI rising the abstraction level to a point where we don't need to know HTML, CSS, JavaScript to build CRUDs & common UIs.
@@ -26,3 +24,8 @@ You can find the latest documentation here: https://dueuno.com/docs/
 License
 ---
 Dueuno Elements is an Open Source software released under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
+
+Do you know?
+---
+The name `Dueuno` is made up of two italian words: `due` which means two, and `uno` which means one. It represents two teams playing together to achieve the same goal.
+
