@@ -8,7 +8,7 @@
 >
     <div class="row m-0">
         <g:each in="${c.components}">
-        <div class="p-0 ${c.colSpecs}">
+        <div class="p-0 ${c.breakpoints}">
             <div class="${c.border ? 'shadow rounded-4' : ''} ms-${c.spacing}">
                 <div class="${c.border ? 'rounded-4' : ''} my-${c.spacing} overflow-hidden">
                     <render:component instance="${it}" />

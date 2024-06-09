@@ -33,8 +33,8 @@ class GridController implements ElementsController {
         c.header.removeNextButton()
 
         def grid = c.addComponent(Grid)
-        grid.col = 12
-        grid.colSm = 6
+        grid.xs = 12
+        grid.sm = 6
         grid.spacing = 0
         grid.border = false
 
@@ -52,12 +52,7 @@ class GridController implements ElementsController {
         }
 
         def grid2 = c.addComponent(Grid, "grid2")
-        grid2.col = 12
-        grid2.colSm = 6
-        grid2.colMd = 4
-        grid2.colLg = 4
-        grid2.colXl = 3
-        grid2.colXxl = 2
+        grid2.setBreakpoints()
         grid2.spacing = 3
         grid2.border = true
 

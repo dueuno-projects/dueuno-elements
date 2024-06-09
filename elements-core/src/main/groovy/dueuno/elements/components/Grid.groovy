@@ -6,12 +6,12 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Grid extends Component {
 
-    Integer col
-    Integer colSm
-    Integer colMd
-    Integer colLg
-    Integer colXl
-    Integer colXxl
+    Integer xs
+    Integer sm
+    Integer md
+    Integer lg
+    Integer xl
+    Integer xxl
 
     Integer spacing
     Boolean border
@@ -23,15 +23,24 @@ class Grid extends Component {
         border = args.border == null ? false : args.border
     }
 
-    String getColSpecs() {
+    void setBreakpoints(Integer xs = 12, Integer sm = 6, Integer md = 4, Integer lg = 4, Integer xl = 3, Integer xxl = 2) {
+        this.xs = xs
+        this.sm = sm
+        this.md = md
+        this.lg = lg
+        this.xl = xl
+        this.xxl = xxl
+    }
+
+    String getBreakpoints() {
         String result = ""
 
-        if (col) result += "col-${col} "
-        if (colSm) result += "col-sm-${colSm} "
-        if (colMd) result += "col-md-${colMd} "
-        if (colLg) result += "col-lg-${colLg} "
-        if (colXl) result += "col-xl-${colXl} "
-        if (colXxl) result += "col-xxl-${colXxl} "
+        if (xs) result += "col-${xs} "
+        if (sm) result += "col-sm-${sm} "
+        if (md) result += "col-md-${md} "
+        if (lg) result += "col-lg-${lg} "
+        if (xl) result += "col-xl-${xl} "
+        if (xxl) result += "col-xxl-${xxl} "
 
         return result
     }
