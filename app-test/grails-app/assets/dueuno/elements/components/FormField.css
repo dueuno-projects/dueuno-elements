@@ -1,7 +1,7 @@
 .btn,
 input[type] {
     font-size: var(--elements-font-size);
-    padding: var(--elements-padding-y) var(--elements-padding-x);
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
 }
 
 .component-form label {

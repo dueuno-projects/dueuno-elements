@@ -38,11 +38,11 @@ body.prod .component-table {
 }
 
 .component-table .fixed-table-container .table thead th .th-inner {
-    padding: 0.5rem var(--elements-padding-x);
+    padding: 0.5rem var(--elements-spacing-x);
 }
 
 .component-table .fixed-table-container .table thead th .th-inner:has(.component-button) {
-    padding: 0 var(--elements-padding-x);
+    padding: 0 var(--elements-spacing-x);
 }
 
 .component-table .bootstrap-table .fixed-table-container .table thead th:has(.component-button) {
@@ -50,12 +50,12 @@ body.prod .component-table {
 }
 
 .component-table th {
-    padding: 0.3rem var(--elements-padding-x);
+    padding: 0.3rem var(--elements-spacing-x);
 }
 
 .component-table td,
 .component-table-selection {
-    padding: var(--elements-padding-y) var(--elements-padding-x);
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
 }
 
 .component-table-dataset .table-hover tr:hover td {
@@ -80,8 +80,8 @@ body.prod .component-table {
 }
 
 .component-table-dataset .sticky-header-container th {
-    padding-top: calc(var(--elements-padding-y) * 3);
-    padding-bottom: calc(var(--elements-padding-y) * 3);
+    padding-top: calc(var(--elements-spacing-y) * 3);
+    padding-bottom: calc(var(--elements-spacing-y) * 3);
 }
 
 .component-table-dataset tr {

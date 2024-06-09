@@ -12,7 +12,7 @@
     padding-top: var(--elements-font-size);
     padding-right: 0;
     padding-bottom: 0;
-    padding-left: calc(var(--elements-padding-y));
+    padding-left: calc(var(--elements-spacing-y));
 }
 
 .tempus-dominus-widget .date-container,
@@ -22,8 +22,8 @@
 }
 
 .tempus-dominus-widget .toolbar div {
-    margin-right: calc(var(--elements-padding-y));
-    margin-bottom: calc(var(--elements-padding-y));
+    margin-right: calc(var(--elements-spacing-y));
+    margin-bottom: calc(var(--elements-spacing-y));
 }
 
 .tempus-dominus-widget.light {
@@ -63,8 +63,8 @@
 .tempus-dominus-widget .time-container-clock div:not(.no-highlight),
 .tempus-dominus-widget .time-container-minute div:not(.no-highlight),
 .tempus-dominus-widget .time-container-hour div:not(.no-highlight) {
-    width: calc(100% - var(--elements-padding-y));
-    height: calc(100% - var(--elements-padding-y));
+    width: calc(100% - var(--elements-spacing-y));
+    height: calc(100% - var(--elements-spacing-y));
 }
 
 /* COLORS

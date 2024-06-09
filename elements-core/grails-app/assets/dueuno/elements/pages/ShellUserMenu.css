@@ -38,7 +38,7 @@
 #shell-user-menu button:active,
 #shell-user-menu button {
     border: 0;
-    padding: var(--elements-padding-y) var(--elements-padding-x);
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
     background: none;
 }
 

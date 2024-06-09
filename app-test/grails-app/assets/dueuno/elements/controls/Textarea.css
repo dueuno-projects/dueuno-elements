@@ -2,7 +2,7 @@
 .control-textarea textarea:focus {
     border-radius: var(--bs-border-radius-lg) !important;
     border: none;
-    padding: var(--elements-padding-x);
+    padding: var(--elements-spacing-x);
     font-size: var(--elements-font-size);
     font-weight: bold;
     resize: none;

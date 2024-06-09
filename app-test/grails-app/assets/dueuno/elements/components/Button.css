@@ -4,7 +4,7 @@ button,
 .input-group button,
 .dropdown-toggle {
     border-radius: var(--bs-border-radius-lg);
-    padding: var(--elements-padding-y) var(--elements-padding-x);
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
     font-size: var(--elements-font-size);
     border: none;
 }
@@ -46,7 +46,7 @@ button {
 
 .dropdown, .dropdown-menu {
     font-size: var(--elements-font-size);
-    padding: var(--elements-padding-y);
+    padding: var(--elements-spacing-y);
 }
 
 .dropdown-toggle,

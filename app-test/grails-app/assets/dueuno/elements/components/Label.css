@@ -3,7 +3,7 @@
 }
 
 .component-label.border {
-    padding: var(--elements-padding-y) var(--elements-padding-x);
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
     border-radius: var(--bs-border-radius-lg);
     border: none !important;
     height: 100%;

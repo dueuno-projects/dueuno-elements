@@ -24,7 +24,7 @@
 #shell-navbar-menu-toggle button:active,
 #shell-navbar-menu-toggle button {
     border: 0;
-    padding: var(--elements-padding-y) var(--elements-padding-x);
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
     background: none;
     color: #333333;
 }
@@ -53,7 +53,7 @@
 #shell-navbar-notifications-toggle button:active,
 #shell-navbar-notifications-toggle button {
     border: 0;
-    padding: var(--elements-padding-y) var(--elements-padding-x);
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
     background: none;
 }
 
@@ -68,7 +68,7 @@
 #shell-navbar-user-menu-toggle button:active,
 #shell-navbar-user-menu-toggle button {
     border: 0;
-    padding: var(--elements-padding-y) var(--elements-padding-x);
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
     background: none;
     color: #333333;
 }

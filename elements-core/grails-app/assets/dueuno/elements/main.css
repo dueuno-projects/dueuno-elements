@@ -1,7 +1,7 @@
 :root {
     --elements-font-size: 18px;
-    --elements-padding-x: calc(var(--elements-font-size) / 1.5);
-    --elements-padding-y: calc(var(--elements-font-size) / 4);
+    --elements-spacing-x: calc(var(--elements-font-size) / 1.5);
+    --elements-spacing-y: calc(var(--elements-font-size) / 4);
     --bs-border-radius: calc(var(--elements-font-size) / 3);
     --bs-border-radius-lg: calc(var(--elements-font-size) / 2);
     --bs-border-radius-xl: calc(var(--elements-font-size) / 1);
