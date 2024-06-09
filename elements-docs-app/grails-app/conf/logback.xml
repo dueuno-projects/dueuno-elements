@@ -1,22 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="highlightLogLevel" converterClass="dueuno.elements.logs.HighlightLogLevel" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <withJansi>true</withJansi>
         <encoder>
-            <charset>UTF-8</charset>
-            <pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wex</pattern>
+            <pattern>%d{HH:mm:ss.SSS} %highlightLogLevel(%-5level) [%thread] %-40.40logger{36} : %highlightLogLevel(%msg%n)</pattern>
         </encoder>
     </appender>
 
-    <root level="error">
+    <property resource="application.yml" />
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${info.app.name}/logs/${info.app.name}.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${info.app.name}/logs/archive/${info.app.name}.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <maxHistory>10</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>100GB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %-40.40logger{36} : %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="ERROR">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
     </root>
 
     <logger name="org.springframework.boot.SpringApplication" level="INFO" />
-    <logger name="dueuno" level="INFO" />
+    <logger name="dueuno" level="DEBUG" />
+
+    <!--    <logger name="grails.app.domain" level="DEBUG" />-->
+    <!--    <logger name="grails.app.services" level="DEBUG" />-->
+    <!--    <logger name="grails.app.controllers" level="DEBUG" />-->
+    <!--    <logger name="grails.app.taglib" level="DEBUG" />-->
+
+    <!--    <logger name="dueuno.commons.utils.SqlUtils" level="TRACE" />-->
+    <!--    <logger name="dueuno.ImportUtils" level="TRACE" />-->
+
+    <!-- GORM-->
+    <!--    <logger name="org.grails.datastore" level="DEBUG" />-->
+    <!--    <logger name="org.hibernate.SQL" level="DEBUG" />-->
+    <!--    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />-->
+
+    <!-- SPRING SECURITY-->
+    <!--    <logger name="org.springframework.security" level="DEBUG" />-->
+    <!--    <logger name="grails.plugin.springsecurity.web.filter.DebugFilter" level="INFO" />-->
+
+    <!-- HTTP REST-->
+    <!--    <logger name="sun.net.www.protocol.http.HttpURLConnection" level="ALL" />-->
 
 </configuration>

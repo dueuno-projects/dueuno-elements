@@ -1,15 +1,40 @@
-Thumbs.db
-.DS_Store
+HELP.md
 .gradle
 build/
-out/
-.idea/
-.vscode/
-*.iml
-*.ipr
-*.iws
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
 .project
 .settings
-.classpath
-docs/
-app-test/app-test/
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Application Specific
+/app-test/app-test/
