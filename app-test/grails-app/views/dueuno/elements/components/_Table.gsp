@@ -1,4 +1,4 @@
-<div class="component-table mt-1 ${c.cssClass}"
+<div class="component-table ${c.cssClass}"
      style="${c.cssStyle}"
      data-21-component="${c.getClassName()}"
      data-21-id="${c.getId()}"

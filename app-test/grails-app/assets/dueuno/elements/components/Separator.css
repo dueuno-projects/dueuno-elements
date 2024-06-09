@@ -1,5 +1,5 @@
 .component-separator {
-    font-size: calc(var(--elements-font-size) * 1.3);
+    font-size: calc(var(--elements-font-size) * 1.1);
     font-weight: bold;
     margin-top: 3rem;
     margin-bottom: 0;

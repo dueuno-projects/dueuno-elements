@@ -364,6 +364,11 @@ class BootStrap {
             )
             applicationService.registerFeature(
                     parent: 'elements',
+                    controller: 'grid',
+                    icon: 'fa-border-none',
+            )
+            applicationService.registerFeature(
+                    parent: 'elements',
                     controller: 'tabs',
                     icon: 'fa-ellipsis-h',
             )
