@@ -3,19 +3,19 @@
 
 Dueuno Elements
 ===
-[Dueuno Elements](https://dueuno.com) is a framework built on top of the [Grails Framework](https://grails.org) to build Backoffice web applications (aka Internal Tools) with a single programming language: the amazing [Apache Groovy](https://groovy-lang.org).
+[Dueuno Elements](https://dueuno.com) lets you build backoffice web applications in days instead of months with a single programming language: [Apache Groovy](https://groovy-lang.org).
 
-The main goal is to strongly decouple the Business Logic from the GUI rising the abstraction level to a point where we don't need to know HTML, CSS, JavaScript to build CRUDs & common UIs.
+The main goal is to strongly decouple the Business Logic from the GUI rising the abstraction level to a point where we don't need to know HTML, CSS and JavaScript to build CRUDs & common UIs.
 
-We rely on the beautiful [Grails Framework](https://grails.org) and its [Conventions over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm to lower the cost of  new developers onboarding, build projects faster and keep them organized.
+Dueuno Elements is built on top of the [Grails Framework](https://grails.org) and its [Conventions over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm to lower the cost of onboarding new developers, build projects faster and keep them updated easier.
 
-Work is ongoing to support [Grace Framework](https://graceframework.org/) as well.
+Work is ongoing to support the [Grace Framework](https://graceframework.org/) as well.
 
 Getting Started
 ---
 You need Java Development Kit (JDK) 17 installed. We support only LTS Java releases.
 
-To try out Dueuno Elements you can download the [Dueuno Application Template](https://github.com/dueuno-projects/dueuno-app-template).
+To create your first Dueuno Elements application you can download the [Dueuno Application Template](https://github.com/dueuno-projects/dueuno-app-template).
 
 Guides
 ---
