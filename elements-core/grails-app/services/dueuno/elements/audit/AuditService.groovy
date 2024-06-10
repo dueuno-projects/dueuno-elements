@@ -100,8 +100,8 @@ class AuditService implements WebRequestAware {
             if (filters.operation) query = query.where { operation == filters.operation }
             if (filters.username) query = query.where { username == filters.username }
             if (filters.find) {
+                String search = filters.find.replaceAll('\\*', '%')
                 query = query.where {
-                    String search = filters.find.replaceAll('\\*', '%')
                     ip =~ "%${search}%" ||
                             userAgent =~ "%${search}%" ||
                             username =~ "%${search}%" ||
