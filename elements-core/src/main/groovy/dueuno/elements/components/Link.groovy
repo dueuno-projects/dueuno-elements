@@ -88,6 +88,10 @@ class Link extends Label {
         return "Link: ${path}${queryString}"
     }
 
+    String getDevUrl() {
+        return url ?: "/${controller}/${action}"
+    }
+
     String getTarget() {
         return linkDefinition.target
     }

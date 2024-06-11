@@ -4,7 +4,7 @@
    data-21-id="${c.getId()}"
    data-21-properties="${c.propertiesAsJSON}"
    data-21-events="${c.eventsAsJSON}"
-   ${raw(dev.ifDevelopment() { ' href="/' + c.controller + '/' + c.action + '"'}) }
+   ${raw(dev.ifDevelopment() { ' href="' + c.devUrl + '"'}) }
    ${raw(attributes)}
 ><g:if test="${c.html}">${raw(c.prettyHtml)}</g:if>
     <g:else>
