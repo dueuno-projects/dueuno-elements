@@ -73,6 +73,23 @@ class Login extends Page {
                     placeholder: 'authentication.password.placeholder',
                     displayLabel: false,
             )
+            if (rememberMe) {
+                addField(
+                        class: Checkbox,
+                        id: 'rememberMe',
+                        backgroundColor: 'transparent',
+                        displayLabel: false,
+                )
+            }
+            addField(
+                    class: Button,
+                    id: 'login',
+                    action: 'authenticate',
+                    submit: 'form',
+                    displayLabel: false,
+                    stretch: true,
+                    primary: true,
+            )
             if (passwordRecoveryUrl) {
                 addField(
                         class: Link,
@@ -82,35 +99,12 @@ class Login extends Page {
                         displayLabel: false,
                 )
             }
-            if (rememberMe) {
-                addField(
-                        class: Checkbox,
-                        id: 'rememberMe',
-                        label: '',
-                )
-            }
-            addField(
-                    class: Button,
-                    id: 'login',
-                    action: 'authenticate',
-                    submit: 'form',
-                    stretch: true,
-                    displayLabel: false,
-                    primary: true,
-            )
-
             if (registerUrl) {
-                addField(
-                        class: Label,
-                        id: 'or',
-                        textAlign: TextAlign.CENTER,
-                        label: '',
-                )
                 addField(
                         class: Button,
                         id: 'register',
                         url: registerUrl,
-                        displayLabel: false,
+                        label: '',
                 )
             }
         }
