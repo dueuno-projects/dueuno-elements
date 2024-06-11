@@ -70,14 +70,6 @@ class Form extends Component {
         Class clazz = ArgsException.requireArgument(args, 'class') as Class
         String id = ArgsException.requireArgument(args, 'id')
 
-        if (args.helpMessage == null) args.helpMessage = ''
-        if (args.label == null) args.label = buildLabel(id)
-        if (args.horizontal == null) args.horizontal = grid
-        if (args.cols == null) args.cols = 3
-        if (args.readonly == null) args.readonly = readonly
-        if (!args.primaryTextColor) args.primaryTextColor = primaryTextColor
-        if (!args.primaryBackgroundColor) args.primaryBackgroundColor = primaryBackgroundColor
-
         if (validate) {
             Map fieldConstraints = getFieldConstraints(validate, id)
 
@@ -106,6 +98,14 @@ class Form extends Component {
         }
 
         // Add field
+        if (args.helpMessage == null) args.helpMessage = ''
+        if (args.label == null) args.label = buildLabel(id)
+        if (args.horizontal == null) args.horizontal = grid
+        if (args.cols == null) args.cols = 3
+        if (args.readonly == null) args.readonly = readonly
+        if (!args.primaryTextColor) args.primaryTextColor = primaryTextColor
+        if (!args.primaryBackgroundColor) args.primaryBackgroundColor = primaryBackgroundColor
+
         args.cssClass = null
         args.cssStyle = null
         args.events = null

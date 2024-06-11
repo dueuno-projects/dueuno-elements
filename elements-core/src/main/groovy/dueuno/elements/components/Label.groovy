@@ -59,6 +59,8 @@ class Label extends Component {
         prettyPrinterProperties.renderBoolean = args.renderBoolean == null ? true : args.renderBoolean
         prettyPrinterProperties.highlightNegative = args.highlightNegative == null ? true : args.highlightNegative
 
+        containerSpecs.label = args.label ?: ''
+
         setText(args.text)
     }
 
