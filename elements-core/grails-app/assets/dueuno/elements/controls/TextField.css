@@ -15,10 +15,10 @@
 
 .input-group ::placeholder {
     font-weight: normal;
-    opacity: .5; /* Firefox */
+    opacity: .65; /* Firefox */
 }
 
 .input-group ::-ms-input-placeholder { /* Edge 12 -18 */
     font-weight: normal;
-    opacity: .5; /* Firefox */
+    opacity: .65; /* Firefox */
 }

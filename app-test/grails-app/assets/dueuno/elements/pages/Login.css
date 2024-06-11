@@ -17,10 +17,6 @@
     font-weight: normal;
 }
 
-.page-login input::placeholder {
-    color: #a0a0a0;
-}
-
 .page-login-box {
     border-radius: var(--bs-border-radius-xl);
     box-shadow: 0 0.25rem 0.75rem rgba(var(--bs-body-color-rgb), .15);
