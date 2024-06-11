@@ -1069,13 +1069,12 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
         tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
 
+        tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', true)
+        tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
         tenantPropertyService.setString('LOGIN_LANDING_URL', '')
         tenantPropertyService.setString('LOGOUT_LANDING_URL', '')
         tenantPropertyService.setString('LOGIN_REGISTRATION_URL', '')
         tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
-        tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
-        tenantPropertyService.setString('LOGIN_TEXT_COLOR', '#333333')
-        tenantPropertyService.setString('LOGIN_BACKGROUND_COLOR', '#f0f0f0')
         tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
 
         String appLink = servletContext.contextPath

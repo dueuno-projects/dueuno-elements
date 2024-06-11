@@ -15,18 +15,23 @@
         }
 
         .background-image {
-            background-color: ${c.backgroundImage ? 'transparent' : c.backgroundColor};
             background-image: url('${raw(c.backgroundImage)}');
-            height: 100%;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+            height: 100%;
+        }
+
+        [data-21-id="passwordRecoveryLink"],
+        [data-21-id="or"],
+        .page-login-footer {
+            font-size: calc(var(--elements-font-size) * 0.9);
         }
 
         .page-login-footer a {
             color: ${c.primaryBackgroundColor};
         }
-        </style>
+    </style>
 </head>
 
 
@@ -47,17 +52,15 @@
 
         <div class="page-login-error d-none"
              style="color: #cc0000;"><render:message code="shell.auth.bad.credentials"/></>
-        </div>
-
-        <render:component instance="${c.form}" />
-
-        <div class="page-login-footer mb-3 text-center">
-            <g:if test='${c.copy}'><div class="mb-3">${raw(c.copy)}</div></g:if>
-            <g:if test='${c.register}'><div><render:component instance="${c.registerLink}" /></div></g:if>
-            <g:if test='${c.passwordRecovery}'><div><render:component instance="${c.passwordRecoveryLink}" /></div></g:if>
-        </div>
-
     </div>
+
+    <render:component instance="${c.form}" />
+
+    <div class="page-login-footer mb-3 text-center">
+        <g:if test='${c.copy}'><div class="mb-3">${raw(c.copy)}</div></g:if>
+    </div>
+
+</div>
 
 </div>
 

@@ -16,11 +16,13 @@ package dueuno.elements.pages
 
 import dueuno.elements.components.Button
 import dueuno.elements.components.Form
+import dueuno.elements.components.Label
 import dueuno.elements.components.Link
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.PasswordField
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.Page
+import dueuno.elements.style.TextAlign
 import groovy.transform.CompileStatic
 
 /**
@@ -31,108 +33,86 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Login extends Page {
 
-    String copy
-    Boolean register
-    Boolean passwordRecovery
+    Boolean rememberMe
     Boolean autocomplete
 
-    String logoImage
-    String backgroundImage
-    String backgroundCover
-    String backgroundMargin
+    String copy
+    String registerUrl
+    String passwordRecoveryUrl
 
-    Boolean displayFullscreen
-    Boolean formOnRight
-    Boolean loginEffect
+    String backgroundImage
+    String logoImage
 
     Form form
-
-    Link registerLink
-    Link passwordRecoveryLink
 
     Login(Map args) {
         super(args)
 
+        rememberMe = (args.rememberMe == null) ? true : args.rememberMe
+        autocomplete = (args.autocomplete == null) ? false : args.autocomplete
+
         copy = args.copy
-        register = false
-        passwordRecovery = false
+        registerUrl = args.registerUrl
+        passwordRecoveryUrl = args.passwordRecoveryUrl
 
-        logoImage = ''
-        backgroundImage = ''
-        backgroundCover = ''
-        backgroundMargin = ''
-
-        displayFullscreen = false
-        formOnRight = false
-        loginEffect = true
+        logoImage = args.logoImage
+        backgroundImage = args.backgroundImage
 
         form = createComponent(Form)
         form.with {
-            autocomplete = (args.autocomplete == null) ? false : args.autocomplete
             addField(
                     class: TextField,
                     id: 'username',
-                    placeholder: 'springSecurity.login.username.label',
+                    placeholder: 'authentication.username.placeholder',
                     displayLabel: false,
             )
             addField(
                     class: PasswordField,
                     id: 'password',
                     icon: '',
-                    placeholder: 'springSecurity.login.password.label',
+                    placeholder: 'authentication.password.placeholder',
                     displayLabel: false,
             )
-            addField(
-                    class: Checkbox,
-                    id: 'rememberMe',
-                    text: 'springSecurity.login.remember.me.label',
-                    displayLabel: false,
-            )
+            if (passwordRecoveryUrl) {
+                addField(
+                        class: Link,
+                        id: 'passwordRecoveryLink',
+                        url: passwordRecoveryUrl,
+                        textAlign: TextAlign.CENTER,
+                        displayLabel: false,
+                )
+            }
+            if (rememberMe) {
+                addField(
+                        class: Checkbox,
+                        id: 'rememberMe',
+                        label: '',
+                )
+            }
             addField(
                     class: Button,
                     id: 'login',
                     action: 'authenticate',
-                    text: 'springSecurity.login.button',
                     submit: 'form',
                     stretch: true,
                     displayLabel: false,
                     primary: true,
             )
+
+            if (registerUrl) {
+                addField(
+                        class: Label,
+                        id: 'or',
+                        textAlign: TextAlign.CENTER,
+                        label: '',
+                )
+                addField(
+                        class: Button,
+                        id: 'register',
+                        url: registerUrl,
+                        displayLabel: false,
+                )
+            }
         }
-
-        registerLink = createControl(
-                class: Link,
-                id: 'register',
-                text: 'shell.security.registration',
-                controller: controllerName,
-                action: 'login',
-        )
-        passwordRecoveryLink = createControl(
-                class: Link,
-                id: 'passwordRecovery',
-                text: 'shell.security.password.recovery',
-                controller: controllerName,
-                action: 'login',
-        )
-    }
-
-    void setRegisterUrl(String url) {
-        if (!url) {
-            register = false
-            return
-        }
-
-        register = true
-        registerLink.url = url
-    }
-
-    void setPasswordRecoveryUrl(String url) {
-        if (!url) {
-            passwordRecovery = false
-            return
-        }
-
-        passwordRecovery = true
-        passwordRecoveryLink.url = url
     }
 }

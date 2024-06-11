@@ -1,5 +1,5 @@
-<a class="component-link ${c.cssClass}"
-   style="${c.textColor ? 'color: ' + c.textColor + ';': ''} ${c.backgroundColor ? 'background-color: ' + c.backgroundColor + ';' : ''} ${c.cssStyle}"
+<a class="component-link w-100 ${c.textAlign} ${c.textWrap} ${c.monospace ? 'font-monospace' : ''} ${c.border ? 'border' : ''} ${c.cssClass}"
+   style="color: ${c.textColor}; background-color: ${c.backgroundColor}; ${c.cssStyle}"
    data-21-component="${c.className}"
    data-21-id="${c.getId()}"
    data-21-properties="${c.propertiesAsJSON}"

@@ -35,15 +35,16 @@ class AuthenticationController implements ElementsController {
     TenantPropertyService tenantPropertyService
 
     def login() {
-        def login = pageService.createPage(Login)
-        login.copy = tenantPropertyService.getString('LOGIN_COPY', true)
-        login.registerUrl = tenantPropertyService.getString('LOGIN_REGISTRATION_URL', true)
-        login.passwordRecoveryUrl = tenantPropertyService.getString('LOGIN_PASSWORD_RECOVERY_URL', true)
-        login.autocomplete = tenantPropertyService.getBoolean('LOGIN_AUTOCOMPLETE', true)
-        login.textColor = tenantPropertyService.getString('LOGIN_TEXT_COLOR', true)
-        login.backgroundColor = tenantPropertyService.getString('LOGIN_BACKGROUND_COLOR', true)
-        login.backgroundImage = tenantPropertyService.getString('LOGIN_BACKGROUND_IMAGE', true)
-        login.logoImage = tenantPropertyService.getString('LOGIN_LOGO', true)
+        Map loginArgs = [
+                backgroundImage    : tenantPropertyService.getString('LOGIN_BACKGROUND_IMAGE', true),
+                logoImage          : tenantPropertyService.getString('LOGIN_LOGO', true),
+                rememberMe         : tenantPropertyService.getBoolean('LOGIN_REMEMBER_ME', true),
+                autocomplete       : tenantPropertyService.getBoolean('LOGIN_AUTOCOMPLETE', true),
+                copy               : tenantPropertyService.getString('LOGIN_COPY', true),
+                registerUrl        : tenantPropertyService.getString('LOGIN_REGISTRATION_URL', true),
+                passwordRecoveryUrl: tenantPropertyService.getString('LOGIN_PASSWORD_RECOVERY_URL', true),
+        ]
+        def login = pageService.createPage(Login, loginArgs)
 
         display page: login
     }
@@ -79,8 +80,8 @@ class AuthenticationController implements ElementsController {
 
         if (params.ajax) { // Default login
             def message = [
-                    login: true,
-                    success: true,
+                    login   : true,
+                    success : true,
                     redirect: landingPage ?: shellUrlMapping ?: '/',
             ]
             render message as JSON

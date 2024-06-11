@@ -8,6 +8,7 @@
 }
 
 .component-link {
+    color: rgb(var(--elements-primary-bg));
     cursor: pointer;
 }
 
