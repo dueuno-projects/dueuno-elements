@@ -23,13 +23,8 @@
         }
 
         [data-21-id="passwordRecoveryLink"],
-        [data-21-id="or"],
-        .page-login-footer {
+        [data-21-id="copy"] {
             font-size: calc(var(--elements-font-size) * 0.9);
-        }
-
-        .page-login-footer a {
-            color: ${c.primaryBackgroundColor};
         }
     </style>
 </head>
@@ -55,10 +50,6 @@
     </div>
 
     <render:component instance="${c.form}" />
-
-    <div class="page-login-footer mb-3 text-center">
-        <g:if test='${c.copy}'><div class="mb-3">${raw(c.copy)}</div></g:if>
-    </div>
 
 </div>
 

@@ -37,7 +37,3 @@
     height: 45px;
     width: auto;
 }
-
-.page-login-footer {
-    font-size: calc(var(--elements-font-size) * 0.9);
-}

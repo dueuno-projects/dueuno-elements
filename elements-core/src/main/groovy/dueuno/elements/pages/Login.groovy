@@ -108,6 +108,15 @@ class Login extends Page {
                         label: '',
                 )
             }
+            if (copy) {
+                addField(
+                        class: Label,
+                        id: 'copy',
+                        html: copy,
+                        textAlign: TextAlign.CENTER,
+                        displayLabel: false,
+                )
+            }
         }
     }
 }
