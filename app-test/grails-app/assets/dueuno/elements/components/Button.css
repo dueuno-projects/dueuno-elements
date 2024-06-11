@@ -44,7 +44,8 @@ button {
     color: #f0f0f0;
 }
 
-.dropdown, .dropdown-menu {
+.dropdown,
+.dropdown-menu {
     font-size: var(--elements-font-size);
     padding: var(--elements-spacing-y);
 }
@@ -86,6 +87,10 @@ button:active {
 .btn.dropdown-toggle:focus-visible,
 .form-control:focus-visible {
     box-shadow: 0 0 0 0.25rem rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+}
+
+.dropdown-menu a {
+    color: rgb(var(--elements-secondary-text));
 }
 
 a.btn,
