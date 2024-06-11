@@ -19,6 +19,8 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class TextDefault {
 
+    // Matching translation must be added to i18n *.properties files as well
+    //
     static final String TRUE = 'default.true'
     static final String FALSE = 'default.false'
     static final String YES = 'default.yes'
@@ -44,6 +46,8 @@ class TextDefault {
     static final String REFRESH = 'default.refresh'
     static final String RELOAD = 'default.reload'
     static final String EXECUTE = 'default.execute'
+    static final String SEND = 'default.send'
+    static final String RECEIVE = 'default.receive'
     static final String UPLOAD = 'default.upload'
     static final String DOWNLOAD = 'default.download'
     static final String CONFIGURE = 'default.configure'
