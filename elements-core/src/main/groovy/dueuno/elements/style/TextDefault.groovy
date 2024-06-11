@@ -53,9 +53,11 @@ class TextDefault {
     static final String CONFIGURE = 'default.configure'
     static final String APPROVE = 'default.approve'
     static final String REJECT = 'default.reject'
+    static final String RESET = 'default.reset'
     static final String ENABLED = 'default.enabled'
     static final String DISABLED = 'default.disabled'
     static final String TOTAL = 'default.total'
     static final String COMPLETE = 'default.complete'
+    static final String CONFIRM_MESSAGE = 'default.confirm.message'
 
 }
