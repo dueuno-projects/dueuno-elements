@@ -20,6 +20,7 @@ import dueuno.elements.contents.ContentEdit
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
+import dueuno.elements.style.TextDefault
 import grails.gorm.multitenancy.CurrentTenant
 
 @CurrentTenant
@@ -174,7 +175,7 @@ class TabsController implements ElementsController {
                 FormField tx = addField(
                         class: TextField,
                         id: 'find',
-                        label: 'default.filters.find',
+                        label: TextDefault.FIND,
                         cols: 12,
                 )
                 tx.component.addAction(

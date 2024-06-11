@@ -20,6 +20,7 @@ import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.security.SecurityService
+import dueuno.elements.style.TextDefault
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
@@ -63,7 +64,7 @@ class AuditController implements ElementsController {
                 addField(
                         class: TextField,
                         id: 'find',
-                        label: 'default.filters.find',
+                        label: TextDefault.FIND,
                         cols: 4,
                 )
             }

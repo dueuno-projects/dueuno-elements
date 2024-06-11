@@ -18,6 +18,7 @@ import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.Select
 import dueuno.elements.core.Elements
 import dueuno.elements.core.ElementsController
+import dueuno.elements.style.TextDefault
 import grails.gorm.multitenancy.CurrentTenant
 
 @CurrentTenant
@@ -71,7 +72,7 @@ class MessageBoxDemoController implements ElementsController {
                 addKeyField(id: 'checkbox', value: false)
             }
             nextButton.with {
-                label = 'default.create'
+                label = TextDefault.CREATE
                 on(event: 'click', action: 'onSelectCreateExec')
             }
         }

@@ -21,6 +21,7 @@ import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.controls.*
 import dueuno.elements.core.ElementsController
+import dueuno.elements.style.TextDefault
 import grails.gorm.multitenancy.CurrentTenant
 
 @CurrentTenant
@@ -31,7 +32,7 @@ class CrudCustomController implements ElementsController {
         def c = createContent()
         c.header.addNextButton(
                 action: 'create',
-                text: 'default.new',
+                text: TextDefault.NEW,
                 icon: 'fa-plus',
         )
 

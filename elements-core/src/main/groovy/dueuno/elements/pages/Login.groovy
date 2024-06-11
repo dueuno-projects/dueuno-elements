@@ -97,6 +97,7 @@ class Login extends Page {
                         url: passwordRecoveryUrl,
                         textAlign: TextAlign.CENTER,
                         displayLabel: false,
+                        cssClass: 'w-100',
                 )
             }
             if (registerUrl) {

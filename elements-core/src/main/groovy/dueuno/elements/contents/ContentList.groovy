@@ -15,6 +15,7 @@
 package dueuno.elements.contents
 
 import dueuno.elements.components.Table
+import dueuno.elements.style.TextDefault
 import groovy.transform.CompileStatic
 
 /**
@@ -31,7 +32,7 @@ class ContentList extends ContentBase {
 
         header.addNextButton(
                 action: 'create',
-                text: 'default.new',
+                text: TextDefault.NEW,
                 icon: 'fa-plus',
         )
 

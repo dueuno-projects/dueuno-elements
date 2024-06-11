@@ -22,6 +22,7 @@ import dueuno.elements.core.ElementsController
 import dueuno.elements.security.SecurityService
 import dueuno.elements.security.TUser
 import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextDefault
 import dueuno.elements.style.TextTransform
 import dueuno.elements.style.TextWrap
 import dueuno.elements.types.Money
@@ -290,7 +291,7 @@ Grails application running at http://localhost:9992/test in environment: develop
                 addField(
                         class: TextField,
                         id: 'find',
-                        label: 'default.filters.find',
+                        label: TextDefault.FIND,
                         cols: 12,
                 )
             }
@@ -363,7 +364,7 @@ Grails application running at http://localhost:9992/test in environment: develop
                 addField(
                         class: TextField,
                         id: 'find',
-                        label: 'default.filters.find',
+                        label: TextDefault.FIND,
                         cols: 12,
                 )
             }

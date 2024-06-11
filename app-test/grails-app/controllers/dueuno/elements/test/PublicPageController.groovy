@@ -20,6 +20,7 @@ import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentList
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
+import dueuno.elements.style.TextDefault
 import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -33,7 +34,7 @@ class PublicPageController implements ElementsController {
         def c = createContent(ContentList)
         c.header.addNextButton(
                 action: 'create',
-                text: 'default.new',
+                text: TextDefault.NEW,
                 icon: 'fa-plus',
         )
 

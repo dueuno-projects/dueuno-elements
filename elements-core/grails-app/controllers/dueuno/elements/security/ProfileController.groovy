@@ -20,6 +20,7 @@ import dueuno.elements.controls.*
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PrettyPrinterDecimalFormat
+import dueuno.elements.style.TextDefault
 import grails.gorm.multitenancy.WithoutTenant
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -150,7 +151,7 @@ class ProfileController implements ElementsController {
         def c = createContent(ContentForm)
         c.header.with {
             nextButton.action = 'onSave'
-            nextButton.text = 'default.save'
+            nextButton.text = TextDefault.SAVE
             removeBackButton()
         }
 

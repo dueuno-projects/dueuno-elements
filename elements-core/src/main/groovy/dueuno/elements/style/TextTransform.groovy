@@ -12,23 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dueuno.elements.contents
+package dueuno.elements.style
 
-import dueuno.elements.style.TextDefault
 import groovy.transform.CompileStatic
 
-/**
- * @author Gianluca Sartori
- */
-
 @CompileStatic
-class ContentCreate extends ContentForm {
+enum TextTransform {
+    NONE(''),
+    UPPERCASE('uppercase'),
+    LOWERCASE('lowercase'),
+    CAPITALIZE('capitalize')
 
-    ContentCreate(Map args) {
-        super(args)
+    final String cssClass
 
-        header.nextButton.action = 'onCreate'
-        header.nextButton.text = TextDefault.CREATE
-        header.nextButton.icon = 'fa-plus'
+    TextTransform(String cssClass) {
+        this.cssClass = cssClass
+    }
+
+    String toString() {
+        return cssClass
     }
 }

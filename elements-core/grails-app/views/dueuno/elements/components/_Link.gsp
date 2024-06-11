@@ -1,4 +1,4 @@
-<a class="component-link w-100 ${c.textAlign} ${c.textWrap} ${c.monospace ? 'font-monospace' : ''} ${c.border ? 'border' : ''} ${c.cssClass}"
+<a class="component-link ${c.textAlign} ${c.textWrap} ${c.monospace ? 'font-monospace' : ''} ${c.border ? 'border' : ''} ${c.cssClass}"
    style="color: ${c.textColor}; background-color: ${c.backgroundColor}; ${c.cssStyle}"
    data-21-component="${c.className}"
    data-21-id="${c.getId()}"

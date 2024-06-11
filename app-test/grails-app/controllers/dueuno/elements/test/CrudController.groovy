@@ -23,6 +23,7 @@ import dueuno.elements.contents.ContentList
 import dueuno.elements.controls.*
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
+import dueuno.elements.style.TextDefault
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
 import dueuno.elements.types.QuantityService
@@ -137,7 +138,7 @@ class CrudController implements ElementsController {
                 actions.addAction(controller: 'controller3', icon: 'fa-arrow-alt-circle-down')
 
                 actions.tailAction.order = 9999
-                actions.tailAction.text = 'default.delete'
+                actions.tailAction.text = TextDefault.DELETE
                 actions.unsetTailAction()
 
                 sortable = [

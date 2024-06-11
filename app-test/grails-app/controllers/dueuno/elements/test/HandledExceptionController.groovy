@@ -19,6 +19,7 @@ import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.style.TextDefault
 
 class HandledExceptionController implements ElementsController {
 
@@ -46,7 +47,7 @@ class HandledExceptionController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'find',
-                    label: 'default.filters.find',
+                    label: TextDefault.FIND,
                     placeholder: "Don't write",
                     cols: 8,
             )

@@ -12,23 +12,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dueuno.elements.contents
+package dueuno.elements.style
 
-import dueuno.elements.style.TextDefault
 import groovy.transform.CompileStatic
 
-/**
- * @author Gianluca Sartori
- */
-
 @CompileStatic
-class ContentCreate extends ContentForm {
+enum TextWrap {
+    DEFAULT(''),
+    NO_WRAP('no-wrap'),
+    SOFT_WRAP('soft-wrap'),
+    LINE_WRAP('line-wrap'),
+    LINE_BREAK('line-break')
 
-    ContentCreate(Map args) {
-        super(args)
+    final String cssClass
 
-        header.nextButton.action = 'onCreate'
-        header.nextButton.text = TextDefault.CREATE
-        header.nextButton.icon = 'fa-plus'
+    TextWrap(String cssClass) {
+        this.cssClass = cssClass
+    }
+
+    String toString() {
+        return cssClass
     }
 }

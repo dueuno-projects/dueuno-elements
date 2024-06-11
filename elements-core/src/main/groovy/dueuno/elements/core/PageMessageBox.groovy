@@ -16,6 +16,7 @@ package dueuno.elements.core
 
 import dueuno.elements.components.Button
 import dueuno.elements.controls.TextField
+import dueuno.elements.style.TextDefault
 import groovy.transform.CompileStatic
 
 /**
@@ -37,14 +38,14 @@ class PageMessageBox extends Component {
 
         cancel = addComponent(Button, 'cancel')
         cancel.icon = 'fa-circle-xmark'
-        cancel.text = 'default.cancel'
+        cancel.text = TextDefault.CANCEL
         cancel.stretch = false
 
         verify = addComponent(TextField, 'verify')
         verify.placeholder = 'default.message.confirm.verify'
 
         confirm = addComponent(Button, 'confirm')
-        confirm.text = 'default.ok'
+        confirm.text = TextDefault.OK
         confirm.icon = 'fa-circle-check'
         confirm.primary = true
         confirm.stretch = false

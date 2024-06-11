@@ -23,6 +23,7 @@ import dueuno.elements.controls.*
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PropertyType
 import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextDefault
 import dueuno.elements.style.TextWrap
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -43,7 +44,7 @@ class TenantPropertyController implements ElementsController {
                 addField(
                         class: TextField,
                         id: 'find',
-                        label: 'default.filters.find',
+                        label: TextDefault.FIND,
                         cols: 8,
                 )
                 addField(

@@ -16,6 +16,7 @@ package dueuno.elements.components
 
 import dueuno.elements.core.Component
 import dueuno.elements.exceptions.ArgsException
+import dueuno.elements.style.TextDefault
 import groovy.transform.CompileStatic
 
 /**
@@ -71,7 +72,7 @@ class TablePagination extends Component {
                 controller: controllerName,
                 action: actionName,
                 icon: 'fa-angle-right',
-                text: 'default.next',
+                text: TextDefault.NEXT,
                 scroll: table.id,
         )
         goMax20 = createControl(

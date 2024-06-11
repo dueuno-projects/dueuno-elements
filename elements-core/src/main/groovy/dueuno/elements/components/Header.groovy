@@ -15,6 +15,7 @@
 package dueuno.elements.components
 
 import dueuno.elements.core.Component
+import dueuno.elements.style.TextDefault
 import groovy.transform.CompileStatic
 
 /**
@@ -61,7 +62,7 @@ class Header extends Component {
     Button addNextButton(Map args = [:]) {
         args.controller = args.controller ?: controllerName
         args.action = args.action ?: 'onConfirm'
-        args.text = (args.text == null) ? 'default.save': args.text
+        args.text = (args.text == null) ? TextDefault.SAVE: args.text
         args.icon = (args.icon == null) ? 'fa-solid fa-check' : args.icon
         if (args.group) nextButton.group = args.group
 
@@ -92,7 +93,7 @@ class Header extends Component {
             args.params = args.params ?: [:]
         }
 
-        args.text = (args.text == null) ? 'default.back': args.text
+        args.text = (args.text == null) ? TextDefault.BACK: args.text
         args.icon = (args.icon == null) ? 'fa-angle-left' : args.icon
         if (args.group) nextButton.group = args.group
 

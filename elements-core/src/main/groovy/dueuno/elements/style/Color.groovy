@@ -20,7 +20,6 @@ import groovy.util.logging.Slf4j
 /**
  * @author Gianluca Sartori
  */
-
 @Slf4j
 @CompileStatic
 class Color {
@@ -43,77 +42,4 @@ class Color {
         return intColor
     }
 
-}
-
-@CompileStatic
-enum TextAlign {
-    DEFAULT(''),
-    START('text-start'),
-    END('text-end'),
-    CENTER('text-center')
-
-    final String cssClass
-
-    TextAlign(String cssClass) {
-        this.cssClass = cssClass
-    }
-
-    String toString() {
-        return cssClass
-    }
-}
-
-@CompileStatic
-enum VerticalAlign {
-    DEFAULT(''),
-    TOP('align-top'),
-    BOTTOM('align-bottom'),
-    CENTER('align-center')
-
-    final String cssClass
-
-    VerticalAlign(String cssClass) {
-        this.cssClass = cssClass
-    }
-
-    String toString() {
-        return cssClass
-    }
-}
-
-@CompileStatic
-enum TextWrap {
-    DEFAULT(''),
-    NO_WRAP('no-wrap'),
-    SOFT_WRAP('soft-wrap'),
-    LINE_WRAP('line-wrap'),
-    LINE_BREAK('line-break')
-
-    final String cssClass
-
-    TextWrap(String cssClass) {
-        this.cssClass = cssClass
-    }
-
-    String toString() {
-        return cssClass
-    }
-}
-
-@CompileStatic
-enum TextTransform {
-    NONE(''),
-    UPPERCASE('uppercase'),
-    LOWERCASE('lowercase'),
-    CAPITALIZE('capitalize')
-
-    final String cssClass
-
-    TextTransform(String cssClass) {
-        this.cssClass = cssClass
-    }
-
-    String toString() {
-        return cssClass
-    }
 }

@@ -25,6 +25,7 @@ import dueuno.elements.core.PropertyType
 import dueuno.elements.core.SystemPropertyService
 import dueuno.elements.core.TSystemProperty
 import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextDefault
 import dueuno.elements.style.TextWrap
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -45,7 +46,7 @@ class SystemPropertyController implements ElementsController {
                 addField(
                         class: TextField,
                         id: 'find',
-                        label: 'default.filters.find',
+                        label: TextDefault.FIND,
                         cols: 8,
                 )
                 addField(
