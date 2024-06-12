@@ -1,4 +1,4 @@
-<div class="component-table-dataset my-0 bg-white rounded-3 ${c.table.stickyHeader ? 'overflow-y-hidden' : 'overflow-y-visible'} ${c.cssClass}"
+<div class="component-table-dataset mt-0 mb-1 bg-white rounded-3 ${c.table.stickyHeader ? 'overflow-y-hidden' : 'overflow-y-visible'} ${c.cssClass}"
      style="${c.cssStyle}"
      data-21-component="${c.getClassName()}"
      data-21-id="${c.getId()}"
