@@ -99,6 +99,7 @@
 #page-modal-body {
     padding: calc(var(--elements-font-size) * 0.5) !important;
     padding-top: 0 !important;
+    margin-bottom: -0.25rem;
 }
 
 #page-modal-body::-webkit-scrollbar {
