@@ -1,6 +1,6 @@
 <div id="${c.getId()}"
      class="component-grid ${c.cssClass}"
-     style="color: ${c.textColor}; background-color: ${c.backgroundColor}; ${c.cssStyle}"
+     style="${c.cssStyleColors}${c.cssStyle}"
      data-21-component="${c.getClassName()}"
      data-21-id="${c.getId()}"
      data-21-properties="${c.propertiesAsJSON}"
@@ -8,12 +8,17 @@
 >
     <div class="row">
         <g:each in="${c.components}">
-        <div class="grid-element p-${c.spacing} ${c.breakpoints}">
-            <div class="${c.border ? 'shadow rounded-4' : ''}">
-                <div class="${c.border ? 'rounded-4' : ''} overflow-hidden">
-                    <render:component instance="${it}" />
+            <div class="grid-element p-${c.spacing} ${c.breakpoints}">
+            <g:if test="${c.border}">
+                <div class="shadow rounded-4">
+                    <div class="rounded-4 overflow-hidden">
+                        <render:component instance="${it}" />
+                    </div>
                 </div>
-            </div>
+            </g:if>
+            <g:else>
+                <render:component instance="${it}" />
+            </g:else>
         </div>
         </g:each>
     </div>

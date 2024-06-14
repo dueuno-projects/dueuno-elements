@@ -1,5 +1,5 @@
 <span class="component-label w-100 ${c.textAlign} ${c.textWrap} ${c.monospace ? 'font-monospace' : ''} ${c.border ? 'border' : ''} ${c.cssClass}"
-      style="color: ${c.textColor}; background-color: ${c.backgroundColor}; ${c.cssStyle}"
+      style="${c.cssStyle}"
       data-21-component="${c.getClassName()}"
       data-21-id="${c.getId()}"
       data-21-properties="${c.propertiesAsJSON}"

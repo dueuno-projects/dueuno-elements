@@ -214,6 +214,19 @@ class SandboxController implements ElementsController {
                     cols: 12,
             )
 
+            def linkField = addField(
+                    class: Link,
+                    id: 'imageWithLink',
+                    controller: 'form',
+                    modal: true,
+                    cols: 12,
+            )
+            linkField.component.addComponent(
+                    class: Image,
+                    id: 'theImage',
+                    image: linkPublicResource("brand/login-logo.png"),
+            )
+
             addField(
                     class: Label,
                     id: 'errorField',
@@ -317,10 +330,10 @@ Grails application running at http://localhost:9992/test in environment: develop
                 values.customColumn = 'PIPPO'
 
                 row.cells.input.component = [
-                        class: NumberField,
-                        id: 'number',
-                        min: -2,
-                        max: 10,
+                        class   : NumberField,
+                        id      : 'number',
+                        min     : -2,
+                        max     : 10,
                         cssStyle: 'text-align: right;',
                 ]
                 row.cells.input.component.addAction(

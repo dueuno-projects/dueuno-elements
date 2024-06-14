@@ -14,6 +14,7 @@
  */
 package dueuno.elements.components
 
+import dueuno.elements.core.Component
 import dueuno.elements.core.LinkDefinition
 import groovy.transform.CompileStatic
 
@@ -41,6 +42,7 @@ class Link extends Label {
     String textClass
     String textStyle
 
+    /** The link */
     LinkDefinition linkDefinition
 
     Link(Map args) {

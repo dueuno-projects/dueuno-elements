@@ -1,5 +1,5 @@
 <a class="component-link ${c.textAlign} ${c.textWrap} ${c.monospace ? 'font-monospace' : ''} ${c.border ? 'border' : ''} ${c.cssClass}"
-   style="color: ${c.textColor}; background-color: ${c.backgroundColor}; ${c.cssStyle}"
+   style="${c.cssStyleColors}${c.cssStyle}"
    data-21-component="${c.className}"
    data-21-id="${c.getId()}"
    data-21-properties="${c.propertiesAsJSON}"
@@ -7,9 +7,10 @@
    ${raw(dev.ifDevelopment() { ' href="' + c.devUrl + '"'}) }
    ${raw(attributes)}
 ><g:if test="${c.html}">${raw(c.prettyHtml)}</g:if>
-    <g:else>
-        <g:if test="${c.image}"><i aria-hidden="true"><asset:image src="${c.image}" class="${c.text ? 'me-2' : ''} ${c.imageClass}" style="${c.imageStyle}"/></i></g:if>
-        <g:elseif test="${c.icon}"><render:icon icon="${c.icon}" class="${c.text ? 'me-2' : ''} ${c.iconClass} loading-off" style="${c.iconStyle}"/></g:elseif>
-        <g:if test="${c.text}"><span class="${c.textClass}" style="${c.textStyle}">${c.text}</span></g:if>
-    </g:else>
+<g:elseif test="${c.components}"><render:componentList instance="${c}" /></g:elseif>
+<g:else>
+    <g:if test="${c.image}"><i aria-hidden="true"><asset:image src="${c.image}" class="${c.text ? 'me-2' : ''} ${c.imageClass}" style="${c.imageStyle}"/></i></g:if>
+    <g:elseif test="${c.icon}"><render:icon icon="${c.icon}" class="${c.text ? 'me-2' : ''} ${c.iconClass} loading-off" style="${c.iconStyle}"/></g:elseif>
+    <g:if test="${c.text}"><span class="${c.textClass}" style="${c.textStyle}">${c.text}</span></g:if>
+</g:else>
 </a>

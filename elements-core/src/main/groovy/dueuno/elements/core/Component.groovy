@@ -675,6 +675,13 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
         return Elements.encodeAsJSON(cleanedupProperties)
     }
 
+    String getCssStyleColors() {
+        String result = ''
+        if (textColor) result += "color: ${textColor}; "
+        if (backgroundColor) result += "background-color: ${backgroundColor}; "
+        return result
+    }
+
     private static Map cleanupItems(Map items) {
         Map results = [:]
 

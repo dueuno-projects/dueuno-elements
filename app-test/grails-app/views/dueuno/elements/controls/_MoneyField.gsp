@@ -3,7 +3,7 @@
 </g:if>
 <input type="${c.keyboardType}"
        class="control-money-field form-control ${c.cssClass}"
-       style="${c.cssStyle}"
+       style="${c.cssStyleColors}${c.cssStyle}"
        maxlength="${(c.maxSize > 0) ? c.maxSize: ''}"
        step="any"
        data-21-control="${c.getClassName()}"

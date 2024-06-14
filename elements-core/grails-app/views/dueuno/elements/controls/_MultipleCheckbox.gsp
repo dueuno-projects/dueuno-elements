@@ -7,6 +7,7 @@
        data-21-events="${c.eventsAsJSON}"
        data-21-value="${c.valueAsJSON}"
        ${raw(attributes)}
+       style="${c.cssStyleColors}"
     />
 <g:each var="checkbox" in="${c.checkboxes}">
     <div class="control-multiple-checkbox" data-fieldname="${c.getId()}">

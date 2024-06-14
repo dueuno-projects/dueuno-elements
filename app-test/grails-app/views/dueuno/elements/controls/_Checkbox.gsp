@@ -17,6 +17,7 @@
 
 <input
     class="form-check-input ${c.simple ? '' : 'form-control'}"
+    style="${c.cssStyleColors}"
     type="checkbox"
     role="switch"
     data-21-control="${c.getClassName()}"

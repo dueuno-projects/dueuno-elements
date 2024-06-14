@@ -1,5 +1,5 @@
 <tr class="component-table-row ${c.cssClass}"
-    style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}background-color: ${c.backgroundColor}; color: ${c.textColor}; ${c.cssStyle}"
+    style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}${c.cssStyle}"
     data-21-component="${c.getClassName()}"
     data-21-id="${c.getId()}"
     data-21-properties="${c.propertiesAsJSON}"

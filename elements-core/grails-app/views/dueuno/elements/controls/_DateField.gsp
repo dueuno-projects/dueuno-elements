@@ -6,6 +6,7 @@
 </span>
 <input type="text"
        class="control-date-field form-control"
+       style="${c.cssStyleColors}"
        autocomplete="off"
        data-td-target="#${c.getId()}"
        data-21-control="${c.getClassName()}"

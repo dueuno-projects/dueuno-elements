@@ -45,6 +45,7 @@ class Checkbox extends Control {
             optionValue = args.optionValue ?: ''
         }
 
+        containerSpecs.label = args.label ?: ''
         containerSpecs.nullable = true
     }
 

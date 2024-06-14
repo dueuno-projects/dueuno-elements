@@ -1,8 +1,8 @@
 <div class="control-textarea w-100 ${c.maxSize > 0 ? 'maxlength' : ''} ${c.cssClass}"
-     style="${c.textColor ? 'color: ' + c.textColor + ';': ''} ${c.backgroundColor ? 'background-color: ' + c.backgroundColor + ';' : ''} ${c.cssStyle}"
+     style="${c.cssStyleColors}${c.cssStyle}"
     ><div for="${c.getId()}" data-max="${c.maxSize}"></div>
     <textarea class="form-control h-100 ${c.monospace ? 'font-monospace' : ''}"
-              style="${c.textColor ? 'color: ' + c.textColor + ';': ''} ${c.backgroundColor ? 'background-color: ' + c.backgroundColor + ';' : ''}"
+              style="${c.cssStyleColors}${c.cssStyle}"
               maxlength="${(c.maxSize > 0) ? c.maxSize : ''}"
               data-21-control="${c.getClassName()}"
               data-21-id="${c.getId()}"

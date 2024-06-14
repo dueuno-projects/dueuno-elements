@@ -3,7 +3,7 @@
 </g:if>
 <input type="${c.keyboardType}"
        class="control-text-field form-control ${c.monospace ? 'font-monospace' : ''} ${c.cssClass}"
-       style="${c.textColor ? 'color: ' + c.textColor + ';': ''} ${c.backgroundColor ? 'background-color: ' + c.backgroundColor + ';' : ''} ${c.cssStyle}"
+       style="${c.cssStyleColors}${c.cssStyle}"
        placeholder="${c.message(c.placeholder)}"
        maxlength="${(c.maxSize > 0) ? c.maxSize: ''}"
        autocapitalize="none"

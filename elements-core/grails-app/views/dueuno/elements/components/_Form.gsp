@@ -1,6 +1,6 @@
 <div id="${c.getId()}"
      class="component-form p-3 pt-2 pb-4 ${c.cssClass}"
-     style="color: ${c.textColor}; background-color: ${c.backgroundColor}; ${c.cssStyle}"
+     style="${c.cssStyleColors}${c.cssStyle}"
      data-21-component="${c.getClassName()}"
      data-21-id="${c.getId()}"
      data-21-properties="${c.propertiesAsJSON}"
