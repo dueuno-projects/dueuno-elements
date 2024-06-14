@@ -6,7 +6,7 @@
      data-21-properties="${c.propertiesAsJSON}"
      data-21-events="${c.eventsAsJSON}"
 >
-    <div class="row">
+    <div class="row mx-0">
         <g:each in="${c.components}">
             <div class="grid-element p-0 ${c.breakpoints}">
             <g:if test="${c.border}">

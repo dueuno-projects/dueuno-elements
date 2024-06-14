@@ -21,6 +21,9 @@ class Grid extends Component {
 
         spacing = args.spacing == null ? 0 : args.spacing as Integer
         border = args.border == null ? false : args.border
+
+        // No default for breakpoints since it would require
+        // to set all of them everytime
     }
 
     void setBreakpoints(Integer xs = 12, Integer sm = 6, Integer md = 4, Integer lg = 4, Integer xl = 3, Integer xxl = 2) {
