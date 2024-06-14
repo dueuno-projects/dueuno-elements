@@ -8,16 +8,18 @@
 >
     <div class="row">
         <g:each in="${c.components}">
-            <div class="grid-element p-${c.spacing} ${c.breakpoints}">
+            <div class="grid-element p-0 ${c.breakpoints}">
             <g:if test="${c.border}">
-                <div class="shadow rounded-4">
+                <div class="m-${c.spacing} shadow rounded-4">
                     <div class="rounded-4 overflow-hidden">
                         <render:component instance="${it}" />
                     </div>
                 </div>
             </g:if>
             <g:else>
-                <render:component instance="${it}" />
+                <div class="m-${c.spacing}">
+                    <render:component instance="${it}" />
+                </div>
             </g:else>
         </div>
         </g:each>

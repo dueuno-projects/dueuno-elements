@@ -14,8 +14,11 @@
  */
 package dueuno.elements.test
 
+import dueuno.elements.components.Form
 import dueuno.elements.components.Grid
 import dueuno.elements.components.Label
+import dueuno.elements.controls.NumberField
+import dueuno.elements.controls.TextField
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextAlign
@@ -32,23 +35,28 @@ class GridController implements ElementsController {
         def c = createContent()
         c.header.removeNextButton()
 
-        def grid = c.addComponent(Grid)
-        grid.xs = 12
-        grid.sm = 6
-        grid.spacing = 0
-        grid.border = false
+        Grid grid1 = c.addComponent(Grid, "grid1")
+        grid1.xs = 12
+        grid1.sm = 6
+        grid1.xl = 3
+        grid1.spacing = 1
+        grid1.border = false
 
-        for (i in 1..10) {
-            grid.addComponent(
-                    class: Label,
-                    id: "label${i}",
-                    text: "Label ${i}",
-                    textAlign: TextAlign.CENTER,
-                    displayLabel: false,
-                    backgroundColor: 'blue',
-                    textColor: 'white',
-                    cssClass: 'd-block',
-            )
+        for (i in 1..4) {
+            def form = grid1.addComponent(Form, "form${i}")
+            form.with {
+                grid = true
+                addField(
+                        class: TextField,
+                        id: "text${i}",
+                        cols: 6,
+                )
+                addField(
+                        class: NumberField,
+                        id: "number${i}",
+                        cols: 6,
+                )
+            }
         }
 
         def grid2 = c.addComponent(Grid, "grid2")
