@@ -1,5 +1,4 @@
 = Dueuno Elements
-Gianluca Sartori
 :source-highlighter: rouge
 :compat-mode!:
 :icons: font
