@@ -3,6 +3,10 @@
     flex-direction: column;
 }
 
-.grid-element div:first-child {
+.grid-element div {
     flex: auto;
+}
+
+.grid-element div *:last-child {
+    margin-bottom: 0 !important;
 }

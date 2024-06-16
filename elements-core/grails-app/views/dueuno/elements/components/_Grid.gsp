@@ -8,9 +8,9 @@
 >
     <div class="row mx-0">
         <g:each in="${c.components}">
-            <div class="grid-element p-0 ${c.breakpoints}">
+            <div class="grid-element p-${c.spacing} ${c.breakpoints}">
             <g:if test="${c.border}">
-                <div class="m-${c.spacing} shadow rounded-4">
+                <div class="shadow rounded-4">
                     <div class="rounded-4 overflow-hidden">
                         <render:component instance="${it}" />
                     </div>
