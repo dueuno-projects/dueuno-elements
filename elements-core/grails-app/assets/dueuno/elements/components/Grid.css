@@ -1,0 +1,8 @@
+.grid-element {
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-element div:first-child {
+    flex: auto;
+}
