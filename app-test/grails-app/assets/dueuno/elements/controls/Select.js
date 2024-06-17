@@ -39,13 +39,10 @@ class Select extends Control {
             options.ajax = {
                 url: Transition.buildUrl(searchEvent),
                 data: function (params) {
-                    let _21Params = Transition.build21Params(searchEvent);
-                    let input = params.term ? params.term.replaceAll('%', '*') : '';
-                    let query = {
-                        [controlId]: input,
+                    searchEvent.params = {
+                        [controlId]: params.term ? params.term.replaceAll('%', '*') : '',
                     };
-
-                    let submitEvent = Object.assign({}, _21Params, query);
+                    let submitEvent = Transition.build21Params(searchEvent);
                     return submitEvent;
                 },
                 processResults: function (data) {
