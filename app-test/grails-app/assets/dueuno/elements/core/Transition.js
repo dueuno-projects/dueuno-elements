@@ -314,6 +314,13 @@ class Transition {
     }
 
     static fromHtml(html, componentEvent = null) {
-        return $(html).find('[data-21-transition]').data('21-transition');
+        let transition = $(html).find('[data-21-transition]').data('21-transition');
+
+        log.debug('HTML > TRANSITION >>>');
+        log.debug(transition.commands);
+        log.debug('<<<');
+        log.debug('');
+
+        return transition;
     }
 }

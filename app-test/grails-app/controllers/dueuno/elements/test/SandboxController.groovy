@@ -131,6 +131,7 @@ class SandboxController implements ElementsController {
                     onLoad: 'onSelect3Load',
                     onSearch: 'onSelect3Search',
                     onChange: 'onSelect3Change',
+                    submit: ['formFail'],
                     helpMessage: 'Non sai cosa fare vero? Non ti preoccupare, continuerai a non saperlo... 8-)',
                     value: 3,
                     allowClear: true,
@@ -632,7 +633,7 @@ Grails application running at http://localhost:9992/test in environment: develop
     def onSelect3Search() {
         println "SEARCH: $params"
         def t = createTransition()
-        def search = params.select3.replaceAll('\\*', '%')
+        def search = params.select3?.replaceAll('\\*', '%')
         def results = securityService.listAllUser(username: search)
         def options = Select.optionsFromRecordset(recordset: results)
         t.set('select3', 'options', options)
