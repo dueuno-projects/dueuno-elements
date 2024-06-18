@@ -649,11 +649,11 @@ class BookService {
 
 Book listing:
 
-image::../images/reference-book-list.png[Book listing]
+image::images/reference-book-list.png[Book listing]
 
 Editing a book:
 
-image::../images/reference-book-edit.png[Editing a book]
+image::images/reference-book-edit.png[Editing a book]
 
 [[validation]]
 === Validation
@@ -809,7 +809,7 @@ class BookController implements ElementsController {
 <1> We use our `BookValidator` class to make sure the fields are not `null` and the title is unique and, in case, highlight the invalid fields
 <2> The name of these methods is defined by the `ContentList`, `ContentCreate` and `ContentEdit` contents, you can see them in your browser hovering the mouse over the `Delete`, `Create` and `Save` buttons (look the bottom left of your browser to see which URL is going to be called when clicking the buttons)
 
-image::../images/reference-book-validation.png[Book listing]
+image::images/reference-book-validation.png[Book listing]
 
 === Internationalization (i18n)
 When building the GUI, _Dueuno Elements_ automatically suggests labels for any relevant component requiring a text. To translate those labels we just copy them to its corresponding `grails-app/i18n/messages_*.properties` file giving them a translation.
@@ -830,8 +830,8 @@ book.title=Title
 book.author=Author
 ----
 
-image::../images/reference-book-list-en.png[Book listing]
-image::../images/reference-book-edit-en.png[Editing a book]
+image::images/reference-book-list-en.png[Book listing]
+image::images/reference-book-edit-en.png[Editing a book]
 
 Italian:
 
@@ -847,12 +847,12 @@ book.title=Titolo
 book.author=Autore
 ----
 
-image::../images/reference-book-list-it.png[Book listing]
-image::../images/reference-book-edit-it.png[Editing a book]
+image::images/reference-book-list-it.png[Book listing]
+image::images/reference-book-edit-it.png[Editing a book]
 
 The _User Menu_ will automatically display the available languages based on the presence of their language files.
 
-image::../images/reference-book-languages.png[Available languages]
+image::images/reference-book-languages.png[Available languages]
 
 === display()
 The most relevant feature of _Dueuno Elements_ is the `display` method. It renders the GUI on the server and sends is to the browser.
@@ -973,7 +973,7 @@ class ReadController implements ElementsController {
 <3> The `set` method sets the value of the `description` field
 <4> We also set the `Textarea` to a `readonly` state
 
-image::../images/reference-book-transition.png[onChange transition]
+image::images/reference-book-transition.png[onChange transition]
 
 To finish it up we register a Pretty Printer for the book record and tell the 'Select' control to use it to display the items.
 
@@ -1014,7 +1014,7 @@ class ReadController implements ElementsController {
 ----
 <1> We configure the `Select` control to use the `BOOK` pretty printer to format the books
 
-image::../images/reference-book-transition-pretty.png[onChange transition]
+image::images/reference-book-transition-pretty.png[onChange transition]
 
 [[exceptions]]
 == Exceptions
@@ -1023,7 +1023,7 @@ When developing the application all unhandled exceptions will be rendered to the
 
 NOTE: In production, all the details will be hidden and just the `sad face` will be displayed.
 
-image::../images/reference-book-exception.png[onChange transition]
+image::images/reference-book-exception.png[onChange transition]
 
 To display a message box instead you can add an Exception handler to the controller:
 
@@ -1043,7 +1043,7 @@ class ReadController implements ElementsController {
 }
 ----
 
-image::../images/reference-book-exception-handled.png[onChange transition]
+image::images/reference-book-exception-handled.png[onChange transition]
 
 [[contents]]
 == Contents
