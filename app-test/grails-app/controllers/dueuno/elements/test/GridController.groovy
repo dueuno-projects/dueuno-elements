@@ -40,7 +40,6 @@ class GridController implements ElementsController {
         grid1.sm = 6
         grid1.xl = 3
         grid1.spacing = 1
-        grid1.border = false
 
         for (i in 1..4) {
             def form = grid1.addComponent(Form, "form${i}")
@@ -60,6 +59,8 @@ class GridController implements ElementsController {
         }
 
         def grid2 = c.addComponent(Grid, "grid2")
+        grid2.backgroundColor = c.primaryBackgroundColor
+        grid2.textColor = c.primaryTextColor
         grid2.setBreakpoints()
         grid2.spacing = 3
         grid2.border = true
@@ -71,8 +72,6 @@ class GridController implements ElementsController {
                     text: "Label ${i}",
                     textAlign: TextAlign.CENTER,
                     displayLabel: false,
-                    backgroundColor: 'red',
-                    textColor: 'white',
                     cssClass: 'd-block',
             )
         }

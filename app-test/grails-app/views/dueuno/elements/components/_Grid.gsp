@@ -1,6 +1,5 @@
 <div id="${c.getId()}"
-     class="component-grid ${c.cssClass}"
-     style="${c.cssStyleColors}${c.cssStyle}"
+     class="component-grid"
      data-21-component="${c.getClassName()}"
      data-21-id="${c.getId()}"
      data-21-properties="${c.propertiesAsJSON}"
@@ -10,14 +9,16 @@
         <g:each in="${c.components}">
             <div class="grid-element p-0 ${c.breakpoints}">
             <g:if test="${c.border}">
-                <div class="m-${c.spacing} shadow rounded-4">
-                    <div class="rounded-4 overflow-hidden">
+                <div class="grid-border m-${c.spacing} shadow ${c.cssClass}"
+                     style="${c.cssStyleColors}${c.cssStyle}">
+                    <div class="grid-border overflow-hidden">
                         <render:component instance="${it}" />
                     </div>
                 </div>
             </g:if>
             <g:else>
-                <div class="m-${c.spacing}">
+                <div class="m-${c.spacing} ${c.cssClass}"
+                     style="${c.cssStyleColors}${c.cssStyle}">
                     <render:component instance="${it}" />
                 </div>
             </g:else>

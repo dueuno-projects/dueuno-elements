@@ -7,6 +7,10 @@
     flex: auto;
 }
 
-.grid-element div *:last-child {
+.grid-element div > *:last-child {
     margin-bottom: 0 !important;
+}
+
+.grid-element .grid-border {
+    border-radius: var(--bs-border-radius-xl);
 }

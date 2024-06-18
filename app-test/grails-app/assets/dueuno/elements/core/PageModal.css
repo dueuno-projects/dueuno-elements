@@ -101,7 +101,7 @@
     padding-top: 0 !important;
 }
 
-#page-modal-body .simplebar-content *:last-child {
+#page-modal-body .simplebar-content > *:last-child {
     margin-bottom: 0 !important;
 }
 

@@ -17,6 +17,7 @@ package dueuno.elements.test
 
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentList
+import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 
 import java.time.LocalDateTime
@@ -27,6 +28,13 @@ class CrudPOGOController implements ElementsController {
         def c = createContent(ContentList)
         c.with {
             table.with {
+                filters.with {
+                    addField(
+                            class: TextField,
+                            id: 'test',
+                            cols: 12,
+                    )
+                }
                 columns = [
                         'dateCreated',
                         'name',
