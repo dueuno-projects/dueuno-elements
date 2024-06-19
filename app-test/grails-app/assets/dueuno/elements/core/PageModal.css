@@ -49,7 +49,7 @@
 
 #page-modal .modal-header {
     border: none;
-    padding: var(--elements-font-size);
+    padding: calc(var(--elements-font-size) * 0.8);
 }
 
 #page-modal .component-header {
