@@ -55,8 +55,7 @@ assets {
     minifyCss = true
     minifyJs = true
     minifyOptions = [
-            languageMode     : 'ES6',
-            targetLanguage   : 'ES6',
-            optimizationLevel: 'SIMPLE', //SIMPLE (default) or ADVANCED or WHITESPACE_ONLY
+            //SIMPLE (default) or ADVANCED or WHITESPACE_ONLY
+            optimizationLevel: 'WHITESPACE_ONLY',
     ]
 }
