@@ -14,8 +14,8 @@
  */
 package dueuno.elements.test
 
-import dueuno.elements.components.BarChart
-import dueuno.elements.components.PieChart
+//import dueuno.elements.components.BarChart
+//import dueuno.elements.components.PieChart
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.core.ElementsController
 
@@ -26,30 +26,30 @@ class ChartsController implements ElementsController {
         c.header.removeNextButton()
         c.form.with {
             grid = true
-            addField(
-                    class: BarChart,
-                    id: 'barChart1',
-                    labels: ['FIAT', 'BMW', 'AUDI'],
-                    values: [100, 133, 167],
-                    colors: ['rgba(200, 0, 0, 0.6)', 'rgba(0, 200, 0, 0.6)', 'rgba(0, 0, 200, 0.6)'],
-                    cols: 12,
-            )
-            addField(
-                    class: PieChart,
-                    id: 'pieChart1',
-                    labels: ['FIAT', 'BMW', 'AUDI'],
-                    values: [100, 133, 167],
-                    colors: ['rgba(200, 0, 0, 0.6)', 'rgba(0, 200, 0, 0.6)', 'rgba(0, 0, 200, 0.6)'],
-                    cols: 6,
-            )
-            addField(
-                    class: BarChart,
-                    id: 'barChart2',
-                    labels: ['FIAT', 'BMW', 'AUDI'],
-                    values: [100, 133, 167],
-                    colors: ['rgba(200, 0, 0, 0.6)', 'rgba(0, 200, 0, 0.6)', 'rgba(0, 0, 200, 0.6)'],
-                    cols: 6,
-            )
+//            addField(
+//                    class: BarChart,
+//                    id: 'barChart1',
+//                    labels: ['FIAT', 'BMW', 'AUDI'],
+//                    values: [100, 133, 167],
+//                    colors: ['rgba(200, 0, 0, 0.6)', 'rgba(0, 200, 0, 0.6)', 'rgba(0, 0, 200, 0.6)'],
+//                    cols: 12,
+//            )
+//            addField(
+//                    class: PieChart,
+//                    id: 'pieChart1',
+//                    labels: ['FIAT', 'BMW', 'AUDI'],
+//                    values: [100, 133, 167],
+//                    colors: ['rgba(200, 0, 0, 0.6)', 'rgba(0, 200, 0, 0.6)', 'rgba(0, 0, 200, 0.6)'],
+//                    cols: 6,
+//            )
+//            addField(
+//                    class: BarChart,
+//                    id: 'barChart2',
+//                    labels: ['FIAT', 'BMW', 'AUDI'],
+//                    values: [100, 133, 167],
+//                    colors: ['rgba(200, 0, 0, 0.6)', 'rgba(0, 200, 0, 0.6)', 'rgba(0, 0, 200, 0.6)'],
+//                    cols: 6,
+//            )
         }
 
         display content: c

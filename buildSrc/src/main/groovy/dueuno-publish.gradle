@@ -1,7 +1,7 @@
 plugins {
-    id "java-library"
-    id "maven-publish"
-    id "signing"
+    id 'java-library'
+    id 'maven-publish'
+    id 'signing'
 }
 
 group = projectGroup
@@ -15,7 +15,7 @@ java {
 jar {
     into("META-INF/maven/$project.group/$project.name") {
         from { generatePomFileForMavenJavaPublication }
-        rename ".*", "pom.xml"
+        rename '.*', 'pom.xml'
     }
 }
 
@@ -49,7 +49,7 @@ publishing {
         }
     }
 
-    Boolean isSnapshot = version.endsWith("SNAPSHOT")
+    Boolean isSnapshot = version.endsWith('SNAPSHOT')
     String repositoryUrl = isSnapshot ? repositorySnapshot : repositoryRelease
     repositories {
         maven {

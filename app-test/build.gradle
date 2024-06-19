@@ -3,21 +3,21 @@ plugins {
 }
 
 dependencies {
-    implementation project(":elements-core")
-    implementation project(":elements-extra")
+    implementation project(':elements-core')
+//    implementation project(':elements-extra')
 
-    implementation "org.grails.plugins:spring-security-ldap:4.0.0.M1"
+    implementation 'org.grails.plugins:spring-security-ldap:4.0.0.M1'
 
     runtimeOnly 'com.mysql:mysql-connector-j:8.1.0'
-    runtimeOnly "org.postgresql:postgresql:42.2.18"
+    runtimeOnly 'org.postgresql:postgresql:42.2.18'
 }
 
 application {
-    mainClass = "dueuno.elements.test.Application"
+    mainClass = 'dueuno.elements.test.Application'
 }
 
 bootRun {
-    jvmArgs("-Xms2g", "-Xmx2g")
+    jvmArgs('-Xms2g', '-Xmx2g')
 }
 
 configurations.all {
