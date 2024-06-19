@@ -16,7 +16,7 @@ package dueuno
 
 
 import grails.validation.Validateable
-import org.springframework.validation.Errors
+import grails.validation.ValidationErrors
 
 class BookValidator implements Validateable {
 
@@ -26,7 +26,7 @@ class BookValidator implements Validateable {
     BookService bookService
 
     static constraints = {
-        title validator: { Object val, BookValidator obj, Errors errors ->
+        title validator: { Object val, BookValidator obj, ValidationErrors errors ->
             if (obj.bookService.getByTitle(val)) {
                 errors.rejectValue('title', 'unique')
             }

@@ -61,9 +61,6 @@ dependencies {
 
     // Dev-tools
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-
-    // Needed to implement *Job classes
-    implementation 'org.grails.plugins:quartz:2.0.13'
 }
 
 tasks.withType(War).configureEach { War war ->

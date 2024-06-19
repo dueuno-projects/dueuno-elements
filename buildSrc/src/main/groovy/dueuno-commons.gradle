@@ -18,5 +18,5 @@ dependencies {
     implementation "org.codehaus.groovy:groovy-sql:${groovyVersion}"
     implementation "org.codehaus.groovy:groovy-json:${groovyVersion}"
     implementation "org.codehaus.groovy:groovy-templates:${groovyVersion}"
-    implementation "ch.qos.logback:logback-classic:1.4.13"
+    implementation "ch.qos.logback:logback-classic:1.2.12"
 }
