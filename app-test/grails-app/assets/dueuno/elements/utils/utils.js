@@ -1,9 +1,5 @@
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-function isDevelopment() {
-    return _21_.log !== undefined;
-}
-
 function getOS() {
   var uA = navigator.userAgent || navigator.vendor || window.opera;
   if ((/iPad|iPhone|iPod/.test(uA) && !window.MSStream) || (uA.includes('Mac') && 'ontouchend' in document)) return 'iOS';

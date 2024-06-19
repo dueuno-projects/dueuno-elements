@@ -17,7 +17,7 @@ dependencies {
     api 'org.quartz-scheduler:quartz:2.3.2' // Is not pulled in by default
 
     // Websockets
-    api 'io.github.zyro23:grails-spring-websocket:2.6.0-RC1'
+    api 'org.grails.plugins:grails-spring-websocket:2.5.0.RC1'
 
     api project(':commons-utils')
 //    api project(":commons-keychain")

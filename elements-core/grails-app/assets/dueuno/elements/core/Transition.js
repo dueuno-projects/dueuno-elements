@@ -1,34 +1,24 @@
 class Transition {
 
-    static wsConnect() {
-        const wsClient = new StompJs.Client();
-        if (isDevelopment()) {
-            wsClient.debug = console.log;
-        }
-        wsClient.brokerURL = 'ws' + _21_.app.url.replace('http', '') + 'stomp';
-        wsClient.onConnect = Transition.wsOnConnect;
-        wsClient.activate();
-    }
+    static connect() {
+        let socket = new SockJS(_21_.app.url + 'stomp');
+        let client = webstomp.over(socket);
 
-    static wsOnConnect(frame) {
-        let wsClient = this;
-        let username = frame.headers['user-name'];
-        Transition.wsSubscribe(wsClient, "/queue/username/" + username);
+        client.connect({}, function(frame) {
+            let username = frame.headers['user-name'];
+            Transition.subscribe(client, "/queue/username/" + username);
 
-        $.ajax({url: _21_.app.url + "transition/channels"})
-        .done(function(channels) {
-            for (let channel of channels) {
-                Transition.wsSubscribe(wsClient, "/queue/channel/" + channel);
-            }
+            $.ajax({url: _21_.app.url + "transition/channels"})
+            .done(function(channels) {
+                for (let channel of channels) {
+                    Transition.subscribe(client, "/queue/channel/" + channel);
+                }
+            });
         });
     }
 
-    static wsOnError(frame) {
-        log.debug(frame);
-    }
-
-    static wsSubscribe(wsClient, channel) {
-        wsClient.subscribe(channel, Transition.executeFromWebsocket);
+    static subscribe(client, channel) {
+        client.subscribe(channel, Transition.executeFromWebsocket);
         log.debug('Subscribed to ' + channel);
     }
 

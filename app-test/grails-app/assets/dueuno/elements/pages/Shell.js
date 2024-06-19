@@ -5,7 +5,7 @@
 class Shell extends Page {
 
     static finalize() {
-        Transition.wsConnect();
+        Transition.connect();
     }
 
     static onContentChange() {
