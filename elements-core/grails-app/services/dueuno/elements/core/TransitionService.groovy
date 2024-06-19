@@ -41,11 +41,13 @@ class TransitionService implements WebSocket {
     }
 
     void publish(String channel, Transition t) {
-        convertAndSend "/queue/channel/$channel", t.transitionAsJSON
+        String destination = "/queue/channel/${channel}"
+        convertAndSend(destination, t.transitionAsJSON)
     }
 
     void send(String username, Transition t) {
-        convertAndSend "/queue/username/$username", t.transitionAsJSON
+        String destination = "/queue/username/${username}"
+        convertAndSend(destination, t.transitionAsJSON)
     }
 
 }
