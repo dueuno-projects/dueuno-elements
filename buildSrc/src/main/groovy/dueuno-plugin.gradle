@@ -49,6 +49,7 @@ dependencies {
 }
 
 assets {
+    packagePlugin = true
     minifyCss = true
     minifyJs = true
     minifyOptions = [

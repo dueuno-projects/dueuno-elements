@@ -65,8 +65,8 @@ class Select extends Control {
 
     static finalize($element, $root) {
         $element
-            .off('select2:select select2:clear')
-            .on('select2:select select2:clear', Select.onChange);
+            .off('select2:select select2:unselect select2:clear')
+            .on('select2:select select2:unselect select2:clear', Select.onChange);
         $element
             .off('select2:open')
             .on('select2:open', Select.onOpen);
