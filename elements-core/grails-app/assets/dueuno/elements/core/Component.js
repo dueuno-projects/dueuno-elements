@@ -45,7 +45,7 @@ class Component {
 
     static getProperty($element, propertyName) {
         let properties = Component.getProperties($element);
-        return properties[propertyName];
+        return properties ? properties[propertyName] : null;
     }
 
     static setProperty($element, propertyName, value) {
@@ -64,7 +64,7 @@ class Component {
 
     static getEvent($element, eventName) {
         let events = Component.getEvents($element);
-        return events[eventName];
+        return events ? events[eventName] : null;
     }
 
     static setEvent($element, eventName, componentEvent) {

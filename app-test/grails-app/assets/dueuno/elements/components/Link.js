@@ -4,7 +4,7 @@ class Link extends Label {
 
     static initialize($element, $root) {
         let componentEvent = Component.getEvent($element, 'click');
-        if (componentEvent['direct']) {
+        if (componentEvent && componentEvent['direct']) {
             // We disable Bootstrap offcanvas 'data-dismiss-*' since it
             // triggers JS code that overrides ours (see onCLick)
             $element.removeAttr('data-bs-dismiss');
