@@ -14,7 +14,7 @@
  */
 package dueuno.elements.components
 
-import dueuno.elements.core.Component
+
 import dueuno.elements.core.LinkDefinition
 import groovy.transform.CompileStatic
 
@@ -91,7 +91,9 @@ class Link extends Label {
     }
 
     String getDevUrl() {
-        return url ?: "/${controller}/${action}"
+        if (url) return url
+        if (controller && action) return "/${controller}/${action}"
+        return null
     }
 
     String getTarget() {

@@ -39,13 +39,16 @@ class PageModal extends Component {
             backdrop: 'static',
         });
 
+        // Close Button
+        let $closeButtonLink = PageModal.$self.find('[data-21-id="closeButton"] > a');
+        $closeButtonLink.removeAttr('data-21-events');
+        $closeButtonLink.removeAttr('href');
+
         // Events
         PageModal.$self.off('shown.bs.modal').on('shown.bs.modal', PageModal.onShown);
         PageModal.$self.off('hidden.bs.modal').on('hidden.bs.modal', PageModal.onHidden);
         PageModal.$self.off('keydown').on('keydown', PageModal.onKeyDown);
-
-        let $closeButton = PageModal.$self.find('[data-21-id="closeButton"]');
-        $closeButton.off('click').on('click', PageModal.onClose);
+        $closeButtonLink.off('click').on('click', PageModal.onClose);
     }
 
     static onShown(event) {
@@ -99,7 +102,6 @@ class PageModal extends Component {
         let closeButtonComponent = Component.getByElement($closeButton);
 
         if (componentEvent.renderProperties['closeButton']) {
-            $closeButton.find('a').removeAttr('data-21-events');
             $closeButton.attr('data-bs-dismiss', 'modal');
             Elements.callMethod($closeButton, closeButtonComponent, 'setDisplay', true);
 

@@ -128,6 +128,12 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 icon: 'fa-tools',
         )
         applicationService.registerSuperadminFeature(
+                controller: 'monitoring',
+                icon: 'fa-chart-simple',
+                direct: true,
+                targetNew: true,
+        )
+        applicationService.registerSuperadminFeature(
                 controller: 'sysinfo',
                 icon: 'fa-info-circle',
         )

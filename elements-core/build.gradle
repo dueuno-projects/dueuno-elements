@@ -3,11 +3,8 @@ plugins {
 }
 
 dependencies {
-    // SAAS & SCSS for Bootstrap 5
-//    implementation 'com.bertramlabs.plugins:sass-asset-pipeline:3.2.5'
-
-    // Hibernate - Do not remove unless you know what you are doing
-    api "org.grails.plugins:hibernate5"
+    // System monitoring
+    implementation 'net.bull.javamelody:javamelody-spring-boot-starter:1.99.0'
 
     // Security (to use the @Secured annotation)
     api 'org.grails.plugins:spring-security-core:6.1.1'

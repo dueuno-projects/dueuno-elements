@@ -2,6 +2,16 @@
 
 class Link extends Label {
 
+    static initialize($element, $root) {
+        let componentEvent = Component.getEvent($element, 'click');
+        if (componentEvent['direct']) {
+            // We disable Bootstrap offcanvas 'data-dismiss-*' since it
+            // triggers JS code that overrides ours (see onCLick)
+            $element.removeAttr('data-bs-dismiss');
+            $element.removeAttr('data-bs-target');
+        }
+    }
+
     static finalize($element, $root) {
         $element.off('keydown').on('keydown', Link.onKeyDown);
         $element.off('mousedown').on('mousedown', Link.onMouseDown);
@@ -32,10 +42,11 @@ class Link extends Label {
         let componentEvent = Component.getEvent($element, 'click');
 
         if (componentEvent && componentEvent['target'] && componentEvent['target'] != '_self') {
+            // This works only when Bootstrap 'data-dismiss-*' attribute is not present
             let url = Transition.buildUrl(componentEvent);
             let queryString = Transition.buildQueryString(componentEvent);
-            $element.attr('target', componentEvent['target']);
             $element.attr('href', url + queryString);
+            $element.attr('target', componentEvent['target']);
             return;
         }
 
