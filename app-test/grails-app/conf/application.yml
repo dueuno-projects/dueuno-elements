@@ -94,10 +94,6 @@ spring:
       check-template-location: false
   devtools:
     restart:
-      trigger-file: BootStrap.groovy
-      quiet-period: 2000
-      poll-interval: 3000
-      additional-paths: .
       additional-exclude:
         - '*.gsp'
         - '**/*.gsp'
@@ -105,7 +101,6 @@ spring:
         - '**/*.gson'
         - 'logback.groovy'
         - '*.properties'
-        - '**/*BootStrap.groovy'
 management:
   endpoints:
     enabled-by-default: false
