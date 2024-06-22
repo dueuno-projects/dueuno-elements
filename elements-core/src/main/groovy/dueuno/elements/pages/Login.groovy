@@ -77,7 +77,6 @@ class Login extends Page {
                 addField(
                         class: Checkbox,
                         id: 'rememberMe',
-                        backgroundColor: 'transparent',
                         displayLabel: false,
                 )
             }
