@@ -91,23 +91,6 @@ class CrudController implements ElementsController {
 
                 actionbar.with {
                     addAction(
-                            action: 'exportExcel',
-                            icon: 'fa-file-excel',
-                            textArgs: [1],
-                            submit: ['filters'],
-                            targetNew: true,
-                    )
-                    addAction(
-                            action: 'printPdf',
-                            icon: 'fa-print',
-                            danger: true,
-                    )
-                    addAction(
-                            action: 'printWithNiceLabel',
-                            icon: 'fa-print',
-                            danger: true,
-                    )
-                    addAction(
                             action: 'someAction',
                             params: [p1: 1, p2: 2],
                     )
@@ -400,34 +383,34 @@ class CrudController implements ElementsController {
         }
     }
 
-    def exportExcel() {
-        def obj = TPerson.get(1)
-
-        List columns = [
-                'id',
-                'name',
-                'salary',
-                'distanceKm',
-                'dateStart',
-                'dateEnd',
-                'active',
-                'textfield',
-                'numberfield',
-        ]
-
-        Map exportProperties = [
-                labels: [
-                        textfield  : 'Campo di testo',
-                        numberfield: 'Campo numerico',
-                ]
-        ]
-
-        def os = getDownloadOutputStream('ExcelExport.xlsx')
-
-        ExportUtils.toExcel(os, obj.list(), columns, exportProperties) { row ->
-            // Do something with 'row'
-        }
-    }
+//    def exportExcel() {
+//        def obj = TPerson.get(1)
+//
+//        List columns = [
+//                'id',
+//                'name',
+//                'salary',
+//                'distanceKm',
+//                'dateStart',
+//                'dateEnd',
+//                'active',
+//                'textfield',
+//                'numberfield',
+//        ]
+//
+//        Map exportProperties = [
+//                labels: [
+//                        textfield  : 'Campo di testo',
+//                        numberfield: 'Campo numerico',
+//                ]
+//        ]
+//
+//        def os = getDownloadOutputStream('ExcelExport.xlsx')
+//
+//        ExportUtils.toExcel(os, obj.list(), columns, exportProperties) { row ->
+//            // Do something with 'row'
+//        }
+//    }
 
 //    def printPdf() {
 //        def xmlWriter = new StringWriter()

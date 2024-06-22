@@ -41,14 +41,14 @@ class LinkDefinition implements Serializable {
     /** An absolute path (starting with '/') or relative path  */
     String path
 
-    /** Link may point to a specific URL */
+    /** Link may point to a specific URL. If specified it has precedence over controller/action pair. */
     String url
-
-    /** List of the names of the components to submit; if not specified the container component will be passed */
-    List<String> submit
 
     /** Whether to render the whole html page (or raw http body) or a Transition */
     Boolean direct
+
+    /** List of the names of the components to submit; if not specified the container component will be passed */
+    List<String> submit
 
     /** The target page to display the link into */
     String target
@@ -72,13 +72,19 @@ class LinkDefinition implements Serializable {
         fragment = args.fragment ?: ''
         path = args.path ?: ''
         url = args.url ?: ''
+        if (url) {
+            // URLs are always handled as direct links
+            direct = true
+        } else {
+            direct = args.direct == null ? false : args.direct as Boolean
+        }
+
         params = args.params as Map ?: [:]
 
         args.submit in List
                 ? setSubmit(args.submit as List<String>)
                 : setSubmit(args.submit as String)
 
-        direct = args.direct == null ? false : args.direct as Boolean
         target = args.target
         targetNew = args.targetNew
         waitingScreen = args.waitingScreen ?: false
