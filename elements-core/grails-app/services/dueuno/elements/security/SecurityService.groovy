@@ -1075,7 +1075,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
         tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
 
-        tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', true)
+        tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', false)
         tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
         tenantPropertyService.setString('LOGIN_LANDING_URL', '')
         tenantPropertyService.setString('LOGOUT_LANDING_URL', '')
