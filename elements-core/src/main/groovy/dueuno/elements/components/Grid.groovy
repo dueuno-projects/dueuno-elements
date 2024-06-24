@@ -19,7 +19,7 @@ class Grid extends Component {
     Grid(Map args) {
         super(args)
 
-        spacing = args.spacing == null ? 0 : args.spacing as Integer
+        spacing = args.spacing == null ? 2 : args.spacing as Integer
         border = args.border == null ? false : args.border
 
         // No default for breakpoints since it would require
@@ -42,6 +42,11 @@ class Grid extends Component {
         GridColumn column = addComponent(args)
 
         return column
+    }
+
+    Grid addGridColumn(Map args) {
+        args['class'] = Grid
+        return addColumn(args).component as Grid
     }
 
     void setBreakpoints(Integer xs = 12, Integer sm = 6, Integer md = 4, Integer lg = 4, Integer xl = 3, Integer xxl = 2) {
