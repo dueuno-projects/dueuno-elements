@@ -38,11 +38,16 @@ class GridController implements ElementsController {
         Grid grid1 = c.addComponent(Grid, "grid1")
         grid1.xs = 12
         grid1.sm = 6
-        grid1.xl = 3
-        grid1.spacing = 1
+        grid1.lg = 3
+        grid1.spacing = 2
 
         for (i in 1..4) {
-            def form = grid1.addComponent(Form, "form${i}")
+            def column = grid1.addColumn(
+                    class: Form,
+                    id: "form${i}",
+                    lg: i == 4 ? 12 : i * 2,
+            )
+            def form = column.component as Form
             form.with {
                 grid = true
                 addField(
@@ -62,11 +67,12 @@ class GridController implements ElementsController {
         grid2.backgroundColor = c.primaryBackgroundColor
         grid2.textColor = c.primaryTextColor
         grid2.setBreakpoints()
-        grid2.spacing = 3
+        grid2.xs = 6
+        grid2.spacing = 4
         grid2.border = true
 
         for (i in 1..10) {
-            grid2.addComponent(
+            grid2.addColumn(
                     class: Label,
                     id: "label${i}",
                     text: "Label ${i}",

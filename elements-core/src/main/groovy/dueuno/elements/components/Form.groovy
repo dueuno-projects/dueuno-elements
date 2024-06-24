@@ -89,7 +89,8 @@ class Form extends Component {
             args.value = requestParams[id]
         }
 
-        // Add control/component
+        // Add control/component. We add them to the components to be able to address
+        // them directly instead of passing through the FormField (Eg. form.controlName)
         Component component
         if (clazz in Control) {
             component = addControl(args)

@@ -24,6 +24,24 @@ class Grid extends Component {
 
         // No default for breakpoints since it would require
         // to set all of them everytime
+        xs = args.xs as Integer
+        sm = args.sm as Integer
+        md = args.md as Integer
+        lg = args.lg as Integer
+        xl = args.xl as Integer
+        xxl = args.xxl as Integer
+    }
+
+    GridColumn addColumn(Map args) {
+        Component component = createComponent(args)
+
+        args['class'] = GridColumn
+        args['id'] = "${args.id}Column"
+        args['grid'] = this
+        args['component'] = component
+        GridColumn column = addComponent(args)
+
+        return column
     }
 
     void setBreakpoints(Integer xs = 12, Integer sm = 6, Integer md = 4, Integer lg = 4, Integer xl = 3, Integer xxl = 2) {
@@ -33,19 +51,6 @@ class Grid extends Component {
         this.lg = lg
         this.xl = xl
         this.xxl = xxl
-    }
-
-    String getBreakpoints() {
-        String result = ""
-
-        if (xs) result += "col-${xs} "
-        if (sm) result += "col-sm-${sm} "
-        if (md) result += "col-md-${md} "
-        if (lg) result += "col-lg-${lg} "
-        if (xl) result += "col-xl-${xl} "
-        if (xxl) result += "col-xxl-${xxl} "
-
-        return result
     }
 
 }

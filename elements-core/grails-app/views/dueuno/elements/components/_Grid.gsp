@@ -1,25 +1,25 @@
 <div id="${c.getId()}"
-     class="component-grid"
+     class="component-grid mb-2"
      data-21-component="${c.getClassName()}"
      data-21-id="${c.getId()}"
      data-21-properties="${c.propertiesAsJSON}"
      data-21-events="${c.eventsAsJSON}"
 >
-    <div class="row mx-0">
-        <g:each in="${c.components}">
-            <div class="grid-element p-0 ${c.breakpoints}">
+    <div class="row g-${c.spacing}">
+        <g:each var="column" in="${c.components}">
+            <div class="grid-column ${column.breakpoints}">
             <g:if test="${c.border}">
-                <div class="grid-border m-${c.spacing} shadow ${c.cssClass}"
+                <div class="grid-border shadow ${c.cssClass}"
                      style="${c.cssStyleColors}${c.cssStyle}">
                     <div class="grid-border overflow-hidden">
-                        <render:component instance="${it}" />
+                        <render:component instance="${column.component}" />
                     </div>
                 </div>
             </g:if>
             <g:else>
-                <div class="m-${c.spacing} ${c.cssClass}"
+                <div class="${c.cssClass}"
                      style="${c.cssStyleColors}${c.cssStyle}">
-                    <render:component instance="${it}" />
+                    <render:component instance="${column.component}" />
                 </div>
             </g:else>
         </div>
