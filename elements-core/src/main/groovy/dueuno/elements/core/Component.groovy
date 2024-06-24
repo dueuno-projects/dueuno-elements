@@ -288,7 +288,7 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
      */
     public <T> T createComponent(Class<T> clazz, String id, Map args = [:]) {
         args['class'] = clazz
-        args['id'] = id ?: clazz.simpleName.toLowerCase()
+        args['id'] = id
         return createComponent(args)
     }
 
@@ -301,7 +301,9 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
      * @return An instance of the specified component class
      */
     public <T> T createComponent(Class<T> clazz, Map args = [:]) {
-        return createComponent(clazz, null, args)
+        args['class'] = clazz
+        args['id'] = clazz.simpleName.toLowerCase()
+        return createComponent(args)
     }
 
     private void throwExceptionIfNameExists(Map args) {
