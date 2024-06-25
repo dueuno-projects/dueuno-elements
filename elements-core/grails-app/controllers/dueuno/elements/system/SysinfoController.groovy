@@ -40,7 +40,6 @@ class SysinfoController implements ElementsController {
         }
 
         c.form.with {
-            grid = true
             addField(
                     class: TextField,
                     id: 'environment',

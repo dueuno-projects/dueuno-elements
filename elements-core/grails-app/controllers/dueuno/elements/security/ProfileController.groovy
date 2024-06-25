@@ -38,7 +38,6 @@ class ProfileController implements ElementsController {
 
     private buildSensitiveDataForm(ContentForm c) {
         c.form.with {
-            grid = true
             addField(
                     class: TextField,
                     id: 'firstname',
@@ -64,7 +63,6 @@ class ProfileController implements ElementsController {
 
     private buildPreferencesForm(ContentForm c) {
         c.form.with {
-            grid = true
             addField(
                     class: Separator,
                     id: 'preferences',

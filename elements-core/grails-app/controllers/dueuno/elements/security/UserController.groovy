@@ -125,7 +125,6 @@ class UserController implements ElementsController {
         }
 
         c.form.with {
-            grid = true
             validate = TUser
 
             if (securityService.isSuperAdmin()) {
@@ -159,7 +158,6 @@ class UserController implements ElementsController {
         buildSensitiveDataForm(c)
 
         c.form.with {
-            grid = true
             addField(
                     class: Separator,
                     id: 'authorizations',
@@ -220,7 +218,6 @@ class UserController implements ElementsController {
 
     private buildSensitiveDataForm(ContentForm c) {
         c.form.with {
-            grid = true
             addField(
                     class: TextField,
                     id: 'firstname',
@@ -253,7 +250,6 @@ class UserController implements ElementsController {
 
     private buildPreferencesForm(ContentForm c) {
         c.form.with {
-            grid = true
             addField(
                     class: Separator,
                     id: 'preferences',

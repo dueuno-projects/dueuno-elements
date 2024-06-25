@@ -32,7 +32,6 @@ class CustomPageController implements ElementsController {
         def p = createPage(CustomPage)
         def header = p.content.addComponent(Form, 'headerForm')
         header.with {
-            grid = true
             addField(
                     class: Label,
                     id: 'status',

@@ -74,7 +74,6 @@ class TenantController implements ElementsController {
                 : createContent(ContentCreate)
 
         c.form.with {
-            grid = true
             validate = TTenant
             addField(
                     class: TextField,

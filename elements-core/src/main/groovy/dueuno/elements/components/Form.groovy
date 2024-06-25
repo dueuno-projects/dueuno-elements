@@ -37,7 +37,6 @@ class Form extends Component {
     List keyFields
     Class validate
 
-    Boolean grid
     Boolean readonly
     Boolean autocomplete
 
@@ -49,7 +48,6 @@ class Form extends Component {
         keyFields = []
         validate = args.validate as Class ?: args.constraints as Class ?: null
 
-        grid = (args.grid == null) ? false : args.grid
         readonly = (args.readonly == null) ? false : args.readonly
         autocomplete = (args.autocomplete == null) ? false : args.autocomplete
     }
@@ -101,8 +99,7 @@ class Form extends Component {
         // Add field
         if (args.helpMessage == null) args.helpMessage = ''
         if (args.label == null) args.label = buildLabel(id)
-        if (args.horizontal == null) args.horizontal = grid
-        if (args.cols == null) args.cols = 3
+        if (args.cols == null) args.cols = 12
         if (args.readonly == null) args.readonly = readonly
         if (!args.primaryTextColor) args.primaryTextColor = primaryTextColor
         if (!args.primaryBackgroundColor) args.primaryBackgroundColor = primaryBackgroundColor
@@ -176,13 +173,6 @@ class Form extends Component {
         readonly = isReadonly
         for (field in fields) {
             (field as FormField).component.readonly = isReadonly
-        }
-    }
-
-    void setGrid(Boolean isGrid) {
-        grid = isGrid
-        for (field in fields) {
-            (field as FormField).horizontal = isGrid
         }
     }
 

@@ -128,7 +128,6 @@ class SystemPropertyController implements ElementsController {
 
         c.form.with {
             validate = TSystemProperty
-            grid = true
 
             String descriptionCode = "system.property.${obj.name}"
             String description = messageOrBlank(descriptionCode)

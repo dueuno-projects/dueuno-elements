@@ -234,7 +234,6 @@ class CrudCustomController implements ElementsController {
                 ? createContent(ContentCreate)
                 : createContent(ContentEdit)
         c.form.with {
-            grid = true
             validate = TPerson
             addField(
                     class: Select,

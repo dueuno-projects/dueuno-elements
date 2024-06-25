@@ -39,8 +39,6 @@ class TransitionsController implements ElementsController {
         c.header.nextButton.icon = 'fa-rotate-right'
 
         c.form.with {
-            grid = true
-
             if (params.transitioned) {
                 addField(
                         class: Label,

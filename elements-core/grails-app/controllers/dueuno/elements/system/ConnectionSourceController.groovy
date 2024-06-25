@@ -81,7 +81,6 @@ class ConnectionSourceController implements ElementsController {
                 : createContent(ContentCreate)
 
         c.form.with {
-            grid = true
             validate = TConnectionSource
 
             if (obj) {

@@ -6,7 +6,7 @@
      data-21-properties="${c.propertiesAsJSON}"
      data-21-events="${c.eventsAsJSON}"
 >
-    <form class="row gx-2 ${c.getGrid() ? 'grid' : 'vertical'}" autocomplete="${c.autocomplete ? 'on' : 'off'}">
+    <form class="row gx-2 grid" autocomplete="${c.autocomplete ? 'on' : 'off'}">
         <dev:ifDisplayHints>
             <g:if test="${c.keyFields}">
                 <div class="alert alert-info" role="alert">

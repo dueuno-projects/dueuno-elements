@@ -25,7 +25,6 @@ class ChartsController implements ElementsController {
         def c = createContent(ContentForm)
         c.header.removeNextButton()
         c.form.with {
-            grid = true
 //            addField(
 //                    class: BarChart,
 //                    id: 'barChart1',

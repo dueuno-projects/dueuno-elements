@@ -50,7 +50,6 @@ class DomainCrudController implements ElementsController {
 
         c.form.with {
             validate = TCompany
-            grid = true
             addField(
                     class: TextField,
                     id: 'name',

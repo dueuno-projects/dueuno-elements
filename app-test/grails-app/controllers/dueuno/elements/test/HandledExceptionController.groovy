@@ -35,7 +35,6 @@ class HandledExceptionController implements ElementsController {
         def c = createContent(ContentForm)
         c.header.removeNextButton()
         c.form.with {
-            grid = true
             validate = HandleExceptionValidator
             addField(
                     class: Button,

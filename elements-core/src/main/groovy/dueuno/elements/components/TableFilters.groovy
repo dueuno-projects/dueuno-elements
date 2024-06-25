@@ -46,7 +46,6 @@ class TableFilters extends Form {
         fold = (args.fold == null) ? true : args.fold
         autoFold = (args.autoFold == null) ? false : args.autoFold
         isFiltering = false
-        grid = (args.grid == null) ? true : args.grid
         prettyValues = ''
 
         // CONTROLS

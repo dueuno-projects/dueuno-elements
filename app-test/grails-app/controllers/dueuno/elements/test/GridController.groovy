@@ -49,7 +49,6 @@ class GridController implements ElementsController {
             )
             def form = column.component as Form
             form.with {
-                grid = true
                 addField(
                         class: TextField,
                         id: "text${i}",

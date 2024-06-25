@@ -34,7 +34,6 @@ class FormField extends Component {
     Boolean nullable
 
     Boolean displayLabel
-    Boolean horizontal
     Boolean multiline
 
     List acceptedCols
@@ -54,7 +53,6 @@ class FormField extends Component {
         nullable = (args.nullable == null) ? true : args.nullable
 
         displayLabel = (args.displayLabel == null) ? true : args.displayLabel
-        horizontal = (args.horizontal == null) ? false : args.horizontal
         multiline = (args.multiline == null) ? false : args.multiline
 
         setAcceptedRows(args.acceptedRows == null ? [] : args.acceptedRows as List)
@@ -100,12 +98,7 @@ class FormField extends Component {
     }
 
     String getCols() {
-        if (horizontal) {
-            List sm = [0, 6, 6, 6, 6, 6, 6, 12, 12, 12, 12, 12, 12]
-            return ' col-lg-' + cols + ' col-sm-' + cols //sm[cols]
-        } else {
-            return ''
-        }
+        return ' col-lg-' + cols + ' col-sm-' + cols
     }
 
     String getRows() {

@@ -59,7 +59,6 @@ class DomainController implements ElementsController {
 
         c.form.with {
 //            validate = TCompany
-            grid = true
         }
 
         c.form.values = obj

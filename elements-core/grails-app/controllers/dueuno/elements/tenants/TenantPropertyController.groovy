@@ -125,7 +125,6 @@ class TenantPropertyController implements ElementsController {
         def c = createContent(ContentEdit)
         c.form.with {
             validate = TTenantProperty
-            grid = true
 
             String descriptionCode = "tenant.property.${obj.name}"
             String description = messageOrBlank(descriptionCode)

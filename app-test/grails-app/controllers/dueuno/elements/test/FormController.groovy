@@ -43,7 +43,6 @@ class FormController implements ElementsController {
         def c = createContent(ContentForm)
         c.header.removeNextButton()
         c.form.with {
-            grid = true
             addField(
                     class: Button,
                     id: 'button1',
@@ -143,7 +142,8 @@ class FormController implements ElementsController {
                 addAction(action: 'pluto')
             }
         }
-        c.form.grid = grid
+
+        Integer cols = grid ? 3 : 12
         c.form.with {
             readonly = isReadonly
             def user1 = addField(
@@ -152,7 +152,8 @@ class FormController implements ElementsController {
                     optionsFromRecordset: TPerson.list(),
                     keys: ['id'],
                     value: params.person,
-                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare'
+                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
+                    cols: cols,
             )/*.on(
                     event: 'create',
                     controller: 'crud',
@@ -191,6 +192,7 @@ class FormController implements ElementsController {
                     id: 'userTrans',
                     optionsFromRecordset: TPerson.list(),
                     transformer: 'T_PERSON',
+                    cols: cols,
             )
             addField(
                     class: Select,
@@ -203,24 +205,28 @@ class FormController implements ElementsController {
                     search: false,
                     keys: ['key'],
                     value: 2,
+                    cols: cols,
             )
             addField(
                     class: TextField,
                     id: 'textfield',
                     textTransform: TextTransform.UPPERCASE,
-                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare'
+                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
+                    cols: cols,
             )
             addField(
                     class: TextField,
                     id: 'textfield2',
                     value: [name: 'pippo'],
                     prettyPrinter: 'OBJ2TEXT',
-                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare'
+                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
+                    cols: cols,
             )
             def textfieldActions = addField(
                     class: TextField,
                     id: 'textfieldActions',
                     prefix: 'PIPPO',
+                    cols: cols,
             )
             textfieldActions.component.addAction(
                     action: 'index',
@@ -236,6 +242,7 @@ class FormController implements ElementsController {
                     class: NumberField,
                     id: 'numberfield',
                     value: 0,
+                    cols: cols,
             ).component.addAction(
                     action: 'increment',
                     submit: 'form',
@@ -251,34 +258,41 @@ class FormController implements ElementsController {
                     class: EmailField,
                     id: 'emailfield',
                     placeholder: 'me@mail.com',
+                    cols: cols,
             )
             addField(
                     class: UrlField,
                     id: 'urlfield',
+                    cols: cols,
             )
             addField(
                     class: PasswordField,
                     id: 'passwordfield',
+                    cols: cols,
             )
             addField(
                     class: QuantityField,
                     id: 'quantityfield',
                     defaultUnit: QuantityUnit.KM,
                     availableUnits: quantityService.listAllUnits(),
+                    cols: cols,
             )
             addField(
                     class: MoneyField,
                     id: 'moneyfield',
+                    cols: cols,
             )
             addField(
                     class: Upload,
                     id: 'upload1',
+                    cols: cols,
             )
 
             addField(
                     class: Upload,
                     id: 'upload2',
                     dragAndDrop: false,
+                    cols: cols,
             )
             addField(
                     class: Button,
@@ -286,6 +300,7 @@ class FormController implements ElementsController {
                     stretch: true,
                     backgroundColor: '#cc0000',
                     textColor: 'white',
+                    cols: cols,
             ).component.addAction(action: 'anotherAction1')
                     .addAction(action: 'anotherAction2')
                     .addAction(action: 'anotherAction3')
@@ -297,6 +312,7 @@ class FormController implements ElementsController {
                     stretch: true,
                     group: true,
                     backgroundColor: '#cc0000',
+                    cols: cols,
             )
             buttonGroupField.component.addAction(action: 'anotherAction1', backgroundColor: '#0000cc')
             buttonGroupField.component.addAction(action: 'anotherAction2', backgroundColor: '#00cc00')
@@ -306,24 +322,29 @@ class FormController implements ElementsController {
                     class: Separator,
                     id: 'separator',
                     icon: 'fa-car',
+                    cols: cols,
             )
             addField(
                     class: Separator,
                     id: 'anotherSeparator',
                     icon: 'fa-truck',
+                    cols: cols,
             )
             addField(
                     class: DateField,
                     id: 'datefield',
-                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare'
+                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
+                    cols: cols,
             )
             addField(
                     class: TimeField,
                     id: 'timefield',
+                    cols: cols,
             )
             addField(
                     class: DateTimeField,
                     id: 'datetimefield',
+                    cols: cols,
             )
             addField(
                     class: Select,
@@ -331,22 +352,26 @@ class FormController implements ElementsController {
                     optionsFromRecordset: TPerson.list(),
                     keys: ['id'],
                     search: false,
+                    cols: cols,
             )
             addField(
                     class: Checkbox,
                     id: 'checkbox',
-                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare'
+                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
+                    cols: cols,
             )
             addField(
                     class: Checkbox,
                     id: 'checkbox2',
                     value: true,
                     readonly: true,
+                    cols: cols,
             )
             addField(
                     class: Checkbox,
                     id: 'simplecheckbox',
                     simple: true,
+                    cols: cols,
             )
             /*addField(
                     class: MultipleCheckbox,
@@ -363,22 +388,25 @@ class FormController implements ElementsController {
                     class: Textarea,
                     id: 'textarea',
                     maxSize: 100,
-                    cols: 12,
+                    cols: cols,
                     rows: 5,
             )
             addField(
                     class: Label,
                     id: 'label',
+                    cols: cols,
             )
             addField(
                     class: Label,
                     id: 'label2',
                     textAlign: TextAlign.END,
+                    cols: cols,
             )
             addField(
                     class: Label,
                     id: 'label3',
                     textWrap: TextWrap.LINE_WRAP,
+                    cols: cols,
             )
             addField(
                     class: Label,
@@ -386,10 +414,12 @@ class FormController implements ElementsController {
                     border: true,
                     displayLabel: false,
                     backgroundColor: '#eab676',
+                    cols: cols,
             )
             addField(
                     class: Label,
                     id: 'paragraph',
+                    cols: cols,
             )
             //readonly = true
         }

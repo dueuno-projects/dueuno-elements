@@ -68,7 +68,6 @@ class SandboxController implements ElementsController {
 
         def formFail = c.addComponent(Form, 'formFail')
         formFail.with {
-            grid = true
             addField(
                     class: Button,
                     id: 'customParams',
@@ -404,7 +403,6 @@ Grails application running at http://localhost:9992/test in environment: develop
 //
 //        def form = c.addComponent(Form)
 //        form.with {
-//            grid = true
 //            addField(
 //                    class: Button,
 //                    id: 'btnHide',
