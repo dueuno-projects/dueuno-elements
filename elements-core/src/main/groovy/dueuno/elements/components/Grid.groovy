@@ -32,21 +32,13 @@ class Grid extends Component {
         xxl = args.xxl as Integer
     }
 
-    GridColumn addColumn(Map args) {
-        Component component = createComponent(args)
-
+    GridColumn addColumn(Map args = [:]) {
         args['class'] = GridColumn
-        args['id'] = "${args.id}Column"
+        args['id'] = "${id}-${components.size()}"
         args['grid'] = this
-        args['component'] = component
+
         GridColumn column = addComponent(args)
-
         return column
-    }
-
-    Grid addGridColumn(Map args) {
-        args['class'] = Grid
-        return addColumn(args).component as Grid
     }
 
     void setBreakpoints(Integer xs = 12, Integer sm = 6, Integer md = 4, Integer lg = 4, Integer xl = 3, Integer xxl = 2) {

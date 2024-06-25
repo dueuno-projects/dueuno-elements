@@ -12,14 +12,14 @@
                 <div class="grid-border shadow ${c.cssClass}"
                      style="${c.cssStyleColors}${c.cssStyle}">
                     <div class="grid-border overflow-hidden">
-                        <render:component instance="${column.component}" />
+                        <render:componentList instance="${column}"/>
                     </div>
                 </div>
             </g:if>
             <g:else>
                 <div class="${c.cssClass}"
                      style="${c.cssStyleColors}${c.cssStyle}">
-                    <render:component instance="${column.component}" />
+                    <render:componentList instance="${column}"/>
                 </div>
             </g:else>
         </div>

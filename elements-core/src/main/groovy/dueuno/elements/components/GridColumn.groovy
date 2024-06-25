@@ -8,7 +8,6 @@ import groovy.transform.CompileStatic
 class GridColumn extends Component {
 
     Grid grid
-    Component component
 
     Integer xs
     Integer sm
@@ -21,8 +20,6 @@ class GridColumn extends Component {
         super(args)
 
         grid = ArgsException.requireArgument(args, 'grid') as Grid
-
-        component = args.component as Component
 
         // No default for breakpoints since it would require
         // to set all of them everytime
