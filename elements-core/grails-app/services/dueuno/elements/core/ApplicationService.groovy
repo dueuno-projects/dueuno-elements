@@ -437,6 +437,10 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
         return mainFeatures.byController('superadmin')
     }
 
+    Feature getUserFeature(String controller) {
+        return userFeatures.byController(controller)
+    }
+
     /**
      * Registers an application feature.
      *
@@ -475,11 +479,11 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
      * Registers a feature accessible only by the ROLE_SUPERADMIN authority.
      */
     void registerSuperadminUserFeature(Map args = [:]) {
-        Feature newFeature = getFeature(args.controller as String)
-        if (!newFeature) {
+//        Feature newFeature = getFeature(args.controller as String)
+//        if (!newFeature) {
             args.authorities = ['ROLE_SUPERADMIN']
             registerUserFeature(args)
-        }
+//        }
     }
 
     /**

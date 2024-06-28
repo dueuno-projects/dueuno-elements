@@ -27,6 +27,7 @@ import dueuno.elements.core.ConnectionSourceService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.TConnectionSource
 import grails.gorm.multitenancy.CurrentTenant
+import grails.plugin.springsecurity.annotation.Secured
 import org.grails.orm.hibernate.HibernateDatastore
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -36,6 +37,7 @@ import java.sql.Driver
  * @author Gianluca Sartori
  */
 @CurrentTenant
+@Secured(['ROLE_SUPERADMIN'])
 class ConnectionSourceController implements ElementsController {
 
     ApplicationService applicationService
@@ -188,5 +190,9 @@ class ConnectionSourceController implements ElementsController {
         } catch (e) {
             display exception: e
         }
+    }
+
+    def h2Console() {
+        redirect uri: '/h2-console'
     }
 }

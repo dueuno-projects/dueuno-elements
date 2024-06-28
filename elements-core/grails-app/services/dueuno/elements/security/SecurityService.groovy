@@ -180,10 +180,12 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 order: 10000030,
         )
         applicationService.registerSuperadminUserFeature(
-                controller: 'h2-console',
-                action: '',
+                controller: 'connectionSource',
+                action: 'h2Console',
                 icon: 'fa-database',
                 order: 10000040,
+                direct: true,
+                targetNew: true,
         )
         applicationService.registerSuperadminUserFeature(
                 controller: 'shell',
