@@ -13,7 +13,7 @@
                     <p>Form '${c.getId()}' ${c.validate ? 'validating on \'' + c.validate.simpleName + '\'' : ''}</p>
                     <ul>
                         <g:each in="${c.keyFields}">
-                            <li><render:icon icon="fa-solid fa-key"/> (${it.value.getClass().simpleName}) ${it.getId()} = ${it.value.toString()}</li>
+                            <li><render:icon icon="fa-solid fa-key"/> (${it.component.value.getClass().simpleName}) ${it.getId()} = ${it.component.value.toString()}</li>
                         </g:each>
                     </ul>
                 </div>
