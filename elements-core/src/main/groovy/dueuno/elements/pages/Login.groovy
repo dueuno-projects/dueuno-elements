@@ -94,6 +94,7 @@ class Login extends Page {
                         class: Link,
                         id: 'passwordRecoveryLink',
                         url: passwordRecoveryUrl,
+                        direct: false,
                         textAlign: TextAlign.CENTER,
                         displayLabel: false,
                         cssClass: 'w-100',
@@ -104,6 +105,7 @@ class Login extends Page {
                         class: Button,
                         id: 'register',
                         url: registerUrl,
+                        direct: false,
                         label: '',
                 )
             }

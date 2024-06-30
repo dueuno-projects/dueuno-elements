@@ -73,8 +73,8 @@ class LinkDefinition implements Serializable {
         path = args.path ?: ''
         url = args.url ?: ''
         if (url) {
-            // URLs are always handled as direct links
-            direct = true
+            // URLs are handled as direct links by default
+            direct = args.direct == null ? true : args.direct as Boolean
         } else {
             direct = args.direct == null ? false : args.direct as Boolean
         }
