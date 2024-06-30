@@ -70,6 +70,13 @@ class SandboxController implements ElementsController {
         formFail.with {
             addField(
                     class: Button,
+                    id: 'redirectBtn',
+                    action: 'messageWithRedirect',
+                    modal: true,
+                    cols: 12,
+            )
+            addField(
+                    class: Button,
                     id: 'customParams',
                     action: 'index',
                     onClick: 'onCustomParams',
@@ -538,6 +545,10 @@ Grails application running at http://localhost:9992/test in environment: develop
         )
 
         display content: c, modal: true
+    }
+
+    def messageWithRedirect() {
+        display message: 'You will be redirected to "CRUD View"', controller: 'crud', modal: true, wide: true
     }
 
     def onChangeCheckThisOut() {

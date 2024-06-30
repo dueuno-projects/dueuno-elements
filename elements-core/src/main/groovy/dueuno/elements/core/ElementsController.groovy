@@ -122,6 +122,7 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
             String message = args.message as String
 
             if (args.controller || args.action) {
+                t.call('modal', 'close')
                 t.infoMessage(message, args)
             } else {
                 t.infoMessage(message)

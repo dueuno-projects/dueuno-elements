@@ -199,7 +199,7 @@ class Transition implements WebRequestAware {
 
         Map args = [
                 infoMessage: infoMessage,
-                click      : onClick,
+                click      : new ComponentEvent(onClick).asMap(),
         ]
         call('messagebox', type, args)
     }
@@ -226,8 +226,8 @@ class Transition implements WebRequestAware {
 
         Map args = [
                 confirmMessage: confirmMessage,
-                option1Click  : onOption1Click,
-                option2Click  : onOption2Click,
+                option1Click  : new ComponentEvent(onOption1Click).asMap(),
+                option2Click  : new ComponentEvent(onOption2Click).asMap(),
         ]
         call('messagebox', 'confirm', args)
     }
