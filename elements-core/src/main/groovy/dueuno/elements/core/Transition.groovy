@@ -172,23 +172,23 @@ class Transition implements WebRequestAware {
         )
     }
 
-    void infoMessage(String msg, Map onClick = null) {
+    void infoMessage(String msg, Map onClick = [:]) {
         infoMessage('info', msg, [], onClick)
     }
 
-    void infoMessage(String msg, List msgArgs, Map onCLick = null) {
+    void infoMessage(String msg, List msgArgs, Map onCLick = [:]) {
         infoMessage('info', msg, msgArgs, onCLick)
     }
 
-    void errorMessage(String msg, Map onCLick = null) {
+    void errorMessage(String msg, Map onCLick = [:]) {
         infoMessage('error', msg, [], onCLick)
     }
 
-    void errorMessage(String msg, List msgArgs, Map onCLick = null) {
+    void errorMessage(String msg, List msgArgs, Map onCLick = [:]) {
         infoMessage('error', msg, msgArgs, onCLick)
     }
 
-    void infoMessage(String type, String msg, List msgArgs = [], Map onClick = null) {
+    void infoMessage(String type, String msg, List msgArgs = [], Map onClick = [:]) {
         String infoMessage = hasRequest()
                 ? message(msg, msgArgs as Object[])
                 : msg
@@ -205,11 +205,11 @@ class Transition implements WebRequestAware {
     }
 
     void confirmMessage(String msg, Map onClick) {
-        optionsMessage(msg, [], null, onClick)
+        optionsMessage(msg, [], [:], onClick)
     }
 
     void confirmMessage(String msg, List msgArgs, Map onClick) {
-        optionsMessage(msg, msgArgs, null, onClick)
+        optionsMessage(msg, msgArgs, [:], onClick)
     }
 
     void optionsMessage(String msg, Map onOption1Click, Map onOption2Click) {
