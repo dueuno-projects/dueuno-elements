@@ -86,10 +86,10 @@ class PageService implements ServletContextAware, WebRequestAware {
         args.primaryTextColor = tenantPropertyService.getString('PRIMARY_TEXT_COLOR')
         args.primaryBackgroundColor = tenantPropertyService.getString('PRIMARY_BACKGROUND_COLOR')
         args.primaryBackgroundColorAlpha = (Double) tenantPropertyService.getNumber('PRIMARY_BACKGROUND_COLOR_ALPHA')
-        args.secondaryTextColor = tenantPropertyService.getString('SECONDARY_TEXT_COLOR')
-        args.secondaryBackgroundColor = tenantPropertyService.getString('SECONDARY_BACKGROUND_COLOR')
         args.tertiaryTextColor = tenantPropertyService.getString('TERTIARY_TEXT_COLOR')
         args.tertiaryBackgroundColor = tenantPropertyService.getString('TERTIARY_BACKGROUND_COLOR')
+        args.secondaryTextColor = tenantPropertyService.getString('SECONDARY_TEXT_COLOR')
+        args.secondaryBackgroundColor = tenantPropertyService.getString('SECONDARY_BACKGROUND_COLOR')
 
         return args
     }

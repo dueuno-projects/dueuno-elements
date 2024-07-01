@@ -103,7 +103,7 @@ class SystemPropertyController implements ElementsController {
                 String description = messageOrBlank(descriptionCode)
                 row.cells['description'].html = description ?: descriptionCode
                 if (!description) {
-                    row.cells['description'].textColor = secondaryBackgroundColor
+                    row.cells['description'].textColor = tertiaryBackgroundColor
                 }
 
 //                if (values.type == PropertyType.BOOL) {

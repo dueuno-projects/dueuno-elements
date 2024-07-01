@@ -7,7 +7,7 @@
 </head>
 
 <body class="${c.isProduction() ? 'prod' : ''}"
-      style="background-color: ${c.secondaryBackgroundColor}"
+      style="background-color: ${c.tertiaryBackgroundColor}"
       data-21-page="${c.getClassName()}"
       data-21-id="${c.getId()}">
 

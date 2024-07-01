@@ -92,15 +92,15 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
     List<Integer> primaryBackgroundColorInt
     Double primaryBackgroundColorAlpha
 
-    String secondaryTextColor
-    List<Integer> secondaryTextColorInt
-    String secondaryBackgroundColor
-    List<Integer> secondaryBackgroundColorInt
-
     String tertiaryTextColor
     List<Integer> tertiaryTextColorInt
     String tertiaryBackgroundColor
     List<Integer> tertiaryBackgroundColorInt
+
+    String secondaryTextColor
+    List<Integer> secondaryTextColorInt
+    String secondaryBackgroundColor
+    List<Integer> secondaryBackgroundColorInt
 
     /** Custom CSS */
     String cssClass
@@ -138,15 +138,15 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
         primaryBackgroundColorInt = Color.hexToIntColor(primaryBackgroundColor) ?: warnColorError(primaryBackgroundColor)
         primaryBackgroundColorAlpha = (Double) (args.primaryBackgroundColorAlpha == null ? 0.15d : args.primaryBackgroundColorAlpha)
 
-        secondaryTextColor = args.secondaryTextColor ?: '#333333'
-        secondaryTextColorInt = Color.hexToIntColor(secondaryTextColor) ?: warnColorError(secondaryTextColor)
-        secondaryBackgroundColor = args.secondaryBackgroundColor ?: '#f0ebeb'
-        secondaryBackgroundColorInt = Color.hexToIntColor(secondaryBackgroundColor) ?: warnColorError(secondaryBackgroundColor)
-
-        tertiaryTextColor = args.tertiaryTextColor ?: '#ffffff'
+        tertiaryTextColor = args.tertiaryTextColor ?: '#333333'
         tertiaryTextColorInt = Color.hexToIntColor(tertiaryTextColor) ?: warnColorError(tertiaryTextColor)
-        tertiaryBackgroundColor = args.tertiaryBackgroundColor ?: '#6b5a5a'
+        tertiaryBackgroundColor = args.tertiaryBackgroundColor ?: '#f0ebeb'
         tertiaryBackgroundColorInt = Color.hexToIntColor(tertiaryBackgroundColor) ?: warnColorError(tertiaryBackgroundColor)
+
+        secondaryTextColor = args.secondaryTextColor ?: '#ffffff'
+        secondaryTextColorInt = Color.hexToIntColor(secondaryTextColor) ?: warnColorError(secondaryTextColor)
+        secondaryBackgroundColor = args.secondaryBackgroundColor ?: '#6b5a5a'
+        secondaryBackgroundColorInt = Color.hexToIntColor(secondaryBackgroundColor) ?: warnColorError(secondaryBackgroundColor)
 
         cssClass = args.cssClass ?: ''
         cssStyle = args.cssStyle ?: ''
@@ -338,10 +338,10 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
         args.primaryTextColor = this.primaryTextColor
         args.primaryBackgroundColor = this.primaryBackgroundColor
         args.primaryBackgroundColorAlpha = this.primaryBackgroundColorAlpha
-        args.secondaryTextColor = this.secondaryTextColor
-        args.secondaryBackgroundColor = this.secondaryBackgroundColor
         args.tertiaryTextColor = this.tertiaryTextColor
         args.tertiaryBackgroundColor = this.tertiaryBackgroundColor
+        args.secondaryTextColor = this.secondaryTextColor
+        args.secondaryBackgroundColor = this.secondaryBackgroundColor
     }
 
     /**
