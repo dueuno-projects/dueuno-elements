@@ -40,7 +40,7 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
 
     @CompileDynamic
     Boolean getDisplay() {
-        render transition([:])
+        render transition()
         return true
     }
 
@@ -110,7 +110,7 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
         getPageService().download(pathname, inline)
     }
 
-    private Map transition(Map args) {
+    private Map transition(Map args = [:]) {
         Transition t = args.transition as Transition ?: createTransition()
 
         if (args.content) {
@@ -120,33 +120,19 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
 
         } else if (args.message) {
             String message = args.message as String
-
-            if (args.controller || args.action) {
-                t.call('modal', 'close')
-                t.infoMessage(message, args)
-            } else {
-                t.infoMessage(message)
-            }
+            t.call('modal', 'close')
+            t.infoMessage(message, args)
 
         } else if (args.exception) {
             Exception e = args.exception as Exception
             log.error LogUtils.logStackTrace(e)
-            args.remove('exception')
-
-            if (args.controller || args.action) {
-                t.errorMessage(e.message, args)
-            } else {
-                t.errorMessage(e.message)
-            }
+            t.call('modal', 'close')
+            t.errorMessage(e.message, args)
 
         } else if (args.errorMessage) {
             String message = args.errorMessage as String
-
-            if (args.controller || args.action) {
-                t.errorMessage(message, args)
-            } else {
-                t.errorMessage(message)
-            }
+            t.call('modal', 'close')
+            t.errorMessage(message, args)
 
         } else if (args.errors) {
             Integer submittedComponentCount = requestParams._21SubmittedCount as Integer

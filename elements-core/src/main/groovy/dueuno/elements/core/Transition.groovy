@@ -58,6 +58,10 @@ class Transition implements WebRequestAware {
     }
 
     void initializeWithRequestData(Map componentEventData) {
+        if (!componentEventData) {
+            return
+        }
+
         if (!hasRequest() && !componentEventData.controller) {
             throw new ElementsException("The transition is outside a web request, a controller name must be specified (Eg. 't.redirect(controller: 'myController')')")
         }
@@ -193,14 +197,14 @@ class Transition implements WebRequestAware {
                 ? message(msg, msgArgs as Object[])
                 : msg
 
-        if (onClick) {
+        Map args = [:]
+        args.infoMessage = infoMessage
+
+        if (onClick.controller || onClick.action || onClick.url) {
             initializeWithRequestData(onClick)
+            args.click = new ComponentEvent(onClick).asMap()
         }
 
-        Map args = [
-                infoMessage: infoMessage,
-                click      : new ComponentEvent(onClick).asMap(),
-        ]
         call('messagebox', type, args)
     }
 
@@ -221,14 +225,19 @@ class Transition implements WebRequestAware {
                 ? message(msg, msgArgs as Object[])
                 : msg
 
-        if (onOption1Click) initializeWithRequestData(onOption1Click)
-        if (onOption2Click) initializeWithRequestData(onOption2Click)
+        Map args = [:]
+        args.confirmMessage = confirmMessage
 
-        Map args = [
-                confirmMessage: confirmMessage,
-                option1Click  : new ComponentEvent(onOption1Click).asMap(),
-                option2Click  : new ComponentEvent(onOption2Click).asMap(),
-        ]
+        if (onOption1Click.controller || onOption1Click.action || onOption1Click.url) {
+            initializeWithRequestData(onOption1Click)
+            args.option1Click = new ComponentEvent(onOption1Click).asMap()
+        }
+
+        if (onOption2Click.controller || onOption2Click.action || onOption2Click.url) {
+            initializeWithRequestData(onOption2Click)
+            args.option2Click = new ComponentEvent(onOption2Click).asMap()
+        }
+
         call('messagebox', 'confirm', args)
     }
 
