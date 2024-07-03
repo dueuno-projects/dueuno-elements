@@ -80,7 +80,9 @@ class TransitionCommand {
         Page.reinitializeContent($content);
     }
 
-    static call($element, component, property, value) {
+    static async call($element, component, property, value) {
+        await sleep(100); // We give time for the animations to start
+
         if (Elements.hasMethod(component, property)) {
             Elements.callMethod($element, component, property, value);
         } else {

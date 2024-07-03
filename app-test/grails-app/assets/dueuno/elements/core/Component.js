@@ -126,8 +126,6 @@ class Component {
     }
 
     static setReadonly($element, value) {
-        $element.prop('readonly', value);
-
         if (value == null || value == false) {
             $element.removeAttr('readonly');
 

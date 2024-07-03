@@ -32,12 +32,6 @@ class Elements {
         return $root.find('[data-21-id="' + id + '"]');
     }
 
-    static getByClassName(className) {
-        return Control.getByClassName($element)
-            ?? Component.getByClassName($element)
-            ?? Page.get();
-    }
-
     static getByElement($element) {
         return Control.getByElement($element)
             ?? Component.getByElement($element)
