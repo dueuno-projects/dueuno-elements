@@ -86,14 +86,14 @@ class TransitionCommand {
         if (Elements.hasMethod(component, property)) {
             Elements.callMethod($element, component, property, value);
         } else {
-            log.error('Method "' + component?.name + '.' + property + '()" does not exist');
+            Log.error('Method "' + component?.name + '.' + property + '()" does not exist');
         }
     }
 
     static set($element, component, property, value, trigger) {
         let methodName = 'set' + capitalize(property);
         if (!Elements.hasMethod(component, methodName)) {
-            log.error('Method "' + component?.name + '.' + methodName + '()" does not exist');
+            Log.error('Method "' + component?.name + '.' + methodName + '()" does not exist');
             return;
         }
 

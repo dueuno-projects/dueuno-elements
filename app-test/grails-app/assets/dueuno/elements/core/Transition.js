@@ -18,7 +18,7 @@ class Transition {
         let url = _21_.app.url + "transition/channels";
         let response = await fetch(url);
         if (!response.ok) {
-            log.error(response.status);
+            Log.error(response.status);
             return;
         }
 
@@ -29,21 +29,21 @@ class Transition {
     }
 
     static wsOnError(frame) {
-        log.debug(frame);
+        Log.debug(frame);
     }
 
     static wsSubscribe(wsClient, channel) {
         wsClient.subscribe(channel, Transition.executeFromWebsocket);
-        log.debug('Subscribed to ' + channel);
+        Log.debug('Subscribed to ' + channel);
     }
 
     static executeFromWebsocket(message) {
         let transition = JSON.parse(message.body);
 
-        log.debug('WEB SOCKET > TRANSITION >>>');
-        log.debug(transition.commands);
-        log.debug('<<<');
-        log.debug('');
+        Log.debug('WEB SOCKET > TRANSITION >>>');
+        Log.debug(transition.commands);
+        Log.debug('<<<');
+        Log.debug('');
 
         for (let command of transition.commands) {
             Transition.executeCommand(command, null);
@@ -51,10 +51,10 @@ class Transition {
     }
 
     static execute(commands, componentEvent) {
-        log.debug('TRANSITION >>>');
-        log.debug(commands);
-        log.debug('<<<');
-        log.debug('');
+        Log.debug('TRANSITION >>>');
+        Log.debug(commands);
+        Log.debug('<<<');
+        Log.debug('');
 
         for (let command of commands) {
             Transition.executeCommand(command, componentEvent);
@@ -70,7 +70,7 @@ class Transition {
         let valueMap = command.value;
         let trigger = command.trigger;
 
-        log.trace('EXECUTING: ' + method + ' ' + componentId + '.' + property + ' = ' + JSON.stringify(valueMap));
+        Log.trace('EXECUTING: ' + method + ' ' + componentId + '.' + property + ' = ' + JSON.stringify(valueMap));
 
         switch (method) {
             case TransitionCommand.REDIRECT:
@@ -102,8 +102,8 @@ class Transition {
                 break;
 
             default:
-                log.error('Bad transition command "' + command.method + '"');
-                log.error(JSON.stringify(command));
+                Log.error('Bad transition command "' + command.method + '"');
+                Log.error(JSON.stringify(command));
         }
     }
 
@@ -157,7 +157,7 @@ class Transition {
 
         $component = $root.find(path);
         if (!$component.exists()) {
-            log.error('Cannot find component "' + componentName + '"');
+            Log.error('Cannot find component "' + componentName + '"');
             return $(null);
 
         } else {
@@ -267,11 +267,11 @@ class Transition {
     }
 
     static call(url, values, componentEvent) {
-        log.debug('');
-        log.debug('CALL >>>');
-        log.debug('URL: ' + url);
-        log.debug('PARAMS: ' + JSON.stringify(values));
-        log.debug('<<<');
+        Log.debug('');
+        Log.debug('CALL >>>');
+        Log.debug('URL: ' + url);
+        Log.debug('PARAMS: ' + JSON.stringify(values));
+        Log.debug('<<<');
 
         Transition.fetchCall(url, values, componentEvent);
     }
@@ -348,10 +348,10 @@ class Transition {
     static fromHtml(html, componentEvent = null) {
         let transition = $(html).find('[data-21-transition]').data('21-transition');
 
-        log.debug('HTML > TRANSITION >>>');
-        log.debug(transition.commands);
-        log.debug('<<<');
-        log.debug('');
+        Log.debug('HTML > TRANSITION >>>');
+        Log.debug(transition.commands);
+        Log.debug('<<<');
+        Log.debug('');
 
         return transition;
     }

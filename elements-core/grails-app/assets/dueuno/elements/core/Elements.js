@@ -15,7 +15,7 @@ class Elements {
     static main() {
         let os = getOS();
         Elements_onMobile = (os == 'iOS' || os == 'Android');
-        log.debug('Running on: ' + os);
+        Log.debug('Running on: ' + os);
         Page.render();
     }
 
@@ -46,7 +46,7 @@ class Elements {
 
     static hasMethod(clazz, methodName) {
         if (!clazz || !methodName) {
-//            log.error('Elements.hasMethod(' + [...arguments] + '), class or method not specified');
+//            Log.error('Elements.hasMethod(' + [...arguments] + '), class or method not specified');
             return false;
         }
 
@@ -60,7 +60,7 @@ class Elements {
         }
 
         args.unshift($element);
-        log.trace('CALLING "' + clazz.name + '.' + methodName + '(' + Elements.displayArgs(args) + ')"');
+        Log.trace('CALLING "' + clazz.name + '.' + methodName + '(' + Elements.displayArgs(args) + ')"');
         return clazz[methodName].apply(clazz, args);
 
     }
