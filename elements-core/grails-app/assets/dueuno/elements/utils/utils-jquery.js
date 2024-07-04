@@ -1,20 +1,3 @@
-$.ajaxSetup({
-    cache: false
-});
-
-$.getQueryParameters = function(s) {
-    s = s || document.location.search;
-    s = s.replace(/(^\?)/,'');
-    s = s.split("?");
-    s = s[s.length - 1];
-    return s.split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
-};
-
-$.getUriString = function(s) {
-    s = s || document.location.search;
-    return s.split("?")[0];
-};
-
 $.fn.exists = function () {
     return this.length !== 0;
 }

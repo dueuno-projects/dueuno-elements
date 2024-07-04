@@ -10,17 +10,22 @@ class Transition {
         wsClient.activate();
     }
 
-    static wsOnConnect(frame) {
+    static async wsOnConnect(frame) {
         let wsClient = this;
         let username = frame.headers['user-name'];
         Transition.wsSubscribe(wsClient, "/queue/username/" + username);
 
-        $.ajax({url: _21_.app.url + "transition/channels"})
-        .done(function(channels) {
-            for (let channel of channels) {
-                Transition.wsSubscribe(wsClient, "/queue/channel/" + channel);
-            }
-        });
+        let url = _21_.app.url + "transition/channels";
+        let response = await fetch(url);
+        if (!response.ok) {
+            log.error(response.status);
+            return;
+        }
+
+        let channels = await response.json();
+        for (let channel of channels) {
+            Transition.wsSubscribe(wsClient, "/queue/channel/" + channel);
+        }
     }
 
     static wsOnError(frame) {
@@ -167,7 +172,7 @@ class Transition {
         }
     }
 
-    static submit(componentEvent, async = true) {
+    static async submit(componentEvent, async = true) {
         let url = Transition.buildUrl(componentEvent);
         if (!url) {
             return;
@@ -185,7 +190,12 @@ class Transition {
         }
 
         let values = Transition.build21Params(componentEvent);
-        Transition.call(url, values, componentEvent, async);
+
+        if (async) {
+            Transition.call(url, values, componentEvent);
+        } else {
+            await Transition.call(url, values, componentEvent);
+        }
     }
 
     static buildUrl(componentEvent, values = null) {
@@ -256,71 +266,83 @@ class Transition {
         return {_21Params: JSON.stringify(_21Params)};
     }
 
-    static call(url, values, componentEvent, async) {
+    static call(url, values, componentEvent) {
         log.debug('');
         log.debug('CALL >>>');
         log.debug('URL: ' + url);
         log.debug('PARAMS: ' + JSON.stringify(values));
         log.debug('<<<');
 
-        Transition.ajaxCall(url, values, componentEvent, async);
+        Transition.fetchCall(url, values, componentEvent);
     }
 
-    static ajaxCall(url, values, componentEvent, async, callback = null) {
-        let call = {
-            type: 'POST',
-            url: url,
-            data: values,
-            async: async,
-        }
-
-        $.ajax(call)
-            .done(function (data, textStatus, xhr) {
-                let isTransition = $(data).data('21-component') == 'Transition';
-                if (isTransition) {
-                    let transition = Transition.fromHtml(data);
-                    Transition.execute(transition.commands, componentEvent);
-
-                } else {
-                    let $dataContent = $(data).find('[data-21-component="PageContent"]');
-
-                    if ($dataContent.exists()) { // It's a full page
-                        PageMessageBox.hide();
-                        PageModal.close();
-
-                        let $pageContent = $('[data-21-component="PageContent"]');
-                        TransitionCommand.replace($pageContent, $dataContent);
-
-                    } else if (typeof callback == 'function') {
-                        callback(data);
-                    }
-                }
-            })
-            .fail(function (xhr, textStatus, errorThrown) {
-                if (xhr.readyState === 0) {
-                    PageMessageBox.error(null, {infoMessage: 'Unable to connect to server.'});
-                    return;
-                }
-
-                switch (xhr.status) {
-                    case 401: // Unauthorized
-                        window.location.replace(_21_.app.url + 'logout');
-                        return;
-
-                    case 403: // Access denied
-                        PageMessageBox.error(null, {infoMessage: JSON.parse(xhr.responseText).error});
-                        return;
-
-                    case 404: // Not Found
-                    case 500: // Server Error
-                        let $content = $(xhr.responseText);
-                        TransitionCommand.renderContent($content, componentEvent);
-                        return;
-
-                    default:
-                        PageMessageBox.error(null, {infoMessage: 'Cannot execute call: ' + xhr.status});
-                }
+    static async fetchCall(url, values, componentEvent, callback = null) {
+        try {
+            let response = await fetch(url, {
+                method: 'POST',
+                body: new URLSearchParams(values),
             });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+
+            } else if (response.ok) {
+                Transition.fetchStatus200(response, componentEvent);
+
+            } else {
+                Transition.fetchStatusNot200(response, componentEvent);
+            }
+
+        } catch (error) {
+            Transition.fetchError(error);
+        }
+    }
+
+    static async fetchStatus200(response, componentEvent) {
+        let body = await response.text();
+        let isTransition = $(body).data('21-component') == 'Transition';
+
+        if (isTransition) {
+            let transition = Transition.fromHtml(body);
+            Transition.execute(transition.commands, componentEvent);
+
+        } else {
+            let $responseContent = $(body).find('[data-21-component="PageContent"]');
+
+            if ($responseContent.exists()) { // It's a full page
+                PageMessageBox.hide();
+                PageModal.close();
+
+                let $pageContent = $('[data-21-component="PageContent"]');
+                TransitionCommand.replace($pageContent, $responseContent);
+
+            } else if (typeof callback == 'function') {
+                callback(body);
+            }
+        }
+    }
+
+    static async fetchStatusNot200(response, componentEvent) {
+        let body = await response.text();
+
+        switch (response.status) {
+            case 401: // Unauthorized
+                window.location.replace(_21_.app.url + 'logout');
+                return;
+
+            case 404: // Not Found
+            case 500: // Server Error
+                let $content = $(body);
+                TransitionCommand.renderContent($content, componentEvent);
+                return;
+
+            default:
+                PageMessageBox.error(null, {infoMessage: 'Server error: ' + response.status});
+        }
+    }
+
+    static fetchError(error) {
+        PageMessageBox.error(null, {infoMessage: 'Connection error: ' + error.message});
     }
 
     static fromHtml(html, componentEvent = null) {

@@ -12,10 +12,6 @@ function getOS() {
   for (i = 0; i < os.length; i++) if (new RegExp(os[i],'i').test(uA)) return os[i];
 }
 
-function isUndefined(value) {
-    return typeof value === 'undefined';
-}
-
 function capitalize(val) {
     return val.charAt(0).toUpperCase() + val.slice(1);
 }

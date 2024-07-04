@@ -12,7 +12,7 @@ class Login extends Page {
         }
     }
 
-    static onClick(event) {
+    static async onClick(event) {
         event.preventDefault();
 
         let $username = $('[data-21-id="username"]');
@@ -28,46 +28,40 @@ class Login extends Page {
         let password = $password.val();
         let rememberMe = $rememberMe.is(':checked');
 
-        let call = {
-            type: 'POST',
-            url: _21_.app.url + 'authentication/authenticate',
-            data: {
-                username: username,
-                password: password,
-                'remember-me': rememberMe,
-            }
-        }
+        try {
+            let url = _21_.app.url + 'authentication/authenticate';
+            let response = await fetch(url, {
+                method: 'POST',
+                body: new URLSearchParams({
+                    username: username,
+                    password: password,
+                    'remember-me': rememberMe,
+                }),
+            });
 
-        $.ajax(call)
-            .done(function (data, textStatus, request) {
-                if (data.success) {
-                    let params = $.getQueryParameters();
-                    // let params = new Map();
-                    let url = _21_.app.url.substr(0, _21_.app.url.length - 1);
-                    if (params.landingPage) url = url + params.landingPage;
-                    else if (data.redirect) url = url + data.redirect;
-                    else url = url + '/';
-                    window.location.replace(url);
-                }
+            if (response.ok) {
+                let url = new URL(response.url);
+                let loginError = url.searchParams.get('login_error');
 
-                if (data.error) {
+                if (loginError) {
                     $loginWheel.addClass('d-none');
                     $loginError.removeClass('d-none');
                     $username.val('').focus();
                     $password.val('');
+
+                } else {
+                    window.location.replace(url);
                 }
 
-                if (data.customError) {
-                    $loginWheel.addClass('d-none');
-                    PageMessageBox.info(null, data.customError);
-                    $username.val('').focus();
-                    $password.val('');
-                }
-            })
-            .fail(function (request, textStatus, errorThrown) {
-                PageMessageBox.error(null, {infoMessage: 'Error, please retry'});
-            });
+            } else {
+                PageMessageBox.error(null, {infoMessage: 'Login error: ' + response.status});
+            }
+
+        } catch (error) {
+            Transition.fetchError(error);
+        }
     }
+
 }
 
 Page.register(Login);
