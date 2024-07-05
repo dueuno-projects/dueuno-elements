@@ -2,8 +2,8 @@
     <div id="shell-menu"
         class="shell-menu offcanvas-xxl offcanvas-start ${c.animations ? '' : 'no-slide'} text-light z-3"
         tabindex="-1"
-        data-21-component="${c.getClassName()}"
-        data-21-id="${c.getId()}"
+        data-21-component="${c.className}"
+        data-21-id="${c.id}"
         data-21-properties="${c.propertiesAsJSON}"
         data-21-events="${c.eventsAsJSON}"
     >

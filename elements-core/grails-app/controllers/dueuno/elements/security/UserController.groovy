@@ -211,7 +211,7 @@ class UserController implements ElementsController {
 
         buildPreferencesForm(c)
 
-        c.form.language.defaultValue = systemPropertyService.getString('MAIN_LANGUAGE')
+        c.form['language'].defaultValue = systemPropertyService.getString('MAIN_LANGUAGE')
 
         return c
     }
@@ -364,7 +364,7 @@ class UserController implements ElementsController {
             c.header.nextButton.setDefaultAction(action: 'onCreateAndClose')
         }
 
-        c.form.enabled.value = true
+        c.form['enabled'].value = true
 
         def mustRefresh = c in ContentCreate && controllerSession.createAndNew
         display content: c, modal: true, closeButton: !mustRefresh
@@ -411,18 +411,18 @@ class UserController implements ElementsController {
         def user = TUser.findByUsername(params.username)
         def c = buildForm(user)
 
-        c.form.username.readonly = true
-        c.form.usernameField.helpMessage = 'user.edit.username.help'
+        c.form['username'].readonly = true
+        c.form['usernameField'].helpMessage = 'user.edit.username.help'
 
         c.form.values = user
-        c.form.password.value = null
+        c.form['password'].value = null
 
-        c.form.admin.value = (user.authorities.find { it.name == SecurityService.GROUP_ADMINS } != null)
-        c.form.admin.readonly = !user.deletable
+        c.form['admin'].value = (user.authorities.find { it.name == SecurityService.GROUP_ADMINS } != null)
+        c.form['admin'].readonly = !user.deletable
 //        c.form.readonly = !user.deletable
-        c.form.enabled.readonly = !user.deletable
+        c.form['enabled'].readonly = !user.deletable
 
-        c.form.groups.value = user.authorities.collect { it.id }
+        c.form['groups'].value = user.authorities.collect { it.id }
 
         display content: c, modal: true
     }

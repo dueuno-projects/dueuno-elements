@@ -201,7 +201,7 @@ class ProfileController implements ElementsController {
         }
 
         if (devDisplayHints) {
-            c.form.authorities.value = securityService.getCurrentUserAuthorities().join(',\n') + '.'
+            c.form['authorities'].value = securityService.getCurrentUserAuthorities().join(',\n') + '.'
         }
 
         display content: c, modal: true

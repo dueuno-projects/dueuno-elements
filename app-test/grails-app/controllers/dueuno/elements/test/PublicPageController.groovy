@@ -171,8 +171,8 @@ class PublicPageController implements ElementsController {
 
     def create() {
         def c = buildForm(create: true)
-        c.form.id.readonly = true
-        c.form.id.value = 'Test Name'
+        c.form['id'].readonly = true
+        c.form['id'].value = 'Test Name'
 
         display content: c, modal: true, wide: true
     }

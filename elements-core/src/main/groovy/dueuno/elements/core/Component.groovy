@@ -570,34 +570,19 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
      *
      * @return The instance of the specified component or control
      */
-    Object getAt(String name) {
+    Component getAt(String name) {
         Component component = getComponent(name)
-        Control control = getControl(name)
         if (component) {
             return component
+        }
 
-        } else if (control) {
+        Control control = getControl(name)
+        if (control) {
             return control
 
-        } else {
-            return null
         }
-    }
 
-    /**
-     * Returns a component or a control identified by the specified name. This enables the dotted path notation to
-     * access sub-components and controls in a component
-     *
-     * @param name The name of the component or control to access
-     *
-     * @return The instance of the specified component or control
-     */
-    Object getProperty(String name) {
-        Object result = getAt(name)
-        if (!result)
-            result = getMetaClass().getProperty(this, name)
-
-        return result
+        return null
     }
 
     /**

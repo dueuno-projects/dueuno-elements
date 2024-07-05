@@ -6,8 +6,8 @@
     <asset:stylesheet src="elements/pages/PageBlank.css" />
     <page:colors component="${c}"/>
 
-<body data-21-page="${c.getClassName()}"
-      data-21-id="${c.getId()}"
+<body data-21-page="${c.className}"
+      data-21-id="${c.id}"
 >
 
 <div id="page-content">

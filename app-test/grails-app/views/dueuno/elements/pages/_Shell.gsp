@@ -8,8 +8,8 @@
 
 <body class="${c.isProduction() ? 'prod' : ''}"
       style="background-color: ${c.tertiaryBackgroundColor}"
-      data-21-page="${c.getClassName()}"
-      data-21-id="${c.getId()}">
+      data-21-page="${c.className}"
+      data-21-id="${c.id}">
 
 <div id="page-shell" class="m-0 p-0">
 

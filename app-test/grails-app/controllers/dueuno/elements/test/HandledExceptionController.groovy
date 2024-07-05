@@ -45,7 +45,7 @@ class HandledExceptionController implements ElementsController {
 
             addField(
                     class: TextField,
-                    id: 'find',
+                    id: 'text',
                     label: TextDefault.FIND,
                     placeholder: "Don't write",
                     cols: 8,

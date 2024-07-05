@@ -109,7 +109,7 @@ class TransitionsController implements ElementsController {
                     params: [id: 10],
                     cols: 12,
             )
-//            user1.on(event: 'change', submit: 'form', params: [test: [a:1, b:2]], action: 'onSelectChange')
+//            .on(event: 'change', submit: 'form', params: [test: [a:1, b:2]], action: 'onSelectChange')
 
             addField(
                     class: Select,
@@ -117,8 +117,7 @@ class TransitionsController implements ElementsController {
                     readonly: true,
 //                    onChange: 'onSelect2Change',
                     cols: 12,
-            )
-            select2.on(event: 'change', submit: 'form', action: 'onSelect2Change')
+            ).on(event: 'change', submit: 'form', action: 'onSelect2Change')
 
             addField(
                     class: Select,
@@ -187,14 +186,14 @@ class TransitionsController implements ElementsController {
             )
         }
 
-        c.form.select2.value = 'user3'
-        c.form.textfield.value = 'My text'
-        c.form.moneyfield.value = new Money(33)
-        c.form.numberfield.value = 55.2
-        c.form.quantityfield.value = new Quantity(12, QuantityUnit.KM)
-//        c.form.datefield.value = LocalDate.now()
-//        c.form.timefield.value = LocalTime.now()
-        c.form.multiple.value = ['admin', 'user']
+        c.form['select2'].value = 'user3'
+        c.form['textfield'].value = 'My text'
+        c.form['moneyfield'].value = new Money(33)
+        c.form['numberfield'].value = 55.2
+        c.form['quantityfield'].value = new Quantity(12, QuantityUnit.KM)
+//        c.form['datefield'].value = LocalDate.now()
+//        c.form['timefield'].value = LocalTime.now()
+        c.form['multiple'].value = ['admin', 'user']
 
         // RENDERING
         //

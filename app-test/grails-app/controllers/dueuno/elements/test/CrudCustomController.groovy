@@ -210,7 +210,7 @@ class CrudCustomController implements ElementsController {
         //
         def query = TPerson.where {} // def user1 = user1 }
 
-        def filters = c.table.filterParams
+        def filters = table.filterParams
         //if (filters.user1) query = query.where {user1.username == filters.user1}
         if (filters.dateFrom) query = query.where { dateCreated >= filters.dateFrom.atTime(0, 0) }
         if (filters.dateTo) query = query.where { dateCreated <= filters.dateTo.atTime(23, 59) }
@@ -284,8 +284,8 @@ class CrudCustomController implements ElementsController {
 
     def create() {
         def c = buildForm(create: true)
-        c.form.name.readonly = true
-        c.form.name.value = 'Test Name'
+        c.form['name'].readonly = true
+        c.form['name'].value = 'Test Name'
 
         display content: c, modal: true, wide: true
     }

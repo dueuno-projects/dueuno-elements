@@ -104,9 +104,9 @@ class Form extends Component {
         if (!args.primaryTextColor) args.primaryTextColor = primaryTextColor
         if (!args.primaryBackgroundColor) args.primaryBackgroundColor = primaryBackgroundColor
 
-        args.cssClass = null
-        args.cssStyle = null
-        args.events = null
+        args.remove('cssClass')
+        args.remove('cssStyle')
+        args.remove('events')
         args.component = component
         args.putAll(component.containerSpecs)
 
@@ -153,16 +153,16 @@ class Form extends Component {
         }
     }
 
-    void addKeyField(String name, Number value = null) {
-        addKeyField(name, 'NUMBER', value)
+    void addKeyField(String id, Number value = null) {
+        addKeyField(id, 'NUMBER', value)
     }
 
-    void addKeyField(String name, String valueType, Object value = null) {
+    void addKeyField(String id, String valueType, Object value = null) {
         if (valueType == 'TEXT' && value in Enum) value = value.toString()
 
         FormField field = addField(
                 class: HiddenField,
-                id: name,
+                id: id,
                 valueType: valueType,
                 value: value,
         )

@@ -81,7 +81,7 @@ class SysinfoController implements ElementsController {
                 coreVersion       : systemInfoService.info.coreVersion,
         ]
 
-        c.form.systemData.text = systemData
+        c.form['systemData'].text = systemData
 
         // RENDERING
         //

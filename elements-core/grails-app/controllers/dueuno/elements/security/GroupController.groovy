@@ -205,7 +205,7 @@ class GroupController implements ElementsController {
         }
 
         c.form.values = obj
-        c.form.authorities.value = obj.authorities.collect { it.authority }
+        c.form['authorities'].value = obj.authorities.collect { it.authority }
         display content: c, modal: true
     }
 

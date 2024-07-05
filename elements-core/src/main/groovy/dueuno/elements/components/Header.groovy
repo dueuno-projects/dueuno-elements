@@ -85,7 +85,7 @@ class Header extends Component {
         if (!args.controller && !args.action && hasReturnPoint()) {
             args.controller = args.controller ?: returnPointController ?: controllerName
             args.action = args.action ?: returnPointAction ?: 'index'
-            args.params = (args.params as Map ?: [:]) + returnPointParams
+            args.params = (args.params in Map ? args.params as Map : [:]) + returnPointParams
 
         } else {
             args.controller = args.controller ?: controllerName

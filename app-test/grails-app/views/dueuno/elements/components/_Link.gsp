@@ -1,7 +1,7 @@
 <a class="component-link ${c.textAlign} ${c.textWrap} ${c.monospace ? 'font-monospace' : ''} ${c.border ? 'border' : ''} ${c.cssClass}"
    style="${c.cssStyleColors}${c.cssStyle}"
    data-21-component="${c.className}"
-   data-21-id="${c.getId()}"
+   data-21-id="${c.id}"
    data-21-properties="${c.propertiesAsJSON}"
    data-21-events="${c.eventsAsJSON}"
    ${raw(dev.ifDevelopment() { ' href="' + c.devUrl + '"'}) }

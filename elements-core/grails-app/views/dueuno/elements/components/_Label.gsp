@@ -1,7 +1,7 @@
 <span class="component-label w-100 ${c.textAlign} ${c.textWrap} ${c.monospace ? 'font-monospace' : ''} ${c.border ? 'border' : ''} ${c.cssClass}"
       style="${c.cssStyleColors}${c.cssStyle}"
-      data-21-component="${c.getClassName()}"
-      data-21-id="${c.getId()}"
+      data-21-component="${c.className}"
+      data-21-id="${c.id}"
       data-21-properties="${c.propertiesAsJSON}"
       data-21-events="${c.eventsAsJSON}"
 ><g:if test="${c.html}">${raw(c.prettyHtml)}</g:if>

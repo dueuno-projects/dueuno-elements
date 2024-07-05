@@ -50,6 +50,7 @@ class WebsocketController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'channel',
+                    defaultValue: 'macchina-1',
             )
             addField(
                     class: Select,
@@ -57,10 +58,12 @@ class WebsocketController implements ElementsController {
                     optionsFromRecordset: securityService.listAllUser(),
                     keys: ['username'],
                     renderMessagePrefix: false,
+                    defaultValue: securityService.currentUser.username,
             )
             addField(
                     class: TextField,
                     id: 'contr',
+                    defaultValue: 'form',
             )
             addField(
                     class: TextField,
@@ -69,6 +72,7 @@ class WebsocketController implements ElementsController {
             addField(
                     class: Checkbox,
                     id: 'moda',
+                    defaultValue: true,
             )
             addField(
                     class: Button,
@@ -77,10 +81,6 @@ class WebsocketController implements ElementsController {
                     submit: 'form',
                     stretch: true,
             )
-            channel.value = 'macchina-1'
-            usr.value = securityService.currentUser.username
-            contr.value = 'form'
-            moda.value = true
         }
 
         display content: c

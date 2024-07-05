@@ -528,10 +528,10 @@ Grails application running at http://localhost:9992/test in environment: develop
 //            )
 //        }
 
-//        form.select1.value = 1
-//        form.transformerSelect.value = 'PZ'
-//        form.transformQta.value = [3, 'M']
-//        form.transformQta.value = new Quantity(3, Unit.M)
+//        form['select1'].value = 1
+//        form['transformerSelect'].value = 'PZ'
+//        form['transformQta'].value = [3, 'M']
+//        form['transformQta'].value = new Quantity(3, Unit.M)
 
         c.addComponent(
                 before: 'formFail',

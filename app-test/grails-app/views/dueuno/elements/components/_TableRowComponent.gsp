@@ -1,7 +1,7 @@
 <tr class="component-table-row ${c.cssClass}"
     style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}${c.cssStyle}"
-    data-21-component="${c.getClassName()}"
-    data-21-id="${c.getId()}"
+    data-21-component="${c.className}"
+    data-21-id="${c.id}"
     data-21-properties="${c.propertiesAsJSON}"
     data-21-events="${c.eventsAsJSON}"
 >
@@ -18,7 +18,7 @@
             <td class="component-table-selection-footer ${c.verticalAlign}"></td>
         </g:elseif>
         <g:else>
-            <td class="component-table-selection ${c.verticalAlign}" data-rowid="${c.getId()}">
+            <td class="component-table-selection ${c.verticalAlign}" data-rowid="${c.id}">
                 <g:if test="${c.hasSelection}">
                     <render:component instance="${c.selection}" />
                     <span class="rowKeys d-none">${raw(c.keysAsJSON)}</span>

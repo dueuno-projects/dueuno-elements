@@ -31,8 +31,8 @@
 
 
 <body class="background-image"
-      data-21-page="${c.getClassName()}"
-      data-21-id="${c.getId()}"
+      data-21-page="${c.className}"
+      data-21-id="${c.id}"
 >
 
 <div id="page-content" class="page-login justify-content-center">
