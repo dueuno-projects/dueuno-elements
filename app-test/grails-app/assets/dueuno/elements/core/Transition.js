@@ -118,23 +118,18 @@ class Transition {
                 if (rootName == target) return $root;
                 break;
 
-            case 'messagebox':
-                $root = PageMessageBox.$self;
-                if (rootName == target) return $root;
-                break;
-
             case 'modal':
                 $root = PageModal.$self;
                 if (rootName == target) return $root;
                 break;
 
-            case 'content':
-                $root = Page.$content;
+            case 'messagebox':
+                $root = PageMessageBox.$self;
                 if (rootName == target) return $root;
                 break;
 
             default:
-                $root = PageModal.isActive ? PageModal.$self : Page.$content;
+                $root = PageModal.isActive ? PageModal.$self : $('body');
         }
 
         // Check for components with dotted name (Eg. 'company.name')
