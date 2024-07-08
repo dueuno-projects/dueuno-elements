@@ -64,7 +64,7 @@ class RenderTagLib implements WebRequestAware {
     }
 
     /**
-     * Renders the sub-components of a component. Use: <render:componentList instance="${c}" />
+     * Renders the components transported by a transition. Use: <render:transitionComponentList instance="${c}" />
      */
     def transitionComponentList = { attrs ->
         List<Component> components = attrs.instance.components
