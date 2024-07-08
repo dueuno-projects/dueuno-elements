@@ -58,11 +58,21 @@ class RenderTagLib implements WebRequestAware {
     def componentList = { attrs ->
         List<Component> components = attrs.instance.components
         for (component in components) {
-            String componentView = '<div>' + render(template: component.getView(), model: component.getModel()) + '</div>'
+            String componentView = render(template: component.getView(), model: component.getModel())
             out << componentView
         }
     }
 
+    /**
+     * Renders the sub-components of a component. Use: <render:componentList instance="${c}" />
+     */
+    def transitionComponentList = { attrs ->
+        List<Component> components = attrs.instance.components
+        for (component in components) {
+            String componentView = '<div>' + render(template: component.getView(), model: component.getModel()) + '</div>'
+            out << componentView
+        }
+    }
 
     /**
      * Renders a message using the PrettyPrinter engine. Attrs -> code, args
