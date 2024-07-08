@@ -50,10 +50,12 @@ class TableFilters extends Form {
 
         // CONTROLS
         //
-        actionbar = createComponent(TableActionbar, [
+        actionbar = createComponent(
+                class: TableActionbar,
+                id: 'tableActionbar',
                 table: table,
                 filters: this,
-        ])
+        )
 
         searchButton = createControl(
                 class: Link,

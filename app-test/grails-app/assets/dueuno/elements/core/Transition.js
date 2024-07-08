@@ -24,48 +24,54 @@ class Transition {
     }
 
     static wsOnError(frame) {
-        Log.debug(frame);
+        log.debug(frame);
     }
 
     static wsSubscribe(wsClient, channel) {
         wsClient.subscribe(channel, Transition.executeFromWebsocket);
-        Log.debug('Subscribed to ' + channel);
+        log.debug('Subscribed to ' + channel);
     }
 
     static executeFromWebsocket(message) {
-        let transition = JSON.parse(message.body);
+        // We cannot send $components in a Web Socket transition since
+        // Components can only exists in the context of a web request
+        let commands = JSON.parse(message.body);
+        let transition = {
+            commands: commands,
+        };
 
-        Log.debug('WEB SOCKET > TRANSITION >>>');
-        Log.debug(transition.commands);
-        Log.debug('<<<');
-        Log.debug('');
+        log.debug('WEB SOCKET > TRANSITION >>>');
+        Transition.log(transition);
+        log.debug('<<<');
+        log.debug('');
 
         for (let command of transition.commands) {
-            Transition.executeCommand(command, null);
+            Transition.executeCommand(transition, command, null);
         }
     }
 
-    static execute(commands, componentEvent) {
-        Log.debug('TRANSITION >>>');
-        Log.debug(commands);
-        Log.debug('<<<');
-        Log.debug('');
+    static execute(transition, componentEvent) {
+        log.debug('TRANSITION >>>');
+        Transition.log(transition);
+        log.debug('<<<');
+        log.debug('');
 
-        for (let command of commands) {
-            Transition.executeCommand(command, componentEvent);
+        for (let command of transition.commands) {
+            Transition.executeCommand(transition, command, componentEvent);
         }
     }
 
-    static executeCommand(command, componentEvent) {
+    static executeCommand(transition, command, componentEvent) {
+        let method = command.method;
         let $element = Transition.getTargetElement(command.component);
         let component = $element.exists() ? Elements.getByElement($element) : null;
         let componentId = $element.exists() ? Component.getId($element) : null;
-        let method = command.method;
         let property = command.property;
         let valueMap = command.value;
         let trigger = command.trigger;
+        let $components = transition.$components;
 
-        Log.trace('EXECUTING: ' + method + ' ' + componentId + '.' + property + ' = ' + JSON.stringify(valueMap));
+        log.trace('EXECUTING: ' + method + ' ' + componentId + '.' + property + ' = ' + JSON.stringify(valueMap));
 
         switch (method) {
             case TransitionCommand.REDIRECT:
@@ -73,15 +79,15 @@ class Transition {
                 break;
 
             case TransitionCommand.CONTENT:
-                TransitionCommand.renderContent($(valueMap.value), componentEvent);
+                TransitionCommand.renderContent($components, componentEvent);
                 break;
 
             case TransitionCommand.REPLACE:
-                TransitionCommand.replace($element, $(valueMap.value));
+                TransitionCommand.replace($element, valueMap.value, $components);
                 break;
 
             case TransitionCommand.APPEND:
-                TransitionCommand.append($element, $(valueMap.value));
+                TransitionCommand.append($element, valueMap.value, $components);
                 break;
 
             case TransitionCommand.CALL:
@@ -97,8 +103,8 @@ class Transition {
                 break;
 
             default:
-                Log.error('Bad transition command "' + command.method + '"');
-                Log.error(JSON.stringify(command));
+                log.error('Bad transition command "' + command.method + '"');
+                log.error(JSON.stringify(command));
         }
     }
 
@@ -147,7 +153,7 @@ class Transition {
 
         $component = $root.find(path);
         if (!$component.exists()) {
-            Log.error('Cannot find component "' + componentName + '"');
+            log.error('Cannot find component "' + componentName + '"');
             return $(null);
 
         } else {
@@ -252,11 +258,11 @@ class Transition {
     }
 
     static call(url, values, componentEvent, async) {
-        Log.debug('');
-        Log.debug('CALL >>>');
-        Log.debug('URL: ' + url);
-        Log.debug('PARAMS: ' + JSON.stringify(values));
-        Log.debug('<<<');
+        log.debug('');
+        log.debug('CALL >>>');
+        log.debug('URL: ' + url);
+        log.debug('PARAMS: ' + JSON.stringify(values));
+        log.debug('<<<');
 
         Transition.ajaxCall(url, values, componentEvent, async);
     }
@@ -271,24 +277,15 @@ class Transition {
 
         $.ajax(call)
             .done(function (data, textStatus, xhr) {
-                let isTransition = $(data).data('21-component') == 'Transition';
+                let $response = $(data);
+                let isTransition = $response.data('21-component') == 'Transition';
+
                 if (isTransition) {
                     let transition = Transition.fromHtml(data);
-                    Transition.execute(transition.commands, componentEvent);
+                    Transition.execute(transition, componentEvent);
 
-                } else {
-                    let $dataContent = $(data).find('[data-21-component="PageContent"]');
-
-                    if ($dataContent.exists()) { // It's a full page
-                        PageMessageBox.hide();
-                        PageModal.close();
-
-                        let $pageContent = $('[data-21-component="PageContent"]');
-                        TransitionCommand.replace($pageContent, $dataContent);
-
-                    } else if (typeof callback == 'function') {
-                        callback(data);
-                    }
+                } else { // It's a full page
+                    TransitionCommand.renderPage($response, componentEvent);
                 }
             })
             .fail(function (xhr, textStatus, errorThrown) {
@@ -319,13 +316,33 @@ class Transition {
     }
 
     static fromHtml(html, componentEvent = null) {
-        let transition = $(html).find('[data-21-transition]').data('21-transition');
+        let $html = $(html);
+        if ($html.data('21-component') != 'Transition') {
+            log.error("BUG: No transition found!");
+            return;
+        }
 
-        Log.debug('HTML > TRANSITION >>>');
-        Log.debug(transition.commands);
-        Log.debug('<<<');
-        Log.debug('');
+        let commands = $html.find('[data-21-commands]').data('21-commands');
+        let $components = $html.find('[data-21-components]');
+        let transition = {
+            commands: commands,
+            $components: $components,
+        }
+
+        log.debug('HTML > TRANSITION >>>');
+        Transition.log(transition);
+        log.debug('<<<');
+        log.debug('');
 
         return transition;
+    }
+
+    static log(transition) {
+        log.debug('Commands >');
+        log.debug(transition.commands);
+        if (transition.$components?.exists()) {
+            log.debug('Components >')
+            log.debug(transition.$components);
+        }
     }
 }

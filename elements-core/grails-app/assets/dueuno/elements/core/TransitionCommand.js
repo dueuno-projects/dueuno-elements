@@ -20,7 +20,26 @@ class TransitionCommand {
         Transition.submit(componentEvent, false);
     }
 
-    static renderContent($content, componentEvent) {
+    static renderPage($newPageContent, componentEvent) {
+        let $newPage = $newPageContent.find('[data-21-component="PageContent"]');
+        if (!$newPage.exists()) {
+            return;
+        }
+
+        PageMessageBox.hide();
+        PageModal.close();
+
+        let $page = $('[data-21-component="PageContent"]');
+        TransitionCommand.render($page, $newPage, componentEvent);
+    }
+
+    static renderContent($components, componentEvent) {
+        let $content = $components.find('#page-content');
+        if (!$content) {
+            log.error("Cannot find 'Content' component in transition.");
+            return;
+        }
+
         let contentRenderProperties = Component.getProperty($content, 'renderProperties');
         componentEvent.renderProperties = TransitionCommand.mergeRenderProperties(componentEvent.renderProperties, contentRenderProperties);
 
@@ -29,19 +48,25 @@ class TransitionCommand {
             PageModal.open($content, componentEvent);
 
         } else {
-            if (PageModal.isActive) PageModal.close();
-
-            let animation = componentEvent.renderProperties['animate'];
-            TransitionCommand.animate(animation, Page.$content, $content)
-
-            Page.$content.replaceWith($content);
-            Page.reinitializeContent($content);
-
-            TransitionCommand.scrollTo($content, componentEvent);
-            if (componentEvent.renderProperties['updateUrl']) {
-                let url = Transition.buildUrl(componentEvent);
-                TransitionCommand.setBrowserUrl(url);
+            if (PageModal.isActive) {
+                PageModal.close();
             }
+
+            TransitionCommand.render(Page.$content, $content, componentEvent);
+        }
+    }
+
+    static render($component, $newComponent, componentEvent) {
+        let animation = componentEvent.renderProperties['animate'];
+        TransitionCommand.animate(animation, $component, $newComponent)
+
+        $component.replaceWith($newComponent);
+        Page.reinitializeContent($newComponent);
+
+        TransitionCommand.scrollTo($newComponent, componentEvent);
+        if (componentEvent.renderProperties['updateUrl']) {
+            let url = Transition.buildUrl(componentEvent);
+            TransitionCommand.setBrowserUrl(url);
         }
     }
 
@@ -70,14 +95,27 @@ class TransitionCommand {
         }
     }
 
-    static replace($element, $content) {
-        $element.replaceWith($content);
-        Page.reinitializeContent($content);
+    static replace($element, newComponentId, $components) {
+        let $component = $components.find('[data-21-id="' + newComponentId + '"]');
+        if (!$component) {
+            log.error("Cannot find component '" + newComponentId + "' in transition components payload.")
+            return;
+        }
+
+        $element.replaceWith($component);
+        Page.reinitializeContent($component);
     }
 
-    static append($element, $content) {
-        $element.parent().append($content);
-        Page.reinitializeContent($content);
+    static append($element, newComponentId, $components) {
+        let $component = $components.find('[data-21-id="' + newComponentId + '"]');
+        if (!$component) {
+            log.error("Cannot find component '" + newComponentId + "' in transition components payload.")
+            return;
+        }
+
+        let $parent = $element.closest('[data-21-component]').parent();
+        $parent.append($component);
+        Page.reinitializeContent($component);
     }
 
     static async call($element, component, property, value) {
@@ -86,14 +124,14 @@ class TransitionCommand {
         if (Elements.hasMethod(component, property)) {
             Elements.callMethod($element, component, property, value);
         } else {
-            Log.error('Method "' + component?.name + '.' + property + '()" does not exist');
+            log.error('Method "' + component?.name + '.' + property + '()" does not exist');
         }
     }
 
     static set($element, component, property, value, trigger) {
         let methodName = 'set' + capitalize(property);
         if (!Elements.hasMethod(component, methodName)) {
-            Log.error('Method "' + component?.name + '.' + methodName + '()" does not exist');
+            log.error('Method "' + component?.name + '.' + methodName + '()" does not exist');
             return;
         }
 

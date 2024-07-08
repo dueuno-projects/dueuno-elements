@@ -4,7 +4,7 @@ class Component {
 
     static register(clazz) {
         let clazzName = clazz.name;
-        Log.trace("REGISTERING COMPONENT '" + clazzName + "'");
+        log.trace("REGISTERING COMPONENT '" + clazzName + "'");
         Elements.components.set(
             clazzName,
             clazz

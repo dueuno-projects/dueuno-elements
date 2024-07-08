@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
  */
 
 @CompileStatic
-class ContentForm extends ContentBase {
+class ContentForm extends ContentHeader {
 
     Form form
 

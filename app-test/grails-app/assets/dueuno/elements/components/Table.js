@@ -66,8 +66,8 @@ class Table extends Component {
             Page.finalizeContent($element);
 
         } catch (e) {
-            Log.error('Cannot initialize the Table component');
-            Log.error(e);
+            log.error('Cannot initialize the Table component');
+            log.error(e);
         }
     }
 

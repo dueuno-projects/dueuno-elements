@@ -2,4 +2,4 @@ class ProgressBar extends Component {
 
 }
 
-Component.register(ProgressBar);
+Control.register(ProgressBar);

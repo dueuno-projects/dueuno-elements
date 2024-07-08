@@ -244,15 +244,14 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
      * Returns an instance of a specific component Class
      * @return An instance of a Component
      */
-    static <T> T createInstance(Class<T> clazz, String id, Map args = [:]) {
+    static <T> T createInstance(Class<T> clazz, String id = null, Map args = [:]) {
         try {
-            args.id = id
+            args['id'] = id ?: clazz.simpleName.toLowerCase()
             Object instance = clazz.newInstance(args)
             return clazz.cast(instance)
 
         } catch (Exception e) {
-            LogUtils.logStackTrace(e)
-            String modifiers = Modifier.toString(clazz.modifiers)
+            log.error LogUtils.logStackTrace(e)
             throw new ElementsException("Cannot instantiate class '${clazz.name}': ${e.message}")
         }
     }
@@ -286,23 +285,9 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
      *
      * @return An instance of the specified component class
      */
-    public <T> T createComponent(Class<T> clazz, String id, Map args = [:]) {
+    public <T> T createComponent(Class<T> clazz, String id = null, Map args = [:]) {
         args['class'] = clazz
-        args['id'] = id
-        return createComponent(args)
-    }
-
-    /**
-     * Shortcut to create an instance of a Component whose name is its class name in lowercase
-     *
-     * @param clazz The component Class
-     * @param args initialization Map
-     *
-     * @return An instance of the specified component class
-     */
-    public <T> T createComponent(Class<T> clazz, Map args = [:]) {
-        args['class'] = clazz
-        args['id'] = clazz.simpleName.toLowerCase()
+        args['id'] = id ?: clazz.simpleName.toLowerCase()
         return createComponent(args)
     }
 

@@ -14,7 +14,7 @@ class Page {
 
     static register(clazz) {
         let clazzName = clazz.name;
-        Log.trace("REGISTERING PAGE '" + clazzName + "'");
+        log.trace("REGISTERING PAGE '" + clazzName + "'");
         Elements.pages.set(
             clazzName,
             clazz
@@ -55,11 +55,11 @@ class Page {
         let page = Page.get();
         try {
             if (Elements.hasMethod(page, 'initialize')) {
-                Log.trace("INITIALIZING PAGE '" + page.name + "'");
+                log.trace("INITIALIZING PAGE '" + page.name + "'");
                 Elements.callMethod($('body'), page, 'initialize');
             }
         } catch (e) {
-            Log.error('Error initializing page "' + page.name + '": ' + e);
+            log.error('Error initializing page "' + page.name + '": ' + e);
         }
     }
 
@@ -67,11 +67,11 @@ class Page {
         let page = Page.get();
         try {
             if (Elements.hasMethod(page, 'finalize')) {
-                Log.trace("FINALIZING PAGE '" + page.name + "'");
+                log.trace("FINALIZING PAGE '" + page.name + "'");
                 Elements.callMethod($('body'), page, 'finalize');
             }
         } catch (e) {
-            Log.error('Error finalizing page "' + page.name + '": ' + e);
+            log.error('Error finalizing page "' + page.name + '": ' + e);
         }
     }
 
@@ -79,11 +79,11 @@ class Page {
         let page = Page.get();
         try {
             if (Elements.hasMethod(page, 'onContentChange')) {
-                Log.trace("FINALIZING CONTENT '" + page.name + "'");
+                log.trace("FINALIZING CONTENT '" + page.name + "'");
                 Elements.callMethod($('body'), page, 'onContentChange');
             }
         } catch (e) {
-            Log.error('Error finalizing content for "' + page.name + '": ' + e);
+            log.error('Error finalizing content for "' + page.name + '": ' + e);
         }
     }
 
@@ -109,14 +109,14 @@ class Page {
 
             try {
                 if (Elements.hasMethod(component, 'initialize')) {
-                    Log.trace("INITIALIZING COMPONENT '" + component.name + "'");
+                    log.trace("INITIALIZING COMPONENT '" + component.name + "'");
                     Elements.callMethod($element, component, 'initialize', $root);
                 }
                 Elements.callMethod($element, component, 'setDisplay', properties['display']);
                 Elements.callMethod($element, component, 'setVisible', properties['visible']);
                 Elements.callMethod($element, component, 'setReadonly', properties['readonly']);
             } catch (e) {
-                Log.error('Error initializing component "' + component.name + '": ' + e);
+                log.error('Error initializing component "' + component.name + '": ' + e);
             }
         }
     }
@@ -135,14 +135,14 @@ class Page {
 
             try {
                 if (Elements.hasMethod(control, 'initialize')) {
-                    Log.trace("INITIALIZING CONTROL '" + control.name + "'");
+                    log.trace("INITIALIZING CONTROL '" + control.name + "'");
                     Elements.callMethod($element, control, 'initialize', $root);
                 }
                 Elements.callMethod($element, control, 'setDisplay', properties['display']);
                 Elements.callMethod($element, control, 'setVisible', properties['visible']);
                 Elements.callMethod($element, control, 'setReadonly', properties['readonly']);
             } catch (e) {
-                Log.error('Error initializing control "' + control.name + '": ' + e);
+                log.error('Error initializing control "' + control.name + '": ' + e);
             }
         }
     }
@@ -165,7 +165,7 @@ class Page {
                     Elements.callMethod($element, control, 'setValue', value, false);
                 }
             } catch (e) {
-                Log.error('Error setting value to control "' + control.name + '": ' + e);
+                log.error('Error setting value to control "' + control.name + '": ' + e);
             }
         }
     }
@@ -183,11 +183,11 @@ class Page {
 
             try {
                 if (Elements.hasMethod(component, 'finalize')) {
-                    Log.trace("FINALIZING COMPONENT '" + component.name + "'");
+                    log.trace("FINALIZING COMPONENT '" + component.name + "'");
                     Elements.callMethod($element, component, 'finalize', $root);
                 }
             } catch (e) {
-                Log.error('Error finalizing component "' + component.name + '": ' + e);
+                log.error('Error finalizing component "' + component.name + '": ' + e);
             }
 
             Elements.callMethod($element, component, 'setInitialized', true);
@@ -207,11 +207,11 @@ class Page {
 
             try {
                 if (Elements.hasMethod(control, 'finalize')) {
-                    Log.trace("FINALIZING CONTROL '" + control.name + "'");
+                    log.trace("FINALIZING CONTROL '" + control.name + "'");
                     Elements.callMethod($element, control, 'finalize', $root);
                 }
             } catch (e) {
-                Log.error('Error finalizing control "' + control.name + '": ' + e);
+                log.error('Error finalizing control "' + control.name + '": ' + e);
             }
 
             Elements.callMethod($element, control, 'setInitialized', true);
@@ -221,13 +221,13 @@ class Page {
     static get() {
         let className = Page.getClassName();
         if (!className) {
-            Log.error('This is not an Elements page. Please add <body data-21-page="MyPageClass"> ... </body> to make it available.');
+            log.error('This is not an Elements page. Please add <body data-21-page="MyPageClass"> ... </body> to make it available.');
             return;
         }
 
         let page = Elements.pages.get(className);
         if (!page) {
-            Log.error("No Page registered for class '" + className +
+            log.error("No Page registered for class '" + className +
                 "'. Register a page class before using it (Eg. Page.register("
                 + className + ");");
         }

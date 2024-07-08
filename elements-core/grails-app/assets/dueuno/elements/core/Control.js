@@ -4,7 +4,7 @@ class Control extends Component {
 
     static register(clazz) {
         let clazzName = clazz.name;
-        Log.trace("REGISTERING CONTROL '" + clazzName + "'");
+        log.trace("REGISTERING CONTROL '" + clazzName + "'");
         Elements.controls.set(
             clazzName,
             clazz
@@ -60,12 +60,12 @@ class Control extends Component {
 
     static getValue($element) {
         let className = Elements.getClassName($element);
-        Log.error('Control "' + className + '" has no "getValue()" method. Please implement one.')
+        log.error('Control "' + className + '" has no "getValue()" method. Please implement one.')
     }
 
     static setValue($element, valueMap, trigger = true) {
         let className = Elements.getClassName($element);
-        Log.error('Control "' + className + '" has no "setValue()" method. Please implement one.')
+        log.error('Control "' + className + '" has no "setValue()" method. Please implement one.')
     }
 
     static getEventValue($element, event) {

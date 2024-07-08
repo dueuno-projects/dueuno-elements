@@ -15,7 +15,7 @@
 package dueuno.elements.core
 
 import dueuno.commons.utils.LogUtils
-import dueuno.elements.contents.ContentBase
+import dueuno.elements.contents.ContentHeader
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.pages.PageBlank
 import grails.artefact.Controller
@@ -80,7 +80,7 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
      * Creates a ContentBase
      * @return an instance of a ContentBase
      */
-    ContentBase createContent() {
+    ContentHeader createContent() {
         return getPageService().createContent()
     }
 

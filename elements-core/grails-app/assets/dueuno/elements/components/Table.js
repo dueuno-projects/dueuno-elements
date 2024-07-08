@@ -7,6 +7,15 @@ class Table extends Component {
     static finalize($element, $root) {
         // Must be initialized on finalization since ti changes the table DOM
         Table.initializeBootstrapTable($element);
+//        Table.initializeFixedScrollbar($element);
+
+        $(window).on('scroll', Table.onWindowScroll);
+
+        let $table = $element.find('.fixed-table-body');
+        $table.off('scroll').on('scroll', Table.onScroll);
+
+        let $scrollbar = $element.find('.component-table-scrollbar');
+        $scrollbar.off('scroll').on('scroll', Table.onScrollbarScroll);
 
         let $selectAll = $element.find('.component-table-selection-header input');
         $selectAll.off('click').on('click', Table.onSelectAll);
@@ -57,9 +66,40 @@ class Table extends Component {
             Page.finalizeContent($element);
 
         } catch (e) {
-            Log.error('Cannot initialize the Table component');
-            Log.error(e);
+            log.error('Cannot initialize the Table component');
+            log.error(e);
         }
+    }
+
+    static initializeFixedScrollbar($element) {
+        let $body = $element.find('tbody');
+        let $scrollbar = $element.find('.component-table-scrollbar');
+        let $scrollbarContent = $scrollbar.find('div');
+
+        let content = $('#page-content')[0].getBoundingClientRect();
+        $scrollbar.css({position: 'absolute', bottom: 0, left: content.left});
+        $scrollbarContent.width($body.width());
+    }
+
+    static onWindowScroll(event) {
+        let $element = $(event.currentTarget);
+
+    }
+
+    static onScroll(event) {
+        let $element = $(event.currentTarget);
+        let scrollLeft = $element[0].scrollLeft;
+        let $scrollbar = $element.closest('.component-table').find('.component-table-scrollbar');
+
+        $scrollbar.scrollLeft(scrollLeft);
+    }
+
+    static onScrollbarScroll(event) {
+        let $element = $(event.currentTarget);
+        let scrollLeft = $element[0].scrollLeft;
+        let $table = $element.closest('.component-table').find('.fixed-table-body');
+
+        $table.scrollLeft(scrollLeft);
     }
 
     static onSelectAll(event) {

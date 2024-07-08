@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
@@ -27,12 +28,14 @@ import org.grails.gsp.GroovyPagesTemplateEngine
 @CompileStatic
 class Transition implements WebRequestAware {
 
-    private List<TransitionCommand> commands
     private String view
+    private List<TransitionCommand> commands
+    private List<Component> components
 
     Transition() {
         view = '/dueuno/elements/core/Transition'
         commands = []
+        components = []
     }
 
     String getView() {
@@ -45,6 +48,30 @@ class Transition implements WebRequestAware {
 
     void clear() {
         commands.clear()
+        components.clear()
+    }
+
+    public <T> T addComponent(T component) {
+        components.add(component as Component)
+        return component
+    }
+
+    public <T> T addComponent(Class<T> clazz, String id = null, Map args = [:]) {
+        args['class'] = clazz
+        args['id'] = id ?: clazz.simpleName.toLowerCase()
+        return addComponent(args)
+    }
+
+    public <T> T addComponent(Map args) {
+        Class<T> clazz = ArgsException.requireArgument(args, 'class') as Class<T>
+        String id = ArgsException.requireArgument(args, 'id')
+
+        args.remove('class')
+        args.remove('id')
+        T component = Component.createInstance(clazz, id, args)
+        addComponent(component as Component)
+
+        return component
     }
 
     void redirect(Map args) {
@@ -80,57 +107,56 @@ class Transition implements WebRequestAware {
     }
 
     void renderContent(PageContent content) {
-        // If you change this string you need to change also the
-        // file '_PageContent.gsp'
-        String view = '''
-            <div id="page-content"
-                 class="page-content"
-                 data-21-component="PageContent"
-                 data-21-properties="${c.propertiesAsJSON}"
-                 data-21-events="${c.eventsAsJSON}"
-            >
-                <page:colors component="${c}"/>            
-                <render:componentList instance="${c}"/>
-            </div>
-        '''
-        Map model = content.model
+//        // If you change this string you need to change also the
+//        // file '_PageContent.gsp'
+//        String view = '''
+//            <div id="page-content"
+//                 class="page-content"
+//                 data-21-component="PageContent"
+//                 data-21-properties="${c.propertiesAsJSON}"
+//                 data-21-events="${c.eventsAsJSON}"
+//            >
+//                <page:colors component="${c}"/>
+//                <render:componentList instance="${c}"/>
+//            </div>
+//        '''
+//        Map model = content.model
+//
+//        StringWriter template = new StringWriter()
+//        gspEngine
+//                .createTemplate(view, 'pageContent')
+//                .make(model)
+//                .writeTo(template)
+//
+//        addCommand(
+//                TransitionCommandMethod.CONTENT,
+//                null,
+//                null,
+//                template.toString(),
+//        )
 
-        StringWriter template = new StringWriter()
-        gspEngine
-                .createTemplate(view, 'pageContent')
-                .make(model)
-                .writeTo(template)
-
+        addComponent(content)
         addCommand(
                 TransitionCommandMethod.CONTENT,
                 null,
                 null,
-                template.toString(),
+                null,
         )
     }
 
-    void replace(String componentName, Component component, String templateRoot) {
-        File view = new File(templateRoot + component.viewPath + '_' + component.viewTemplate + '.gsp')
-        Map model = component.model
-
-        StringWriter template = new StringWriter()
-        gspEngine
-                .createTemplate(view)
-                .make(model)
-                .writeTo(template)
-
+    void replace(String component, String newComponent) {
         addCommand(
                 TransitionCommandMethod.REPLACE,
-                componentName,
+                component,
                 null,
-                template.toString(),
+                newComponent,
         )
     }
 
-    void append(String afterComponent, String newComponent) {
+    void append(String component, String newComponent) {
         addCommand(
                 TransitionCommandMethod.APPEND,
-                afterComponent,
+                component,
                 null,
                 newComponent,
         )
@@ -255,9 +281,11 @@ class Transition implements WebRequestAware {
         commands.add(command)
     }
 
-    String getTransitionAsJSON() {
-        return Elements.encodeAsJSON(
-                commands: commands,
-        )
+    String getCommandsAsJSON() {
+        return Elements.encodeAsJSON(commands)
+    }
+
+    List<Component> getComponents() {
+        return components
     }
 }

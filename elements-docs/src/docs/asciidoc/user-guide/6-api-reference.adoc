@@ -1057,7 +1057,7 @@ Components are added to the content on a _vertical stripe_ one after the other. 
 Embeds a `Header` and a _Confirm_ `Button` that submits a component called `form` (not provided) to an action called `onConfirm`.
 
 === ContentForm
-Extends `ContentBase` and embeds a `Form` called `form`.
+Extends `ContentHeader` and embeds a `Form` called `form`.
 
 === ContentCreate
 Extends `ContentForm` and provides a _Create_ `Button` that submits the `form` component to an action called `onCreate`.
@@ -1066,7 +1066,7 @@ Extends `ContentForm` and provides a _Create_ `Button` that submits the `form` c
 Extends `ContentForm` and provides a _Save_ `Button` that submits the `form` component to an action called `onEdit`.
 
 === ContentList
-Extends `ContentBase` and embeds a `Table` component. Provides a _New_ `Button` that redirects to an action called `create`.
+Extends `ContentHeader` and embeds a `Table` component. Provides a _New_ `Button` that redirects to an action called `create`.
 
 The `Table` component is configured to present and _Edit_ and a _Delete_ `Button` for each displayed row. The _Edit_ `Button` submits the raw id to an action called `edit` while the _Delete_ `Button` asks for confirmation before redirecting to an action called `onDelete`.
 

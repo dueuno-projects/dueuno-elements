@@ -15,7 +15,6 @@
 package dueuno.elements.contents
 
 import dueuno.elements.core.Menu
-import dueuno.elements.core.PageContent
 import groovy.transform.CompileStatic
 
 /**
@@ -23,7 +22,7 @@ import groovy.transform.CompileStatic
  */
 
 @CompileStatic
-class ContentHome extends PageContent {
+class ContentHome extends ContentBlank {
 
     Menu favouriteMenu
 

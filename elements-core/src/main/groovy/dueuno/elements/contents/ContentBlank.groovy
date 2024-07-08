@@ -25,5 +25,7 @@ import groovy.transform.CompileStatic
 class ContentBlank extends PageContent {
     ContentBlank(Map args) {
         super(args)
+
+        viewTemplate = 'PageContent'
     }
 }

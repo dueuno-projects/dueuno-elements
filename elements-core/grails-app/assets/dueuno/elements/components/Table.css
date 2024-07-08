@@ -25,6 +25,31 @@ body.prod .component-table {
     margin: 0.5rem;
 }
 
+.component-table-scrollbar {
+    height: 40px;
+    background-color: lightgrey;
+    overflow-x: scroll;
+}
+
+.component-table-scrollbar div {
+    width: 5000px;
+    background-color: blue;
+    height: 15px;
+}
+
+.component-table-scrollbar ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+.component-table-scrollbar ::-webkit-scrollbar-thumb {
+    border-radius: 0.5rem;
+}
+
+.component-table-scrollbar ::-webkit-scrollbar-track {
+    margin: 0.5rem;
+}
+
 .component-table > .component-separator {
     background-color: white;
     margin-bottom: calc(var(--bs-border-radius-lg) * -1);

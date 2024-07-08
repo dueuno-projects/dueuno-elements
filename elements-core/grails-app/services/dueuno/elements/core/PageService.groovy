@@ -15,7 +15,7 @@
 package dueuno.elements.core
 
 import dueuno.commons.utils.FileUtils
-import dueuno.elements.contents.ContentBase
+import dueuno.elements.contents.ContentHeader
 import dueuno.elements.security.SecurityService
 import dueuno.elements.tenants.TenantPropertyService
 import groovy.util.logging.Slf4j
@@ -69,7 +69,7 @@ class PageService implements ServletContextAware, WebRequestAware {
      * @return an instance of a Content
      */
     public <T> T createContent(Class<T> clazz, Map args = [:]) {
-        return Component.createInstance(clazz, clazz.simpleName.uncapitalize(), initialize(args))
+        return Component.createInstance(clazz, null, initialize(args))
     }
 
     private Map initialize(Map args) {
@@ -98,8 +98,8 @@ class PageService implements ServletContextAware, WebRequestAware {
      * Returns an instance of a ContentBase
      * @return an instance of a ContentBase
      */
-    ContentBase createContent() {
-        return createContent(ContentBase)
+    ContentHeader createContent() {
+        return createContent(ContentHeader)
     }
 
     Transition createTransition() {

@@ -2,4 +2,4 @@ class Separator extends Component {
 
 }
 
-Component.register(Separator);
+Control.register(Separator);

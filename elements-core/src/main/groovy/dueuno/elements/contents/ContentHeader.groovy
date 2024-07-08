@@ -15,7 +15,6 @@
 package dueuno.elements.contents
 
 import dueuno.elements.components.Header
-import dueuno.elements.core.PageContent
 import groovy.transform.CompileStatic
 
 /**
@@ -23,11 +22,11 @@ import groovy.transform.CompileStatic
  */
 
 @CompileStatic
-class ContentBase extends PageContent {
+class ContentHeader extends ContentBlank {
 
     Header header
 
-    ContentBase(Map args) {
+    ContentHeader(Map args) {
         super(args)
 
         header = addComponent(Header)

@@ -58,7 +58,8 @@ class RenderTagLib implements WebRequestAware {
     def componentList = { attrs ->
         List<Component> components = attrs.instance.components
         for (component in components) {
-            out << render(template: component.getView(), model: component.getModel())
+            String componentView = '<div>' + render(template: component.getView(), model: component.getModel()) + '</div>'
+            out << componentView
         }
     }
 

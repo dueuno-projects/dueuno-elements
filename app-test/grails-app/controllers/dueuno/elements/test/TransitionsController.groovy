@@ -15,7 +15,10 @@
 package dueuno.elements.test
 
 import dueuno.elements.components.Button
+import dueuno.elements.components.Form
+import dueuno.elements.components.FormField
 import dueuno.elements.components.Label
+import dueuno.elements.components.Separator
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
 import dueuno.elements.core.ElementsController
@@ -76,28 +79,34 @@ class TransitionsController implements ElementsController {
             addField(
                     class: Button,
                     id: 'btn1',
-                    display: true,
                     cols: 6,
-            )
+            ).display = true
             addField(
                     class: Button,
                     id: 'btn2',
                     icon: 'fa-user',
-                    display: false,
                     cols: 6,
-            )
+            ).display = false
             addField(
                     class: Button,
                     id: 'btn3',
-                    visible: true,
                     cols: 6,
-            )
+            ).display = true
             addField(
                     class: Button,
                     id: 'btn4',
-                    visible: false,
                     cols: 6,
+            ).display = false
+
+            addField(
+                    class: Label,
+                    id: 'label',
+                    text: 'Replace me or add something below me',
+                    border: true,
+                    backgroundColor: primaryBackgroundColor,
+                    cols: 12,
             )
+
             addField(
                     class: Select,
                     id: 'user1',
@@ -180,10 +189,16 @@ class TransitionsController implements ElementsController {
             addField(
                     class: MultipleCheckbox,
                     id: 'multiple',
-                    optionsFromRecordset: TPerson.list(),
+                    optionsFromRecordset: TPerson.list(max: 5),
                     keys: ['id'],
                     cols: 12,
             )
+        }
+
+        def formReplace = c.addComponent(Form, 'formReplace')
+        formReplace.with {
+            addField(class: TextField, id: 'f1', value: 'A value...', cols: 6)
+            addField(class: TextField, id: 'f2', value: 'Another value...', cols: 6)
         }
 
         c.form['select2'].value = 'user3'
@@ -230,13 +245,30 @@ class TransitionsController implements ElementsController {
         sleep(1000)
         def t = createTransition()
 
-        t.set('btn1', 'display', false)
-        t.set('btn2', 'display', true)
+        t.addComponent(
+                class: Label,
+                id: 'label',
+                border: true,
+                backgroundColor: 'green',
+        )
+        t.replace('label', 'label')
+
+        def formAppend = t.addComponent(Form, 'formAppend')
+        formAppend.with {
+            addField(class: Separator, id: 'sa1', text: 'An appended Form!', squeeze: true, cols: 12)
+            addField(class: TextField, id: 'fa1', value: 'An appended field...', cols: 4)
+            addField(class: TextField, id: 'fa2', value: 'A second appended field...', cols: 4)
+            addField(class: TextField, id: 'fa3', value: 'A third appended field...', cols: 4)
+        }
+        t.append('formReplace', 'formAppend')
+
+        t.set('btn1Field', 'display', false)
+        t.set('btn2Field', 'display', true)
         t.set('btn2', 'icon', 'fa-solid fa-gear')
         t.set('btn2Field', 'display', true)
-        t.set('btn3', 'visible', false)
-        t.set('btn4', 'visible', true)
-        t.set('btn4Field', 'visible', true)
+        t.set('btn3Field', 'display', false)
+        t.set('btn4Field', 'display', true)
+        t.set('btn4Field', 'display', true)
         t.set('select2', 'options',
                 Select.optionsFromRecordset(
                         recordset: TPerson.list(),

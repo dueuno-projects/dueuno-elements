@@ -23,7 +23,7 @@ import groovy.transform.CompileStatic
  */
 
 @CompileStatic
-class ContentList extends ContentBase {
+class ContentList extends ContentHeader {
 
     Table table
 
