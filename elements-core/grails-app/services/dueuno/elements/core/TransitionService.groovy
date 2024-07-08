@@ -33,7 +33,7 @@ class TransitionService implements WebSocket {
      * @return an instance of a Transition
      */
     Transition createTransition() {
-        return new Transition(id: 'transition')
+        return new Transition()
     }
 
     void subscribe(String channel) {
