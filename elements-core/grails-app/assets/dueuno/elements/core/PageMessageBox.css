@@ -5,6 +5,7 @@
 
 #page-messagebox .modal-footer {
     background-color: transparent;
+    margin-bottom: 0;
 }
 
 #page-messagebox input:focus,
