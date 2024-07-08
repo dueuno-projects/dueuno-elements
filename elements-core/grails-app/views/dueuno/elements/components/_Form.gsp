@@ -1,5 +1,5 @@
 <div id="${c.id}"
-     class="component-form p-3 pt-2 pb-4 ${c.cssClass}"
+     class="component-form p-3 pt-2 ${c.cssClass}"
      style="${c.cssStyleColors}${c.cssStyle}"
      data-21-component="${c.className}"
      data-21-id="${c.id}"

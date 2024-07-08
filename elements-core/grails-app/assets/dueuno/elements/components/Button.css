@@ -79,7 +79,7 @@ button {
 
 a.btn:active,
 button:active {
-    transform: translateY(0.10rem);
+    transform: translateY(0.05rem);
 }
 
 /* COLORS
