@@ -107,34 +107,6 @@ class Transition implements WebRequestAware {
     }
 
     void renderContent(PageContent content) {
-//        // If you change this string you need to change also the
-//        // file '_PageContent.gsp'
-//        String view = '''
-//            <div id="page-content"
-//                 class="page-content"
-//                 data-21-component="PageContent"
-//                 data-21-properties="${c.propertiesAsJSON}"
-//                 data-21-events="${c.eventsAsJSON}"
-//            >
-//                <page:colors component="${c}"/>
-//                <render:componentList instance="${c}"/>
-//            </div>
-//        '''
-//        Map model = content.model
-//
-//        StringWriter template = new StringWriter()
-//        gspEngine
-//                .createTemplate(view, 'pageContent')
-//                .make(model)
-//                .writeTo(template)
-//
-//        addCommand(
-//                TransitionCommandMethod.CONTENT,
-//                null,
-//                null,
-//                template.toString(),
-//        )
-
         addComponent(content)
         addCommand(
                 TransitionCommandMethod.CONTENT,
