@@ -76,8 +76,8 @@ class CrudDataServicesController implements ElementsController {
 
         // VALUES
         //
-        c.table.body = personService.listByCompanyOrNameLike(filters.company, filters.name ?: '', params)
-        c.table.paginate = personService.count()
+        c.table.body = personService.listByNameLike(filters.name ?: '%', c.table.fetchParams)
+        c.table.paginate = personService.countByNameLike(filters.name ?: '%')
 
         display content: c
     }
