@@ -45,7 +45,7 @@ class ElementsExtraGrailsPlugin extends Plugin {
     def profiles = ['web']
 
     // URL to the plugin's documentation
-    def documentation = 'http://docs.dueuno.com'
+    def documentation = 'https://www.dueuno.com/docs'
 
     // Extra (optional) plugin metadata
 

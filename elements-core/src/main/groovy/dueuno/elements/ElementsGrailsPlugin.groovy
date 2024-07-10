@@ -31,42 +31,42 @@ class ElementsGrailsPlugin extends Plugin {
 
     def version = '2.0.0'
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "3.3.8 > *"
+    def grailsVersion = '3.3.8 > *'
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-        "grails-app/views/error.gsp"
+        'grails-app/views/error.gsp'
     ]
 
-    def title = "Elements" // Headline display name of the plugin
-    def author = "Gianluca Sartori, Francesco Piceghello"
-    def authorEmail = "gianluca.sartori@dueuno.com, francesco.piceghello@dueuno.com"
-    def description = "Elements"
+    def title = 'Elements' // Headline display name of the plugin
+    def author = 'Gianluca Sartori, Francesco Piceghello'
+    def authorEmail = 'gianluca.sartori@dueuno.com, francesco.piceghello@dueuno.com'
+    def description = 'Elements'
     def profiles = ['web']
 
     // URL to the plugin's documentation
-    def documentation = "http://docs.dueuno.com"
+    def documentation = 'https://www.dueuno.com/docs'
 
     // Extra (optional) plugin metadata
 
     // License: one of 'APACHE', 'GPL2', 'GPL3'
-//    def license = "APACHE"
+//    def license = 'APACHE'
 
     // Details of company behind the plugin (if there is one)
-//    def organization = [ name: "My Company", url: "http://www.my-company.com/" ]
+//    def organization = [ name: 'My Company', url: 'http://www.my-company.com/' ]
 
     // Any additional developers beyond the author specified above.
-//    def developers = [ [ name: "Joe Bloggs", email: "joe@bloggs.net" ]]
+//    def developers = [ [ name: 'Joe Bloggs', email: 'joe@bloggs.net' ]]
 
     // Location of the plugin's issue tracker.
-//    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
+//    def issueManagement = [ system: 'JIRA', url: 'http://jira.grails.org/browse/GPMYPLUGIN' ]
 
     // Online location of the plugin's browseable source code.
-//    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
+//    def scm = [ url: 'http://svn.codehaus.org/grails-plugins/' ]
 
     Closure doWithSpring() { {->
         // See: https://github.com/grails/grails-core/issues/3164
-        xmlns context: "http://www.springframework.org/schema/context"
-        context."component-scan" "base-package": "dueuno"
+        xmlns context: 'http://www.springframework.org/schema/context'
+        context.'component-scan' 'base-package': 'dueuno'
 
         sessionInitializer(SessionInitializer)
 //                keyChain(KeyChain)
