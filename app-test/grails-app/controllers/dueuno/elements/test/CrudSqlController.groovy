@@ -112,9 +112,14 @@ class CrudSqlController implements ElementsController {
             }
         }
 
-        def filters = c.table.filterParams
-        c.table.body = SqlUtils.list(dataSource, tblPerson, filters, ['name'], params)
-//        c.table.paginate = SqlUtils.count(dataSource, tblPerson, filters)
+        c.table.body = SqlUtils.list(
+                dataSource,
+                tblPerson,
+                ['name'],
+                c.table.filterParams,
+                c.table.fetchParams,
+        )
+        c.table.paginate = SqlUtils.count(dataSource, tblPerson, c.table.filterParams)
         display content: c
     }
 

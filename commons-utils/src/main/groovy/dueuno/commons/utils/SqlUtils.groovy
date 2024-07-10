@@ -34,29 +34,29 @@ class SqlUtils {
     //
     static GroovyRowResult get(DataSource dataSource, String table, Map keys) {
         Sql sql = new Sql(dataSource)
-        String query = generateSelect(false, table, keys)
+        String query = generateSelect(false, table, [], keys)
         log.trace(query)
         List<GroovyRowResult> results = sql.rows(query)
         sql.close()
         return results[0]
     }
 
-    static List<GroovyRowResult> list(DataSource dataSource, String table, Map filters = [:], Map params = [:]) {
-        return list(dataSource, table, filters, [], params)
+    static List<GroovyRowResult> list(DataSource dataSource, String table, Map filterParams = [:], Map fetchParams = [:]) {
+        return list(dataSource, table, [], filterParams, fetchParams)
     }
 
-    static List<GroovyRowResult> list(DataSource dataSource, String table, Map filters, List fieldsInLike, Map params = [:]) {
+    static List<GroovyRowResult> list(DataSource dataSource, String table, List fieldsInLike, Map filterParams = [:], Map fetchParams = [:]) {
         Sql sql = new Sql(dataSource)
-        String query = generateSelect(false, table, filters, fieldsInLike, params)
+        String query = generateSelect(false, table, fieldsInLike, filterParams, fetchParams)
         log.trace(query)
-        List<GroovyRowResult> results = sql.rows(query, params.offset as Integer ?: 0, params.max as Integer ?: 0)
+        List<GroovyRowResult> results = sql.rows(query, fetchParams.offset as Integer ?: 0, fetchParams.max as Integer ?: 0)
         sql.close()
         return results
     }
 
-    static Integer count(DataSource dataSource, String table, Map filters = [:]) {
+    static Integer count(DataSource dataSource, String table, Map filterParams = [:]) {
         Sql sql = new Sql(dataSource)
-        String query = generateSelect(true, table, filters)
+        String query = generateSelect(true, table, [], filterParams)
         log.trace(query)
         List<GroovyRowResult> results = sql.rows(query)
         sql.close()
@@ -90,10 +90,10 @@ class SqlUtils {
         return sql.updateCount
     }
 
-    static List<GroovyRowResult> select(DataSource dataSource, String query, Map params = [:]) {
+    static List<GroovyRowResult> select(DataSource dataSource, String query, Map fetchParams = [:]) {
         Sql sql = new Sql(dataSource)
         log.trace(query)
-        List<GroovyRowResult> results = sql.rows(query, params.offset as Integer ?: 0, params.max as Integer ?: 0)
+        List<GroovyRowResult> results = sql.rows(query, fetchParams.offset as Integer ?: 0, fetchParams.max as Integer ?: 0)
         sql.close()
         return results
     }
@@ -114,11 +114,11 @@ class SqlUtils {
         return result
     }
 
-    private static String generateWhere(Map<String, Object> filters, List<String> fieldsInLike = []) {
+    private static String generateWhere(Map<String, Object> filterParams, List<String> fieldsInLike = []) {
         String query = ''
-        if (filters) {
+        if (filterParams) {
             query += " WHERE "
-            query += filters.collect { field, value ->
+            query += filterParams.collect { field, value ->
                 if (field in fieldsInLike) {
                     return "$field LIKE '%$value%'"
 
@@ -141,13 +141,14 @@ class SqlUtils {
         return query
     }
 
-    private static String generateSelect(Boolean count, String table, Map filters, List fieldsInLike = [], Map params = [:]) {
+    private static String generateSelect(Boolean count, String table, List fieldsInLike = [], Map filterParams = [:], Map fetchParams = [:]) {
         String query
         query = count ? "SELECT COUNT(*) " : "SELECT * "
         query += "FROM $table"
-        query += generateWhere(filters, fieldsInLike)
-        if (params.sort) {
-            query += " ORDER BY ${params.sort} ${params.order ? params.order.toString().toUpperCase() : 'ASC'}"
+        query += generateWhere(filterParams, fieldsInLike)
+        if (fetchParams.sort) {
+            query += " ORDER BY "
+            query += (fetchParams.sort as Map).collect { "${it.key} ${it.value}" }.join(', ')
         }
         return query
     }
@@ -161,7 +162,7 @@ class SqlUtils {
             if (value in String) {
                 value = (value as String).replace("'", "''")
             }
-            return "'${value}'"
+            return (value in Boolean) ? "${value}" : "'${value}'"
         }.join(", ")
 
         String query = "INSERT INTO $table ($vars) VALUES ($vals)"
@@ -174,6 +175,9 @@ class SqlUtils {
         query += values.collect { field, Object value ->
             if (value == null) {
                 return "${field} = null"
+            }
+            if (value in Boolean) {
+                return "${field} = ${value}"
             }
             if (value in String) {
                 value = (value as String).replace("'", "''")
