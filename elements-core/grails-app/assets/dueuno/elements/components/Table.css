@@ -96,7 +96,6 @@ body.prod .component-table {
 .component-table-dataset th:nth-last-child(2),
 .component-table-dataset td:nth-last-child(2) {
     padding-right: var(--elements-spacing-x);
-    color: blue;
 }
 
 .component-table-dataset .component-table-actions-header {
