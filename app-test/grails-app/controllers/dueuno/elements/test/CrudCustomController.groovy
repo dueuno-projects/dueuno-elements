@@ -21,6 +21,7 @@ import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.controls.*
 import dueuno.elements.core.ElementsController
+import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextDefault
 import grails.gorm.multitenancy.CurrentTenant
 
@@ -70,11 +71,6 @@ class CrudCustomController implements ElementsController {
                     'picture',
                     'address',
                     'postcode',
-                    'salary',
-                    'distanceKm',
-                    'dateStart',
-                    'dateEnd',
-                    'active',
             ]
 
             max = 2
@@ -84,6 +80,7 @@ class CrudCustomController implements ElementsController {
             displayHeader = false
 
             body.eachRow { TableRow row, Map values ->
+                row.cells['postcode'].textAlign = TextAlign.END
                 values.company = "${values.company.name}"
                 if (values.picture) row.cells.picture.icon = 'fa-file'
                 if (values.name == 'aaa') {
