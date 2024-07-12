@@ -88,9 +88,8 @@ body.prod .component-table {
     padding-top: 0;
 }
 
-.component-table-dataset .component-table-selection,
-.component-table-dataset .component-table-selection-header,
-.component-table-dataset .component-table-actions {
+.component-table-dataset th:first-child,
+.component-table-dataset td:first-child {
     padding-left: var(--elements-spacing-x);
 }
 

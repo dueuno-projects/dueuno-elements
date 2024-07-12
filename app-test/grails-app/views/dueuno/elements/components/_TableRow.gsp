@@ -50,21 +50,6 @@
         </g:else>
     </g:if>
 
-    <%-- Submit Values --%>
-    <g:if test="${c.isHeader}">
-        <th class="d-none"></th>
-    </g:if>
-    <g:elseif test="${c.isFooter}">
-        <td class="d-none"></td>
-    </g:elseif>
-    <g:else>
-        <td class="component-table-values d-none">
-            <g:each var="field" in="${c.submit}">
-                <render:component instance="${field.value}" />
-            </g:each>
-        </td>
-    </g:else>
-
     <%-- Columns --%>
     <g:each var="column" in="${c.table.columns}">
         <g:set var="cell" value="${c.cells[column]}" />
@@ -110,4 +95,19 @@
 
         </g:if>
     </g:each>
+
+    <%-- Submit Values --%>
+    <g:if test="${c.isHeader}">
+        <th class="d-none"></th>
+    </g:if>
+    <g:elseif test="${c.isFooter}">
+        <td class="d-none"></td>
+    </g:elseif>
+    <g:else>
+        <td class="component-table-values d-none">
+            <g:each var="field" in="${c.submit}">
+                <render:component instance="${field.value}" />
+            </g:each>
+        </td>
+    </g:else>
 </tr>
