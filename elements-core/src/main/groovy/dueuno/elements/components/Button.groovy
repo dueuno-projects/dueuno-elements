@@ -16,6 +16,7 @@ package dueuno.elements.components
 
 import dueuno.elements.core.Component
 import dueuno.elements.core.Menu
+import dueuno.elements.style.TextWrap
 import groovy.transform.CompileStatic
 import groovy.transform.Synchronized
 
@@ -310,6 +311,7 @@ class Button extends Component {
      */
     void setDefaultAction(Map args) {
         Menu action = getAction(args)
+        action.link.textWrap = TextWrap.DEFAULT
         defaultAction = action
     }
 
@@ -325,6 +327,7 @@ class Button extends Component {
      */
     void setTailAction(Map args) {
         Menu action = getAction(args)
+        action.link.textWrap = TextWrap.DEFAULT
         tailAction = action
     }
 

@@ -1,21 +1,23 @@
+//= require TableStickyHeader
+
 class Table extends Component {
 
     static initialize($element, $root) {
-        //no-op
+        Table.initializeStickyHeader($element);
     }
 
     static finalize($element, $root) {
+        Page.finalizeContent($element);
         // Must be initialized on finalization since ti changes the table DOM
-        Table.initializeBootstrapTable($element);
 //        Table.initializeFixedScrollbar($element);
 
-        $(window).on('scroll', Table.onWindowScroll);
+//        $(window).on('scroll', Table.onWindowScroll);
 
-        let $table = $element.find('.fixed-table-body');
-        $table.off('scroll').on('scroll', Table.onScroll);
+//        let $table = $element.find('.fixed-table-body');
+//        $table.off('scroll').on('scroll', Table.onScroll);
 
-        let $scrollbar = $element.find('.component-table-scrollbar');
-        $scrollbar.off('scroll').on('scroll', Table.onScrollbarScroll);
+//        let $scrollbar = $element.find('.component-table-scrollbar');
+//        $scrollbar.off('scroll').on('scroll', Table.onScrollbarScroll);
 
         let $selectAll = $element.find('.component-table-selection-header input');
         $selectAll.off('click').on('click', Table.onSelectAll);
@@ -24,51 +26,26 @@ class Table extends Component {
         $selectRow.off('click').on('click', Table.onSelectRow);
     }
 
-    static initializeBootstrapTable($element) {
-        let $table = $element.find('.component-table-dataset table.table');
-        let $tableHeaders = $table.find('th');
-        if (!$tableHeaders.exists()) {
-            // Bootstrap Table complains with empty tables
+    static initializeStickyHeader($element) {
+        // Not working on modals
+        if (PageModal.isActive) {
             return;
         }
 
-        let offset;
+        let stickyHeaderZIndex = Component.getProperty($element, 'stickyHeaderZIndex');
         let stickyHeaderOffset = Component.getProperty($element, 'stickyHeaderOffset');
-        if (stickyHeaderOffset) {
-            offset = stickyHeaderOffset;
-
-        } else if (PageModal.isActive) {
-            // Not working in modals, see: https://github.com/wenzhixin/bootstrap-table/issues/5545
-            offset = 85;
-
-        } else {
-            offset = ShellNavbar.getHeight() + Page.stickyOffset;
+        if (!stickyHeaderOffset) {
+            stickyHeaderOffset = ShellNavbar.getHeight() + Page.stickyOffset;
         }
 
-        let options = {
-            classes: '',
-            showFooter: true,
-            // Not working in modals so we don't activate it
-            // See: https://github.com/wenzhixin/bootstrap-table/issues/5545
-            stickyHeader: PageModal.isActive ? false : true,
-            stickyHeaderOffsetY: offset,
-        };
-
-        try {
-            $table
-                .bootstrapTable('destroy')
-                .bootstrapTable(options);
-
-            let $stickyHeader = $element.find('.sticky-header-container');
-            let stickyHeaderZIndex = Component.getProperty($element, 'stickyHeaderZIndex');
-            if (stickyHeaderZIndex > 0) $stickyHeader.css('z-index', stickyHeaderZIndex);
-
-            Page.finalizeContent($element);
-
-        } catch (e) {
-            log.error('Cannot initialize the Table component');
-            log.error(e);
-        }
+        let $table = $element.find('table');
+        $table.stickyTableHeaders('destroy')
+        $table.stickyTableHeaders()
+        $table.stickyTableHeaders({
+            scrollableElement: '.component-table-dataset',
+            fixedOffset: stickyHeaderOffset,
+            zIndex: stickyHeaderZIndex == 0 ? 1 : stickyHeaderZIndex,
+        });
     }
 
     static initializeFixedScrollbar($element) {
@@ -83,7 +60,6 @@ class Table extends Component {
 
     static onWindowScroll(event) {
         let $element = $(event.currentTarget);
-
     }
 
     static onScroll(event) {

@@ -90,7 +90,7 @@ class Label extends Component {
     }
 
     void setHtml(String value) {
-        textWrap = TextWrap.DEFAULT
+        if (html) textWrap = TextWrap.DEFAULT
         html = value
     }
 

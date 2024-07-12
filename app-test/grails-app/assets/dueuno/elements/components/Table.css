@@ -1,4 +1,5 @@
 .table>:not(caption)>*>* {
+    padding: var(--elements-spacing-y);
     background-color: transparent;
     color: inherit;
 }
@@ -8,8 +9,9 @@ body.prod .component-table {
     user-select: text;
 }
 
-.component-table .fixed-table-container {
-    padding-bottom: 0.5rem !important;
+.component-table thead th {
+    background-color: white;
+    padding: var(--elements-spacing-x) var(--elements-spacing-y);
 }
 
 .component-table ::-webkit-scrollbar {
@@ -58,35 +60,13 @@ body.prod .component-table {
     padding: 1rem;
 }
 
-.component-table .component-button {
-    position: static;
-}
-
-.component-table .fixed-table-container .table thead th .th-inner {
-    padding: 0.5rem var(--elements-spacing-x);
-}
-
-.component-table .fixed-table-container .table thead th .th-inner:has(.component-button) {
-    padding: 0 var(--elements-spacing-x);
-}
-
-.component-table .bootstrap-table .fixed-table-container .table thead th:has(.component-button) {
-    vertical-align: middle;
-}
-
-.component-table th {
-    padding: 0.3rem var(--elements-spacing-x);
-}
-
-.component-table td,
-.component-table-selection {
-    padding: var(--elements-spacing-y) var(--elements-spacing-x);
-}
-
 .component-table-dataset .table-hover tr:hover td {
     box-shadow: none;
 }
 
+.component-table-dataset .sticky-header {
+    border-bottom: rgb(var(--elements-secondary-bg)) 0.25rem solid;
+}
 
 .component-table-dataset .component-table-header a {
     text-decoration: none;
@@ -100,17 +80,23 @@ body.prod .component-table {
     outline: none;
 }
 
-.component-table-dataset .sticky-header-container thead {
-    border-bottom: 0.25rem solid;
-}
-
-.component-table-dataset .sticky-header-container th {
-    padding-top: calc(var(--elements-spacing-y) * 3);
-    padding-bottom: calc(var(--elements-spacing-y) * 3);
-}
-
 .component-table-dataset tr {
     vertical-align: middle;
+}
+
+.component-table-dataset .component-table-selection {
+    padding-top: 0;
+}
+
+.component-table-dataset .component-table-selection,
+.component-table-dataset .component-table-selection-header,
+.component-table-dataset .component-table-actions {
+    padding-left: var(--elements-spacing-x);
+}
+
+.component-table-dataset .component-table-actions-header {
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .table-no-results > td:first-child{
@@ -194,10 +180,6 @@ body.prod .component-table {
 
 .component-table-dataset .component-table-header a:focus-visible {
     background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
-}
-
-.component-table-dataset .sticky-header-container thead {
-    border-bottom-color: rgb(var(--elements-secondary-bg));
 }
 
 .component-filters-counter {

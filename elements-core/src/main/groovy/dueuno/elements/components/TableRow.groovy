@@ -22,6 +22,7 @@ import dueuno.elements.core.Elements
 import dueuno.elements.core.Transformer
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
 import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
@@ -388,6 +389,7 @@ class TableRow extends Component {
                         _21Table: table.id,
                         _21TableSort: [(columnName): order],
                 ],
+                textWrap: TextWrap.NO_WRAP,
         )
 
         return addCell(columnName, sortableHeader)
