@@ -329,11 +329,6 @@ class Transition {
             $components: $components,
         }
 
-        log.debug('HTML > TRANSITION >>>');
-        Transition.log(transition);
-        log.debug('<<<');
-        log.debug('');
-
         return transition;
     }
 
