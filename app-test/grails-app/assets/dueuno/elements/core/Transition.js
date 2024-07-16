@@ -333,11 +333,12 @@ class Transition {
     }
 
     static log(transition) {
-        log.debug('Commands >');
         log.debug(transition.commands);
-        if (transition.$components?.exists()) {
-            log.debug('Components >')
-            log.debug(transition.$components);
+        let hasComponents = transition.$components && transition.$components.children().length;
+        if (hasComponents) {
+            for (let element of transition.$components.children().children()) {
+                log.debug(element);
+            }
         }
     }
 }
