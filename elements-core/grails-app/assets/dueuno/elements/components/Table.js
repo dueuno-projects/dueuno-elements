@@ -1,4 +1,4 @@
-//= require TableStickyHeader
+//= require TableStickyHeaders
 
 class Table extends Component {
 
