@@ -15,6 +15,7 @@
 package dueuno.elements.controls
 
 import dueuno.elements.components.Button
+import dueuno.elements.core.Component
 import dueuno.elements.core.Control
 import dueuno.elements.core.Elements
 import dueuno.elements.style.TextTransform
@@ -62,6 +63,12 @@ class TextField extends Control {
                 group: true,
                 dontCreateDefaultAction: true,
         )
+    }
+
+    @Override
+    Component onSubmit(Map args) {
+        args.event = 'enter'
+        return on(args)
     }
 
     String getKeyboardType() {

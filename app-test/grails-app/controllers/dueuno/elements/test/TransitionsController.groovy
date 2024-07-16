@@ -275,34 +275,34 @@ class TransitionsController implements ElementsController {
                         keys: ['id'],
                 ))
         t.set('modal.select2', 'readonly', false)
-        t.set('modal.select2', 3, true)
+        t.setValue('modal.select2', 3, true)
 
         //setting value and currency
-        t.set('moneyfield', new Money(44, 'USD'))
+        t.setValue('moneyfield', new Money(44, 'USD'))
         t.set('modal.moneyfield', 'readonly', true)
 
         //setting value and decimals
-        t.set('numberfield', 123.45)
+        t.setValue('numberfield', 123.45)
         t.set('numberfield', 'decimals', 3)
 
         //setting value and unit
-        t.set('quantityfield', new Quantity(500, QuantityUnit.M))
+        t.setValue('quantityfield', new Quantity(500, QuantityUnit.M))
 
-        t.set('textfield', 'Test 12345')
+        t.setValue('textfield', 'Test 12345')
 
-        t.set('checkbox', true)
+        t.setValue('checkbox', true)
         t.set('checkbox', 'readonly', true)
 
-        t.set('datetimefield', LocalDateTime.now().plusDays(3))
-        t.set('datefield', LocalDate.now())
+        t.setValue('datetimefield', LocalDateTime.now().plusDays(3))
+        t.setValue('datefield', LocalDate.now())
         t.set('datefield', 'readonly', true)
-        t.set('timefield', LocalTime.now())
+        t.setValue('timefield', LocalTime.now())
         t.set('timefield', 'readonly', true)
 
         t.set('multiple', 'options', ['user2', 'user3'])
         t.set('multiple', 'readonly', ['admin'])
 
-        t.set('searchfield', 'admin')
+        t.setValue('searchfield', 'admin')
 
         t.set('moneyfieldField', 'label', 'New label')
         t.set('moneyfieldField', 'nullable', false)
@@ -324,7 +324,7 @@ class TransitionsController implements ElementsController {
                         recordset: TPerson.list(),
                         keys: ['name'],
                 ))
-        t.set('select3', 'admin')
+        t.setValue('select3', 'admin')
         //c.set('select3', 'readonly', false)
 
 

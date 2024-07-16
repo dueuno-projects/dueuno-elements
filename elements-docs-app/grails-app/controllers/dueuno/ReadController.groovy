@@ -51,10 +51,10 @@ class ReadController implements ElementsController {
         def book = bookService.get(params.book)
         if (book) {
             t.set('description', 'readonly', true)
-            t.set('description', book.description)
+            t.setValue('description', book.description)
         } else {
             t.set('description', 'readonly', false)
-            t.set('description', null)
+            t.setValue('description', null)
         }
         display transition: t
     }

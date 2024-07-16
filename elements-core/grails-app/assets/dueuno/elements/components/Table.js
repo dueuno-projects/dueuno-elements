@@ -7,18 +7,6 @@ class Table extends Component {
     }
 
     static finalize($element, $root) {
-        Page.finalizeContent($element);
-        // Must be initialized on finalization since ti changes the table DOM
-//        Table.initializeFixedScrollbar($element);
-
-//        $(window).on('scroll', Table.onWindowScroll);
-
-//        let $table = $element.find('.fixed-table-body');
-//        $table.off('scroll').on('scroll', Table.onScroll);
-
-//        let $scrollbar = $element.find('.component-table-scrollbar');
-//        $scrollbar.off('scroll').on('scroll', Table.onScrollbarScroll);
-
         let $selectAll = $element.find('.component-table-selection-header input');
         $selectAll.off('click').on('click', Table.onSelectAll);
 

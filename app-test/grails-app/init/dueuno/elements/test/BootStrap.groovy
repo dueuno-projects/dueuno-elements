@@ -364,6 +364,12 @@ class BootStrap {
             )
             applicationService.registerFeature(
                     parent: 'elements',
+                    controller: 'select',
+                    icon: 'fa-table-list',
+                    favourite: true,
+            )
+            applicationService.registerFeature(
+                    parent: 'elements',
                     controller: 'grid',
                     icon: 'fa-border-none',
             )

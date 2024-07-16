@@ -96,7 +96,7 @@ class MessageBoxDemoController implements ElementsController {
                         recordset: TPerson.where{ id == obj.id }.list(),
                 )
         )
-        t.set('select', obj.id)
+        t.setValue('select', obj.id)
         t.popup.hide()
         display transition: t
     }

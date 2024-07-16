@@ -475,7 +475,7 @@ class FormController implements ElementsController {
         def t = createTransition()
         Integer n = params.numberfield ?: 0
         n++
-        t.set('numberfield', [value: n])
+        t.setValue('numberfield', [value: n])
         display transition: t
     }
 
@@ -483,7 +483,7 @@ class FormController implements ElementsController {
         def t = createTransition()
         Integer n = params.numberfield ?: 0
         if (n > 0) n--
-        t.set('numberfield', [value: n])
+        t.setValue('numberfield', [value: n])
         display transition: t
     }
 }

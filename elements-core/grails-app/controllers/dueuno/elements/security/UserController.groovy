@@ -341,11 +341,11 @@ class UserController implements ElementsController {
 
         def t = createTransition()
         t.set('defaultGroup', 'options', tenantGroups)
-        t.set('groups',  params.defaultGroup)
+        t.setValue('groups',  params.defaultGroup)
         t.set('groups', 'options', tenantGroups)
 
         if (user) {
-            t.set('groups',  user.authorities*.id)
+            t.setValue('groups',  user.authorities*.id)
         }
 
         display transition: t

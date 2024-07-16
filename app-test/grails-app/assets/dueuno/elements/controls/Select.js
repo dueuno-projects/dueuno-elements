@@ -89,6 +89,16 @@ class Select extends Control {
 
     static onChange(event) {
         let $element = $(event.currentTarget);
+        let select2Values = $element.select2('data');
+
+        // In case of user clear we align the control value
+        if (select2Values.length == 0) {
+            $element.data('21-value', {
+                type: 'TEXT',
+                value: null,
+            });
+        }
+
         Transition.submitEvent($element, 'change');
     }
 
@@ -97,17 +107,15 @@ class Select extends Control {
 
         let searchEvent = Component.getEvent($element, 'search');
         let loadEvent = Component.getEvent($element, 'load');
-        if (searchEvent && loadEvent) {
+        let hasOptions = Select.hasOptions($element);
+        if (searchEvent && loadEvent && !hasOptions) {
             Select.setOptions($element, {[valueMap.value]: '...'});
-            $element.val(valueMap.value);
             if (trigger) {
                 Transition.submit(loadEvent);
             }
-
-        } else {
-            $element.val(valueMap.value);
         }
 
+        $element.val(valueMap.value);
         $element.trigger('change');
 
         if (!trigger) $element.on('select2:select select2:clear', Select.onChange);
@@ -116,6 +124,12 @@ class Select extends Control {
     static getValue($element) {
         let properties = Component.getProperties($element);
         let select2Values = $element.select2('data');
+        let loadEvent = Component.getEvent($element, 'load');
+        if (loadEvent && select2Values.length == 0) {
+            // If no value have been manually selected from the user
+            let controlValue = $element.data('21-value');
+            return controlValue;
+        }
 
         let ids = [];
         for (let value of select2Values) {
@@ -139,7 +153,11 @@ class Select extends Control {
         return result;
     }
 
-    static setOptions($element, options, selection = null) {
+    static hasOptions($element) {
+        return $element.children('option').length;
+    }
+
+    static setOptions($element, options) {
         $element.empty();
 
         if (!options) {
@@ -149,11 +167,6 @@ class Select extends Control {
         let properties = Component.getProperties($element);
         for (let [key, value] of Object.entries(options)) {
             $element.append(new Option(value, key, false, false));
-        }
-
-        let searchEvent = Component.getEvent($element, 'search');
-        if (!searchEvent) {
-            Select.setValue($element, {value: selection});
         }
     }
 

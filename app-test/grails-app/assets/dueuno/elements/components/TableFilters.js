@@ -16,7 +16,7 @@ class TableFilters extends Form {
     }
 
     static finalize($element, $root) {
-        $element.off('keypress').on('keypress', TableFilters.onSearch);
+        // no-op
     }
 
     static onToggle(event) {
@@ -29,27 +29,6 @@ class TableFilters extends Form {
         } else {
             TableFilters.unfold($filters);
         }
-    }
-
-    static onSearch(event) {
-        if (event.key != 'Enter') {
-            return;
-        }
-
-        event.preventDefault();
-
-        let $element = $(event.currentTarget);
-        let autoFold = Component.getProperty($element, 'autoFold');
-        if (autoFold) {
-            TableFilters.fold($element);
-        }
-
-        let name = Component.getId($element);
-        Transition.submit({
-            controller: Page.getController(),
-            action: Page.getAction(),
-            submit: [name],
-        });
     }
 
     static unfold($element) {

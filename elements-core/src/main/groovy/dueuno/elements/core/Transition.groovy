@@ -152,7 +152,7 @@ class Transition implements WebRequestAware {
         )
     }
 
-    void set(String component, Object value, Boolean trigger = true) {
+    void setValue(String component, Object value, Boolean trigger = true) {
         set(component, 'value', value, [], trigger)
     }
 

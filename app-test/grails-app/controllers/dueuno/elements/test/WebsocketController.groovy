@@ -93,9 +93,9 @@ class WebsocketController implements ElementsController {
                 action: params.acti,
                 modal: params.moda,
         )
-        t.set('form.modal', true)
-        t.set('form.wide', true)
-        t.set('form.closeButton', true)
+        t.setValue('form.modal', true)
+        t.setValue('form.wide', true)
+        t.setValue('form.closeButton', true)
 
         if (params.queue == 'user')
             transitionService.send(params.usr, t)

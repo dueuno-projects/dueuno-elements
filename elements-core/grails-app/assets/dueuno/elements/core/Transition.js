@@ -40,10 +40,9 @@ class Transition {
             commands: commands,
         };
 
-        log.debug('WEB SOCKET > TRANSITION >>>');
-        Transition.log(transition);
-        log.debug('<<<');
         log.debug('');
+        log.debug('>>> WEB SOCKET');
+        Transition.log(transition);
 
         for (let command of transition.commands) {
             Transition.executeCommand(transition, command, null);
@@ -51,10 +50,9 @@ class Transition {
     }
 
     static execute(transition, componentEvent) {
-        log.debug('TRANSITION >>>');
-        Transition.log(transition);
-        log.debug('<<<');
         log.debug('');
+        log.debug('<<< RESPONSE');
+        Transition.log(transition);
 
         for (let command of transition.commands) {
             Transition.executeCommand(transition, command, componentEvent);
@@ -124,18 +122,23 @@ class Transition {
                 if (rootName == target) return $root;
                 break;
 
-            case 'modal':
-                $root = PageModal.$self;
-                if (rootName == target) return $root;
-                break;
-
             case 'messagebox':
                 $root = PageMessageBox.$self;
                 if (rootName == target) return $root;
                 break;
 
+            case 'modal':
+                $root = PageModal.$self;
+                if (rootName == target) return $root;
+                break;
+
+            case 'content':
+                $root = Page.$content;
+                if (rootName == target) return $root;
+                break;
+
             default:
-                $root = PageModal.isActive ? PageModal.$self : $('body');
+                $root = PageModal.isActive ? PageModal.$self : Page.$content;
         }
 
         // Check for components with dotted name (Eg. 'company.name')
@@ -259,10 +262,9 @@ class Transition {
 
     static call(url, values, componentEvent, async) {
         log.debug('');
-        log.debug('CALL >>>');
-        log.debug('URL: ' + url);
-        log.debug('PARAMS: ' + JSON.stringify(values));
-        log.debug('<<<');
+        log.debug('>>> REQUEST');
+        log.debug(url);
+        log.debug(JSON.stringify(JSON.parse(values._21Params), null, 2));
 
         Transition.ajaxCall(url, values, componentEvent, async);
     }
@@ -333,7 +335,8 @@ class Transition {
     }
 
     static log(transition) {
-        log.debug(transition.commands);
+        let commands = JSON.stringify(transition.commands, null, 2)
+        log.debug(commands);
         let hasComponents = transition.$components && transition.$components.children().length;
         if (hasComponents) {
             for (let element of transition.$components.children().children()) {

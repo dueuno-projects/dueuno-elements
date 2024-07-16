@@ -166,7 +166,7 @@ class CrudDataServicesController implements ElementsController {
     def onCompanyChange() {
         def t = createTransition()
         def company = TCompany.get(params.company)
-        t.set('companyName', company?.name)
+        t.setValue('companyName', company?.name)
         t.set('name', 'readonly', company)
         display transition: t
     }

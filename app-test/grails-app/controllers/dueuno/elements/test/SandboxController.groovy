@@ -596,7 +596,7 @@ Grails application running at http://localhost:9992/test in environment: develop
         def t = createTransition()
         t.set('placeholderText', 'placeholder', 'Time changed!')
         t.set('placeholderArea', 'placeholder', params.t1 as String)
-        t.set('t2', params.t1?.plusHours(3))
+        t.setValue('t2', params.t1?.plusHours(3))
         t.set('t2', 'min', params.t1?.plusHours(3))
         t.set('t2', 'focus', true)
 //        t.set('t2', 'focus', false)
@@ -619,14 +619,14 @@ Grails application running at http://localhost:9992/test in environment: develop
         def results = securityService.listAllUser()
         def options = Select.optionsFromRecordset(recordset: results)
         t.set('select2', 'options', options)
-        t.set('select2', 3)
+        t.setValue('select2', 3)
         display transition: t
     }
 
     def onSelect2Change() {
         def t = createTransition()
         def user = securityService.getUser(params.select2)
-        t.set('select3', user.id)
+        t.setValue('select3', user.id)
         display transition: t
     }
 

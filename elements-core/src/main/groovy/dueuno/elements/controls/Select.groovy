@@ -51,8 +51,6 @@ class Select extends Control {
     Select(Map args) {
         super(args)
 
-        valueType = 'LIST'
-
         autoSelect = (args.autoSelect == null) ? true : args.autoSelect
         monospace = (args.monospace == null) ? false : args.monospace
         multiple = (args.multiple == null) ? false : args.multiple
@@ -280,18 +278,19 @@ class Select extends Control {
 
     @Override
     String getValueAsJSON() {
-        List<String> values
+        Map valueMap
+
         if (value in List) {
-            values = value.collect { it != null ? it.toString() : null }
-
+            valueMap = [
+                    type: 'LIST',
+                    value: value.collect { it != null ? it as String : null },
+            ]
         } else {
-            values = [value != null ? value.toString() : null]
+            valueMap = [
+                    type: 'TEXT',
+                    value: value != null ? value as String : null,
+            ]
         }
-
-        Map valueMap = [
-                type: valueType,
-                value: values,
-        ]
 
         return Elements.encodeAsJSON(valueMap)
     }
@@ -299,17 +298,17 @@ class Select extends Control {
     @Override
     String getPropertiesAsJSON(Map properties = [:]) {
         Map thisProperties = [
-                multiple: multiple,
-                waitingScreen: waitingScreen,
+                multiple            : multiple,
+                waitingScreen       : waitingScreen,
                 searchMinInputLength: searchMinInputLength,
-                allowClear: allowClear,
-                placeholder: placeholder,
-                search: search,
-                text: [
+                allowClear          : allowClear,
+                placeholder         : placeholder,
+                search              : search,
+                text                : [
                         inputTooShort: message('control.select.inputTooShort'),
-                        errorLoading: message('control.select.errorLoading'),
-                        noResults: message('control.select.noResults'),
-                        searching: message('control.select.searching'),
+                        errorLoading : message('control.select.errorLoading'),
+                        noResults    : message('control.select.noResults'),
+                        searching    : message('control.select.searching'),
                 ]
         ]
         return super.getPropertiesAsJSON(thisProperties + properties)

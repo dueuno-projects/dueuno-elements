@@ -36,7 +36,7 @@ class TransitionCommand {
     static renderContent($components, componentEvent) {
         let $content = $components.find('#page-content');
         if (!$content) {
-            log.error("Cannot find 'Content' component in transition.");
+            log.error("Cannot find a 'Content' component in transition.");
             return;
         }
 
