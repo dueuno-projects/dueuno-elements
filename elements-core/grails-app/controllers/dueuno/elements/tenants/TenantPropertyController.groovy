@@ -70,9 +70,9 @@ class TenantPropertyController implements ElementsController {
             columns = [
                     'issues',
                     'name',
+                    'value',
                     'type',
                     'description',
-//                    'value',
 //                    'defaultValue',
             ]
             prettyPrinterProperties = [
@@ -85,16 +85,16 @@ class TenantPropertyController implements ElementsController {
             body.eachRow { TableRow row, Map values ->
 //                row.cells.defaultValue.component.monospace = true
 //                row.cells.defaultValue.textAlign = TextAlign.START
-//                row.cells.value.component.monospace = true
-//                row.cells.value.textAlign = TextAlign.START
+                row.cells['value'].component.monospace = true
+                row.cells['value'].textAlign = TextAlign.START
 
                 if (values.validation) {
                     row.textColor = '#cc0000'
                     row.cells.issues.icon = 'fa-circle-exclamation'
                 }
 
-//                String typeName = StringUtils.screamingSnakeToCamel(values.type as String)
-//                values.value = values[typeName]
+                String typeName = StringUtils.screamingSnakeToCamel(values.type as String)
+                values.value = values[typeName]
 //                values.defaultValue = values[typeName + 'Default']
 
                 String descriptionCode = "tenant.property.${values.name}"
@@ -104,13 +104,13 @@ class TenantPropertyController implements ElementsController {
                     row.cells['description'].textColor = tertiaryBackgroundColor
                 }
 
-//                if (values.type == PropertyType.BOOL) {
-//                    values.value = values.value ? 'TRUE' : 'FALSE'
-//                }
+                if (values.type == PropertyType.BOOL) {
+                    values.value = values.value ? 'TRUE' : 'FALSE'
+                }
 
-//                if (values.type == PropertyType.PASSWORD) {
-//                    values.value = '**********'
-//                }
+                if (values.type == PropertyType.PASSWORD) {
+                    values.value = '**********'
+                }
             }
         }
 
