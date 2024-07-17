@@ -30,11 +30,20 @@ class DownloadResourceController implements ElementsController {
     SystemPropertyService systemPropertyService
     TenantService tenantService
 
+    private Boolean isValidPathname(String pathname) {
+        return !pathname.contains('..')
+    }
+
     @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
     def system() {
         String root = systemPropertyService.getDirectory(params.root)
         String pathname = params.pathname
         String resource =  root + pathname
+
+        if (!isValidPathname(pathname)) {
+            render status: 404
+            return
+        }
 
         log.trace "Downloading resource '${resource}'"
         download root + pathname
@@ -47,6 +56,11 @@ class DownloadResourceController implements ElementsController {
         String pathname = params.pathname
         String resource =  root + pathname
 
+        if (!isValidPathname(pathname)) {
+            render status: 404
+            return
+        }
+
         log.trace "Downloading resource '${resource}'"
         download resource
     }
@@ -56,6 +70,11 @@ class DownloadResourceController implements ElementsController {
         String root = tenantService.publicDir
         String pathname = params.pathname
         String resource =  root + pathname
+
+        if (!isValidPathname(pathname)) {
+            render status: 404
+            return
+        }
 
         log.trace "Downloading resource '${resource}'"
         download resource
