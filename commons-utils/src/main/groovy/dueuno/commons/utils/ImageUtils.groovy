@@ -1,6 +1,6 @@
 /*
  * Copyright 2021 the original author or authors.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
  *
  * You may obtain a copy of the License at
@@ -18,6 +18,7 @@ import groovy.transform.CompileStatic
 
 import javax.imageio.ImageIO
 import java.awt.*
+import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
 
 /**
@@ -82,6 +83,23 @@ class ImageUtils {
         graphics2D.dispose()
 
         return bi
+    }
+
+    static BufferedImage rotate(BufferedImage bi, Boolean right = true) {
+        Integer w = bi.width
+        Integer h = bi.height
+        Integer angle = right ? 90 : -90
+        BufferedImage rotated = new BufferedImage(h, w, bi.type)
+        Graphics2D g2d = rotated.createGraphics()
+
+        AffineTransform at = new AffineTransform()
+        at.translate((h - w) / 2 as double, (w - h) / 2 as double)
+        at.rotate(Math.toRadians(angle), w/2 as double, h/2 as double)
+        g2d.setTransform(at)
+        g2d.drawImage(bi, 0, 0, null)
+        g2d.dispose()
+
+        return rotated
     }
 
 }

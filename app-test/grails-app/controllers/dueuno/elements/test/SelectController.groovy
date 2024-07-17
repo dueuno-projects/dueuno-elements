@@ -14,23 +14,12 @@
  */
 package dueuno.elements.test
 
-import dueuno.elements.components.KeyPress
-import dueuno.elements.components.TableRow
-import dueuno.elements.contents.ContentCreate
-import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentForm
-import dueuno.elements.contents.ContentList
-import dueuno.elements.controls.*
-import dueuno.elements.core.ApplicationService
-import dueuno.elements.core.ElementsController
-import dueuno.elements.style.TextDefault
-import dueuno.elements.style.TextWrap
-import dueuno.elements.style.VerticalAlign
-import dueuno.elements.types.QuantityService
-import grails.gorm.multitenancy.CurrentTenant
-import grails.plugin.springsecurity.annotation.Secured
 
-import java.time.LocalDate
+import dueuno.elements.components.TableRow
+import dueuno.elements.contents.ContentList
+import dueuno.elements.controls.Select
+import dueuno.elements.core.ElementsController
+import grails.gorm.multitenancy.CurrentTenant
 
 @CurrentTenant
 class SelectController implements ElementsController {
@@ -42,37 +31,45 @@ class SelectController implements ElementsController {
         c.table.with {
             filters.with {
                 fold = false
+//                addField(
+//                        class: Select,
+//                        id: 'company1',
+//                        optionsFromRecordset: TCompany.list(),
+//                        placeholder: 'Sync load',
+//                        cols: 3,
+//                )
                 addField(
                         class: Select,
-                        id: 'company1',
+                        id: 'company1Default',
                         optionsFromRecordset: TCompany.list(),
-                        placeholder: 'Sync load',
+                        placeholder: 'Sync load (defaultValue)',
+                        defaultValue: 3,
                         cols: 3,
                 )
-                addField(
-                        class: Select,
-                        id: 'company2',
-                        onLoad: 'onLoadCompany2',
-                        search: false,
-                        placeholder: 'Async load',
-                        cols: 3,
-                )
-                addField(
-                        class: Select,
-                        id: 'company3',
-                        onLoad: 'onLoadCompany3',
-                        onSearch: 'onSearchCompany3',
-                        placeholder: 'Async search',
-                        cols: 3,
-                )
-                addField(
-                        class: Select,
-                        id: 'company4',
-                        onLoad: 'onLoadCompany4',
-                        multiple: true,
-                        placeholder: 'Multiple',
-                        cols: 3,
-                )
+//                addField(
+//                        class: Select,
+//                        id: 'company2',
+//                        onLoad: 'onLoadCompany2',
+//                        search: false,
+//                        placeholder: 'Async load',
+//                        cols: 3,
+//                )
+//                addField(
+//                        class: Select,
+//                        id: 'company3',
+//                        onLoad: 'onLoadCompany3',
+//                        onSearch: 'onSearchCompany3',
+//                        placeholder: 'Async search',
+//                        cols: 3,
+//                )
+//                addField(
+//                        class: Select,
+//                        id: 'company4',
+//                        onLoad: 'onLoadCompany4',
+//                        multiple: true,
+//                        placeholder: 'Multiple',
+//                        cols: 3,
+//                )
             }
 
             sortable = [
@@ -103,6 +100,7 @@ class SelectController implements ElementsController {
         def filters = c.table.filterParams
         if (filters.name) query = query.where { name =~ "%${filters.name}%" }
         if (filters.company1) query = query.where { company.id == filters.company1 }
+        if (filters.company1Default) query = query.where { company.id == filters.company1Default }
         if (filters.company2) query = query.where { company.id in filters.company2.collect { it as Long }  }
         if (filters.company3) query = query.where { company.id in filters.company3.collect { it as Long }  }
         if (filters.company4) query = query.where { company.id in filters.company4.collect { it as Long }  }
