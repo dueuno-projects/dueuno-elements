@@ -28,7 +28,7 @@
     </g:if>
 
     <%-- Actions --%>
-    <g:if test="${c.table.displayActions && !c.table.readonly}">
+    <g:if test="${c.table.rowActions && !c.table.readonly}">
         <g:if test="${c.isHeader}">
             <th class="component-table-actions-header ${c.verticalAlign}">
                 <g:if test="${c.table && c.table.groupActions.hasActions() && !c.table.readonly}">

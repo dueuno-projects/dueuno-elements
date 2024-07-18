@@ -83,7 +83,7 @@ class AuditController implements ElementsController {
                     'ip',
                     'userAgent',
             ]
-            displayActions = false
+            rowActions = false
         }
 
         def filters = c.table.filterParams

@@ -6,7 +6,7 @@
      data-21-events="${c.eventsAsJSON}"
 >
     <table class="table m-0 ${c.table.rowStriped && c.table.body.hasRows() ? 'table-striped' : ''} ${c.table.rowHighlight ? 'table-hover' : ''} ${c.table.rowBorderless ? 'table-borderless' : ''} ${c.table.cssClass}">
-        <g:if test="${c.table.displayHeader}">
+        <g:if test="${c.table.hasHeader}">
             <thead>
             <g:each var="row" in="${c.table.header.processedRows}">
                 <render:component instance="${row}"/>
@@ -31,7 +31,7 @@
         </g:else>
         </tbody>
 
-        <g:if test="${c.table.displayFooter}">
+        <g:if test="${c.table.hasFooter}">
             <tfoot>
             <g:each var="row" in="${c.table.footer.processedRows}">
                 <render:component instance="${row}"/>

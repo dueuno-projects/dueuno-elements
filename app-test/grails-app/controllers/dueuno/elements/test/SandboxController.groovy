@@ -384,7 +384,7 @@ Grails application running at http://localhost:9992/test in environment: develop
 
         def table2 = c.addComponent(Table, 'table2')
         table2.with {
-//            enableComponents = true
+//            hasComponents = true
             filters.with {
                 addField(
                         class: TextField,

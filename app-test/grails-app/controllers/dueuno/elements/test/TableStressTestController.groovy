@@ -119,7 +119,7 @@ class TableStressTestController implements ElementsController {
                 actions.addAction(action: 'action2')
                 actions.addAction(controller: 'controller3')
 
-//                displayActions = false
+//                rowActions = false
 
                 //max = rowsQty
                 columns = generateColumns()

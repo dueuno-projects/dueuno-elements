@@ -59,12 +59,12 @@ class Table extends Component {
     Double stickyHeaderOffset
     Integer stickyHeaderZIndex
 
-    Boolean displayActions
-    Boolean displayHeader
-    Boolean displayFooter
-    Boolean displayPagination
-    Boolean enableComponents
+    Boolean hasHeader
+    Boolean hasFooter
+    Boolean hasPagination
+    Boolean hasComponents
 
+    Boolean rowActions
     Boolean rowHighlight
     Boolean rowStriped
     Boolean rowBorderless
@@ -101,11 +101,11 @@ class Table extends Component {
         stickyHeaderOffset = args.stickyHeaderOffset as Double
         stickyHeaderZIndex = args.stickyHeaderZIndex == null ? 0 : args.stickyHeaderZIndex as Integer
 
-        displayActions = (args.displayActions == null) ? true : args.displayActions
-        displayHeader = (args.displayHeader == null) ? true : args.displayHeader
-        displayFooter = (args.displayFooter == null) ? true : args.displayFooter
-        displayPagination = (args.displayPagination == null) ? false : args.displayPagination
-        enableComponents = (args.enableComponents == null) ? false : args.enableComponents
+        rowActions = (args.rowActions == null) ? true : args.rowActions
+        hasHeader = (args.hasHeader == null) ? true : args.hasHeader
+        hasFooter = (args.hasFooter == null) ? true : args.hasFooter
+        hasPagination = (args.hasPagination == null) ? false : args.hasPagination
+        hasComponents = (args.hasComponents == null) ? false : args.hasComponents
 
         rowHighlight = (args.rowHighlight == null) ? true : args.rowHighlight
         rowStriped = (args.rowStriped == null) ? false : args.rowStriped
@@ -180,7 +180,7 @@ class Table extends Component {
     @Override
     String getPropertiesAsJSON(Map properties = [:]) {
         Map thisProperties = [
-                enableComponents: enableComponents,
+                hasComponents: hasComponents,
                 stickyHeaderOffset: stickyHeaderOffset,
                 stickyHeaderZIndex: stickyHeaderZIndex,
         ]
@@ -262,7 +262,7 @@ class Table extends Component {
 
     void setPaginate(Integer total) {
         pagination.total = total
-        displayPagination = true
+        hasPagination = true
     }
 
     void setTitle(String value) {
@@ -345,7 +345,7 @@ class Table extends Component {
 
     Integer getColumnsNumber() {
         Integer result = columns.size()
-        if (displayActions) result++
+        if (rowActions) result++
         if (groupActions.hasActions()) result++
         return result
     }

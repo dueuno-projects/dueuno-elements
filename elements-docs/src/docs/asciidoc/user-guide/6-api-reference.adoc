@@ -1327,19 +1327,19 @@ Map filters = c.table.filters.values // <1>
 ----
 <1> The submitted values of the filters fields. See <<table-filters>>
 
-|`displayActions`
+|`rowActions`
 |`Boolean`
 |Whether to display the row action buttons or not (Default: `true`)
-|`displayHeader`
+|`hasHeader`
 |`Boolean`
 |Whether to display the table header or not (Default: `true`)
-|`displayFooter`
+|`hasFooter`
 |`Boolean`
 |Whether to display the table footer or not (Default: `true`)
-|`displayPagination`
+|`hasPagination`
 |`Boolean`
 |Whether to display the table pagination or not (Default: `true`)
-|`enableComponents`
+|`hasComponents`
 |`Boolean`
 |Whether to render the table to host custom components on its cells or not. Enabling this feature slows down the rendering (Default: `false`)
 |`rowHighlight`

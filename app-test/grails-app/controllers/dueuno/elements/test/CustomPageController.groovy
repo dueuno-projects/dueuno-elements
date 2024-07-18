@@ -43,7 +43,7 @@ class CustomPageController implements ElementsController {
 
         def table = p.content.addComponent(Table)
         table.with {
-            displayHeader = false
+            hasHeader = false
             rowHighlight = false
 //            filters.with {
 //                folded = false

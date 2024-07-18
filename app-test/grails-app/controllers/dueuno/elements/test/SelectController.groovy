@@ -90,7 +90,7 @@ class SelectController implements ElementsController {
                     'active',
             ]
 
-            displayActions = false
+            rowActions = false
             body.eachRow { TableRow row, Map values ->
             }
         }

@@ -439,7 +439,7 @@ class FormController implements ElementsController {
         c.form['paragraph'].html = '<em>[label.html]</em> <strong>Lorem ipsum dolor sit amet</strong>, <u>consectetur adipisci elit</u>, <a href="#">sed eiusmod tempor incidunt ut labore et dolore magna aliqua</a>. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 
         c.addComponent(Table, 'table').with {
-//            displayActions = false
+//            rowActions = false
             columns = [
                     'company',
                     'name',

@@ -74,7 +74,7 @@ class TableCell extends Component {
             renderMessagePrefix = false
         }
 
-        if (table.enableComponents) {
+        if (table.hasComponents) {
             row.viewTemplate = 'TableRowComponent'
         }
 
@@ -108,7 +108,7 @@ class TableCell extends Component {
     }
 
     void setComponent(Map args) {
-        table.enableComponents = true
+        table.hasComponents = true
         row.viewTemplate = 'TableRowComponent'
 
         args.id = getId() + '-component'

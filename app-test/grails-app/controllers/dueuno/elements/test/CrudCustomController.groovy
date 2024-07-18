@@ -77,7 +77,7 @@ class CrudCustomController implements ElementsController {
 
             actions.unsetTailAction()
 
-            displayHeader = false
+            hasHeader = false
 
             body.eachRow { TableRow row, Map values ->
                 row.cells['postcode'].textAlign = TextAlign.END
