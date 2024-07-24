@@ -211,7 +211,7 @@ class UserController implements ElementsController {
 
         buildPreferencesForm(c)
 
-        c.form['language'].defaultValue = systemPropertyService.getString('MAIN_LANGUAGE')
+        c.form['language'].defaultValue = systemPropertyService.getString('DEFAULT_LANGUAGE')
 
         return c
     }

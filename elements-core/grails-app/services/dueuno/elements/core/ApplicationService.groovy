@@ -532,7 +532,7 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
         if (excluded) log.debug "Excluded languages ${excluded}"
 
         // Main check
-        String main = systemPropertyService.getString('MAIN_LANGUAGE')
+        String main = systemPropertyService.getString('DEFAULT_LANGUAGE')
         if (main !in available) {
             throw new ArgsException("""
                 The language '${main}' does not have a corresponding '/i18n/messages_${main}.properties' file,

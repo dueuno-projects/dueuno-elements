@@ -232,7 +232,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
     void initializeShell() {
         TUser user = getCurrentUser(true)
-        String lang = (user?.language in applicationService.languages) ? user.language : tenantPropertyService.getString('MAIN_LANGUAGE', true)
+        String lang = (user?.language in applicationService.languages) ? user.language : tenantPropertyService.getString('DEFAULT_LANGUAGE', true)
         shellService.currentLanguage = lang
         shellService.shell.setUser(currentUser.username, currentUser.firstname, currentUser.lastname)
         shellService.setFontSize(currentUser.fontSize)

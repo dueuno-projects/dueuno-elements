@@ -63,7 +63,7 @@ class BootStrap {
 
         applicationService.onSystemInstall {
             systemPropertyService.setBoolean('DISPLAY_MENU', true)
-            systemPropertyService.setString('MAIN_LANGUAGE', 'it')
+            systemPropertyService.setString('DEFAULT_LANGUAGE', 'it')
             systemPropertyService.setString('EXCLUDED_LANGUAGES', 'de,pi')
             systemPropertyService.setString('TEST_JOB_PROPERTY', 'CHANGE ME')
 

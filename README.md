@@ -2,7 +2,7 @@
 
 Dueuno Elements
 ===
-[Dueuno Elements](https://dueuno.com) lets you build backoffice web applications in days instead of months with a single programming language: [Apache Groovy](https://groovy-lang.org).
+With [Dueuno Elements](https://dueuno.com) we can build backoffice web applications with a single programming language: [Apache Groovy](https://groovy-lang.org).
 
 The main goal is to strongly decouple the Business Logic from the GUI rising the abstraction level to a point where we don't need to know HTML, CSS and JavaScript to build CRUDs & common UIs.
 

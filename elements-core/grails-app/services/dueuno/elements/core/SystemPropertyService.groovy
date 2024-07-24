@@ -44,7 +44,7 @@ class SystemPropertyService extends PropertyService {
         // Languages
         setString('AVAILABLE_LANGUAGES', '')
         setString('EXCLUDED_LANGUAGES', '')
-        setString('MAIN_LANGUAGE', 'en')
+        setString('DEFAULT_LANGUAGE', 'en')
 
         // Menus
         setBoolean('DISPLAY_MENU', true)
