@@ -47,7 +47,7 @@ class ComponentEvent extends LinkDefinition {
                 direct: direct,
                 target: target,
                 renderProperties: renderProperties.asMap(),
-                waitingScreen: waitingScreen,
+                loading: loading,
                 infoMessage: infoMessage,
                 confirmMessage: confirmMessage,
         ]

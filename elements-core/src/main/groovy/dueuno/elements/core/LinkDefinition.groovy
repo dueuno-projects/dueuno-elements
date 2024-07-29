@@ -57,7 +57,7 @@ class LinkDefinition implements Serializable {
     PageRenderProperties renderProperties
 
     /** If true a waiting screen will be displayed while the link gets retrieved */
-    Boolean waitingScreen
+    Boolean loading
 
     /** If specified a confirm message will pop up giving the user a chance to cancel the action */
     String confirmMessage
@@ -87,7 +87,7 @@ class LinkDefinition implements Serializable {
 
         target = args.target
         targetNew = args.targetNew
-        waitingScreen = args.waitingScreen ?: false
+        loading = args.loading ?: false
 
         infoMessage = args.infoMessage
         confirmMessage = args.confirmMessage
@@ -142,7 +142,7 @@ class LinkDefinition implements Serializable {
                 submit: submit,
                 direct: direct,
                 target: target,
-                waitingScreen: waitingScreen,
+                loading: loading,
                 infoMessage: infoMessage,
                 confirmMessage: confirmMessage,
                 renderProperties: renderProperties.asMap(),

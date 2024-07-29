@@ -43,7 +43,7 @@ class Select extends Control {
     Boolean autoSelect // Auto selects if not nullable and the control has only one option
     Boolean multiple
     Boolean search
-    Boolean waitingScreen
+    Boolean loading
     Boolean monospace
 
     Integer searchMinInputLength
@@ -55,7 +55,7 @@ class Select extends Control {
         monospace = (args.monospace == null) ? false : args.monospace
         multiple = (args.multiple == null) ? false : args.multiple
         forEachOption = args.forEachOption as Closure ?: null
-        waitingScreen = (args.waitingScreen == null) ? false : args.waitingScreen
+        loading = (args.loading == null) ? false : args.loading
         placeholder = args.placeholder ? message(args.placeholder as String) : message('control.select.placeholder')
 
         searchMinInputLength = (args.searchMinInputLength == null) ? 0 : args.searchMinInputLength as Integer
@@ -299,7 +299,7 @@ class Select extends Control {
     String getPropertiesAsJSON(Map properties = [:]) {
         Map thisProperties = [
                 multiple            : multiple,
-                waitingScreen       : waitingScreen,
+                loading       : loading,
                 searchMinInputLength: searchMinInputLength,
                 allowClear          : allowClear,
                 placeholder         : placeholder,

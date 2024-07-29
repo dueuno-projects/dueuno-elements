@@ -153,9 +153,12 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
     }
 
     private void registerEvents(Map args) {
-        String controller = args.controller
-        List submit = args.submit as List
-        Map params = args.params as Map
+        List submit = []
+        if (args.submit) {
+            submit = args.submit in List
+                    ? args.submit as List
+                    : [args.submit as String]
+        }
 
         for (arg in args) {
             String eventName = arg.key
@@ -163,13 +166,12 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
 
             if (eventName.startsWith('on')) {
                 String event = (eventName - 'on').toLowerCase()
-                on(
+                Map eventArgs = [
                         event: event,
                         action: action,
-                        controller: controller,
                         submit: submit ?: [getId()],
-                        params: params,
-                )
+                ]
+                on(args + eventArgs)
             }
         }
     }

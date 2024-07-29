@@ -27,7 +27,8 @@ enum TransitionCommandMethod {
     CONTENT,
     REPLACE,
     APPEND,
+    TRIGGER,
+    LOADING,
     CALL,
-    SET,
-    TRIGGER
+    SET
 }

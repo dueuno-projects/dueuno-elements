@@ -6,9 +6,10 @@ class TransitionCommand {
     static get CONTENT() { return 'CONTENT' }
     static get REPLACE() { return 'REPLACE' }
     static get APPEND() { return 'APPEND' }
+    static get TRIGGER() { return 'TRIGGER' }
+    static get LOADING() { return 'LOADING' }
     static get CALL() { return 'CALL' }
     static get SET() { return 'SET' }
-    static get TRIGGER() { return 'TRIGGER' }
 
     static async redirect(componentEvent) {
         if (PageModal.isActive && !componentEvent.renderProperties['modal']) {
@@ -16,7 +17,6 @@ class TransitionCommand {
             await sleep(100); // We give time for the animations to start
         }
 
-        componentEvent['updateUrl'] = true
         Transition.submit(componentEvent, false);
     }
 
@@ -118,6 +118,14 @@ class TransitionCommand {
         Page.reinitializeContent($component);
     }
 
+    static trigger($element, property) {
+        Transition.submitEvent($element, property);
+    }
+
+    static loading(show) {
+        Transition.showLoadingScreen(show);
+    }
+
     static async call($element, component, property, value) {
         await sleep(100); // We give time for the animations to start
 
@@ -142,10 +150,6 @@ class TransitionCommand {
         } else {
             Elements.callMethod($element, component, methodName, value.value);
         }
-    }
-
-    static trigger($element, property) {
-        Transition.submitEvent($element, property);
     }
 
     static mergeRenderProperties(eventRenderProperties, contentRenderProperties) {

@@ -47,11 +47,14 @@ class UploadController implements ElementsController {
                 addField(
                         class: Upload,
                         id: 'somefile',
+//                        onAddFile: 'onAddFile',
+//                        onRemoveFile: 'onRemoveFile',
                         onUpload: 'onUploadFile',
                         onSuccess: 'onUploadSuccess',
                         maxFiles: 1,
                         acceptedFiles: ['.jpg', '.jpeg'],
-                        submit: ['form'],
+                        submit: 'form',
+                        loading: true,
                 )
                 addField(
                         class: TextField,
@@ -79,6 +82,7 @@ class UploadController implements ElementsController {
             println params
             def path = tenantService.getPublicDir() + 'upload/'
             Upload.save(path)
+            sleep(1000)
 
             println 'Uploaded file "' + Upload.filename + '" to path ' + path
             display
@@ -99,6 +103,9 @@ class UploadController implements ElementsController {
         t.set('file', 'text', obj.filename)
         t.set('file', 'icon', 'fa-solid fa-check')
         t.call('somefile', 'clear')
+
+        t.loading(false)
+
         display transition: t
     }
 

@@ -65,7 +65,7 @@ body.prod .component-table {
 }
 
 .component-table-dataset .sticky-header {
-    border-bottom: rgb(var(--elements-secondary-bg)) 0.25rem solid;
+    border-bottom: rgb(var(--elements-tertiary-bg)) 0.25rem solid;
 }
 
 .component-table-dataset .component-table-header a {
@@ -162,7 +162,7 @@ body.prod .component-table {
 .component-table tr.table-no-results,
 .component-table tr.table-no-results td,
 .component-table tr.table-no-results:hover td {
-    color: rgba(var(--elements-tertiary-bg), 0.5);
+    color: rgba(var(--elements-secondary-bg), 0.5);
 }
 
 .component-table .table-hover tr.table-no-results:hover td {
@@ -175,7 +175,7 @@ body.prod .component-table {
 }
 
 .component-table-dataset .table-striped tbody tr:nth-of-type(odd) {
-    --bs-table-striped-bg: rgb(var(--elements-secondary-bg));
+    --bs-table-striped-bg: rgb(var(--elements-tertiary-bg));
 }
 
 .component-table-dataset .component-table-header a {

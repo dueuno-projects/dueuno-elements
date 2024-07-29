@@ -152,6 +152,15 @@ class Transition implements WebRequestAware {
         )
     }
 
+    void loading(Boolean show) {
+        addCommand(
+                TransitionCommandMethod.LOADING,
+                null,
+                null,
+                show
+        )
+    }
+
     void setValue(String component, Object value, Boolean trigger = true) {
         set(component, 'value', value, [], trigger)
     }
@@ -237,10 +246,6 @@ class Transition implements WebRequestAware {
         }
 
         call('messagebox', 'confirm', args)
-    }
-
-    GroovyPagesTemplateEngine getGspEngine() {
-        return Elements.getBean('groovyPagesTemplateEngine') as GroovyPagesTemplateEngine
     }
 
     private void addCommand(TransitionCommandMethod method, String component, String property, Object value, Boolean trigger = true) {

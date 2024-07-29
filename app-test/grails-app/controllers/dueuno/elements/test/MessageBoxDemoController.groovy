@@ -49,7 +49,7 @@ class MessageBoxDemoController implements ElementsController {
 
     def onSelectCreate() {
         def t = createTransition()
-        //page.hideWaitingScreen()
+//        t.loading(false)
         t.popup.with {
             label = 'default.create.label'
             labelArgs = ['TPerson']

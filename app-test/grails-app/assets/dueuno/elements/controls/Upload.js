@@ -47,15 +47,26 @@ class Upload extends Control {
 
     static registerEvents() {
         let $element = this;
-        $element.off('removedfile').on('removedfile', Upload.onRemovedFile);
-        $element.off('success').on('success', Upload.onSuccess);
-        $element.off('error').on('error', Upload.onError);
+        $element.on('addedfile', Upload.onAddFile);
+        $element.on('removedfile', Upload.onRemoveFile);
+        $element.on('success', Upload.onSuccess);
+        $element.on('error', Upload.onError);
     }
 
-    static onRemovedFile(file) {
+    static onAddFile(file) {
         let $element = $(this.element);
-        file.previewElement.remove();
-        Transition.submitEvent($element, 'removedfile');
+
+        let componentEvent = Component.getEvent($element, 'upload');
+        if (componentEvent.loading) {
+            Transition.showLoadingScreen(true);
+        }
+
+        Transition.submitEvent($element, 'addfile');
+    }
+
+    static onRemoveFile(file) {
+        let $element = $(this.element);
+        Transition.submitEvent($element, 'removefile');
     }
 
     static onSuccess(file) {
@@ -65,6 +76,7 @@ class Upload extends Control {
 
     static onError(file) {
         let $element = $(this.element);
+        Transition.showLoadingScreen(false);
         Transition.submitEvent($element, 'error');
     }
 

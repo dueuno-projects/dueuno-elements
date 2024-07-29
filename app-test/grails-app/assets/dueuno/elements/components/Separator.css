@@ -13,5 +13,5 @@
 /* COLORS
 */
 .component-separator {
-    border-bottom: 1px solid rgb(var(--elements-secondary-bg));
+    border-bottom: 1px solid rgb(var(--elements-tertiary-bg));
 }

@@ -28,5 +28,5 @@
 /* COLORS
 */
 .component-header {
-    background-color: rgb(var(--elements-secondary-bg));
+    background-color: rgb(var(--elements-tertiary-bg));
 }

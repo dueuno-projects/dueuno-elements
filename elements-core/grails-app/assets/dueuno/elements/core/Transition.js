@@ -88,16 +88,20 @@ class Transition {
                 TransitionCommand.append($element, valueMap.value, $components);
                 break;
 
+            case TransitionCommand.TRIGGER:
+                TransitionCommand.trigger($element, property);
+                break;
+
+            case TransitionCommand.LOADING:
+                TransitionCommand.loading(valueMap.value);
+                break;
+
             case TransitionCommand.CALL:
                 TransitionCommand.call($element, component, property, valueMap.value);
                 break;
 
             case TransitionCommand.SET:
                 TransitionCommand.set($element, component, property, valueMap, trigger);
-                break;
-
-            case TransitionCommand.TRIGGER:
-                TransitionCommand.trigger($element, property);
                 break;
 
             default:
@@ -184,8 +188,10 @@ class Transition {
         }
 
         let renderProperties = componentEvent['renderProperties'];
-        if (Elements.onMobile && renderProperties) {
-            renderProperties['updateUrl'] = false;
+        if (renderProperties) {
+            // We don't update the URL on mobile devices to avoid
+            // the display of the browser toolbar
+            renderProperties['updateUrl'] = !Elements.onMobile;
         }
 
         let values = Transition.build21Params(componentEvent);
@@ -277,6 +283,8 @@ class Transition {
             async: async,
         }
 
+        Transition.showLoadingScreen(componentEvent['loading']);
+
         $.ajax(call)
             .done(function (data, textStatus, xhr) {
                 let $response = $(data);
@@ -288,9 +296,12 @@ class Transition {
 
                 } else { // It's a full page
                     TransitionCommand.renderPage($response, componentEvent);
+                    Transition.showLoadingScreen(false);
                 }
             })
             .fail(function (xhr, textStatus, errorThrown) {
+                Transition.showLoadingScreen(false);
+
                 if (xhr.readyState === 0) {
                     PageMessageBox.error(null, {infoMessage: 'Unable to connect to server.'});
                     return;
@@ -315,6 +326,18 @@ class Transition {
                         PageMessageBox.error(null, {infoMessage: 'Cannot execute call: ' + xhr.status});
                 }
             });
+    }
+
+    static showLoadingScreen(show) {
+        let $loading = PageModal.isActive
+            ? $('#modal-loading-screen')
+            : $('#loading-screen');
+
+        if (show) {
+           $loading.css('display', 'block');
+        } else {
+           $loading.css('display', 'none');
+        }
     }
 
     static fromHtml(html, componentEvent = null) {

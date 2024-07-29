@@ -1,7 +1,7 @@
-/*! Copyright (c) Jonas Mosbech - https://github.com/jmosbech/StickyTableHeaders
-	MIT license info: https://github.com/jmosbech/StickyTableHeaders/blob/master/license.txt
+/* Copyright (c) Jonas Mosbech - https://github.com/jmosbech/StickyTableHeaders
+   MIT license info: https://github.com/jmosbech/StickyTableHeaders/blob/master/license.txt
 
-    Customized from version 0.1.24
+   Customized for Table by us starting from version 0.1.24
 */
 
 ;(function ($, window, undefined) {

@@ -90,7 +90,7 @@ button:active {
 }
 
 .dropdown-menu a {
-    color: rgb(var(--elements-secondary-text));
+    color: rgb(var(--elements-tertiary-text));
 }
 
 a.btn,
@@ -113,6 +113,6 @@ button:active,
 .dropdown-item:focus,
 .dropdown-item:active,
 .btn-group :not(.btn-check)+.btn:active {
-    background-color: rgb(var(--elements-tertiary-bg));
-    color: rgb(var(--elements-tertiary-text));
+    background-color: rgb(var(--elements-secondary-bg));
+    color: rgb(var(--elements-secondary-text));
 }

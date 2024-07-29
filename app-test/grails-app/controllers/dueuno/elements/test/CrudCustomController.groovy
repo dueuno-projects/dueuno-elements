@@ -49,10 +49,12 @@ class CrudCustomController implements ElementsController {
                 addField(
                         class: DateField,
                         id: 'dateFrom',
+                        cols: 3,
                 )
                 addField(
                         class: DateField,
                         id: 'dateTo',
+                        cols: 3,
                 )
             }
 
@@ -103,10 +105,12 @@ class CrudCustomController implements ElementsController {
                 addField(
                         class: DateField,
                         id: 'dateFrom',
+                        cols: 3,
                 )
                 addField(
                         class: DateField,
                         id: 'dateTo',
+                        cols: 3,
                 )
             }
 
@@ -156,10 +160,12 @@ class CrudCustomController implements ElementsController {
                 addField(
                         class: DateField,
                         id: 'dateFrom',
+                        cols: 3,
                 )
                 addField(
                         class: DateField,
                         id: 'dateTo',
+                        cols: 3,
                 )
             }
 

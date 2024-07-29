@@ -242,12 +242,12 @@ class Link extends Label {
         setOnClickEvent()
     }
 
-    Boolean getWaitingScreen() {
-        return linkDefinition.waitingScreen
+    Boolean getLoading() {
+        return linkDefinition.loading
     }
 
-    void setWaitingScreen(Boolean value) {
-        linkDefinition.waitingScreen = value
+    void setLoading(Boolean value) {
+        linkDefinition.loading = value
         setOnClickEvent()
     }
 

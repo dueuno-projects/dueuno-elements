@@ -419,12 +419,12 @@ class Menu extends Component {
         link.text = value
     }
 
-    Boolean getWaitingScreen() {
-        return link.waitingScreen
+    Boolean getLoading() {
+        return link.loading
     }
 
-    void setWaitingScreen(Boolean value) {
-        link.waitingScreen = value
+    void setLoading(Boolean value) {
+        link.loading = value
     }
 
     String getConfirmMessage() {

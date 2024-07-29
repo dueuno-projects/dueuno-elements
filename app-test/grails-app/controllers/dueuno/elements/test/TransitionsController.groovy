@@ -112,7 +112,7 @@ class TransitionsController implements ElementsController {
                     id: 'user1',
                     optionsFromRecordset: TPerson.list(),
                     keys: ['id'],
-                    waitingScreen: true,
+                    loading: true,
                     onChange: 'onSelectChange',
                     submit: 'form',
                     params: [id: 10],
@@ -307,13 +307,12 @@ class TransitionsController implements ElementsController {
         t.set('moneyfieldField', 'label', 'New label')
         t.set('moneyfieldField', 'nullable', false)
 
-        t.call('page', 'hideWaitingScreen')
-
         t.set('textfieldField', 'error', 'This field has an error')
         //c.set('textfieldWrapper', 'error', false)
 
         t.set('textarea', 'readonly', true)
 
+        t.loading(false)
         display transition: t
     }
 

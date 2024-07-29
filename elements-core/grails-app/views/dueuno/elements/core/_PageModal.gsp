@@ -10,6 +10,7 @@
 >
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content border-0 rounded-4 shadow">
+            <div id="modal-loading-screen"><i class="fa-solid fa-cog fa-spin"></i></div>
             <div id="page-modal-header"
                  class="modal-header"
                  style="background-color: ${c.tertiaryBackgroundColor}"

@@ -29,3 +29,5 @@
         --elements-font-size: ${c.fontSize ?: '17'}px;
     }
 </style>
+
+<div id="loading-screen"><i class="fa-solid fa-cog fa-spin"></i></div>

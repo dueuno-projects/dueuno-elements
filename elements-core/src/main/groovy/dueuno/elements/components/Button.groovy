@@ -192,8 +192,8 @@ class Button extends Component {
         defaultAction.targetNew = value
     }
 
-    void setWaitingScreen(Boolean value) {
-        defaultAction.waitingScreen = value
+    void setLoading(Boolean value) {
+        defaultAction.loading = value
     }
 
     /**

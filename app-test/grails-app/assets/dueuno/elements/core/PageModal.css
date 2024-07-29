@@ -1,5 +1,5 @@
 #page-modal-body {
-    background-color: rgb(var(--elements-secondary-bg));
+    background-color: rgb(var(--elements-tertiary-bg));
 }
 
 @media (min-width: 650px) {

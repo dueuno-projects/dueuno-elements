@@ -1,6 +1,6 @@
 #shell-navbar {
-    background-color: rgb(var(--elements-secondary-bg));
-    background-color: rgba(var(--elements-secondary-bg), 0.7);
+    background-color: rgb(var(--elements-tertiary-bg));
+    background-color: rgba(var(--elements-tertiary-bg), 0.7);
 }
 
 #shell-navbar {
@@ -14,7 +14,7 @@
 }
 
 #shell-navbar.has-sticky {
-    background-color: rgb(var(--elements-secondary-bg));
+    background-color: rgb(var(--elements-tertiary-bg));
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
 }

@@ -70,6 +70,13 @@ class SandboxController implements ElementsController {
         formFail.with {
             addField(
                     class: Button,
+                    id: 'loadingScreen',
+                    action: 'onHideLoadingScreen',
+                    loading: true,
+                    cols: 12,
+            )
+            addField(
+                    class: Button,
                     id: 'redirectBtn',
                     action: 'messageWithRedirect',
                     modal: true,
@@ -545,6 +552,13 @@ Grails application running at http://localhost:9992/test in environment: develop
         )
 
         display content: c, modal: true
+    }
+
+    def onHideLoadingScreen() {
+        sleep(3000)
+        def t = createTransition()
+        t.loading(false)
+        display transition: t
     }
 
     def messageWithRedirect() {

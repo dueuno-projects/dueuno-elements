@@ -39,8 +39,8 @@
 /* COLORS
 */
 .component-label.border {
-    background-color: rgb(var(--elements-secondary-bg));
-    color: rgb(var(--elements-secondary-text));
+    background-color: rgb(var(--elements-tertiary-bg));
+    color: rgb(var(--elements-tertiary-text));
 }
 
 .component-label a,
