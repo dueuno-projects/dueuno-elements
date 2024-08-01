@@ -21,7 +21,7 @@ import grails.validation.Validateable
  *
  * @author Gianluca Sartori
  */
-class ProfileValidator implements Validateable {
+class UserProfileValidator implements Validateable {
     String username
     String firstname
     String lastname
@@ -32,10 +32,10 @@ class ProfileValidator implements Validateable {
 
     static constraints = {
         newPassword nullable: true, minSize: 4, validator: { val, obj, errors ->
-            if (obj.confirmNewPassword != val) errors.rejectValue('newPassword', 'profile.newPassword.noMatch')
+            if (obj.confirmNewPassword != val) errors.rejectValue('newPassword', 'userProfile.newPassword.noMatch')
         }
         confirmNewPassword nullable: true, minSize: 4, validator: { val, obj, errors ->
-            if (obj.newPassword != val) errors.rejectValue('confirmNewPassword', 'profile.confirmNewPassword.noMatch')
+            if (obj.newPassword != val) errors.rejectValue('confirmNewPassword', 'userProfile.confirmNewPassword.noMatch')
         }
         username blank: false, unique: true
         firstname nullable: true

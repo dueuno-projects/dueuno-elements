@@ -162,7 +162,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
     private void registerSecurityUserFeatures() {
         applicationService.registerUserFeature(
                 namespace: 'security',
-                controller: 'profile',
+                controller: 'userProfile',
                 icon: 'fa-user-circle',
                 order: 10000010,
         )
@@ -1073,6 +1073,8 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 rememberMeDuration: 15, // defaults to 15 minutes for the Admin
                 admin: true,
         )
+
+        tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
 
         tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
         tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)

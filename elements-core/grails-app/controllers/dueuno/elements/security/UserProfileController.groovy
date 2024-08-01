@@ -21,6 +21,7 @@ import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PrettyPrinterDecimalFormat
 import dueuno.elements.style.TextDefault
+import dueuno.elements.tenants.TenantPropertyService
 import grails.gorm.multitenancy.WithoutTenant
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -31,9 +32,10 @@ import grails.plugin.springsecurity.annotation.Secured
  */
 @WithoutTenant
 @Secured(['IS_AUTHENTICATED_REMEMBERED'])
-class ProfileController implements ElementsController {
+class UserProfileController implements ElementsController {
 
     ApplicationService applicationService
+    TenantPropertyService tenantPropertyService
     SecurityService securityService
 
     private buildSensitiveDataForm(ContentForm c) {
@@ -168,7 +170,7 @@ class ProfileController implements ElementsController {
                     id: 'username',
                     readonly: true,
                     icon: 'fa-user',
-                    helpMessage: 'profile.edit.username.help',
+                    helpMessage: 'userProfile.edit.username.help',
                     cols: 12,
             )
         }
@@ -177,22 +179,26 @@ class ProfileController implements ElementsController {
 
         buildPreferencesForm(c)
 
-        c.form.with {
-            addField(
-                    class: Separator,
-                    id: 'change.password',
-                    cols: 12,
-            )
-            addField(
-                    class: PasswordField,
-                    id: 'newPassword',
-                    cols: 6,
-            )
-            addField(
-                    class: PasswordField,
-                    id: 'confirmNewPassword',
-                    cols: 6,
-            )
+        def canChangePassword = tenantPropertyService.getBoolean('USER_CAN_CHANGE_PASSWORD')
+        if (canChangePassword) {
+            c.form.with {
+                addField(
+                        class: Separator,
+                        id: 'change.password',
+                        cols: 12,
+                )
+                addField(
+                        class: PasswordField,
+                        id: 'newPassword',
+                        cols: 6,
+                )
+                addField(
+                        class: PasswordField,
+                        id: 'confirmNewPassword',
+                        cols: 6,
+                )
+            }
+
         }
 
         def obj = securityService.getCurrentUser(true)
@@ -207,7 +213,7 @@ class ProfileController implements ElementsController {
         display content: c, modal: true
     }
 
-    def onSave(ProfileValidator val) {
+    def onSave(UserProfileValidator val) {
         if (val.hasErrors()) {
             display errors: val
             return
