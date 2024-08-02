@@ -13,28 +13,7 @@ class Link extends Label {
     }
 
     static finalize($element, $root) {
-        $element.off('keydown').on('keydown', Link.onKeyDown);
-        $element.off('mousedown').on('mousedown', Link.onMouseDown);
         $element.off('click').on('click', Link.onClick);
-    }
-
-    static onKeyDown(event) {
-        let $element = $(event.currentTarget);
-    }
-
-    static onMouseDown(event) {
-        let $element = $(event.currentTarget);
-
-        if (event.which == 1 && $element.attr('target') == '_blank') {
-            let href = $element.attr('href');
-            $element.data('href', href);
-
-            let componentEvent = Component.getEvent($element, 'click');
-            let queryString = '?' + new URLSearchParams(componentEvent['params']).toString();
-            if (queryString == '?') queryString = '';
-
-            $element.attr('href', href + queryString);
-        }
     }
 
     static onClick(event) {

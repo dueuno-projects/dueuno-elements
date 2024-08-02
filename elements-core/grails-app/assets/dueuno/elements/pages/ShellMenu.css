@@ -6,6 +6,10 @@
     border: none;
 }
 
+#shell-menu .nav-link:focus-visible {
+    box-shadow: none;
+}
+
 #shell-menu {
     position: fixed;
     width: calc(var(--elements-font-size) * 15);
