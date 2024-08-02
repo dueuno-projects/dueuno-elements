@@ -4,8 +4,9 @@
     color: inherit;
 }
 
-body.prod .component-table {
+.component-table table {
     -webkit-touch-callout: default; /* Safari */
+    -webkit-user-select: text;
     user-select: text;
 }
 

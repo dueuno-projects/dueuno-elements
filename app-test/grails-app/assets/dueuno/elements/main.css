@@ -32,6 +32,7 @@ textarea, input:matches([type="text"], [type="number"], [type="password"], [type
 
 /* Disable text selection when compiled for PROD environment */
 body.prod {
-    -webkit-touch-callout: none; /* Safari */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
     user-select: none;
 }
