@@ -4,7 +4,7 @@
    data-21-id="${c.id}"
    data-21-properties="${c.propertiesAsJSON}"
    data-21-events="${c.eventsAsJSON}"
-   href="${dev.ifDevelopment() ? c.devUrl : ''}"
+   href="${dev.ifDevelopment() { c.devUrl } }"
    ${raw(attributes)}
 ><g:if test="${c.html}">${raw(c.prettyHtml)}</g:if>
 <g:elseif test="${c.components}"><render:componentList instance="${c}" /></g:elseif>
