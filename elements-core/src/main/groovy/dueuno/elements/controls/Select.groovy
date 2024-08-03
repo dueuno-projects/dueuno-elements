@@ -282,12 +282,12 @@ class Select extends Control {
 
         if (value in List) {
             valueMap = [
-                    type: 'LIST',
+                    type : 'LIST',
                     value: value.collect { it != null ? it as String : null },
             ]
         } else {
             valueMap = [
-                    type: 'TEXT',
+                    type : 'TEXT',
                     value: value != null ? value as String : null,
             ]
         }
@@ -299,9 +299,10 @@ class Select extends Control {
     String getPropertiesAsJSON(Map properties = [:]) {
         Map thisProperties = [
                 multiple            : multiple,
-                loading       : loading,
+                loading             : loading,
                 searchMinInputLength: searchMinInputLength,
                 allowClear          : allowClear,
+                autoSelect          : autoSelect,
                 placeholder         : placeholder,
                 search              : search,
                 text                : [

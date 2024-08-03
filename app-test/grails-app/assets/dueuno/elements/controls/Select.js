@@ -164,9 +164,18 @@ class Select extends Control {
             return;
         }
 
-        let properties = Component.getProperties($element);
         for (let [key, value] of Object.entries(options)) {
             $element.append(new Option(value, key, false, false));
+        }
+
+        let properties = Component.getProperties($element);
+        let optionsCount = $element.children('option').length;
+        if (!properties['autoSelect'] || optionsCount > 1 || properties['nullable']) {
+            // Select2 automatically selects the first item on ajax loading
+            // so we need to implement an inverse logic
+            let valueMap = $element.data('21-value');
+            $element.val(valueMap.value);
+            $element.trigger('change');
         }
     }
 
