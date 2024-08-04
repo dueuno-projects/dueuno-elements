@@ -16,6 +16,8 @@ package dueuno.commons.utils
 
 import groovy.transform.CompileStatic
 
+import java.security.MessageDigest
+
 /**
  * @author Gianluca Sartori
  */
@@ -113,6 +115,13 @@ class StringUtils {
         return new Random().with {
             (1..size).collect { theAlphabet[nextInt(theAlphabet.size())] }.join('')
         }
+    }
+
+    static String generateHash(String input) {
+        MessageDigest md5 = MessageDigest.getInstance('MD5')
+        md5.update(input.getBytes())
+        BigInteger hash = new BigInteger(1, md5.digest())
+        return hash.toString(16)
     }
 
     static Map parseVariablesString(String variablesString) {

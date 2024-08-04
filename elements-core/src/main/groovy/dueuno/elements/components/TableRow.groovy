@@ -15,6 +15,7 @@
 package dueuno.elements.components
 
 import dueuno.commons.utils.ObjectUtils
+import dueuno.commons.utils.StringUtils
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.HiddenField
 import dueuno.elements.core.Component
@@ -28,7 +29,6 @@ import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import groovy.transform.CompileStatic
 
-import java.security.MessageDigest
 import java.time.temporal.Temporal
 
 /**
@@ -102,8 +102,8 @@ class TableRow extends Component {
         if (!isHeader && !isFooter) {
             // Adds key columns to actions params
             Map _21Params = [
-                    _21RowId    : getId(),
-                    _21RowDigest: getDigest(),
+                    _21RowId      : id,
+                    _21RowHash: hash,
             ]
             actions.addParams(_21Params + getKeys())
         }
@@ -254,6 +254,10 @@ class TableRow extends Component {
         return rowset.lastRow != null
     }
 
+    String getHash() {
+        return StringUtils.generateHash(keysAsJSON)
+    }
+
     //
     // KEYS
     //
@@ -307,12 +311,6 @@ class TableRow extends Component {
         return Elements.encodeAsJSON(getKeys())
     }
 
-    private String getDigest() {
-        MessageDigest md5 = MessageDigest.getInstance('MD5')
-        md5.update(getKeysAsJSON().getBytes())
-        BigInteger hash = new BigInteger(1, md5.digest())
-        return hash.toString(16)
-    }
 
 
     //
@@ -386,7 +384,7 @@ class TableRow extends Component {
                 class: Link,
                 id: columnName,
                 params: [
-                        _21Table: table.id,
+                        _21Table    : table.id,
                         _21TableSort: [(columnName): order],
                 ],
                 textWrap: TextWrap.NO_WRAP,

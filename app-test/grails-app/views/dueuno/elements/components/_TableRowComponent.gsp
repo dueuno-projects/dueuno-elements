@@ -45,7 +45,7 @@
         <g:else>
             <td class="component-table-actions ${c.verticalAlign}">
                 <render:component instance="${c.actions}" />
-                <a id="${c.digest}"></a>
+                <a id="${c.hash}"></a>
             </td>
         </g:else>
     </g:if>
