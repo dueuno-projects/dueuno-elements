@@ -40,7 +40,11 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
 
     @CompileDynamic
     Boolean getDisplay() {
-        render transition()
+        try {
+            render transition()
+        } catch (Exception ignore) {
+            // no-op
+        }
         return true
     }
 
@@ -49,14 +53,22 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
         if (!args.page && requestParams._21Transition) {
 //            StopWatch sw = new StopWatch()
 //            sw.start()
-            render transition(args)
+            try {
+                render transition(args)
+            } catch (Exception ignore) {
+                // no-op
+            }
 //            sw.stop()
 //            log.info "Rendered TRANSITION in ${sw.toString()}, args: ${args}"
 
         } else { // When the user hits the browser REFRESH button
 //            StopWatch sw = new StopWatch()
 //            sw.start()
-            render page(args)
+            try {
+                render page(args)
+            } catch (Exception ignore) {
+                // no-op
+            }
 //            sw.stop()
 //            log.info "Rendered PAGE in ${sw.toString()}, args: ${args}"
         }

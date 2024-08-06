@@ -14,13 +14,16 @@
  */
 package dueuno.elements.test
 
+import dueuno.commons.utils.LogUtils
 import dueuno.elements.components.Button
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.style.TextDefault
+import groovy.util.logging.Slf4j
 
+@Slf4j
 class HandledExceptionController implements ElementsController {
 
     def handleException(Exception e) {
@@ -57,6 +60,13 @@ class HandledExceptionController implements ElementsController {
                     submit: 'form',
                     cols: 4,
             )
+            addField(
+                    class: Button,
+                    id: 'e3',
+                    action: 'onExceptionOutputStream',
+                    submit: 'form',
+                    cols: 4,
+            )
         }
 
         display content: c
@@ -75,6 +85,13 @@ class HandledExceptionController implements ElementsController {
         } else {
             throw new ElementsException("I told you not to write :)")
         }
+    }
+
+    def onExceptionOutputStream() {
+        def image =  linkPublicResource("images/acerola_small.png")
+        def os = getDownloadOutputStream(image)
+        os.flush()
+        throw new Exception("There is a problem here...")
     }
 }
 
