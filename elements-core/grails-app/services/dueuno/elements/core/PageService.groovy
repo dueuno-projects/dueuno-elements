@@ -114,6 +114,8 @@ class PageService implements ServletContextAware, WebRequestAware {
         String mimeType = getMimeType(filename)
         response.setContentType(mimeType)
 
+        grailsWebRequest.setRenderView(false)
+
         return response.outputStream
     }
 

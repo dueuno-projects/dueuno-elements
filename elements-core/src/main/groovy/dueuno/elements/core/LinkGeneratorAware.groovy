@@ -54,7 +54,7 @@ trait LinkGeneratorAware {
      * @param root The name of the system property specifying an absolute path in the filesystem
      * @param pathname The name of the file to serve
      */
-    String linkResource(String root, String pathname, Boolean absolute = false, Boolean reload = false) {
+    String linkResource(String root, String pathname, Boolean absolute = false, Boolean reload = true) {
         return generateResourceLink('system', '', root, pathname, absolute, reload)
     }
 
@@ -64,7 +64,7 @@ trait LinkGeneratorAware {
      *
      * @param pathname The name of the file to serve
      */
-    String linkPublicResource(String pathname, Boolean absolute = false, Boolean reload = false) {
+    String linkPublicResource(String pathname, Boolean absolute = false, Boolean reload = true) {
         return generateResourceLink('currentTenant', '', '', pathname, absolute, reload)
     }
 
@@ -75,7 +75,7 @@ trait LinkGeneratorAware {
      * @param tenantId The id of the tenant
      * @param pathname The name of the file to serve
      */
-    String linkPublicResource(String tenantId, String pathname, Boolean absolute = false, Boolean reload = false) {
+    String linkPublicResource(String tenantId, String pathname, Boolean absolute = false, Boolean reload = true) {
         return generateResourceLink('tenant', tenantId, '', pathname, absolute, reload)
     }
 
