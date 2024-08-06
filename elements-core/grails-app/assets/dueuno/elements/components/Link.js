@@ -24,6 +24,9 @@ class Link extends Label {
         let $element = $(event.currentTarget);
         let componentEvent = Component.getEvent($element, 'click');
 
+        // From here on we take control
+        event.preventDefault();
+
         if (event.metaKey || event.ctrlKey) {
             componentEvent['target'] = '_blank';
             componentEvent['direct'] = true;
@@ -36,9 +39,6 @@ class Link extends Label {
             window.open(url + queryString, componentEvent['target']);
             return;
         }
-
-        // From here on we take control
-        event.preventDefault();
 
         if (!componentEvent) {
             return;
