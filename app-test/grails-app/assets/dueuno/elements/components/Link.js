@@ -16,16 +16,24 @@ class Link extends Label {
         $element.off('click').on('click', Link.onClick);
     }
 
+    static hasTarget(componentEvent) {
+        return componentEvent && componentEvent['target'] && componentEvent['target'] != '_self';
+    }
+
     static onClick(event) {
         let $element = $(event.currentTarget);
         let componentEvent = Component.getEvent($element, 'click');
 
-        if (componentEvent && componentEvent['target'] && componentEvent['target'] != '_self') {
+        if (event.metaKey || event.ctrlKey) {
+            componentEvent['target'] = '_blank';
+            componentEvent['direct'] = true;
+        }
+
+        if (Link.hasTarget(componentEvent)) {
             // This works only when Bootstrap 'data-dismiss-*' attribute is not present
             let url = Transition.buildUrl(componentEvent);
             let queryString = Transition.buildQueryString(componentEvent);
-            $element.attr('target', componentEvent['target']);
-            $element.attr('href', url + queryString);
+            window.open(url + queryString, componentEvent['target']);
             return;
         }
 
