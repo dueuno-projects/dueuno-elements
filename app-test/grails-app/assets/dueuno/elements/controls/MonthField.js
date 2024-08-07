@@ -17,7 +17,6 @@ class MonthField extends DateTimeField {
                 },
             },
             localization: {
-                locale: _21_.user.language,
                 format: dateFormat,
                 startOfTheWeek: startOfTheWeek,
             },

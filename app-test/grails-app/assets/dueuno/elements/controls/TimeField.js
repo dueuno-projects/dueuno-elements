@@ -18,7 +18,6 @@ class TimeField extends DateTimeField {
                 },
             },
             localization: {
-                locale: _21_.user.language,
                 format: timeFormat,
                 hourCycle: hourCycle,
             }

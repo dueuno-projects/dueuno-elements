@@ -14,7 +14,6 @@ class DateTimeField extends Control {
                 theme: 'light',
             },
             localization: {
-                locale: _21_.user.language,
                 format: dateFormat + ' ' + timeFormat,
                 hourCycle: hourCycle,
                 startOfTheWeek: startOfTheWeek,
