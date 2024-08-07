@@ -45,7 +45,8 @@ class Component {
 
     static getProperty($element, propertyName) {
         let properties = Component.getProperties($element);
-        return properties ? properties[propertyName] : null;
+        let property = properties ? properties[propertyName] : null;
+        return Object.create(property);
     }
 
     static setProperty($element, propertyName, value) {
@@ -55,7 +56,8 @@ class Component {
     }
 
     static getProperties($element) {
-        return $element.data('21-properties') ?? {};
+        let values = $element.data('21-properties') ?? {};
+        return values;
     }
 
     static setProperties($element, value) {
@@ -64,7 +66,8 @@ class Component {
 
     static getEvent($element, eventName) {
         let events = Component.getEvents($element);
-        return events ? events[eventName] : null;
+        let event = events ? events[eventName] : null;
+        return Object.create(event);
     }
 
     static setEvent($element, eventName, componentEvent) {
@@ -74,7 +77,8 @@ class Component {
     }
 
     static getEvents($element) {
-        return $element.data('21-events') ?? {};
+        let values = $element.data('21-events') ?? {};
+        return values;
     }
 
     static setEvents($element, eventsData) {
