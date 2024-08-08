@@ -13,19 +13,20 @@ class Link extends Label {
     static onClick(event) {
         let $element = $(event.currentTarget);
         let componentEvent = Component.getEvent($element, 'click');
+        let componentEventTemp = { ...componentEvent };
 
         // From here on we take control
         event.preventDefault();
 
         if (event.metaKey || event.ctrlKey) {
-            componentEvent['target'] = '_blank';
-            componentEvent['direct'] = true;
+            componentEventTemp['target'] = '_blank';
+            componentEventTemp['direct'] = true;
         }
 
-        if (Link.hasTarget(componentEvent)) {
-            let url = Transition.buildUrl(componentEvent);
-            let queryString = Transition.buildQueryString(componentEvent);
-            window.open(url + queryString, componentEvent['target']);
+        if (Link.hasTarget(componentEventTemp)) {
+            let url = Transition.buildUrl(componentEventTemp);
+            let queryString = Transition.buildQueryString(componentEventTemp);
+            window.open(url + queryString, componentEventTemp['target']);
             return;
         }
 
