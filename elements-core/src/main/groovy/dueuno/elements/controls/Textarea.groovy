@@ -24,10 +24,24 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Textarea extends TextField {
 
+    Boolean acceptNewLine
+
     Textarea(Map args) {
         super(args)
 
         valueType = 'TEXT'
+
+        acceptNewLine = args.acceptNewLine == null ? true : args.acceptNewLine
+
         containerSpecs.multiline = true
     }
+
+    @Override
+    String getPropertiesAsJSON(Map properties = [:]) {
+        Map thisProperties = [
+                acceptNewLine: acceptNewLine,
+        ]
+        return super.getPropertiesAsJSON(thisProperties + properties)
+    }
+
 }

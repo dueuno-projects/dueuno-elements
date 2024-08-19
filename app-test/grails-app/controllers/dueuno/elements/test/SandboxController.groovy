@@ -167,7 +167,6 @@ class SandboxController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'placeholderText',
-                    invalidChars: '',
                     validChars: '/:1234567890',
                     prefix: 'PRE',
                     maxSize: 7,
@@ -176,6 +175,8 @@ class SandboxController implements ElementsController {
             addField(
                     class: Textarea,
                     id: 'placeholderArea',
+                    invalidChars: '+-*/',
+                    acceptNewLine: false,
                     cols: 12,
             )
             addField(

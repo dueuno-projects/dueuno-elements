@@ -42,7 +42,9 @@ abstract class Control extends Component {
     /** Whether or not the value can be null */
     Boolean nullable
 
-    /** Text patter to accept as value */
+    /** Text patter to accept as value. Priority is: 'invalidChars' then 'validChars' then 'pattern' */
+    String invalidChars
+    String validChars
     String pattern
 
     /** Properties used by {@link PrettyPrinter PrettyPrinter} to render the value */
@@ -54,9 +56,12 @@ abstract class Control extends Component {
         viewPath = args.viewPath ?: '/dueuno/elements/controls/'
 
         valueType = null
-
         nullable = (args.nullable == null) ? true : args.nullable
+
+        setInvalidChars(args.invalidChars as String)
+        setValidChars(args.validChars as String)
         pattern = args.pattern ?: ''
+
         prettyPrinterProperties = new PrettyPrinterProperties(args)
         prettyPrinterProperties.locale = locale
         prettyPrinterProperties.renderMessagePrefix = args.renderMessagePrefix == null ? true : args.renderMessagePrefix
@@ -115,6 +120,28 @@ abstract class Control extends Component {
         return prettyPrint(value, prettyPrinterProperties)
     }
 
+    void setInvalidChars(String chars) {
+        invalidChars = chars ? '^[^(' + escapeSpecialChars(chars) + ')]*$' : null
+    }
+
+    void setValidChars(String chars) {
+        validChars = chars ? '^[' + escapeSpecialChars(chars) + ']*$' : null
+    }
+
+    private String escapeSpecialChars(String chars) {
+        String result = ''
+
+        for (String c in chars) {
+            if ('.^$*+-?()[]{}\\|'.contains(c)) {
+                result = result + '\\' + c
+            } else {
+                result += c
+            }
+        }
+
+        return result
+    }
+
     String getValueAsJSON() {
         if (!valueType) {
             return null
@@ -128,7 +155,7 @@ abstract class Control extends Component {
     String getPropertiesAsJSON(Map properties = [:]) {
         Map thisProperties = [
                 nullable: nullable,
-                pattern: pattern,
+                pattern: invalidChars ?: validChars ?: pattern,
         ]
         return super.getPropertiesAsJSON(thisProperties + properties)
     }
