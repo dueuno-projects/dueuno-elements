@@ -36,7 +36,7 @@ class Checkbox extends Control {
 
         valueType = 'BOOLEAN'
 
-        text = args.text ?: buildLabel(id + ".text")
+        text = args.text == null ? buildLabel(id + ".text") : args.text
         simple = (args.simple == null) ? false : args.simple
         if (args.option) {
             setOption(args.option as Map ?: [:])

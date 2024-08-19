@@ -197,13 +197,11 @@ class UserController implements ElementsController {
             addField(
                     class: Checkbox,
                     id: 'admin',
-                    text: '',
                     cols: 6,
             )
             addField(
                     class: Checkbox,
                     id: 'enabled',
-                    text: '',
                     nullable: true,
                     cols: 6,
             )
