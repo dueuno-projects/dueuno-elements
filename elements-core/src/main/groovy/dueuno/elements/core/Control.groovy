@@ -121,7 +121,7 @@ abstract class Control extends Component {
     }
 
     void setInvalidChars(String chars) {
-        invalidChars = chars ? '^[^(' + escapeSpecialChars(chars) + ')]*$' : null
+        invalidChars = chars ? '^[^' + escapeSpecialChars(chars) + ']*$' : null
     }
 
     void setValidChars(String chars) {
