@@ -29,7 +29,7 @@ class NumberField extends TextField {
             event.preventDefault();
         }
 
-        Transition.submitEvent($element, 'keypress');
+        Transition.triggerEvent($element, 'keypress');
     }
 
     static getValue($element) {

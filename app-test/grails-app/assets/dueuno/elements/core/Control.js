@@ -33,7 +33,7 @@ class Control extends Component {
             }
         }
 
-        Transition.submitEvent($element, 'paste');
+        Transition.triggerEvent($element, 'paste');
     }
 
     static getByClassName(className) {

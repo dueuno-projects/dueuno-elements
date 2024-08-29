@@ -5,12 +5,12 @@ class Checkbox extends Control {
             .off('change.bootstrapSwitch')
             .on('change.bootstrapSwitch', Checkbox.onChange);
 
-        Transition.submitEvent($element, 'load');
+        Transition.triggerEvent($element, 'load');
     }
 
     static onChange(event) {
         let $element = $(event.currentTarget);
-        Transition.submitEvent($element, 'change');
+        Transition.triggerEvent($element, 'change');
     }
 
     static getValue($element) {

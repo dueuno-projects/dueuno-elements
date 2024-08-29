@@ -119,7 +119,7 @@ class TransitionCommand {
     }
 
     static trigger($element, eventName) {
-        Transition.submitEvent($element, eventName);
+        Transition.triggerEvent($element, eventName);
     }
 
     static loading(show) {
@@ -145,7 +145,7 @@ class TransitionCommand {
 
         if (methodName == 'setValue') {
             Elements.callMethod($element, component, 'setValue', value, trigger);
-            if (trigger) Transition.submitEvent($element, 'change');
+            if (trigger) Transition.triggerEvent($element, 'change');
 
         } else {
             Elements.callMethod($element, component, methodName, value.value);

@@ -168,7 +168,7 @@ class Transition {
         }
     }
 
-    static submitEvent($element, eventName) {
+    static triggerEvent($element, eventName) {
         let componentEvent = Component.getEvent($element, eventName);
         if (componentEvent) {
             Transition.submit(componentEvent);

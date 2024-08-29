@@ -44,7 +44,7 @@ class DateTimeField extends Control {
         $element.off('show.td').on('show.td', DateTimeField.onShow);
         $element.parent().off('error.td').on('error.td', DateTimeField.onError);
 
-        Transition.submitEvent($element, 'load');
+        Transition.triggerEvent($element, 'load');
     }
 
     static parseInput(value) {
@@ -103,7 +103,7 @@ class DateTimeField extends Control {
 
         if (event.oldDate || event.date) {
             $element.data('td-clear', event.oldDate ? false : true);
-            Transition.submitEvent($element, 'change');
+            Transition.triggerEvent($element, 'change');
         }
     }
 
@@ -134,7 +134,7 @@ class DateTimeField extends Control {
             event.preventDefault();
         }
 
-        Transition.submitEvent($element, 'keypress');
+        Transition.triggerEvent($element, 'keypress');
     }
 
     static setValue($element, valueMap, trigger = true) {

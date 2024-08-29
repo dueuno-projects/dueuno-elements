@@ -6,12 +6,12 @@ class TextField extends Control {
         $element.off('input').on('input', TextField.onChange);
         $element.off('keypress').on('keypress', TextField.onKeyPress);
 
-        Transition.submitEvent($element, 'load');
+        Transition.triggerEvent($element, 'load');
     }
 
     static onChange(event) {
         let $element = $(event.currentTarget);
-        Transition.submitEvent($element, 'change');
+        Transition.triggerEvent($element, 'change');
     }
 
     static onKeyPress(event) {
@@ -43,12 +43,12 @@ class TextField extends Control {
             event.target.selectionEnd = selStart + 1;
         }
 
-        Transition.submitEvent($element, 'keypress');
+        Transition.triggerEvent($element, 'keypress');
     }
 
     static onEnter(event) {
         let $element = $(event.currentTarget);
-        Transition.submitEvent($element, 'enter');
+        Transition.triggerEvent($element, 'enter');
     }
 
     static setValue($element, valueMap, trigger = true) {

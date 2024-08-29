@@ -71,7 +71,7 @@ class Select extends Control {
             .off('select2:open')
             .on('select2:open', Select.onOpen);
 
-        Transition.submitEvent($element, 'load');
+        Transition.triggerEvent($element, 'load');
     }
 
     static isInitialized($element) {
@@ -99,7 +99,7 @@ class Select extends Control {
             });
         }
 
-        Transition.submitEvent($element, 'change');
+        Transition.triggerEvent($element, 'change');
     }
 
     static setValue($element, valueMap, trigger = true) {

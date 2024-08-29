@@ -61,23 +61,23 @@ class Upload extends Control {
             Transition.showLoadingScreen(true);
         }
 
-        Transition.submitEvent($element, 'addfile');
+        Transition.triggerEvent($element, 'addfile');
     }
 
     static onRemoveFile(file) {
         let $element = $(this.element);
-        Transition.submitEvent($element, 'removefile');
+        Transition.triggerEvent($element, 'removefile');
     }
 
     static onSuccess(file) {
         let $element = $(this.element);
-        Transition.submitEvent($element, 'success');
+        Transition.triggerEvent($element, 'success');
     }
 
     static onError(file) {
         let $element = $(this.element);
         Transition.showLoadingScreen(false);
-        Transition.submitEvent($element, 'error');
+        Transition.triggerEvent($element, 'error');
     }
 
     static setValue($element, valueMap, trigger = true) {
