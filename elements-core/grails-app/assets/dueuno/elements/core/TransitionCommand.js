@@ -118,8 +118,8 @@ class TransitionCommand {
         Page.reinitializeContent($component);
     }
 
-    static trigger($element, property) {
-        Transition.submitEvent($element, property);
+    static trigger($element, eventName) {
+        Transition.submitEvent($element, eventName);
     }
 
     static loading(show) {

@@ -67,6 +67,7 @@ class Component {
     static getEvent($element, eventName) {
         let events = Component.getEvents($element);
         let event = events ? events[eventName] : null;
+        if (event) event['event'] = eventName;
         return event;
     }
 

@@ -257,6 +257,7 @@ class Transition {
             // Whether to display the whole page or the transition
             if (!componentEvent['direct']) {
                 params['_21Transition'] = true
+                params['_21Event'] = componentEvent['event']
             }
         }
 
