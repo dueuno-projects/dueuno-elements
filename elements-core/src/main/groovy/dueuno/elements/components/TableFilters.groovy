@@ -74,6 +74,7 @@ class TableFilters extends Form {
                 class: Link,
                 id: 'resetButton',
                 action: actionName,
+                submit: [id],
                 params: [
                         _21Table: table.id,
                         _21FiltersReset: true,
@@ -86,6 +87,7 @@ class TableFilters extends Form {
 
     @Override
     String getPropertiesAsJSON(Map properties = [:]) {
+        setFieldsOnSubmit()
         Map thisProperties = [
                 autoFold: autoFold,
         ]
@@ -98,21 +100,20 @@ class TableFilters extends Form {
         display = true
 
         FormField field = super.addField(args)
-
-        if (field.component in Control) {
-            Control control = field.component as Control
-            control.onSubmit(
-                    action: actionName,
-                    submit: [id],
-                    params: [
-                            _21Table: table.id,
-                            _21FiltersSearch: true,
-                            _21TableOffset: 0,
-                    ],
-            )
-        }
-
         return field
+    }
+
+    private void setFieldsOnSubmit() {
+        for (field in fields) {
+            if (field.component in Control) {
+                Control control = field.component as Control
+                control.onSubmit(
+                        action: searchButton.action,
+                        submit: searchButton.submit,
+                        params: searchButton.params,
+                )
+            }
+        }
     }
 
     private String getFiltersFieldPrefix() {
