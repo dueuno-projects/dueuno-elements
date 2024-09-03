@@ -394,6 +394,7 @@ Grails application running at http://localhost:9992/test in environment: develop
         table2.with {
 //            hasComponents = true
             filters.with {
+                addKeyField('id', 1)
                 addField(
                         class: TextField,
                         id: 'find',

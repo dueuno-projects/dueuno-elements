@@ -74,7 +74,6 @@ class TableFilters extends Form {
                 class: Link,
                 id: 'resetButton',
                 action: actionName,
-                submit: [id],
                 params: [
                         _21Table: table.id,
                         _21FiltersReset: true,
@@ -101,6 +100,12 @@ class TableFilters extends Form {
 
         FormField field = super.addField(args)
         return field
+    }
+
+    void setSearchParams(Map params) {
+        searchButton.params = params
+        resetButton.params = params
+        resetButton.params._21FiltersReset = true
     }
 
     private void setFieldsOnSubmit() {
