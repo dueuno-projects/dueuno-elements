@@ -33,6 +33,7 @@ class Table extends Component {
     Map<String, String> sortable
     Map<String, String> sort
     Map<String, Object> fetchParams
+    Map<String, Object> submitParams
     List<String> submit
     Map<String, Integer> widths
     Map<String, String> labels
@@ -84,6 +85,7 @@ class Table extends Component {
         sort = [:]
         fetchParams = [:]
         submit = []
+        submitParams = [:]
 
         includeValues = []
         excludeValues = []

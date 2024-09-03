@@ -86,7 +86,7 @@ class TableFilters extends Form {
 
     @Override
     String getPropertiesAsJSON(Map properties = [:]) {
-        setFieldsOnSubmit()
+        setSubmitParams()
         Map thisProperties = [
                 autoFold: autoFold,
         ]
@@ -102,13 +102,11 @@ class TableFilters extends Form {
         return field
     }
 
-    void setSearchParams(Map params) {
-        searchButton.params = params
-        resetButton.params = params
+    private void setSubmitParams() {
+        searchButton.params = table.submitParams
+        resetButton.params = table.submitParams
         resetButton.params._21FiltersReset = true
-    }
 
-    private void setFieldsOnSubmit() {
         for (field in fields) {
             if (field.component in Control) {
                 Control control = field.component as Control

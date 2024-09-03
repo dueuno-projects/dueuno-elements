@@ -102,7 +102,7 @@ class TableRow extends Component {
         if (!isHeader && !isFooter) {
             // Adds key columns to actions params
             Map _21Params = [
-                    _21RowId      : id,
+                    _21RowId: id,
                     _21RowHash: hash,
             ]
             actions.addParams(_21Params + getKeys())
@@ -383,9 +383,10 @@ class TableRow extends Component {
         Link sortableHeader = createComponent(
                 class: Link,
                 id: columnName,
-                params: [
+                action: actionName,
+                params: table.submitParams + [
                         _21Table    : table.id,
-                        _21TableSort: [(columnName): order],
+                        _21TableSort: [(columnName): order] as Map,
                 ],
                 textWrap: TextWrap.NO_WRAP,
         )
