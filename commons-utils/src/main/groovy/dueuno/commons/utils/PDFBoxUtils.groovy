@@ -37,7 +37,7 @@ class PDFBoxUtils {
     }
 
     static void table(PDDocument document, PDPage page, Float y, @DelegatesTo(BaseTable) Closure closure) {
-        Float margin = 50
+        Float margin = 25
         // starting y position is whole page height subtracted by top and bottom margin
         Float yStartNewPage = page.getMediaBox().getHeight() - (2 * margin) as Float
         // we want table across whole page width (subtracted by left and right margin ofcourse)
