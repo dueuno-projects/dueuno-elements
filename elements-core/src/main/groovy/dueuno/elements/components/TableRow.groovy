@@ -384,9 +384,9 @@ class TableRow extends Component {
                 class: Link,
                 id: columnName,
                 action: actionName,
-                params: table.submitParams + [
+                params: table.submitParams + (Map)[
                         _21Table    : table.id,
-                        _21TableSort: [(columnName): order] as Map,
+                        _21TableSort: [(columnName): order],
                 ],
                 textWrap: TextWrap.NO_WRAP,
         )
