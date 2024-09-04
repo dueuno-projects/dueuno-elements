@@ -1,5 +1,5 @@
 .table>:not(caption)>*>* {
-    padding: var(--elements-spacing-y);
+    padding: calc(var(--elements-spacing-y) * .5) calc(var(--elements-spacing-x) * .5);
     background-color: transparent;
     color: inherit;
 }

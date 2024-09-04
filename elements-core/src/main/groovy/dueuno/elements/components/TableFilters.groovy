@@ -62,11 +62,6 @@ class TableFilters extends Form {
                 id: 'searchButton',
                 action: actionName,
                 submit: [id],
-                params: [
-                        _21Table: table.id,
-                        _21FiltersSearch: true,
-                        _21TableOffset: 0,
-                ],
                 icon: 'fa-magnifying-glass',
                 text: '',
         )
@@ -74,11 +69,6 @@ class TableFilters extends Form {
                 class: Link,
                 id: 'resetButton',
                 action: actionName,
-                params: [
-                        _21Table: table.id,
-                        _21FiltersReset: true,
-                        _21TableOffset: 0,
-                ],
                 icon: 'fa-delete-left',
                 text: '',
         )
@@ -103,9 +93,16 @@ class TableFilters extends Form {
     }
 
     private void setSubmitParams() {
-        searchButton.params = table.submitParams
-        resetButton.params = table.submitParams
-        resetButton.params._21FiltersReset = true
+        searchButton.params = table.submitParams + (Map)[
+                _21Table: table.id,
+                _21FiltersSearch: true,
+                _21TableOffset: 0,
+        ]
+        resetButton.params = table.submitParams + (Map)[
+                _21Table: table.id,
+                _21FiltersReset: true,
+                _21TableOffset: 0,
+        ]
 
         for (field in fields) {
             if (field.component in Control) {
