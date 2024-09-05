@@ -15,6 +15,11 @@
     background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha)) !important;
 }
 
+a,
+a:hover {
+    color: rgb(var(--elements-primary-bg));
+}
+
 body {
     font-size: var(--elements-font-size);
 }
