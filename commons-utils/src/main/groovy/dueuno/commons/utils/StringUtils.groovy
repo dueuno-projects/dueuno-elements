@@ -96,6 +96,10 @@ class StringUtils {
     //
     // Utils
     //
+    static String removeNonPrintableChars(String s) {
+        return s.replaceAll('\\P{Print}', '')
+    }
+
     static String truncateIfLonger(String s, Integer size) {
         return s.size() > size ? s.substring(0, size) : s
     }
