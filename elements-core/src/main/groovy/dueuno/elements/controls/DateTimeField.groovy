@@ -48,12 +48,16 @@ class DateTimeField extends Control {
             min = LocalDateTime.of(LocalDate.of(1900, 1, 1), args.min as LocalTime)
         } else if (args.min in LocalDate) {
             min = LocalDateTime.of(args.min as LocalDate, LocalTime.of(0, 0))
+        } else if (args.min in LocalDateTime) {
+            min = args.min as LocalDateTime
         }
 
         if (args.max in LocalTime) {
             max = LocalDateTime.of(LocalDate.of(1900, 1, 1), args.max as LocalTime)
         } else if (args.max in LocalDate) {
             max = LocalDateTime.of(args.max as LocalDate, LocalTime.of(0, 0))
+        } else if (args.max in LocalDateTime) {
+            max = args.max as LocalDateTime
         }
 
         timeStep = args.timeStep as Integer
