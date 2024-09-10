@@ -7,7 +7,7 @@
     transform: translate(-50%, -40%);
 }
 
-@media (max-width: 650px) {
+@media (max-width: 420px) {
     .page-login  {
         width: calc(100% - 20px);
     }
@@ -30,7 +30,7 @@
 }
 
 .page-login-logo {
-    width: 350px;
+    width: 100%;
 }
 
 .page-login-logo img {
