@@ -1,5 +1,5 @@
 .table>:not(caption)>*>* {
-    padding: calc(var(--elements-spacing-y) * .5) calc(var(--elements-spacing-x) * .5);
+    padding: calc(var(--elements-spacing-y) * 1.5) calc(var(--elements-spacing-x) * .5);
     background-color: transparent;
     color: inherit;
 }
@@ -99,7 +99,9 @@
     padding-right: var(--elements-spacing-x);
 }
 
-.component-table-dataset .component-table-actions-header {
+.component-table-dataset .component-table-actions,
+.component-table-dataset .component-table-actions-header,
+.component-table-dataset .component-table-cell:has([data-21-control]) {
     padding-top: 0;
     padding-bottom: 0;
 }
