@@ -226,7 +226,7 @@ class CrudCustomController implements ElementsController {
         table2.body = query.list(table2.fetchParams)
         table2.footer = [[dateCreated: 'TOTAL']]
         table2.paginate = query.count()
-        if (!params._21TableOffset) table2.pagination.reset()
+        table2.pagination.reset()
         table3.body = query.list(table3.fetchParams)
         table3.paginate = query.count()
 
