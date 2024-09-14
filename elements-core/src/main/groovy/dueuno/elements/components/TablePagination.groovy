@@ -176,8 +176,13 @@ class TablePagination extends Component {
     }
 
     void reset() {
+        if (requestParams._21TableOffset != null) {
+            return
+        }
+
         offset = 0
         actionSession[requestedOffsetName] = offset
+        table.fetchParams.offset = offset
         requestParams._21TableOffset = offset
     }
 
