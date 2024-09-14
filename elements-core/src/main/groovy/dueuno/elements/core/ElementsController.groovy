@@ -125,6 +125,10 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
     private Map transition(Map args = [:]) {
         Transition t = args.transition as Transition ?: createTransition()
 
+        if (args.loading != null) {
+            t.loading(args.loading as Boolean)
+        }
+
         if (args.content) {
             PageContent content = args.content as PageContent
             content.setRenderProperties(args)
