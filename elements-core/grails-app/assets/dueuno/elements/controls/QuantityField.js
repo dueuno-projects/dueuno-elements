@@ -48,11 +48,15 @@ class QuantityField extends NumberField {
 
     static setUnit($element, value) {
         let $unit = $element.closest('.input-group').find('.control-quantity-field-unit');
-        let $unitItem = $element.closest('.input-group').find('li a[data-21-unit="' + value + '"]');
-        let unitLabel = $unitItem.html();
+        let $unitListItem = $element.closest('.input-group').find('li a[data-21-unit="' + value + '"]');
 
-        $unit.data('21-unit', value);
-        $unit.html(unitLabel);
+        if ($unitListItem.exists()) {
+            let unitLabel = $unitListItem.html();
+            $unit.data('21-unit', value);
+            $unit.html(unitLabel);
+        } else {
+            $unit.html(value);
+        }
     }
 
     static getUnit($element) {

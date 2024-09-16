@@ -205,7 +205,7 @@ class TransitionsController implements ElementsController {
         c.form['textfield'].value = 'My text'
         c.form['moneyfield'].value = new Money(33)
         c.form['numberfield'].value = 55.2
-        c.form['quantityfield'].value = new Quantity(12, QuantityUnit.KM)
+        c.form['quantityfield'].value = new Quantity(12, QuantityUnit.L)
 //        c.form['datefield'].value = LocalDate.now()
 //        c.form['timefield'].value = LocalTime.now()
         c.form['multiple'].value = ['admin', 'user']

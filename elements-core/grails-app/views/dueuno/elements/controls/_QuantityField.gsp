@@ -9,7 +9,7 @@
         </g:each>
     </ul>
 </g:if><g:else>
-    <span class="input-group-text" data-21-unit="${c.defaultUnit}">${c.prettyDefaultUnit}</span>
+    <span class="control-quantity-field-unit input-group-text" data-21-unit="${c.defaultUnit}">${c.prettyDefaultUnit}</span>
 </g:else>
 <input type="${c.keyboardType}"
        class="control-quantity-field form-control ${c.cssClass}"

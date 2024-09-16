@@ -42,7 +42,6 @@ class QuantityField extends NumberField {
         negative = (args.negative == null) ? false : args.negative
         unitOptions = unitListToOptions(args.availableUnits as List)
         setDefaultUnit(args.defaultUnit as QuantityUnit)
-
     }
 
     void setDefaultUnit(QuantityUnit value) {
@@ -58,8 +57,9 @@ class QuantityField extends NumberField {
     }
 
     Map<String, String> unitListToOptions(List list) {
-        if (!list)
+        if (!list) {
             return [:]
+        }
 
         Map<String, String> results = [:]
         for (value in list) {
