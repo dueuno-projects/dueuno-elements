@@ -47,12 +47,18 @@ class QuantityField extends NumberField {
     }
 
     static setUnit($element, value) {
-        let $unit = $element.closest('.input-group').find('.control-quantity-field-unit');
-        let $unitListItem = $element.closest('.input-group').find('li a[data-21-unit="' + value + '"]');
+        let $unit = $element.closest('.input-group').find('.control-quantity-field-unit-list');
+        if (!$unit.length) {
+            $unit = $element.closest('.input-group').find('.control-quantity-field-unit');
+        }
 
+        // Set data attribute
+        $unit.data('21-unit', value);
+
+        // Set label
+        let $unitListItem = $element.closest('.input-group').find('li a[data-21-unit="' + value + '"]');
         if ($unitListItem.exists()) {
             let unitLabel = $unitListItem.html();
-            $unit.data('21-unit', value);
             $unit.html(unitLabel);
         } else {
             $unit.html(value);
@@ -60,9 +66,9 @@ class QuantityField extends NumberField {
     }
 
     static getUnit($element) {
-        let $unit = $element.closest('.input-group').find('.control-quantity-field-unit');
+        let $unit = $element.closest('.input-group').find('.control-quantity-field-unit-list');
         if (!$unit.length) {
-            $unit = $element.closest('.input-group').find('.input-group-text');
+            $unit = $element.closest('.input-group').find('.control-quantity-field-unit');
         }
         let unitKey = $unit.data('21-unit');
         return unitKey;

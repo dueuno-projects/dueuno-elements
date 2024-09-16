@@ -1,5 +1,5 @@
 <g:if test="${c.unitOptions && !c.readonly}">
-    <button class="control-quantity-field-unit btn dropdown-toggle fw-bold" type="button"
+    <button class="control-quantity-field-unit-list btn dropdown-toggle fw-bold" type="button"
             data-bs-toggle="dropdown" aria-expanded="false"
             data-21-unit="${c.defaultUnit}">${c.prettyDefaultUnit}
     </button>
