@@ -87,7 +87,7 @@ class LinkDefinition implements Serializable {
 
         target = args.target
         targetNew = args.targetNew
-        loading = args.loading ?: false
+        loading = args.loading == null ? false : args.loading
 
         infoMessage = args.infoMessage
         confirmMessage = args.confirmMessage

@@ -17,6 +17,10 @@ class Link extends Label {
 
         // From here on we take control
         event.preventDefault();
+        Component.setReadonly($element, true);
+        setTimeout(() => {
+            Component.setReadonly($element, false);
+        }, 200);
 
         if (event.metaKey || event.ctrlKey) {
             componentEventTemp['target'] = '_blank';
