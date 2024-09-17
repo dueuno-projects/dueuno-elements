@@ -1,4 +1,8 @@
-const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+// Works only in 'async' functions
+// Use: await sleep(i * 1000);
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function isDevelopment() {
     return _21_.log !== undefined;

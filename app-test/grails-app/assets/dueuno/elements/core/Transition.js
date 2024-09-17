@@ -1,4 +1,11 @@
+// Temporary solutions until we get support for static fields
+// See: https://github.com/google/closure-compiler/issues/2731
+let Transition_loadingScreenTimeoutId = null;
+
 class Transition {
+
+    static get loadingScreenTimeoutId() { return Transition_loadingScreenTimeoutId }
+    static set loadingScreenTimeoutId(value) { Transition_loadingScreenTimeoutId = value }
 
     static wsConnect() {
         const wsClient = new StompJs.Client();
@@ -334,10 +341,15 @@ class Transition {
             ? $('#modal-loading-screen')
             : $('#loading-screen');
 
-        if (show) {
-           $loading.css('display', 'block');
-        } else {
-           $loading.css('display', 'none');
+        if (Transition.loadingScreenTimeoutId && !show) {
+            clearTimeout(Transition.loadingScreenTimeoutId);
+            Transition.loadingScreenTimeoutId = null;
+            $loading.css('display', 'none');
+
+        } else if (!Transition.loadingScreenTimeoutId && show) {
+            Transition.loadingScreenTimeoutId = setTimeout(() => {
+                $loading.css('display', 'block');
+            }, 200);
         }
     }
 
