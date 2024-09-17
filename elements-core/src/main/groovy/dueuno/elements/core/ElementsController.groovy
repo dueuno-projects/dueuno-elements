@@ -133,6 +133,7 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
             PageContent content = args.content as PageContent
             content.setRenderProperties(args)
             t.renderContent(content)
+            t.loading(false)
 
         } else if (args.message) {
             String message = args.message as String
@@ -184,6 +185,7 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
             }
 
         } else if (args.controller || args.action) {
+            t.loading(false)
             t.redirect(args)
         }
 
