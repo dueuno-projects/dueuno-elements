@@ -74,16 +74,17 @@ class Upload extends Control {
                 disablePreviews: disablePreviews,
 
                 messages: [
-                        messageDefault: message('control.upload.message'),
-                        messageTooBig: message('control.upload.file.too.big'),
-                        messageInvalidType: message('control.upload.invalid.file.type'),
-                        messageResponseError: message('control.upload.response.error'),
-                        messageCancel: message('control.upload.cancel'),
-                        messageCancelConfirmation: message('control.upload.cancel.confirm'),
-                        messageCanceled: message('control.upload.canceled'),
-                        messageRemove: message('control.upload.remove'),
-                        messageRemoveConfirmation: message('control.upload.remove.confirm'),
-                        messageMaxExceeded: message('control.upload.files.exceeded'),
+                        disabled: message('control.upload.disabled'),
+                        upload: message('control.upload.message'),
+                        tooBig: message('control.upload.file.too.big'),
+                        invalidType: message('control.upload.invalid.file.type'),
+                        responseError: message('control.upload.response.error'),
+                        cancel: message('control.upload.cancel'),
+                        cancelConfirmation: message('control.upload.cancel.confirm'),
+                        canceled: message('control.upload.canceled'),
+                        remove: message('control.upload.remove'),
+                        removeConfirmation: message('control.upload.remove.confirm'),
+                        maxExceeded: message('control.upload.files.exceeded'),
                 ]
         ]
         return super.getPropertiesAsJSON(thisProperties + properties)

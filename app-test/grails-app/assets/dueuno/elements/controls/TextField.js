@@ -82,6 +82,14 @@ class TextField extends Control {
             case 'capitalize': return value.replace(/(^\w|\s\w)/g, m => m.toUpperCase());
         }
     }
+
+    static setReadonly($element, value) {
+        Component.setReadonly($element, value);
+
+        let $actions = $element.closest('.input-group').find('a');
+        Component.setReadonly($actions, value);
+    }
+
 }
 
 Control.register(TextField);

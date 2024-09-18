@@ -180,13 +180,21 @@ class Select extends Control {
     }
 
     static getReadonly($element) {
-        return $element.prop("disabled");
+        return $element.prop('disabled');
     }
 
     static setReadonly($element, value) {
-        Component.setProperty($element, 'readonly', value);
-        $element.prop("disabled", value);
+        Control.setReadonly($element, value);
     }
+
+    static setReadonly($element, value) {
+        Component.setReadonly($element, value);
+        $element.prop('disabled', value);
+
+        let $actions = $element.closest('.input-group').find('a');
+        Component.setReadonly($actions, value);
+    }
+
 }
 
 Control.register(Select);

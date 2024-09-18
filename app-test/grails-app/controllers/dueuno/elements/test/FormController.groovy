@@ -421,7 +421,6 @@ class FormController implements ElementsController {
                     id: 'paragraph',
                     cols: cols,
             )
-            //readonly = true
         }
 
         c.form['datefield'].value = LocalDate.now()

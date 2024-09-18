@@ -60,6 +60,7 @@ class Link extends Label {
             Transition.submit(componentEvent);
         }
     }
+
 }
 
 Component.register(Link);

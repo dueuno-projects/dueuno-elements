@@ -15,16 +15,17 @@ class Upload extends Control {
             maxFiles: properties.maxFiles,
             acceptedFiles: properties.acceptedFiles,
 
-            dictDefaultMessage: properties.messages.messageDefault,
-            dictFileTooBig: properties.messages.messageTooBig,
-            dictInvalidFileType: properties.messages.messageInvalidType,
-            dictResponseError: properties.messages.messageResponseError,
-            dictCancelUpload: properties.messages.messageCancel,
-            dictCancelUploadConfirmation: properties.messages.messageCancelConfirmation,
-            dictUploadCanceled: properties.messages.messageCanceled,
-            dictRemoveFile: properties.messages.messageRemove,
-            dictRemoveFileConfirmation: properties.messages.messageRemoveConfirmation,
-            dictMaxFilesExceeded: properties.messages.messageMaxExceeded,
+            dictDisabled: properties.messages.disabled,
+            dictDefaultMessage: properties.messages.upload,
+            dictFileTooBig: properties.messages.tooBig,
+            dictInvalidFileType: properties.messages.invalidType,
+            dictResponseError: properties.messages.responseError,
+            dictCancelUpload: properties.messages.cancel,
+            dictCancelUploadConfirmation: properties.messages.cancelConfirmation,
+            dictUploadCanceled: properties.messages.canceled,
+            dictRemoveFile: properties.messages.remove,
+            dictRemoveFileConfirmation: properties.messages.removeConfirmation,
+            dictMaxFilesExceeded: properties.messages.maxExceeded,
 
             // Don't ask me why but this is the only way to
             // register/trigger the events with Dropzone
@@ -108,6 +109,16 @@ class Upload extends Control {
     static clear($element) {
         $element[0].dropzone.removeAllFiles();
     }
+
+    static setReadonly($element, value) {
+        Component.setReadonly($element, value);
+        let dropzone = $element[0].dropzone;
+        dropzone.disable();
+
+        let $button = $element.find('button');
+        $button.html(dropzone.options.dictDisabled);
+    }
+
 }
 
 Control.register(Upload);

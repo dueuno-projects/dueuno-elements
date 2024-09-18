@@ -135,8 +135,9 @@ class Component {
             $element.removeAttr('readonly');
 
         } else {
-            let element = $element[0];
-            element.setAttribute('readonly', '');
+            for (let element of $element) {
+                element.setAttribute('readonly', '');
+            }
         }
     }
 

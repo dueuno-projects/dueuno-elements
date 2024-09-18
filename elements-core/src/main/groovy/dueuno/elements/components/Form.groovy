@@ -37,7 +37,6 @@ class Form extends Component {
     List keyFields
     Class validate
 
-    Boolean readonly
     Boolean autocomplete
 
     Form(Map args) {
@@ -48,7 +47,6 @@ class Form extends Component {
         keyFields = []
         validate = args.validate as Class ?: args.constraints as Class ?: null
 
-        readonly = (args.readonly == null) ? false : args.readonly
         autocomplete = (args.autocomplete == null) ? false : args.autocomplete
     }
 
@@ -87,6 +85,11 @@ class Form extends Component {
             args.value = requestParams[id]
         }
 
+        // Set common args
+        if (args.readonly == null) args.readonly = readonly
+        if (!args.primaryTextColor) args.primaryTextColor = primaryTextColor
+        if (!args.primaryBackgroundColor) args.primaryBackgroundColor = primaryBackgroundColor
+
         // Add control/component. We add them to the components to be able to address
         // them directly instead of passing through the FormField (Eg. form.controlName)
         Component component
@@ -96,13 +99,10 @@ class Form extends Component {
             component = addComponent(args)
         }
 
-        // Add field
+        // Set field specific args
         if (args.helpMessage == null) args.helpMessage = ''
         if (args.label == null) args.label = buildLabel(id)
         if (args.cols == null) args.cols = 12
-        if (args.readonly == null) args.readonly = readonly
-        if (!args.primaryTextColor) args.primaryTextColor = primaryTextColor
-        if (!args.primaryBackgroundColor) args.primaryBackgroundColor = primaryBackgroundColor
 
         args.remove('cssClass')
         args.remove('cssStyle')
@@ -169,8 +169,9 @@ class Form extends Component {
         keyFields += field
     }
 
+    @Override
     void setReadonly(Boolean isReadonly) {
-        readonly = isReadonly
+        super.readonly = isReadonly
         for (field in fields) {
             (field as FormField).component.readonly = isReadonly
         }
