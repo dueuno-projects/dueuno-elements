@@ -112,11 +112,17 @@ class Upload extends Control {
 
     static setReadonly($element, value) {
         Component.setReadonly($element, value);
-        let dropzone = $element[0].dropzone;
-        dropzone.disable();
-
         let $button = $element.find('button');
-        $button.html(dropzone.options.dictDisabled);
+        let dropzone = $element[0].dropzone;
+
+        if (value) {
+            $button.html(dropzone.options.dictDisabled);
+            dropzone.disable();
+
+        } else {
+            $button.html(dropzone.options.dictDefaultMessage);
+            dropzone.enable();
+        }
     }
 
 }
