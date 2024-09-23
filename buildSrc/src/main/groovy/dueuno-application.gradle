@@ -1,8 +1,7 @@
 plugins {
     id 'groovy'
-    id 'application'
-    id 'org.grails.grails-gsp'
     id 'org.grails.grails-web'
+    id 'org.grails.grails-gsp'
     id 'com.github.erdi.webdriver-binaries'
     id 'com.bertramlabs.asset-pipeline'
     id 'dueuno-asciidoctor'
@@ -13,53 +12,90 @@ plugins {
 group = projectGroup
 version = projectVersion
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 repositories {
     mavenCentral()
     maven { url 'https://repo.grails.org/grails/core' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+allprojects {
+    configurations.configureEach {
+        exclude group: 'io.micronaut', module: 'micronaut-inject-groovy'
+
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'org.seleniumhq.selenium') {
+                details.useVersion('4.19.1')
+            }
+        }
+
+        resolutionStrategy.dependencySubstitution {
+            substitute(module('org.codehaus.groovy:groovy-bom:3.0.8')).using(module("org.apache.groovy:groovy-bom:$groovyVersion"))
+        }
+
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if ((details.requested.group == 'org.codehaus.groovy' || details.requested.group == 'org.apache.groovy') && details.requested.name != 'groovy-bom') {
+                details.useTarget(group: 'org.apache.groovy', name: details.requested.name, version: "$groovyVersion")
+                details.because "The dependency coordinates are changed in Apache Groovy 4, plus ensure version"
+            }
+
+            if (details.requested.group == 'io.micronaut' && details.requested.name == 'micronaut-inject-groovy') {
+                details.useVersion('4.6.1')
+            }
+        }
+    }
 }
 
 dependencies {
-    implementation 'org.grails:grails-core'
-    implementation 'org.grails:grails-logging'
-    implementation 'org.grails:grails-plugin-databinding'
-    implementation 'org.grails:grails-plugin-i18n'
-    implementation 'org.grails:grails-plugin-interceptors'
-    implementation 'org.grails:grails-plugin-rest'
-    implementation 'org.grails:grails-plugin-services'
-    implementation 'org.grails:grails-plugin-url-mappings'
-    implementation 'org.grails:grails-web-boot'
-    implementation 'org.grails.plugins:gsp'
-    implementation 'org.grails.plugins:hibernate5'
-    implementation 'org.grails.plugins:scaffolding'
-    implementation 'org.springframework.boot:spring-boot-autoconfigure'
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-logging'
-    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    compileOnly 'io.micronaut:micronaut-inject-groovy'
-    console 'org.grails:grails-console'
-    runtimeOnly 'com.bertramlabs.plugins:asset-pipeline-grails:4.3.0'
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'org.apache.tomcat:tomcat-jdbc'
-    runtimeOnly 'org.fusesource.jansi:jansi:1.18'
-    testImplementation 'io.micronaut:micronaut-inject-groovy'
-    testImplementation 'org.grails:grails-gorm-testing-support'
-    testImplementation 'org.grails:grails-web-testing-support'
-    testImplementation 'org.grails.plugins:geb'
-    testImplementation 'org.seleniumhq.selenium:selenium-api:4.19.1'
-    testImplementation 'org.seleniumhq.selenium:selenium-remote-driver:4.19.1'
-    testImplementation 'org.seleniumhq.selenium:selenium-support:4.19.1'
-    testImplementation 'org.spockframework:spock-core'
-    testRuntimeOnly 'org.seleniumhq.selenium:selenium-chrome-driver:4.19.1'
-    testRuntimeOnly 'org.seleniumhq.selenium:selenium-firefox-driver:4.19.1'
-    testRuntimeOnly 'org.seleniumhq.selenium:selenium-safari-driver:4.19.1'
-    testImplementation 'io.micronaut:micronaut-http-client'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-}
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation 'org.springframework:spring-core:6.1.13'
+    platform 'org.springframework:spring-bom:6.1.13'
+    implementation("org.grails:grails-core")
+    implementation("org.grails:grails-logging")
+    implementation("org.grails:grails-plugin-databinding")
+    implementation("org.grails:grails-plugin-i18n")
+    implementation("org.grails:grails-plugin-interceptors")
+    implementation("org.grails:grails-plugin-rest")
+    implementation("org.grails:grails-plugin-services")
+    implementation("org.grails:grails-plugin-url-mappings")
+    implementation("org.grails:grails-web-boot")
+    implementation("org.grails.plugins:gsp:7.0.0-SNAPSHOT")
+    implementation("org.grails.plugins:hibernate5")
+    implementation("org.grails.plugins:scaffolding")
+    implementation("org.springframework.boot:spring-boot-autoconfigure")
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-logging")
+    implementation("org.springframework.boot:spring-boot-starter-tomcat")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.sitemesh:grails-plugin-sitemesh3:7.0.0-SNAPSHOT")
+    implementation("io.github.gpc:fields:6.0.0-SNAPSHOT")
+    implementation("org.grails:scaffolding-core:2.1.0")
 
-tasks.withType(War).configureEach { War war ->
-    war.dependsOn compileGroovyPages
+    console("org.grails:grails-console")
+    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:5.0.1")
+    runtimeOnly("org.graalvm.sdk:graal-sdk:22.0.0.2")
+    runtimeOnly("com.h2database:h2")
+    runtimeOnly("org.apache.tomcat:tomcat-jdbc")
+    runtimeOnly("org.fusesource.jansi:jansi:1.18")
+    profile("org.grails.profiles:web")
+    testImplementation("io.micronaut:micronaut-inject-groovy")
+    testImplementation("org.grails:grails-gorm-testing-support")
+    testImplementation("org.grails:grails-web-testing-support")
+    testImplementation("org.grails.plugins:geb")
+    implementation 'org.gebish:geb-spock:7.0'
+    testImplementation("org.seleniumhq.selenium:selenium-api:4.19.1")
+    testImplementation("org.seleniumhq.selenium:selenium-remote-driver:4.19.1")
+    testImplementation("org.seleniumhq.selenium:selenium-support:4.19.1")
+    testImplementation("org.spockframework:spock-core")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-chrome-driver:4.19.1")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-firefox-driver:4.19.1")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-safari-driver:4.19.1")
 }
 
 tasks.withType(Test) {
@@ -68,12 +104,6 @@ tasks.withType(Test) {
     systemProperty 'geb.build.reportsDir', reporting.file('geb/integrationTest')
     systemProperty 'webdriver.chrome.driver', "${System.getenv('CHROMEWEBDRIVER')}/chromedriver"
     systemProperty 'webdriver.gecko.driver', "${System.getenv('GECKOWEBDRIVER')}/geckodriver"
-}
-
-webdriverBinaries {
-    chromedriver '110.0.5481.77'
-    geckodriver '0.32.2'
-    edgedriver '110.0.1587.57'
 }
 
 assets {
