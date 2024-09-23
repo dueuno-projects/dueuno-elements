@@ -1,4 +1,4 @@
-<a class="component-link ${c.textAlign} ${c.textWrap} ${c.monospace ? 'font-monospace' : ''} ${c.border ? 'border' : ''} ${c.cssClass}"
+<a class="component-link ${c.textAlign} ${c.textWrap} ${c.border ? 'border' : ''} ${c.cssClass}"
    style="${c.cssStyleColors}${c.cssStyle}"
    data-21-component="${c.className}"
    data-21-id="${c.id}"
@@ -11,6 +11,6 @@
 <g:else>
     <g:if test="${c.image}"><i aria-hidden="true"><asset:image src="${c.image}" class="${c.text ? 'me-2' : ''} ${c.imageClass}" style="${c.imageStyle}"/></i></g:if>
     <g:elseif test="${c.icon}"><render:icon icon="${c.icon}" class="${c.text ? 'me-2' : ''} ${c.iconClass} loading-off" style="${c.iconStyle}"/></g:elseif>
-    <g:if test="${c.text}"><span class="${c.textClass}" style="${c.textStyle}">${c.text}</span></g:if>
+    <g:if test="${c.text}"><span class="${c.textStyle}">${c.text}</span></g:if>
 </g:else>
 </a>

@@ -36,6 +36,7 @@ class TableRowset extends Component {
 
     Boolean isHeader
     Boolean isFooter
+
     String cssClass
     String cssStyle
 

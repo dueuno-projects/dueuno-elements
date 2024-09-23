@@ -23,6 +23,7 @@ import dueuno.elements.core.Elements
 import dueuno.elements.core.Transformer
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
 import dueuno.elements.types.Money
@@ -52,7 +53,9 @@ class TableRow extends Component {
     Boolean isHeader
     Boolean isFooter
     Boolean hasSelection
+
     VerticalAlign verticalAlign
+    List<TextStyle> textStyle
 
     TableRow(Map args) {
         super(args)
@@ -68,7 +71,10 @@ class TableRow extends Component {
         isHeader = (args.isHeader == null) ? false : args.isHeader
         isFooter = (args.isFooter == null) ? false : args.isFooter
         hasSelection = (args.hasSelection == null) ? true : args.hasSelection
+
         verticalAlign = VerticalAlign.CENTER
+
+        setTextStyle(args.textStyle)
 
         actions = createControl(
                 class: Button,
@@ -256,6 +262,25 @@ class TableRow extends Component {
 
     String getHash() {
         return StringUtils.generateHash(keysAsJSON)
+    }
+
+    void setTextStyle(Object value) {
+        switch (value) {
+            case TextStyle:
+                textStyle = [value as TextStyle]
+                break
+
+            case List<TextStyle>:
+                textStyle = value as List<TextStyle>
+                break
+
+            default:
+                textStyle = [TextStyle.NORMAL]
+        }
+    }
+
+    String getTextStyle() {
+        return textStyle.join(' ')
     }
 
     //

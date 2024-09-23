@@ -23,6 +23,7 @@ import dueuno.elements.security.SecurityService
 import dueuno.elements.security.TUser
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextDefault
+import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextTransform
 import dueuno.elements.style.TextWrap
 import dueuno.elements.types.Money
@@ -256,7 +257,7 @@ class SandboxController implements ElementsController {
             addField(
                     class: Label,
                     id: 'labelTest',
-                    monospace: true,
+                    textStyle: TextStyle.MONOSPACE,
                     cols: 12,
                     textWrap: TextWrap.LINE_BREAK,
                     text: """

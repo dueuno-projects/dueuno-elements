@@ -37,11 +37,6 @@ class Link extends Label {
     String imageClass
     String imageStyle
 
-    /** A label that describes the Link, usually a code found in messages.properties */
-    // String text // inherited
-    String textClass
-    String textStyle
-
     /** The link */
     LinkDefinition linkDefinition
 
@@ -61,9 +56,6 @@ class Link extends Label {
         image = args.image ?: ''
         imageClass = args.imageClass ?: ''
         imageStyle = args.imageStyle ?: ''
-
-        textClass = args.labelClass ?: ''
-        textStyle = args.labelStyle ?: ''
 
         html = args.html
         containerSpecs.label = ''

@@ -22,6 +22,7 @@ import dueuno.elements.components.Separator
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
 import dueuno.elements.core.ElementsController
+import dueuno.elements.style.TextStyle
 import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.QuantityUnit
@@ -116,6 +117,7 @@ class TransitionsController implements ElementsController {
                     onChange: 'onSelectChange',
                     submit: 'form',
                     params: [id: 10],
+                    textStyle: TextStyle.LINE_THROUGH,
                     cols: 12,
             )
 //            .on(event: 'change', submit: 'form', params: [test: [a:1, b:2]], action: 'onSelectChange')
@@ -125,12 +127,14 @@ class TransitionsController implements ElementsController {
                     id: 'select2',
                     readonly: true,
 //                    onChange: 'onSelect2Change',
+                    textStyle: TextStyle.BOLD,
                     cols: 12,
             ).on(event: 'change', submit: 'form', action: 'onSelect2Change')
 
             addField(
                     class: Select,
                     id: 'select3',
+                    textStyle: TextStyle.ITALIC,
                     cols: 12,
             )
             addField(

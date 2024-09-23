@@ -2,7 +2,7 @@
     <span class="input-group-text"><g:if test="${c.icon}"><render:icon icon="${c.icon}" force="fa-solid" class="fa-fw"/></g:if>${c.prefix}</span>
 </g:if>
 <input type="${c.keyboardType}"
-       class="control-text-field form-control ${c.monospace ? 'font-monospace' : ''} ${c.cssClass}"
+       class="control-text-field form-control ${c.textStyle} ${c.cssClass}"
        style="${c.cssStyleColors}${c.cssStyle}"
        placeholder="${c.message(c.placeholder)}"
        maxlength="${(c.maxSize > 0) ? c.maxSize: ''}"

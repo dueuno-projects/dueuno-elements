@@ -22,6 +22,7 @@ import dueuno.elements.controls.TextField
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextStyle
 import dueuno.elements.types.Money
 import grails.gorm.multitenancy.CurrentTenant
 
@@ -155,7 +156,9 @@ class TableController implements ElementsController {
             removeSelection()
 
             textColor = 'red'
-            cssStyle = 'text-decoration: line-through; font-weight: bold;'
+//            cssStyle = 'text-decoration: line-through; font-weight: bold;'
+//            cssClass = 'text-decoration-line-through fw-bold'
+            textStyle = [TextStyle.LINE_THROUGH, TextStyle.BOLD]
 
             actions.defaultAction?.text = 'Click me!'
             actions.defaultAction?.infoMessage = 'Ciao carissimo, come stai?'

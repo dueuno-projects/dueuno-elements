@@ -1,4 +1,4 @@
-<tr class="component-table-row ${c.cssClass}"
+<tr class="component-table-row ${c.textStyle} ${c.cssClass}"
     style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}${c.cssStyle}"
     data-21-component="${c.className}"
     data-21-id="${c.id}"

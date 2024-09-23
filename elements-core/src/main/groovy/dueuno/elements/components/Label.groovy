@@ -17,6 +17,7 @@ package dueuno.elements.components
 import dueuno.elements.core.Component
 import dueuno.elements.core.PrettyPrinterProperties
 import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import groovy.transform.CompileStatic
 
@@ -34,7 +35,7 @@ class Label extends Component {
 
     TextAlign textAlign
     TextWrap textWrap
-    Boolean monospace
+    List<TextStyle> textStyle
     Boolean border
 
     PrettyPrinterProperties prettyPrinterProperties
@@ -50,7 +51,8 @@ class Label extends Component {
 
         textAlign = args.textAlign == null ? TextAlign.DEFAULT : args.textAlign as TextAlign
         textWrap = args.textWrap == null ? TextWrap.NO_WRAP : args.textWrap as TextWrap
-        monospace = args.monospace == null ? false : args.monospace
+        setTextStyle(args.textStyle)
+
         border = args.border == null ? false : args.border
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
@@ -87,6 +89,25 @@ class Label extends Component {
 
     void setTextArgs(List value) {
         prettyPrinterProperties.messageArgs = value
+    }
+
+    void setTextStyle(Object value) {
+        switch (value) {
+            case TextStyle:
+                textStyle = [value as TextStyle]
+                break
+
+            case List<TextStyle>:
+                textStyle = value as List<TextStyle>
+                break
+
+            default:
+                textStyle = [TextStyle.NORMAL]
+        }
+    }
+
+    String getTextStyle() {
+        return textStyle.join(' ')
     }
 
     void setHtml(String value) {
