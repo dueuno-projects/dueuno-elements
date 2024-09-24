@@ -47,15 +47,18 @@ class Select extends Control {
                 },
                 processResults: function (data) {
                     let transition = Transition.fromHtml(data);
-                    let options = transition.commands[0].value.value;
-                    let results = [];
+                    let optionCommand = transition.commands.findLast(it => it.component == controlId && it.property == 'options');
+                    if (optionCommand) {
+                        let options = optionCommand.value.value ?? {};
+                        let results = [];
 
-                    for (let [key, value] of Object.entries(options)) {
-                        let option = {id: key, text: value};
-                        results.push(option);
+                        for (let [key, value] of Object.entries(options)) {
+                            let option = {id: key, text: value};
+                            results.push(option);
+                        }
+
+                        return {results: results};
                     }
-
-                    return {results: results};
                 }
             }
         }
