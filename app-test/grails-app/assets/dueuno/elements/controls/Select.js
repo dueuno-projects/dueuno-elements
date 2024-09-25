@@ -187,10 +187,6 @@ class Select extends Control {
     }
 
     static setReadonly($element, value) {
-        Control.setReadonly($element, value);
-    }
-
-    static setReadonly($element, value) {
         Component.setReadonly($element, value);
         $element.prop('disabled', value);
 
