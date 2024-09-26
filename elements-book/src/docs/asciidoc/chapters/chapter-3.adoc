@@ -10,7 +10,6 @@ Okay, we have an empty box now. Let’s fill it with some fruits (fruit is good 
 An application is a set of _Features_. A Feature is made of a _Menu Item_ — so that our users can access it — and a _Content_, a bidimensional area we can fill with buttons and stuff.
 
 The dark area on the left is the _Main Menu_. The light area is where the _Content_ is rendered.
-The dark area on the left is the _Main Menu_. The light area is where the _Content_ is rendered.
 
 image::images/chapter-3/image-1.webp[align="center"]
 
@@ -135,7 +134,7 @@ class PersonValidator implements Validateable {
 Please focus your attention to:
 
 . The controller class name must be suffixed by the word `Controller`. That’s why our person controller is called `PersonController` (this is a convention of the Grails Framework).
-. The person controller implements `ElementsController`. This makes the https://www.dueuno.com/docs/[Dueuno Elements API,window=_blank] available to our actions (NOTE: If you use https://www.jetbrains.com/idea/download/[IntelliJ IDEA Ultimate,window=_blank] with the https://plugins.jetbrains.com/plugin/18504-grails[Grails plugin,window=_blank] you can avoid implementing `ElementsController` and everything will magically work as expected. _Yay!_).
+. The person controller implements `ElementsController`. This makes the https://www.dueuno.com/docs/[Dueuno Elements API,window=_blank] available to our actions (NOTE: If you use https://www.jetbrains.com/idea/download/[IntelliJ IDEA Ultimate,window=_blank] with the https://plugins.jetbrains.com/plugin/18504-grails[Grails plugin,window=_blank] you can avoid implementing `ElementsController` and everything will magically work as expected. Yay!).
 . We use a convention to name the actions. When they start with the `on` prefix, they execute some logic in the background. When they don’t, they render a user interface. We are also using a naming standard here, we may change the action names, but for now let’s not add too much complications.
 
 === Controller Implementation
@@ -269,7 +268,7 @@ There’s a lot of stuff here. The most important things now are:
 . *Contents.* A Content is the canvas on which we design the UI. To do it we add `Components` and `Controls`. You can’t see it in the example because we are using preconfigured contents for tables (`ContentList`) and forms (`ContentCreate` & `ContentEdit`)
 . *The `display()` method.* Each action terminates its execution with the `display()` method. This is the way we display the UI or route from one action to the other.
 
-IMPORTANT: For the sake of the article I’ve implemented the Business Logic within the controller class. This is not somehting we do. Don’t do it. Ever. Don’t.
+IMPORTANT: For the sake of the demo we’ve implemented the Business Logic within the controller class. This is not something we do. Don’t do it. Ever. Don’t.
 
 .Execute the application
 [source,console,subs="attributes+"]

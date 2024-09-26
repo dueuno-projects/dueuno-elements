@@ -23,7 +23,7 @@ IMPORTANT: It must be a `.jpg` image
 
 image::images/chapter-6/image-4.webp[align="center"]
 
-.Create the folder `~/demo/src/main/resources/deploy/public/brand` then copy and rename the files we just downloaded. The `logo.png` file can be duplicated and used for the other `.png` files.
+.Create the folder `~/demo/src/main/resources/deploy/public/brand` then copy and rename the files we just downloaded. The `logo.png` file can be duplicated to create the other `.png` files.
 [source]
 ----
 /demo/src/main/resources/deploy/public/brand
