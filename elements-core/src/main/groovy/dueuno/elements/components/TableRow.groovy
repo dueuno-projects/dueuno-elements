@@ -48,7 +48,7 @@ class TableRow extends Component {
     Object values
 
     Button actions
-    Checkbox selection
+    Checkbox selected
 
     Boolean isHeader
     Boolean isFooter
@@ -82,9 +82,9 @@ class TableRow extends Component {
                 dontCreateDefaultAction: true,
         )
 
-        selection = createControl(
+        selected = createControl(
                 class: Checkbox,
-                id: getId() + '-selection',
+                id: getId() + '-selected',
                 simple: true,
                 cssClass: 'selectRow',
                 checked: (args.checked == null) ? false : args.checked,
@@ -92,7 +92,7 @@ class TableRow extends Component {
     }
 
     void preProcessRow() {
-        selection.readonly = table.readonly
+        selected.readonly = table.readonly
         values = Elements.toMap(values, table.columns, table.includeValues, table.excludeValues)
 
         createCells()
@@ -426,7 +426,7 @@ class TableRow extends Component {
     void setIsHeader(Boolean value) {
         isHeader = value
         if (isHeader) {
-            selection.id = table.id + '-select-all'
+            selected.id = table.id + '-select-all'
         }
     }
 }

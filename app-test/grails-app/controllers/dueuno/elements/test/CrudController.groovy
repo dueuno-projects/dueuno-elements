@@ -102,7 +102,7 @@ class CrudController implements ElementsController {
 
                 groupActions.addAction(
                         action: 'onGroupAction1',
-                        danger: true,
+                        submit: ['table'],
                         params: [
                                 s: 'Stringa',
                                 n: 12345,
