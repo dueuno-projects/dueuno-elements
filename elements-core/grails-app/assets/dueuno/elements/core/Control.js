@@ -51,7 +51,7 @@ class Control extends Component {
     }
 
     static getServerValue($element) {
-        return $element.data('21-value');
+        return JSON.parse($element.attr('data-21-value'))
     }
 
     static getValueType($element) {

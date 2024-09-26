@@ -69,6 +69,8 @@ class SandboxController implements ElementsController {
 
         def formFail = c.addComponent(Form, 'formFail')
         formFail.with {
+            addKeyField('listTest', 'LIST', [1, 2, 3])
+            addKeyField('mapTest', 'MAP', [a:1, b:2, c:[a:1, b:2]])
             addField(
                     class: Button,
                     id: 'loadingScreen',
