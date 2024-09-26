@@ -1,7 +1,7 @@
 
-== 3 Steps, 1 Application
+== Application Basics
 
-CAUTION: DISCLAIMER: DUEUNO ELEMENTS IS NOT THE PERFECT SOFTWARE YOU DREAM. THE WORLD IS NOT THE PERFECT EXPERIENCE YOU DREAM. IT’S NOT MY FAULT, IT’S NOT YOUR FAULT AND IT WORKED PRETTY WELL FOR CENTURIES SO I GUESS WE CAN TAKE A DEEP BREATH AND KEEP WALKING.
+CAUTION: DUEUNO ELEMENTS IS NOT THE PERFECT SOFTWARE YOU DREAM. THE WORLD IS NOT THE PERFECT EXPERIENCE YOU DREAM. IT’S NOT MY FAULT, IT’S NOT YOUR FAULT AND IT WORKED PRETTY WELL FOR CENTURIES SO I GUESS WE CAN TAKE A DEEP BREATH AND KEEP WALKING.
 
 I love _Philosophy_. I could write thousands of words about Dueuno Elements but there’s another thing I love: *Practice*.
 
@@ -9,7 +9,7 @@ So let’s write our first Dueuno Elements application, shall we?
 
 NOTE: If you are a seasoned developer, or you’re in a hurry, install https://www.oracle.com/java/technologies/downloads/?er=221886#java{version-java}[Java {version-java}, window=_blank], go download the https://github.com/dueuno-projects/dueuno-app-template[Dueuno Elements Template Application, window=_blank], run it with `./gradlew bootRun` and these are your three steps.
 
-=== STEP 1
+=== Grails
 
 Dueuno Elements is built on top of the Grails Framework. The Grails website gives us what we need to quickly start up with a _“blank”_ application project.
 
@@ -21,7 +21,7 @@ image::images/chapter-2/image-1.webp[Grails Forge]
 . Click _“Generate Project”_
 . Download the _“demo.zip”_ file and uncompress it on your home folder
 
-=== STEP 2
+=== Dueuno Elements
 
 Find the _dependencies_ section of the `build.gradle` file and add the following line:
 
@@ -63,9 +63,9 @@ class BootStrap {
 
 Delete `~/demo/grails-app/controllers/UrlMappings.groovy`
 
-=== STEP 3
+=== First Execution
 
-.Execute
+.Execute the application
 [source,console,subs="attributes+"]
 ----
 $ ./gradlew bootRun
