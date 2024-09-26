@@ -170,6 +170,11 @@ class Transition {
             log.error('Cannot find component "' + componentName + '"');
             return $(null);
 
+        } else if ($component.length > 1) {
+            log.error('Multiple components found with the same id "' + target
+                + '". Do you have a controller named "' + capitalize(target) + "Controller'? ");
+            return $(null);
+
         } else {
             return $component;
         }
