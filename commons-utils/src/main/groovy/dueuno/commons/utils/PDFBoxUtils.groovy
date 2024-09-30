@@ -16,14 +16,10 @@ package dueuno.commons.utils
 
 import be.quodlibet.boxable.BaseTable
 import groovy.transform.CompileStatic
-import org.apache.pdfbox.Loader
-import org.apache.pdfbox.io.RandomAccessReadBufferedFile
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.PDType1Font
-import org.apache.pdfbox.pdmodel.font.Standard14Fonts
-import org.apache.pdfbox.rendering.ImageType
 import org.apache.pdfbox.rendering.PDFRenderer
 
 import java.awt.image.BufferedImage
@@ -34,10 +30,10 @@ import java.awt.image.BufferedImage
 @CompileStatic
 class PDFBoxUtils {
 
-    static BufferedImage getPreview(String pathname, Integer dpi = 300, ImageType imageType = ImageType.RGB) {
-        PDDocument pd = Loader.loadPDF(new RandomAccessReadBufferedFile(pathname))
+    static BufferedImage getPreview(String pathname, Integer dpi = 300) {
+        PDDocument pd = PDDocument.load(new File(pathname))
         PDFRenderer pr = new PDFRenderer(pd)
-        return pr.renderImageWithDPI(0, dpi, imageType)
+        return pr.renderImageWithDPI(0, dpi)
     }
 
     static void table(PDDocument document, PDPage page, Float y, @DelegatesTo(BaseTable) Closure closure) {
@@ -61,7 +57,7 @@ class PDFBoxUtils {
 
     static void write(PDPageContentStream content, Float x, Float y, String text, Float fontSize = 14) {
         content.beginText()
-        content.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), fontSize)
+        content.setFont(PDType1Font.HELVETICA_BOLD, fontSize)
         content.newLineAtOffset(x, y)
         content.showText(text)
         content.endText()
