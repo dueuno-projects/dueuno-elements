@@ -58,7 +58,7 @@ class Transition {
 
     static execute(transition, componentEvent) {
         log.debug('');
-        log.debug('<<< RESPONSE');
+        log.debug('<<< RESPONSE (' + componentEvent.controller + '/' + componentEvent.action + ')');
         Transition.log(transition);
 
         for (let command of transition.commands) {

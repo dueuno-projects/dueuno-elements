@@ -33,6 +33,7 @@ import dueuno.elements.types.QuantityUnit
 import grails.gorm.multitenancy.CurrentTenant
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 @CurrentTenant
@@ -71,6 +72,9 @@ class SandboxController implements ElementsController {
         formFail.with {
             addKeyField('listTest', 'LIST', [1, 2, 3])
             addKeyField('mapTest', 'MAP', [a:1, b:2, c:[a:1, b:2]])
+            addKeyField('datetimeTest', 'DATETIME', LocalDateTime.now())
+            addKeyField('dateTest', 'DATE', LocalDate.now())
+            addKeyField('timeTest', 'TIME', LocalTime.now())
             addField(
                     class: Button,
                     id: 'loadingScreen',
