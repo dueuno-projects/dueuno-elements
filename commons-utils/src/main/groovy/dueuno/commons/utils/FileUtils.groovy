@@ -91,14 +91,17 @@ class FileUtils {
         def unixFilenameInvalidNonPrintableChars = '[\\u0000]' // NULL
         def win32FilenameInvalidChars = '[<>:"/\\\\|?*]'
         def win32FilenameInvalidNonPrintableChars = '[\\u0000-\\u001F]|[\\u007F]' // ASCII 0-31 e 127
+        def urlInvalidChars = '[<>#%\\+\\{\\}|\\^~\\[\\]`;/\\?:@=&$]'
         def space = '[ ]'
 
         return filename.replaceAll(
-                unixFilenameInvalidChars + '|' +
-                        unixFilenameInvalidNonPrintableChars + '|' +
-                        win32FilenameInvalidChars + '|' +
-                        win32FilenameInvalidNonPrintableChars + '|' +
-                        space, '_')
+                unixFilenameInvalidChars
+                        + '|' + unixFilenameInvalidNonPrintableChars
+                        + '|' + win32FilenameInvalidChars
+                        + '|' + win32FilenameInvalidNonPrintableChars
+                        + '|' + urlInvalidChars
+                        + '|' + space,
+                '_')
     }
 
     static String getTempDir() {
