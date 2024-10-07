@@ -327,6 +327,7 @@ Grails application running at http://localhost:9992/test in environment: develop
 
         def table = c.addComponent(Table, 'tableTest')
         table.with {
+            title.display = true
             filters.with {
                 addField(
                         class: TextField,

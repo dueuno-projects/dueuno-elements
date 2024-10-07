@@ -126,6 +126,7 @@ class Table extends Component {
         title = createControl(
                 class: Separator,
                 id: 'title',
+                text: buildLabel(getId()),
                 squeeze: true,
                 display: false,
         )
@@ -265,15 +266,6 @@ class Table extends Component {
     void setPaginate(Integer total) {
         pagination.total = total
         hasPagination = true
-    }
-
-    void setTitle(String value) {
-        title.text = value
-        title.display = true
-    }
-
-    Separator getTitle() {
-        return title
     }
 
     void setHeader(Collection recordset) {
