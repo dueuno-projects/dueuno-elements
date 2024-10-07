@@ -201,7 +201,7 @@ trait WebRequestAware {
      */
     void setReturnPointController(String controller) {
         if (session) {
-            session['_returnPointController'] = controller
+            session['_21ReturnPointController'] = controller
         }
     }
 
@@ -212,7 +212,7 @@ trait WebRequestAware {
      */
     void setReturnPointAction(String action) {
         if (session) {
-            session['_returnPointAction'] = action
+            session['_21ReturnPointAction'] = action
         }
     }
 
@@ -223,7 +223,7 @@ trait WebRequestAware {
      */
     void setReturnPointParams(Map params) {
         if (session) {
-            session['_returnPointParams'] = params
+            session['_21ReturnPointParams'] = params
         }
     }
 
@@ -233,7 +233,7 @@ trait WebRequestAware {
             * @ return the ' return point ' controller
      */
     String getReturnPointController() {
-        return session ? (String) session['_returnPointController'] : null
+        return session ? (String) session['_21ReturnPointController'] : null
     }
 
     /**
@@ -242,7 +242,7 @@ trait WebRequestAware {
      * @return the 'return point' action
      */
     String getReturnPointAction() {
-        return session ? (String) session['_returnPointAction'] : null
+        return session ? (String) session['_21ReturnPointAction'] : null
     }
 
     /**
@@ -251,7 +251,7 @@ trait WebRequestAware {
      * @return the 'return point' params
      */
     Map getReturnPointParams() {
-        return session ? (Map) session['_returnPointParams'] : [:]
+        return session ? (Map) session['_21ReturnPointParams'] : [:]
     }
 
     /**

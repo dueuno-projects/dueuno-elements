@@ -32,7 +32,7 @@
                 <g:each var="item" in="${c.listItems()}">
                     <g:if test="${item.hasSubitems()}">
                         <li class="nav-item ms-0 mt-4">
-                            <span class="nav-link"><dev:ifDisplayHints>[${item.order}]&nbsp;</dev:ifDisplayHints>${item.link.text}</span>
+                            <span class="nav-link">${item.link.text}<%--<dev:ifDisplayHints><span class="badge rounded-pill text-secondary bg-light">${item.order}</span></dev:ifDisplayHints>--%></span>
                         </li>
                     </g:if>
                     <g:else>
@@ -42,7 +42,7 @@
                                             data-bs-dismiss="offcanvas"
                                             data-bs-target="#shell-menu"
                             />
-                            <dev:ifDisplayHints><span>&nbsp;[${item.order}]</span></dev:ifDisplayHints>
+                            <%--<dev:ifDisplayHints><span class="badge rounded-pill text-secondary bg-light">${item.order}</span></dev:ifDisplayHints>--%>
                         </li>
                     </g:else>
                 </g:each>

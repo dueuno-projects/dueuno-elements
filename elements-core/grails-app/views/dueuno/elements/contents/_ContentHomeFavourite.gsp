@@ -16,7 +16,7 @@
                     class="fa-fw"
             />
             <div class="p-4 text-white text-shadow-1">
-                <h2 class="card-title text-truncate"><render:message code="shell.${feature.link.controller}"/><dev:ifDisplayHints>&nbsp;[${feature.order}]</dev:ifDisplayHints></h2>
+                <h2 class="card-title text-truncate"><render:message code="shell.${feature.link.controller}"/></h2>
                 <p class="card-text fw-light">
                     <g:if test="${c.message('shell.' + feature.link.controller + '.help') != 'shell.' + feature.link.controller + '.help'}">
                         <render:message code="shell.${feature.link.controller}.help" />

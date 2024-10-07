@@ -475,15 +475,12 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
     }
 
     /**
-     * Registers a feature into the "System Configuration" area.
-     * Registers a feature accessible only by the ROLE_SUPERADMIN authority.
+     * Registers a feature into the "Development" user menu area.
+     * Registers a feature accessible only by the ROLE_DEVELOPER authority.
      */
-    void registerSuperadminUserFeature(Map args = [:]) {
-//        Feature newFeature = getFeature(args.controller as String)
-//        if (!newFeature) {
-            args.authorities = ['ROLE_SUPERADMIN']
-            registerUserFeature(args)
-//        }
+    void registerDeveloperUserFeature(Map args = [:]) {
+        args.authorities = ['ROLE_DEVELOPER']
+        registerUserFeature(args)
     }
 
     /**

@@ -176,10 +176,10 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 order: 10000020,
         )
 
-        applicationService.registerSuperadminUserFeature(
+        applicationService.registerDeveloperUserFeature(
                 order: 10000030,
         )
-        applicationService.registerSuperadminUserFeature(
+        applicationService.registerDeveloperUserFeature(
                 controller: 'connectionSource',
                 action: 'h2Console',
                 icon: 'fa-database',
@@ -187,7 +187,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 direct: true,
                 targetNew: true,
         )
-        applicationService.registerSuperadminUserFeature(
+        applicationService.registerDeveloperUserFeature(
                 controller: 'shell',
                 action: 'toggleDevHints',
                 icon: 'fa-code',
@@ -1040,10 +1040,10 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
     }
 
     void installTenantSecurity(String tenantId) {
-        createAuthority('ROLE_SECURITY')
-
         createGroup(tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
         createGroup(tenantId: tenantId, name: GROUP_ADMINS, authorities: [ROLE_ADMIN], deletable: false)
+        createAuthority('ROLE_DEVELOPER')
+        createAuthority('ROLE_SECURITY')
 
         if (tenantId == 'DEFAULT') {
             createGroup(tenant: tenantService.default, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)

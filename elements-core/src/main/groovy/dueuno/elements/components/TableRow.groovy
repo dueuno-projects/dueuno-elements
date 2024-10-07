@@ -138,23 +138,18 @@ class TableRow extends Component {
                 cellLabel.text = values[columnName]
 
                 if (devDisplayHints) {
-                    String prefix = cellLabel.prettyPrinterProperties.messagePrefix
                     if (columnName in getKeys()) {
-//                        cell.cssStyle = 'white-space: nowrap;'
-                        columnCell.cssClass = 'info'
-                        cellLabel.icon = 'fa-solid fa-key'
                         cellLabel.prettyPrinterProperties.messagePrefix = ''
+                        cellLabel.html = '<i class="fa-solid fa-key me-1"></i><span>' + columnName + '</span>'
 
                     } else {
-                        cellLabel.prettyPrinterProperties.renderMessagePrefix = false
-                        cellLabel.prettyPrinterProperties.messagePrefix = prefix
+                        String prefix = cellLabel.prettyPrinterProperties.messagePrefix
                         String labelValue = cellLabel.text
-                        String labelCode = prefix + '.' + cellLabel.text
+                        String labelCode = prefix + '.' + columnName
 
-                        if (labelValue == cellLabel.text) {
-                            cellLabel.text = labelCode
-                        } else {
-                            cellLabel.text = labelValue + ' (' + cellLabel.text + ')'
+                        if (labelCode != labelValue) {
+                            cellLabel.prettyPrinterProperties.renderMessagePrefix = false
+                            cellLabel.text = labelValue + ' (' + labelCode + ')'
                         }
                     }
                 }
