@@ -57,7 +57,7 @@ class CrudController implements ElementsController {
         c.title = 'Runtime "content" title'
         c.with {
             header.sticky = false
-            header.title = 'Runtime "content.header" title'
+            header.text = 'Runtime "content.header" title'
             header.addBackButton().with {
                 addAction(action: 'pippo')
             }

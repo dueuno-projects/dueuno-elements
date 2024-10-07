@@ -18,7 +18,7 @@
                 <g:if test="${c.icon}">
                     <render:icon icon="${c.icon}"/>
                 </g:if>
-                <render:message code="${c.title}" args="${c.titleArgs}"/>
+                <render:message code="${c.text}" args="${c.textArgs}"/>
             </span>
         </div>
 

@@ -24,7 +24,7 @@ class DemoController implements ElementsController {
     def index() {
         def c = createContent(ContentList)
 
-        c.header.title = "Shopping cart"
+        c.header.text = "Shopping cart"
 
         c.table.columns = [
                 'product',

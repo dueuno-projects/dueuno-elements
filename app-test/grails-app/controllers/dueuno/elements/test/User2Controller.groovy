@@ -26,7 +26,7 @@ class User2Controller implements ElementsController {
 
     def index() {
         def c = createTable()
-        c.header.title = 'USER TWO'
+        c.header.text = 'USER TWO'
         display content: c
     }
 
