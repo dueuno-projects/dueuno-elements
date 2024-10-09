@@ -36,8 +36,8 @@ class BootStrap {
         }
 
         applicationService.beforeInit {
-            Types.register('MONEY', Money)
-            Types.register('QUANTITY', Quantity)
+            Types.register(Money)
+            Types.register(Quantity)
             
             securityService.init()
         }

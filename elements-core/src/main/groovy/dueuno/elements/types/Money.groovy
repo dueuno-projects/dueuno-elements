@@ -14,6 +14,7 @@
  */
 package dueuno.elements.types
 
+import dueuno.elements.controls.MoneyField
 import dueuno.elements.core.PrettyPrinter
 import dueuno.elements.core.PrettyPrinterProperties
 import dueuno.elements.exceptions.ArgsException
@@ -29,6 +30,11 @@ import groovy.transform.CompileDynamic
 @Entity
 @CompileDynamic
 class Money extends Number implements CustomType, MultiTenant<Money> {
+
+    static final TYPE_NAME = 'MONEY'
+    static final TYPE_FIELD = MoneyField
+    static final TYPE_VALUE_PROPERTY_TYPE = Number
+    static final TYPE_VALUE_PROPERTY_NAME = 'amount'
 
     BigDecimal amount
     String currency
@@ -51,9 +57,17 @@ class Money extends Number implements CustomType, MultiTenant<Money> {
         this.currency = currency
     }
 
+    static String getCustomTypeName() {
+        return TYPE_NAME
+    }
+
+    static Class getCustomTypeField() {
+        return MoneyField
+    }
+
     Map serialize() {
         return [
-                type : 'MONEY',
+                type : TYPE_NAME,
                 value: [
                         amount: amount,
                         currency: currency,

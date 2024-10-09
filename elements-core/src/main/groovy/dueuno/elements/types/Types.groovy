@@ -34,12 +34,21 @@ class Types {
 
     private static Map<String, Class> registry = [:]
 
-    static register(String typeName, Class typeClass) {
-        if (typeClass !in CustomType) {
-            throw new ElementsException("Cannot register class '${typeClass}'. Ony classes implementing '${CustomType.getName()}' can be registered as custom types.")
+    static register(Class type) {
+        if (type !in CustomType) {
+            throw new ElementsException("Cannot register class '${type}'. Ony classes implementing '${CustomType.getName()}' can be registered as custom types.")
         }
 
-        registry[typeName] = typeClass
+        String typeName = type['TYPE_NAME']
+        registry[typeName] = type
+    }
+
+    static Boolean isRegistered(Class type) {
+        if (type !in CustomType) {
+            return false
+        }
+
+        return registry[type['TYPE_NAME']]
     }
 
     private static CustomType create(String typeName) {

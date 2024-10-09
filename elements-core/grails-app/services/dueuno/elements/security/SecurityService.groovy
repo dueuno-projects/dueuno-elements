@@ -115,13 +115,16 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
     private void registerSuperadminFeatures() {
         applicationService.registerSuperadminFeature(
-                namespace: 'security',
                 controller: 'tenant',
                 icon: 'fa-house-user',
         )
         applicationService.registerSuperadminFeature(
-                controller: 'connectionSource',
+                controller: 'database',
                 icon: 'fa-database',
+        )
+        applicationService.registerSuperadminFeature(
+                controller: 'connectionSource',
+                icon: 'fa-plug',
         )
         applicationService.registerSuperadminFeature(
                 controller: 'systemProperty',
@@ -148,7 +151,6 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 controller: 'group',
                 icon: 'fa-user-shield',
         )
-
         applicationService.registerAdminFeature(
                 controller: 'audit',
                 icon: 'fa-eye',

@@ -263,7 +263,7 @@ class Table extends Component {
         }
     }
 
-    void setPaginate(Integer total) {
+    void setPaginate(Number total) {
         pagination.total = total
         hasPagination = true
     }
