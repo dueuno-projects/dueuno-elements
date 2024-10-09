@@ -105,6 +105,7 @@ class DatabaseExplorerController implements ElementsController {
             c.table.with {
                 columns = getDomainColumns(domainClass)
                 labels = getDomainFieldNames(domainClass)
+                sortable = [id: 'asc']
 
                 body.eachRow { TableRow row, Map values ->
                 }
