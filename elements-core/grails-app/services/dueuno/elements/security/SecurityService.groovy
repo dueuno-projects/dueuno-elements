@@ -119,7 +119,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 icon: 'fa-house-user',
         )
         applicationService.registerSuperadminFeature(
-                controller: 'database',
+                controller: 'databaseExplorer',
                 icon: 'fa-database',
         )
         applicationService.registerSuperadminFeature(

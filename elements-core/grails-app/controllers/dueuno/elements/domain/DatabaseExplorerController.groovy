@@ -33,7 +33,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 @CurrentTenant
-class DatabaseController implements ElementsController {
+class DatabaseExplorerController implements ElementsController {
 
     TenantService tenantService
 
@@ -244,7 +244,7 @@ class DatabaseController implements ElementsController {
         Class domainClass = controllerSession['domainClass']
 
         if (!domainClass) {
-            display message: 'database.select.table.first'
+            display message: 'databaseExplorer.select.table.first'
             return
         }
 
