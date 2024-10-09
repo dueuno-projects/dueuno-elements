@@ -149,7 +149,7 @@ class TableRow extends Component {
 
                         if (labelCode != labelValue) {
                             cellLabel.prettyPrinterProperties.renderMessagePrefix = false
-                            cellLabel.text = labelValue + ' (' + labelCode + ')'
+                            cellLabel.text = labelValue + ' (' + columnName + ')'
                         }
                     }
                 }
