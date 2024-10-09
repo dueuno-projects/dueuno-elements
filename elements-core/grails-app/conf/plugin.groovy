@@ -42,7 +42,7 @@ grails.plugin.springsecurity.useSessionFixationPrevention = true
 
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         [pattern: '/**', access: ['IS_AUTHENTICATED_REMEMBERED']],
-        [pattern: '/**/h2-console/**', access: ['ROLE_ADMIN']],
+        [pattern: '/**/h2-console/**', access: ['ROLE_DEVELOPER']],
 
         // Websocket
         [pattern: '/queue/**', access: ['permitAll']],

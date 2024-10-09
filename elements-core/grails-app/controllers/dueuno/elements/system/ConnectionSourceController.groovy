@@ -37,7 +37,7 @@ import java.sql.Driver
  * @author Gianluca Sartori
  */
 @CurrentTenant
-@Secured(['ROLE_SUPERADMIN'])
+@Secured(['ROLE_DEVELOPER'])
 class ConnectionSourceController implements ElementsController {
 
     ApplicationService applicationService
