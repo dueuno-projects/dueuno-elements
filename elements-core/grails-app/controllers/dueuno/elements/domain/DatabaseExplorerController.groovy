@@ -125,6 +125,10 @@ class DatabaseExplorerController implements ElementsController {
                 def query = new DetachedCriteria(domainClass).build {
                     if (searchText) {
                         or {
+                            if (searchNumber) {
+                                eq 'id', searchNumber
+                            }
+
                             for (property in getDomainProperties(domainClass)) {
                                 Class propertyClass = property.value.property.propertyType
                                 String propertyName = property.key
