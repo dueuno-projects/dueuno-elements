@@ -84,6 +84,7 @@ class DatabaseExplorerController implements ElementsController {
                     id: 'domainClass',
                     optionsFromList: grailsApplication.domainClasses*.fullName,
                     renderMessagePrefix: false,
+                    search: true,
                     cols: 3,
             )
             addField(
