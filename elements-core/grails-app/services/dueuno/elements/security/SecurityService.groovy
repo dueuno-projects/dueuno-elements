@@ -119,10 +119,6 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 icon: 'fa-house-user',
         )
         applicationService.registerSuperadminFeature(
-                controller: 'databaseExplorer',
-                icon: 'fa-database',
-        )
-        applicationService.registerSuperadminFeature(
                 controller: 'connectionSource',
                 icon: 'fa-plug',
         )
@@ -188,6 +184,12 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 order: 10000040,
                 direct: true,
                 targetNew: true,
+        )
+        applicationService.registerDeveloperUserFeature(
+                controller: 'databaseExplorer',
+                order: 10000050,
+                icon: 'fa-database',
+                direct: true,
         )
         applicationService.registerDeveloperUserFeature(
                 controller: 'shell',
