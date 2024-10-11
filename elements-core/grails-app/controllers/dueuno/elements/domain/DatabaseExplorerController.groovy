@@ -14,11 +14,17 @@
  */
 package dueuno.elements.domain
 
+import dueuno.commons.utils.SqlUtils
+import dueuno.elements.components.Button
+import dueuno.elements.components.Form
+import dueuno.elements.components.Table
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
+import dueuno.elements.core.ApplicationService
+import dueuno.elements.core.ConnectionSourceService
 import dueuno.elements.core.Elements
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextDefault
@@ -28,6 +34,7 @@ import dueuno.elements.types.Types
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 
+import javax.annotation.PostConstruct
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -35,7 +42,14 @@ import java.time.LocalTime
 @CurrentTenant
 class DatabaseExplorerController implements ElementsController {
 
+    ApplicationService applicationService
     TenantService tenantService
+    ConnectionSourceService connectionSourceService
+
+    @PostConstruct
+    void init() {
+        // Executes only once when the application starts
+    }
 
     private List<Class> getDomainProperties(Class domainClass) {
         List<Class> results = []
@@ -68,41 +82,76 @@ class DatabaseExplorerController implements ElementsController {
     }
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent()
 
-        c.table.filters.with {
+        c.header.nextButton.text = 'databaseExplorer.sqlConsole'
+        c.header.nextButton.icon = 'fa-pen-to-square'
+        c.header.nextButton.action = 'sqlConsole'
+
+        String tenantId = params.tenantId ?: controllerSession['tenantId'] ?: tenantService.defaultTenantId
+        controllerSession['tenantId'] = tenantId
+        String domainClassName = params.domainClassName ?: controllerSession['domainClassName']
+        controllerSession['domainClassName'] = domainClassName
+        Class domainClass
+        if (domainClassName) {
+            domainClass = grailsApplication.getDomainClass(domainClassName).clazz
+            controllerSession['domainClass'] = domainClass
+        }
+
+        def form = c.addComponent(Form)
+        form.with {
             addField(
                     class: Select,
                     id: 'tenantId',
                     optionsFromRecordset: tenantService.list(),
                     keys: ['tenantId'],
-                    defaultValue: tenantService.defaultTenantId,
+                    allowClear: false,
+                    defaultValue: tenantId,
+                    onChange: 'index',
+                    submit: 'form',
                     cols: 3,
             )
             addField(
                     class: Select,
-                    id: 'domainClass',
+                    id: 'domainClassName',
                     optionsFromList: grailsApplication.domainClasses*.fullName,
+                    defaultValue: domainClassName,
                     renderMessagePrefix: false,
                     search: true,
-                    cols: 3,
+                    onChange: 'index',
+                    submit: 'form',
+                    cols: 7,
             )
             addField(
-                    class: TextField,
-                    id: 'find',
-                    label: TextDefault.FIND,
-                    cols: 6,
+                    class: Button,
+                    id: 'btnCreate',
+                    action: 'create',
+                    text: TextDefault.CREATE,
+                    icon: 'fa-plus',
+                    readonly: !domainClassName,
+                    cols: 2,
             )
         }
 
-        String tenantId = c.table.filterParams.tenantId ?: controllerSession['tenantId'] ?: tenantService.defaultTenantId
-        controllerSession['tenantId'] = tenantId
+        def table = c.addComponent(Table)
+        if (domainClassName) {
+            table.with {
+                filters.with {
+                    fold = true
+                    addField(
+                            class: NumberField,
+                            id: 'id',
+                            label: 'Id',
+                            cols: 2,
+                    )
+                    addField(
+                            class: TextField,
+                            id: 'find',
+                            label: TextDefault.FIND,
+                            cols: 10,
+                    )
+                }
 
-        if (c.table.filterParams.domainClass) {
-            Class domainClass = grailsApplication.getDomainClass(c.table.filterParams.domainClass).clazz
-            controllerSession['domainClass'] = domainClass
-
-            c.table.with {
                 columns = getDomainColumns(domainClass)
                 labels = getDomainFieldNames(domainClass)
                 sortable = [id: 'asc']
@@ -111,24 +160,25 @@ class DatabaseExplorerController implements ElementsController {
                 }
             }
 
-            c.table.pagination.reset()
+            table.pagination.reset()
 
             tenantService.withTenant(tenantId) {
-                String searchText = c.table.filterParams.find
-                BigDecimal searchNumber
+                Number searchId = table.filterParams.id as Number
+                String searchText = table.filterParams.find
+                Number searchNumber
                 try {
-                    searchNumber = c.table.filterParams.find as Long
+                    searchNumber = table.filterParams.find as Long
                 } catch (Exception e) {
                     searchNumber = null
                 }
 
                 def query = new DetachedCriteria(domainClass).build {
+                    if (searchId) {
+                        eq 'id', searchId
+                    }
+
                     if (searchText) {
                         or {
-                            if (searchNumber) {
-                                eq 'id', searchNumber
-                            }
-
                             for (property in getDomainProperties(domainClass)) {
                                 Class propertyClass = property.value.property.propertyType
                                 String propertyName = property.key
@@ -150,8 +200,8 @@ class DatabaseExplorerController implements ElementsController {
                     }
                 }
 
-                c.table.body = query.list(c.table.fetchParams)
-                c.table.paginate = query.count()
+                table.body = query.list(table.fetchParams)
+                table.paginate = query.count()
             }
         }
 
@@ -317,6 +367,45 @@ class DatabaseExplorerController implements ElementsController {
             } catch (e) {
                 display exception: e
             }
+        }
+    }
+
+    def sqlConsole() {
+        def c = createContent(ContentForm)
+
+        c.header.nextButton.action = 'onExecuteSql'
+        c.header.nextButton.text = TextDefault.EXECUTE
+        c.header.nextButton.icon = 'fa-play'
+
+        c.form.with {
+            addField(
+                    class: Select,
+                    id: 'connectionSource',
+                    optionsFromRecordset: connectionSourceService.list(),
+                    keys: ['name'],
+                    allowClear: false,
+                    defaultValue: tenantService.defaultTenantId,
+            )
+            addField(
+                    class: Textarea,
+                    id: 'sql',
+                    rows: 4,
+            )
+        }
+
+        display content: c, modal: true, wide: true
+    }
+
+    def onExecuteSql() {
+        def dataSource = connectionSourceService.getDataSource(params.connectionSource)
+        def sql = params.sql
+
+        try {
+            SqlUtils.execute(dataSource, sql)
+            display message: 'databaseExplorer.sql.console.execution.success'
+
+        } catch (Exception e) {
+            display exception: e
         }
     }
 

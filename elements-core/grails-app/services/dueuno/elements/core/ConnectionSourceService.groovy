@@ -42,13 +42,9 @@ class ConnectionSourceService {
     @Autowired
     private ApplicationService applicationService
 
-    @Autowired
-    private SystemPropertyService systemPropertyService
-
-    @Autowired
-    private GrailsApplication grailsApplication
-
     void installOrConnect() {
+        applicationService.registerPrettyPrinter(TConnectionSource, '${it.name}${it.tenant ? " Tenant" : ""} (${it.driverClassName})')
+
         if (!connectionSourceAlreadyInstalled()) {
             for (connectionSource in listDatastoreConnectionSource()) {
                 connectionSource.embedded = true
@@ -150,12 +146,10 @@ class ConnectionSourceService {
         return query
     }
 
-    List<TConnectionSource> list(Map args) {
-        def filters = args?.filters ?: [:]
-        def query = buildQuery(filters)
-
-        def params = args?.params ?: [:]
-        return query.list(params)
+    List<TConnectionSource> list(Map filterParams = [:], Map fetchParams = [:]) {
+        if (!fetchParams.sort) fetchParams.sort = [name: 'asc']
+        def query = buildQuery(filterParams)
+        return query.list(fetchParams)
     }
 
     Integer count(Map filters = [:]) {

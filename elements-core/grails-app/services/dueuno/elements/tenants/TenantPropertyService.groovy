@@ -98,9 +98,9 @@ class TenantPropertyService extends PropertyService {
         return p
     }
 
-    List<TTenantProperty> list(Map filters = [:], Map params = [:]) {
-        def query = buildQuery(filters)
-        return query.list(params)
+    List<TTenantProperty> list(Map filterParams = [:], Map fetchParams = [:]) {
+        def query = buildQuery(filterParams)
+        return query.list(fetchParams)
     }
 
     Integer count(Map filters = [:]) {

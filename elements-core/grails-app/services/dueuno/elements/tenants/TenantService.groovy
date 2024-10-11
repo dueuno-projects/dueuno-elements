@@ -154,11 +154,10 @@ class TenantService {
         return query
     }
 
-    List<TTenant> list(Map filters = [:], Map params = [:]) {
-        if (!params.sort) params.sort = 'dateCreated'
-        if (!params.order) params.order = 'desc'
-        def query = buildQuery(filters)
-        return query.list(params)
+    List<TTenant> list(Map filterParams = [:], Map fetchParams = [:]) {
+        if (!fetchParams.sort) fetchParams.sort = [dateCreated: 'asc']
+        def query = buildQuery(filterParams)
+        return query.list(fetchParams)
     }
 
     Integer count(Map filters = [:]) {

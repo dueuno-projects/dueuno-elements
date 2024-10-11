@@ -371,14 +371,14 @@ class UserController implements ElementsController {
     private normalizeInput(Map params) {
         params.tenant = tenantService.get(params.tenant) ?: securityService.currentTenant
 
-        def defaultGroup = securityService.getGroup(params.defaultGroup)
-        if (defaultGroup) params.defaultGroup = defaultGroup.name
-
         List groups = []
         for (groupId in params.groups) {
             groups.add(securityService.getGroup(groupId).name)
         }
         params.groups = groups
+
+        def defaultGroup = securityService.getGroup(params.defaultGroup)
+        if (defaultGroup) params.defaultGroup = defaultGroup.name
     }
 
     def onCreateAndClose() {

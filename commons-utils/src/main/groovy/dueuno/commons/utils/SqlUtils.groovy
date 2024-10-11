@@ -101,7 +101,7 @@ class SqlUtils {
     static Boolean execute(DataSource dataSource, String query) {
         Sql sql = new Sql(dataSource)
         log.trace(query)
-        String result = sql.execute(query)
+        Boolean result = sql.execute(query)
         sql.close()
         return result
     }

@@ -21,6 +21,7 @@ import dueuno.elements.exceptions.ArgsException
 import grails.gorm.MultiTenant
 import grails.gorm.annotation.Entity
 import groovy.transform.CompileDynamic
+import org.grails.datastore.gorm.GormEntity
 
 /**
  * @author Gianluca Sartori
@@ -30,7 +31,7 @@ import groovy.transform.CompileDynamic
 
 @Entity
 @CompileDynamic
-class Quantity extends Number implements CustomType, MultiTenant<Quantity> {
+class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Quantity> {
 
     static final TYPE_NAME = 'QUANTITY'
     static final TYPE_FIELD = QuantityField
