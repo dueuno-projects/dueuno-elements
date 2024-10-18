@@ -14,6 +14,7 @@
  */
 package dueuno.elements.types
 
+
 import dueuno.elements.core.PrettyPrinterProperties
 
 /**
@@ -21,7 +22,11 @@ import dueuno.elements.core.PrettyPrinterProperties
  */
 
 interface CustomType {
+
     Map serialize()
+
     void deserialize(Map valueMap)
+
     String prettyPrint(PrettyPrinterProperties properties)
+
 }

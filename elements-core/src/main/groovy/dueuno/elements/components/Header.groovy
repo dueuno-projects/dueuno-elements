@@ -27,8 +27,8 @@ class Header extends Component {
 
     private Boolean isSticky
 
-    String title
-    List titleArgs
+    String text
+    List textArgs
     String icon
 
     Boolean hasNextButton
@@ -41,9 +41,9 @@ class Header extends Component {
         super(args)
 
         icon = args.icon
-        String defaultTitle = controllerName + '.' + actionName + '.header.title'
-        title = (args.title == null) ? defaultTitle : args.title
-        titleArgs = (args.titleArgs == null) ? [] : args.titleArgs as List
+        String defaultText = controllerName + '.' + actionName + '.' + getId()
+        text = (args.text == null) ? defaultText : args.text
+        textArgs = (args.textArgs == null) ? [] : args.textArgs as List
 
         hasBackButton = false
         hasNextButton = false
@@ -112,8 +112,8 @@ class Header extends Component {
         return backButton
     }
 
-    void setTitle(Object value) {
-        title = prettyPrint(value)
+    void setText(Object value) {
+        text = prettyPrint(value)
     }
 
     @Override

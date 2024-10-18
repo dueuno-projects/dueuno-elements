@@ -19,6 +19,7 @@ import dueuno.elements.core.Component
 import dueuno.elements.core.PrettyPrinterProperties
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
 import groovy.transform.CompileStatic
@@ -151,6 +152,14 @@ class TableCell extends Component {
         if (component in Label) (component as Label).textWrap = value
     }
 
+    void setTextStyle(TextStyle value) {
+        if (component in Label) (component as Label).setTextStyle(value)
+    }
+
+    void setTextStyle(List<TextStyle> value) {
+        if (component in Label) (component as Label).setTextStyle(value)
+    }
+
     void setText(Object value) {
         if (component in Label) (component as Label).text = value
     }
@@ -165,10 +174,6 @@ class TableCell extends Component {
 
     void setHtml(String value) {
         if (component in Label) (component as Label).html = value
-    }
-
-    void setMonospace(Boolean value) {
-        if (component in Label) (component as Label).monospace = value
     }
 
     Boolean isColumnSpanned() {

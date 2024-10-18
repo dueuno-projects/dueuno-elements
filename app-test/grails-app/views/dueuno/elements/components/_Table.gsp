@@ -5,7 +5,7 @@
      data-21-properties="${c.propertiesAsJSON}"
      data-21-events="${c.eventsAsJSON}"
 >
-    <render:component instance="${c.title}" properties="[cssClass: 'd-none']" />
+    <render:component instance="${c.title}" />
     <render:component instance="${c.filters}" />
     <render:component instance="${c.dataset}" />
 

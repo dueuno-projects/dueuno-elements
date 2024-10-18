@@ -101,17 +101,17 @@ class SqlUtils {
     static Boolean execute(DataSource dataSource, String query) {
         Sql sql = new Sql(dataSource)
         log.trace(query)
-        String result = sql.execute(query)
+        Boolean result = sql.execute(query)
         sql.close()
         return result
     }
 
-    static List<List<Object>> executeInsert(DataSource dataSource, String query) {
+    static List<GroovyRowResult> executeSelect(DataSource dataSource, String query) {
         Sql sql = new Sql(dataSource)
         log.trace(query)
-        List<List<Object>> result = sql.executeInsert(query)
+        List<GroovyRowResult> results = sql.rows(query)
         sql.close()
-        return result
+        return results
     }
 
     private static String generateWhere(Map<String, Object> filterParams, List<String> fieldsInLike = []) {

@@ -21,6 +21,7 @@ import dueuno.elements.core.Elements
 import dueuno.elements.core.PrettyPrinter
 import dueuno.elements.core.PrettyPrinterProperties
 import dueuno.elements.exceptions.ArgsException
+import dueuno.elements.style.TextStyle
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import org.grails.orm.hibernate.cfg.GrailsHibernateUtil
@@ -43,7 +44,7 @@ class Select extends Control {
     Boolean autoSelect // Auto selects if not nullable and the control has only one option
     Boolean multiple
     Boolean search
-    Boolean monospace
+    List<TextStyle> textStyle
 
     Integer searchMinInputLength
 
@@ -51,10 +52,11 @@ class Select extends Control {
         super(args)
 
         autoSelect = (args.autoSelect == null) ? true : args.autoSelect
-        monospace = (args.monospace == null) ? false : args.monospace
         multiple = (args.multiple == null) ? false : args.multiple
         forEachOption = args.forEachOption as Closure ?: null
         placeholder = args.placeholder ? message(args.placeholder as String) : message('control.select.placeholder')
+
+        setTextStyle(args.textStyle)
 
         searchMinInputLength = (args.searchMinInputLength == null) ? 0 : args.searchMinInputLength as Integer
 
@@ -160,6 +162,25 @@ class Select extends Control {
 
     void removeAction(Map args) {
         actions.removeAction(args)
+    }
+
+    void setTextStyle(Object value) {
+        switch (value) {
+            case TextStyle:
+                textStyle = [value as TextStyle]
+                break
+
+            case List<TextStyle>:
+                textStyle = value as List<TextStyle>
+                break
+
+            default:
+                textStyle = [TextStyle.NORMAL]
+        }
+    }
+
+    String getTextStyle() {
+        return textStyle.join(' ')
     }
 
     //

@@ -34,9 +34,9 @@ class TablePagination extends Component {
     Link goMax20
     Link goMax50
 
-    Integer max
-    Integer offset
-    Integer total
+    Number max
+    Number offset
+    Number total
 
     TablePagination(Map args) {
         super(args)
@@ -181,12 +181,16 @@ class TablePagination extends Component {
         }
 
         offset = 0
-        actionSession[requestedOffsetName] = offset
-        table.fetchParams.offset = offset
-        requestParams._21TableOffset = offset
+        actionSession[requestedOffsetName] = 0
+        table.fetchParams.offset = 0
+        requestParams._21TableOffset = 0
+        goNext.params = [
+                _21Table: table.id,
+                _21TableOffset: max ?: 0,
+        ]
     }
 
-    void setTotal(Integer value) {
+    void setTotal(Number value) {
         total = value
         display = total > 0
     }
@@ -213,9 +217,9 @@ class TablePagination extends Component {
     String getPrettyPagination() {
         if (!total) return ''
 
-        Integer offset = offset ?: 0
-        Integer first = offset + 1
-        Integer last = (offset + (max ?: 0) < total) ? offset + (max ?: 0) : total
+        Number offset = offset ?: 0
+        Number first = offset + 1
+        Number last = (offset + (max ?: 0) < total) ? offset + (max ?: 0) : total
         String of = message('component.table.pagination.of')
 
         return  first + '-' + last + " ${of} " + prettyPrint(total)

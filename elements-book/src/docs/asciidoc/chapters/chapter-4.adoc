@@ -1,0 +1,202 @@
+
+== Project Setup
+
+CAUTION: THESE OPENINGS ARE STRANGE, RIGHT? YOU KNOW IT, I KNOW IT, AND EVERYBODY’S HAPPY.
+
+Before we get into the topic of adding _Business Logic_ to our UI, there are some twirls I’d like to address.
+
+=== Spring Dev Tools
+
+We don’t like executing `./gradlew bootRun` each time we need to launch the application.
+
+We prefer to just _save_ our code and let the system automatically take care of the compilation and application restart so we can just refresh the browser and test our code.
+
+To achieve this we need to add the https://docs.spring.io/spring-boot/reference/using/devtools.html[Spring Dev Tools,window=_blank] to our project along with some configuration.
+
+.Edit `~/demo/build.gradle` and add the following dependency:
+[source,groovy,subs="attributes+"]
+----
+dependencies {
+    ...
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+----
+
+Edit `~/demo/grails-app/conf/application.yml` and add the following properties:
+[source,yaml,subs="attributes+"]
+----
+spring:
+  main:
+    banner-mode: 'log'
+  devtools:
+    restart:
+      additional-exclude:
+        - '*.gsp'
+        - '**/*.gsp'
+        - '*.gson'
+        - '**/*.gson'
+        - 'logback.groovy'
+        - '*.properties'
+----
+
+From now on when you make a change to one of the application classes it will be automatically reflected in the application.
+
+IMPORTANT: The application restart is not immediate, it will take some seconds.
+
+=== Logging
+
+Logs are important. We want to configure them so we can have logs in our terminal while developing the application. At the same time we want them to be written on a file and archived when they reach a certain size so the disk of our server won’t get filled up.
+
+The following is a default configuration that may make sense in many production environments, but not in all of them.
+
+IMPORTANT: The following configuration is not a _silver bullet_. Please take a look at the https://logback.qos.ch/manual/configuration.html[Logback documentation,window=_blank] to configure logging to fit your needs.
+
+.Edit `~/demo/grails-app/conf/logback.xml` and copy the following:
+[source,xml,subs="attributes+"]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <conversionRule conversionWord="highlightLogLevel" converterClass="dueuno.elements.logs.HighlightLogLevel" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %highlightLogLevel(%-5level) [%thread] %-40.40logger{36} : %highlightLogLevel(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <property resource="application.yml" />
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${info.app.name}/logs/${info.app.name}.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${info.app.name}/logs/archive/${info.app.name}.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <maxHistory>10</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>100GB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %-40.40logger{36} : %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="ERROR">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+
+    <logger name="org.springframework.boot.SpringApplication" level="INFO" />
+    <logger name="dueuno" level="INFO" />
+    <logger name="demo" level="DEBUG" />
+
+</configuration>
+----
+
+From now on, when you run the application you should see something like this:
+
+[source,console]
+----
+10:53:29.113 INFO  [restartedMain] o.s.boot.SpringApplication               :
+>                                                                            <
+>                         _                                                  <
+>                        | |  ELEMENTS                                       <
+>                      __| |_   _  ___ _   _ _ __   ___                      <
+>                     / _` | | | |/ _ \ | | | '_ \ / _ \                     <
+>                    | (_| | |_| |  __/ |_| | | | | (_) |                    <
+>                     \__,_|\__,_|\___|\__,_|_| |_|\___/                     <
+>                         2024 (c) https://dueuno.com                        <
+>                                                                            <
+>                                                                            <
+
+
+Configuring Spring Security Core ...
+... finished configuring Spring Security Core
+
+10:53:31.227 INFO  [restartedMain] d.e.core.ConnectionSourceService         : Installed datasource connection 'DEFAULT: jdbc:h2:mem:devDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE'
+10:53:31.265 INFO  [restartedMain] d.elements.tenants.TenantService         : Creating new tenant 'DEFAULT'...
+10:53:31.300 INFO  [restartedMain] d.elements.security.SecurityService      : Created authority 'ROLE_SECURITY'
+10:53:31.306 INFO  [restartedMain] d.elements.security.SecurityService      : Created authority 'ROLE_USER'
+10:53:31.308 INFO  [restartedMain] d.elements.security.SecurityService      : DEFAULT: Created group 'USERS' with authorities: [ROLE_USER]
+10:53:31.313 INFO  [restartedMain] d.elements.security.SecurityService      : Created authority 'ROLE_ADMIN'
+10:53:31.314 INFO  [restartedMain] d.elements.security.SecurityService      : DEFAULT: Created group 'ADMINS' with authorities: [ROLE_ADMIN]
+10:53:31.318 INFO  [restartedMain] d.elements.security.SecurityService      : Created authority 'ROLE_SUPERADMIN'
+10:53:31.319 INFO  [restartedMain] d.elements.security.SecurityService      : DEFAULT: Created group 'SUPERADMINS' with authorities: [ROLE_SUPERADMIN]
+10:53:31.417 INFO  [restartedMain] d.elements.security.SecurityService      : DEFAULT: Created user 'super' in groups: [SUPERADMINS, USERS]
+10:53:31.511 INFO  [restartedMain] d.elements.security.SecurityService      : DEFAULT: Created user 'admin' in groups: [USERS, ADMINS]
+10:53:31.528 INFO  [restartedMain] d.elements.tenants.TenantService         : --------------------------------------------------------------------------------
+10:53:31.528 INFO  [restartedMain] d.elements.tenants.TenantService         : DEFAULT: INSTALLING PLUGINS...
+10:53:31.528 INFO  [restartedMain] d.elements.tenants.TenantService         : --------------------------------------------------------------------------------
+10:53:31.529 INFO  [restartedMain] d.elements.core.ApplicationService       : DEFAULT: Executing 'dueuno.elements.core.onPluginInstall'...
+10:53:31.532 INFO  [restartedMain] d.elements.core.ApplicationService       : ...done.
+10:53:31.532 INFO  [restartedMain] d.elements.core.ApplicationService       :
+10:53:31.544 INFO  [restartedMain] d.elements.core.ApplicationService       : Available languages [cs, da, de, en, es, fr, it, ja, nb, nl, pl, pt_br, pt_pt, ru, sk, sv, th, zh_cn]
+10:53:31.544 INFO  [restartedMain] d.elements.core.ApplicationService       :
+10:53:31.544 INFO  [restartedMain] d.elements.core.ApplicationService       : --------------------------------------------------------------------------------
+10:53:31.544 INFO  [restartedMain] d.elements.core.ApplicationService       : APPLICATION: STARTING UP...
+10:53:31.544 INFO  [restartedMain] d.elements.core.ApplicationService       : --------------------------------------------------------------------------------
+10:53:31.545 INFO  [restartedMain] d.elements.core.ApplicationService       : Executing 'dueuno.elements.core.beforeInit'...
+10:53:31.586 INFO  [restartedMain] d.elements.core.ApplicationService       : Executing 'com.example.init'...
+10:53:31.586 INFO  [restartedMain] d.elements.core.ApplicationService       : Executing 'dueuno.elements.core.afterInit'...
+10:53:31.592 INFO  [restartedMain] d.elements.core.ApplicationService       : --------------------------------------------------------------------------------
+10:53:31.592 INFO  [restartedMain] d.elements.core.ApplicationService       : APPLICATION: STARTED.
+10:53:31.593 INFO  [restartedMain] d.elements.core.ApplicationService       : --------------------------------------------------------------------------------
+10:53:31.593 INFO  [restartedMain] d.elements.core.ApplicationService       :
+Grails application running at http://localhost:8080 in environment: development
+----
+
+image::images/chapter-4/image-1.webp[align="center"]
+
+=== Git
+
+Dueuno Elements applications will create a working directory when they first start. It is good practice not to share its content in the _Git repository_. Also, it’s good practice not to share the IDE’s own project configuration since that is handled by Gradle.
+
+The following configuration can help keeping your _Git repository_ clean.
+
+.Edit `~/demo/.gitignore` and copy the following:
+[source]
+----
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Set the following to the application name
+/demo/
+----
+
+This is it. We are now ready to move on implementing the _Business Logic_ on a real _Database_. Are you ready?

@@ -1,4 +1,4 @@
-<span class="component-label w-100 ${c.textAlign} ${c.textWrap} ${c.monospace ? 'font-monospace' : ''} ${c.border ? 'border' : ''} ${c.cssClass}"
+<span class="component-label w-100 ${c.textAlign} ${c.textWrap} ${c.textStyle} ${c.border ? 'border' : ''} ${c.cssClass}"
       style="${c.cssStyleColors}${c.cssStyle}"
       data-21-component="${c.className}"
       data-21-id="${c.id}"

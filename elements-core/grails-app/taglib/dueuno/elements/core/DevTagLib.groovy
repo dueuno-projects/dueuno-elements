@@ -14,12 +14,15 @@
  */
 package dueuno.elements.core
 
+import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.utils.EnvUtils
 
 /**
  * @author Gianluca Sartori
  */
 class DevTagLib implements WebRequestAware {
+
+    TenantPropertyService tenantPropertyService
 
     static namespace = "dev"
 
@@ -36,7 +39,23 @@ class DevTagLib implements WebRequestAware {
     }
 
     def displayHints = { args ->
-        out << (devDisplayHints ? 'true' : 'false')
+        String result = devDisplayHints ? 'true' : 'false'
+        out << result
+    }
+
+    def logError = { args ->
+        String result = tenantPropertyService.getBoolean('LOG_ERROR') ? 'true' : 'false'
+        out << result
+    }
+
+    def logDebug = { args ->
+        String result = tenantPropertyService.getBoolean('LOG_DEBUG') ? 'true' : 'false'
+        out << result
+    }
+
+    def logTrace = { args ->
+        String result = tenantPropertyService.getBoolean('LOG_TRACE') ? 'true' : 'false'
+        out << result
     }
 
 }

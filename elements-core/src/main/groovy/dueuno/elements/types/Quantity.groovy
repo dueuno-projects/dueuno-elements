@@ -14,12 +14,14 @@
  */
 package dueuno.elements.types
 
+import dueuno.elements.controls.QuantityField
 import dueuno.elements.core.PrettyPrinter
 import dueuno.elements.core.PrettyPrinterProperties
 import dueuno.elements.exceptions.ArgsException
 import grails.gorm.MultiTenant
 import grails.gorm.annotation.Entity
 import groovy.transform.CompileDynamic
+import org.grails.datastore.gorm.GormEntity
 
 /**
  * @author Gianluca Sartori
@@ -29,7 +31,12 @@ import groovy.transform.CompileDynamic
 
 @Entity
 @CompileDynamic
-class Quantity extends Number implements CustomType, MultiTenant<Quantity> {
+class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Quantity> {
+
+    static final TYPE_NAME = 'QUANTITY'
+    static final TYPE_FIELD = QuantityField
+    static final TYPE_VALUE_PROPERTY_TYPE = Number
+    static final TYPE_VALUE_PROPERTY_NAME = 'amount'
 
     BigDecimal amount
     QuantityUnit unit
@@ -54,7 +61,7 @@ class Quantity extends Number implements CustomType, MultiTenant<Quantity> {
 
     Map serialize() {
         return [
-                type : 'QUANTITY',
+                type : TYPE_NAME,
                 value: [
                         amount: amount,
                         unit: unit as String,

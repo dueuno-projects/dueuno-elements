@@ -19,5 +19,7 @@ dependencies {
     // PDF Generation
     api 'org.apache.pdfbox:pdfbox:2.0.31'
     api 'com.github.dhorions:boxable:1.7.0'
+    implementation 'com.github.jai-imageio:jai-imageio-core:1.4.0'
+    implementation 'com.github.jai-imageio:jai-imageio-jpeg2000:1.3.0'
 }
 

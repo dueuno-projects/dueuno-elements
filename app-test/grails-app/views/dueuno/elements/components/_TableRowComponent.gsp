@@ -1,4 +1,4 @@
-<tr class="component-table-row ${c.cssClass}"
+<tr class="component-table-row ${c.textStyle} ${c.cssClass}"
     style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}${c.cssStyle}"
     data-21-component="${c.className}"
     data-21-id="${c.id}"
@@ -10,7 +10,7 @@
         <g:if test="${c.isHeader}">
             <th class="component-table-selection-header ${c.verticalAlign}">
                 <g:if test="${!c.table.readonly}">
-                    <render:component instance="${c.selection}" />
+                    <render:component instance="${c.selected}" />
                 </g:if>
             </th>
         </g:if>
@@ -20,7 +20,7 @@
         <g:else>
             <td class="component-table-selection ${c.verticalAlign}" data-rowid="${c.id}">
                 <g:if test="${c.hasSelection}">
-                    <render:component instance="${c.selection}" />
+                    <render:component instance="${c.selected}" />
                     <span class="rowKeys d-none">${raw(c.keysAsJSON)}</span>
                 </g:if>
             </td>

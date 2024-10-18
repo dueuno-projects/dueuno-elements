@@ -98,9 +98,9 @@ class SystemPropertyService extends PropertyService {
         return p
     }
 
-    List<TSystemProperty> list(Map filters = [:], Map params = [:]) {
-        def query = buildQuery(filters)
-        return query.list(params)
+    List<TSystemProperty> list(Map filterParams = [:], Map fetchParams = [:]) {
+        def query = buildQuery(filterParams)
+        return query.list(fetchParams)
     }
 
     Integer count(Map filters = [:]) {

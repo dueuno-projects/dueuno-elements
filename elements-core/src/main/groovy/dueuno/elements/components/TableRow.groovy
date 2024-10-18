@@ -23,6 +23,7 @@ import dueuno.elements.core.Elements
 import dueuno.elements.core.Transformer
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
 import dueuno.elements.types.Money
@@ -47,12 +48,14 @@ class TableRow extends Component {
     Object values
 
     Button actions
-    Checkbox selection
+    Checkbox selected
 
     Boolean isHeader
     Boolean isFooter
     Boolean hasSelection
+
     VerticalAlign verticalAlign
+    List<TextStyle> textStyle
 
     TableRow(Map args) {
         super(args)
@@ -68,7 +71,10 @@ class TableRow extends Component {
         isHeader = (args.isHeader == null) ? false : args.isHeader
         isFooter = (args.isFooter == null) ? false : args.isFooter
         hasSelection = (args.hasSelection == null) ? true : args.hasSelection
+
         verticalAlign = VerticalAlign.CENTER
+
+        setTextStyle(args.textStyle)
 
         actions = createControl(
                 class: Button,
@@ -76,9 +82,9 @@ class TableRow extends Component {
                 dontCreateDefaultAction: true,
         )
 
-        selection = createControl(
+        selected = createControl(
                 class: Checkbox,
-                id: getId() + '-selection',
+                id: getId() + '-selected',
                 simple: true,
                 cssClass: 'selectRow',
                 checked: (args.checked == null) ? false : args.checked,
@@ -86,7 +92,7 @@ class TableRow extends Component {
     }
 
     void preProcessRow() {
-        selection.readonly = table.readonly
+        selected.readonly = table.readonly
         values = Elements.toMap(values, table.columns, table.includeValues, table.excludeValues)
 
         createCells()
@@ -132,23 +138,18 @@ class TableRow extends Component {
                 cellLabel.text = values[columnName]
 
                 if (devDisplayHints) {
-                    String prefix = cellLabel.prettyPrinterProperties.messagePrefix
                     if (columnName in getKeys()) {
-//                        cell.cssStyle = 'white-space: nowrap;'
-                        columnCell.cssClass = 'info'
-                        cellLabel.icon = 'fa-solid fa-key'
                         cellLabel.prettyPrinterProperties.messagePrefix = ''
+                        cellLabel.html = '<i class="fa-solid fa-key me-1"></i><span>' + columnName + '</span>'
 
                     } else {
-                        cellLabel.prettyPrinterProperties.renderMessagePrefix = false
-                        cellLabel.prettyPrinterProperties.messagePrefix = prefix
+                        String prefix = cellLabel.prettyPrinterProperties.messagePrefix
                         String labelValue = cellLabel.text
-                        String labelCode = prefix + '.' + cellLabel.text
+                        String labelCode = prefix + '.' + columnName
 
-                        if (labelValue == cellLabel.text) {
-                            cellLabel.text = labelCode
-                        } else {
-                            cellLabel.text = labelValue + ' (' + cellLabel.text + ')'
+                        if (labelCode != labelValue) {
+                            cellLabel.prettyPrinterProperties.renderMessagePrefix = false
+                            cellLabel.text = labelValue + ' (' + columnName + ')'
                         }
                     }
                 }
@@ -256,6 +257,25 @@ class TableRow extends Component {
 
     String getHash() {
         return StringUtils.generateHash(keysAsJSON)
+    }
+
+    void setTextStyle(Object value) {
+        switch (value) {
+            case TextStyle:
+                textStyle = [value as TextStyle]
+                break
+
+            case List<TextStyle>:
+                textStyle = value as List<TextStyle>
+                break
+
+            default:
+                textStyle = [TextStyle.NORMAL]
+        }
+    }
+
+    String getTextStyle() {
+        return textStyle.join(' ')
     }
 
     //
@@ -401,7 +421,7 @@ class TableRow extends Component {
     void setIsHeader(Boolean value) {
         isHeader = value
         if (isHeader) {
-            selection.id = table.id + '-select-all'
+            selected.id = table.id + '-select-all'
         }
     }
 }

@@ -113,7 +113,7 @@ class TabsController implements ElementsController {
 
         Table table1 = c.addComponent(Table, 'table1')
         table1.with {
-            title = 'Title'
+            title.text = 'Title'
             sortable = [
                     col1: 'asc',
             ]

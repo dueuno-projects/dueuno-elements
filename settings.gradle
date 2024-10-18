@@ -18,6 +18,7 @@ rootProject.name = projectName
 include 'commons-utils'
 include 'elements-core'
 //include 'elements-extra'
+include 'elements-book'
 include 'elements-docs'
 include 'elements-docs-app'
 

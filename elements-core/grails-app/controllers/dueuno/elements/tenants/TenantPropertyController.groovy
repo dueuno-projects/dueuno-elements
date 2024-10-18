@@ -24,6 +24,7 @@ import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PropertyType
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextDefault
+import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -85,7 +86,7 @@ class TenantPropertyController implements ElementsController {
             body.eachRow { TableRow row, Map values ->
 //                row.cells.defaultValue.component.monospace = true
 //                row.cells.defaultValue.textAlign = TextAlign.START
-                row.cells['value'].component.monospace = true
+                row.cells['value'].component.textStyle = TextStyle.MONOSPACE
                 row.cells['value'].textAlign = TextAlign.START
 
                 if (values.validation) {
@@ -143,7 +144,7 @@ class TenantPropertyController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'name',
-                    monospace: true,
+                    textStyle: TextStyle.MONOSPACE,
                     readonly: true,
                     cols: 6,
             )
@@ -151,7 +152,7 @@ class TenantPropertyController implements ElementsController {
                     class: Select,
                     id: 'type',
                     optionsFromEnum: PropertyType,
-                    monospace: true,
+                    textStyle: TextStyle.MONOSPACE,
                     readonly: true,
                     nullable: true,
                     cols: 6,
@@ -163,7 +164,7 @@ class TenantPropertyController implements ElementsController {
                         addField(
                                 class: Textarea,
                                 id: 'defaultValue',
-                                monospace: true,
+                                textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
                                 rows: 2,
                                 cols: 12,
@@ -172,7 +173,7 @@ class TenantPropertyController implements ElementsController {
                     addField(
                             class: Textarea,
                             id: 'value',
-                            monospace: true,
+                            textStyle: TextStyle.MONOSPACE,
                             rows: 2,
                             cols: 12,
                     )
@@ -192,7 +193,7 @@ class TenantPropertyController implements ElementsController {
                         addField(
                                 class: TextField,
                                 id: 'defaultValue',
-                                monospace: true,
+                                textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
                                 cols: 12,
                         )
@@ -200,7 +201,7 @@ class TenantPropertyController implements ElementsController {
                     addField(
                             class: TextField,
                             id: 'value',
-                            monospace: true,
+                            textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
                             submit: ['form'],
@@ -213,7 +214,7 @@ class TenantPropertyController implements ElementsController {
                         addField(
                                 class: TextField,
                                 id: 'defaultValue',
-                                monospace: true,
+                                textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
                                 cols: 12,
                         )
@@ -221,7 +222,7 @@ class TenantPropertyController implements ElementsController {
                     addField(
                             class: TextField,
                             id: 'value',
-                            monospace: true,
+                            textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
                             submit: ['form'],
@@ -234,7 +235,7 @@ class TenantPropertyController implements ElementsController {
                         addField(
                                 class: TextField,
                                 id: 'defaultValue',
-                                monospace: true,
+                                textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
                                 cols: 12,
                         )
@@ -242,7 +243,7 @@ class TenantPropertyController implements ElementsController {
                     addField(
                             class: TextField,
                             id: 'value',
-                            monospace: true,
+                            textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
                             submit: ['form'],
@@ -255,7 +256,7 @@ class TenantPropertyController implements ElementsController {
                         addField(
                                 class: NumberField,
                                 id: 'defaultValue',
-                                monospace: true,
+                                textStyle: TextStyle.MONOSPACE,
                                 decimals: 5,
                                 readonly: true,
                                 cols: 12,
@@ -264,7 +265,7 @@ class TenantPropertyController implements ElementsController {
                     addField(
                             class: NumberField,
                             id: 'value',
-                            monospace: true,
+                            textStyle: TextStyle.MONOSPACE,
                             decimals: 5,
                             cols: 12,
                     )

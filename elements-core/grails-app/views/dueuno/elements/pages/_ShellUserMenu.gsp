@@ -34,8 +34,8 @@
                         </g:if>
                         <g:else>
                             <li class="nav-item">
-                                <dev:ifDisplayHints><span>[${item.order}]</span></dev:ifDisplayHints>
                                 <render:component instance="${item.link}" properties="[cssClass: 'nav-link p-0 pb-1', iconClass: 'fa-fw']" />
+                                <%--dev:ifDisplayHints><span class="badge rounded-pill text-secondary bg-light">${item.order}</span></dev:ifDisplayHints>--%>
                             </li>
                         </g:else>
                     </g:if>

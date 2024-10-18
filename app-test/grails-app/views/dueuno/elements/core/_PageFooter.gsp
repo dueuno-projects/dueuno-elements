@@ -23,13 +23,20 @@
             animations: ${c.animations},
         },
         </g:if>
-        <g:if env="development">
+        <g:if env="production">
+        log: {
+            error: ${dev.logError()},
+            debug: ${dev.logDebug()},
+            trace: ${dev.logTrace()},
+        },
+        </g:if>
+        <g:else>
         log: {
             error: true,
             debug: true,
-            trace: false,
+            trace: ${dev.logTrace()},
         },
-        </g:if>
+        </g:else>
     }
 </script>
 
@@ -49,4 +56,3 @@
 <asset:assetPathExists src="custom/${controllerName + '-' + actionName}.js">
     <asset:javascript src="custom/${controllerName + '-' + actionName}.js"/>
 </asset:assetPathExists>
-

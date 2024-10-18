@@ -1,4 +1,4 @@
-<div class="component-separator w-100 ${c.textAlign} ${c.textWrap} ${c.squeeze ? 'squeeze' : ''} ${c.cssClass}"
+<div class="component-separator w-100 ${c.textAlign} ${c.textWrap} ${c.textStyle} ${c.squeeze ? 'squeeze' : ''} ${c.display ? '' : 'd-none'} ${c.cssClass}"
      style="${c.cssStyleColors}${c.cssStyle}"
      data-21-component="${c.className}"
      data-21-id="${c.id}"

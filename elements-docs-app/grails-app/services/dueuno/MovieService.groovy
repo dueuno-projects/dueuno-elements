@@ -49,8 +49,8 @@ class MovieService {
         return buildQuery(id: id).get(fetch: fetch)
     }
 
-    List<TMovie> list(Map filters = [:], Map params = [:]) {
-        if (!params.sort) params.sort = [dateCreated: 'asc']
+    List<TMovie> list(Map filterParams = [:], Map fetchParams = [:]) {
+        if (!fetchParams.sort) fetchParams.sort = [dateCreated: 'asc']
 
         // Add single-sided relationships here (Eg. references to other Domain Objects)
         // DO NOT add hasMany relationships, you are going to have troubles with pagination
@@ -58,8 +58,8 @@ class MovieService {
 //                relationshipName: 'join',
 //        ]
 
-        def query = buildQuery(filters)
-        return query.list(params)
+        def query = buildQuery(filterParams)
+        return query.list(fetchParams)
     }
 
     Integer count(Map filters = [:]) {

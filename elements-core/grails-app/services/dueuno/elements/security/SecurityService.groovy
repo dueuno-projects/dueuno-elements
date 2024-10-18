@@ -47,10 +47,12 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
     public static final String GROUP_SUPERADMINS = 'SUPERADMINS'
     public static final String GROUP_ADMINS = 'ADMINS'
+    public static final String GROUP_DEVELOPERS = 'DEVELOPERS'
     public static final String GROUP_USERS = 'USERS'
 
     public static final String ROLE_SUPERADMIN = 'ROLE_SUPERADMIN'
     public static final String ROLE_ADMIN = 'ROLE_ADMIN'
+    public static final String ROLE_DEVELOPER = 'ROLE_DEVELOPER'
     public static final String ROLE_USER = 'ROLE_USER'
 
     private static final String USERNAME_SUPERADMIN = 'super'
@@ -115,13 +117,12 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
     private void registerSuperadminFeatures() {
         applicationService.registerSuperadminFeature(
-                namespace: 'security',
                 controller: 'tenant',
                 icon: 'fa-house-user',
         )
         applicationService.registerSuperadminFeature(
                 controller: 'connectionSource',
-                icon: 'fa-database',
+                icon: 'fa-plug',
         )
         applicationService.registerSuperadminFeature(
                 controller: 'systemProperty',
@@ -148,7 +149,6 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 controller: 'group',
                 icon: 'fa-user-shield',
         )
-
         applicationService.registerAdminFeature(
                 controller: 'audit',
                 icon: 'fa-eye',
@@ -176,22 +176,28 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 order: 10000020,
         )
 
-        applicationService.registerSuperadminUserFeature(
+        applicationService.registerDeveloperUserFeature(
                 order: 10000030,
         )
-        applicationService.registerSuperadminUserFeature(
-                controller: 'connectionSource',
-                action: 'h2Console',
-                icon: 'fa-database',
-                order: 10000040,
-                direct: true,
-                targetNew: true,
-        )
-        applicationService.registerSuperadminUserFeature(
+        applicationService.registerDeveloperUserFeature(
                 controller: 'shell',
                 action: 'toggleDevHints',
                 icon: 'fa-code',
+                order: 10000040,
+        )
+        applicationService.registerDeveloperUserFeature(
+                controller: 'databaseExplorer',
+                order: 10000050,
+                icon: 'fa-database',
+                direct: true,
+        )
+        applicationService.registerDeveloperUserFeature(
+                controller: 'connectionSource',
+                action: 'h2Console',
+                icon: 'fa-database',
                 order: 10000060,
+                direct: true,
+                targetNew: true,
         )
     }
 
@@ -546,15 +552,15 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         }
 
         if (filters) {
-            if (filters.id) query = query.where { id == filters.id }
-            if (filters.tenant) query = query.where { tenant.id == filters.tenant }
-            if (filters.deletable != null) query = query.where { deletable == filters.deletable }
+            if (filters.containsKey('id')) query = query.where { id == filters.id }
+            if (filters.containsKey('tenant')) query = query.where { tenant.id == filters.tenant }
+            if (filters.containsKey('deletable')) query = query.where { deletable == filters.deletable }
+            if (filters.containsKey('enabled')) query = query.where { enabled == filters.enabled }
             if (filters.username) query = query.where {
                 username =~ "%${filters.username}%"
                         || firstname =~ "%${filters.username}%"
                         || lastname =~ "%${filters.username}%"
             }
-            if (filters.enabled != null) query = query.where { enabled == filters.enabled }
         }
 
         return query
@@ -851,16 +857,16 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         }
 
         if (filters.hideUsers) query = query.where { name != GROUP_USERS }
-        if (filters.id != null) query = query.where { id == filters.id }
-        if (filters.tenant != null) query = query.where { tenant.id == filters.tenant }
-        if (filters.name != null) query = query.where { name =~ "%${filters.name}%" }
-        if (filters.deletable != null) query = query.where { deletable == filters.deletable }
+        if (filters.containsKey('id')) query = query.where { id == filters.id }
+        if (filters.containsKey('tenant')) query = query.where { tenant.id == filters.tenant }
+        if (filters.containsKey('name')) query = query.where { name =~ "%${filters.name}%" }
+        if (filters.containsKey('deletable')) query = query.where { deletable == filters.deletable }
 
         return query
     }
 
     TRoleGroup getGroup(Serializable id) {
-        def query = buildGroupQuery([id: id])
+        def query = buildGroupQuery(id: id)
         return query.get()
     }
 
@@ -1009,7 +1015,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         // Set ROLE_SUPERADMIN > ROLE_ADMIN > AUTHORITY so to avoid giving
         // SUPERADMIN and ADMIN permissions to each controller
         // ATTENTION: Modify the code below only if you know what you are doing
-        if (newRole.authority !in [ROLE_SUPERADMIN, ROLE_ADMIN]) {
+        if (newRole.authority !in [ROLE_SUPERADMIN, ROLE_ADMIN, ROLE_DEVELOPER]) {
             new TRoleHierarchyEntry(entry: "${ROLE_ADMIN} > " + newRole.authority).save(flush: true)
 
         } else if (newRole.authority == ROLE_ADMIN) {
@@ -1040,10 +1046,10 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
     }
 
     void installTenantSecurity(String tenantId) {
-        createAuthority('ROLE_SECURITY')
-
         createGroup(tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
+        createGroup(tenantId: tenantId, name: GROUP_DEVELOPERS, authorities: [ROLE_DEVELOPER], deletable: false)
         createGroup(tenantId: tenantId, name: GROUP_ADMINS, authorities: [ROLE_ADMIN], deletable: false)
+        createAuthority('ROLE_SECURITY')
 
         if (tenantId == 'DEFAULT') {
             createGroup(tenant: tenantService.default, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)

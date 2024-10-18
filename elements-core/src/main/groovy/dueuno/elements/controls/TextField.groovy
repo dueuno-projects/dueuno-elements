@@ -18,6 +18,7 @@ import dueuno.elements.components.Button
 import dueuno.elements.core.Component
 import dueuno.elements.core.Control
 import dueuno.elements.core.Elements
+import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextTransform
 import groovy.transform.CompileStatic
 
@@ -38,7 +39,7 @@ class TextField extends Control {
     Integer maxSize
     String placeholder
     Boolean autocomplete
-    Boolean monospace
+    List<TextStyle> textStyle
     TextTransform textTransform
     //Integer onChangeMinChars // Maybe in future
 
@@ -52,10 +53,11 @@ class TextField extends Control {
         prefix = args.prefix ?: ''
         maxSize = args.maxSize as Integer ?: 0
         placeholder = args.placeholder == null ? '' : args.placeholder
-        monospace = args.monospace == null ? false : args.monospace
         autocomplete = (args.autocomplete == null) ? false : args.autocomplete
         textTransform = args.textTransform as TextTransform ?: TextTransform.NONE
         //onChangeMinChars = args.onChangeMinChars ?: 0 // forse in futuro
+
+        setTextStyle(args.textStyle)
 
         actions = createControl(
                 class: Button,
@@ -73,6 +75,25 @@ class TextField extends Control {
 
     String getKeyboardType() {
         return (keyboardType as String).toLowerCase()
+    }
+
+    void setTextStyle(Object value) {
+        switch (value) {
+            case TextStyle:
+                textStyle = [value as TextStyle]
+                break
+
+            case List<TextStyle>:
+                textStyle = value as List<TextStyle>
+                break
+
+            default:
+                textStyle = [TextStyle.NORMAL]
+        }
+    }
+
+    String getTextStyle() {
+        return textStyle.join(' ')
     }
 
     Control addAction(Map args) {

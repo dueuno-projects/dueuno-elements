@@ -35,6 +35,14 @@ class AuthenticationController implements ElementsController {
     TenantPropertyService tenantPropertyService
 
     def login() {
+        if (securityService.loggedIn) {
+            String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
+            String landingPage = securityService.landingPage
+
+            redirect uri: landingPage ?: shellUrlMapping ?: '/'
+            return
+        }
+
         Map loginArgs = [
                 backgroundImage    : tenantPropertyService.getString('LOGIN_BACKGROUND_IMAGE', true),
                 logoImage          : tenantPropertyService.getString('LOGIN_LOGO', true),

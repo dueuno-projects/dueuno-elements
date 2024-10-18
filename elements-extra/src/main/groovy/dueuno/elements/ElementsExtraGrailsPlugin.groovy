@@ -40,7 +40,7 @@ class ElementsExtraGrailsPlugin extends Plugin {
 
     def title = 'Elements Extra' // Headline display name of the plugin
     def author = 'Gianluca Sartori, Francesco Piceghello'
-    def authorEmail = 'gianluca.sartori@dueuno.com, francesco.piceghello@dueuno.com'
+    def authorEmail = 'g.sartori@gmail.com, f.piceghello@gmail.com'
     def description = 'Elements Extra'
     def profiles = ['web']
 

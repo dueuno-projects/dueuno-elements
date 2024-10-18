@@ -1,0 +1,24 @@
+= Dueuno Elements
+:source-highlighter: highlight.js
+:compat-mode!:
+:icons: font
+:toc: left
+:toclevels: 1
+
+:version-java: 17
+:version-grails: 6.2
+:version-elements: 2.3.0
+
+// Install the "AsciiDoc" IntelliJ plugin
+// IT - http://ramses.altervista.org/AppuntiAsciidoc.html
+// EN - https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/
+
+include::chapters/chapter-1.adoc[]
+include::chapters/chapter-2.adoc[]
+include::chapters/chapter-3.adoc[]
+include::chapters/chapter-4.adoc[]
+include::chapters/chapter-5.adoc[]
+include::chapters/chapter-6.adoc[]
+include::chapters/chapter-7.adoc[]
+include::chapters/chapter-8.adoc[]
+

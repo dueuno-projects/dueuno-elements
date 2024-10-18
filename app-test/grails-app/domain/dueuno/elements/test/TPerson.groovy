@@ -41,6 +41,7 @@ class TPerson implements GormEntity, MultiTenant<TPerson> {
             'salary',
             'distanceKm'
     ]
+
     static constraints = {
         picture nullable: true
         salary nullable: true

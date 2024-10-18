@@ -23,6 +23,7 @@ import dueuno.elements.security.SecurityService
 import dueuno.elements.security.TUser
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextDefault
+import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextTransform
 import dueuno.elements.style.TextWrap
 import dueuno.elements.types.Money
@@ -32,6 +33,7 @@ import dueuno.elements.types.QuantityUnit
 import grails.gorm.multitenancy.CurrentTenant
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 @CurrentTenant
@@ -68,6 +70,11 @@ class SandboxController implements ElementsController {
 
         def formFail = c.addComponent(Form, 'formFail')
         formFail.with {
+            addKeyField('listTest', 'LIST', [1, 2, 3])
+            addKeyField('mapTest', 'MAP', [a:1, b:2, c:[a:1, b:2]])
+            addKeyField('datetimeTest', 'DATETIME', LocalDateTime.now())
+            addKeyField('dateTest', 'DATE', LocalDate.now())
+            addKeyField('timeTest', 'TIME', LocalTime.now())
             addField(
                     class: Button,
                     id: 'loadingScreen',
@@ -256,7 +263,7 @@ class SandboxController implements ElementsController {
             addField(
                     class: Label,
                     id: 'labelTest',
-                    monospace: true,
+                    textStyle: TextStyle.MONOSPACE,
                     cols: 12,
                     textWrap: TextWrap.LINE_BREAK,
                     text: """
@@ -320,6 +327,7 @@ Grails application running at http://localhost:9992/test in environment: develop
 
         def table = c.addComponent(Table, 'tableTest')
         table.with {
+            title.display = true
             filters.with {
                 addField(
                         class: TextField,

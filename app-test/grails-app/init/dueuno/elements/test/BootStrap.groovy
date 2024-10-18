@@ -108,12 +108,6 @@ class BootStrap {
             )
             securityService.createGroup(
                     tenantId: tenantId,
-                    name: 'DEVELOPER',
-                    landingPage: 'sandbox',
-                    authorities: ['ROLE_DEVELOPER'],
-            )
-            securityService.createGroup(
-                    tenantId: tenantId,
                     name: 'PROJECT MANAGER',
                     authorities: ['ROLE_PROJECT_MANAGER'],
             )
@@ -122,7 +116,7 @@ class BootStrap {
                     firstname: "Developer",
                     username: tenantId == tenantService.defaultTenantId ? 'dev' : "${tenantId}/dev",
                     password: 'dev',
-                    groups: ['DEVELOPER', 'PROJECT MANAGER'],
+                    groups: ['DEVELOPERS', 'PROJECT MANAGER'],
             )
 
             FileUtils.createDir(tenantService.publicDir + 'upload')

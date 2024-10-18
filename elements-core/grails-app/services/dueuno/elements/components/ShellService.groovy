@@ -21,6 +21,7 @@ import dueuno.elements.pages.Shell
 import dueuno.elements.pages.ShellConfig
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
+import dueuno.elements.utils.EnvUtils
 import grails.gorm.multitenancy.CurrentTenant
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic

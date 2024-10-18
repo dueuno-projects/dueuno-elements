@@ -58,7 +58,7 @@ class Transition {
 
     static execute(transition, componentEvent) {
         log.debug('');
-        log.debug('<<< RESPONSE');
+        log.debug('<<< RESPONSE (' + componentEvent.controller + '/' + componentEvent.action + ')');
         Transition.log(transition);
 
         for (let command of transition.commands) {
@@ -168,6 +168,11 @@ class Transition {
         $component = $root.find(path);
         if (!$component.exists()) {
             log.error('Cannot find component "' + componentName + '"');
+            return $(null);
+
+        } else if ($component.length > 1) {
+            log.error('Multiple components found with the same id "' + target
+                + '". Do you have a controller named "' + capitalize(target) + "Controller'? ");
             return $(null);
 
         } else {
