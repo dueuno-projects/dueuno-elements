@@ -24,8 +24,8 @@ import org.grails.web.util.WebUtils
 import org.springframework.validation.ObjectError
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
 
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 
 /**
  * Helper trait to access request bound properties and methods from any class

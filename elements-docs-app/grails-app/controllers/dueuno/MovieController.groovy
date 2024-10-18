@@ -23,7 +23,7 @@ import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import grails.plugin.springsecurity.annotation.Secured
 
-import javax.annotation.PostConstruct
+import jakarta.annotation.PostConstruct
 
 @Secured(['ROLE_USER', /* other ROLE_... */])
 class MovieController implements ElementsController {

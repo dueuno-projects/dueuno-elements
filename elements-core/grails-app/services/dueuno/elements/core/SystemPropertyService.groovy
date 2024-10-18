@@ -22,7 +22,7 @@ import grails.gorm.multitenancy.WithoutTenant
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 
-import javax.annotation.PostConstruct
+import jakarta.annotation.PostConstruct
 
 /**
  * @author Gianluca Sartori

@@ -17,7 +17,7 @@ package dueuno.elements.core
 import grails.util.Holders
 import groovy.transform.CompileStatic
 
-import javax.servlet.ServletContext
+import jakarta.servlet.ServletContext
 
 /**
  * Helper trait to access application scoped attributes

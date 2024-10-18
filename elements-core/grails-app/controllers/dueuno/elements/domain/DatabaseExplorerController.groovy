@@ -34,7 +34,7 @@ import dueuno.elements.types.Types
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 
-import javax.annotation.PostConstruct
+import jakarta.annotation.PostConstruct
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime

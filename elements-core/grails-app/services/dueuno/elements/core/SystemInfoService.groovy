@@ -20,7 +20,7 @@ import org.grails.web.servlet.mvc.GrailsWebRequest
 import org.grails.web.util.WebUtils
 import org.springframework.beans.factory.annotation.Autowired
 
-import javax.servlet.ServletContext
+import jakarta.servlet.ServletContext
 
 /**
  * @author Gianluca Sartori

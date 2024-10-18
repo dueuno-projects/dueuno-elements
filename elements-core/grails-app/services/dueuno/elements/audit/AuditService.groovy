@@ -21,7 +21,7 @@ import grails.gorm.multitenancy.CurrentTenant
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 
-import javax.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequest
 import java.time.LocalDateTime
 import java.time.LocalTime
 

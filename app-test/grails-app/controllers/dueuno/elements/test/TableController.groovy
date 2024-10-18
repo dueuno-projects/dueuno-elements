@@ -26,7 +26,7 @@ import dueuno.elements.style.TextStyle
 import dueuno.elements.types.Money
 import grails.gorm.multitenancy.CurrentTenant
 
-import javax.annotation.PostConstruct
+import jakarta.annotation.PostConstruct
 
 @CurrentTenant
 class TableController implements ElementsController {

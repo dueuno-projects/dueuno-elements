@@ -14,18 +14,17 @@
  */
 package dueuno.elements.core
 
-import io.micronaut.context.annotation.Bean
+import jakarta.servlet.ServletContext
+import jakarta.servlet.ServletException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.servlet.ServletContextInitializer
-
-import javax.servlet.ServletContext
-import javax.servlet.ServletException
+import org.springframework.stereotype.Component
 
 /**
  * @author Gianluca Sartori
  */
 
-@Bean
+@Component
 class SessionInitializer implements ServletContextInitializer {
 
     @Autowired

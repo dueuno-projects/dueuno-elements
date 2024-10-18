@@ -17,7 +17,7 @@ package dueuno.elements.servlet
 import dueuno.elements.core.Elements
 import groovy.util.logging.Slf4j
 
-import javax.servlet.Servlet
+import jakarta.servlet.Servlet
 
 //
 // See: http://stackoverflow.com/questions/7956661/servlet-running-under-grails

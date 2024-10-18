@@ -19,7 +19,7 @@ package dueuno.elements.components
  */
 import dueuno.commons.utils.DateUtils
 
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletResponse
 
 class TableController {
 
