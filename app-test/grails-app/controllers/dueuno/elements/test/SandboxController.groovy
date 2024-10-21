@@ -140,6 +140,7 @@ class SandboxController implements ElementsController {
                     id: 'select2',
                     label: 'onLoad',
                     onLoad: 'onSelect2Load',
+                    value: 99,
 //                    onChange: 'onSelect2Change',
                     allowClear: true,
                     cols: 12,
@@ -642,7 +643,7 @@ Grails application running at http://localhost:9992/test in environment: develop
         def results = securityService.listAllUser()
         def options = Select.optionsFromRecordset(recordset: results)
         t.set('select2', 'options', options)
-        t.setValue('select2', 3)
+        t.setValue('select2', 99)
         display transition: t
     }
 

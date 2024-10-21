@@ -161,14 +161,27 @@ class Select extends Control {
     }
 
     static setOptions($element, options) {
-        $element.empty();
+        let valueMap = Select.getValue($element);
 
         if (!options) {
+            valueMap.value = null;
+            Select.setValue($element, valueMap, false);
             return;
         }
 
+        $element.empty();
+        let isValueInOptions = false;
         for (let [key, value] of Object.entries(options)) {
             $element.append(new Option(value, key, false, false));
+            if (key == valueMap.value) {
+                isValueInOptions = true
+            }
+        }
+
+        if (!isValueInOptions) {
+            valueMap.value = null;
+            Select.setValue($element, valueMap, false);
+            return;
         }
 
         let properties = Component.getProperties($element);
@@ -176,9 +189,7 @@ class Select extends Control {
         if (!properties['autoSelect'] || optionsCount > 1 || properties['nullable']) {
             // Select2 automatically selects the first item on ajax loading
             // so we need to implement an inverse logic
-            let valueMap = $element.data('21-value');
-            $element.val(valueMap.value);
-            $element.trigger('change');
+            Select.setValue($element, valueMap, false);
         }
     }
 
