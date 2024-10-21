@@ -178,7 +178,7 @@ class Select extends Control {
             }
         }
 
-        if (!isValueInOptions) {
+        if (valueMap.value != null && !isValueInOptions) {
             valueMap.value = null;
             Select.setValue($element, valueMap, false);
             return;
