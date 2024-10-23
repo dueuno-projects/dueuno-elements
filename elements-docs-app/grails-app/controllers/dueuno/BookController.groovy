@@ -26,14 +26,7 @@ class BookController implements ElementsController {
 
     BookService bookService
 
-    def handleException(Exception e) {
-        display exception: e
-    }
-
     def index() {
-
-//        throw new ElementsException('This is not right')
-
         def c = createContent(ContentList)
 
         c.table.with {
@@ -57,8 +50,7 @@ class BookController implements ElementsController {
             ]
         }
 
-        Map filters = c.table.filterParams
-        c.table.body = bookService.list()
+        c.table.body = bookService.list(c.table.filterParams)
 
         display content: c
     }

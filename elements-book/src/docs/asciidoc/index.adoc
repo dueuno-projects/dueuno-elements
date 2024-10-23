@@ -3,11 +3,11 @@
 :compat-mode!:
 :icons: font
 :toc: left
-:toclevels: 1
+:toclevels: 2
 
 :version-java: 17
 :version-grails: 6.2
-:version-elements: 2.3.0
+:version-elements: 2.4.0
 
 // Install the "AsciiDoc" IntelliJ plugin
 // IT - http://ramses.altervista.org/AppuntiAsciidoc.html
@@ -21,4 +21,5 @@ include::chapters/chapter-5.adoc[]
 include::chapters/chapter-6.adoc[]
 include::chapters/chapter-7.adoc[]
 include::chapters/chapter-8.adoc[]
+include::chapters/chapter-9.adoc[]
 

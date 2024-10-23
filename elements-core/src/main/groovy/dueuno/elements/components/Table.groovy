@@ -176,8 +176,11 @@ class Table extends Component {
                 dontCreateDefaultAction: true,
                 display: false,
         )
+    }
 
-//        initializeDefaultParams()
+    static List<Serializable> getSelected(Map params) {
+        List<Serializable> ids = params.rows.findAll { it['selected'] }*.getAt('id') as List<Serializable>
+        return ids
     }
 
     @Override

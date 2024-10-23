@@ -175,7 +175,7 @@ class PersonController implements ElementsController {
         display content: c
     }
 
-    private buildForm(Map obj = null) {
+    private ContentForm buildForm(Map obj = null) {
         def c = obj
                 ? createContent(ContentEdit)
                 : createContent(ContentCreate)

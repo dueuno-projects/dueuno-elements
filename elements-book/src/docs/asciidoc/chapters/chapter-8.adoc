@@ -309,7 +309,7 @@ class CompanyController implements ElementsController {
         display content: c
     }
 
-    private buildForm(TCompany obj = null) {
+    private ContentForm buildForm(TCompany obj = null) {
         def c = obj
                 ? createContent(ContentEdit)
                 : createContent(ContentCreate)
@@ -447,7 +447,7 @@ class PersonController implements ElementsController {
         display content: c
     }
 
-    private buildForm(TPerson obj = null) {
+    private ContentForm buildForm(TPerson obj = null) {
         def c = obj
                 ? createContent(ContentEdit)
                 : createContent(ContentCreate)
@@ -646,5 +646,3 @@ $ ./gradlew bootRun
 ----
 
 video::Qt9VvT4p6fU[youtube,width=640,height=480]
-
-In the next chapter we are going to see another way to render a _One-to-Many_ relationship using the Dueuno Elements _Table Actions_.
