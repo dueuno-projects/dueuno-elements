@@ -184,10 +184,10 @@ class DatabaseExplorerController implements ElementsController {
                                 String propertyName = property.key
 
                                 if (searchText && propertyClass in String) {
-                                    like propertyName, "%${searchText}%"
+                                    ilike propertyName, "%${searchText}%"
 
                                 } else if (searchText && propertyClass in CustomType && propertyClass['TYPE_VALUE_PROPERTY_TYPE'] == String) {
-                                    like propertyName + '.' + propertyClass['TYPE_VALUE_PROPERTY_NAME'], "%${searchText}%"
+                                    ilike propertyName + '.' + propertyClass['TYPE_VALUE_PROPERTY_NAME'], "%${searchText}%"
 
                                 } else if (searchNumber && propertyClass in CustomType && propertyClass['TYPE_VALUE_PROPERTY_TYPE'] == Number) {
                                     eq propertyName + '.' + propertyClass['TYPE_VALUE_PROPERTY_NAME'], searchNumber

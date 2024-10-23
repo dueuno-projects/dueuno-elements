@@ -1,5 +1,5 @@
 
-== The Real Deal
+== First Real Application
 
 CAUTION: SOMETIMES SIZE DOES MATTER. IN THIS CASE, TO GET USED TO DUEUNO ELEMENTS, SMALLER IS BETTER.
 
@@ -283,7 +283,7 @@ class PersonController implements ElementsController {
         display content: c
     }
 
-    private buildForm(TPerson obj = null) {
+    private ContentForm buildForm(TPerson obj = null) {
         def c = obj
                 ? createContent(ContentEdit)
                 : createContent(ContentCreate)

@@ -95,7 +95,7 @@ TIP: In short, we have 12 invisible columns for each row. Each field can occupy 
 .Edit the method `buildForm()` in `~/demo/grails-app/controllers/com/example/PersonController.groovy` to add the new fields to the form
 [source,groovy,subs="attributes+"]
 ----
-private buildForm(TPerson obj = null) {
+private ContentForm buildForm(TPerson obj = null) {
     def c = obj
         ? createContent(ContentEdit)
         : createContent(ContentCreate)
