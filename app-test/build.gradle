@@ -8,8 +8,8 @@ dependencies {
 
 //    implementation 'org.grails.plugins:spring-security-ldap:4.0.0.M1'
 
-    runtimeOnly 'com.mysql:mysql-connector-j'
-    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'com.mysql:mysql-connector-j:8.1.0'
+    runtimeOnly 'org.postgresql:postgresql:42.2.18'
 }
 
 application {
