@@ -8,10 +8,10 @@ repositories {
 }
 
 dependencies {
+    implementation platform("org.grails:grails-bom:7.0.0-SNAPSHOT")
     implementation 'org.grails:grails-gradle-plugin:7.0.0-SNAPSHOT'
     implementation 'org.grails.plugins:hibernate5:9.0.0-SNAPSHOT'
     implementation 'com.bertramlabs.plugins:asset-pipeline-gradle:5.0.1'
-
     implementation 'com.github.erdi:webdriver-binaries-gradle-plugin:3.0'
     implementation 'gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:2.2.2'
     implementation 'org.asciidoctor:asciidoctor-gradle-jvm:4.0.0-alpha.1'
