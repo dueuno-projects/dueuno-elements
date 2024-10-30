@@ -20,6 +20,10 @@ Guides
 ---
 You can find the latest documentation here: https://dueuno.com/docs/
 
+Community
+---
+Join us on Discord: https://discord.gg/6yWnmT2hBj
+
 License
 ---
 Dueuno Elements is an Open Source software released under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
