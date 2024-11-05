@@ -1,4 +1,4 @@
-HELP.md
+### Gradle ###
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -35,6 +35,11 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Other ###
+Thumbs.db
+.DS_Store
+target/
 
 ### Application Specific
 /app-test/app-test/
