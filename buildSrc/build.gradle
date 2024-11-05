@@ -5,6 +5,8 @@ plugins {
 repositories {
     mavenCentral()
     maven { url 'https://repo.grails.org/grails/core' }
+    // TO BE REMOVED ONCE WE HAVE GRAILS-7-M1
+    maven { url 'https://repository.apache.org/content/repositories/snapshots/' }
 }
 
 dependencies {
