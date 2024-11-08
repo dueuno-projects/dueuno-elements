@@ -57,7 +57,7 @@ IMPORTANT: The following configuration is not a _silver bullet_. Please take a l
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <conversionRule conversionWord="highlightLogLevel" converterClass="dueuno.elements.logs.HighlightLogLevel" />
+    <conversionRule conversionWord="highlightLogLevel" converterClass="dueuno.commons.logs.HighlightLogLevel" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
