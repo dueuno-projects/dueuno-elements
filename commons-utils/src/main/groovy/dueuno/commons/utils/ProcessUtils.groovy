@@ -15,11 +15,13 @@
 package dueuno.commons.utils
 
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 
 /**
  * @author Gianluca Sartori
  */
 
+@Slf4j
 @CompileStatic
 class ProcessUtils {
 

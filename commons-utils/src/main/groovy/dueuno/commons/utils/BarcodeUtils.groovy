@@ -25,6 +25,7 @@ import com.google.zxing.oned.ITFWriter
 import com.google.zxing.oned.UPCAWriter
 import com.google.zxing.qrcode.QRCodeWriter
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 
 import java.awt.image.BufferedImage
 
@@ -32,6 +33,7 @@ import java.awt.image.BufferedImage
  * @author Gianluca Sartori
  */
 
+@Slf4j
 @CompileStatic
 class BarcodeUtils {
 

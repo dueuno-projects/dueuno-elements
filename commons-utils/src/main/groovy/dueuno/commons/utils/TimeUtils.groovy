@@ -15,6 +15,7 @@
 package dueuno.commons.utils
 
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 
 import java.time.Duration
 import java.time.LocalDate
@@ -25,6 +26,7 @@ import java.time.LocalTime
  * @author Gianluca Sartori
  */
 
+@Slf4j
 @CompileStatic
 class TimeUtils {
 

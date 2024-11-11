@@ -16,6 +16,7 @@ package dueuno.commons.utils
 
 import be.quodlibet.boxable.BaseTable
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream
@@ -27,6 +28,7 @@ import java.awt.image.BufferedImage
 /**
  * @author Gianluca Sartori
  */
+@Slf4j
 @CompileStatic
 class PDFBoxUtils {
 

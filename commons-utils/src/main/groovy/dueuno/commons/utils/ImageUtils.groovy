@@ -15,6 +15,7 @@
 package dueuno.commons.utils
 
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 
 import javax.imageio.ImageIO
 import java.awt.*
@@ -25,6 +26,7 @@ import java.awt.image.BufferedImage
  * @author Gianluca Sartori
  */
 
+@Slf4j
 @CompileStatic
 class ImageUtils {
 
