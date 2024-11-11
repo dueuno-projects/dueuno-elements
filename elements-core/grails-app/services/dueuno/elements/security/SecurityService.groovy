@@ -190,6 +190,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 order: 10000050,
                 icon: 'fa-database',
                 direct: true,
+                targetNew: true,
         )
         applicationService.registerDeveloperUserFeature(
                 controller: 'connectionSource',
