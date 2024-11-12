@@ -4,12 +4,18 @@ class Table extends Component {
 
     static initialize($element, $root) {
         Table.initializeStickyHeader($element);
+        let $dataset = $element.find('.component-table-dataset');
+        let $table = $element.find('.component-table-dataset table');
+        PageContent.addScrollableElement($table, $dataset);
     }
 
     static finalize($element, $root) {
+        Page.finalizeContent($element);
+
+        let $dataset = $element.find('.component-table-dataset');
+        $dataset.off('scroll').on('scroll', Table.onScroll);
         let $selectAll = $element.find('.component-table-selection-header input');
         $selectAll.off('click').on('click', Table.onSelectAll);
-
         let $selectRow = $element.find('.component-table-selection input');
         $selectRow.off('click').on('click', Table.onSelectRow);
     }
@@ -36,34 +42,10 @@ class Table extends Component {
         });
     }
 
-    static initializeFixedScrollbar($element) {
-        let $body = $element.find('tbody');
-        let $scrollbar = $element.find('.component-table-scrollbar');
-        let $scrollbarContent = $scrollbar.find('div');
-
-        let content = $('#page-content')[0].getBoundingClientRect();
-        $scrollbar.css({position: 'absolute', bottom: 0, left: content.left});
-        $scrollbarContent.width($body.width());
-    }
-
-    static onWindowScroll(event) {
-        let $element = $(event.currentTarget);
-    }
-
     static onScroll(event) {
         let $element = $(event.currentTarget);
         let scrollLeft = $element[0].scrollLeft;
-        let $scrollbar = $element.closest('.component-table').find('.component-table-scrollbar');
-
-        $scrollbar.scrollLeft(scrollLeft);
-    }
-
-    static onScrollbarScroll(event) {
-        let $element = $(event.currentTarget);
-        let scrollLeft = $element[0].scrollLeft;
-        let $table = $element.closest('.component-table').find('.fixed-table-body');
-
-        $table.scrollLeft(scrollLeft);
+        PageContent.scrollElement(scrollLeft);
     }
 
     static onSelectAll(event) {

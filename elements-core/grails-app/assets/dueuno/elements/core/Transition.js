@@ -144,12 +144,12 @@ class Transition {
                 break;
 
             case 'content':
-                $root = Page.$content;
+                $root = PageContent.$self;
                 if (rootName == target) return $root;
                 break;
 
             default:
-                $root = PageModal.isActive ? PageModal.$self : Page.$content;
+                $root = PageModal.isActive ? PageModal.$self : PageContent.$self;
         }
 
         // Check for components with dotted name (Eg. 'company.name')
@@ -242,7 +242,7 @@ class Transition {
             if (componentEvent['submit']) {
                 let componentNames = componentEvent['submit'];
                 for (let componentName of componentNames) {
-                    let $root = PageModal.isActive ? PageModal.$self : Page.$content;
+                    let $root = PageModal.isActive ? PageModal.$self : PageContent.$self;
                     let $component = $root.find('[data-21-id="' + componentName + '"]');
                     let control = Control.getByElement($component)
                     let component = Component.getByElement($component);

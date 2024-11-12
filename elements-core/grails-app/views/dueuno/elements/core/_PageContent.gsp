@@ -1,4 +1,3 @@
-%{-- If you change this file you need to change also the class 'Transition.renderContent()' --}%
 <div id="page-content"
      class="page-content"
      data-21-component="PageContent"
@@ -7,4 +6,6 @@
 >
     <page:colors component="${c}"/>
     <render:componentList instance="${c}"/>
+
+    <div id="page-content-scrollbar"><div></div></div>
 </div>

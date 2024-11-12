@@ -1,0 +1,22 @@
+#page-content-scrollbar {
+    position: fixed;
+    bottom: 0;
+    overflow-x: scroll;
+    display: none;
+    margin-bottom: 10px;
+}
+
+#page-content-scrollbar div {
+    height: 20px;
+}
+
+#page-content-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+#page-content-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--elements-primary-bg));
+    border-radius: 0.5rem;
+}
+

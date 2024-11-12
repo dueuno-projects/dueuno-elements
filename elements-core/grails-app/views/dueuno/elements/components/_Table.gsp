@@ -9,8 +9,6 @@
     <render:component instance="${c.filters}" />
     <render:component instance="${c.dataset}" />
 
-<!--    <div class="component-table-scrollbar"><div></div></div>-->
-
     <g:if test="${c.hasPagination}">
         <render:component instance="${c.pagination}" />
     </g:if>

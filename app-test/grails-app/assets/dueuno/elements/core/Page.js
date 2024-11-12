@@ -2,13 +2,10 @@
 
 // Temporary solutions until we get support for static fields
 // See: https://github.com/google/closure-compiler/issues/2731
-let Page_$content = null;
 let Page_stickyOffset = 0;
 
 class Page {
 
-    static get $content() { return Page_$content }
-    static set $content(value) { Page_$content = value }
     static get stickyOffset() { return Page_stickyOffset }
     static set stickyOffset(value) { Page_stickyOffset = value }
 
@@ -34,7 +31,7 @@ class Page {
     }
 
     static initializeContent($root, reinitialize = false) {
-        Page.$content = $('#page-content');
+        PageContent.initialize();
         Page.initializeComponents($root, reinitialize);
         Page.initializeControls($root, reinitialize);
         Page.initializeControlValues($root, reinitialize);
@@ -43,6 +40,7 @@ class Page {
     static finalizeContent($root, reinitialize = false) {
         Page.finalizeControls($root, reinitialize);
         Page.finalizeComponents($root, reinitialize);
+        PageContent.finalize();
     }
 
     static reinitializeContent($root, reinitialize = false) {
@@ -52,6 +50,9 @@ class Page {
     }
 
     static initializePage() {
+        PageMessageBox.initialize();
+        PageModal.initialize();
+
         let page = Page.get();
         try {
             if (Elements.hasMethod(page, 'initialize')) {
@@ -98,7 +99,7 @@ class Page {
 
             if (!PageModal.isActive && properties['sticky']) {
                 Page.stickyOffset += element.offsetHeight;
-                Page.$content.css('margin-top', Page.stickyOffset);
+                PageContent.$self.css('margin-top', Page.stickyOffset);
                 Elements.callMethod($element, component, 'setSticky', true);
             }
 

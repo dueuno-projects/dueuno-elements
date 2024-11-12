@@ -52,7 +52,7 @@ class TransitionCommand {
                 PageModal.close();
             }
 
-            TransitionCommand.render(Page.$content, $content, componentEvent);
+            TransitionCommand.render(PageContent.$self, $content, componentEvent);
         }
     }
 

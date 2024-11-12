@@ -16,8 +16,8 @@
 }
 
 .component-table ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
+    width: 10px;
+    height: 10px;
 }
 
 .component-table ::-webkit-scrollbar-thumb {
@@ -25,31 +25,6 @@
 }
 
 .component-table ::-webkit-scrollbar-track {
-    margin: 0.5rem;
-}
-
-.component-table-scrollbar {
-    height: 40px;
-    background-color: lightgrey;
-    overflow-x: scroll;
-}
-
-.component-table-scrollbar div {
-    width: 5000px;
-    background-color: blue;
-    height: 15px;
-}
-
-.component-table-scrollbar ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
-}
-
-.component-table-scrollbar ::-webkit-scrollbar-thumb {
-    border-radius: 0.5rem;
-}
-
-.component-table-scrollbar ::-webkit-scrollbar-track {
     margin: 0.5rem;
 }
 

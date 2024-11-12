@@ -7,7 +7,7 @@ let PageModal_$self = null;
 let PageModal_$header = null;
 let PageModal_$body = null;
 
-class PageModal extends Component {
+class PageModal {
 
     static get isActive() { return PageModal_isActive }
     static set isActive(value) { PageModal_isActive = value }
@@ -27,7 +27,7 @@ class PageModal extends Component {
     static get $body() { return PageModal_$body }
     static set $body(value) { PageModal_$body = value }
 
-    static initialize($element, $root) {
+    static initialize() {
         PageModal.$self = $('#page-modal');
         PageModal.$header = $('#page-modal-header');
         PageModal.$body = $('#page-modal-body');
@@ -58,7 +58,7 @@ class PageModal extends Component {
 
     static onClose(event) {
         PageModal.close();
-        Page.reinitializeContent(Page.$content);
+        Page.reinitializeContent(PageContent.$self);
     }
 
     static onHidden(event) {
@@ -164,5 +164,3 @@ class PageModal extends Component {
         PageModal.dialog.hide();
     }
 }
-
-Component.register(PageModal);
