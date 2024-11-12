@@ -4,7 +4,7 @@ let PageMessageBox_isActive = false;
 let PageMessageBox_dialog = null;
 let PageMessageBox_$self = null;
 
-class PageMessageBox {
+class PageMessageBox extends Component {
 
     static get isActive() { return PageMessageBox_isActive }
     static set isActive(value) { PageMessageBox_isActive = value }
@@ -176,3 +176,5 @@ class PageMessageBox {
         PageMessageBox.$self.find('p.message').html(value);
     }
 }
+
+Component.register(PageMessageBox);

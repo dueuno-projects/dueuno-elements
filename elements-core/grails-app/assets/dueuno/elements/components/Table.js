@@ -45,7 +45,7 @@ class Table extends Component {
     static onScroll(event) {
         let $element = $(event.currentTarget);
         let scrollLeft = $element[0].scrollLeft;
-        PageContent.scrollElement(scrollLeft);
+        PageContent.scrollElement($element, scrollLeft);
     }
 
     static onSelectAll(event) {

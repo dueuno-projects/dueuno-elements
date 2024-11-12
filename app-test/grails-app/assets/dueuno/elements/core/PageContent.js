@@ -4,7 +4,7 @@ let PageContent_$self = null;
 let PageContent_$scrollbar = null;
 let PageContent_$scrollableElements = [];
 
-class PageContent {
+class PageContent extends Component {
 
     static get $self() { return PageContent_$self }
     static set $self(value) { PageContent_$self = value }
@@ -86,8 +86,13 @@ class PageContent {
         }
     }
 
-    static scrollElement(scrollLeft) {
-        PageContent.$scrollbar.scrollLeft(scrollLeft);
+    static scrollElement($container, scrollLeft) {
+        let $currentScrollableElement = PageContent.getCurrentScrollableElement();
+        if ($currentScrollableElement.container.is($container)) {
+            PageContent.$scrollbar.scrollLeft(scrollLeft);
+        }
     }
 
 }
+
+Component.register(PageContent);

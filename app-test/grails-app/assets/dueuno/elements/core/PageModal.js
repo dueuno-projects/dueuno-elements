@@ -7,7 +7,7 @@ let PageModal_$self = null;
 let PageModal_$header = null;
 let PageModal_$body = null;
 
-class PageModal {
+class PageModal extends Component {
 
     static get isActive() { return PageModal_isActive }
     static set isActive(value) { PageModal_isActive = value }
@@ -164,3 +164,5 @@ class PageModal {
         PageModal.dialog.hide();
     }
 }
+
+Component.register(PageModal);
