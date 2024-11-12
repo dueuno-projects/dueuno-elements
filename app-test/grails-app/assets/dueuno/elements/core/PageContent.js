@@ -72,7 +72,7 @@ class PageContent extends Component {
     static attachScrollableElement($element) {
         let $scrollbarContentMirror = PageContent.$scrollbar.find('div');
         $scrollbarContentMirror.width($element.content.width());
-        PageContent.scrollElement($element.container[0].scrollLeft);
+        PageContent.scrollElement($element.container, $element.container[0].scrollLeft);
     }
 
     static attachCurrentScrollableElement() {
@@ -88,7 +88,7 @@ class PageContent extends Component {
 
     static scrollElement($container, scrollLeft) {
         let $currentScrollableElement = PageContent.getCurrentScrollableElement();
-        if ($currentScrollableElement.container.is($container)) {
+        if ($currentScrollableElement && $container.is($currentScrollableElement.container)) {
             PageContent.$scrollbar.scrollLeft(scrollLeft);
         }
     }
