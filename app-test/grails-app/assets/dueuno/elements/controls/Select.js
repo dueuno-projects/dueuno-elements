@@ -13,6 +13,7 @@ class Select extends Control {
             placeholder: properties['multiple'] ? null : properties['placeholder'],
             minimumResultsForSearch: properties['search'] ? 0 : -1,
             allowClear: properties['multiple'] ? false : properties['allowClear'],
+            sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
             dropdownAutoWidth : true,
             width: hasButtons ? 'auto' : '100%',
             language: {
