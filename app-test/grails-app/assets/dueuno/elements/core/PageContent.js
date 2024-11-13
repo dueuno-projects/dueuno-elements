@@ -25,7 +25,7 @@ class PageContent extends Component {
     static finalize() {
         let content = PageContent.$self[0].getBoundingClientRect();
         PageContent.$scrollbarBox.css({left: content.left, width: content.width});
-        PageContent.attachCurrentScrollableElement();
+        PageContent.updateScrollbar();
 
         PageContent.$scrollbar.off('scroll').on('scroll', PageContent.onScrollbarScroll);
         $(window).on('scroll', PageContent.onWindowScroll);
@@ -33,14 +33,13 @@ class PageContent extends Component {
     }
 
     static onWindowResize(event) {
-        let $element = $(event.currentTarget);
         let contentRect = PageContent.$self[0].getBoundingClientRect();
         PageContent.$scrollbarBox.css({left: contentRect.left, width: contentRect.width});
-        PageContent.attachCurrentScrollableElement();
+        PageContent.updateScrollbar();
     }
 
     static onWindowScroll(event) {
-        PageContent.attachCurrentScrollableElement();
+        PageContent.updateScrollbar();
     }
 
     static onScrollbarScroll(event) {
@@ -73,16 +72,14 @@ class PageContent extends Component {
         return null;
     }
 
-    static attachScrollableElement($element) {
+    static updateScrollbar() {
         let $scrollbarContentMirror = $('#page-content-scrollbar-content-mirror');
-        $scrollbarContentMirror.width($element.content.width());
-        PageContent.scrollElement($element.container, $element.container[0].scrollLeft);
-    }
-
-    static attachCurrentScrollableElement() {
         let $currentScrollableElement = PageContent.getCurrentScrollableElement();
-        if ($currentScrollableElement) {
-            PageContent.attachScrollableElement($currentScrollableElement);
+        let isScrollbarRequired = $currentScrollableElement && $currentScrollableElement.content.width() > $currentScrollableElement.container.width();
+
+        if (isScrollbarRequired) {
+            $scrollbarContentMirror.width($currentScrollableElement.content.width() - 16 /* This corresponds to left + right padding in the #page-content-scrollbar-box CSS */);
+            PageContent.scrollElement($currentScrollableElement.container, $currentScrollableElement.container[0].scrollLeft);
             PageContent.$scrollbarBox.show();
 
         } else {
