@@ -5,7 +5,10 @@
      data-21-events="${c.eventsAsJSON}"
 >
     <page:colors component="${c}"/>
-    <render:componentList instance="${c}"/>
 
     <div id="page-content-scrollbar"><div></div></div>
+
+    <%-- This must be the latest element for the CSS to work property on modals --%>
+    <render:componentList instance="${c}"/>
+
 </div>
