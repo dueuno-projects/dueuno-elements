@@ -1,13 +1,14 @@
-#page-content-scrollbar {
+#page-content-scrollbar-box {
     position: fixed;
     bottom: 0;
-    overflow-x: scroll;
+    background-color: white;
+    padding: 0 .5rem .5rem .5rem;
+    z-index: 999;
     display: none;
-    margin-bottom: 10px;
 }
 
-#page-content-scrollbar div {
-    height: 20px;
+#page-content-scrollbar {
+    overflow-x: scroll;
 }
 
 #page-content-scrollbar::-webkit-scrollbar {
@@ -17,6 +18,9 @@
 
 #page-content-scrollbar::-webkit-scrollbar-thumb {
     background-color: rgb(var(--elements-primary-bg));
-    border-radius: 0.5rem;
+    border-radius: .5rem;
 }
 
+#page-content-scrollbar-content-mirror {
+    height: .5rem;
+}
