@@ -78,7 +78,7 @@ class PageContent extends Component {
         let isScrollbarRequired = $currentScrollableElement && $currentScrollableElement.content.width() > $currentScrollableElement.container.width();
 
         if (isScrollbarRequired) {
-            $scrollbarContentMirror.width($currentScrollableElement.content.width() - 16 /* This corresponds to left + right padding in the #page-content-scrollbar-box CSS */);
+            $scrollbarContentMirror.width($currentScrollableElement.content.width() * 0.99 /* Shrank to accomodate the container margins defined in the CSS (#page-content-scrollbar-box) */);
             PageContent.scrollElement($currentScrollableElement.container, $currentScrollableElement.container[0].scrollLeft);
             PageContent.$scrollbarBox.show();
 
