@@ -13,7 +13,7 @@ class Table extends Component {
         Page.finalizeContent($element);
 
         let $dataset = $element.find('.component-table-dataset');
-        $dataset.off('scroll').on('scroll', Table.onScroll);
+        $dataset.on('scroll', Table.onScroll);
         let $selectAll = $element.find('.component-table-selection-header input');
         $selectAll.off('click').on('click', Table.onSelectAll);
         let $selectRow = $element.find('.component-table-selection input');
