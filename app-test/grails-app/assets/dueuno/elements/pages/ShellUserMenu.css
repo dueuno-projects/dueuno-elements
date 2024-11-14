@@ -33,6 +33,14 @@
     display: none;
 }
 
+#shell-user-menu .offcanvas-body .simplebar-scrollbar:before {
+    width: 10px;
+}
+
+#shell-user-menu .offcanvas-body .simplebar-track.simplebar-vertical {
+    padding: .5rem;
+}
+
 #shell-user-menu button:hover,
 #shell-user-menu button:focus,
 #shell-user-menu button:active,

@@ -48,6 +48,11 @@
 
 #shell-menu .offcanvas-body .simplebar-scrollbar:before {
     background: white !important;
+    width: 10px;
+}
+
+#shell-menu .offcanvas-body .simplebar-track.simplebar-vertical {
+    padding: .5rem;
 }
 
 #shell-menu .nav-item {
