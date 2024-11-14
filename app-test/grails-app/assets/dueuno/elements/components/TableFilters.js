@@ -36,6 +36,11 @@ class TableFilters extends Form {
     }
 
     static onFiltersShowHide(event) {
+        let $element = $(event.currentTarget);
+        let $table = $element.closest('.component-table');
+        let $dataset = $table.find('.component-table-dataset');
+        let scrollLeft = $dataset[0].scrollLeft;
+
         PageContent.updateScrollbar();
     }
 

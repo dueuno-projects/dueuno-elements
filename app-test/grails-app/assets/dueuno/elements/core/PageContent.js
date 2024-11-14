@@ -73,23 +73,24 @@ class PageContent extends Component {
     }
 
     static updateScrollbar() {
-        let $scrollbarContentMirror = $('#page-content-scrollbar-content-mirror');
         let $currentScrollableElement = PageContent.getCurrentScrollableElement();
         let isScrollbarRequired = $currentScrollableElement && $currentScrollableElement.content.width() > $currentScrollableElement.container.width();
 
         if (isScrollbarRequired) {
-            $scrollbarContentMirror.width($currentScrollableElement.content.width() * 0.99 /* Shrank to accomodate the container margins defined in the CSS (#page-content-scrollbar-box) */);
-            PageContent.scrollElement($currentScrollableElement.container, $currentScrollableElement.container[0].scrollLeft);
-            PageContent.$scrollbarBox.show();
+            PageContent.$scrollbarBox.show(); // The 'show' must stay before the 'setScroll' (don't ask me why)
+            PageContent.setScroll($currentScrollableElement.container, $currentScrollableElement.container[0].scrollLeft);
 
         } else {
             PageContent.$scrollbarBox.hide();
         }
     }
 
-    static scrollElement($container, scrollLeft) {
+    static setScroll($container, scrollLeft) {
         let $currentScrollableElement = PageContent.getCurrentScrollableElement();
         if ($currentScrollableElement && $container.is($currentScrollableElement.container)) {
+            let $scrollbarContentMirror = $('#page-content-scrollbar-content-mirror');
+            // Shrank to accomodate the container margins defined in the CSS (#page-content-scrollbar-box)
+            $scrollbarContentMirror.width($currentScrollableElement.content.width() * 0.99);
             PageContent.$scrollbar.scrollLeft(scrollLeft);
         }
     }
