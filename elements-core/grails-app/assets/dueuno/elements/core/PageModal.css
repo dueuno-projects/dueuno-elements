@@ -105,10 +105,22 @@
     margin-bottom: 0 !important;
 }
 
+#page-modal-body .simplebar-content-wrapper {
+    overscroll-behavior: contain;
+}
+
 #page-modal-body::-webkit-scrollbar {
     display: none;
 }
 
-#page-modal-body .simplebar-content-wrapper {
-    overscroll-behavior: contain;
+#page-modal-body .simplebar-vertical .simplebar-scrollbar:before {
+    width: 10px;
+}
+
+#page-modal-body .simplebar-horizontal .simplebar-scrollbar:before {
+    height: 10px;
+}
+
+#page-modal-body .simplebar-track {
+    padding: .5rem;
 }
