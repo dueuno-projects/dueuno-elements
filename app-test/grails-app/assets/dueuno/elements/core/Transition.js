@@ -124,32 +124,33 @@ class Transition {
 
         let dotPosition = componentName.indexOf('.');
         let rootName = dotPosition > 0 ? componentName.substring(0, dotPosition) : componentName;
-        let target = componentName.slice(dotPosition + 1);
+        let targetName = componentName.slice(dotPosition + 1);
 
         let $root;
         switch (rootName) {
             case 'page':
                 $root = $('body');
-                if (rootName == target) return $root;
+                if (rootName == targetName) return $root;
                 break;
 
             case 'messagebox':
                 $root = PageMessageBox.$self;
-                if (rootName == target) return $root;
+                if (rootName == targetName) return $root;
                 break;
 
             case 'modal':
                 $root = PageModal.$self;
-                if (rootName == target) return $root;
+                if (rootName == targetName) return $root;
                 break;
 
             case 'content':
                 $root = PageContent.$self;
-                if (rootName == target) return $root;
+                if (rootName == targetName) return $root;
                 break;
 
             default:
                 $root = PageModal.isActive ? PageModal.$self : PageContent.$self;
+                targetName = componentName;
         }
 
         // Check for components with dotted name (Eg. 'company.name')
@@ -160,7 +161,7 @@ class Transition {
 
         // Select the component from its dotted path
         let path = '';
-        let nameList = target.split('.');
+        let nameList = targetName.split('.');
         for (let name of nameList) {
             path += '[data-21-id="' + name + '"] ';
         }
@@ -171,8 +172,8 @@ class Transition {
             return $(null);
 
         } else if ($component.length > 1) {
-            log.error('Multiple components found with the same id "' + target
-                + '". Do you have a controller named "' + capitalize(target) + "Controller'? ");
+            log.error('Multiple components found with the same id "' + targetName
+                + '". Do you have a controller named "' + capitalize(targetName) + "Controller'? ");
             return $(null);
 
         } else {
@@ -242,8 +243,7 @@ class Transition {
             if (componentEvent['submit']) {
                 let componentNames = componentEvent['submit'];
                 for (let componentName of componentNames) {
-                    let $root = PageModal.isActive ? PageModal.$self : PageContent.$self;
-                    let $component = $root.find('[data-21-id="' + componentName + '"]');
+                    let $component = Transition.getTargetElement(componentName);
                     let control = Control.getByElement($component)
                     let component = Component.getByElement($component);
 
