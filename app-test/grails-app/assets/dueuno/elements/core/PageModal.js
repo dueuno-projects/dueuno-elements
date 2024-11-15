@@ -126,7 +126,7 @@ class PageModal extends Component {
         }
 
         // Scrollbar
-        new SimpleBar(PageModal.$body[0]);
+        enableSimpleBar(PageModal.$body[0]);
         PageModal.$body.find('.simplebar-content-wrapper').off('scroll').on('scroll', PageModal.onScroll);
     }
 

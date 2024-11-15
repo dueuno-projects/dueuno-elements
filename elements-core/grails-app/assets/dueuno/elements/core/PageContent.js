@@ -73,6 +73,11 @@ class PageContent extends Component {
     }
 
     static updateScrollbar() {
+        if (getOS() == 'iOS') {
+            // No scrollbars on iOS, it has a glitch that brakes smooth scrolling
+            return;
+        }
+
         let $currentScrollableElement = PageContent.getCurrentScrollableElement();
         let isScrollbarRequired = $currentScrollableElement && $currentScrollableElement.content.width() > $currentScrollableElement.container.width();
 

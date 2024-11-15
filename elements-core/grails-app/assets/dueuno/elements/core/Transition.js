@@ -9,7 +9,7 @@ class Transition {
 
     static wsConnect() {
         const wsClient = new StompJs.Client();
-        if (isDevelopment()) {
+        if (_21_.log.debug) {
             wsClient.debug = console.log;
         }
         wsClient.brokerURL = 'ws' + _21_.app.url.replace('http', '') + 'stomp';
