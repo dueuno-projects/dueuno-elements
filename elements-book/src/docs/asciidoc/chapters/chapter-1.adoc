@@ -1,7 +1,6 @@
 
-== Introduction
-
-CAUTION: YOU MAY FIND BAD ENGLISH AND SALTY SARCASM, CAUSE I’M ITALIAN AND I AM A BAD PERSON. IF UNSURE DON’T GO AHEAD.
+[#dueuno-elements-book]
+== Dueuno Elements
 
 I studied _Computer Science_ and started my career as a _Software Developer_, but quickly moved to _Project Management_.
 
