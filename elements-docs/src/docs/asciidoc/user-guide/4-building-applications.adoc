@@ -113,7 +113,6 @@ class MovieController implements ElementsController {
         def c = createContent(ContentList)
         c.table.with {
             filters.with {
-                fold = false
                 addField(
                         class: TextField,
                         id: 'find',
@@ -134,9 +133,8 @@ class MovieController implements ElementsController {
             }
         }
 
-        def filters = c.table.filters.values
-        c.table.body = movieService.list(filters, params)
-        c.table.paginate = movieService.count(filters)
+        c.table.body = movieService.list(c.table.filtersParams, c.table.fetchParams)
+        c.table.paginate = movieService.count(c.table.filtersParams)
 
         display content: c
     }
@@ -252,12 +250,12 @@ class MovieService {
 //                actors: 'join',
 //        ]
 
-        def query = buildQuery(filters)
-        return query.list(params)
+        def query = buildQuery(filterParams)
+        return query.list(fetchParams)
     }
 
-    Integer count(Map filters = [:]) {
-        def query = buildQuery(filters)
+    Integer count(Map filterParams = [:]) {
+        def query = buildQuery(filterParams)
         return query.count()
     }
 
@@ -288,6 +286,5 @@ class MovieService {
 
 Run the application with gradle `bootRun`, you should be able to create, list, edit and delete movies.
 
-=== Custom Contents
-In the context of a controller action we can display to the user any content we need. To create a custom content we suggest creating a `ContentBlank` (See <<contents>>) adding the components wes need (See <<components>>).
-
+=== Whats next?
+Read the http://dueuno.com/book[Dueuno Elements Book]
