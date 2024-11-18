@@ -53,7 +53,52 @@ spring:
 ----
 
 === Login
-At this point you should be able to run the application, point your browser to http://localhost:8080[window=_blank] and login with the system administrator credentials (username: `super`, password: `super`).
+At this point you should be able to run the application, point your browser to `http://localhost:8080[window=_blank]` and login with the system administrator credentials (username: `super`, password: `super`).
+
+image::images/chapter-2/image-3.webp[The application running]
+
+=== URL Path
+We can set up our application to be accessible from a specific URL path. For example `http://localhost:8080/admin`.
+
+.grails-app/init/BootStrap.groovy
+[source,groovy]
+----
+class BootStrap {
+
+    ApplicationService applicationService
+    TenantPropertyService tenantPropertyService
+
+    def init = { servletContext ->
+
+        applicationService.onInstall { String tenantId ->
+            tenantPropertyService.setString('SHELL_URL_MAPPING', '/admin')
+            tenantPropertyService.setString('LOGIN_LANDING_URL', '/') // <1>
+            tenantPropertyService.setString('LOGOUT_LANDING_URL', '/') // <2>
+
+        }
+
+    }
+}
+----
+<1> After the user logs in the shell will redirect to this path
+<2> When the user logs out the shell will redirect to this path
+
+We also need to configure the URL mappings to tell Grails what's the new configuration. For example if the main controller of our website is `WebsiteController.groovy` we can create the following file:
+
+.grails-app/controllers/WebsiteUrlMappings.groovy
+[source,groovy]
+----
+class WebsiteUrlMappings {
+
+    static mappings = {
+        "/"(controller: 'website')
+        "/admin"(controller: 'shell') // <1>
+    }
+
+}
+----
+<1> The configured path must match the value of the `SHELL_URL_MAPPING` tenant property.
+
 
 [[application]]
 == Application
