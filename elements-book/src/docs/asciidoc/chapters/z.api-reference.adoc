@@ -1657,7 +1657,6 @@ c.form.with {
     )
 }
 ----
-<1> The submitted values of the filters fields. See <<table-filters>>
 
 ==== Properties
 [cols="2,2,6a"]
