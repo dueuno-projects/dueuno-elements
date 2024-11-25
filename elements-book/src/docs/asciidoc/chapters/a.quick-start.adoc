@@ -622,22 +622,6 @@ class MovieService {
 
 Run the application with gradle `bootRun`, you should be able to create, list, edit and delete movies.
 
-== Components
-
-In this chapter we are going through the building of a _Dueuno Elements_ component.
-
-=== Pages
-TBD
-
-=== Contents
-TBD
-
-=== Components
-TBD
-
-=== Controls
-TBD
-
 == What's next?
-Read the xref:dueuno-elements-book[Dueuno Elements Book].
+Read the xref:dueuno-elements-book[Dueuno Elements Book] or the xref:api-reference[Dueuno Elements API]
 

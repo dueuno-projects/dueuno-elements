@@ -1,4 +1,4 @@
-
+[#api-reference]
 == API Reference
 Dueuno Elements is a https://grails.org/[Grails,window=_blank] plugin useful to develop backoffice applications.
 
