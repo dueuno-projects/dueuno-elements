@@ -18,7 +18,7 @@ Web applications are not installed, they are just accessed from your web browser
 
 But a web application is far more complex than a desktop one. To develop one, we need to know a couple of things:
 
-Some protocols like _TCP/IP_, _HTTP_ and what a _Web Server_ is;
+. Some protocols like _TCP/IP_, _HTTP_ and what a _Web Server_ is;
 
 . Be proficient with at least five languages: _HTML, CSS, JavaScript_, a _Backend_ language _(PHP, Java, C#, etc)_ to write your _Buiness Logic_ and _SQL_ to design and query databases;
 
