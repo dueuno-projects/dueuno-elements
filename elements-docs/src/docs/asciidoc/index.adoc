@@ -5,10 +5,6 @@
 :toc: left
 :toclevels: 2
 
-:version-java: 17
-:version-grails: 6.2
-:version-elements: 2.4.0
-
 // Install the "AsciiDoc" IntelliJ plugin
 // IT - http://ramses.altervista.org/AppuntiAsciidoc.html
 // EN - https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/

@@ -1,27 +1,23 @@
 plugins {
-    id 'dueuno-application'
+    id "dueuno-application"
 }
 
 dependencies {
-    implementation project(':elements-core')
-//    implementation project(':elements-extra')
+    implementation project(":elements-core")
+//    implementation project(":elements-extra")
 
-//    implementation 'org.grails.plugins:spring-security-ldap:4.0.0.M1'
+//    implementation "org.grails.plugins:spring-security-ldap:4.0.0.M1"
 
-    runtimeOnly 'com.mysql:mysql-connector-j:8.1.0'
-    runtimeOnly 'org.postgresql:postgresql:42.2.18'
-}
-
-application {
-    mainClass = 'dueuno.elements.test.Application'
+    runtimeOnly "com.mysql:mysql-connector-j"
+    runtimeOnly "org.postgresql:postgresql"
 }
 
 bootRun {
-    jvmArgs('-Xms2g', '-Xmx2g')
+    jvmArgs("-Xms2g", "-Xmx2g")
 }
 
 configurations.all {
     resolutionStrategy {
-        cacheChangingModulesFor 0, 'seconds'
+        cacheChangingModulesFor 0, "seconds"
     }
 }

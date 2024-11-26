@@ -1,14 +1,14 @@
 plugins {
-    id 'groovy'
-    id 'java-library'
-    id 'org.grails.grails-gsp'
-    id 'org.grails.grails-plugin'
-    id 'com.bertramlabs.asset-pipeline'
-    id 'dueuno-publish'
-    id 'dueuno-asciidoctor'
-    id 'dueuno-codenarc'
-    id 'eclipse'
-    id 'idea'
+    id "groovy"
+    id "java-library"
+    id "org.grails.grails-gsp"
+    id "org.grails.grails-plugin"
+    id "com.bertramlabs.asset-pipeline"
+    id "dueuno-publish"
+    id "dueuno-asciidoctor"
+    id "dueuno-codenarc"
+    id "eclipse"
+    id "idea"
 }
 
 group = projectGroup
@@ -16,44 +16,52 @@ version = projectVersion
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.grails.org/grails/core' }
+    maven { url "https://repo.grails.org/grails/core" }
 }
 
 dependencies {
-    implementation 'org.grails:grails-core'
-    implementation 'org.grails:grails-logging'
-    implementation 'org.grails:grails-plugin-databinding'
-    implementation 'org.grails:grails-plugin-i18n'
-    implementation 'org.grails:grails-plugin-interceptors'
-    implementation 'org.grails:grails-plugin-rest'
-    implementation 'org.grails:grails-plugin-services'
-    implementation 'org.grails:grails-plugin-url-mappings'
-    implementation 'org.grails:grails-web-boot'
-    implementation 'org.grails.plugins:gsp'
-    implementation 'org.grails.plugins:hibernate5'
-    implementation 'org.hibernate:hibernate-core:5.6.15.Final'
-    implementation 'org.springframework.boot:spring-boot-autoconfigure'
-    implementation 'org.springframework.boot:spring-boot-starter-logging'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    compileOnly 'io.micronaut:micronaut-inject-groovy'
-    console 'org.grails:grails-console'
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'javax.xml.bind:jaxb-api:2.3.1'
-    runtimeOnly 'org.apache.tomcat:tomcat-jdbc'
-    runtimeOnly 'org.glassfish.web:el-impl:2.2.1-b05'
-    testImplementation 'io.micronaut:micronaut-inject-groovy'
-    testImplementation 'org.grails:grails-gorm-testing-support'
-    testImplementation 'org.spockframework:spock-core'
-    testImplementation 'io.micronaut:micronaut-http-client'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    profile "org.grails.profiles:web-plugin"
+    implementation "org.grails:grails-core"
+    implementation "org.grails:grails-logging"
+    implementation "org.grails:grails-plugin-databinding"
+    implementation "org.grails:grails-plugin-i18n"
+    implementation "org.grails:grails-plugin-interceptors"
+    implementation "org.grails:grails-plugin-rest"
+    implementation "org.grails:grails-plugin-services"
+    implementation "org.grails:grails-plugin-url-mappings"
+    implementation "org.grails:grails-web-boot"
+    implementation "org.grails.plugins:gsp"
+    implementation "org.grails.plugins:hibernate5"
+    implementation "org.grails.plugins:scaffolding"
+    implementation "org.springframework.boot:spring-boot-autoconfigure"
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-logging"
+    implementation "org.springframework.boot:spring-boot-starter-tomcat"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    compileOnly "io.micronaut:micronaut-inject-groovy"
+    console "org.grails:grails-console"
+    runtimeOnly "com.bertramlabs.plugins:asset-pipeline-grails:${grailsAssetPipelineVersion}"
+    runtimeOnly "com.h2database:h2"
+    runtimeOnly "org.apache.tomcat:tomcat-jdbc"
+    runtimeOnly "org.fusesource.jansi:jansi:1.18"
+    testImplementation "io.micronaut:micronaut-inject-groovy"
+    testImplementation "org.grails:grails-gorm-testing-support"
+    testImplementation "org.grails:grails-web-testing-support"
+    testImplementation "org.spockframework:spock-core"
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
 }
 
 assets {
     packagePlugin = true
+    skipNonDigests = true
     minifyCss = true
     minifyJs = true
     minifyOptions = [
             //SIMPLE (default) or ADVANCED or WHITESPACE_ONLY
-            optimizationLevel: 'SIMPLE',
+            optimizationLevel: "SIMPLE",
     ]
 }

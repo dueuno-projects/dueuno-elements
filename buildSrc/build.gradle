@@ -1,21 +1,34 @@
 plugins {
-    id 'groovy-gradle-plugin'
+    id "groovy-gradle-plugin"
 }
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.grails.org/grails/core' }
+    maven { url "https://repo.grails.org/grails/core" }
 }
+
+loadProperties()
 
 dependencies {
     // See: https://github.com/zyro23/grails-spring-websocket/issues/73
-    implementation 'com.google.javascript:closure-compiler-unshaded:v20240317'
-    implementation 'com.bertramlabs.plugins:asset-pipeline-gradle:4.3.0'
+    implementation "com.google.javascript:closure-compiler-unshaded:v20240317"
+    implementation "com.bertramlabs.plugins:asset-pipeline-gradle:${grailsAssetPipelineVersion}"
 
-    implementation 'com.github.erdi:webdriver-binaries-gradle-plugin:3.0'
-    implementation 'org.grails:grails-gradle-plugin:6.2.1'
-    implementation 'gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:2.2.2'
-    implementation 'org.asciidoctor:asciidoctor-gradle-jvm:4.0.0-alpha.1'
-    implementation 'org.asciidoctor:asciidoctor-gradle-jvm-pdf:4.0.0-alpha.1'
-    implementation 'org.asciidoctor.jvm.convert:org.asciidoctor.jvm.convert.gradle.plugin:3.3.2'
+    implementation "com.github.erdi:webdriver-binaries-gradle-plugin:${webdriverBinariesVersion}"
+    implementation "org.grails:grails-gradle-plugin:${grailsGradlePluginVersion}"
+    implementation "org.asciidoctor:asciidoctor-gradle-jvm:4.0.0-alpha.1"
+    implementation "org.asciidoctor:asciidoctor-gradle-jvm-pdf:4.0.0-alpha.1"
+    implementation "org.asciidoctor.jvm.convert:org.asciidoctor.jvm.convert.gradle.plugin:3.3.2"
+}
+
+def loadProperties() {
+    // Gives access to project root properties
+    Properties properties = new Properties()
+    FileInputStream input = new FileInputStream(file("../gradle.properties"))
+    properties.load(input)
+    input.close()
+
+    for (String key : properties.stringPropertyNames()) {
+        ext.set(key, properties.getProperty(key))
+    }
 }
