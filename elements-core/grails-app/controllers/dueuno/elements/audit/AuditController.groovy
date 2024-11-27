@@ -23,6 +23,8 @@ import dueuno.elements.security.SecurityService
 import dueuno.elements.style.TextDefault
 import grails.plugin.springsecurity.annotation.Secured
 
+import java.time.LocalDate
+
 /**
  * @author Gianluca Sartori
  */
@@ -41,11 +43,13 @@ class AuditController implements ElementsController {
                 addField(
                         class: DateField,
                         id: 'dateFrom',
+                        defaultValue: LocalDate.now(),
                         cols: 2,
                 )
                 addField(
                         class: DateField,
                         id: 'dateTo',
+                        defaultValue: LocalDate.now(),
                         cols: 2,
                 )
                 addField(
@@ -87,7 +91,7 @@ class AuditController implements ElementsController {
         }
 
         def filters = c.table.filterParams
-        c.table.body = auditService.list(filters, params)
+        c.table.body = auditService.list(filters, c.table.fetchParams)
         c.table.paginate = auditService.count(filters)
 
         display content: c

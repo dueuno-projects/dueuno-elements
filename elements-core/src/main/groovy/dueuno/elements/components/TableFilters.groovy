@@ -175,7 +175,7 @@ class TableFilters extends Form {
             initializeFilter(control)
 
             String controlName = control.id - (filtersFieldPrefix)
-            Object controlValue = control.value != null ? control.value : control.defaultValue
+            Object controlValue = control.value
 
             if (controlValue) {
                 results[controlName] = controlValue

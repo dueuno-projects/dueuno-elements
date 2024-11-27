@@ -80,11 +80,6 @@ class Form extends Component {
             }
         }
 
-        // Auto assigns values from 'params'
-        if (args.value == null && requestParams[id]) {
-            args.value = requestParams[id]
-        }
-
         // Set common args
         if (args.readonly == null) args.readonly = readonly
         if (!args.primaryTextColor) args.primaryTextColor = primaryTextColor
@@ -95,6 +90,8 @@ class Form extends Component {
         Component component
         if (clazz in Control) {
             component = addControl(args)
+            setFieldValue(component)
+
         } else {
             component = addComponent(args)
         }
@@ -111,20 +108,7 @@ class Form extends Component {
         args.putAll(component.containerSpecs)
 
         FormField field = addComponent(FormField, id + 'Field', args)
-        setFieldValue(field)
         return field
-    }
-
-    private void setFieldValue(FormField field) {
-        def component = field.component
-        if (component !in Control) {
-            return
-        }
-
-        Control control = component as Control
-        if (control.value == null && control.defaultValue != null) {
-            control.value = control.defaultValue
-        }
     }
 
     private Map getFieldConstraints(Class domainOrCommandClass, String fieldName) {
@@ -198,13 +182,24 @@ class Form extends Component {
         }
 
         for (controlEntry in controls) {
-            String controlName = controlEntry.key
             Control control = controlEntry.value
-
-            if (control.value == null) {
-                control.value = ObjectUtils.getValue(obj, controlName)
-            }
+            setFieldValue(control, obj)
         }
     }
+
+    private void setFieldValue(Control control, Object obj = null) {
+        Object value = ObjectUtils.getValue(obj, control.id)
+
+        if (value == null && control.value == null && requestParams.containsKey(control.id)) {
+            control.value = requestParams[control.id]
+
+        } else if (value == null && control.value == null && control.defaultValue != null) {
+            control.value = control.defaultValue
+
+        } else {
+            control.value = value
+        }
+    }
+
 }
 
