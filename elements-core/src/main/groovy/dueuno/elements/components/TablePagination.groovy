@@ -49,6 +49,7 @@ class TablePagination extends Component {
                 id: 'goFirst',
                 controller: controllerName,
                 action: actionName,
+                submit: [table.filters.id],
                 params: [
                         _21Table: table.id,
                         _21TableOffset: 0,
@@ -62,6 +63,7 @@ class TablePagination extends Component {
                 id: 'goPrev',
                 controller: controllerName,
                 action: actionName,
+                submit: [table.filters.id],
                 icon: 'fa-angle-left',
                 text: '',
                 scroll: table.id,
@@ -71,6 +73,7 @@ class TablePagination extends Component {
                 id: 'goNext',
                 controller: controllerName,
                 action: actionName,
+                submit: [table.filters.id],
                 icon: 'fa-angle-right',
                 text: TextDefault.NEXT,
                 scroll: table.id,
@@ -80,6 +83,7 @@ class TablePagination extends Component {
                 id: 'goMax20',
                 controller: controllerName,
                 action: actionName,
+                submit: [table.filters.id],
                 params: [
                         _21Table: table.id,
                         _21TableOffset: 0,
@@ -94,6 +98,7 @@ class TablePagination extends Component {
                 id: 'goMax50',
                 controller: controllerName,
                 action: actionName,
+                submit: [table.filters.id],
                 params: [
                         _21Table: table.id,
                         _21TableOffset: 0,

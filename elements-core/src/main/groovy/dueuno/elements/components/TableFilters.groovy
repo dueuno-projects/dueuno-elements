@@ -188,11 +188,6 @@ class TableFilters extends Form {
             }
         }
 
-//        // Reset table pagination for new searches
-//        if (table != null && requestParams._21FiltersSearch) {
-//            table.pagination.reset()
-//        }
-
         prettyValues = prettyResults
         return results
     }
