@@ -104,7 +104,7 @@ class TableFilters extends Form {
                 _21TableOffset: 0,
         ]
 
-        for (field in fields) {
+        for (field in components) {
             if (field.component in Control) {
                 Control control = field.component as Control
                 control.onSubmit(

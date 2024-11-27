@@ -20,7 +20,7 @@
             </g:if>
         </dev:ifDisplayHints>
 
-        <form:renderFields instance="${c}"/>
+        <render:componentList instance="${c}"/>
     </form>
 </div>
 

@@ -50,10 +50,10 @@ class Form extends Component {
         autocomplete = (args.autocomplete == null) ? false : args.autocomplete
     }
 
-    List<FormField> getFields() {
+    List<FormField> getComponents() {
         List<FormField> fields = []
 
-        for (component in components) {
+        for (component in super.components) {
             if (component in FormField) {
                 fields.add(component as FormField)
             }
@@ -111,7 +111,20 @@ class Form extends Component {
         args.putAll(component.containerSpecs)
 
         FormField field = addComponent(FormField, id + 'Field', args)
+        setFieldValue(field)
         return field
+    }
+
+    private void setFieldValue(FormField field) {
+        def component = field.component
+        if (component !in Control) {
+            return
+        }
+
+        Control control = component as Control
+        if (control.value == null && control.defaultValue != null) {
+            control.value = control.defaultValue
+        }
     }
 
     private Map getFieldConstraints(Class domainOrCommandClass, String fieldName) {
@@ -172,7 +185,7 @@ class Form extends Component {
     @Override
     void setReadonly(Boolean isReadonly) {
         super.readonly = isReadonly
-        for (field in fields) {
+        for (field in components) {
             (field as FormField).component.readonly = isReadonly
         }
     }
