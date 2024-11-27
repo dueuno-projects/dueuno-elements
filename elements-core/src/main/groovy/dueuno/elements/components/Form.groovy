@@ -196,7 +196,7 @@ class Form extends Component {
         } else if (value == null && control.value == null && control.defaultValue != null) {
             control.value = control.defaultValue
 
-        } else {
+        } else if (value != null) {
             control.value = value
         }
     }
