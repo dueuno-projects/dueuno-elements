@@ -2122,7 +2122,7 @@ c.form.addField(
 |
 |A text to display when the text area is empty
 |`monospace`
-|`yyy`
+|`Boolean`
 |
 |Use a monospaced font instead of the default one
 |`textTransform`
