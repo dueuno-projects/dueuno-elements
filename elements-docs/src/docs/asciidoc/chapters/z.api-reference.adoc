@@ -1990,6 +1990,7 @@ c.form.with {
         html: '<b>This is a bold statement!</b>',
         textAlign: TextAlign.END,
         textWrap: TextWrap.LINE_WRAP,
+        textStyle: TextStyle.BOLD,
     )
 }
 ----
@@ -2028,10 +2029,18 @@ c.form.with {
 . `SOFT_WRAP` The text will wrap when the max width of the container is reached. Lines breaks are NOT considered.
 . `LINE_WRAP` Each line will be displayed in one line until the max width of the container is reached. Line breaks are taken in consideration.
 . `LINE_BREAK` Each line will be displayed in one line. Line breaks are taken in consideration.
-|`monospace`
-|`Boolean`
+|`textStyle`
+|`TextStyle`
 |
-|Use a monospaced font instead of the default one
+|Determines the text style:
+
+. `NORMAL`
+. `BOLD`
+. `LIGHT`
+. `ITALIC`
+. `MONOSPACE`
+. `UNDERLINE`
+. `LINE_THROUGH`
 |`border`
 |`Boolean`
 |
@@ -2097,6 +2106,7 @@ c.form.addField(
     class: TextField,
     id: 'username',
     icon: 'fa-user',
+    textStyle: TextStyle.LINE_THROUGH,
 )
 ----
 
@@ -2121,10 +2131,6 @@ c.form.addField(
 |`String`
 |
 |A text to display when the text area is empty
-|`monospace`
-|`Boolean`
-|
-|Use a monospaced font instead of the default one
 |`textTransform`
 |`TextTransform`
 |
@@ -2134,6 +2140,18 @@ c.form.addField(
 . `LOWERCASE`
 . `CAPITALIZE` each word
 
+|`textStyle`
+|`TextStyle`
+|
+|Determines the text style:
+
+. `NORMAL`
+. `BOLD`
+. `LIGHT`
+. `ITALIC`
+. `MONOSPACE`
+. `UNDERLINE`
+. `LINE_THROUGH`
 |`pattern`
 |`String`
 |
@@ -2197,6 +2215,18 @@ Displays a list of options to choose from.
 |`String`
 |
 |Name of the transformer to use to display the options. See <<registerTransformer()>>
+|`textStyle`
+|`TextStyle`
+|
+|Determines the text style:
+
+. `NORMAL`
+. `BOLD`
+. `LIGHT`
+. `ITALIC`
+. `MONOSPACE`
+. `UNDERLINE`
+. `LINE_THROUGH`
 |`messagePrefix`
 |`String`
 |
@@ -2225,13 +2255,9 @@ Displays a list of options to choose from.
 |`Boolean`
 |
 |Displays a search box to filter the available options. It works on the client side, to search on the server we need to user the `search` event.
-|`monospace`
-|`Boolean`
-|
-|Use a monospaced font instead of the default one
 |`searchMinInputLength`
 |`Integer`
-|
+|`0`
 |Minimum number of characters to input before the search on the server can start. Works in combination with the `search` event.
 |===
 
@@ -2384,10 +2410,6 @@ c.form.with {
 |`Integer`
 |
 |Max number of characters the user can input
-|`monospace`
-|`Boolean`
-|
-|Use a monospaced font instead of the default one
 |===
 
 ==== Events
