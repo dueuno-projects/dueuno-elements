@@ -2423,7 +2423,7 @@ c.form.with {
 |`decimals`
 |`Integer`
 |`2`
-|How many decimal digits are allowed
+|Allowed decimal digits
 |`negative`
 |`Boolean`
 |`false`
@@ -2472,7 +2472,7 @@ c.form.with {
 |`decimals`
 |`Integer`
 |`2`
-|How many decimal digits are allowed
+|Allowed decimal digits
 |`negative`
 |`Boolean`
 |`false`
@@ -2514,7 +2514,7 @@ c.form.with {
 |`decimals`
 |`Integer`
 |`2`
-|How many decimal digits are allowed
+|Allowed decimal digits
 |`negative`
 |`Boolean`
 |`false`
