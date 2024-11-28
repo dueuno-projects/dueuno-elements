@@ -76,6 +76,7 @@ class Elements {
     static final List<String> gormExclusions = [
             // GORM lazy fetching may execute queries each time we access
             // one of the following properties
+            // Defined watching a debug session, see also: Grails `LazyMetaPropertyMap`
             'all',
             'count',
             'transients',
