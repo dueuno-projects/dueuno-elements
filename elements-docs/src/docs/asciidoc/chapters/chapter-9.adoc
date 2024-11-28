@@ -1,8 +1,6 @@
 
 == Table
 
-CAUTION: INFORMATION TECNOLOGY MEANS TABLES. LET'S GIVE IT A LOOK, SHALL WE?
-
 One of the most important components in a Dueuno Elements application is the `Table` component. Its main purpose is displaying data in columns and rows. Usually, each row displays a record on a database, but it can display anything from in-memory data to the results of a web service call.
 
 The user can interact by clicking on one of the buttons displayed on the left side of each row. By default the `Table` component creates the `edit` and `delete` buttons. We call them _actions_. Actions can be customized removing or adding as many as we need. Each row can have different actions depending on the logged-in user or a specific state of the record.

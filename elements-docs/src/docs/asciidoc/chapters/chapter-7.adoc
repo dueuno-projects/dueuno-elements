@@ -1,8 +1,6 @@
 
 == Responsive Design
 
-CAUTION: SOMETIMES WE JUST HAVE TO RELAX AND ENJOY THE RESULTS WE OBTAINED. LIKE DRINKING BEER, IT IS A SKILL.
-
 We are going to see what the _User Experience_ of a Dueuno Elements application looks like on different devices.
 
 image::images/chapter-7/image-1.webp[align="center"]

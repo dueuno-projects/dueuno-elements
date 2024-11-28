@@ -1,8 +1,6 @@
 
 == Buttons
 
-CAUTION: INFORMATION TECNOLOGY MEANS BUTTONS. LET'S GIVE IT A LOOK, SHALL WE?
-
 A `Button` is the main _human-interaction_ point in a GUI. A button triggers an action, usually sending data that will be processed, in our case, by the server.
 
 === Anatomy of a Button

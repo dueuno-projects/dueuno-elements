@@ -1,8 +1,6 @@
 
 == Application Branding
 
-CAUTION: WE DON’T CARE WHAT IT IS. WE CARE HOW IT LOOKS LIKE. BECAUSE WE ARE DECEIVABLE HUMAN BEINGS.
-
 Companies invest in _Brand Identity_. They also invest in _Employer Branding_, which basically means _selling_ your brand to your employees. This is not just a single activity, but you can bet your client is going to ask you to have their logo on the application their employees use daily.
 
 === Logo

@@ -1,8 +1,6 @@
 
 == Application Basics
 
-CAUTION: DUEUNO ELEMENTS IS NOT THE PERFECT SOFTWARE YOU DREAM. THE WORLD IS NOT THE PERFECT EXPERIENCE YOU DREAM. IT’S NOT MY FAULT, IT’S NOT YOUR FAULT AND IT WORKED PRETTY WELL FOR CENTURIES SO I GUESS WE CAN TAKE A DEEP BREATH AND KEEP WALKING.
-
 I love _Philosophy_. I could write thousands of words about Dueuno Elements but there’s another thing I love: *Practice*.
 
 So let’s write our first Dueuno Elements application, shall we?

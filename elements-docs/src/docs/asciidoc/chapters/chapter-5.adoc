@@ -1,8 +1,6 @@
 
 == First Real Application
 
-CAUTION: SOMETIMES SIZE DOES MATTER. IN THIS CASE, TO GET USED TO DUEUNO ELEMENTS, SMALLER IS BETTER.
-
 Now we are going to finish our first Dueuno Elements application.
 
 === Database Setup

@@ -1,8 +1,8 @@
 
 [#dueuno-elements-book]
-== Dueuno Elements
+== The Dueuno Elements Book
 
-I studied _Computer Science_ and started my career as a _Software Developer_, but quickly moved to _Project Management_.
+My name is Gianluca Sartori, I was born in Italy. I studied _Computer Science_ and started my career as a _Software Developer_, but quickly moved to _Project Management_.
 
 In the strangest twist of events of my life, I ended up leading a team of just two people working to deliver three separate web applications at the same time. I had to _get my hands dirty again_.
 

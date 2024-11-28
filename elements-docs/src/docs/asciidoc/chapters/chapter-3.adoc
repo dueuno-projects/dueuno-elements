@@ -1,8 +1,6 @@
 
 == Application Structure
 
-CAUTION: I LOVE BEING CRUDE. DON’T JUDGE ME. IT’S JUST A GAME.
-
 Okay, we have an empty box now. Let’s fill it with some fruits (fruit is good for our health).
 
 === Features

@@ -1,8 +1,6 @@
 
 == One-to-Many Relationships
 
-CAUTION: NOBODY CARES HOW IT WORKS AS LONG AS IT WORKS. THIS INTRODUCTORY CHAPTERS ARE LIKE THAT. WE ARE PROCESSING THE ‘WHAT’ NOT THE ‘HOW’. BE PATIENT.
-
 Let's give a job to our people, linking them to a `Company`. We are going to surf bottom-up from the Domain _(data)_, to the Services _(logic)_, the Controllers _(GUI)_ ending up registering our new _feature_ to the users.
 
 I don’t care if you think this is _right or wrong_, this is how we usually approach Dueuno Elements application development. But sometimes we do the opposite. You see... _it depends..._

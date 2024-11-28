@@ -1,8 +1,6 @@
 
 == Project Setup
 
-CAUTION: THESE OPENINGS ARE STRANGE, RIGHT? YOU KNOW IT, I KNOW IT, AND EVERYBODY’S HAPPY.
-
 Before we get into the topic of adding _Business Logic_ to our UI, there are some twirls I’d like to address.
 
 === Spring Dev Tools
