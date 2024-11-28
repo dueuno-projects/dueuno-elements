@@ -459,60 +459,73 @@ IMPORTANT: The controller class must be annotated with `@Secured(['ROLE_CAN_EDIT
 
 Available options:
 
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Name|Type|Description
+|Name|Type|Default|Description
 
 |`controller`
 |`String`
-|The name of the controller that implements the feature
+|`controllerName`
+|The name of the controller that implements the feature. If not specified it is automatically set to the current controller name.
 
 |`action`
 |`String`
-|_(OPTIONAL)_ The name of the action to execute (default: `index`)
+|`'index'`
+|_(OPTIONAL)_ The name of the action to execute
 
 |`params`
 |`Map<String, Object>`
+|
 |_(OPTIONAL)_ Parameters to add when calling the `action` or `url`
 
 |`submit`
 |`List<String>`
+|
 |_(OPTIONAL)_ List of the component names that will be processed to retrieve the values to be passed when calling the `action` or `url`
 
 |`icon`
 |`String`
+|
 |_(OPTIONAL)_ Menu item icon, you can choose one from https://fontawesome.com/[Font Awesome,window=_blank]
 
 |`authorities`
 |`List<String>`
-|_(OPTIONAL)_ The feature will be displayed only to the users configured with the roles in the list (default: `ROLE_USER`)
+|`['ROLE_USER']`
+|_(OPTIONAL)_ The feature will be displayed only to the users configured with the roles in the list
 
 |`favourite`
 |`Boolean`
+|
 |_(OPTIONAL)_ If `true` the feature will be displayed on the bookmark page as well (accessible clicking the home menu)
 
 |`url`
 |`String`
+|
 |_(OPTIONAL)_ An absolute URL. When specified it takes precedence so `controller` and `action` won't be taken into account
 
 |`direct`
 |`Boolean`
+|
 |_(OPTIONAL)_ Menu items are URLs managed by _Dueuno Elements_. When set to `true` the URL gets managed directly by the browser without any processing
 
 |`target`
 |`String`
+|
 |_(OPTIONAL)_ The feature will be displayed in a new browser tab with the provided name
 
 |`targetNew`
 |`String`
+|
 |_(OPTIONAL)_ The feature will be displayed in a new browser tab (`_blank`)
 
 |`confirmMessage`
 |`String`
+|
 |_(OPTIONAL)_ Message to display before the feature is displayed giving the option to cancel or confirm the operation
 
 |`infoMessage`
 |`String`
+|
 |_(OPTIONAL)_ If set, the message will be displayed instead of the feature
 |===
 
@@ -904,60 +917,73 @@ The most relevant feature of _Dueuno Elements_ is the `display` method. It rende
 
 You can call `display` with one or more of the following parameters:
 
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Name|Type|Description
+|Name|Type|Default|Description
 
 |`controller`
 |`String`
+|
 |The name of the controller to redirect to. If no `action` is specified the `index` action will be displayed
 
 |`action`
 |`String`
+|
 |The name of the action to redirect to. If no `controller` is specified the current controller will be used
 
 |`params`
 |`Map<String, Object>`
+|
 |The params to pass when redirecting to a `controller` or `action`
 
 |`content`
 |`PageContent`
+|
 |The content to display (See <<contents>>)
 
 |`transition`
 |`Transition`
+|
 |The transition to display (See <<transitions>>)
 
 |`modal`
 |`Boolean`
+|
 |Whether to display the content in a modal dialog or not
 
 |`wide`
 |`Boolean`
+|
 |When displaying the content as `modal` the dialog will be wider.
 
 |`fullscreen`
 |`Boolean`
+|
 |When displaying the content as `modal` the dialog will fit the whole browser window size.
 
 |`closeButton`
 |`Boolean`
-|When displaying the content as `modal` the dialog will present a close button on the top-left side to let the user close the dialog cancelling the operation (Default: `true`).
+|`true`
+|When displaying the content as `modal` the dialog will present a close button on the top-left side to let the user close the dialog cancelling the operation.
 
 |`errors`
 |`org.springframework.validation.Errors`
+|
 |Validation errors to display (See <<validation>>)
 
 |`errorMessage`
 |`String`
+|
 |Message to display in a message box to the user
 
 |`exception`
 |`Exception`
+|
 |Exception to display in a message box to the user
 
 |`message`
 |`String`
+|
 |Message to display in a message box to the user
 |===
 
@@ -1124,43 +1150,54 @@ Unless we want to create a new component there is no need to know HTML, CSS or J
 Each component extends the base class `Component` so each component share the following properties and methods.
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Property|Type|Default|Description
 
 |`id`
 |`String`
+|
 |Id of the component instance. This is mandatory, it must be unique and provided in the constructor.
 |`visible`
 |`Boolean`
-|Shows or hides the component without changing the layout (Default: `true`)
+|`true`
+|Shows or hides the component without changing the layout
 |`display`
 |`Boolean`
-|Displays or hides the component, adding or removing it from the layout (Default: `true`)
+|`true`
+|Displays or hides the component, adding or removing it from the layout
 |`readonly`
 |`Boolean`
-|Readonly controls are disabled (Default: `false`)
+|`false`
+|Readonly controls are disabled
 |`skipFocus`
 |`Boolean`
-|The component won't participate in keyboard or mouse selection (focus) (Default: `false`)
+|`false`
+|The component won't participate in keyboard or mouse selection
 |`sticky`
 |`Boolean`
+|
 |The component is sticky on top
 |`containerSpecs`
 |`Map`
+|
 |Contains instructions for the container. The container component may or may not respect them, see the documentation for the specific container component.
 |`textColor`
 |`String`
+|
 |The text color, CSS format
 |`backgroundColor`
 |`String`
+|
 |Background color, CSS format
 |`cssClass`
 |`String`
-|Custom CSS class to apply. The CSS class must be a https://getbootstrap.com/[Bootstrap,window=_blank]] CSS class or a cusom one declared into the `grails-app/assets/dueuno/custom/application.css` file. See <<custom-css>>
+|
+|Custom CSS class to apply. The CSS class must be a https://getbootstrap.com/[Bootstrap,window=_blank]] CSS class or a cusom one declared into the `grails-app/assets/dueuno/custom/application.css` file. See <<custom-css>>.
 |`cssStyle`
 |`String`
-|Custom CSS inline style.
+|
+|Custom CSS inline style
 |===
 
 ==== Methods
@@ -1183,33 +1220,41 @@ A `Header` is a bar at the top of the `Content` area. It can be sticky on top or
 A `Header` can have a `backButton` on the left and a `nextButton` on the right. In the middle we can find the `title`.
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Property|Type|Default|Description
 
 |`sticky`
 |`Boolean`
+|
 |When set to `true` the header will stick on top. When a `backButton` or `nextButton` is added to the header than `sticky` is automatically set to `true` to let the user reach the buttons even if the content has been scrolled down. To force the header to scroll with the content explicitly set sticky to `false`.
 |`title`
 |`String`
+|
 |The title to display
 |`titleArgs`
 |`List`
+|
 |Args to be used when indexing an i18n message. Eg: in `messages.properties` exists the following property `book.index.header.title=Books for {0} {1}` and `titleArgs = ['Mario', 'Rossi']`. The `title` will result in `Books for Mario Rossi`.
 |`icon`
 |`String`
+|
 |An icon to be displayed before the `title`. We can choose one from https://fontawesome.com/[Font Awesome,window=_blank]
 |`hasBackButton`
 |`Boolean`
+|
 |`true` if a `backButton` has been added
 |`hasNextButton`
 |`Boolean`
+|
 |`true` if a `nextButton` has been added
 |`backButton`
 |`Button`
+|
 |The back button object. See <<button>>
 |`nextButton`
 |`Button`
+|
 |The next button object. See <<button>>
 |===
 
@@ -1235,12 +1280,13 @@ A `Table` is a convenient way to display a recordset.
 Each table can implement some <<table-filters>> and each row can have its own set of action buttons. For each row, depending on the logged in user and the status of the record we can define which actions are available.
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Property|Type|Default|Description
 
 |`columns`
 |`List<String>`
+|
 |A list of column names to display. Each column name must match the recordset column name to automatically display its values.
 [source,groovy]
 ----
@@ -1253,6 +1299,7 @@ Each table can implement some <<table-filters>> and each row can have its own se
 ----
 |`keys`
 |`List<String>`
+|
 |List of key names. When specified, a new column will be created for each key. The keys will be automatically submitted when a row action is activated.
 [source,groovy]
 ----
@@ -1264,6 +1311,7 @@ c.table.with {
 ----
 |`sortable`
 |`Map<String, String>`
+|
 |Defines the sortable columns
 [source,groovy]
 ----
@@ -1275,6 +1323,7 @@ c.table.with {
 ----
 |`sort`
 |`Map<String, String>`
+|
 |Defines the sorting of the recordset. It takes precedence over the `sortable` property and forces the specified sorting.
 [source,groovy]
 ----
@@ -1286,6 +1335,7 @@ c.table.with {
 ----
 |`submit`
 |`List<String>`
+|
 |The name of the column names whose values must be included when the table is submitted by a <<button>> or <<link>>.
 [source,groovy]
 ----
@@ -1297,6 +1347,7 @@ c.table.with {
 ----
 |`labels`
 |`Map<String, String>`
+|
 |Programmatically change the label of the specified columns.
 [source,groovy]
 ----
@@ -1308,6 +1359,7 @@ c.table.with {
 ----
 |`transformers`
 |`Map<String, String>`
+|
 |Sets a transformer to a column. Each value of that column will be processed by the specified transformer (See <<registerTransformer()>>)
 [source,groovy]
 ----
@@ -1319,17 +1371,19 @@ c.table.with {
 ----
 |`prettyPrinters`
 |`Map<String, Object>`
+|
 |Sets a pretty printer to a column. Each value of that column will be processed by the specified pretty printer (See <<registerPrettyPrinter()>>)
 [source,groovy]
 ----
 c.table.with {
     prettyPrinter = [
-        title: 'UPPERCASE_TITLE',
+        title: '${it.code}',
     ]
 }
 ----
 |`prettyPrinterProperties`
 |`Map<String, Map>`
+|
 |Sets some pretty printer properties to a column. Each value of that column will be processed by the specified properties (See <<pretty-printer-properties>>)
 [source,groovy]
 ----
@@ -1347,9 +1401,11 @@ c.table.with {
 ----
 |`stickyHeader`
 |`Boolean`
-|If `true` the table header will stick to top when scrolling. Not available in modals (Default: `true`)
+|`true`
+|If `true` the table header will stick to top when scrolling. Not available in modals.
 |`filters`
 |`TableFilters`
+|
 |To define table filters:
 [source,groovy]
 ----
@@ -1374,34 +1430,44 @@ Map filters = c.table.filters.values // <1>
 
 |`rowActions`
 |`Boolean`
-|Whether to display the row action buttons or not (Default: `true`)
+|`true`
+|Whether to display the row action buttons or not
 |`hasHeader`
 |`Boolean`
-|Whether to display the table header or not (Default: `true`)
+|`true`
+|Whether to display the table header or not
 |`hasFooter`
 |`Boolean`
-|Whether to display the table footer or not (Default: `true`)
+|`true`
+|Whether to display the table footer or not
 |`hasPagination`
 |`Boolean`
-|Whether to display the table pagination or not (Default: `true`)
+|`true`
+|Whether to display the table pagination or not
 |`hasComponents`
 |`Boolean`
-|Whether to render the table to host custom components on its cells or not. Enabling this feature slows down the rendering (Default: `false`)
+|`false`
+|Whether to render the table to host custom components on its cells or not. Enabling this feature slows down the rendering.
 |`rowHighlight`
 |`Boolean`
-|Whether to highlight the rows on mouse pointer hover (Default: `true`)
+|`true`
+|Whether to highlight the rows on mouse pointer hover
 |`rowStriped`
 |`Boolean`
-|Whether to set the zebra style or not (Default: `false`)
+|`false`
+|Whether to set the zebra style or not
 |`noResults`
 |`Boolean`
-|Whether to display a box with an icon and a text when the table has no results (Default: `true`)
+|`true`
+|Whether to display a box with an icon and a text when the table has no results
 |`noResultsIcon`
 |`String`
+|
 |The icon ti display when the table has no results. Choose one from https://fontawesome.com/[Font Awesome,window=_blank].
 |`noResultsMessage`
 |`String`
-|The message to display when the table has no results.
+|
+|The message to display when the table has no results
 |===
 
 [[table-methods]]
@@ -1611,19 +1677,22 @@ c.table.with {
 <1> The submitted values of the filters fields.
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Property|Type|Default|Description
 
 |`isFiltering`
 |`Boolean`
+|
 |`true` if the filters form has values in its fields
 |`fold`
 |`Boolean`
-|Whether the filters form is displayed as folded or not at its first appearance. After that its folded state will be stored in the session (Default: `true`)
+|`true`
+|Whether the filters form is displayed as folded or not at its first appearance. After that its folded state will be stored in the session.
 |`autoFold`
 |`Boolean`
-|If set to `true` the filters form will be folded each time a search is submitted (Default: `false`)
+|`false`
+|If set to `true` the filters form will be folded each time a search is submitted
 |===
 
 ==== Methods
@@ -1659,19 +1728,22 @@ c.form.with {
 ----
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Property|Type|Default|Description
 
 |`validate`
 |`Class`
+|
 |A `grails.validation.Validateable` class or a GORM domain class used to automatically render the field as required. A red `*` will be displayed next to the field label if appropriate.
 |`grid`
 |`Boolean`
-|Whether to activate the grid system or not (Default: `false`)
+|`false`
+|Whether to activate the grid system or not
 |`readonly`
 |`Boolean`
-|Sets all the form fields readonly (Default: `false`)
+|`false`
+|Sets all the form fields readonly
 |===
 
 ==== Methods
@@ -1688,37 +1760,46 @@ c.form.with {
 A form field wraps a `Control` with a label and sets it into the grid system. A `FormField` is automatically created each time we add a field to a `Form` calling its `addField()` method.
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`component`
 |`Component`
+|
 |The contained component
 |`label`
 |`String`
+|
 |The field label
 |`labelArgs`
 |`List`
+|
 |A list of objects to pass to the localized message (Eg. when using `{0}` in `message.properties`)
 |`helpMessage`
 |`String`
+|
 |A help message
 |`helpMessageArgs`
 |`List`
+|
 |A list of objects to pass to the localized message (Eg. when using `{0}` in `message.properties`)
 |`nullable`
 |`Boolean`
-|Whether to display the field as nullable or not. If set will override the form `validate` logic (See <<form>>) (Default: `true`)
+|`true`
+|Whether to display the field as nullable or not. If set will override the form `validate` logic (See <<form>>)
 |`displayLabel`
 |`Boolean`
+|
 |If set to `false` the label will not be displayed. The space occupied by the label will be taken off the screen resulting in a different vertical positioning of the `Control`.
 |`cols`
 |`Integer`
+|
 |Defines how many columns of the grid system will be used to span the `Control` to. Its value must be between `1` and `12` included.
 |`rows`
 |`Integer`
-|If the `Control` is a `multiline` one we can set how many lines it is going to occupy.
+|
+|If the `Control` is a `multiline` one we can set how many lines it is going to occupy
 |===
 
 [[button]]
@@ -1753,31 +1834,38 @@ c.form.with {
 <1> A `Button` can be initialized with the properties of an event (See <<events>> and `Link` (See <<link>>)
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`defaultAction`
 |`Menu`
+|
 |The default action
 |`tailAction`
 |`Menu`
+|
 |The tail action
 |`actionMenu`
 |`Menu`
+|
 |The action menu
 |`primary`
 |`Boolean`
-|When set to `true` the button color will use the `PRIMARY_BACKGROUND_COLOR` and `PRIMARY_TEXT_COLOR` tenant properties indicating that its role in the GUI is primary (See <<tenant-properties>>) (Default: `false`).
+|`false`
+|When set to `true` the button color will use the `PRIMARY_BACKGROUND_COLOR` and `PRIMARY_TEXT_COLOR` tenant properties indicating that its role in the GUI is primary (See <<tenant-properties>>).
 |`stretch`
 |`Boolean`
-|Set to `true` to let the button fill all the available horizontal space (Default: `false`).
+|`false`
+|Set to `true` to let the button fill all the available horizontal space
 |`group`
 |`Boolean`
-|If set to `true` all actions of the button will be displayed inline and directly accessible (Default: `false`).
+|`false`
+|If set to `true` all actions of the button will be displayed inline and directly accessible
 |`maxWidth`
 |`Integer`
-|The max width in pixels that the button can reach.
+|
+|The max width in pixels that the button can reach
 |===
 
 ==== Events
@@ -1814,58 +1902,70 @@ c.form.with {
 <1> A `Link` can be initialized with the properties of a <<Label>> and an event (See <<events>>)
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`icon`
 |`String`
+|
 |Icon that graphically represents the link. Choose one from https://fontawesome.com/[Font Awesome,window=_blank].
 |`image`
 |`String`
+|
 |An SVG image that graphically represents the link. If specified a corresponding file must exist in the `grails-app/assets` folder.
 |`text`
 |`String`
+|
 |A label that describes the link, usually a code found in `messages.properties`
-
 |`url`
 |`String`
+|
 |Point to a specific URL
 |`direct`
 |`Boolean`
+|
 |Whether to render the whole html page (or raw http body) or a Transition
 |`target`
 |`String`
+|
 |Set a target name to open the page into a new browser tab. All links with te same target will display in the same tab.
 |`targetNew`
 |`Boolean`
+|
 |If set to `true` the link will display on a new tab each time it is clicked
-
 |`modal`
 |`Boolean`
+|
 |Whether to display the content in a modal dialog or not
 |`wide`
 |`Boolean`
+|
 |When displaying the content as `modal` the dialog will be wider.
 |`fullscreen`
 |`Boolean`
+|
 |When displaying the content as `modal` the dialog will fit the whole browser window size.
 |`closeButton`
 |`Boolean`
-|When displaying the content as `modal` the dialog will present a close button on the top-left side to let the user close the dialog cancelling the operation (Default: `true`).
+|`true`
+|When displaying the content as `modal` the dialog will present a close button on the top-left side to let the user close the dialog cancelling the operation.
 |`updateUrl`
 |`Boolean`
-|If set to `true` the browser address bar will be updated with the link destination URL, otherwise the browser will not update its address bar (Default: `false`) NOTE: Accessing from a mobile phone the address bar will never be updated to enhance the user experience.
+|`false`
+|If set to `true` the browser address bar will be updated with the link destination URL, otherwise the browser will not update its address bar. NOTE: Accessing from a mobile phone the address bar will never be updated to enhance the user experience.
 |`animate`
 |`String`
+|
 |Can be set to `fade`, `next` and `back`. At the moment only `fade` is implemented as a graphical transition when changing content.
-
 |`infoMessage`
 |`String`
+|
 |If specified an info message will pop up, the link will never be executed
 |`confirmMessage`
 |`String`
-|If specified a confirm message will pop up giving the user a chance to cancel the action
+|
+|If specified a confirmation message will pop up giving the user a chance to cancel the action
 |===
 
 ==== Events
@@ -1895,27 +1995,33 @@ c.form.with {
 ----
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`text`
 |`Object`
+|
 |The text to display. If it’s a `Boolean` value a check will be displayed.
 |`html`
 |`String`
+|
 |An html string, useful to format text or insert links
 |`url`
 |`String`
+|
 |If specified the `text` will be a link to this URL
 |`icon`
 |`String`
+|
 |An icon to display before the text, you can choose one from https://fontawesome.com/[Font Awesome,window=_blank]
 |`textAlign`
 |`TextAlign`
+|
 |Determines the text horizontal alignment. It can be set to `DEFAULT`, `START`, `END` or `CENTER` (Default: `DEFAULT`).
 |`textWrap`
 |`TextWrap`
+|
 |Determines how the text is wrapped:
 
 . `NO_WRAP` The text will be displayed in one line
@@ -1924,13 +2030,16 @@ c.form.with {
 . `LINE_BREAK` Each line will be displayed in one line. Line breaks are taken in consideration.
 |`monospace`
 |`Boolean`
+|
 |Use a monospaced font instead of the default one
 |`border`
 |`Boolean`
+|
 |Draws a coloured background. Useful when we want to display the label in a different color.
 |`renderBoolean`
 |`Boolean`
-|If `true` a check symbol will be displayed, otherwise the text `true` or `false` will be displayed (Default: `true`).
+|`true`
+|If `true` a check symbol will be displayed, otherwise the text `true` or `false` will be displayed.
 |===
 
 [[separator]]
@@ -1938,12 +2047,13 @@ c.form.with {
 Wa can use separators to space between a set of fields and another one in a form.
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`squeeze`
 |`Boolean`
+|
 |Reduces the space the separator will introduce leaving just the space for the label
 |===
 
@@ -1963,13 +2073,14 @@ c.addComponent(
 <1> See <<events>> to configure the event
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`triggerKey`
 |`String`
-|Key pressed are stored into a buffer until a trigger key is pressed. When this happens the configured event is called. The trigger key can be any character or `Enter`. If set to blank `''` each key pressed will be immediately sent (Default: `Enter`).
+|`'Enter'`
+|Key pressed are stored into a buffer until a trigger key is pressed. When this happens the configured event is called. The trigger key can be any character or `Enter`. If set to blank `''` each key pressed will be immediately sent.
 |===
 
 [[controls]]
@@ -1990,27 +2101,33 @@ c.form.addField(
 ----
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`icon`
 |`String`
+|
 |An icon to display within the control, you can choose one from https://fontawesome.com/[Font Awesome,window=_blank]
 |`prefix`
 |`String`
+|
 |A text to display before the edit area of the control
 |`maxSize`
 |`Integer`
+|
 |Max number of characters the user can input
 |`placeholder`
 |`String`
+|
 |A text to display when the text area is empty
 |`monospace`
 |`yyy`
+|
 |Use a monospaced font instead of the default one
 |`textTransform`
 |`TextTransform`
+|
 |Transforms the input while typing. It may be one of the following:
 
 . `UPPERCASE`
@@ -2019,6 +2136,7 @@ c.form.addField(
 
 |`pattern`
 |`String`
+|
 |A RegEx pattern to accept only specific input (Eg. `'^[0-9\\.\\,]*$'` will accept only numbers, dots and columns)
 |===
 
@@ -2047,57 +2165,73 @@ c.form.addField(
 Displays a list of options to choose from.
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`optionsFromRecordset`
 |`List<Map>` or `List<Object>` or `GORM Recordset`
+|
 |Options will be set from the recordset
 |`optionsFromList`
 |`List`
+|
 |Options will be set from the List items. The key of each item will match the value of the item itself.
 |`optionsFromEnum`
 |`Enum`
+|
 |Options will be set from the Enum. The key of each item will match the value of the item itself.
 |`options`
 |`Map`
+|
 |Options will be set from the Map items (key/value)
 |`keys`
 |`List<String>`
-|List of column names to submit as the key for the selected option (Default: `['id']`)
+|`['id']`
+|List of column names to submit as the key for the selected option
 |`prettyPrinter`
 |`Class` or `String`
+|
 |Use the specified pretty printer to display the options. See <<registerPrettyPrinter()>>. If the registered pretty printer `Class` matches the item class, the pretty printer will be automatically applied.
 |`transformer`
 |`String`
+|
 |Name of the transformer to use to display the options. See <<registerTransformer()>>
 |`messagePrefix`
 |`String`
+|
 |Prefix to add to each item so it can be referred in `message.properties` files to localise it
 |`renderMessagePrefix`
 |`Boolean`
-|Whether to display the `messagePrefix` or not (Default: `true`)
+|`true`
+|Whether to display the `messagePrefix` or not
 |`placeholder`
 |`String`
+|
 |Displays a text when no option is selected
 |`allowClear`
 |`Boolean`
+|
 |If `true` the selection can be cleared
 |`autoSelect`
 |`Boolean`
-|When there is only one available option in the list it will be automatically selected (Default: `true`)
+|`true`
+|When there is only one available option in the list it will be automatically selected
 |`multiple`
 |`Boolean`
-|Enables multiple selections (Default: `false`)
+|`false`
+|Enables multiple selections
 |`search`
 |`Boolean`
+|
 |Displays a search box to filter the available options. It works on the client side, to search on the server we need to user the `search` event.
 |`monospace`
 |`Boolean`
+|
 |Use a monospaced font instead of the default one
 |`searchMinInputLength`
 |`Integer`
+|
 |Minimum number of characters to input before the search on the server can start. Works in combination with the `search` event.
 |===
 
@@ -2201,12 +2335,13 @@ c.form.with {
 ----
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`text`
 |`String`
+|
 |The text to display
 |===
 
@@ -2241,15 +2376,17 @@ c.form.with {
 ----
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`maxSize`
 |`Integer`
+|
 |Max number of characters the user can input
 |`monospace`
 |`Boolean`
+|
 |Use a monospaced font instead of the default one
 |===
 
@@ -2279,21 +2416,25 @@ c.form.with {
 ----
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`decimals`
 |`Integer`
-|How many decimal digits are allowed (Default: `2`).
+|`2`
+|How many decimal digits are allowed
 |`negative`
 |`Boolean`
-|If negative values are allowed (Default: `false`).
+|`false`
+|If negative values are allowed
 |`unitOptions`
 |`List`
+|
 |A list of units to select from
 |`defaultUnit`
 |`QuantityUnit`
+|
 |The default unit to display
 |===
 
@@ -2324,16 +2465,18 @@ c.form.with {
 ----
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`decimals`
 |`Integer`
-|How many decimal digits are allowed (Default: `2`).
+|`2`
+|How many decimal digits are allowed
 |`negative`
 |`Boolean`
-|If negative values are allowed (Default: `false`).
+|`false`
+|If negative values are allowed
 |===
 
 ==== Events
@@ -2364,21 +2507,25 @@ c.form.with {
 ----
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`decimals`
 |`Integer`
-|How many decimal digits are allowed (Default: `2`).
+|`2`
+|How many decimal digits are allowed
 |`negative`
 |`Boolean`
-|If negative values are allowed (Default: `false`).
+|`false`
+|If negative values are allowed
 |`min`
 |`Integer`
+|
 |Minimum number the user can input
 |`max`
 |`Integer`
+|
 |Maximum number the user can input
 |===
 
@@ -2410,15 +2557,17 @@ c.form.with {
 ----
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`min`
 |`LocalDate`
+|
 |Minimum date the user can input
 |`max`
 |`LocalDate`
+|
 |Maximum date the user can input
 |===
 
@@ -2450,18 +2599,21 @@ c.form.with {
 ----
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`min`
 |`LocalTime`
+|
 |Minimum time the user can input
 |`max`
 |`LocalTime`
+|
 |Maximum time the user can input
 |`timeStep`
 |`Integer`
+|
 |The amount of minutes the user can select. For example if set to `15` the only available time selections are `00`, `15`, `30` and `45`.
 |===
 
@@ -2492,18 +2644,21 @@ c.form.with {
 ----
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`min`
 |`LocalDate`
+|
 |Minimum date the user can input
 |`max`
 |`LocalDate`
+|
 |Maximum date the user can input
 |`timeStep`
 |`Integer`
+|
 |The amount of minutes the user can select. For example if set to `15` the only available time selections are `00`, `15`, `30` and `45`.
 |===
 
@@ -2638,21 +2793,25 @@ c.form.with {
 The following properties can be specified when configuring an event on a component.
 
 ==== Properties
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Property|Type|Description
+|Name|Type|Default|Description
 
 |`controller`
 |`String`
+|
 |The name of the controller to redirect to. If no `action` is specified the `index` action will be displayed
 |`action`
 |`String`
+|
 |The name of the action to redirect to. If no `controller` is specified and we are in the context of a web request (Eg. it's a user triggered event) the current controller will be used. If we are configuring the event outside of a web request (Eg. sending an event from a job) a `controller` must be specified.
 |`params`
 |`Map<String, Object>`
+|
 |The params to pass when redirecting to a `controller` or `action`
 |`submit`
 |`List<String>`
+|
 |Name list of the components whose values we want to submit. Each component is responsible to define the data structure for the values it contains. The default behaviour will send the values of all the controls contained within the component.
 |===
 
@@ -2661,76 +2820,98 @@ The following properties can be specified when configuring an event on a compone
 
 Every value in _Dueuno Elements_ gets displayed by the `PrettyPrinter` subsystem. <<components>> and <<controls>> can be configured to override the user settings and the system settings. Refer to the documentation of each component to see how those settings can be configured.
 
-[cols="2,2,6a"]
+[cols="1,1,1,7a"]
 |===
-|Name|Type|Description
+|Name|Type|Default|Description
 
 |`prettyPrinter`
 |`Object`
+|
 |`Class` or `String` name of the pretty printer
 |`transformer`
 |`String`
+|
 |Transformer name
 |`locale`
 |`Locale`
+|
 |-
 |`renderMessagePrefix`
 |`Boolean`
+|
 |Default: `false`, set to `true` to translate the value into `message.properties` files
 |`messagePrefix`
 |`String`
+|
 |Add or change the message prefix
 |`messageArgs`
 |`List`
+|
 |Add args for the i18n message
 |`renderBoolean`
 |`Boolean`
-|If `false` renders the text `true/false` otherwise renders a check symbol when `true` and nothing when `false` (Defaults: `true`)
+|`true`
+|If `false` renders the text `true/false` otherwise renders a check symbol when `true` and nothing when `false`
 |`highlightNegative`
 |`Boolean`
-|If the value is `< 0` the text will be highlighted in red (Default: `false`)
+|`false`
+|If the value is `< 0` the text will be highlighted in red
 |`renderZero`
 |`String`
+|
 |If the value is 0 render the specified string instead
 |`renderDate`
 |`Boolean`
+|
 |For `LocalDateTime` values, whether to render the DATE part or not
 |`renderDatePattern`
 |`String`
+|
 |Change the way the date is rendered (See https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[DateTimeFormatter,window=_blank])
 |`renderTime`
 |`Boolean`
+|
 |For `LocalDateTime` values, whether to render the TIME part or not
 |`renderSeconds`
 |`Boolean`
+|
 |For `LocalTime` values, whether to display the seconds or not
 |`renderDelimiter`
 |`String`
-|For `Map` and `List` values, use this delimiter to list the items (Default: `', '`)
+|`', '`
+|For `Map` and `List` values, use this delimiter to list the items
 |`decimals`
 |`Integer`
+|
 |For `Number` values, how many decimals digits to display
 |`decimalFormat`
 |`String`
-|For `Number` values, which decimal separator to use. It can be `ISO_COM` (,) or `ISO_DOT` (.) (Default: `ISO_COM`)
+|`ISO_COM`
+|For `Number` values, which decimal separator to use. It can be `ISO_COM` (,) or `ISO_DOT` (.).
 |`prefixedUnit`
 |`Boolean`
-|For `Quantity` and `Money` values, whether to display the unit of measure before or after the value (Default: `false`)
+|`false`
+|For `Quantity` and `Money` values, whether to display the unit of measure before or after the value
 |`symbolicCurrency`
 |`Boolean`
-|For `Money` values, whether to display the currency with a symbolic or ISO code (Default: `true`)
+|`true`
+|For `Money` values, whether to display the currency with a symbolic or ISO code
 |`symbolicQuantity`
 |`Boolean`
-|For `Quantity` values, whether to display the unit of measure with a symbolic or SI code (Default: `true`)
+|`true`
+|For `Quantity` values, whether to display the unit of measure with a symbolic or SI code
 |`invertedMonth`
 |`Boolean`
-|For `Date` values, whether to display month/day/year (`true`) or day/month/year (`false`) (Default: `false`)
+|`false`
+|For `Date` values, whether to display month/day/year (`true`) or day/month/year (`false`)
 |`twelveHours`
 |`Boolean`
-|For `Time` values, whether to display 12H (`true`, uses AM/PM) or 24H (`false`) (Default: `false`)
+|`false`
+|For `Time` values, whether to display 12H (`true`, uses AM/PM) or 24H (`false`)
 |`firstDaySunday`
 |`Boolean`
-|Whether to display Sunday as the first day of the week (`true`) or not (Default: `false`)
+|`false`
+|Whether to display Sunday as the first day of the week (`true`) or not
 |===
 
 [[websockets]]

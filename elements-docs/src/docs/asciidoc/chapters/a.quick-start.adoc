@@ -356,7 +356,7 @@ image::images/quick-start/basics-users.png[Groups]
 
 
 [[building-crud]]
-== CRUD
+== CRUD Applications
 One of the most useful GUI pattern is the CRUD (Create, Read, Update, and Delete). It is based on the four basic operations available to work with persistent data and databases.
 
 Applications are made of features, we register one to work with movies (See <<features>>).
@@ -640,6 +640,6 @@ class MovieService {
 
 Run the application with gradle `bootRun`, you should be able to create, list, edit and delete movies.
 
-== What's next?
-Read the xref:dueuno-elements-book[Dueuno Elements Book] or the xref:api-reference[Dueuno Elements API]
+=== What's next?
+Read the xref:dueuno-elements-book[The Dueuno Elements Book] or the xref:api-reference[Dueuno Elements API]
 

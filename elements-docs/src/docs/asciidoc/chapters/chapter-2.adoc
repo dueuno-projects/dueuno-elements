@@ -17,11 +17,11 @@ image::images/chapter-2/image-1.webp[Grails Forge]
 . Go here: https://start.grails.org[https://start.grails.org, window=_blank]
 . *Select “Java {version-java}” — SELECT JAVA {version-java} (We only support Grails {version-grails} with Java {version-java}.*
 . Click _“Generate Project”_
-. Download the _“demo.zip”_ file and uncompress it on your home folder
+. Download the `demo.zip` file and uncompress it on your home folder
 
 === Dueuno Elements
 
-Find the _dependencies_ section of the `build.gradle` file and add the following line:
+Find the `dependencies` section of the `build.gradle` file and add the following line:
 
 .~/demo/build.gradle
 [source,groovy,subs="attributes+"]
