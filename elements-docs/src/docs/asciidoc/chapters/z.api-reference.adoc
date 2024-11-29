@@ -2036,7 +2036,6 @@ c.form.with {
 
 . `NORMAL`
 . `BOLD`
-. `LIGHT`
 . `ITALIC`
 . `MONOSPACE`
 . `UNDERLINE`
@@ -2147,7 +2146,6 @@ c.form.addField(
 
 . `NORMAL`
 . `BOLD`
-. `LIGHT`
 . `ITALIC`
 . `MONOSPACE`
 . `UNDERLINE`
@@ -2222,7 +2220,6 @@ Displays a list of options to choose from.
 
 . `NORMAL`
 . `BOLD`
-. `LIGHT`
 . `ITALIC`
 . `MONOSPACE`
 . `UNDERLINE`
