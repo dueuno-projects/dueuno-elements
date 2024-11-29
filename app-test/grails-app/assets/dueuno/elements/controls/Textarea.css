@@ -4,7 +4,6 @@
     border: none;
     padding: var(--elements-spacing-x);
     font-size: var(--elements-font-size);
-    font-weight: bold;
     resize: none;
 }
 

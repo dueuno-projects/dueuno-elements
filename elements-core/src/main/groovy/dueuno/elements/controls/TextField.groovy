@@ -39,7 +39,6 @@ class TextField extends Control {
     Integer maxSize
     String placeholder
     Boolean autocomplete
-    List<TextStyle> textStyle
     TextTransform textTransform
     //Integer onChangeMinChars // Maybe in future
 
@@ -75,25 +74,6 @@ class TextField extends Control {
 
     String getKeyboardType() {
         return (keyboardType as String).toLowerCase()
-    }
-
-    void setTextStyle(Object value) {
-        switch (value) {
-            case TextStyle:
-                textStyle = [value as TextStyle]
-                break
-
-            case List<TextStyle>:
-                textStyle = value as List<TextStyle>
-                break
-
-            default:
-                textStyle = [TextStyle.NORMAL]
-        }
-    }
-
-    String getTextStyle() {
-        return textStyle.join(' ')
     }
 
     Control addAction(Map args) {

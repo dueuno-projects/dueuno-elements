@@ -5,7 +5,7 @@
     <i class="fa-solid fa-fw fa-calendar"></i>
 </span>
 <input type="text"
-       class="control-date-field form-control"
+       class="control-date-field form-control ${c.textStyle}"
        style="${c.cssStyleColors}"
        autocomplete="off"
        data-td-target="#${c.id}"

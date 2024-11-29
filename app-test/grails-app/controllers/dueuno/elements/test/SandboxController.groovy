@@ -104,6 +104,7 @@ class SandboxController implements ElementsController {
                     min: LocalDate.now().minusDays(3),
                     onLoad: 'onDateTimeLoad',
                     onChange: 'onDateTimeChange',
+                    textStyle: TextStyle.LINE_THROUGH,
                     cols: 4,
             )
             addField(
@@ -112,6 +113,7 @@ class SandboxController implements ElementsController {
                     value: LocalDate.now().minusDays(4),
                     min: LocalDate.now().minusDays(3),
                     onChange: 'onDateChange',
+                    textStyle: [TextStyle.LINE_THROUGH, TextStyle.ITALIC],
                     cols: 4,
             )
             addField(
@@ -121,6 +123,7 @@ class SandboxController implements ElementsController {
                     min: LocalTime.now().minusHours(3),
                     timeStep: 15,
                     onChange: 'onTimeChange',
+                    textStyle: TextStyle.NORMAL,
                     cols: 2,
             )
             addField(
@@ -133,6 +136,7 @@ class SandboxController implements ElementsController {
                     class: MonthField,
                     id: 'm1',
                     value: LocalDate.now(),
+                    textStyle: [TextStyle.LINE_THROUGH, TextStyle.NORMAL],
                     cols: 12,
             )
             addField(
