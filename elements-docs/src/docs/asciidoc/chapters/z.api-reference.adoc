@@ -2025,21 +2025,21 @@ c.form.with {
 |
 |Determines how the text is wrapped:
 
-. `NO_WRAP` The text will be displayed in one line
-. `SOFT_WRAP` The text will wrap when the max width of the container is reached. Lines breaks are NOT considered.
-. `LINE_WRAP` Each line will be displayed in one line until the max width of the container is reached. Line breaks are taken in consideration.
-. `LINE_BREAK` Each line will be displayed in one line. Line breaks are taken in consideration.
+- `NO_WRAP` The text will be displayed in one line
+- `SOFT_WRAP` The text will wrap when the max width of the container is reached. Lines breaks are NOT considered.
+- `LINE_WRAP` Each line will be displayed in one line until the max width of the container is reached. Line breaks are taken in consideration.
+- `LINE_BREAK` Each line will be displayed in one line. Line breaks are taken in consideration.
 |`textStyle`
 |`TextStyle`
 |
 |Determines the text style:
 
-. `NORMAL`
-. `BOLD`
-. `ITALIC`
-. `MONOSPACE`
-. `UNDERLINE`
-. `LINE_THROUGH`
+- `NORMAL`
+- `BOLD`
+- `ITALIC`
+- `MONOSPACE`
+- `UNDERLINE`
+- `LINE_THROUGH`
 |`border`
 |`Boolean`
 |
@@ -2135,21 +2135,21 @@ c.form.addField(
 |
 |Transforms the input while typing. It may be one of the following:
 
-. `UPPERCASE`
-. `LOWERCASE`
-. `CAPITALIZE` each word
+- `UPPERCASE`
+- `LOWERCASE`
+- `CAPITALIZE` each word
 
 |`textStyle`
 |`TextStyle`
 |
 |Determines the text style:
 
-. `NORMAL`
-. `BOLD`
-. `ITALIC`
-. `MONOSPACE`
-. `UNDERLINE`
-. `LINE_THROUGH`
+- `NORMAL`
+- `BOLD`
+- `ITALIC`
+- `MONOSPACE`
+- `UNDERLINE`
+- `LINE_THROUGH`
 |`pattern`
 |`String`
 |
@@ -2218,12 +2218,12 @@ Displays a list of options to choose from.
 |
 |Determines the text style:
 
-. `NORMAL`
-. `BOLD`
-. `ITALIC`
-. `MONOSPACE`
-. `UNDERLINE`
-. `LINE_THROUGH`
+- `NORMAL`
+- `BOLD`
+- `ITALIC`
+- `MONOSPACE`
+- `UNDERLINE`
+- `LINE_THROUGH`
 |`messagePrefix`
 |`String`
 |

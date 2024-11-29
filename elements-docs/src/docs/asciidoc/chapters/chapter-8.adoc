@@ -3,8 +3,6 @@
 
 Let's give a job to our people, linking them to a `Company`. We are going to surf bottom-up from the Domain _(data)_, to the Services _(logic)_, the Controllers _(GUI)_ ending up registering our new _feature_ to the users.
 
-I don’t care if you think this is _right or wrong_, this is how we usually approach Dueuno Elements application development. But sometimes we do the opposite. You see... _it depends..._
-
 === The Domain
 
 We start from the bottom, the Domain. In our demo application it’s implemented as a set of https://gorm.grails.org/[GORM,window=_blank] entities: Groovy classes that represents, and are mapped to, database tables.
