@@ -49,6 +49,7 @@ dependencies {
     testImplementation "org.grails:grails-gorm-testing-support"
     testImplementation "org.grails:grails-web-testing-support"
     testImplementation "org.spockframework:spock-core"
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
 }
 
 tasks.withType(Test) {

@@ -54,6 +54,7 @@ dependencies {
     testRuntimeOnly "org.seleniumhq.selenium:selenium-chrome-driver:4.19.1"
     testRuntimeOnly "org.seleniumhq.selenium:selenium-firefox-driver:4.19.1"
     testRuntimeOnly "org.seleniumhq.selenium:selenium-safari-driver:4.19.1"
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
 }
 
 tasks.withType(War).configureEach { War war ->
