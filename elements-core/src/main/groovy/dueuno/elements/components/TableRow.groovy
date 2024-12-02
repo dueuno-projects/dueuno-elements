@@ -74,8 +74,6 @@ class TableRow extends Component {
 
         verticalAlign = VerticalAlign.CENTER
 
-        setTextStyle(args.textStyle)
-
         actions = createControl(
                 class: Button,
                 id: getId() + '-actions',
@@ -259,25 +257,6 @@ class TableRow extends Component {
         return StringUtils.generateHash(keysAsJSON)
     }
 
-    void setTextStyle(Object value) {
-        switch (value) {
-            case TextStyle:
-                textStyle = [value as TextStyle]
-                break
-
-            case List<TextStyle>:
-                textStyle = value as List<TextStyle>
-                break
-
-            default:
-                textStyle = [TextStyle.NORMAL]
-        }
-    }
-
-    String getTextStyle() {
-        return textStyle.join(' ')
-    }
-
     //
     // KEYS
     //
@@ -332,17 +311,21 @@ class TableRow extends Component {
     }
 
 
-
     //
     // CELLS
     //
     private void createCells() {
         cells = [:]
-        for (column in table.columns) {
-            if (isHeader && column in table.sortable) {
-                addSortableHeader(column)
+        for (columnName in table.columns) {
+            Boolean isSortableHeader = isHeader && columnName in table.sortable
+            if (isSortableHeader) {
+                addCellHeaderSortable(columnName)
+
+            } else if (isHeader) {
+                addCellHeader(columnName)
+
             } else {
-                addCell(column)
+                addCell(columnName)
             }
         }
     }
@@ -383,7 +366,7 @@ class TableRow extends Component {
         }
     }
 
-    private TableCell addCell(String columnName, Object component = null) {
+    private TableCell addCell(String columnName, Component component = null) {
         String cellName = getId() + '-' + columnName
         TableCell cell = createComponent(
                 class: TableCell,
@@ -398,17 +381,34 @@ class TableRow extends Component {
         return cell
     }
 
-    private TableCell addSortableHeader(String columnName) {
+    private TableCell addCellHeader(String columnName) {
+        Label header = createComponent(
+                class: Label,
+                id: columnName,
+                action: actionName,
+                messagePrefix: controllerName,
+                renderMessagePrefix: isHeader && !table.labels[columnName],
+                textWrap: TextWrap.NO_WRAP,
+                textStyle: TextStyle.BOLD,
+        )
+
+        return addCell(columnName, header)
+    }
+
+    private TableCell addCellHeaderSortable(String columnName) {
         String order = table.sort[columnName] == 'asc' ? 'desc' : 'asc'
         Link sortableHeader = createComponent(
                 class: Link,
                 id: columnName,
                 action: actionName,
-                params: table.submitParams + (Map)[
+                params: table.submitParams + (Map) [
                         _21Table    : table.id,
                         _21TableSort: [(columnName): order],
                 ],
+                messagePrefix: controllerName,
+                renderMessagePrefix: isHeader && !table.labels[columnName],
                 textWrap: TextWrap.NO_WRAP,
+                textStyle: TextStyle.BOLD,
         )
 
         return addCell(columnName, sortableHeader)

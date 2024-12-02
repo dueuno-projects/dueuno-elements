@@ -58,6 +58,10 @@
             <g:if test="${cell.row.isHeader}">
                 <th colspan="${cell.colspan}"
                     class="component-table-header ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign}"
+                    data-21-component="${cell.getClassName()}"
+                    data-21-id="${cell.getId()}"
+                    data-21-properties="${cell.propertiesAsJSON}"
+                    data-21-events="${cell.eventsAsJSON}"
                 >
                     <g:if test="${cell.component.class in dueuno.elements.components.Link}">
                         <render:component instance="${cell.component}" />
@@ -79,6 +83,10 @@
                 <td class="component-table-cell ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign}"
                     style="background-color: ${cell.backgroundColor}; color: ${cell.textColor}; ${cell.cssStyle}"
                     colspan="${cell.colspan}"
+                    data-21-component="${cell.getClassName()}"
+                    data-21-id="${cell.getId()}"
+                    data-21-properties="${cell.propertiesAsJSON}"
+                    data-21-events="${cell.eventsAsJSON}"
                 ><div class="input-group" style="${c.table.widths[column] ? 'width: ' + c.table.widths[column] + 'px;' : ''}">
                     <g:set var="label" value="${cell.component}" />
                     <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.cssClass}"

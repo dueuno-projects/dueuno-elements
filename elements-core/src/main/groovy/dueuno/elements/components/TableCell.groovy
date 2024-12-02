@@ -54,7 +54,7 @@ class TableCell extends Component {
         textAlign = TextAlign.DEFAULT
         verticalAlign = VerticalAlign.DEFAULT
 
-        buildCellComponent(args.component)
+        buildCellComponent(args.component as Component)
     }
 
     @Override
@@ -65,52 +65,40 @@ class TableCell extends Component {
         return super.getPropertiesAsJSON(thisProperties + properties)
     }
 
-    private void buildCellComponent(Object component) {
-        Class componentClass = component ? component.getClass() : null
+    private void buildCellComponent(Component component) {
+        if (!component) {
+            setLabel()
 
-        Boolean renderMessagePrefix
-        if (row.isHeader && !table.labels[column]) {
-            renderMessagePrefix = true
         } else {
-            renderMessagePrefix = false
+            setComponent(component)
         }
+    }
 
-        if (table.hasComponents) {
+    void setLabel() {
+        addComponent(
+                class: Label,
+                id: getId() + '-component',
+                replace: true,
+                messagePrefix: controllerName,
+                textWrap: TextWrap.NO_WRAP,
+        )
+    }
+
+    void setComponent(Component component) {
+        if (!row.isHeader) {
+            table.hasComponents = true
             row.viewTemplate = 'TableRowComponent'
         }
 
-        if (componentClass && componentClass !in Label) {
-            setComponent(component.properties + [
-                    class              : componentClass,
-                    messagePrefix      : controllerName,
-                    renderMessagePrefix: renderMessagePrefix,
-            ])
-
-        } else if (componentClass && componentClass in Link) {
-            setComponent(component.properties + [
-                    messagePrefix      : controllerName,
-                    renderMessagePrefix: renderMessagePrefix,
-            ])
-
-        } else { // It's a Label
-            setLabel(
-                    class: componentClass ?: Label,
-                    messagePrefix: controllerName,
-                    renderMessagePrefix: renderMessagePrefix,
-                    textWrap: TextWrap.NO_WRAP,
-            )
-        }
-    }
-
-    void setLabel(Map args) {
-        args.id = getId() + '-component'
-        args.replace = true
-        addComponent(args)
+        component.id = getId() + '-component'
+        addComponent(component)
     }
 
     void setComponent(Map args) {
-        table.hasComponents = true
-        row.viewTemplate = 'TableRowComponent'
+        if (!row.isHeader) {
+            table.hasComponents = true
+            row.viewTemplate = 'TableRowComponent'
+        }
 
         args.id = getId() + '-component'
         args.replace = true
