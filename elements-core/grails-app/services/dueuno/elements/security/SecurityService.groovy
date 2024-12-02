@@ -188,7 +188,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         applicationService.registerDeveloperUserFeature(
                 controller: 'shell',
                 action: 'toggleDevHints',
-                icon: 'fa-code',
+                icon: 'fa-key',
                 order: 10000050,
         )
         applicationService.registerDeveloperUserFeature(
