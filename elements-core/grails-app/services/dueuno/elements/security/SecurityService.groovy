@@ -181,24 +181,30 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         )
         applicationService.registerDeveloperUserFeature(
                 controller: 'shell',
-                action: 'toggleDevHints',
-                icon: 'fa-code',
+                action: 'toggleClientLogs',
+                icon: 'fa-bug',
                 order: 10000040,
         )
         applicationService.registerDeveloperUserFeature(
-                controller: 'databaseExplorer',
+                controller: 'shell',
+                action: 'toggleDevHints',
+                icon: 'fa-code',
                 order: 10000050,
+        )
+        applicationService.registerDeveloperUserFeature(
+                controller: 'databaseExplorer',
                 icon: 'fa-database',
                 direct: true,
                 targetNew: true,
+                order: 10000060,
         )
         applicationService.registerDeveloperUserFeature(
                 controller: 'connectionSource',
                 action: 'h2Console',
                 icon: 'fa-database',
-                order: 10000060,
                 direct: true,
                 targetNew: true,
+                order: 10000070,
         )
     }
 
