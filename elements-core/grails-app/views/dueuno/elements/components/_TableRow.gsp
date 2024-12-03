@@ -114,7 +114,13 @@
     <g:else>
         <td class="component-table-values d-none">
             <g:each var="field" in="${c.submit}">
-                <render:component instance="${field.value}" />
+                <input type="hidden"
+                       data-21-control="${field.value.className}"
+                       data-21-id="${field.value.id}"
+                       data-21-properties="${field.value.propertiesAsJSON}"
+                       data-21-events="${field.value.eventsAsJSON}"
+                       data-21-value="${field.value.valueAsJSON}"
+                />
             </g:each>
         </td>
     </g:else>

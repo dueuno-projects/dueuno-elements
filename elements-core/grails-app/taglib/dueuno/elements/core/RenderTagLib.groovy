@@ -64,7 +64,11 @@ class RenderTagLib implements WebRequestAware {
 
             def excludedComponentTypes = [FormField, HiddenField, Control]
             if (devDisplayHints && component.getClass() !in excludedComponentTypes) {
-                out << """<div class="dev-hints p-1 px-2 my-1" role="alert">${component.id}</div>"""
+                def description = component.id
+                if (component.getClass() in Form && (component as Form).validate) {
+                    description += " (${(component as Form).validate.simpleName})"
+                }
+                out << """<div class="dev-hints p-1 px-2 my-1" role="alert">${description}</div>"""
             }
 
             String componentView = render(template: component.getView(), model: component.getModel())

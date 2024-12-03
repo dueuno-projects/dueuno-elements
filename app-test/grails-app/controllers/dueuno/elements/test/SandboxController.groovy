@@ -371,13 +371,13 @@ Grails application running at http://localhost:9992/test in environment: develop
                 ]
                 row.cells.input.component.addAction(
                         action: 'onDecrement',
-                        submit: "table-${row.index}",
+                        submit: "tableTest-${row.index}",
                         icon: 'fa-minus',
                         text: '',
                 )
                 row.cells.input.component.addAction(
                         action: 'onIncrement',
-                        submit: "table-${row.index}",
+                        submit: "tableTest-${row.index}",
                         icon: 'fa-plus',
                         text: '',
                 )

@@ -8,28 +8,13 @@
 >
     <form class="row gx-2 grid" autocomplete="${c.autocomplete ? 'on' : 'off'}">
         <dev:ifDisplayHints>
-            <g:if test="${c.validate || c.keyFields}">
+            <g:if test="${c.keyFields}">
                 <div class="dev-hints p-1 px-2 mt-1" role="alert">
-                    <table>
-                        <g:if test="${c.validate}">
-                            <tr>
-                                <td class="align-top pe-1">validate</td>
-                                <td>${c.validate.simpleName}</td>
-                            </tr>
-                        </g:if>
-                        <g:if test="${c.keyFields}">
-                            <tr>
-                                <td class="align-top pe-1">keyFields</td>
-                                <td>
-                                    <g:each in="${c.keyFields}">
-                                        <div>- ${it.component.valueType} ${it.component.getId()} =
-                                            ${it.component.value.toString()}
-                                        </div>
-                                    </g:each>
-                                </td>
-                            </tr>
-                        </g:if>
-                    </table>
+                    <g:each in="${c.keyFields}">
+                        <div><render:icon icon="fa-solid fa-key"/> (${it.component.valueType}) ${it.component.getId()} =
+                            ${it.component.valueType == 'TEXT' ? '"' + it.component.value.toString() + '"' : it.component.value.toString()}
+                        </div>
+                    </g:each>
                 </div>
             </g:if>
         </dev:ifDisplayHints>
