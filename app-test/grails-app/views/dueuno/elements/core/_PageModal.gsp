@@ -1,6 +1,5 @@
 <div id="page-modal"
      class="page-modal modal ${c.animations ? 'fade' : ''} ${c.cssClass}"
-     aria-hidden="true"
      tabindex="-1"
 
      data-21-component="${c.className}"

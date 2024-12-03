@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dueuno.elements.system
+package dueuno.elements.database
 
 import dueuno.elements.components.Label
 import dueuno.elements.components.TableRow
@@ -37,7 +37,7 @@ import java.sql.Driver
  * @author Gianluca Sartori
  */
 @CurrentTenant
-@Secured(['ROLE_SUPERADMIN'])
+@Secured(['ROLE_DEVELOPER'])
 class ConnectionSourceController implements ElementsController {
 
     ApplicationService applicationService

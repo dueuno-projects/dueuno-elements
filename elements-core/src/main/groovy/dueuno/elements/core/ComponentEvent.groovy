@@ -39,17 +39,18 @@ class ComponentEvent extends LinkDefinition {
 
     Map asMap() {
         return [
+                namespace: namespace,
                 controller: controller,
                 action: action,
-                params: Types.serialize(params),
                 url: url,
+                params: Types.serialize(params),
                 submit: submit,
                 direct: direct,
                 target: target,
-                renderProperties: renderProperties.asMap(),
                 loading: loading,
                 infoMessage: infoMessage,
                 confirmMessage: confirmMessage,
+                renderProperties: renderProperties.asMap(),
         ]
     }
 }

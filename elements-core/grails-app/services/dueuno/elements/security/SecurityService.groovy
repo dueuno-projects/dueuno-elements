@@ -131,7 +131,6 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         applicationService.registerSuperadminFeature(
                 controller: 'monitoring',
                 icon: 'fa-chart-simple',
-                direct: true,
                 targetNew: true,
         )
         applicationService.registerSuperadminFeature(
@@ -192,20 +191,21 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 order: 10000050,
         )
         applicationService.registerDeveloperUserFeature(
-                controller: 'databaseExplorer',
+                controller: 'gormExplorer',
                 icon: 'fa-table',
-                direct: true,
                 targetNew: true,
                 order: 10000060,
         )
-        applicationService.registerDeveloperUserFeature(
-                controller: 'connectionSource',
-                action: 'h2Console',
-                icon: 'fa-database',
-                direct: true,
-                targetNew: true,
-                order: 10000070,
-        )
+
+        if (EnvUtils.isDevelopment()) {
+            applicationService.registerDeveloperUserFeature(
+                    controller: 'connectionSource',
+                    action: 'h2Console',
+                    icon: 'fa-database',
+                    targetNew: true,
+                    order: 10000070,
+            )
+        }
     }
 
     /**

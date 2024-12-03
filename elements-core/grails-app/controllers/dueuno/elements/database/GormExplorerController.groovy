@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dueuno.elements.domain
+package dueuno.elements.database
 
 import dueuno.commons.utils.SqlUtils
 import dueuno.elements.components.Button
@@ -40,9 +40,8 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 @CurrentTenant
-class DatabaseExplorerController implements ElementsController {
+class GormExplorerController implements ElementsController {
 
-    ApplicationService applicationService
     TenantService tenantService
     ConnectionSourceService connectionSourceService
 
@@ -84,7 +83,7 @@ class DatabaseExplorerController implements ElementsController {
     def index() {
         def c = createContent()
 
-        c.header.nextButton.text = 'databaseExplorer.sqlConsole'
+        c.header.nextButton.text = 'gormExplorer.sqlConsole'
         c.header.nextButton.icon = 'fa-pen-to-square'
         c.header.nextButton.action = 'sqlConsole'
 
@@ -300,7 +299,7 @@ class DatabaseExplorerController implements ElementsController {
         Class domainClass = controllerSession['domainClass']
 
         if (!domainClass) {
-            display message: 'databaseExplorer.select.table.first'
+            display message: 'gormExplorer.select.table.first'
             return
         }
 
@@ -402,7 +401,7 @@ class DatabaseExplorerController implements ElementsController {
 
         try {
             SqlUtils.execute(dataSource, sql)
-            display message: 'databaseExplorer.sql.console.execution.success'
+            display message: 'gormExplorer.sql.console.execution.success'
 
         } catch (Exception e) {
             display exception: e
