@@ -155,7 +155,10 @@ class Form extends Component {
     }
 
     void addKeyField(String id, String valueType, Object value = null) {
-        if (valueType == 'TEXT' && value in Enum) value = value.toString()
+        if (value in Enum) {
+            valueType = 'TEXT'
+            value = value.toString()
+        }
 
         FormField field = addField(
                 class: HiddenField,

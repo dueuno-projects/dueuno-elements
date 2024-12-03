@@ -26,7 +26,6 @@
         </div>
 
         <render:component instance="${c.actionbar}" />
-
     </div>
 
     <div class="component-filters-box component-form collapse ${c.isFolded() ? '' : 'show'} bg-white border-0 rounded-3 mb-1">

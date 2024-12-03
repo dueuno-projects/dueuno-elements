@@ -14,6 +14,9 @@
  */
 package dueuno.elements.core
 
+import dueuno.elements.components.Form
+import dueuno.elements.components.FormField
+import dueuno.elements.controls.HiddenField
 import org.apache.commons.lang.time.StopWatch
 
 /**
@@ -58,6 +61,12 @@ class RenderTagLib implements WebRequestAware {
     def componentList = { attrs ->
         List<Component> components = attrs.instance.components
         for (component in components) {
+
+            def excludedComponentTypes = [FormField, HiddenField, Control]
+            if (devDisplayHints && component.getClass() !in excludedComponentTypes) {
+                out << """<div class="dev-hints p-1 px-2 my-1" role="alert">${component.id}</div>"""
+            }
+
             String componentView = render(template: component.getView(), model: component.getModel())
             out << componentView
         }

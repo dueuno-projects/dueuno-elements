@@ -27,8 +27,6 @@ class HiddenField extends Control {
     HiddenField(Map args) {
         super(args)
 
-        valueType = 'TEXT'
-
         skipFocus = true
         display = false
         containerSpecs.display = false
