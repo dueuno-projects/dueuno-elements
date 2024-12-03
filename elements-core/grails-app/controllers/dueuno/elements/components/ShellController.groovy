@@ -89,7 +89,8 @@ class ShellController implements ElementsController {
 
     @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
     def toggleClientLogs() {
-        Boolean logs = tenantPropertyService.getBoolean('LOG_DEBUG')
+        Boolean logs = tenantPropertyService.getBoolean('LOG_ERROR')
+        tenantPropertyService.setBoolean('LOG_ERROR', !logs)
         tenantPropertyService.setBoolean('LOG_DEBUG', !logs)
         display controller: 'shell', direct: true
     }

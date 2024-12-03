@@ -193,7 +193,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         )
         applicationService.registerDeveloperUserFeature(
                 controller: 'databaseExplorer',
-                icon: 'fa-database',
+                icon: 'fa-table',
                 direct: true,
                 targetNew: true,
                 order: 10000060,
