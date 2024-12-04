@@ -119,6 +119,7 @@ class Select extends Control {
             }
         }
 
+        $element.data('21-value', valueMap);
         $element.val(valueMap.value);
         $element.trigger('change');
 

@@ -46,13 +46,13 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 class SecurityService implements WebRequestAware, ServletContextAware, LinkGeneratorAware {
 
     public static final String GROUP_SUPERADMINS = 'SUPERADMINS'
-    public static final String GROUP_ADMINS = 'ADMINS'
     public static final String GROUP_DEVELOPERS = 'DEVELOPERS'
+    public static final String GROUP_ADMINS = 'ADMINS'
     public static final String GROUP_USERS = 'USERS'
 
     public static final String ROLE_SUPERADMIN = 'ROLE_SUPERADMIN'
-    public static final String ROLE_ADMIN = 'ROLE_ADMIN'
     public static final String ROLE_DEVELOPER = 'ROLE_DEVELOPER'
+    public static final String ROLE_ADMIN = 'ROLE_ADMIN'
     public static final String ROLE_USER = 'ROLE_USER'
 
     private static final String USERNAME_SUPERADMIN = 'super'
