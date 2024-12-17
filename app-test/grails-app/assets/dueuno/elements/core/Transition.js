@@ -67,10 +67,10 @@ class Transition {
     }
 
     static executeCommand(transition, command, componentEvent) {
-        let method = command.method;
         let $element = Transition.getTargetElement(command.component);
-        let component = $element.exists() ? Elements.getByElement($element) : null;
-        let componentId = $element.exists() ? Component.getId($element) : null;
+        let component = Elements.getByElement($element);
+        let componentId = command.component;
+        let method = command.method;
         let property = command.property;
         let valueMap = command.value;
         let trigger = command.trigger;
@@ -87,44 +87,44 @@ class Transition {
                 TransitionCommand.renderContent($components, componentEvent);
                 break;
 
-            case TransitionCommand.REPLACE:
-                TransitionCommand.replace($element, valueMap.value, $components);
-                break;
-
-            case TransitionCommand.APPEND:
-                TransitionCommand.append($element, valueMap.value, $components);
-                break;
-
-            case TransitionCommand.TRIGGER:
-                TransitionCommand.trigger($element, property);
-                break;
-
             case TransitionCommand.LOADING:
                 TransitionCommand.loading(valueMap.value);
                 break;
 
+            case TransitionCommand.REPLACE:
+                TransitionCommand.replace($element, componentId, valueMap.value, $components);
+                break;
+
+            case TransitionCommand.APPEND:
+                TransitionCommand.append($element, componentId, valueMap.value, $components);
+                break;
+
+            case TransitionCommand.TRIGGER:
+                TransitionCommand.trigger($element, componentId, property);
+                break;
+
             case TransitionCommand.CALL:
-                TransitionCommand.call($element, component, property, valueMap.value);
+                TransitionCommand.call($element, componentId, component, property, valueMap.value);
                 break;
 
             case TransitionCommand.SET:
-                TransitionCommand.set($element, component, property, valueMap, trigger);
+                TransitionCommand.set($element, componentId, component, property, valueMap, trigger);
                 break;
 
             default:
-                log.error('Bad transition command "' + command.method + '"');
+                log.error('Invalid transition command "' + command.method + '"');
                 log.error(JSON.stringify(command));
         }
     }
 
-    static getTargetElement(componentName) {
-        if (!componentName) {
+    static getTargetElement(componentId) {
+        if (!componentId) {
             return $(null);
         }
 
-        let dotPosition = componentName.indexOf('.');
-        let rootName = dotPosition > 0 ? componentName.substring(0, dotPosition) : componentName;
-        let targetName = componentName.slice(dotPosition + 1);
+        let dotPosition = componentId.indexOf('.');
+        let rootName = dotPosition > 0 ? componentId.substring(0, dotPosition) : componentId;
+        let targetName = componentId.slice(dotPosition + 1);
 
         let $root;
         switch (rootName) {
@@ -150,11 +150,11 @@ class Transition {
 
             default:
                 $root = PageModal.isActive ? PageModal.$self : PageContent.$self;
-                targetName = componentName;
+                targetName = componentId;
         }
 
         // Check for components with dotted name (Eg. 'company.name')
-        let $component = $root.find('[data-21-id="' + componentName + '"]');
+        let $component = $root.find('[data-21-id="' + componentId + '"]');
         if ($component.exists()) {
             return $component;
         }
@@ -168,7 +168,7 @@ class Transition {
 
         $component = $root.find(path);
         if (!$component.exists()) {
-            log.error('Cannot find component "' + componentName + '"');
+            log.error('Cannot find component "' + componentId + '"');
             return $(null);
 
         } else if ($component.length > 1) {
@@ -241,19 +241,19 @@ class Transition {
         if (componentEvent) {
             // CONTROL OR COMPONENT CONTROLS VALUES
             if (componentEvent['submit']) {
-                let componentNames = componentEvent['submit'];
-                for (let componentName of componentNames) {
-                    let $component = Transition.getTargetElement(componentName);
+                let componentIds = componentEvent['submit'];
+                for (let componentId of componentIds) {
+                    let $component = Transition.getTargetElement(componentId);
                     let control = Control.getByElement($component)
                     let component = Component.getByElement($component);
 
                     if (control) {
-                        components[componentName] = { [componentName]: control.getValue($component) };
-                        components[componentName]._21SubmittedName = componentName;
+                        components[componentId] = { [componentId]: control.getValue($component) };
+                        components[componentId]._21SubmittedName = componentId;
 
                     } else if (component) {
-                        components[componentName] = component.getValues($component);
-                        components[componentName]._21SubmittedName = componentName;
+                        components[componentId] = component.getValues($component);
+                        components[componentId]._21SubmittedName = componentId;
                     }
                 }
             }

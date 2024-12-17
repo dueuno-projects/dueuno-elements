@@ -95,10 +95,19 @@ class TransitionCommand {
         }
     }
 
-    static replace($element, newComponentId, $components) {
+    static loading(show) {
+        Transition.showLoadingScreen(show);
+    }
+
+    static replace($element, componentId, newComponentId, $components) {
         let $component = $components.find('[data-21-id="' + newComponentId + '"]');
         if (!$component) {
             log.error("Cannot find component '" + newComponentId + "' in transition components payload.")
+            return;
+        }
+
+        if (!$element.exists()) {
+            log.error('Cannot replace component "' + componentId + '" (element not found)');
             return;
         }
 
@@ -106,10 +115,15 @@ class TransitionCommand {
         Page.reinitializeContent($component);
     }
 
-    static append($element, newComponentId, $components) {
+    static append($element, componentId, newComponentId, $components) {
         let $component = $components.find('[data-21-id="' + newComponentId + '"]');
         if (!$component) {
             log.error("Cannot find component '" + newComponentId + "' in transition components payload.")
+            return;
+        }
+
+        if (!$element.exists()) {
+            log.error('Cannot append to component "' + componentId + '" (element not found)');
             return;
         }
 
@@ -118,28 +132,29 @@ class TransitionCommand {
         Page.reinitializeContent($component);
     }
 
-    static trigger($element, eventName) {
+    static trigger($element, componentId, eventName) {
+        if (!$element.exists()) {
+            log.error('Cannot trigger event "' + eventName + '" for component "' + componentId + '" (element not found)');
+            return;
+        }
+
         Transition.triggerEvent($element, eventName);
     }
 
-    static loading(show) {
-        Transition.showLoadingScreen(show);
-    }
-
-    static async call($element, component, property, value) {
+    static async call($element, componentId, component, property, value) {
         await sleep(100); // We give time for the animations to start
 
         if (Elements.hasMethod(component, property)) {
             Elements.callMethod($element, component, property, value);
         } else {
-            log.error('Method "' + component?.name + '.' + property + '()" does not exist');
+            log.error('Cannot find method "' + componentId + '.' + property + '()"');
         }
     }
 
-    static set($element, component, property, value, trigger) {
+    static set($element, componentId, component, property, value, trigger) {
         let methodName = 'set' + capitalize(property);
         if (!Elements.hasMethod(component, methodName)) {
-            log.error('Method "' + component?.name + '.' + methodName + '()" does not exist');
+            log.error('Cannot find method "' + componentId + '.' + methodName + '()"');
             return;
         }
 
