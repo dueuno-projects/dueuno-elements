@@ -168,7 +168,7 @@ abstract class Control extends Component {
 
     String getValueAsJSON() {
         if (!valueType) {
-            return null
+            return Elements.encodeAsJSON([:])
         }
 
         Map valueMap = Types.serializeValue(value, valueType)

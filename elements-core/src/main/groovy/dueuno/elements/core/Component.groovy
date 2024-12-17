@@ -523,21 +523,21 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
 
     /**
      * Removes a control as sub-component
-     * @param name The name of the control to remove
+     * @param id The name of the control to remove
      */
-    void removeControl(String name) {
-        controls.remove(name)
+    void removeControl(String id) {
+        controls.remove(id)
     }
 
     /**
      * Retrieves an instance of the control identified by its name
      *
-     * @param name The name of the control to retrieve
+     * @param id The name of the control to retrieve
      *
      * @return The control matching the provided name
      */
-    Control getControl(String name) {
-        return controls[name]
+    Control getControl(String id) {
+        return controls[id]
     }
 
     /**
@@ -553,17 +553,17 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
      * Returns a component or a control identified by the specified name. This enables the squared brackets syntax to
      * access sub-components and controls in a component
      *
-     * @param name The name of the component or control to access
+     * @param id The name of the component or control to access
      *
      * @return The instance of the specified component or control
      */
-    Component getAt(String name) {
-        Component component = getComponent(name)
+    Component getAt(String id) {
+        Component component = getComponent(id)
         if (component) {
             return component
         }
 
-        Control control = getControl(name)
+        Control control = getControl(id)
         if (control) {
             return control
 
