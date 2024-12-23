@@ -1,5 +1,5 @@
 plugins {
-    id 'dueuno-asciidoctor'
+    id "dueuno-asciidoctor"
 }
 
 repositories {
