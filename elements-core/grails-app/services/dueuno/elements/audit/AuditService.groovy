@@ -58,7 +58,7 @@ class AuditService implements WebRequestAware {
                 dataObject: dataObject,
                 dataBefore: dataBefore,
                 dataAfter: dataAfter,
-                username: securityService.currentUser?.username ?: 'super',
+                username: securityService.currentUsername ?: 'super',
         )
         auditLog.save(flush: true, failOnError: true)
     }

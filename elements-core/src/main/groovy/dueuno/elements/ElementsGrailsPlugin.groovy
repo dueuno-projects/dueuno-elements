@@ -15,6 +15,9 @@
 package dueuno.elements
 
 import dueuno.elements.core.SessionInitializer
+import dueuno.elements.security.DueunoElementsAuthenticationProvider
+import dueuno.elements.security.DueunoElementsUserDetailsService
+import dueuno.elements.tenants.TenantForCurrentUserResolver
 import grails.plugins.Plugin
 import groovy.util.logging.Slf4j
 import org.springframework.scheduling.annotation.EnableScheduling
@@ -68,8 +71,11 @@ class ElementsGrailsPlugin extends Plugin {
         xmlns context: 'http://www.springframework.org/schema/context'
         context.'component-scan' 'base-package': 'dueuno'
 
+        tenantForCurrentUserResolver(TenantForCurrentUserResolver)
+        dueunoAuthenticationProvider(DueunoElementsAuthenticationProvider)
+        userDetailsService(DueunoElementsUserDetailsService)
         sessionInitializer(SessionInitializer)
-//                keyChain(KeyChain)
+//        keyChain(KeyChain)
     } }
 
     void doWithDynamicMethods() {

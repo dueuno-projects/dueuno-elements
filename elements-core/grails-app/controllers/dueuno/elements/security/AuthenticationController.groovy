@@ -100,10 +100,11 @@ class AuthenticationController implements ElementsController {
     }
 
     def logout() {
-        securityService.executeAfterLogout()
-
         String logoutLandingPage = tenantPropertyService.getString('LOGOUT_LANDING_URL', true)
         String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
+
+        securityService.executeAfterLogout()
+
         redirect uri: logoutLandingPage ?: shellUrlMapping ?: '/'
     }
 
@@ -120,7 +121,7 @@ class AuthenticationController implements ElementsController {
             redirect uri: logoutLandingPage ?: shellUrlMapping ?: '/'
         }
 
-        securityService.executeLogout()
+//        securityService.executeLogout()
     }
 
     def err403() {

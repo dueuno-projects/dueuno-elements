@@ -23,7 +23,7 @@ import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.tenants.TTenant
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
-import dueuno.elements.tenants.UserData
+
 import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
@@ -32,6 +32,7 @@ import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices
 
@@ -222,33 +223,19 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         }
     }
 
-    void initializeUser() {
-        if (!getCurrentUser(true)) {
-            throw new ElementsException("User authenticated but no user is configured in the application. " +
-                    "If you are authenticating with an external provider (Eg. LDAP) you need to configure " +
-                    "the user in the application as well.")
-        }
-    }
-
-    void initializeSessionDuration(TUser user = null) {
-        if (!user) {
-            user = currentUser
-        }
-
-        Integer sessionDuration = user.sessionDuration ?: tenantPropertyService.getNumber('DEFAULT_SESSION_DURATION')
-        session.maxInactiveInterval = EnvUtils.isDevelopment() ? 10000 : sessionDuration * 60 // minutes to seconds
-
-        Integer rememberMeDuration = user.rememberMeDuration ?: tenantPropertyService.getNumber('DEFAULT_REMEMBER_ME_DURATION')
-        tokenBasedRememberMeServices.tokenValiditySeconds = rememberMeDuration * 60 // minutes to seconds
+    void initializeSessionDuration() {
+        TUser user = currentUser
+        session.maxInactiveInterval = EnvUtils.isDevelopment() ? 10000 : user.sessionDuration * 60 // minutes to seconds
+        tokenBasedRememberMeServices.tokenValiditySeconds = user.rememberMeDuration * 60 // minutes to seconds
         tokenBasedRememberMeServices.cookieName = applicationService.applicationName.toUpperCase() + '-REMEMBER-ME'
     }
 
     void initializeShell() {
-        TUser user = getCurrentUser(true)
+        TUser user = currentUser
         String lang = (user?.language in applicationService.languages) ? user.language : tenantPropertyService.getString('DEFAULT_LANGUAGE', true)
         shellService.currentLanguage = lang
-        shellService.shell.setUser(currentUser.username, currentUser.firstname, currentUser.lastname)
-        shellService.setFontSize(currentUser.fontSize)
+        shellService.shell.setUser(currentUsername, user.firstname, user.lastname)
+        shellService.setFontSize(user.fontSize)
 
         setMenuVisibility(shellService.shell.menu)
         setMenuVisibility(shellService.shell.userMenu)
@@ -340,48 +327,59 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
      * @return the currently logged in user
      */
     TUser getCurrentUser(Boolean reload = false) {
-        try {
-            TUser sessionCurrentUser = session['_21CurrentUser']
-            if (sessionCurrentUser && !reload) {
-                return sessionCurrentUser
-            }
-
-            String username = springSecurityService.principal.username
-            TUser currentUser = getUserByUsername(username)
-            session['_21CurrentUser'] = currentUser
-            return currentUser
-
-        } catch (Exception ignore) {
+        if (!springSecurityService.loggedIn) {
             return null
         }
+
+        TUser currentUser = session['_21CurrentUser'] as TUser
+        if (currentUser && !reload) {
+            return currentUser
+        }
+
+        User principal = springSecurityService.principal as User
+        TUser user = getUserByUsername(principal.username)
+        if (!user) {
+            user = createUser(
+                    username: principal.username,
+                    password: StringUtils.generateRandomToken(),
+            )
+        }
+
+        session['_21CurrentUser'] = user
+        return user
     }
 
     /**
-     * Returns the currently logged in user tenant
-     * @return the currently logged in user tenant
+     * Returns the currently logged in user username
+     * @return the currently logged in user username
      */
-    TTenant getCurrentTenant() {
+    String getCurrentUsername() {
+        return currentUser?.username
+    }
+
+    private String getCurrentUserTenantId() {
+        if (currentUser) {
+            return currentUser.tenant.tenantId
+
+        } else {
+            return tenantService.defaultTenantId
+        }
+    }
+
+    TTenant getCurrentUserTenant() {
         if (currentUser) {
             return currentUser.tenant
 
         } else {
-            return tenantService.default
+            return tenantService.defaultTenant
         }
-    }
-
-    /**
-     * Returns true if the current tenant is the default (system) tenant
-     * @return true if the current tenant is the default (system) tenant
-     */
-    Boolean isCurrentTenantDefault() {
-        return currentUser.tenant.tenantId == tenantService.default.tenantId
     }
 
     /**
      * INTERNAL USE ONLY. Persists the current language for the currently logged in user.
      */
     void saveCurrentUserLanguage() {
-        TUser current = getCurrentUser(true)
+        TUser current = getUserByUsername(currentUsername)
         current.language = currentLanguage
         current.save(flush: true, failOnError: true)
     }
@@ -407,11 +405,10 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
      */
     @CurrentTenant
     void executeAfterLogin() {
-        initializeUser()
         initializeSessionDuration()
         initializeShell()
 
-        log.debug "Logged in as '${currentUser.username}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
+        log.debug "Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
         auditService.log(
                 action: 'LOGIN',
                 message: "Authorities: ${currentUserAuthorities}",
@@ -458,7 +455,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
             return '/' + currentUserGroup.landingPage
 
         } else { // USERS Group (applies to all users of a tenant)
-            TRoleGroup usersGroup = TRoleGroup.findByTenantAndName(currentTenant, GROUP_USERS)
+            TRoleGroup usersGroup = TRoleGroup.findByTenantAndName(currentUserTenant, GROUP_USERS)
             if (usersGroup && usersGroup.landingPage) {
                 return '/' + usersGroup.landingPage
             }
@@ -471,38 +468,6 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
     //
     // Users
     //
-
-    UserData getUserData(Serializable id) {
-        TUser user = getUser(id)
-        if (!user) {
-            return null
-//            throw new ElementsException("Cannot find user with id '${id}'")
-        }
-        return buildUserData(user)
-    }
-
-    UserData getUserDataByUsername(String username) {
-        TUser user = getUserByUsername(username)
-        if (!user) {
-            return null
-//            throw new ElementsException("Cannot find user with username '${username}'")
-        }
-        return buildUserData(user)
-    }
-
-    private UserData buildUserData(TUser user) {
-        return new UserData(
-                id: user.id,
-                username: user.username,
-                fullname: user.fullname,
-                firstname: user.firstname,
-                lastname: user.lastname,
-                language: user.language,
-                email: user.email,
-                telephone: user.telephone,
-        )
-    }
-
     TUser getUser(Serializable id) {
         Map fetch = [
                 tenant      : 'join',
@@ -555,12 +520,14 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         }
 
         if (!isSuperAdmin()) {
-            query = query.where { tenant == currentTenant }
+            String currentTenantId = currentUserTenantId
+            query = query.where { tenant.tenantId == currentTenantId }
         }
 
         if (filters) {
             if (filters.containsKey('id')) query = query.where { id == filters.id }
             if (filters.containsKey('tenant')) query = query.where { tenant.id == filters.tenant }
+            if (filters.containsKey('tenantId')) query = query.where { tenant.tenantId == filters.tenantId }
             if (filters.containsKey('deletable')) query = query.where { deletable == filters.deletable }
             if (filters.containsKey('enabled')) query = query.where { enabled == filters.enabled }
             if (filters.username) query = query.where {
@@ -595,19 +562,19 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
     List<TUser> listUser(Map filters = [:], Map params = [:]) {
         filters.deletable = true
-        filters.tenant = getCurrentTenant().id
+        filters.tenantId = currentUserTenantId
         return listAllUser(filters, params)
     }
 
     Integer countUser(Map filters = [:]) {
         filters.deletable = true
-        filters.tenant = getCurrentTenant().id
+        filters.tenantId = currentUserTenantId
         return countAllUser(filters)
     }
 
     List<String> listUsername(Map filters = [:], Map params = [:]) {
         filters.deletable = true
-        filters.tenant = getCurrentTenant().id
+        filters.tenantId = currentUserTenantId
         return listAllUser(filters, params).username
     }
 
@@ -655,7 +622,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
         TTenant tenant = args.tenant
                 ?: tenantService.getByTenantId(args.tenantId as String)
-                ?: currentTenant
+                ?: currentUserTenant
 
         TUser user = TUser.findByUsername(args.username as String)
         if (user) {
@@ -714,10 +681,6 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
             log.info "${tenant.tenantId}: Created user '${args.username}' in groups: ${groups}"
         }
 
-        if (!user.hasErrors() && isLoggedIn()) {
-            initializeSessionDuration(user)
-        }
-
         return user
     }
 
@@ -745,7 +708,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         String username = (String) ArgsException.requireArgument(args, 'username')
         TTenant tenant = args.tenant
                 ?: tenantService.getByTenantId(args.tenantId as String)
-                ?: currentTenant
+                ?: currentUserTenant
 
         if (args.password) {
             args.password = encodePassword((String) args.password)
@@ -775,10 +738,6 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
             }
         }
 
-        if (!user.hasErrors() && isLoggedIn()) {
-            initializeSessionDuration(user)
-        }
-
         return user
     }
 
@@ -801,10 +760,6 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         TUser user = getUserByUsername(username)
         user.properties = args
         user.save(flush: true)
-
-        if (!user.hasErrors() && isLoggedIn()) {
-            initializeSessionDuration(user)
-        }
 
         return user
     }
@@ -860,12 +815,14 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         }
 
         if (!isSuperAdmin()) {
-            query = query.where { tenant == currentTenant }
+            String currentTenantId = currentUserTenantId
+            query = query.where { tenant.tenantId == currentTenantId }
         }
 
         if (filters.hideUsers) query = query.where { name != GROUP_USERS }
         if (filters.containsKey('id')) query = query.where { id == filters.id }
         if (filters.containsKey('tenant')) query = query.where { tenant.id == filters.tenant }
+        if (filters.containsKey('tenantId')) query = query.where { tenant.tenantId == filters.tenantId }
         if (filters.containsKey('name')) query = query.where { name =~ "%${filters.name}%" }
         if (filters.containsKey('deletable')) query = query.where { deletable == filters.deletable }
 
@@ -911,7 +868,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
         TTenant tenant = args.tenant
                 ?: tenantService.getByTenantId(args.tenantId as String)
-                ?: currentTenant
+                ?: currentUserTenant
 
         Boolean newGroup = false
         TRoleGroup roleGroup = TRoleGroup.findByNameAndTenant(groupName, tenant)
@@ -1027,6 +984,9 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
         } else if (newRole.authority == ROLE_ADMIN) {
             new TRoleHierarchyEntry(entry: "${ROLE_SUPERADMIN} > ${ROLE_ADMIN}").save(flush: true)
+
+        } else if (newRole.authority == ROLE_DEVELOPER) {
+            new TRoleHierarchyEntry(entry: "${ROLE_SUPERADMIN} > ${ROLE_DEVELOPER}").save(flush: true)
         }
 
         springSecurityService.reloadDBRoleHierarchy()
@@ -1059,9 +1019,9 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         createAuthority('ROLE_SECURITY')
 
         if (tenantId == 'DEFAULT') {
-            createGroup(tenant: tenantService.default, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)
+            createGroup(tenantId: tenantService.defaultTenantId, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)
             createSystemUser(
-                    tenant: tenantService.default,
+                    tenantId: tenantService.defaultTenantId,
                     groups: [GROUP_SUPERADMINS],
                     firstname: 'Super',
                     lastname: 'Admin',

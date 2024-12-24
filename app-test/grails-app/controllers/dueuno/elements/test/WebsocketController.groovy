@@ -58,7 +58,7 @@ class WebsocketController implements ElementsController {
                     optionsFromRecordset: securityService.listAllUser(),
                     keys: ['username'],
                     renderMessagePrefix: false,
-                    defaultValue: securityService.currentUser.username,
+                    defaultValue: securityService.currentUsername,
             )
             addField(
                     class: TextField,

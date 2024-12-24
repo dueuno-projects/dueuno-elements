@@ -75,8 +75,8 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 
 grails.plugin.springsecurity.providerNames = [
         'rememberMeAuthenticationProvider',
-        'daoAuthenticationProvider',
-//    'ldapAuthProvider',
+        'dueunoAuthenticationProvider',
+//        'daoAuthenticationProvider',
 ]
 
 // Configure the server connection using the variables you find below
