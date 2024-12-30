@@ -30,7 +30,6 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class AuthenticationController implements ElementsController {
 
-    PageService pageService
     SecurityService securityService
     TenantPropertyService tenantPropertyService
 
@@ -43,7 +42,7 @@ class AuthenticationController implements ElementsController {
             return
         }
 
-        Map loginArgs = [
+        def loginArgs = [
                 backgroundImage    : tenantPropertyService.getString('LOGIN_BACKGROUND_IMAGE', true),
                 logoImage          : tenantPropertyService.getString('LOGIN_LOGO', true),
                 rememberMe         : tenantPropertyService.getBoolean('LOGIN_REMEMBER_ME', true),
@@ -52,7 +51,7 @@ class AuthenticationController implements ElementsController {
                 registerUrl        : tenantPropertyService.getString('LOGIN_REGISTRATION_URL', true),
                 passwordRecoveryUrl: tenantPropertyService.getString('LOGIN_PASSWORD_RECOVERY_URL', true),
         ]
-        def login = pageService.createPage(Login, loginArgs)
+        def login = createPage(Login, loginArgs)
 
         display page: login
     }

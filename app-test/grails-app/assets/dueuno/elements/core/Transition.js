@@ -341,7 +341,7 @@ class Transition {
             });
     }
 
-    static showLoadingScreen(show) {
+    static showLoadingScreen(show, timeout = 200) {
         let $loading = PageModal.isActive
             ? $('#modal-loading-screen')
             : $('#loading-screen');
@@ -354,7 +354,7 @@ class Transition {
         } else if (!Transition.loadingScreenTimeoutId && show) {
             Transition.loadingScreenTimeoutId = setTimeout(() => {
                 $loading.css('display', 'block');
-            }, 200);
+            }, timeout);
         }
     }
 

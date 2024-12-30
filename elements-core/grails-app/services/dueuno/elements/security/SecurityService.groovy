@@ -336,7 +336,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
             return currentUser
         }
 
-        User principal = springSecurityService.principal as User
+        Object principal = springSecurityService.principal
         TUser user = getUserByUsername(principal.username)
         if (!user) {
             user = createUser(
@@ -622,7 +622,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
         TTenant tenant = args.tenant
                 ?: tenantService.getByTenantId(args.tenantId as String)
-                ?: currentUserTenant
+                ?: tenantService.currentTenant
 
         TUser user = TUser.findByUsername(args.username as String)
         if (user) {
@@ -708,7 +708,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         String username = (String) ArgsException.requireArgument(args, 'username')
         TTenant tenant = args.tenant
                 ?: tenantService.getByTenantId(args.tenantId as String)
-                ?: currentUserTenant
+                ?: tenantService.currentTenant
 
         if (args.password) {
             args.password = encodePassword((String) args.password)
@@ -868,7 +868,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
         TTenant tenant = args.tenant
                 ?: tenantService.getByTenantId(args.tenantId as String)
-                ?: currentUserTenant
+                ?: tenantService.currentTenant
 
         Boolean newGroup = false
         TRoleGroup roleGroup = TRoleGroup.findByNameAndTenant(groupName, tenant)

@@ -18,11 +18,9 @@ class Login extends Page {
         let $username = $('[data-21-id="username"]');
         let $password = $('[data-21-id="password"]');
         let $rememberMe = $('[data-21-id="rememberMe"]');
-        let $loginWheel = $('.page-login-wheel');
         let $loginError = $('.page-login-error');
 
         $loginError.addClass('d-none');
-        $loginWheel.removeClass('d-none');
 
         let username = $username.val();
         let password = $password.val();
@@ -38,6 +36,8 @@ class Login extends Page {
             }
         }
 
+        Transition.showLoadingScreen(true, 500);
+
         $.ajax(call)
             .done(function (data, textStatus, request) {
                 if (data.success) {
@@ -51,20 +51,21 @@ class Login extends Page {
                 }
 
                 if (data.error) {
-                    $loginWheel.addClass('d-none');
+                    Transition.showLoadingScreen(false);
                     $loginError.removeClass('d-none');
                     $username.val('').focus();
                     $password.val('');
                 }
 
                 if (data.customError) {
-                    $loginWheel.addClass('d-none');
+                    Transition.showLoadingScreen(false);
                     PageMessageBox.info(null, data.customError);
                     $username.val('').focus();
                     $password.val('');
                 }
             })
             .fail(function (request, textStatus, errorThrown) {
+                Transition.showLoadingScreen(false);
                 PageMessageBox.error(null, {infoMessage: 'Error, please retry'});
             });
     }
