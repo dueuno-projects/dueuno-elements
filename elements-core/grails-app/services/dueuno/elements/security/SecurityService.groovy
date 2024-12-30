@@ -1032,9 +1032,9 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
             )
         }
 
-        String username = tenantId == 'DEFAULT'
+        String username = tenantId == tenantService.defaultTenantId
                 ? 'admin'
-                : tenantId.toLowerCase() + 'Admin'
+                : tenantService.getAdminUsername(tenantId)
 
         createSystemUser(
                 tenantId: tenantId,

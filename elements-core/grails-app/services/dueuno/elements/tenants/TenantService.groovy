@@ -115,6 +115,8 @@ class TenantService {
     }
 
     /**
+     * INTERNAL USE ONLY. Use SecurityService.getCurrentUserTenantId()
+     *
      * Returns the name of the current tenantId
      * @return the name of the current tenantId
      */
@@ -124,6 +126,8 @@ class TenantService {
     }
 
     /**
+     * INTERNAL USE ONLY. Use SecurityService.getCurrentUserTenant()
+     *
      * Returns the name of the current tenant
      * @return the name of the current tenant
      */
@@ -141,7 +145,7 @@ class TenantService {
             return 'admin'
 
         } else {
-            return currentTenantId.toLowerCase()
+            return currentTenantId.toLowerCase() + 'Admin'
         }
     }
 
