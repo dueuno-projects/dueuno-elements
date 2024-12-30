@@ -79,6 +79,7 @@ class TenantController implements ElementsController {
                     class: TextField,
                     id: 'tenantId',
                     textTransform: TextTransform.UPPERCASE,
+                    invalidChars: ' ',
                     cols: 6,
             )
             addField(

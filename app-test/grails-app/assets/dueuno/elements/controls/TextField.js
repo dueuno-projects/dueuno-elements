@@ -25,15 +25,17 @@ class TextField extends Control {
         let properties = Component.getProperties($element);
         let value = Control.getEventValue($element, event);
 
+        let isValidValue = true;
         if (properties.pattern) {
             let pattern = new RegExp(properties.pattern);
-            let isValidValue = value.match(pattern);
-            if (!isValidValue) {
-                event.preventDefault();
-            }
+            isValidValue = value.match(pattern);
         }
 
-        if (properties.textTransform) {
+        if (!isValidValue) {
+            event.preventDefault();
+        }
+
+        if (isValidValue && properties.textTransform) {
             let transformedValue = TextField.transform(value, properties);
             $element.val(transformedValue);
             event.preventDefault();
