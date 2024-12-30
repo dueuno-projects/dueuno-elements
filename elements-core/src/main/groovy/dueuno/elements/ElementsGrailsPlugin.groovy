@@ -15,8 +15,6 @@
 package dueuno.elements
 
 import dueuno.elements.core.SessionInitializer
-import dueuno.elements.security.DueunoElementsAuthenticationProvider
-import dueuno.elements.security.DueunoElementsUserDetailsService
 import dueuno.elements.tenants.TenantForCurrentUserResolver
 import grails.plugins.Plugin
 import groovy.util.logging.Slf4j
@@ -72,8 +70,6 @@ class ElementsGrailsPlugin extends Plugin {
         context.'component-scan' 'base-package': 'dueuno'
 
         tenantForCurrentUserResolver(TenantForCurrentUserResolver)
-        dueunoAuthenticationProvider(DueunoElementsAuthenticationProvider)
-        userDetailsService(DueunoElementsUserDetailsService)
         sessionInitializer(SessionInitializer)
 //        keyChain(KeyChain)
     } }

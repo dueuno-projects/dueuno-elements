@@ -55,7 +55,6 @@ grails:
   plugin:
     springsecurity:
       providerNames:
-        - dueunoAuthenticationProvider
         - rememberMeAuthenticationProvider
         - daoAuthenticationProvider
 #        - ldapAuthProvider
