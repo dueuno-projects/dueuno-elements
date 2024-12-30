@@ -123,6 +123,9 @@ class BootStrap {
 
             quantityService.enableUnitLength(['KM', 'M'])
 
+            // Creating a new tenant from the GUI gives an error here, to solve it you need to
+            // remove the 'spring-dev-tools' dependency in build.gradle
+            // See: https://github.com/spring-projects/spring-data-jpa/issues/2552
             TDemo demo = new TDemo(
                     textfield: 'Ventuno',
                     numberfield: 21,
