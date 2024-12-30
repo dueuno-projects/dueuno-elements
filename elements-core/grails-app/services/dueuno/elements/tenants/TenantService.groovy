@@ -136,19 +136,6 @@ class TenantService {
         return getByTenantId(currentTenantId)
     }
 
-    String getAdminUsername(String tenantId = null) {
-        if (tenantId) {
-            TTenant tenant = getByTenantId(tenantId)
-            return tenant ? tenant.tenantId.toLowerCase() : null
-
-        } else if (currentTenantId == defaultTenantId) {
-            return 'admin'
-
-        } else {
-            return currentTenantId.toLowerCase() + 'Admin'
-        }
-    }
-
     TTenant get(Serializable id) {
         return TTenant.get(id)
     }

@@ -1012,6 +1012,16 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         return results
     }
 
+    String getAdminUsername(String tenantId) {
+        if (tenantId == tenantService.defaultTenantId) {
+            return 'admin'
+
+        } else {
+            TTenant tenant = tenantService.getByTenantId(tenantId)
+            return tenant.tenantId.toLowerCase() + 'Admin'
+        }
+    }
+
     void installTenantSecurity(String tenantId) {
         createGroup(tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
         createGroup(tenantId: tenantId, name: GROUP_DEVELOPERS, authorities: [ROLE_DEVELOPER], deletable: false)
@@ -1032,10 +1042,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
             )
         }
 
-        String username = tenantId == tenantService.defaultTenantId
-                ? 'admin'
-                : tenantService.getAdminUsername(tenantId)
-
+        String username = getAdminUsername(tenantId)
         createSystemUser(
                 tenantId: tenantId,
                 username: username,
