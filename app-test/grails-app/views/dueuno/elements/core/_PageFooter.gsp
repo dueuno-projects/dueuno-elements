@@ -9,6 +9,7 @@
     const _21_ = {
         app: {
             url: "${g.createLink(absolute:true, uri:"/")}",
+            tenant: "${tenant.current()}",
         },
         <g:if test="${c}">
         user: {

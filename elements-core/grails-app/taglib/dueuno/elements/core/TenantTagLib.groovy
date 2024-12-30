@@ -12,19 +12,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dueuno.elements.tenants
+package dueuno.elements.core
+
+
+import dueuno.elements.tenants.TenantService
 
 /**
  * @author Gianluca Sartori
  */
+class TenantTagLib {
 
-class UserData {
-    Serializable id
-    String username
-    String fullname
-    String firstname
-    String lastname
-    String language
-    String email
-    String telephone
+    static namespace = "tenant"
+    TenantService tenantService
+
+    def current = { Map attrs ->
+        out << tenantService.currentTenantId
+    }
 }

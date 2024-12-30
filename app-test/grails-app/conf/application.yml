@@ -57,6 +57,7 @@ grails:
       providerNames:
         - rememberMeAuthenticationProvider
         - daoAuthenticationProvider
+#        - ldapAuthProvider
 ---
 spring:
   h2:

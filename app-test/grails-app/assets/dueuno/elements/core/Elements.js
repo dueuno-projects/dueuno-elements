@@ -13,9 +13,13 @@ class Elements {
     static get onMobile() { return Elements_onMobile }
 
     static main() {
+        log.debug('App URL: ' + _21_.app.url);
+        log.debug('Tenant: ' + _21_.app.tenant);
+
         let os = getOS();
         Elements_onMobile = (os == 'iOS' || os == 'Android');
         log.debug('Running on: ' + os);
+
         Page.render();
     }
 

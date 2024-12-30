@@ -19,6 +19,7 @@ import dueuno.elements.ElementsGrailsPlugin
 import dueuno.elements.core.*
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.security.SecurityService
+import dueuno.elements.security.TUser
 import dueuno.elements.utils.ResourceUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
@@ -102,38 +103,37 @@ class TenantService {
      * Returns the name of the DEFAULT tenant
      * @return the name of the DEFAULT tenant
      */
-    String getDefaultTenantId() {
+    static String getDefaultTenantId() {
         return ConnectionSource.DEFAULT
     }
 
     /**
      * Returns the DEFAULT tenant
      */
-    TTenant getDefault() {
-        return getByTenantId(defaultTenantId)
+    TTenant getDefaultTenant() {
+        return getByTenantId(ConnectionSource.DEFAULT)
     }
 
     /**
-     * USE securityService.currentTenant INSTEAD
-     * Returns the name of the current tenant
-     * @return the name of the current tenant
+     * INTERNAL USE ONLY. Use SecurityService.getCurrentUserTenantId()
+     *
+     * Returns the name of the current tenantId
+     * @return the name of the current tenantId
      */
     @CurrentTenant
     String getCurrentTenantId() {
         return Tenants.currentId()
     }
 
-    String getAdminUsername(String tenantId = null) {
-        if (tenantId) {
-            TTenant tenant = getByTenantId(tenantId)
-            return tenant ? tenant.tenantId.toLowerCase() : null
-
-        } else if (currentTenantId == defaultTenantId) {
-            return 'admin'
-
-        } else {
-            return currentTenantId.toLowerCase()
-        }
+    /**
+     * INTERNAL USE ONLY. Use SecurityService.getCurrentUserTenant()
+     *
+     * Returns the name of the current tenant
+     * @return the name of the current tenant
+     */
+    @CurrentTenant
+    TTenant getCurrentTenant() {
+        return getByTenantId(currentTenantId)
     }
 
     TTenant get(Serializable id) {
