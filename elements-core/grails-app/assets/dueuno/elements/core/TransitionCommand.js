@@ -31,6 +31,8 @@ class TransitionCommand {
 
         let $page = $('[data-21-component="PageContent"]');
         TransitionCommand.render($page, $newPage, componentEvent);
+
+        TransitionCommand.loading(false);
     }
 
     static renderContent($components, componentEvent) {
@@ -54,6 +56,8 @@ class TransitionCommand {
 
             TransitionCommand.render(PageContent.$self, $content, componentEvent);
         }
+
+        TransitionCommand.loading(false);
     }
 
     static render($component, $newComponent, componentEvent) {

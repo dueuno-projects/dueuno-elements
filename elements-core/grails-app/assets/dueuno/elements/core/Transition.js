@@ -1,11 +1,14 @@
 // Temporary solutions until we get support for static fields
 // See: https://github.com/google/closure-compiler/issues/2731
-let Transition_loadingScreenTimeoutId = null;
+let Transition_loadingScreenTimeoutIdPage = null;
+let Transition_loadingScreenTimeoutIdModal = null;
 
 class Transition {
 
-    static get loadingScreenTimeoutId() { return Transition_loadingScreenTimeoutId }
-    static set loadingScreenTimeoutId(value) { Transition_loadingScreenTimeoutId = value }
+    static get loadingScreenTimeoutIdPage() { return Transition_loadingScreenTimeoutIdPage }
+    static set loadingScreenTimeoutIdPage(value) { Transition_loadingScreenTimeoutIdPage = value }
+    static get loadingScreenTimeoutIdModal() { return Transition_loadingScreenTimeoutIdModal }
+    static set loadingScreenTimeoutIdModal(value) { Transition_loadingScreenTimeoutIdModal = value }
 
     static wsConnect() {
         const wsClient = new StompJs.Client();
@@ -309,7 +312,6 @@ class Transition {
 
                 } else { // It's a full page
                     TransitionCommand.renderPage($response, componentEvent);
-                    Transition.showLoadingScreen(false);
                 }
             })
             .fail(function (xhr, textStatus, errorThrown) {
@@ -341,20 +343,47 @@ class Transition {
             });
     }
 
-    static showLoadingScreen(show, timeout = 200) {
-        let $loading = PageModal.isActive
-            ? $('#modal-loading-screen')
-            : $('#loading-screen');
+    static showLoadingScreenPage(show, timeout) {
+        clearTimeout(Transition.loadingScreenTimeoutIdModal);
+        Transition.loadingScreenTimeoutIdModal = null;
+        $('#loading-screen-modal').css('display', 'none');
 
-        if (Transition.loadingScreenTimeoutId && !show) {
-            clearTimeout(Transition.loadingScreenTimeoutId);
-            Transition.loadingScreenTimeoutId = null;
+        let $loading = $('#loading-screen-page');
+        if (Transition.loadingScreenTimeoutIdPage && !show) {
+            clearTimeout(Transition.loadingScreenTimeoutIdPage);
+            Transition.loadingScreenTimeoutIdPage = null;
             $loading.css('display', 'none');
 
-        } else if (!Transition.loadingScreenTimeoutId && show) {
-            Transition.loadingScreenTimeoutId = setTimeout(() => {
+        } else if (!Transition.loadingScreenTimeoutIdPage && show) {
+            Transition.loadingScreenTimeoutIdPage = setTimeout(() => {
                 $loading.css('display', 'block');
             }, timeout);
+        }
+    }
+
+    static showLoadingScreenModal(show, timeout) {
+        clearTimeout(Transition.loadingScreenTimeoutIdPage);
+        Transition.loadingScreenTimeoutIdPage = null;
+        $('#loading-screen-page').css('display', 'none');
+
+        let $loading = $('#loading-screen-modal');
+        if (Transition.loadingScreenTimeoutIdModal && !show) {
+            clearTimeout(Transition.loadingScreenTimeoutIdModal);
+            Transition.loadingScreenTimeoutIdModal = null;
+            $loading.css('display', 'none');
+
+        } else if (!Transition.loadingScreenTimeoutIdModal && show) {
+            Transition.loadingScreenTimeoutIdModal = setTimeout(() => {
+                $loading.css('display', 'block');
+            }, timeout);
+        }
+    }
+
+    static showLoadingScreen(show, timeout = 300) {
+        if (PageModal.isActive) {
+            Transition.showLoadingScreenModal(show, timeout);
+        } else {
+            Transition.showLoadingScreenPage(show, timeout);
         }
     }
 

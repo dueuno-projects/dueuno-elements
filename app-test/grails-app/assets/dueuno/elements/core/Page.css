@@ -16,8 +16,8 @@
     to   { opacity: 0.5 }
 }
 
-#loading-screen,
-#modal-loading-screen {
+#loading-screen-page,
+#loading-screen-modal {
     z-index: 9999;
     position: fixed;
     padding: 0;
@@ -30,17 +30,17 @@
     display: none;
 }
 
-#modal-loading-screen {
+#loading-screen-modal {
     position: absolute;
 }
 
-#loading-screen i,
-#modal-loading-screen i {
+#loading-screen-page i,
+#loading-screen-modal i {
     margin: 0;
     position: absolute;
-    top: calc(50% - var(--elements-font-size) * 5);
-    left: calc(50% - var(--elements-font-size) * 5);
-    transform: translate(calc(-50% + var(--elements-font-size) * 5), calc(-50% + var(--elements-font-size) * 5));
+    top: calc(50% - var(--elements-font-size) * 3);
+    left: calc(50% - var(--elements-font-size) * 3);
+    transform: translate(calc(-50% + var(--elements-font-size) * 3), calc(-50% + var(--elements-font-size) * 3));
     color: rgb(var(--elements-secondary-bg), .6);
-    font-size: calc(var(--elements-font-size) * 10);
+    font-size: calc(var(--elements-font-size) * 6);
 }

@@ -47,6 +47,7 @@ class TabsController implements ElementsController {
                     text: "Show!",
                     stretch: true,
                     group: true,
+                    loading: false,
             ).component.addAction(action: 'onHide', text: "Hide!")
         }
 

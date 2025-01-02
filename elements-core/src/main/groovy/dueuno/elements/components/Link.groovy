@@ -48,6 +48,7 @@ class Link extends Label {
 
         linkDefinition = new LinkDefinition(args)
         linkDefinition.action = args.action ?: 'index'
+        linkDefinition.loading = args.loading == null ? true : args.loading
 
         icon = args.icon ?: ''
         iconClass = args.iconClass ?: ''
@@ -72,6 +73,14 @@ class Link extends Label {
                 event: 'click',
                 action: onClick ?: linkDefinition.action,
         ])
+    }
+
+    @Override
+    String getPropertiesAsJSON(Map properties = [:]) {
+        Map thisProperties = [
+                loading: loading,
+        ]
+        return super.getPropertiesAsJSON(thisProperties + properties)
     }
 
     String toString() {
