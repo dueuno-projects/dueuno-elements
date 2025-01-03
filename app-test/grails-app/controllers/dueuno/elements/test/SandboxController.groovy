@@ -197,6 +197,7 @@ class SandboxController implements ElementsController {
                     action: 'index',
                     icon: 'fa-user',
                     onClick: 'onSetPlaceholder',
+                    loading: false,
                     cols: 2,
             )
             addField(
@@ -401,6 +402,7 @@ Grails application running at http://localhost:9992/test in environment: develop
                 action: 'onSetCellValue',
                 params: [value: '**PIPPO**'],
                 stretch: true,
+                loading: false,
         )
 
         def table2 = c.addComponent(Table, 'table2')

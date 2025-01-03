@@ -107,11 +107,7 @@ class TableFilters extends Form {
         for (field in components) {
             if (field.component in Control) {
                 Control control = field.component as Control
-                control.onSubmit(
-                        action: searchButton.action,
-                        submit: searchButton.submit,
-                        params: searchButton.params,
-                )
+                control.onSubmit(searchButton.properties)
             }
         }
     }

@@ -61,8 +61,12 @@ class Transition {
 
     static execute(transition, componentEvent) {
         log.debug('');
-        log.debug('<<< RESPONSE (' + componentEvent.controller + '/' + componentEvent.action + ')');
+        log.debug('<<< RESPONSE /' + componentEvent.controller + '/' + componentEvent.action);
         Transition.log(transition);
+
+        if (!transition.commands.length) {
+            Transition.showLoadingScreen(false);
+        }
 
         for (let command of transition.commands) {
             Transition.executeCommand(transition, command, componentEvent);
@@ -284,8 +288,7 @@ class Transition {
 
     static call(url, values, componentEvent, async) {
         log.debug('');
-        log.debug('>>> REQUEST');
-        log.debug(url);
+        log.debug('>>> REQUEST ' + url);
         log.debug(JSON.stringify(JSON.parse(values._21Params), null, 2));
 
         Transition.ajaxCall(url, values, componentEvent, async);

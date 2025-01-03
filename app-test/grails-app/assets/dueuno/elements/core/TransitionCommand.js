@@ -12,6 +12,8 @@ class TransitionCommand {
     static get SET() { return 'SET' }
 
     static async redirect(componentEvent) {
+        Transition.showLoadingScreen(false);
+
         if (PageModal.isActive && !componentEvent.renderProperties['modal']) {
             PageModal.close();
             await sleep(100); // We give time for the animations to start
@@ -21,6 +23,8 @@ class TransitionCommand {
     }
 
     static renderPage($newPageContent, componentEvent) {
+        Transition.showLoadingScreen(false);
+
         let $newPage = $newPageContent.find('[data-21-component="PageContent"]');
         if (!$newPage.exists()) {
             return;
@@ -31,11 +35,11 @@ class TransitionCommand {
 
         let $page = $('[data-21-component="PageContent"]');
         TransitionCommand.render($page, $newPage, componentEvent);
-
-        TransitionCommand.loading(false);
     }
 
     static renderContent($components, componentEvent) {
+        Transition.showLoadingScreen(false);
+
         let $content = $components.find('#page-content');
         if (!$content) {
             log.error("Cannot find a 'Content' component in transition.");
@@ -56,8 +60,6 @@ class TransitionCommand {
 
             TransitionCommand.render(PageContent.$self, $content, componentEvent);
         }
-
-        TransitionCommand.loading(false);
     }
 
     static render($component, $newComponent, componentEvent) {

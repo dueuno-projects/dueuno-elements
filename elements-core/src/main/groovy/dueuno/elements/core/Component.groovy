@@ -170,6 +170,7 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
                         event: event,
                         action: action,
                         submit: submit ?: [getId()],
+                        loading: event == 'load' ? false : args.loading,
                 ]
                 on(args + eventArgs)
             }

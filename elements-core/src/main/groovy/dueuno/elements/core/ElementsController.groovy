@@ -133,30 +133,24 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
             PageContent content = args.content as PageContent
             content.setRenderProperties(args)
             t.renderContent(content)
-            t.loading(false)
 
         } else if (args.message) {
             String message = args.message as String
-            t.loading(false)
             t.infoMessage(message, args)
 
         } else if (args.exception) {
             Exception e = args.exception as Exception
             log.error LogUtils.logStackTrace(e)
-            t.loading(false)
             t.errorMessage(e.message, args)
 
         } else if (args.errorMessage) {
             String message = args.errorMessage as String
-            t.loading(false)
             t.errorMessage(message, args)
 
         } else if (args.errors) {
             Integer submittedComponentCount = requestParams._21SubmittedCount as Integer
             String submittedComponentName = requestParams._21SubmittedName as String
             Object obj = args.errors
-
-            t.loading(false)
 
             if (submittedComponentCount > 1) { // Multiple components submitted
                 Object componentErrors = args.errors
@@ -185,7 +179,6 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
             }
 
         } else if (args.controller || args.action) {
-            t.loading(false)
             t.redirect(args)
         }
 

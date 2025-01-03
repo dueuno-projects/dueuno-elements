@@ -30,6 +30,7 @@ class Form extends Component {
     }
 
     static setErrors($element, value) {
+        Transition.showLoadingScreen(false);
         Form.resetErrors($element);
 
         let errors = value.errors;
