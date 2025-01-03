@@ -50,6 +50,7 @@
 #page-modal .modal-header {
     border: none;
     padding: calc(var(--elements-font-size) * 0.8);
+    padding-bottom: calc(var(--elements-font-size)* 0.65);
 }
 
 #page-modal .component-header {
