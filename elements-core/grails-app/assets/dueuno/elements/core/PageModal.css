@@ -70,10 +70,6 @@
     font-weight: normal;
 }
 
-#page-modal [data-21-id="closeButton"] {
-    margin-right: 0.25rem;
-}
-
 #page-modal-body .simplebar-content > :nth-child(2) {
     margin-top: 0 !important;
 }
