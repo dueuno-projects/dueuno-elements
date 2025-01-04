@@ -28,7 +28,7 @@ class PageMessageBox extends Component {
     }
 
     static onShow(event) {
-        Transition.showLoadingScreen(false);
+        LoadingScreen.show(false);
 
         if (PageMessageBox.isActive) {
             PageMessageBox.hide();

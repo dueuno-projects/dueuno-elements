@@ -30,4 +30,4 @@
     }
 </style>
 
-<div id="loading-screen-page" class="fade-in"><i class="fa-solid fa-circle-notch fa-spin"></i></div>
+<div id="loading-screen-page" class="fade-in"><div><i class="fa-solid fa-circle-notch fa-spin"></i></div></div>

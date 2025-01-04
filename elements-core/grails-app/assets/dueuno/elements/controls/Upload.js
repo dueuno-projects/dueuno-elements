@@ -59,7 +59,7 @@ class Upload extends Control {
 
         let componentEvent = Component.getEvent($element, 'upload');
         if (componentEvent.loading) {
-            Transition.showLoadingScreen(true);
+            LoadingScreen.show(true);
         }
 
         Transition.triggerEvent($element, 'addfile');
@@ -77,7 +77,7 @@ class Upload extends Control {
 
     static onError(file) {
         let $element = $(this.element);
-        Transition.showLoadingScreen(false);
+        LoadingScreen.show(false);
         Transition.triggerEvent($element, 'error');
     }
 

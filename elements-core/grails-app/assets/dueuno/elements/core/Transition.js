@@ -1,14 +1,4 @@
-// Temporary solutions until we get support for static fields
-// See: https://github.com/google/closure-compiler/issues/2731
-let Transition_loadingScreenTimeoutIdPage = null;
-let Transition_loadingScreenTimeoutIdModal = null;
-
 class Transition {
-
-    static get loadingScreenTimeoutIdPage() { return Transition_loadingScreenTimeoutIdPage }
-    static set loadingScreenTimeoutIdPage(value) { Transition_loadingScreenTimeoutIdPage = value }
-    static get loadingScreenTimeoutIdModal() { return Transition_loadingScreenTimeoutIdModal }
-    static set loadingScreenTimeoutIdModal(value) { Transition_loadingScreenTimeoutIdModal = value }
 
     static wsConnect() {
         const wsClient = new StompJs.Client();
@@ -65,7 +55,7 @@ class Transition {
         Transition.log(transition);
 
         if (!transition.commands.length) {
-            Transition.showLoadingScreen(false);
+            LoadingScreen.show(false);
         }
 
         for (let command of transition.commands) {
@@ -302,7 +292,7 @@ class Transition {
             async: async,
         }
 
-        Transition.showLoadingScreen(componentEvent['loading']);
+        LoadingScreen.show(componentEvent['loading']);
 
         $.ajax(call)
             .done(function (data, textStatus, xhr) {
@@ -318,7 +308,7 @@ class Transition {
                 }
             })
             .fail(function (xhr, textStatus, errorThrown) {
-                Transition.showLoadingScreen(false);
+                LoadingScreen.show(false);
 
                 if (xhr.readyState === 0) {
                     PageMessageBox.error(null, {infoMessage: 'Unable to connect to server.'});
@@ -344,50 +334,6 @@ class Transition {
                         PageMessageBox.error(null, {infoMessage: 'Cannot execute call: ' + xhr.status});
                 }
             });
-    }
-
-    static showLoadingScreenPage(show, timeout) {
-        clearTimeout(Transition.loadingScreenTimeoutIdModal);
-        Transition.loadingScreenTimeoutIdModal = null;
-        $('#loading-screen-modal').css('display', 'none');
-
-        let $loading = $('#loading-screen-page');
-        if (Transition.loadingScreenTimeoutIdPage && !show) {
-            clearTimeout(Transition.loadingScreenTimeoutIdPage);
-            Transition.loadingScreenTimeoutIdPage = null;
-            $loading.css('display', 'none');
-
-        } else if (!Transition.loadingScreenTimeoutIdPage && show) {
-            Transition.loadingScreenTimeoutIdPage = setTimeout(() => {
-                $loading.css('display', 'block');
-            }, timeout);
-        }
-    }
-
-    static showLoadingScreenModal(show, timeout) {
-        clearTimeout(Transition.loadingScreenTimeoutIdPage);
-        Transition.loadingScreenTimeoutIdPage = null;
-        $('#loading-screen-page').css('display', 'none');
-
-        let $loading = $('#loading-screen-modal');
-        if (Transition.loadingScreenTimeoutIdModal && !show) {
-            clearTimeout(Transition.loadingScreenTimeoutIdModal);
-            Transition.loadingScreenTimeoutIdModal = null;
-            $loading.css('display', 'none');
-
-        } else if (!Transition.loadingScreenTimeoutIdModal && show) {
-            Transition.loadingScreenTimeoutIdModal = setTimeout(() => {
-                $loading.css('display', 'block');
-            }, timeout);
-        }
-    }
-
-    static showLoadingScreen(show, timeout = 300) {
-        if (PageModal.isActive) {
-            Transition.showLoadingScreenModal(show, timeout);
-        } else {
-            Transition.showLoadingScreenPage(show, timeout);
-        }
     }
 
     static fromHtml(html, componentEvent = null) {

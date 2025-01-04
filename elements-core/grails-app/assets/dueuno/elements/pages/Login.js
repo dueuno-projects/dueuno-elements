@@ -36,7 +36,7 @@ class Login extends Page {
             }
         }
 
-        Transition.showLoadingScreen(true, 500);
+        LoadingScreen.show(true, 500);
 
         $.ajax(call)
             .done(function (data, textStatus, request) {
@@ -51,21 +51,21 @@ class Login extends Page {
                 }
 
                 if (data.error) {
-                    Transition.showLoadingScreen(false);
+                    LoadingScreen.show(false);
                     $loginError.removeClass('d-none');
                     $username.val('').focus();
                     $password.val('');
                 }
 
                 if (data.customError) {
-                    Transition.showLoadingScreen(false);
+                    LoadingScreen.show(false);
                     PageMessageBox.info(null, data.customError);
                     $username.val('').focus();
                     $password.val('');
                 }
             })
             .fail(function (request, textStatus, errorThrown) {
-                Transition.showLoadingScreen(false);
+                LoadingScreen.show(false);
                 PageMessageBox.error(null, {infoMessage: 'Error, please retry'});
             });
     }

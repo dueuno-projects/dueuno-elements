@@ -12,7 +12,7 @@ class TransitionCommand {
     static get SET() { return 'SET' }
 
     static async redirect(componentEvent) {
-        Transition.showLoadingScreen(false);
+        LoadingScreen.show(false);
 
         if (PageModal.isActive && !componentEvent.renderProperties['modal']) {
             PageModal.close();
@@ -23,7 +23,7 @@ class TransitionCommand {
     }
 
     static renderPage($newPageContent, componentEvent) {
-        Transition.showLoadingScreen(false);
+        LoadingScreen.show(false);
 
         let $newPage = $newPageContent.find('[data-21-component="PageContent"]');
         if (!$newPage.exists()) {
@@ -38,7 +38,7 @@ class TransitionCommand {
     }
 
     static renderContent($components, componentEvent) {
-        Transition.showLoadingScreen(false);
+        LoadingScreen.show(false);
 
         let $content = $components.find('#page-content');
         if (!$content) {
@@ -102,7 +102,7 @@ class TransitionCommand {
     }
 
     static loading(show) {
-        Transition.showLoadingScreen(show);
+        LoadingScreen.show(show);
     }
 
     static replace($element, componentId, newComponentId, $components) {
