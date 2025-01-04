@@ -165,12 +165,14 @@ class UserController implements ElementsController {
             addField(
                     class: Select,
                     id: 'groups',
+                    optionsFromRecordset: securityService.listGroup([hideUsers: true]),
                     search: false,
                     multiple: true,
             )
             addField(
                     class: Select,
                     id: 'defaultGroup',
+                    optionsFromRecordset: securityService.listGroup([hideUsers: true]),
                     search: false,
             )
             addField(
@@ -413,8 +415,7 @@ class UserController implements ElementsController {
 //        c.form.readonly = !user.deletable
         c.form['enabled'].readonly = !user.deletable
 
-//        c.form['groups'].value = user.authorities.collect { it.id }
-//        c.form['defaultGroup'].value = user.defaultGroup.id
+        c.form['groups'].value = user.authorities.collect { it.id }
 
         display content: c, modal: true
     }
