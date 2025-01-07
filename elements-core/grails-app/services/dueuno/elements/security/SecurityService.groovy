@@ -764,6 +764,12 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         return user
     }
 
+    void changeUsername(String oldUsername, String newUsername) {
+        TUser user = getUserByUsername(oldUsername)
+        user.username = newUsername
+        user.save(flush: true, failOnError: true)
+    }
+
     void deleteTenantUsersAndGroups(Serializable tenantId) {
         TTenant tenant = tenantService.get(tenantId)
 
