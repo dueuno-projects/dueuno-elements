@@ -26,6 +26,7 @@ import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.validation.Errors
+import org.springframework.validation.ObjectError
 
 /**
  * @author Gianluca Sartori
@@ -150,32 +151,42 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
         } else if (args.errors) {
             Integer submittedComponentCount = requestParams._21SubmittedCount as Integer
             String submittedComponentName = requestParams._21SubmittedName as String
-            Object obj = args.errors
+            Object componentErrors = args.errors
 
             if (submittedComponentCount > 1) { // Multiple components submitted
-                Object componentErrors = args.errors
                 if (componentErrors !in Map) {
-                    throw new ElementsException("Multiple components submitted, please set 'errors' as a Map (Eg. 'display errors: [formName1: obj1, formName2: obj2, ...]'")
-                }
+                    t.errorMessage("Multiple components submitted, please set 'errors' as a Map (Eg. 'display errors: [formName1: obj1, formName2: obj2, ...]'")
 
-                for (component in componentErrors as Map) {
-                    String componentName = component.key
-                    Object componentError = component.value
-                    Errors errors = getValidationErrors(componentName, componentError)
-                    t.set(componentName, 'errors', errors)
+                } else {
+                    for (component in componentErrors as Map) {
+                        String componentName = component.key
+                        Object componentError = component.value
+                        Object errors = getComponentErrors(t, componentName, componentError)
+                        t.set(componentName, 'errors', errors)
+                    }
                 }
 
             } else if (submittedComponentCount == 1) { // Single component submitted
-                Errors errors = getValidationErrors(submittedComponentName, obj)
+                Object errors = getComponentErrors(t, submittedComponentName, componentErrors)
                 t.set(submittedComponentName, 'errors', errors)
 
-            } else { // no component submitted
-                Errors errors = obj['errors'] as Errors
-                if (errors.globalError) {
-                    t.errorMessage(errors.globalError.codes[1])
+            } else try { // no component submitted
+                if (componentErrors['errors']) {
+                    Errors errors = componentErrors['errors'] as Errors
+                    if (errors.globalError) {
+                        t.errorMessage(errors.globalError.codes[1])
+                    } else {
+                        t.errorMessage(errors.allErrors.join('. '))
+                    }
+
+                } else if (componentErrors in Map) {
+                    t.errorMessage("No component submitted, please specify one in the event definition.")
+
                 } else {
-                    t.errorMessage(errors.allErrors.join('. '))
+                    throw new Exception("Wrong use of the 'errors' feature.")
                 }
+            } catch (Exception e) {
+                t.errorMessage("Cannot display errors, please refer to the Dueuno Elements user guide.")
             }
 
         } else if (args.controller || args.action) {
@@ -188,17 +199,43 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
         ]
     }
 
-    private Errors getValidationErrors(String componentName, Object validateable) {
-        if (!validateable.hasProperty('errors') && validateable['errors'] !in Errors) {
-            throw new ElementsException("Cannot use object '${validateable}' to display errors. Please specify an instance of an object implementing '${Validateable.name}'")
+    private Map getErrorsFromMap(String componentName, Map errorsMap) {
+        List<Map> errors = []
+
+        for (error in errorsMap) {
+            String fieldName = error.key
+            String fieldError = error.value
+            errors.add([
+                    field  : fieldName,
+                    message: fieldError,
+            ])
+            log.debug "[${componentName}] ${fieldName}: ${fieldError}"
         }
 
+        return [errors: errors]
+    }
+
+    private Errors getErrorsFromValidatable(String componentName, Object validateable) {
         Errors errors = validateable['errors'] as Errors
         for (error in errors.allErrors) {
-            println "[${componentName}] " + message(error.defaultMessage, error.arguments)
+            log.debug "[${componentName}] " + message(error.defaultMessage, error.arguments)
         }
-
         return errors
+    }
+
+    private Object getComponentErrors(Transition t, String componentName, Object componentErrors) {
+        if (componentErrors in Map) {
+            // display errors: [field1: 'Some error']
+            return getErrorsFromMap(componentName, componentErrors as Map)
+
+        } else if (componentErrors.hasProperty('errors') || componentErrors['errors'] in Errors) {
+            // display errors: gormObject (or grailsValidator)
+            return getErrorsFromValidatable(componentName, componentErrors)
+
+        } else {
+            // No other ways to submit errors at the moment
+            t.errorMessage("Cannot use object '${componentErrors.class.name}' to display errors. Please specify a Map (eg. [fieldname: 'Some error']) or an instance of an object implementing '${Validateable.name}'")
+        }
     }
 
     private Map page(Map args) {

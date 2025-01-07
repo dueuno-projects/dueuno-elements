@@ -79,7 +79,7 @@ class SandboxController implements ElementsController {
                     class: Button,
                     id: 'loadingScreen',
                     action: 'onHideLoadingScreen',
-                    loading: true,
+                    displayLabel: false,
                     cols: 12,
             )
             addField(
@@ -87,6 +87,7 @@ class SandboxController implements ElementsController {
                     id: 'redirectBtn',
                     action: 'messageWithRedirect',
                     modal: true,
+                    displayLabel: false,
                     cols: 12,
             )
             addField(
@@ -95,6 +96,16 @@ class SandboxController implements ElementsController {
                     action: 'index',
                     onClick: 'onCustomParams',
 //                    params: [money: new Money(10), quantity: new Quantity(20)],
+                    displayLabel: false,
+                    cols: 12,
+            )
+            addField(
+                    class: Button,
+                    id: 'setErrors',
+                    action: 'onSetErrors',
+                    submit: 'formFail',
+                    loading: false,
+                    displayLabel: false,
                     cols: 12,
             )
             addField(
@@ -590,6 +601,10 @@ Grails application running at http://localhost:9992/test in environment: develop
         def user = new TUser(username: 'G', password: 'G')
         user.errors.reject('obj.reject.error.test')
         display errors: user
+    }
+
+    def onSetErrors() {
+        display errors: [testMoney: 'Something wrong here', placeholderText: 'Here as well!']
     }
 
     def onSetCellValue() {
