@@ -191,16 +191,23 @@ class Form extends Component {
     }
 
     private void setFieldValue(Control control, Object obj = null) {
-        Object value = ObjectUtils.getValue(obj, control.id)
+        if (control.value != null) {
+            return
+        }
 
-        if (value == null && control.value == null && requestParams.containsKey(control.id)) {
+        Object value = ObjectUtils.getValue(obj, control.id)
+        if (value == null && requestParams.containsKey(control.id)) {
             control.value = requestParams[control.id]
 
-        } else if (value == null && control.value == null && control.defaultValue != null) {
+        } else if (value == null && control.defaultValue != null) {
             control.value = control.defaultValue
 
         } else if (value != null) {
-            control.value = value
+            if (Elements.hasId(value)) {
+                control.value = value['id']
+            } else {
+                control.value = value
+            }
         }
     }
 
