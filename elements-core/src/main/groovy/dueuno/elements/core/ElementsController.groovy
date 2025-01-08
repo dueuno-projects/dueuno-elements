@@ -204,7 +204,7 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
 
         for (error in errorsMap) {
             String fieldName = error.key
-            String fieldError = error.value
+            String fieldError = message(error.value as String)
             errors.add([
                     field  : fieldName,
                     message: fieldError,
