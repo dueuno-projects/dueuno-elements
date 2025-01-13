@@ -91,7 +91,7 @@ class Form extends Component {
         Component component
         if (clazz in Control) {
             component = addControl(args)
-            setFieldValue(component)
+            setDefaultValue(component)
 
         } else {
             component = addComponent(args)
@@ -187,31 +187,38 @@ class Form extends Component {
 
         for (controlEntry in controls) {
             Control control = controlEntry.value
-            setFieldValue(control, obj)
+            setValue(control, obj)
         }
     }
 
-    private void setFieldValue(Control control, Object obj = null) {
-        if (!obj || control.value != null) {
+    private void setValue(Control control, Object obj = null) {
+        Object value = ObjectUtils.getValue(obj, control.id)
+        if (value) {
+            if (Types.isRegistered(value)) {
+                control.value = value
+
+            } else if (Elements.hasId(value)) {
+                control.value = value['id']
+
+            } else {
+                control.value = value
+            }
+
+        } else {
+            setDefaultValue(control)
+        }
+    }
+
+    private void setDefaultValue(Control control) {
+        if (control.value != null) {
             return
         }
 
-        Object value = ObjectUtils.getValue(obj, control.id)
-        if (value == null) {
-            if (requestParams.containsKey(control.id)) {
-                control.value = requestParams[control.id]
-            } else {
-                control.value = control.defaultValue
-            }
+        if (requestParams.containsKey(control.id)) {
+            control.value = requestParams[control.id]
 
-        } else if (Types.isRegistered(value)) {
-            control.value = value
-
-        } else if (Elements.hasId(value)) {
-            control.value = value['id']
-
-        } else {
-            control.value = value
+        } else if (control.defaultValue != null) {
+            control.value = control.defaultValue
         }
     }
 
