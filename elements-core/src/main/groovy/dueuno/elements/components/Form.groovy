@@ -21,6 +21,7 @@ import dueuno.elements.core.Control
 import dueuno.elements.core.Elements
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.types.Types
 import grails.gorm.validation.ConstrainedProperty
 import grails.validation.Validateable
 import groovy.transform.CompileStatic
@@ -196,18 +197,21 @@ class Form extends Component {
         }
 
         Object value = ObjectUtils.getValue(obj, control.id)
-        if (value == null && requestParams.containsKey(control.id)) {
-            control.value = requestParams[control.id]
-
-        } else if (value == null && control.defaultValue != null) {
-            control.value = control.defaultValue
-
-        } else if (value != null) {
-            if (Elements.hasId(value)) {
-                control.value = value['id']
+        if (value == null) {
+            if (requestParams.containsKey(control.id)) {
+                control.value = requestParams[control.id]
             } else {
-                control.value = value
+                control.value = control.defaultValue
             }
+
+        } else if (Types.isRegistered(value)) {
+            control.value = value
+
+        } else if (Elements.hasId(value)) {
+            control.value = value['id']
+
+        } else {
+            control.value = value
         }
     }
 
