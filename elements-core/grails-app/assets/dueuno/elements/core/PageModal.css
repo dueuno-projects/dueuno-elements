@@ -47,7 +47,7 @@
     }
 }
 
-#page-modal .modal-header {
+#page-modal-header {
     border: none;
     padding: calc(var(--elements-font-size) * 0.8);
     padding-bottom: calc(var(--elements-font-size)* 0.65);
@@ -57,17 +57,21 @@
     padding: 0;
 }
 
-#page-modal .modal-header .btn-group a.btn,
-#page-modal .modal-header .btn-group a.btn:hover,
-#page-modal .modal-header .btn-group a.btn:focus,
-#page-modal .modal-header .btn-group a.btn:active,
-#page-modal .modal-header .btn-group button:hover,
-#page-modal .modal-header .btn-group button:focus,
-#page-modal .modal-header .btn-group button:active,
-#page-modal .modal-header .btn-group button {
+#page-modal-header .btn-group a.btn,
+#page-modal-header .btn-group a.btn:hover,
+#page-modal-header .btn-group a.btn:focus,
+#page-modal-header .btn-group a.btn:active,
+#page-modal-header .btn-group button:hover,
+#page-modal-header .btn-group button:focus,
+#page-modal-header .btn-group button:active,
+#page-modal-header .btn-group button {
     background-color: white;
     color: #333333;
     font-weight: normal;
+}
+
+#page-modal-header > .component-button {
+    padding-right: .15rem;
 }
 
 #page-modal-body .simplebar-content > :nth-child(2) {

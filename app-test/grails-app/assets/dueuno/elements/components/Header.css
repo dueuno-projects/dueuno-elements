@@ -21,8 +21,12 @@
     font-size: calc(var(--elements-font-size) * 1.1);
     font-weight: bold;
     margin-top: calc(var(--elements-font-size) / 8);
-    margin-left: -0.3rem;
+    margin-left: -.5rem;
     padding: 0;
+}
+
+.component-header-back > .component-button {
+    padding-right: .15rem;
 }
 
 /* COLORS
