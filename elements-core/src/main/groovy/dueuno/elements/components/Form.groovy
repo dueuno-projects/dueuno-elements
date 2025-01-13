@@ -192,7 +192,7 @@ class Form extends Component {
     }
 
     private void setFieldValue(Control control, Object obj = null) {
-        if (control.value != null) {
+        if (!obj || control.value != null) {
             return
         }
 

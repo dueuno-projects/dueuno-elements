@@ -130,7 +130,7 @@ class SandboxController implements ElementsController {
             addField(
                     class: TimeField,
                     id: 't1',
-                    value: LocalTime.now(),
+                    defaultValue: LocalTime.now(),
                     min: LocalTime.now().minusHours(3),
                     timeStep: 15,
                     onChange: 'onTimeChange',
@@ -340,7 +340,10 @@ Grails application running at http://localhost:9992/test in environment: develop
 //            )
         }
 
-        formFail.values = TCompany.get(2)
+        formFail.values = [
+                name: 'PIPPO',
+                t1: LocalTime.now().plusHours(3)
+        ]
 
         def table = c.addComponent(Table, 'tableTest')
         table.with {
