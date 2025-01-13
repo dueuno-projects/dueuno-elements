@@ -81,6 +81,7 @@ class SandboxController implements ElementsController {
                     action: 'onHideLoadingScreen',
                     displayLabel: false,
                     cols: 12,
+                    colsSmall: 6,
             )
             addField(
                     class: Button,
@@ -89,6 +90,7 @@ class SandboxController implements ElementsController {
                     modal: true,
                     displayLabel: false,
                     cols: 12,
+                    colsSmall: 6,
             )
             addField(
                     class: Button,
@@ -98,6 +100,7 @@ class SandboxController implements ElementsController {
 //                    params: [money: new Money(10), quantity: new Quantity(20)],
                     displayLabel: false,
                     cols: 12,
+                    colsSmall: 6,
             )
             addField(
                     class: Button,
@@ -107,6 +110,7 @@ class SandboxController implements ElementsController {
                     loading: false,
                     displayLabel: false,
                     cols: 12,
+                    colsSmall: 6,
             )
             addField(
                     class: DateTimeField,

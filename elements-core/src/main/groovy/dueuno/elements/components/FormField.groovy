@@ -39,6 +39,7 @@ class FormField extends Component {
     List acceptedCols
     List acceptedRows
     Integer cols
+    Integer colsSmall
     Integer rows
 
     FormField(Map args) {
@@ -57,8 +58,8 @@ class FormField extends Component {
 
         setAcceptedRows(args.acceptedRows == null ? [] : args.acceptedRows as List)
         setAcceptedCols(args.acceptedCols == null ? [] : args.acceptedCols as List)
-        setCols(args.cols == null ? 3 : args.cols as Integer)
-        setRows((args.rows as Integer) == null ? 3 : args.rows as Integer)
+        setCols(args.cols == null ? 12 : args.cols as Integer, args.colsSmall == null ? 12 : args.colsSmall as Integer)
+        setRows(args.rows == null ? 3 : args.rows as Integer)
     }
 
     void setAcceptedCols(List accepted) {
@@ -77,9 +78,10 @@ class FormField extends Component {
         acceptedRows = accepted
     }
 
-    void setCols(Integer columns) {
-        if (columns in acceptedCols) {
+    void setCols(Integer columns, Integer columnsSmall) {
+        if (columns in acceptedCols && columnsSmall in acceptedCols) {
             cols = columns
+            colsSmall = columnsSmall
         } else {
             throw new ArgsException("The '${component.getClass().simpleName}' control only accepts one of the following values for 'cols': " + acceptedCols.join(', '))
         }
@@ -98,7 +100,9 @@ class FormField extends Component {
     }
 
     String getCols() {
-        return ' col-lg-' + cols + ' col-sm-' + cols
+        String colClasses = ' col-sm-' + cols
+        if (colsSmall != 12) colClasses += ' col-' + colsSmall
+        return colClasses
     }
 
     String getRows() {
