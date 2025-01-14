@@ -77,6 +77,7 @@ class TextField extends Control {
     }
 
     Control addAction(Map args) {
+        args.loading = args.loading != null ? args.loading : false
         actions.addAction(args)
         return this
     }
