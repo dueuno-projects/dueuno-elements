@@ -9,6 +9,6 @@
     box-shadow: 0 0 0 1px rgba(204, 0, 0, .5) !important;
 }
 
-.component-form {
+.component-form form {
     padding: .5rem .75rem .75rem .75rem;
 }
