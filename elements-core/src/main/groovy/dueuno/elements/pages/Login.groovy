@@ -23,6 +23,7 @@ import dueuno.elements.controls.PasswordField
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.Page
 import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextTransform
 import groovy.transform.CompileStatic
 
 /**
@@ -64,6 +65,7 @@ class Login extends Page {
                     class: TextField,
                     id: 'username',
                     placeholder: 'authentication.username.placeholder',
+                    textTransform: TextTransform.LOWERCASE,
                     displayLabel: false,
             )
             addField(

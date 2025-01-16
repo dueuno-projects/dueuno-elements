@@ -1024,7 +1024,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
         } else {
             TTenant tenant = tenantService.getByTenantId(tenantId)
-            return tenant.tenantId.toLowerCase() + 'Admin'
+            return tenant.tenantId.toLowerCase() + 'admin'
         }
     }
 
