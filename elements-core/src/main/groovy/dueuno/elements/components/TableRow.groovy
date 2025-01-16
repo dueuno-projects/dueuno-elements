@@ -73,6 +73,7 @@ class TableRow extends Component {
         hasSelection = (args.hasSelection == null) ? true : args.hasSelection
 
         verticalAlign = VerticalAlign.CENTER
+        setTextStyle(args.textStyle)
 
         actions = createControl(
                 class: Button,
@@ -257,6 +258,25 @@ class TableRow extends Component {
         return StringUtils.generateHash(keysAsJSON)
     }
 
+    void setTextStyle(Object value) {
+        switch (value) {
+            case TextStyle:
+                textStyle = [value as TextStyle]
+                break
+
+            case List<TextStyle>:
+                textStyle = value as List<TextStyle>
+                break
+
+            default:
+                textStyle = [TextStyle.NORMAL]
+        }
+    }
+
+    String getTextStyle() {
+        return textStyle.join(' ')
+    }
+
     //
     // KEYS
     //
@@ -331,8 +351,11 @@ class TableRow extends Component {
     }
 
     private void setCellAlignment(String columnName, Object value) {
-        TableCell cell = cells[columnName]
+        if (value == null) {
+            return
+        }
 
+        TableCell cell = cells[columnName]
         if (cell.textAlign == TextAlign.DEFAULT) {
             switch (value) {
                 case Boolean:
@@ -360,9 +383,7 @@ class TableRow extends Component {
 
         // Set header alignment
         for (row in table.header.rows) {
-            if (row.cells[columnName].textAlign == TextAlign.DEFAULT) {
-                row.cells[columnName].textAlign = cell.textAlign
-            }
+            row.cells[columnName].textAlign = cell.textAlign
         }
     }
 
