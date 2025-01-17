@@ -16,15 +16,17 @@ class LoadingScreen {
         $('#loading-screen-modal').css('display', 'none');
 
         let $loading = $('#loading-screen-page');
-        if (LoadingScreen.timeoutIdPage && !show) {
-            clearTimeout(LoadingScreen.timeoutIdPage);
-            LoadingScreen.timeoutIdPage = null;
-            $loading.css('display', 'none');
-
-        } else if (!LoadingScreen.timeoutIdPage && show) {
+        if (show) {
             LoadingScreen.timeoutIdPage = setTimeout(() => {
                 $loading.css('display', 'block');
             }, timeout);
+
+        } else {
+            $loading.css('display', 'none');
+            if (LoadingScreen.timeoutIdPage) {
+                clearTimeout(LoadingScreen.timeoutIdPage);
+                LoadingScreen.timeoutIdPage = null;
+            }
         }
     }
 
@@ -34,15 +36,17 @@ class LoadingScreen {
         $('#loading-screen-page').css('display', 'none');
 
         let $loading = $('#loading-screen-modal');
-        if (LoadingScreen.timeoutIdModal && !show) {
-            clearTimeout(LoadingScreen.timeoutIdModal);
-            LoadingScreen.timeoutIdModal = null;
-            $loading.css('display', 'none');
-
-        } else if (!LoadingScreen.timeoutIdModal && show) {
+        if (show) {
             LoadingScreen.timeoutIdModal = setTimeout(() => {
                 $loading.css('display', 'block');
             }, timeout);
+
+        } else {
+            $loading.css('display', 'none');
+            if (LoadingScreen.timeoutIdModal) {
+                clearTimeout(LoadingScreen.timeoutIdModal);
+                LoadingScreen.timeoutIdModal = null;
+            }
         }
     }
 

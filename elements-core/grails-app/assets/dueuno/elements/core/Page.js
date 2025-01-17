@@ -22,6 +22,7 @@ class Page {
         Page.initializePage();
         Page.initializeContent($('body'));
         $(window).on('load', Page.onLoad);
+        LoadingScreen.show(false);
     }
 
     static onLoad(event) {
