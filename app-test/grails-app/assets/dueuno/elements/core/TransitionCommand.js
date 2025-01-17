@@ -49,16 +49,16 @@ class TransitionCommand {
         let contentRenderProperties = Component.getProperty($content, 'renderProperties');
         componentEvent.renderProperties = TransitionCommand.mergeRenderProperties(componentEvent.renderProperties, contentRenderProperties);
 
-        if (PageMessageBox.isActive) PageMessageBox.hide();
         if (componentEvent.renderProperties['modal']) {
             PageModal.open($content, componentEvent);
 
         } else {
-            if (PageModal.isActive) {
-                PageModal.close();
-            }
-
+            if (PageModal.isActive) { PageModal.close(); }
             TransitionCommand.render(PageContent.$self, $content, componentEvent);
+        }
+
+        if (PageMessageBox.isActive) {
+            PageMessageBox.hide();
         }
     }
 
