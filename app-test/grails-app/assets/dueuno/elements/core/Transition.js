@@ -88,12 +88,16 @@ class Transition {
                 TransitionCommand.loading(valueMap.value);
                 break;
 
+            case TransitionCommand.APPEND:
+                TransitionCommand.append($element, componentId, valueMap.value, $components);
+                break;
+
             case TransitionCommand.REPLACE:
                 TransitionCommand.replace($element, componentId, valueMap.value, $components);
                 break;
 
-            case TransitionCommand.APPEND:
-                TransitionCommand.append($element, componentId, valueMap.value, $components);
+            case TransitionCommand.REMOVE:
+                TransitionCommand.remove($element, componentId);
                 break;
 
             case TransitionCommand.TRIGGER:

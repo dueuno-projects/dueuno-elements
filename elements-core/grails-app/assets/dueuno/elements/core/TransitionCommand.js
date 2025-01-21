@@ -4,8 +4,9 @@ class TransitionCommand {
     // See: https://github.com/google/closure-compiler/issues/2731
     static get REDIRECT() { return 'REDIRECT' }
     static get CONTENT() { return 'CONTENT' }
-    static get REPLACE() { return 'REPLACE' }
     static get APPEND() { return 'APPEND' }
+    static get REPLACE() { return 'REPLACE' }
+    static get REMOVE() { return 'REMOVE' }
     static get TRIGGER() { return 'TRIGGER' }
     static get LOADING() { return 'LOADING' }
     static get CALL() { return 'CALL' }
@@ -105,6 +106,23 @@ class TransitionCommand {
         LoadingScreen.show(show);
     }
 
+    static append($element, componentId, newComponentId, $components) {
+        let $component = $components.find('[data-21-id="' + newComponentId + '"]');
+        if (!$component) {
+            log.error("Cannot find component '" + newComponentId + "' in transition components payload.")
+            return;
+        }
+
+        if (!$element.exists()) {
+            log.error('Cannot append to component "' + componentId + '" (element not found)');
+            return;
+        }
+
+        let $parent = $element.closest('[data-21-component]').parent();
+        $parent.append($component);
+        Page.reinitializeContent($component);
+    }
+
     static replace($element, componentId, newComponentId, $components) {
         let $component = $components.find('[data-21-id="' + newComponentId + '"]');
         if (!$component) {
@@ -121,21 +139,13 @@ class TransitionCommand {
         Page.reinitializeContent($component);
     }
 
-    static append($element, componentId, newComponentId, $components) {
-        let $component = $components.find('[data-21-id="' + newComponentId + '"]');
-        if (!$component) {
-            log.error("Cannot find component '" + newComponentId + "' in transition components payload.")
-            return;
-        }
-
+    static remove($element, componentId) {
         if (!$element.exists()) {
-            log.error('Cannot append to component "' + componentId + '" (element not found)');
+            log.error('Cannot remove component "' + componentId + '" (element not found)');
             return;
         }
 
-        let $parent = $element.closest('[data-21-component]').parent();
-        $parent.append($component);
-        Page.reinitializeContent($component);
+        $element.remove();
     }
 
     static trigger($element, componentId, eventName) {

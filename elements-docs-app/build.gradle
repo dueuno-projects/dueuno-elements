@@ -74,7 +74,7 @@ dependencies {
 
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 
-    implementation "org.dueuno:elements-core:2.x-SNAPSHOT"
+    implementation "org.dueuno:elements-core:2.6.10"
 }
 
 java {

@@ -115,6 +115,15 @@ class Transition implements WebRequestAware {
         )
     }
 
+    void remove(String component) {
+        addCommand(
+                TransitionCommandMethod.REMOVE,
+                component,
+                null,
+                null,
+        )
+    }
+
     void replace(String component, String newComponent) {
         addCommand(
                 TransitionCommandMethod.REPLACE,
