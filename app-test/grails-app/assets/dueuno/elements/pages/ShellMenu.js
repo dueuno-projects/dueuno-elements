@@ -10,7 +10,7 @@ class ShellMenu extends Component {
         $search.on('input', ShellMenu.onSearch);
 
         if (!_21_.user.animations) {
-            $element.off('shown.bs.offcanvas').on('shown.bs.offcanvas', ShellUserMenu.onShown);
+            $element.off('shown.bs.offcanvas').on('shown.bs.offcanvas', ShellMenu.onShown);
         }
     }
 
