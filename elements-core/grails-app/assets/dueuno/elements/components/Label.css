@@ -1,5 +1,6 @@
 .component-label {
     border-radius: 0;
+    padding-left: .25rem;
 }
 
 .component-label.border {
@@ -34,11 +35,4 @@
     white-space: pre;
     word-wrap: break-word;
     overflow-x: scroll;
-}
-
-/* COLORS
-*/
-.component-label.border {
-    background-color: rgb(var(--elements-tertiary-bg));
-    color: rgb(var(--elements-tertiary-text));
 }

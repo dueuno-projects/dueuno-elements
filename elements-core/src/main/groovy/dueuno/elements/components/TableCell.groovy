@@ -81,6 +81,7 @@ class TableCell extends Component {
                 replace: true,
                 messagePrefix: controllerName,
                 textWrap: TextWrap.NO_WRAP,
+                border: false,
         )
     }
 

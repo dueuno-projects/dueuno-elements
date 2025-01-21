@@ -404,16 +404,17 @@ class FormController implements ElementsController {
             )
             addField(
                     class: Label,
-                    id: 'label3',
-                    textWrap: TextWrap.LINE_WRAP,
+                    id: 'info',
+                    textAlign: TextAlign.CENTER,
+                    backgroundColor: '#eab676',
+                    displayLabel: false,
                     cols: cols,
             )
             addField(
                     class: Label,
-                    id: 'info',
-                    border: true,
-                    displayLabel: false,
-                    backgroundColor: '#eab676',
+                    id: 'label3',
+                    textWrap: TextWrap.LINE_WRAP,
+                    border: false,
                     cols: cols,
             )
             addField(

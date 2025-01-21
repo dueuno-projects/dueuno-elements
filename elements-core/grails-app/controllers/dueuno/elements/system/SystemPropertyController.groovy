@@ -139,7 +139,7 @@ class SystemPropertyController implements ElementsController {
                         html: description,
                         textWrap: TextWrap.SOFT_WRAP,
                         displayLabel: false,
-                        border: true,
+                        border: false,
                         cols: 12,
                 )
             }

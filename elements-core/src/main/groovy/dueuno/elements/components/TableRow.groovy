@@ -72,7 +72,7 @@ class TableRow extends Component {
         isFooter = (args.isFooter == null) ? false : args.isFooter
         hasSelection = (args.hasSelection == null) ? true : args.hasSelection
 
-        verticalAlign = VerticalAlign.CENTER
+        verticalAlign = VerticalAlign.MIDDLE
         setTextStyle(args.textStyle)
 
         actions = createControl(
@@ -411,6 +411,7 @@ class TableRow extends Component {
                 renderMessagePrefix: isHeader && !table.labels[columnName],
                 textWrap: TextWrap.NO_WRAP,
                 textStyle: TextStyle.BOLD,
+                border: false,
         )
 
         return addCell(columnName, header)
