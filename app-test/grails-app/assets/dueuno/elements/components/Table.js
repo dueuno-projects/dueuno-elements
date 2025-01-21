@@ -10,8 +10,6 @@ class Table extends Component {
     }
 
     static finalize($element, $root) {
-        Page.finalizeContent($element);
-
         let $dataset = $element.find('.component-table-dataset');
         $dataset.on('scroll', Table.onScroll);
         let $selectAll = $element.find('.component-table-selection-header input');

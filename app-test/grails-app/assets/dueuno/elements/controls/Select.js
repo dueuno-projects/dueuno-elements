@@ -179,17 +179,16 @@ class Select extends Control {
             }
         }
 
-        if (valueMap.value != null && !isValueInOptions) {
+        if (isValueInOptions) {
+            let properties = Component.getProperties($element);
+            let optionsCount = $element.children('option').length;
+            if (!properties['autoSelect'] || optionsCount > 1 || properties['nullable']) {
+                // Select2 automatically selects the first item on ajax loading
+                // so we need to implement an inverse logic
+                Select.setValue($element, valueMap, false);
+            }
+        } else {
             valueMap.value = null;
-            Select.setValue($element, valueMap, false);
-            return;
-        }
-
-        let properties = Component.getProperties($element);
-        let optionsCount = $element.children('option').length;
-        if (!properties['autoSelect'] || optionsCount > 1 || properties['nullable']) {
-            // Select2 automatically selects the first item on ajax loading
-            // so we need to implement an inverse logic
             Select.setValue($element, valueMap, false);
         }
     }
