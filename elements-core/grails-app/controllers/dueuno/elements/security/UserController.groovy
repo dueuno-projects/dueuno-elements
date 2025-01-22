@@ -132,12 +132,12 @@ class UserController implements ElementsController {
                         class: Select,
                         id: 'tenant',
                         optionsFromRecordset: tenantService.list(),
-                        cols: 12,
+                        defaultValue: tenantService.defaultTenant.id,
                         search: false,
                         noSelection: false,
-                        defaultValue: tenantService.default.id,
                         onLoad: 'onTenantChange',
                         onChange: 'onTenantChange',
+                        submit: ['form'],
                 )
             }
 
@@ -161,7 +161,7 @@ class UserController implements ElementsController {
             addField(
                     class: Separator,
                     id: 'authorizations',
-                    cols: 12,
+                    icon: 'fa-shield-halved',
             )
             addField(
                     class: Select,
@@ -169,14 +169,12 @@ class UserController implements ElementsController {
                     optionsFromRecordset: securityService.listGroup([hideUsers: true]),
                     search: false,
                     multiple: true,
-                    cols: 12,
             )
             addField(
                     class: Select,
                     id: 'defaultGroup',
                     optionsFromRecordset: securityService.listGroup([hideUsers: true]),
                     search: false,
-                    cols: 12,
             )
             addField(
                     class: NumberField,
@@ -240,7 +238,6 @@ class UserController implements ElementsController {
                     class: Textarea,
                     id: 'note',
                     maxSize: 2000,
-                    cols: 12,
                     rows: 2,
             )
         }
@@ -251,7 +248,7 @@ class UserController implements ElementsController {
             addField(
                     class: Separator,
                     id: 'preferences',
-                    cols: 12,
+                    icon: 'fa-earth-americas',
             )
             addField(
                     class: Select,
@@ -333,16 +330,16 @@ class UserController implements ElementsController {
     }
 
     def onTenantChange() {
-        def rs = securityService.listGroup([tenant: params.tenant, hideUsers: true])
+        def rs = securityService.listGroup(tenant: params.tenant, hideUsers: true)
         def tenantGroups = Select.optionsFromRecordset(recordset: rs)
-        def user = securityService.getUserByUsername(params.username)
 
         def t = createTransition()
         t.set('defaultGroup', 'options', tenantGroups)
-        t.setValue('groups',  params.defaultGroup)
         t.set('groups', 'options', tenantGroups)
 
+        def user = securityService.getUserByUsername(params.username)
         if (user) {
+            t.setValue('defaultGroup',  user.defaultGroup?.id)
             t.setValue('groups',  user.authorities*.id)
         }
 
@@ -369,7 +366,7 @@ class UserController implements ElementsController {
     }
 
     private normalizeInput(Map params) {
-        params.tenant = tenantService.get(params.tenant) ?: securityService.currentTenant
+        params.tenant = tenantService.get(params.tenant) ?: securityService.currentUserTenant
 
         List groups = []
         for (groupId in params.groups) {

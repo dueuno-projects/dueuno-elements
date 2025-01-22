@@ -5,7 +5,7 @@
     <i class="fa-solid fa-fw fa-clock"></i>
 </span>
 <input type="text"
-       class="control-time-field form-control"
+       class="control-time-field form-control ${c.textStyle}"
        style="${c.cssStyleColors}"
        autocomplete="off"
        data-td-target="#${c.id}"

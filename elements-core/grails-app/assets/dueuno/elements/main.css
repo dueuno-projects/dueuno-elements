@@ -28,6 +28,14 @@ body {
     font-size: calc(var(--elements-font-size) * 0.95) !important;
 }
 
+.dev-hints {
+    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    color: rgb(var(--elements-primary-bg));
+    border-radius: var(--bs-border-radius-lg);
+    position: relative;
+    z-index: 1040;
+}
+
 /* Remove iOS top shadow in controls */
 textarea, input:matches([type="text"], [type="number"], [type="password"], [type="search"], [type="email"], [type="tel"], [type="url"], [type="range"]) {
     -webkit-appearance: none;

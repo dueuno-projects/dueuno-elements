@@ -213,6 +213,10 @@ class Button extends Component {
         args.controller = controller
         args.action = action
 
+        if (defaultAction) {
+            args.loading = args.loading == null ? defaultAction.loading : args.loading
+        }
+
         return actionMenu.addItem(args)
     }
 

@@ -15,6 +15,7 @@
 package dueuno.elements
 
 import dueuno.elements.core.SessionInitializer
+import dueuno.elements.tenants.TenantForCurrentUserResolver
 import grails.plugins.Plugin
 import groovy.util.logging.Slf4j
 import org.springframework.scheduling.annotation.EnableScheduling
@@ -29,7 +30,7 @@ class ElementsGrailsPlugin extends Plugin {
 
     static final String NAME = 'elements-core'
 
-    def version = '2.0-SNAPSHOT'
+    def version = '2.x-SNAPSHOT'
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = '6.2.0 > *'
     // resources that are excluded from plugin packaging
@@ -68,8 +69,9 @@ class ElementsGrailsPlugin extends Plugin {
         xmlns context: 'http://www.springframework.org/schema/context'
         context.'component-scan' 'base-package': 'dueuno'
 
+        tenantForCurrentUserResolver(TenantForCurrentUserResolver)
         sessionInitializer(SessionInitializer)
-//                keyChain(KeyChain)
+//        keyChain(KeyChain)
     } }
 
     void doWithDynamicMethods() {

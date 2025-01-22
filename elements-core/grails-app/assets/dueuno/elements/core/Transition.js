@@ -1,15 +1,8 @@
-// Temporary solutions until we get support for static fields
-// See: https://github.com/google/closure-compiler/issues/2731
-let Transition_loadingScreenTimeoutId = null;
-
 class Transition {
-
-    static get loadingScreenTimeoutId() { return Transition_loadingScreenTimeoutId }
-    static set loadingScreenTimeoutId(value) { Transition_loadingScreenTimeoutId = value }
 
     static wsConnect() {
         const wsClient = new StompJs.Client();
-        if (isDevelopment()) {
+        if (_21_.log.debug) {
             wsClient.debug = console.log;
         }
         wsClient.brokerURL = 'ws' + _21_.app.url.replace('http', '') + 'stomp';
@@ -58,8 +51,12 @@ class Transition {
 
     static execute(transition, componentEvent) {
         log.debug('');
-        log.debug('<<< RESPONSE (' + componentEvent.controller + '/' + componentEvent.action + ')');
+        log.debug('<<< RESPONSE /' + componentEvent.controller + '/' + componentEvent.action);
         Transition.log(transition);
+
+        if (!transition.commands.length) {
+            LoadingScreen.show(false);
+        }
 
         for (let command of transition.commands) {
             Transition.executeCommand(transition, command, componentEvent);
@@ -67,10 +64,10 @@ class Transition {
     }
 
     static executeCommand(transition, command, componentEvent) {
-        let method = command.method;
         let $element = Transition.getTargetElement(command.component);
-        let component = $element.exists() ? Elements.getByElement($element) : null;
-        let componentId = $element.exists() ? Component.getId($element) : null;
+        let component = Elements.getByElement($element);
+        let componentId = command.component;
+        let method = command.method;
         let property = command.property;
         let valueMap = command.value;
         let trigger = command.trigger;
@@ -87,92 +84,97 @@ class Transition {
                 TransitionCommand.renderContent($components, componentEvent);
                 break;
 
-            case TransitionCommand.REPLACE:
-                TransitionCommand.replace($element, valueMap.value, $components);
-                break;
-
-            case TransitionCommand.APPEND:
-                TransitionCommand.append($element, valueMap.value, $components);
-                break;
-
-            case TransitionCommand.TRIGGER:
-                TransitionCommand.trigger($element, property);
-                break;
-
             case TransitionCommand.LOADING:
                 TransitionCommand.loading(valueMap.value);
                 break;
 
+            case TransitionCommand.APPEND:
+                TransitionCommand.append($element, componentId, valueMap.value, $components);
+                break;
+
+            case TransitionCommand.REPLACE:
+                TransitionCommand.replace($element, componentId, valueMap.value, $components);
+                break;
+
+            case TransitionCommand.REMOVE:
+                TransitionCommand.remove($element, componentId);
+                break;
+
+            case TransitionCommand.TRIGGER:
+                TransitionCommand.trigger($element, componentId, property);
+                break;
+
             case TransitionCommand.CALL:
-                TransitionCommand.call($element, component, property, valueMap.value);
+                TransitionCommand.call($element, componentId, component, property, valueMap.value);
                 break;
 
             case TransitionCommand.SET:
-                TransitionCommand.set($element, component, property, valueMap, trigger);
+                TransitionCommand.set($element, componentId, component, property, valueMap, trigger);
                 break;
 
             default:
-                log.error('Bad transition command "' + command.method + '"');
+                log.error('Invalid transition command "' + command.method + '"');
                 log.error(JSON.stringify(command));
         }
     }
 
-    static getTargetElement(componentName) {
-        if (!componentName) {
+    static getTargetElement(componentId) {
+        if (!componentId) {
             return $(null);
         }
 
-        let dotPosition = componentName.indexOf('.');
-        let rootName = dotPosition > 0 ? componentName.substring(0, dotPosition) : componentName;
-        let target = componentName.slice(dotPosition + 1);
+        let dotPosition = componentId.indexOf('.');
+        let rootName = dotPosition > 0 ? componentId.substring(0, dotPosition) : componentId;
+        let targetName = componentId.slice(dotPosition + 1);
 
         let $root;
         switch (rootName) {
             case 'page':
                 $root = $('body');
-                if (rootName == target) return $root;
+                if (rootName == targetName) return $root;
                 break;
 
             case 'messagebox':
                 $root = PageMessageBox.$self;
-                if (rootName == target) return $root;
+                if (rootName == targetName) return $root;
                 break;
 
             case 'modal':
                 $root = PageModal.$self;
-                if (rootName == target) return $root;
+                if (rootName == targetName) return $root;
                 break;
 
             case 'content':
-                $root = Page.$content;
-                if (rootName == target) return $root;
+                $root = PageContent.$self;
+                if (rootName == targetName) return $root;
                 break;
 
             default:
-                $root = PageModal.isActive ? PageModal.$self : Page.$content;
+                $root = PageModal.isActive ? PageModal.$self : PageContent.$self;
+                targetName = componentId;
         }
 
         // Check for components with dotted name (Eg. 'company.name')
-        let $component = $root.find('[data-21-id="' + componentName + '"]');
+        let $component = $root.find('[data-21-id="' + componentId + '"]');
         if ($component.exists()) {
             return $component;
         }
 
         // Select the component from its dotted path
         let path = '';
-        let nameList = target.split('.');
+        let nameList = targetName.split('.');
         for (let name of nameList) {
             path += '[data-21-id="' + name + '"] ';
         }
 
         $component = $root.find(path);
         if (!$component.exists()) {
-            log.error('Cannot find component "' + componentName + '"');
+            log.error('Cannot find component "' + componentId + '"');
             return $(null);
 
         } else if ($component.length > 1) {
-            log.error('Multiple components found with the same id "' + target
-                + '". Do you have a controller named "' + capitalize(target) + "Controller'? ");
+            log.error('Multiple components found with the same id "' + targetName
+                + '". Do you have a controller named "' + capitalize(targetName) + "Controller'? ");
             return $(null);
 
         } else {
@@ -240,20 +242,19 @@ class Transition {
         if (componentEvent) {
             // CONTROL OR COMPONENT CONTROLS VALUES
             if (componentEvent['submit']) {
-                let componentNames = componentEvent['submit'];
-                for (let componentName of componentNames) {
-                    let $root = PageModal.isActive ? PageModal.$self : Page.$content;
-                    let $component = $root.find('[data-21-id="' + componentName + '"]');
+                let componentIds = componentEvent['submit'];
+                for (let componentId of componentIds) {
+                    let $component = Transition.getTargetElement(componentId);
                     let control = Control.getByElement($component)
                     let component = Component.getByElement($component);
 
                     if (control) {
-                        components[componentName] = { [componentName]: control.getValue($component) };
-                        components[componentName]._21SubmittedName = componentName;
+                        components[componentId] = { [componentId]: control.getValue($component) };
+                        components[componentId]._21SubmittedName = componentId;
 
                     } else if (component) {
-                        components[componentName] = component.getValues($component);
-                        components[componentName]._21SubmittedName = componentName;
+                        components[componentId] = component.getValues($component);
+                        components[componentId]._21SubmittedName = componentId;
                     }
                 }
             }
@@ -281,8 +282,7 @@ class Transition {
 
     static call(url, values, componentEvent, async) {
         log.debug('');
-        log.debug('>>> REQUEST');
-        log.debug(url);
+        log.debug('>>> REQUEST ' + url);
         log.debug(JSON.stringify(JSON.parse(values._21Params), null, 2));
 
         Transition.ajaxCall(url, values, componentEvent, async);
@@ -296,7 +296,7 @@ class Transition {
             async: async,
         }
 
-        Transition.showLoadingScreen(componentEvent['loading']);
+        LoadingScreen.show(componentEvent['loading']);
 
         $.ajax(call)
             .done(function (data, textStatus, xhr) {
@@ -309,11 +309,10 @@ class Transition {
 
                 } else { // It's a full page
                     TransitionCommand.renderPage($response, componentEvent);
-                    Transition.showLoadingScreen(false);
                 }
             })
             .fail(function (xhr, textStatus, errorThrown) {
-                Transition.showLoadingScreen(false);
+                LoadingScreen.show(false);
 
                 if (xhr.readyState === 0) {
                     PageMessageBox.error(null, {infoMessage: 'Unable to connect to server.'});
@@ -339,23 +338,6 @@ class Transition {
                         PageMessageBox.error(null, {infoMessage: 'Cannot execute call: ' + xhr.status});
                 }
             });
-    }
-
-    static showLoadingScreen(show) {
-        let $loading = PageModal.isActive
-            ? $('#modal-loading-screen')
-            : $('#loading-screen');
-
-        if (Transition.loadingScreenTimeoutId && !show) {
-            clearTimeout(Transition.loadingScreenTimeoutId);
-            Transition.loadingScreenTimeoutId = null;
-            $loading.css('display', 'none');
-
-        } else if (!Transition.loadingScreenTimeoutId && show) {
-            Transition.loadingScreenTimeoutId = setTimeout(() => {
-                $loading.css('display', 'block');
-            }, 200);
-        }
     }
 
     static fromHtml(html, componentEvent = null) {

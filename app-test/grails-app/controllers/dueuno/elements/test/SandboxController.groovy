@@ -79,15 +79,18 @@ class SandboxController implements ElementsController {
                     class: Button,
                     id: 'loadingScreen',
                     action: 'onHideLoadingScreen',
-                    loading: true,
+                    displayLabel: false,
                     cols: 12,
+                    colsSmall: 6,
             )
             addField(
                     class: Button,
                     id: 'redirectBtn',
                     action: 'messageWithRedirect',
                     modal: true,
+                    displayLabel: false,
                     cols: 12,
+                    colsSmall: 6,
             )
             addField(
                     class: Button,
@@ -95,7 +98,19 @@ class SandboxController implements ElementsController {
                     action: 'index',
                     onClick: 'onCustomParams',
 //                    params: [money: new Money(10), quantity: new Quantity(20)],
+                    displayLabel: false,
                     cols: 12,
+                    colsSmall: 6,
+            )
+            addField(
+                    class: Button,
+                    id: 'setErrors',
+                    action: 'onSetErrors',
+                    submit: 'formFail',
+                    loading: false,
+                    displayLabel: false,
+                    cols: 12,
+                    colsSmall: 6,
             )
             addField(
                     class: DateTimeField,
@@ -104,6 +119,7 @@ class SandboxController implements ElementsController {
                     min: LocalDate.now().minusDays(3),
                     onLoad: 'onDateTimeLoad',
                     onChange: 'onDateTimeChange',
+                    textStyle: TextStyle.LINE_THROUGH,
                     cols: 4,
             )
             addField(
@@ -112,15 +128,17 @@ class SandboxController implements ElementsController {
                     value: LocalDate.now().minusDays(4),
                     min: LocalDate.now().minusDays(3),
                     onChange: 'onDateChange',
+                    textStyle: [TextStyle.LINE_THROUGH, TextStyle.ITALIC],
                     cols: 4,
             )
             addField(
                     class: TimeField,
                     id: 't1',
-                    value: LocalTime.now(),
+                    defaultValue: LocalTime.now(),
                     min: LocalTime.now().minusHours(3),
                     timeStep: 15,
                     onChange: 'onTimeChange',
+                    textStyle: TextStyle.NORMAL,
                     cols: 2,
             )
             addField(
@@ -133,6 +151,7 @@ class SandboxController implements ElementsController {
                     class: MonthField,
                     id: 'm1',
                     value: LocalDate.now(),
+                    textStyle: [TextStyle.LINE_THROUGH, TextStyle.NORMAL],
                     cols: 12,
             )
             addField(
@@ -193,6 +212,7 @@ class SandboxController implements ElementsController {
                     action: 'index',
                     icon: 'fa-user',
                     onClick: 'onSetPlaceholder',
+                    loading: false,
                     cols: 2,
             )
             addField(
@@ -203,6 +223,22 @@ class SandboxController implements ElementsController {
                     targetNew: true,
                     cols: 10,
             )
+
+            for (i in 1..6) {
+                addField(
+                        class: Label,
+                        id: "${i}Label",
+                        displayLabel: false,
+                        cols: 9,
+                )
+                addField(
+                        class: DateField,
+                        id: "${i}Date",
+                        displayLabel: false,
+                        cols: 3,
+                )
+            }
+
             addField(
                     class: TextField,
                     id: 'textUp',
@@ -324,7 +360,10 @@ Grails application running at http://localhost:9992/test in environment: develop
 //            )
         }
 
-        formFail.values = TCompany.get(2)
+        formFail.values = [
+                name: 'PIPPO',
+                t1: LocalTime.now().plusHours(3)
+        ]
 
         def table = c.addComponent(Table, 'tableTest')
         table.with {
@@ -367,13 +406,13 @@ Grails application running at http://localhost:9992/test in environment: develop
                 ]
                 row.cells.input.component.addAction(
                         action: 'onDecrement',
-                        submit: "table-${row.index}",
+                        submit: "tableTest-${row.index}",
                         icon: 'fa-minus',
                         text: '',
                 )
                 row.cells.input.component.addAction(
                         action: 'onIncrement',
-                        submit: "table-${row.index}",
+                        submit: "tableTest-${row.index}",
                         icon: 'fa-plus',
                         text: '',
                 )
@@ -397,6 +436,7 @@ Grails application running at http://localhost:9992/test in environment: develop
                 action: 'onSetCellValue',
                 params: [value: '**PIPPO**'],
                 stretch: true,
+                loading: false,
         )
 
         def table2 = c.addComponent(Table, 'table2')
@@ -584,6 +624,10 @@ Grails application running at http://localhost:9992/test in environment: develop
         def user = new TUser(username: 'G', password: 'G')
         user.errors.reject('obj.reject.error.test')
         display errors: user
+    }
+
+    def onSetErrors() {
+        display errors: [testMoney: 'Something wrong here', placeholderText: 'Here as well!']
     }
 
     def onSetCellValue() {

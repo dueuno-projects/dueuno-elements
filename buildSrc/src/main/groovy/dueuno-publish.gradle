@@ -1,7 +1,7 @@
 plugins {
-    id 'java-library'
-    id 'maven-publish'
-    id 'signing'
+    id "java-library"
+    id "maven-publish"
+    id "signing"
 }
 
 group = projectGroup
@@ -15,7 +15,7 @@ java {
 jar {
     into("META-INF/maven/$project.group/$project.name") {
         from { generatePomFileForMavenJavaPublication }
-        rename '.*', 'pom.xml'
+        rename ".*", "pom.xml"
     }
 }
 
@@ -26,34 +26,34 @@ publishing {
             from components.java
             pom {
                 name = project.name
-                url = 'https://dueuno.com'
+                url = "https://dueuno.com"
                 licenses {
                     license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
                     }
                 }
                 developers {
                     developer {
-                        id = 'gianluca.sartori'
-                        name = 'Gianluca Sartori'
-                        email = 'g.sartori@gmail.com'
+                        id = "gianluca.sartori"
+                        name = "Gianluca Sartori"
+                        email = "g.sartori@gmail.com"
                     }
                     developer {
-                        id = 'francesco.piceghello'
-                        name = 'Francesco Piceghello'
-                        email = 'f.piceghello@gmail.com'
+                        id = "francesco.piceghello"
+                        name = "Francesco Piceghello"
+                        email = "f.piceghello@gmail.com"
                     }
                 }
             }
         }
     }
 
-    Boolean isSnapshot = version.endsWith('SNAPSHOT')
+    Boolean isSnapshot = version.endsWith("SNAPSHOT")
     String repositoryUrl = isSnapshot ? repositorySnapshot : repositoryRelease
     repositories {
         maven {
-            name 'OSSRH'
+            name "OSSRH"
             url repositoryUrl
             credentials {
                 username sonatypeUsername

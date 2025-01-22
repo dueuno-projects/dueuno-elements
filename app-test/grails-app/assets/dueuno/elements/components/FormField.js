@@ -11,6 +11,7 @@ class FormField extends Component {
     }
 
     static setError($element, value) {
+        LoadingScreen.show(false);
         let $errorMessage = $element.find('.error-message');
 
         if (value) {

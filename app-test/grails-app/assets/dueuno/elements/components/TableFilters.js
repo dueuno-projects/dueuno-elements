@@ -6,7 +6,11 @@ class TableFilters extends Form {
         let $table = $element.closest('.component-table');
 
         let $toggleButton = $element.find('.component-filters-toggle');
-        $toggleButton.off('click').on('click', TableFilters.onToggle);
+        $toggleButton.off('click').on('click', TableFilters.onToggleClick);
+
+        let $filtersBox = $element.find('.component-filters-box');
+        $filtersBox.off('shown.bs.collapse').on('shown.bs.collapse', TableFilters.onFiltersShowHide);
+        $filtersBox.off('hidden.bs.collapse').on('hidden.bs.collapse', TableFilters.onFiltersShowHide);
 
         let tableName = $table.data('21-id');
         let targetRoot = $root.attr('id') ? '#' + $root.attr('id') : 'body';
@@ -19,7 +23,7 @@ class TableFilters extends Form {
         // no-op
     }
 
-    static onToggle(event) {
+    static onToggleClick(event) {
         let $element = $(event.currentTarget);
         let $filters = $element.closest('[data-21-component="TableFilters"]');
 
@@ -29,6 +33,15 @@ class TableFilters extends Form {
         } else {
             TableFilters.unfold($filters);
         }
+    }
+
+    static onFiltersShowHide(event) {
+        let $element = $(event.currentTarget);
+        let $table = $element.closest('.component-table');
+        let $dataset = $table.find('.component-table-dataset');
+        let scrollLeft = $dataset[0].scrollLeft;
+
+        PageContent.updateScrollbar();
     }
 
     static unfold($element) {

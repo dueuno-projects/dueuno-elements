@@ -15,6 +15,7 @@
 package dueuno.elements.core
 
 import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.style.TextStyle
 import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
 
@@ -50,16 +51,20 @@ abstract class Control extends Component {
     /** Properties used by {@link PrettyPrinter PrettyPrinter} to render the value */
     PrettyPrinterProperties prettyPrinterProperties
 
+    /** Text styles */
+    List<TextStyle> textStyle
+
     Control(Map args) {
         super(args)
 
         viewPath = args.viewPath ?: '/dueuno/elements/controls/'
 
-        valueType = null
+        valueType = args.valueType
         nullable = (args.nullable == null) ? true : args.nullable
 
         setInvalidChars(args.invalidChars as String)
         setValidChars(args.validChars as String)
+        setTextStyle(args.textStyle)
         pattern = args.pattern ?: ''
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
@@ -112,6 +117,25 @@ abstract class Control extends Component {
         }
     }
 
+    void setTextStyle(Object value) {
+        switch (value) {
+            case TextStyle:
+                textStyle = [value as TextStyle]
+                break
+
+            case List<TextStyle>:
+                textStyle = value as List<TextStyle>
+                break
+
+            default:
+                textStyle = [TextStyle.BOLD]
+        }
+    }
+
+    String getTextStyle() {
+        return textStyle.join(' ')
+    }
+
     /**
      * Returns the value as rendered by the {@link PrettyPrinter PrettyPrinter}
      * @return The pretty printed value
@@ -144,7 +168,7 @@ abstract class Control extends Component {
 
     String getValueAsJSON() {
         if (!valueType) {
-            return null
+            return Elements.encodeAsJSON([:])
         }
 
         Map valueMap = Types.serializeValue(value, valueType)

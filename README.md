@@ -18,7 +18,7 @@ To create your first Dueuno Elements application you can download the [Dueuno Ap
 
 Guides
 ---
-You can find the latest documentation here: https://dueuno.com/docs/
+You can find the latest documentation here: https://dueuno.com
 
 Community
 ---

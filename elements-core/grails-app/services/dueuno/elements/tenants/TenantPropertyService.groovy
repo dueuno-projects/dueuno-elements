@@ -38,6 +38,11 @@ class TenantPropertyService extends PropertyService {
     private TenantService tenantService
 
     void install() {
+        // Logs
+        setBoolean('LOG_ERROR', false)
+        setBoolean('LOG_DEBUG', false)
+        setBoolean('LOG_TRACE', false)
+
         // System
         setString('SHELL_URL_MAPPING', '/')
 
@@ -46,6 +51,7 @@ class TenantPropertyService extends PropertyService {
         // See: /assets/dueuno/libs/FONTAWESOME-README.TXT, use one of:
         // fa-solid, fa-regular, fa-light, fa-thin, fa-duotone, fa-brand
 
+        // Colors
         setString('PRIMARY_TEXT_COLOR', '#ffffff', '#ffffff')
         setString('PRIMARY_BACKGROUND_COLOR', '#cc0000', '#cc0000')
         setNumber('PRIMARY_BACKGROUND_COLOR_ALPHA', 0.15, 0.15)

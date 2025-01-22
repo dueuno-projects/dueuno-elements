@@ -43,6 +43,10 @@ class Types {
         registry[typeName] = type
     }
 
+    static Boolean isRegistered(Object value) {
+        return isRegistered(value.class)
+    }
+
     static Boolean isRegistered(Class type) {
         if (type !in CustomType) {
             return false

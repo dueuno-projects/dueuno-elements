@@ -1,5 +1,5 @@
 plugins {
-    id 'dueuno-plugin'
+    id "dueuno-plugin"
 }
 
 dependencies {

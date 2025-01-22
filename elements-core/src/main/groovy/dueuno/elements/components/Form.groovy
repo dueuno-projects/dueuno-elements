@@ -21,6 +21,7 @@ import dueuno.elements.core.Control
 import dueuno.elements.core.Elements
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.types.Types
 import grails.gorm.validation.ConstrainedProperty
 import grails.validation.Validateable
 import groovy.transform.CompileStatic
@@ -50,10 +51,10 @@ class Form extends Component {
         autocomplete = (args.autocomplete == null) ? false : args.autocomplete
     }
 
-    List<FormField> getFields() {
+    List<FormField> getComponents() {
         List<FormField> fields = []
 
-        for (component in components) {
+        for (component in super.components) {
             if (component in FormField) {
                 fields.add(component as FormField)
             }
@@ -80,11 +81,6 @@ class Form extends Component {
             }
         }
 
-        // Auto assigns values from 'params'
-        if (args.value == null && requestParams[id]) {
-            args.value = requestParams[id]
-        }
-
         // Set common args
         if (args.readonly == null) args.readonly = readonly
         if (!args.primaryTextColor) args.primaryTextColor = primaryTextColor
@@ -95,6 +91,8 @@ class Form extends Component {
         Component component
         if (clazz in Control) {
             component = addControl(args)
+            setDefaultValue(component)
+
         } else {
             component = addComponent(args)
         }
@@ -158,7 +156,10 @@ class Form extends Component {
     }
 
     void addKeyField(String id, String valueType, Object value = null) {
-        if (valueType == 'TEXT' && value in Enum) value = value.toString()
+        if (value in Enum) {
+            valueType = 'TEXT'
+            value = value.toString()
+        }
 
         FormField field = addField(
                 class: HiddenField,
@@ -172,7 +173,7 @@ class Form extends Component {
     @Override
     void setReadonly(Boolean isReadonly) {
         super.readonly = isReadonly
-        for (field in fields) {
+        for (field in components) {
             (field as FormField).component.readonly = isReadonly
         }
     }
@@ -185,13 +186,41 @@ class Form extends Component {
         }
 
         for (controlEntry in controls) {
-            String controlName = controlEntry.key
             Control control = controlEntry.value
-
-            if (control.value == null) {
-                control.value = ObjectUtils.getValue(obj, controlName)
-            }
+            setValue(control, obj)
         }
     }
+
+    private void setValue(Control control, Object obj = null) {
+        Object value = ObjectUtils.getValue(obj, control.id)
+        if (value != null) {
+            if (Types.isRegistered(value)) {
+                control.value = value
+
+            } else if (Elements.hasId(value)) {
+                control.value = value['id']
+
+            } else {
+                control.value = value
+            }
+
+        } else {
+            setDefaultValue(control)
+        }
+    }
+
+    private void setDefaultValue(Control control) {
+        if (control.value != null) {
+            return
+        }
+
+        if (requestParams.containsKey(control.id)) {
+            control.value = requestParams[control.id]
+
+        } else if (control.defaultValue != null) {
+            control.value = control.defaultValue
+        }
+    }
+
 }
 

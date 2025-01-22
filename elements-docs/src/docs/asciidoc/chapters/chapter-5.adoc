@@ -1,0 +1,409 @@
+
+== First Real Application
+
+Now we are going to finish our first Dueuno Elements application.
+
+=== Database Setup
+
+We need a real database to store our people data. For the sake of this demo application we are going to just configure an https://www.h2database.com/html/main.html[H2 database,window=_blank] to persist our data in a file.
+
+.Edit `~/demo/grails-app/conf/application.yml`
+[source,yaml,subs="attributes+"]
+----
+dataSource:
+  url: jdbc:h2:file:./demo/demo;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+----
+
+For this demo we are going to use https://gorm.grails.org/[GORM,window=_blank], the Object Relational Mapper provided by the Grails Framework, so we need to create a domain class. GORM will map this class to a table in the generated database schema. Querying this class with the GORM API will give us access to the data we are storing.
+
+.Create `~/demo/grails-app/domain/com/example/TPerson.groovy` and copy the following code:
+[source,groovy,subs="attributes+"]
+----
+package com.example
+
+import grails.gorm.MultiTenant
+import org.grails.datastore.gorm.GormEntity
+
+import java.time.LocalDate
+import java.time.LocalDateTime
+
+class TPerson implements GormEntity, MultiTenant<TPerson> {
+    LocalDateTime dateCreated
+
+    String firstname
+    String lastname
+    LocalDate birthdate
+
+}
+----
+
+A couple of things to note:
+
+. The class name starts with `T`. This is a Dueuno Elements convention to let us immediately realize when we are working on a domain object. `T` stands for _Table (I know, it’s such an original decision)._
+. The class `implements GormEntity, MultiTenant<TPerson>`. This means the domain object will be replicated in every new tenant created after the application gets deployed. The `GormEntity` is technically optional, we can omit it, but this way we gain a minimum of support from common IDEs with no need for the Grails Plugin (available only for IntelliJ IDEA).
+
+We are going to mock-up some data to help us with the development of the application. We do it in the `onDevInstall` method since it will only get executed while developing the application. It will not be executed when running the application in the production environment.
+
+The _mock-up_ code uses the `PersonService` we are going to create in a minute.
+
+.Edit `~/demo/init/com/example/BootStrap.groovy`
+[source,groovy,subs="attributes+"]
+----
+package com.example
+
+import dueuno.elements.core.ApplicationService
+import java.time.LocalDate
+
+class BootStrap {
+
+    ApplicationService applicationService
+    PersonService personService
+
+    def init = { servletContext ->
+        applicationService.onDevInstall { String tenantId ->
+            personService.create(
+                    firstname: 'Felicity',
+                    lastname: 'Green',
+                    birthdate: LocalDate.of(2021, 1, 2),
+            )
+            personService.create(
+                    firstname: 'Grace',
+                    lastname: 'Blue',
+                    birthdate: LocalDate.of(2021, 2, 1),
+            )
+            personService.create(
+                    firstname: 'Joy',
+                    lastname: 'Red',
+                    birthdate: LocalDate.of(2021, 12, 21),
+            )
+        }
+
+        applicationService.init {
+            registerFeature(
+                    controller: 'person',
+                    icon: 'fa-user',
+                    favourite: true,
+            )
+        }
+    }
+
+    def destroy = {
+    }
+}
+----
+
+GORM will generate a database table for us. Let’s see:
+
+.Execute the application
+[source,console,subs="attributes+"]
+----
+$ ./gradlew bootRun
+----
+
+Login as Superuser (`super/super`).
+
+Click on “*Connection Sources*” in the Main Menu _(on the left)_ and copy the connection URL:
+
+image::images/chapter-5/image-1.webp[align="center"]
+
+Click on the User Menu (top-right) and select "*[DEV] H2 Console*":
+
+image::images/chapter-5/image-2.webp[align="center"]
+
+Copy the URL and click “*Connect*”. You should see the `T_PERSON` table:
+
+image::images/chapter-5/image-3.webp[align="center"]
+image::images/chapter-5/image-4.webp[align="center"]
+
+NOTE: Table names starts with `T_` to avoid conflicting with database keywords or other existent table names. Yes, it happens. Yes, there are common theoretical and technical ways to handle such cases, but they all give responsibility to the developer. Yes, we don´t want that responsibility to be on the developer hands.
+
+=== Business Logic
+
+We don’t like writing the _Business Logic_ in controllers. It is an _anti-pattern_. Dueuno Elements uses controllers as a way to implement the _User Interface_.
+
+Fortunately the Grails Framework comes into rescue giving us a convention to implement our logic. We just need to implement a *Service*.
+
+Services are classes located into the `/grails-app/services` folder whose name is suffixed by `Service`. So we just need to create our `PersonService` class.
+
+.Create `~/demo/grails-app/services/com/example/PersonService.groovy` and copy the code below.
+[source,groovy,subs="attributes+"]
+----
+package com.example
+
+import dueuno.elements.exceptions.ArgsException
+import grails.gorm.DetachedCriteria
+import grails.gorm.multitenancy.CurrentTenant
+import javax.annotation.PostConstruct
+
+@CurrentTenant
+class PersonService {
+
+    @PostConstruct
+    void init() {
+        // Executes only once when the application starts
+    }
+
+    private DetachedCriteria<TPerson> buildQuery(Map filterParams) {
+        def query = TPerson.where {}
+
+        if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
+        if (filterParams.containsKey('birthdate')) query = query.where { birthdate == filterParams.birthdate }
+
+        if (filterParams.find) {
+            String search = filterParams.find.replaceAll('\\*', '%')
+            query = query.where { 1 == 1
+                || firstname =~ "%${search}%"
+                || lastname =~ "%${search}%"
+            }
+        }
+
+        // Add additional filters here
+
+        return query
+    }
+
+    TPerson get(Serializable id) {
+        // Add any relationships here (Eg. references to other DomainObjects or hasMany)
+        Map fetch = [
+                relationshipName: 'join',
+        ]
+
+        return buildQuery(id: id).get(fetch: fetch)
+    }
+
+    List<TPerson> list(Map filterParams = [:], Map fetchParams = [:]) {
+        if (!fetchParams.sort) fetchParams.sort = [dateCreated: 'asc']
+
+        // Add single-sided relationships here (Eg. references to other DomainObjects)
+        // DO NOT add hasMany relationships, you are going to have troubles with pagination
+        fetchParams.fetch = [
+                relationshipName: 'join',
+        ]
+
+        def query = buildQuery(filterParams)
+        return query.list(fetchParams)
+    }
+
+    Integer count(Map filterParams = [:]) {
+        def query = buildQuery(filterParams)
+        return query.count()
+    }
+
+    TPerson create(Map args = [:]) {
+        if (args.failOnError == null) args.failOnError = false
+
+        TPerson obj = new TPerson(args)
+        obj.save(flush: true, failOnError: args.failOnError)
+        return obj
+    }
+
+    TPerson update(Map args = [:]) {
+        Serializable id = ArgsException.requireArgument(args, 'id')
+        if (args.failOnError == null) args.failOnError = false
+
+        TPerson obj = get(id)
+        obj.properties = args
+        obj.save(flush: true, failOnError: args.failOnError)
+        return obj
+    }
+
+    void delete(Serializable id) {
+        TPerson obj = get(id)
+        obj.delete(flush: true, failOnError: true)
+    }
+}
+----
+
+As you can see we have implemented the methods we need to create a CRUD:
+
+- `get()` returns a single record by its ID
+- `list()` returns a set of records accepting some _filters_ and some _fetch parameters_ to control sorting and pagination
+- `count()` returns the number of records depending on the used _filters_
+- `create()` inserts a new record in the database
+- `update()` updates and existing record in the database
+- `delete()` deletes a single record by its ID
+
+NOTE: In this case we are using GORM, the Object Relational Mapper provided by the Grails Framework, but we could have implemented our service in any other way. Plain _SQL_ or _Web Services_ calls would have been fine.
+
+IMPORTANT: As long as the methods return _Objects_, _List of Objects_ or _List of Maps_ we are fine.
+
+Now, let’s put this all together.
+
+=== User Interface
+
+We already have our `PersonController`, we just need to adapt it so it can use the new `PersonService`.
+
+We are also adding some filters and sorting so the final user can search by name and birth date.
+
+.Edit `~/demo/grails-app/controllers/com/example/PersonController.groovy`
+[source,groovy,subs="attributes+"]
+----
+package com.example
+
+import dueuno.elements.contents.*
+import dueuno.elements.controls.*
+import dueuno.elements.core.ElementsController
+import grails.validation.Validateable
+import java.time.LocalDate
+
+class PersonController implements ElementsController {
+
+    PersonService personService
+
+    def index() {
+        def c = createContent(ContentList)
+        c.table.with {
+            filters.with {
+                addField(
+                        class: DateField,
+                        id: 'birthdate',
+                        cols: 3,
+                )
+                addField(
+                        class: TextField,
+                        id: 'find',
+                        cols: 9,
+                )
+            }
+            sortable = [
+                    lastname: 'asc',
+            ]
+            columns = [
+                    'firstname',
+                    'lastname',
+                    'birthdate',
+            ]
+        }
+
+        c.table.body = personService.list(c.table.filterParams, c.table.fetchParams)
+        c.table.paginate = personService.count(c.table.filterParams)
+
+        display content: c
+    }
+
+    private ContentForm buildForm(TPerson obj = null) {
+        def c = obj
+                ? createContent(ContentEdit)
+                : createContent(ContentCreate)
+
+        c.form.with {
+            validate = TPerson
+            addField(
+                    class: TextField,
+                    id: 'firstname',
+            )
+            addField(
+                    class: TextField,
+                    id: 'lastname',
+            )
+            addField(
+                    class: DateField,
+                    id: 'birthdate',
+            )
+        }
+
+        if (obj) {
+            c.form.values = obj
+        }
+
+        return c
+    }
+
+    def create() {
+        def c = buildForm()
+        display content: c, modal: true
+    }
+
+    def onCreate() {
+        def obj = personService.create(params)
+
+        if (obj.hasErrors()) {
+            display errors: obj
+            return
+        }
+
+        display action: 'index'
+    }
+
+    def edit() {
+        def obj = personService.get(params.id)
+        def c = buildForm(obj)
+        display content: c, modal: true
+    }
+
+    def onEdit() {
+        def obj = personService.update(params)
+        if (obj.hasErrors()) {
+            display errors: obj
+            return
+        }
+
+        display action: 'index'
+    }
+
+    def onDelete() {
+        try {
+            personService.delete(params.id)
+            display action: 'index'
+
+        } catch (e) {
+            display exception: e
+        }
+    }
+}
+----
+
+To finish the UI we implement the _English_ and _Italian_ translations deleting all the others.
+
+.Edit `~/demo/grails/app/i18n/messages.properties`
+[source,properties]
+----
+app.name=People Registry
+
+shell.person=People
+shell.person.help=Manage the People Registry
+
+person.index.header.title=People
+person.create.header.title=New Person
+person.edit.header.title=Person
+person.filters.birthdate=Birthdate
+person.filters.find=Find
+person.firstname=Firstname
+person.lastname=Lastname
+person.birthdate=Birth Date
+----
+
+.Edit `~/demo/grails/app/i18n/messages_it.properties`
+[source,properties]
+----
+app.name=Registro persone
+
+shell.person=Persone
+shell.person.help=Gestisci il registro persone
+
+person.index.header.title=Persone
+person.create.header.title=Nuova persona
+person.edit.header.title=Persona
+person.filters.birthdate=Nato il
+person.filters.find=Trova
+person.firstname=Nome
+person.lastname=Cognome
+person.birthdate=Nato il
+----
+
+Delete all the others `.properties` files in `~/demo/grails-app/i18n/`
+
+Now, with a bit of luck, we should be able to run our first complete Dueuno Elements application:
+
+.Execute the application
+[source,console,subs="attributes+"]
+----
+$ ./gradlew bootRun
+----
+
+video::lB12PqKSRXw[youtube,width=640,height=480]
+
+This chapter closes the first round on the Dueuno Elements basics.
+
+In the next chapter we are going to explore the Tenant Properties to configure the application to reflect our customer’s brand.
+

@@ -25,8 +25,9 @@ import groovy.transform.CompileStatic
 enum TransitionCommandMethod {
     REDIRECT,
     CONTENT,
-    REPLACE,
     APPEND,
+    REPLACE,
+    REMOVE,
     TRIGGER,
     LOADING,
     CALL,

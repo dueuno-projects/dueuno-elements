@@ -123,6 +123,9 @@ class BootStrap {
 
             quantityService.enableUnitLength(['KM', 'M'])
 
+            // Creating a new tenant from the GUI gives an error here, to solve it you need to
+            // remove the 'spring-dev-tools' dependency in build.gradle
+            // See: https://github.com/spring-projects/spring-data-jpa/issues/2552
             TDemo demo = new TDemo(
                     textfield: 'Ventuno',
                     numberfield: 21,
@@ -262,14 +265,14 @@ class BootStrap {
         }
 
         securityService.afterLogin { GrailsHttpSession session ->
-            println "Benvenuto in ${shellService.shell.id} caro ${securityService.currentUser.username}"
+            println "Benvenuto in ${shellService.shell.id} caro ${securityService.currentUsername}"
             if (systemPropertyService.getBoolean('TEST_DENY_LOGIN')) {
                 securityService.denyLogin('Cannot execute login because of X reason')
             }
         }
 
         securityService.afterLogout {
-            println "Arrivederci ${securityService.currentUser?.username}!"
+            println "Arrivederci ${securityService.currentUsername}!"
         }
 
         applicationService.init {

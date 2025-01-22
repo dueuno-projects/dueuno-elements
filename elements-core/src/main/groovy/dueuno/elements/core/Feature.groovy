@@ -66,6 +66,7 @@ class Feature extends LinkDefinition {
         text = args.text
         icon = args.icon
         image = args.image
+        loading = args.loading == null ? true : args.loading
 
         parent = args.parent as Feature
         if (parent) {

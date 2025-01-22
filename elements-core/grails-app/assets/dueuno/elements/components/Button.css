@@ -23,13 +23,9 @@ button,
     opacity: 1;
 }
 
-.component-button.btn-group:has(.component-link) a,
-.component-button:has(.component-link) a {
+.component-button .component-link:not(:last-child),
+.input-group .component-link:not(:last-child) {
     margin-right: 2px;
-}
-
-.input-group:has(.component-link) a {
-    margin-right: 1px;
 }
 
 a.btn,

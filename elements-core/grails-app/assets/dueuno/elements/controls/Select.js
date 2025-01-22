@@ -13,6 +13,7 @@ class Select extends Control {
             placeholder: properties['multiple'] ? null : properties['placeholder'],
             minimumResultsForSearch: properties['search'] ? 0 : -1,
             allowClear: properties['multiple'] ? false : properties['allowClear'],
+            sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
             dropdownAutoWidth : true,
             width: hasButtons ? 'auto' : '100%',
             language: {
@@ -67,12 +68,8 @@ class Select extends Control {
     }
 
     static finalize($element, $root) {
-        $element
-            .off('select2:select select2:unselect select2:clear')
-            .on('select2:select select2:unselect select2:clear', Select.onChange);
-        $element
-            .off('select2:open')
-            .on('select2:open', Select.onOpen);
+        $element.off('select2:select select2:unselect').on('select2:select select2:unselect', Select.onChange);
+        $element.off('select2:open').on('select2:open', Select.onOpen);
 
         Transition.triggerEvent($element, 'load');
     }
@@ -96,17 +93,20 @@ class Select extends Control {
 
         // In case of user clear we align the control value
         if (select2Values.length == 0) {
-            $element.data('21-value', {
+            let valueMap = {
                 type: 'TEXT',
                 value: null,
-            });
+            };
+            $element.data('21-value', valueMap);
+            $element.val(valueMap.value);
+            $element.trigger('change');
         }
 
         Transition.triggerEvent($element, 'change');
     }
 
     static setValue($element, valueMap, trigger = true) {
-        if (!trigger) $element.off('select2:select select2:clear');
+        if (!trigger) $element.off('select2:select select2:unselect');
 
         let searchEvent = Component.getEvent($element, 'search');
         let loadEvent = Component.getEvent($element, 'load');
@@ -118,10 +118,11 @@ class Select extends Control {
             }
         }
 
+        $element.data('21-value', valueMap);
         $element.val(valueMap.value);
         $element.trigger('change');
 
-        if (!trigger) $element.on('select2:select select2:clear', Select.onChange);
+        if (!trigger) $element.on('select2:select select2:unselect', Select.onChange);
     }
 
     static getValue($element) {
@@ -178,17 +179,16 @@ class Select extends Control {
             }
         }
 
-        if (valueMap.value != null && !isValueInOptions) {
+        if (isValueInOptions) {
+            let properties = Component.getProperties($element);
+            let optionsCount = $element.children('option').length;
+            if (!properties['autoSelect'] || optionsCount > 1 || properties['nullable']) {
+                // Select2 automatically selects the first item on ajax loading
+                // so we need to implement an inverse logic
+                Select.setValue($element, valueMap, false);
+            }
+        } else {
             valueMap.value = null;
-            Select.setValue($element, valueMap, false);
-            return;
-        }
-
-        let properties = Component.getProperties($element);
-        let optionsCount = $element.children('option').length;
-        if (!properties['autoSelect'] || optionsCount > 1 || properties['nullable']) {
-            // Select2 automatically selects the first item on ajax loading
-            // so we need to implement an inverse logic
             Select.setValue($element, valueMap, false);
         }
     }

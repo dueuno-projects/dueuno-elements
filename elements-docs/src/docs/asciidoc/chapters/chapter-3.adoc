@@ -1,0 +1,279 @@
+
+== Application Structure
+
+Okay, we have an empty box now. Let’s fill it with some fruits (fruit is good for our health).
+
+=== Features
+
+An application is a set of _Features_. A Feature is made of a _Menu Item_ — so that our users can access it — and a _Content_, a bidimensional area we can fill with buttons and stuff.
+
+The dark area on the left is the _Main Menu_. The light area is where the _Content_ is rendered.
+
+image::images/chapter-3/image-1.webp[align="center"]
+
+We create features in the application initialization method.
+
+.~/demo/grails-app/init/BootStrap.groovy
+[source,groovy,subs="attributes+"]
+----
+package com.example
+
+import dueuno.elements.core.ApplicationService
+
+class BootStrap {
+
+    ApplicationService applicationService
+
+    def init = { servletContext ->
+        applicationService.init {
+
+            registerFeature(
+                    controller: 'person',
+                    icon: 'fa-user',
+                    favourite: true,
+            )
+
+        }
+    }
+
+    def destroy = {
+    }
+}
+----
+
+The object in charge of creating a feature, and other application-wide stuff, is the `ApplicationService`.
+
+To register a Feature we need to specify the name of the controller that implemets the feature. Eg. in our case, the feature will be available at the following URL:
+
+`http://localhost:8080/*person*`
+
+We can couple it with an optional icon, from the free set provided by https://fontawesome.com/[Font Awesome, window=_blank], to decorate the Menu Item.
+
+Last but not least, we can register the feature as a _favourite_ one. Favourite features are immediately available clicking the _Home_ buttom (top-left).
+
+.Execute the application
+[source,console,subs="attributes+"]
+----
+$ ./gradlew bootRun
+----
+
+image::images/chapter-3/image-2.webp[align="center"]
+
+*Click on the feature* to get a *(404) Not Found!* message. That’s fine, we still haven’t implemented anything.
+
+image::images/chapter-3/image-3.webp[align="center"]
+
+=== Controllers and Actions
+
+Look at the URL. It says:
+
+`http://localhost:8080/*person/index*`
+
+We have three things here:
+
+. `*http://localhost:8080*` +
+This is the address and port where we can find our application.
+. `*person*` +
+ This is the *Controller* name. A Controller is just a container. It contains Actions.
+. `*index*` +
+ This is an *Action* name. An Action is a piece of code that implements some logic.
+
+Even if a Feature is accessed from a specific URL (`controller/action` pair), a _Feature_ may be composed by more than one _Controller_ and many, many… many _Actions_.
+
+. *Controllers* are Groovy classes located under the folder: `~/demo/grails-app/controllers/`
+. *Actions* are methods of a _Controller_ class.
+
+=== Controller Structure
+
+It’s time to feed our newborn creature. We are going to implement a CRUD view, writing the `PersonController`, with different actions in order to display a list of people and give the user the ability to _create_, _edit_ and _delete_ one or more persons.
+
+We create a skeleton first, a controller with just the action firms, so we can focus on the structure.
+
+.Create a new file `~/demo/grails-app/controllers/com/example/PersonController.groovy`
+[source,groovy,subs="attributes+"]
+----
+package com.example
+
+import dueuno.elements.core.ElementsController
+import grails.validation.Validateable
+
+class PersonController implements ElementsController {
+
+    def index() {
+        // Displays a list of people
+    }
+
+    def create() {
+        // Displays a form to input person data
+    }
+
+    def onCreate(PersonValidator val) {
+        // Creates a new person
+    }
+
+    def edit() {
+        // Displays a form to edit person data
+    }
+
+    def onEdit(PersonValidator val) {
+        // Updates a person record
+    }
+
+    def onDelete() {
+        // Deletes a person
+    }
+}
+
+class PersonValidator implements Validateable {
+    // Will validate user input
+}
+----
+
+Please focus your attention to:
+
+. The controller class name must be suffixed by the word `Controller`. That’s why our person controller is called `PersonController` (this is a convention of the Grails Framework).
+. The person controller implements `ElementsController`. This makes the https://www.dueuno.com/docs/[Dueuno Elements API,window=_blank] available to our actions (NOTE: If you use https://www.jetbrains.com/idea/download/[IntelliJ IDEA Ultimate,window=_blank] with the https://plugins.jetbrains.com/plugin/18504-grails[Grails plugin,window=_blank] you can avoid implementing `ElementsController` and everything will magically work as expected. Yay!).
+. We use a convention to name the actions. When they start with the `on` prefix, they execute some logic in the background. When they don’t, they render a user interface. We are also using a naming standard here, we may change the action names, but for now let’s not add too much complications.
+
+=== Controller Implementation
+
+.Edit `~/demo/grails-app/controllers/com/example/PersonController.groovy`
+[source,groovy,subs="attributes+"]
+----
+package com.example
+
+import dueuno.elements.contents.*
+import dueuno.elements.controls.*
+import dueuno.elements.core.ElementsController
+import grails.validation.Validateable
+
+import java.time.LocalDate
+
+class PersonController implements ElementsController {
+
+    static final List personRegistry = [
+            [id: 1, firstname: 'Gianluca', lastname: 'Sartori', birthdate: LocalDate.of(1979, 6, 24)],
+            [id: 2, firstname: 'John Luke', lastname: 'Taylor', birthdate: LocalDate.of(1921, 6, 24)],
+            [id: 3, firstname: 'Juan Lucas', lastname: 'Sastre', birthdate: LocalDate.of(1942, 6, 24)],
+    ]
+
+    def index() {
+        def c = createContent(ContentList)
+        c.table.with {
+            columns = [
+                    'firstname',
+                    'lastname',
+                    'birthdate',
+            ]
+        }
+
+        c.table.body = personRegistry
+        c.table.paginate = personRegistry.size()
+
+        display content: c
+    }
+
+    private ContentForm buildForm(Map obj = null) {
+        def c = obj
+                ? createContent(ContentEdit)
+                : createContent(ContentCreate)
+
+        c.form.with {
+            validate = PersonValidator
+            addField(
+                    class: TextField,
+                    id: 'firstname',
+            )
+            addField(
+                    class: TextField,
+                    id: 'lastname',
+            )
+            addField(
+                    class: DateField,
+                    id: 'birthdate',
+            )
+        }
+
+        if (obj) {
+            c.form.values = obj
+        }
+
+        return c
+    }
+
+    def create() {
+        def c = buildForm()
+        display content: c, modal: true
+    }
+
+    def onCreate(PersonValidator val) {
+        if (val.hasErrors()) {
+            display errors: val
+            return
+        }
+
+        def last = personRegistry.max { it.id }
+        personRegistry << [
+                id: last ? last.id + 1 : 1,
+                firstname: params.firstname,
+                lastname: params.lastname,
+                birthdate: params.birthdate,
+        ]
+
+        display action: 'index'
+    }
+
+    def edit() {
+        def obj = personRegistry.find { it.id == params.id }
+        def c = buildForm(obj)
+        display content: c, modal: true
+    }
+
+    def onEdit(PersonValidator val) {
+        if (val.hasErrors()) {
+            display errors: val
+            return
+        }
+
+        def obj = personRegistry.find { it.id == params.id }
+        obj.firstname = params.firstname
+        obj.lastname = params.lastname
+        obj.birthdate = params.birthdate
+
+        display action: 'index'
+    }
+
+    def onDelete() {
+        try {
+            personRegistry.removeIf { it.id == params.id }
+            display action: 'index'
+
+        } catch (e) {
+            display exception: e
+        }
+    }
+}
+
+class PersonValidator implements Validateable {
+    String firstname
+    String lastname
+    LocalDate birthdate
+}
+----
+
+There’s a lot of stuff here. The most important things now are:
+
+. *Contents.* A Content is the canvas on which we design the UI. To do it we add `Components` and `Controls`. You can’t see it in the example because we are using preconfigured contents for tables (`ContentList`) and forms (`ContentCreate` & `ContentEdit`)
+. *The `display()` method.* Each action terminates its execution with the `display()` method. This is the way we display the UI or route from one action to the other.
+
+IMPORTANT: For the sake of the demo we’ve implemented the Business Logic within the controller class. This is not something we do. Don’t do it. Ever. Don’t.
+
+.Execute the application
+[source,console,subs="attributes+"]
+----
+$ ./gradlew bootRun
+----
+
+video::T9UVU0LXJfc[youtube,width=640,height=480]
+
+In the next chapter we are going to see how and where to implement the _Business Logic_ adding a database to this _Supa-Dupa-Cool-And-Fool_ application.

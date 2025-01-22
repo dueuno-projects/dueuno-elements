@@ -18,7 +18,6 @@ import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
-import org.grails.gsp.GroovyPagesTemplateEngine
 
 /**
  * @author Gianluca Sartori
@@ -111,6 +110,15 @@ class Transition implements WebRequestAware {
         addCommand(
                 TransitionCommandMethod.CONTENT,
                 null,
+                null,
+                null,
+        )
+    }
+
+    void remove(String component) {
+        addCommand(
+                TransitionCommandMethod.REMOVE,
+                component,
                 null,
                 null,
         )

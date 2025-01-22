@@ -19,6 +19,7 @@ import dueuno.elements.core.PrettyPrinterProperties
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
+import dueuno.elements.style.VerticalAlign
 import groovy.transform.CompileStatic
 
 /**
@@ -33,6 +34,7 @@ class Label extends Component {
     String url
     String icon
 
+    VerticalAlign verticalAlign
     TextAlign textAlign
     TextWrap textWrap
     List<TextStyle> textStyle
@@ -49,11 +51,12 @@ class Label extends Component {
         url = args.url
         icon = args.icon
 
+        verticalAlign = args.verticalAlign == null ? VerticalAlign.DEFAULT : args.verticalAlign as VerticalAlign
         textAlign = args.textAlign == null ? TextAlign.DEFAULT : args.textAlign as TextAlign
         textWrap = args.textWrap == null ? TextWrap.NO_WRAP : args.textWrap as TextWrap
         setTextStyle(args.textStyle)
 
-        border = args.border == null ? false : args.border
+        border = args.border == null ? (html ? false : true) : args.border
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
         prettyPrinterProperties.messageArgs = args.textArgs as List

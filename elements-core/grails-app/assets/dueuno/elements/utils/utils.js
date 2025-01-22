@@ -4,10 +4,6 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function isDevelopment() {
-    return _21_.log !== undefined;
-}
-
 function getOS() {
   var uA = navigator.userAgent || navigator.vendor || window.opera;
   if ((/iPad|iPhone|iPod/.test(uA) && !window.MSStream) || (uA.includes('Mac') && 'ontouchend' in document)) return 'iOS';
@@ -16,8 +12,8 @@ function getOS() {
   for (i = 0; i < os.length; i++) if (new RegExp(os[i],'i').test(uA)) return os[i];
 }
 
-function isUndefined(value) {
-    return typeof value === 'undefined';
+function enableSimpleBar($element) {
+    new SimpleBar($element);
 }
 
 function capitalize(val) {

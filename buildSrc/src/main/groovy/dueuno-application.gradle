@@ -1,12 +1,12 @@
 plugins {
-    id 'groovy'
-    id 'org.grails.grails-web'
-    id 'org.grails.grails-gsp'
-    id 'com.github.erdi.webdriver-binaries'
-    id 'com.bertramlabs.asset-pipeline'
-    id 'dueuno-asciidoctor'
-    id 'eclipse'
-    id 'idea'
+    id "groovy"
+    id "org.grails.grails-gsp"
+    id "org.grails.grails-web"
+    id "com.github.erdi.webdriver-binaries"
+    id "com.bertramlabs.asset-pipeline"
+    id "dueuno-asciidoctor"
+    id "eclipse"
+    id "idea"
 }
 
 group = projectGroup
@@ -86,10 +86,11 @@ webdriverBinaries {
 }
 
 assets {
+    skipNonDigests = true
     minifyCss = true
     minifyJs = true
     minifyOptions = [
             //SIMPLE (default) or ADVANCED or WHITESPACE_ONLY
-            optimizationLevel: 'SIMPLE',
+            optimizationLevel: "SIMPLE",
     ]
 }

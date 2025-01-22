@@ -2,6 +2,10 @@
     border-radius: 0;
 }
 
+.component-label:not(.html) {
+    padding-left: .25rem;
+}
+
 .component-label.border {
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
     border-radius: var(--bs-border-radius-lg);
@@ -34,11 +38,4 @@
     white-space: pre;
     word-wrap: break-word;
     overflow-x: scroll;
-}
-
-/* COLORS
-*/
-.component-label.border {
-    background-color: rgb(var(--elements-tertiary-bg));
-    color: rgb(var(--elements-tertiary-text));
 }

@@ -260,6 +260,7 @@ class CrudController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'name',
+                    defaultValue: 'XXX',
             )
             addField(
                     class: Textarea,

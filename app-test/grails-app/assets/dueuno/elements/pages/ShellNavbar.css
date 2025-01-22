@@ -1,14 +1,10 @@
 #shell-navbar {
-    background-color: rgb(var(--elements-tertiary-bg));
-    background-color: rgba(var(--elements-tertiary-bg), 0.7);
-}
-
-#shell-navbar {
     z-index: 1001 !important;
     margin-left: calc(var(--elements-font-size) * 15);
     padding-left: calc(var(--elements-font-size) / 1.8);
     padding-right: calc(var(--elements-font-size) / 1.8);
     height: calc(var(--elements-font-size) * 3.3);
+    background-color: rgba(var(--elements-tertiary-bg), 0.7);
     backdrop-filter: blur(21px);
     -webkit-backdrop-filter: blur(21px);
 }

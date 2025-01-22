@@ -9,6 +9,7 @@
     const _21_ = {
         app: {
             url: "${g.createLink(absolute:true, uri:"/")}",
+            tenant: "${tenant.current()}",
         },
         <g:if test="${c}">
         user: {
@@ -23,20 +24,11 @@
             animations: ${c.animations},
         },
         </g:if>
-        <g:if env="production">
         log: {
             error: ${dev.logError()},
             debug: ${dev.logDebug()},
             trace: ${dev.logTrace()},
         },
-        </g:if>
-        <g:else>
-        log: {
-            error: true,
-            debug: true,
-            trace: ${dev.logTrace()},
-        },
-        </g:else>
     }
 </script>
 

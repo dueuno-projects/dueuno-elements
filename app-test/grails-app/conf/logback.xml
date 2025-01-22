@@ -34,24 +34,20 @@
     <logger name="org.springframework.boot.SpringApplication" level="INFO" />
     <logger name="dueuno" level="DEBUG" />
 
-<!--    <logger name="grails.app.domain" level="DEBUG" />-->
-<!--    <logger name="grails.app.services" level="DEBUG" />-->
-<!--    <logger name="grails.app.controllers" level="DEBUG" />-->
-<!--    <logger name="grails.app.taglib" level="DEBUG" />-->
-
+    <!-- DUEUNO -->
 <!--    <logger name="dueuno.commons.utils.SqlUtils" level="TRACE" />-->
 <!--    <logger name="dueuno.ImportUtils" level="TRACE" />-->
 
-<!-- GORM-->
+    <!-- GORM-->
 <!--    <logger name="org.grails.datastore" level="DEBUG" />-->
 <!--    <logger name="org.hibernate.SQL" level="DEBUG" />-->
 <!--    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />-->
 
-<!-- SPRING SECURITY-->
+    <!-- SPRING SECURITY-->
 <!--    <logger name="org.springframework.security" level="DEBUG" />-->
 <!--    <logger name="grails.plugin.springsecurity.web.filter.DebugFilter" level="INFO" />-->
 
-<!-- HTTP REST-->
+    <!-- HTTP REST-->
 <!--    <logger name="sun.net.www.protocol.http.HttpURLConnection" level="ALL" />-->
 
 </configuration>

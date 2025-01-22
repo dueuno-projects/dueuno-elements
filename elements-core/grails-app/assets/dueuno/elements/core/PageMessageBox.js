@@ -15,7 +15,7 @@ class PageMessageBox extends Component {
     static get $self() { return PageMessageBox_$self }
     static set $self(value) { PageMessageBox_$self = value }
 
-    static initialize($element, $root) {
+    static initialize() {
         PageMessageBox.$self = $('#page-messagebox');
 
         PageMessageBox.isActive = false;
@@ -28,6 +28,8 @@ class PageMessageBox extends Component {
     }
 
     static onShow(event) {
+        LoadingScreen.show(false);
+
         if (PageMessageBox.isActive) {
             PageMessageBox.hide();
         }

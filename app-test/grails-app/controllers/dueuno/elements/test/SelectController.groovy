@@ -27,7 +27,10 @@ class SelectController implements ElementsController {
     def index() {
 
         def c = createContent(ContentList)
-        c.header.removeNextButton()
+
+        c.header.nextButton.text = 'Disable'
+        c.header.nextButton.icon = 'fa-times'
+
         c.table.with {
             filters.with {
                 fold = false
@@ -90,7 +93,7 @@ class SelectController implements ElementsController {
                     'active',
             ]
 
-            rowActions = false
+            actions.removeDefaultAction()
             body.eachRow { TableRow row, Map values ->
             }
         }
@@ -109,6 +112,16 @@ class SelectController implements ElementsController {
         c.table.paginate = query.count()
 
         display content: c
+    }
+
+    def create() {
+        def c = createContent()
+        c.header.removeNextButton()
+
+        def t = createTransition()
+        t.set('company1Default', 'readonly', true)
+
+        display content: c, transition: t, modal: true
     }
 
     def onLoadCompany2() {

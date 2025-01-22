@@ -20,8 +20,8 @@ import groovy.transform.CompileStatic
 enum VerticalAlign {
     DEFAULT(''),
     TOP('align-top'),
-    BOTTOM('align-bottom'),
-    CENTER('align-center')
+    MIDDLE('align-middle'),
+    BOTTOM('align-bottom')
 
     final String cssClass
 

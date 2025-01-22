@@ -126,9 +126,9 @@ class GroupController implements ElementsController {
                         class: Select,
                         id: 'tenant',
                         optionsFromRecordset: tenantService.list(),
+                        defaultValue: tenantService.defaultTenant.id,
                         search: false,
                         noSelection: false,
-                        defaultValue: tenantService.default.id,
                 )
             }
             addField(
@@ -172,7 +172,7 @@ class GroupController implements ElementsController {
     }
 
     def onCreate() {
-        params.tenant = tenantService.get(params.tenant) ?: securityService.currentTenant
+        params.tenant = tenantService.get(params.tenant) ?: securityService.currentUserTenant
         def obj = securityService.createGroup(params)
         if (obj.hasErrors()) {
             display errors: obj
@@ -210,7 +210,7 @@ class GroupController implements ElementsController {
     }
 
     def onEdit() {
-        params.tenant = tenantService.get(params.tenant) ?: securityService.currentTenant
+        params.tenant = tenantService.get(params.tenant) ?: securityService.currentUserTenant
         def obj = securityService.updateGroup(params)
         if (obj.hasErrors()) {
             display errors: obj

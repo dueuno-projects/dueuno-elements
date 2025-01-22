@@ -1,14 +1,14 @@
 plugins {
-    id 'groovy'
-    id 'java-library'
-    id 'org.grails.grails-gsp'
-    id 'org.grails.grails-plugin'
-    id 'com.bertramlabs.asset-pipeline'
-    id 'dueuno-asciidoctor'
-    id 'dueuno-codenarc'
-    id 'dueuno-publish'
-    id 'eclipse'
-    id 'idea'
+    id "groovy"
+    id "java-library"
+    id "org.grails.grails-gsp"
+    id "org.grails.grails-plugin"
+    id "com.bertramlabs.asset-pipeline"
+    id "dueuno-publish"
+    id "dueuno-asciidoctor"
+    id "dueuno-codenarc"
+    id "eclipse"
+    id "idea"
 }
 
 group = projectGroup
@@ -58,10 +58,11 @@ dependencies {
 
 assets {
     packagePlugin = true
+    skipNonDigests = true
     minifyCss = true
     minifyJs = true
     minifyOptions = [
             //SIMPLE (default) or ADVANCED or WHITESPACE_ONLY
-            optimizationLevel: 'SIMPLE',
+            optimizationLevel: "SIMPLE",
     ]
 }

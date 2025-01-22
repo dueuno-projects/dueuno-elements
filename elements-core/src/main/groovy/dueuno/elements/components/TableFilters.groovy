@@ -104,14 +104,10 @@ class TableFilters extends Form {
                 _21TableOffset: 0,
         ]
 
-        for (field in fields) {
+        for (field in components) {
             if (field.component in Control) {
                 Control control = field.component as Control
-                control.onSubmit(
-                        action: searchButton.action,
-                        submit: searchButton.submit,
-                        params: searchButton.params,
-                )
+                control.onSubmit(searchButton.properties)
             }
         }
     }
@@ -175,7 +171,7 @@ class TableFilters extends Form {
             initializeFilter(control)
 
             String controlName = control.id - (filtersFieldPrefix)
-            Object controlValue = control.value != null ? control.value : control.defaultValue
+            Object controlValue = control.value
 
             if (controlValue) {
                 results[controlName] = controlValue
@@ -187,11 +183,6 @@ class TableFilters extends Form {
                 results.remove(controlName)
             }
         }
-
-//        // Reset table pagination for new searches
-//        if (table != null && requestParams._21FiltersSearch) {
-//            table.pagination.reset()
-//        }
 
         prettyValues = prettyResults
         return results

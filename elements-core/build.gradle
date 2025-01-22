@@ -1,21 +1,21 @@
 plugins {
-    id 'dueuno-plugin'
+    id "dueuno-plugin"
 }
 
 dependencies {
     // System monitoring
-    implementation 'net.bull.javamelody:javamelody-spring-boot-starter:2.2.0'
+    implementation "net.bull.javamelody:javamelody-spring-boot-starter:2.2.0"
 
     // Security (to use the @Secured annotation)
-    api 'org.grails.plugins:spring-security-core:7.0.0-SNAPSHOT'
+    api "org.grails.plugins:spring-security-core:7.0.0-SNAPSHOT"
 
     // Quartz (to schedule jobs when no Scheduler solution is in use)
-    api 'org.grails.plugins:quartz:3.0.0'
-    api 'org.quartz-scheduler:quartz:2.3.2' // Is not pulled in by default
+    api "org.grails.plugins:quartz:3.0.0"
+    api "org.quartz-scheduler:quartz:2.3.2" // Is not pulled in by default
 
     // Websockets
-    api 'io.github.zyro23:grails-spring-websocket:2.6.0-RC1'
+    api "io.github.zyro23:grails-spring-websocket:2.6.0-RC1"
 
-    api project(':commons-utils')
+    api project(":commons-utils")
 //    api project(":commons-keychain")
 }

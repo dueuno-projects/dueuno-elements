@@ -2,7 +2,7 @@ class ShellUserMenu {
 
     static initialize($element, $root) {
         let $menu = $('#shell-user-menu-items');
-        new SimpleBar($menu[0]);
+        enableSimpleBar($menu[0]);
     }
 
     static finalize($element, $root) {

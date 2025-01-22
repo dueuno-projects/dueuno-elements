@@ -1,0 +1,178 @@
+
+== Application Branding
+
+Companies invest in _Brand Identity_. They also invest in _Employer Branding_, which basically means _selling_ your brand to your employees. This is not just a single activity, but you can bet your client is going to ask you to have their logo on the application their employees use daily.
+
+=== Logo
+
+Every company has a logo. For the sake of this demo application we are asking Google to give us one.
+
+image::images/chapter-6/image-1.webp[align="center"]
+
+IMPORTANT: It must be a `.png` image so we can have _transparency_. We don’t accept any other format.
+
+image::images/chapter-6/image-2.webp[align="center"]
+
+We also need a background for the login screen. Let’s ask Google this one too.
+
+image::images/chapter-6/image-3.webp[align="center"]
+
+IMPORTANT: It must be a `.jpg` image
+
+image::images/chapter-6/image-4.webp[align="center"]
+
+.Create the folder `~/demo/src/main/resources/deploy/public/brand` then copy and rename the files we just downloaded. The `logo.png` file can be duplicated to create the other `.png` files.
+[source]
+----
+/demo/src/main/resources/deploy/public/brand
+ - login-logo.png
+ - login-background.jpg
+ - logo.png
+ - favicon.png
+ - appicon.png
+----
+
+From now on, each time we deploy the application for the first time, those files will be extracted and added into the following folder: `~/demo/demo/tenants/DEFAULT/public/brand`
+
+To see the results of our effort we need to remove the default branding already installed under the `~/demo/demo` folder.
+
+IMPORTANT: Delete the `~/demo/demo` folder
+
+.Execute the application
+[source,console,subs="attributes+"]
+----
+$ ./gradlew bootRun
+----
+
+We should see something like this. It looks cool but... we need to fix the colors.
+
+image::images/chapter-6/image-5.webp[align="center"]
+
+=== Colors
+
+Dueuno Elements applications can be configured from the _Tenant Properties_ _(System Administration -> Settings)_. That means each tenant can have a different setup.
+
+Login as `admin/admin`, click on _“System Administration -> Settings”_ on the Main Menu _(on the left)_ and search for “color”.
+
+image::images/chapter-6/image-6.webp[align="center"]
+
+Each Dueuno Elements application can be configured with three different colors:
+
+- `PRIMARY` +
+The color used for primary actions. Primary actions are main buttons, buttons that “create” stuff or buttons that we want the user to see as different from the others because they do something relevant in the context they are displayed.
+
+- `SECONDARY` +
+It’s the color used for all the other buttons, those buttons that do normal stuff.
+
+- `TERTIARY` +
+It’s the color used for the Content and the Form Fields.
+
+Each color has three values:
+
+- `BACKGROUND_COLOR` +
+The color used for the background of the element.
+
+- `BACKGROUND_COLOR_ALPHA` +
+The index of transparency. This is used to shade the primary color when its flat version is not appropriate.
+
+- `TEXT_COLOR` +
+The color used for texts.
+
+To configure the main colors:
+
+- Set the `PRIMARY_BACKGROUND_COLOR` to `#018B84`
+- Set the `PRIMARY_BACKGROUND_COLOR_ALPHA` to `0.25`
+
+IMPORTANT: Logout and login again
+
+The application should now look like this:
+
+image::images/chapter-6/image-7.webp[align="center"]
+image::images/chapter-6/image-8.webp[align="center"]
+image::images/chapter-6/image-9.webp[align="center"]
+image::images/chapter-6/image-10.webp[align="center"]
+
+Since we don’t want to manually set the colors every time we install the application, we can use the `onInstall` method to set the _Tenant Properties_ like the follow.
+
+We are also adding some copy under the login form with a link to our website to let the users know who we are.
+
+.Edit `~/demo/grails-app/init/BootStrap.groovy` adding the following lines:
+[source,groovy,subs="attributes+"]
+----
+class BootStrap {
+
+    ApplicationService applicationService
+    TenantPropertyService tenantPropertyService
+
+    ...
+
+    def init = { servletContext ->
+
+        applicationService.onInstall { String tenantId ->
+            tenantPropertyService.setString('PRIMARY_BACKGROUND_COLOR', '#018B84')
+            tenantPropertyService.setNumber('PRIMARY_BACKGROUND_COLOR_ALPHA', 0.25)
+            tenantPropertyService.setString('LOGIN_COPY', '2024 &copy; <a href="https://my-company.com" target="_blank">My Company</a><br/>Made in Italy')
+        }
+
+    ...
+
+}
+----
+
+=== Logs
+
+We want everybody, not just the end users, be aware of the brand! That’s why we want to add a banner to our logs.
+
+This way, every time the application is restarted, we will see an _ASCII Art_ representation of our company name. You can spend hours creating the perfect ASCII Art. I am lazy and will use an _ASCII Text generator_ I found here: https://patorjk.com/software/taag[https://patorjk.com/software/taag,window=_blank]
+
+image::images/chapter-6/image-11.webp[align="center"]
+
+.Create `~/demo/src/resources/banner.txt` and copy the generated text leaving a blank line on the top
+[source,console]
+----
+ __  __          ____
+|  \/  |_   _   / ___|___  _ __ ___  _ __   __ _ _ __  _   _
+| |\/| | | | | | |   / _ \| '_ ` _ \| '_ \ / _` | '_ \| | | |
+| |  | | |_| | | |__| (_) | | | | | | |_) | (_| | | | | |_| |
+|_|  |_|\__, |  \____\___/|_| |_| |_| .__/ \__,_|_| |_|\__, |
+        |___/                       |_|                |___/
+----
+
+.Execute the application
+[source,console,subs="attributes+"]
+----
+$ ./gradlew bootRun
+----
+
+[source,console,subs="attributes+"]
+----
+18:47:30.769 INFO  [restartedMain] o.s.boot.SpringApplication               :
+ __  __          ____
+|  \/  |_   _   / ___|___  _ __ ___  _ __   __ _ _ __  _   _
+| |\/| | | | | | |   / _ \| '_ ` _ \| '_ \ / _` | '_ \| | | |
+| |  | | |_| | | |__| (_) | | | | | | |_) | (_| | | | | |_| |
+|_|  |_|\__, |  \____\___/|_| |_| |_| .__/ \__,_|_| |_|\__, |
+        |___/                       |_|                |___/
+
+
+Configuring Spring Security Core ...
+... finished configuring Spring Security Core
+
+18:47:36.979 INFO  [restartedMain] d.elements.core.ApplicationService       : Available languages [en, it]
+18:47:36.982 INFO  [restartedMain] d.elements.core.ApplicationService       :
+18:47:36.982 INFO  [restartedMain] d.elements.core.ApplicationService       : --------------------------------------------------------------------------------
+18:47:36.982 INFO  [restartedMain] d.elements.core.ApplicationService       : APPLICATION: STARTING UP...
+18:47:36.982 INFO  [restartedMain] d.elements.core.ApplicationService       : --------------------------------------------------------------------------------
+18:47:36.987 INFO  [restartedMain] d.elements.core.ApplicationService       : Executing 'dueuno.elements.core.beforeInit'...
+18:47:37.029 INFO  [restartedMain] d.elements.core.ApplicationService       : Executing 'com.example.init'...
+18:47:37.030 INFO  [restartedMain] d.elements.core.ApplicationService       : Executing 'dueuno.elements.core.afterInit'...
+18:47:37.042 INFO  [restartedMain] d.elements.core.ApplicationService       : --------------------------------------------------------------------------------
+18:47:37.042 INFO  [restartedMain] d.elements.core.ApplicationService       : APPLICATION: STARTED.
+18:47:37.042 INFO  [restartedMain] d.elements.core.ApplicationService       : --------------------------------------------------------------------------------
+18:47:37.042 INFO  [restartedMain] d.elements.core.ApplicationService       :
+Grails application running at http://localhost:8080 in environment: development
+----
+
+We made our client happy. That means we are happy too. Do we need anything more?
+
+In the next chapter we are going to see what happens when we use a Dueuno Elements application from a Desktop Computer, from a Tablet and from a Mobile Phone.
