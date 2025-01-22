@@ -82,7 +82,6 @@ class Login extends Page {
                         class: Checkbox,
                         id: 'rememberMe',
                         displayLabel: false,
-                        cssClass: 'mt-1',
                 )
             }
             addField(
@@ -93,7 +92,6 @@ class Login extends Page {
                     displayLabel: false,
                     stretch: true,
                     primary: true,
-                    cssClass: 'mt-1',
             )
             if (passwordRecoveryUrl) {
                 addField(
