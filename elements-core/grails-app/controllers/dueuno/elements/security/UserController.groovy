@@ -161,6 +161,7 @@ class UserController implements ElementsController {
             addField(
                     class: Separator,
                     id: 'authorizations',
+                    icon: 'fa-shield-halved',
             )
             addField(
                     class: Select,
@@ -247,6 +248,7 @@ class UserController implements ElementsController {
             addField(
                     class: Separator,
                     id: 'preferences',
+                    icon: 'fa-earth-americas',
             )
             addField(
                     class: Select,

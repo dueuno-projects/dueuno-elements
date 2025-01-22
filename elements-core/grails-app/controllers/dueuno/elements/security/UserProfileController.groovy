@@ -68,7 +68,7 @@ class UserProfileController implements ElementsController {
             addField(
                     class: Separator,
                     id: 'preferences',
-                    cols: 12,
+                    icon: 'fa-earth-americas',
             )
             addField(
                     class: Select,
@@ -185,7 +185,7 @@ class UserProfileController implements ElementsController {
                 addField(
                         class: Separator,
                         id: 'change.password',
-                        cols: 12,
+                        icon: 'fa-key',
                 )
                 addField(
                         class: PasswordField,
