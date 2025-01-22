@@ -19,7 +19,7 @@
         </label>
     </g:if>
 
-    <div class="input-group ${c.displayLabel ? '' : 'mt-2'}" ${raw(c.component.getContainerAttributes())}
+    <div class="input-group ${c.displayLabel ? '' : 'mt-1'}" ${raw(c.component.getContainerAttributes())}
          style="${c.rows}"
     >
         <render:component id="${c.component.getId()}" instance="${c.component}" properties="[:]" />
