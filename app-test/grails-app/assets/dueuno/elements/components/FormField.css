@@ -14,10 +14,6 @@ input[type] {
     color: #cc0000;
 }
 
-.component-form .input-group > * {
-    margin-left: 0 !important;
-}
-
 .component-form .input-group {
     margin-top: calc(var(--elements-font-size) * -0.3);
 }
