@@ -67,6 +67,7 @@ class Login extends Page {
                     placeholder: 'authentication.username.placeholder',
                     textTransform: TextTransform.LOWERCASE,
                     displayLabel: false,
+                    cssClass: 'rounded-bottom-0',
             )
             addField(
                     class: PasswordField,
@@ -74,12 +75,14 @@ class Login extends Page {
                     icon: '',
                     placeholder: 'authentication.password.placeholder',
                     displayLabel: false,
+                    cssClass: 'rounded-top-0',
             )
             if (rememberMe) {
                 addField(
                         class: Checkbox,
                         id: 'rememberMe',
                         displayLabel: false,
+                        cssClass: 'mt-1',
                 )
             }
             addField(
@@ -90,6 +93,7 @@ class Login extends Page {
                     displayLabel: false,
                     stretch: true,
                     primary: true,
+                    cssClass: 'mt-1',
             )
             if (passwordRecoveryUrl) {
                 addField(
@@ -118,7 +122,7 @@ class Login extends Page {
                         html: copy,
                         textAlign: TextAlign.CENTER,
                         displayLabel: false,
-                        border: false,
+                        border: true,
                 )
             }
         }
