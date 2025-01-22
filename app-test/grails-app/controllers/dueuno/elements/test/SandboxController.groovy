@@ -223,6 +223,22 @@ class SandboxController implements ElementsController {
                     targetNew: true,
                     cols: 10,
             )
+
+            for (i in 1..6) {
+                addField(
+                        class: Label,
+                        id: "${i}Label",
+                        displayLabel: false,
+                        cols: 9,
+                )
+                addField(
+                        class: DateField,
+                        id: "${i}Date",
+                        displayLabel: false,
+                        cols: 3,
+                )
+            }
+
             addField(
                     class: TextField,
                     id: 'textUp',
