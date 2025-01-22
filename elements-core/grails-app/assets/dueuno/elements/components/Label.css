@@ -1,5 +1,8 @@
 .component-label {
     border-radius: 0;
+}
+
+.component-label:not(.html) {
     padding-left: .25rem;
 }
 

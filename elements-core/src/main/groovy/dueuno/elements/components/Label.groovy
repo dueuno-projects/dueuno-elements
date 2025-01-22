@@ -56,7 +56,7 @@ class Label extends Component {
         textWrap = args.textWrap == null ? TextWrap.NO_WRAP : args.textWrap as TextWrap
         setTextStyle(args.textStyle)
 
-        border = args.border == null ? true : args.border
+        border = args.border == null ? (html ? false : true) : args.border
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
         prettyPrinterProperties.messageArgs = args.textArgs as List
