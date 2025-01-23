@@ -7,6 +7,6 @@
 ><g:if test="${c.html}">${raw(c.prettyHtml)}</g:if>
     <g:else>
         <g:if test="${c.icon}"><render:icon icon="${c.icon}" class="${c.icon ? 'me-1' : ''}"/></g:if>
-        <g:if test="${c.url}"><a href="${c.url}"></g:if><span class="${c.verticalAlign}">${c.text}${c.border && !c.text ? raw('&nbsp;') : ''}</span><g:if test="${c.url}"></a></g:if>
+        <g:if test="${c.url}"><a href="${c.url}" target="_blank"></g:if><span class="${c.verticalAlign}">${c.text}${c.border && !c.text ? raw('&nbsp;') : ''}</span><g:if test="${c.url}"></a></g:if>
     </g:else>
 </span>
