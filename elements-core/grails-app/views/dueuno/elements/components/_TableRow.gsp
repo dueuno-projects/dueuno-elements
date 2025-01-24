@@ -89,12 +89,12 @@
                     data-21-events="${cell.eventsAsJSON}"
                 ><div class="input-group" style="${c.table.widths[column] ? 'width: ' + c.table.widths[column] + 'px;' : ''}">
                     <g:set var="label" value="${cell.component}" />
-                    <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.cssClass}"
+                    <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.html ? 'html' : ''} ${label.cssClass}"
                           style="color: ${label.textColor}; background-color: ${label.backgroundColor}; ${label.cssStyle}">
                         <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
                         <g:else>
                             <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon ? 'me-2' : ''}"/></g:if>
-                            <g:if test="${label.url}"><a href="${label.url}"></g:if><span>${label.text}${label.border && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
+                            <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span>${label.text}${label.border && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
                         </g:else>
                     </span>
                 </div>
