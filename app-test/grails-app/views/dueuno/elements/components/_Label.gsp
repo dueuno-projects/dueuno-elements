@@ -1,3 +1,4 @@
+%{-- Keep the _TableRow.gsp inline Label component aligned with this _Label.gsp template --}%
 <span class="component-label w-100 ${c.textAlign} ${c.textWrap} ${c.textStyle} ${c.border ? 'border' : ''} ${c.html ? 'html' : ''} ${c.cssClass}"
       style="${c.cssStyleColors}${c.cssStyle}"
       data-21-component="${c.className}"
@@ -7,6 +8,6 @@
 ><g:if test="${c.html}">${raw(c.prettyHtml)}</g:if>
     <g:else>
         <g:if test="${c.icon}"><render:icon icon="${c.icon}" class="${c.icon ? 'me-1' : ''}"/></g:if>
-        <g:if test="${c.url}"><a href="${c.url}"></g:if><span class="${c.verticalAlign}">${c.text}${c.border && !c.text ? raw('&nbsp;') : ''}</span><g:if test="${c.url}"></a></g:if>
+        <g:if test="${c.url}"><a href="${c.url}" target="_blank"></g:if><span class="${c.verticalAlign}">${c.text}${c.border && !c.text ? raw('&nbsp;') : ''}</span><g:if test="${c.url}"></a></g:if>
     </g:else>
 </span>

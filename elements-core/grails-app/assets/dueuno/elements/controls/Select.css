@@ -2,6 +2,10 @@
     user-select: text;
 }
 
+.select2-container {
+    margin-left: 0 !important;
+}
+
 /* IMMAGINE FRECCIA */
 .select2-container--bootstrap-5 .select2-selection--single {
     padding: 0;

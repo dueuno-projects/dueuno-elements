@@ -37,3 +37,7 @@
     height: 45px;
     width: auto;
 }
+
+.input-group:has(input[type=password]) {
+    margin-top: .25rem !important;
+}
