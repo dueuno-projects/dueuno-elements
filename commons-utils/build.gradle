@@ -1,8 +1,24 @@
 plugins {
-    id "dueuno-commons"
+    id "java-library"
+    id "groovy"
+    id "eclipse"
+    id "idea"
+}
+
+group = versionGroup
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.grails.org/grails/core/" }
 }
 
 dependencies {
+    implementation "org.apache.groovy:groovy:${groovyVersion}"
+    implementation "org.apache.groovy:groovy-sql:${groovyVersion}"
+    implementation "org.apache.groovy:groovy-json:${groovyVersion}"
+    implementation "org.apache.groovy:groovy-templates:${groovyVersion}"
+    implementation "ch.qos.logback:logback-classic:1.2.12"
+
     // Servlet
     implementation 'jakarta.servlet:jakarta.servlet-api:6.1.0'
 

@@ -1,8 +1,74 @@
+buildscript {
+    repositories {
+        maven { url "https://repo.grails.org/grails/core" }
+        mavenCentral()
+    }
+    dependencies { // Not Published to Gradle Plugin Portal
+        classpath "org.grails:grails-gradle-plugin:7.0.0-M3"
+        classpath "org.grails.plugins:hibernate5:9.0.0-M2"
+    }
+}
+
 plugins {
-    id "dueuno-application"
+    id "groovy"
+    id "war"
+    id "idea"
+    id "com.bertramlabs.asset-pipeline" version "5.0.5"
+    id "eclipse"
+}
+
+// Not Published to Gradle Plugin Portal
+apply plugin: "org.grails.grails-web"
+apply plugin: "org.grails.grails-gsp"
+
+group = versionGroup
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.grails.org/grails/core/" }
+}
+
+configurations.all {
+    resolutionStrategy {
+        cacheChangingModulesFor 0, "seconds"
+    }
 }
 
 dependencies {
+    profile "org.grails.profiles:web"
+    developmentOnly "org.webjars.npm:bootstrap:5.3.3"
+    developmentOnly "org.webjars.npm:bootstrap-icons:1.11.3"
+    developmentOnly "org.webjars.npm:jquery:3.7.1"
+    implementation platform("org.grails:grails-bom:$grailsVersion")
+    implementation "org.grails:grails-core"
+    implementation "org.grails:grails-logging"
+    implementation "org.grails:grails-plugin-databinding"
+    implementation "org.grails:grails-plugin-i18n"
+    implementation "org.grails:grails-plugin-interceptors"
+    implementation "org.grails:grails-plugin-rest"
+    implementation "org.grails:grails-plugin-services"
+    implementation "org.grails:grails-plugin-url-mappings"
+    implementation "org.grails:grails-web-boot"
+    implementation "org.grails.plugins:gsp"
+    implementation "org.grails.plugins:hibernate5"
+    implementation "org.grails.plugins:scaffolding"
+    implementation "org.springframework.boot:spring-boot-autoconfigure"
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-logging"
+    implementation "org.springframework.boot:spring-boot-starter-tomcat"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    console "org.grails:grails-console"
+    runtimeOnly "com.bertramlabs.plugins:asset-pipeline-grails"
+    runtimeOnly "com.h2database:h2"
+    runtimeOnly "org.apache.tomcat:tomcat-jdbc"
+    runtimeOnly "org.fusesource.jansi:jansi"
+    integrationTestImplementation testFixtures("org.grails.plugins:geb")
+    testImplementation "org.grails:grails-gorm-testing-support"
+    testImplementation "org.grails:grails-web-testing-support"
+    testImplementation "org.spockframework:spock-core"
+
+    // Dueuno Elements
     implementation project(":elements-core")
 //    implementation project(":elements-extra")
 
@@ -14,12 +80,23 @@ dependencies {
     runtimeOnly "org.postgresql:postgresql"
 }
 
-bootRun {
-    jvmArgs("-Xms2g", "-Xmx2g")
+compileJava.options.release = javaVersion as Integer
+
+tasks.withType(Test) {
+    useJUnitPlatform()
 }
 
-configurations.all {
-    resolutionStrategy {
-        cacheChangingModulesFor 0, "seconds"
-    }
+assets {
+    excludes = [
+            'webjars/jquery/**',
+            'webjars/bootstrap/**',
+            'webjars/bootstrap-icons/**'
+    ]
+    includes = [
+            'webjars/jquery/*/dist/jquery.js',
+            'webjars/bootstrap/*/dist/js/bootstrap.bundle.js',
+            'webjars/bootstrap/*/dist/css/bootstrap.css',
+            'webjars/bootstrap-icons/*/font/bootstrap-icons.css',
+            'webjars/bootstrap-icons/*/font/fonts/*',
+    ]
 }

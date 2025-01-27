@@ -30,9 +30,9 @@ class ElementsGrailsPlugin extends Plugin {
 
     static final String NAME = 'elements-core'
 
-    def version = '2.6.19'
+    def version = '3.x-SNAPSHOT'
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = '6.2.0 > *'
+    def grailsVersion = "7.0.0-M1  > *"
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
         'grails-app/views/error.gsp'
@@ -41,7 +41,7 @@ class ElementsGrailsPlugin extends Plugin {
     def title = 'Elements' // Headline display name of the plugin
     def author = 'Gianluca Sartori, Francesco Piceghello'
     def authorEmail = 'g.sartori@gmail.com, f.piceghello@gmail.com'
-    def description = 'Elements'
+    def description = 'Dueuno Elements Core'
     def profiles = ['web']
 
     // URL to the plugin's documentation

@@ -40,6 +40,3 @@ out/
 Thumbs.db
 .DS_Store
 target/
-
-### Application Specific
-/app-test/app-test/
