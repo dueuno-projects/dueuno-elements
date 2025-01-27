@@ -327,7 +327,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
      * @return the currently logged in user
      */
     TUser getCurrentUser(Boolean reload = false) {
-        if (!springSecurityService.loggedIn) {
+        if (!springSecurityService.isLoggedIn()) {
             return null
         }
 
