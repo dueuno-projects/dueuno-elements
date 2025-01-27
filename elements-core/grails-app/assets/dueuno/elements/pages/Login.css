@@ -38,6 +38,6 @@
     width: auto;
 }
 
-.input-group:has(input[type=password]) {
+.page-login .input-group:has(input[type=password]) {
     margin-top: .25rem !important;
 }
