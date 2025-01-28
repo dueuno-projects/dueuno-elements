@@ -34,7 +34,7 @@ class AuthenticationController implements ElementsController {
     TenantPropertyService tenantPropertyService
 
     def login() {
-        if (securityService.loggedIn) {
+        if (securityService.isLoggedIn()) {
             String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
             String landingPage = securityService.landingPage
 

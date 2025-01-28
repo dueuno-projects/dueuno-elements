@@ -1,0 +1,188 @@
+.table>:not(caption)>*>* {
+    padding: calc(var(--elements-spacing-y) * 1.5) calc(var(--elements-spacing-x) * .5);
+    background-color: transparent;
+    color: inherit;
+}
+
+.component-table table {
+    -webkit-touch-callout: default; /* Safari */
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+.component-table thead th {
+    background-color: white;
+    padding: var(--elements-spacing-x) var(--elements-spacing-y);
+}
+
+.component-table ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.component-table ::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    border-radius: 0.5rem;
+}
+
+.component-table ::-webkit-scrollbar-track {
+    margin: 0.5rem;
+}
+
+.component-table > .component-separator {
+    background-color: white;
+    margin-bottom: calc(var(--bs-border-radius-lg) * -1);
+    border-top-left-radius: var(--bs-border-radius-lg);
+    border-top-right-radius: var(--bs-border-radius-lg);
+    padding: 1rem;
+}
+
+.component-table-dataset .table-hover tr:hover td {
+    box-shadow: none;
+}
+
+.component-table-dataset .sticky-header {
+    border-bottom: rgb(var(--elements-tertiary-bg)) 0.25rem solid;
+}
+
+.component-table-dataset .component-table-header a {
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    margin-left: -0.5rem;
+}
+
+.component-table-dataset .component-table-header a:focus-visible {
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: none;
+    outline: none;
+}
+
+.component-table-dataset tr {
+    vertical-align: middle;
+}
+
+.component-table-dataset .component-table-selection {
+    padding-top: 0;
+}
+
+.component-table-dataset th:first-child,
+.component-table-dataset td:first-child {
+    padding-left: var(--elements-spacing-x);
+}
+
+.component-table-dataset th:nth-last-child(2),
+.component-table-dataset td:nth-last-child(2) {
+    padding-right: var(--elements-spacing-x);
+}
+
+.component-table-dataset .component-table-actions,
+.component-table-dataset .component-table-actions-header,
+.component-table-dataset .component-table-cell:has([data-21-control]) {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.table-no-results > td:first-child{
+    width: 100% !important;
+    text-align: center;
+    padding: 60px 20px !important;
+}
+
+.table-no-results > td:first-child i {
+    font-size: 10em;
+    padding-bottom: 20px;
+}
+
+.component-table tr.table-no-results,
+.component-table tr.table-no-results td,
+.component-table tr.table-no-results:hover td {
+    background-color: white;
+}
+
+.component-table:has(.table-no-results) {
+    border-radius: var(--bs-border-radius-lg);
+}
+
+.component-table-dataset:not(:has(.bootstrap-table)) {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.component-table-cell select,
+.component-table-cell textarea,
+.component-table-cell textarea:focus,
+.component-table-cell input,
+.component-table-cell input:focus {
+    border-radius: var(--bs-border-radius-lg);
+    border: none;
+    font-weight: bold;
+}
+
+
+.component-table-cell:has([readonly], [disabled]) > span:not(.select2),
+.component-table-cell:has([readonly], [disabled]) > a,
+.component-table-cell:has([readonly], [disabled]) > a:hover,
+.component-table-cell:has([readonly], [disabled]) > a:focus,
+.component-table-cell:has([readonly], [disabled]) > a:focus:hover,
+.component-table-cell:has([readonly], [disabled]) > select,
+.component-table-cell:has([readonly], [disabled]) textarea,
+.component-table-cell:has([readonly], [disabled]) > input,
+.component-table-cell .component-select[disabled] + .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+    box-shadow: none !important;
+    cursor: default;
+}
+
+/* COLORS
+*/
+.component-table tr.table-no-results,
+.component-table tr.table-no-results td,
+.component-table tr.table-no-results:hover td {
+    color: rgba(var(--elements-secondary-bg), 0.5);
+}
+
+.component-table .table-hover tr.table-no-results:hover td {
+    background-color: white;
+}
+
+.component-table-dataset .table-hover tr:hover td {
+    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    --bs-table-hover-color: none;
+}
+
+.component-table-dataset .table-striped tbody tr:nth-of-type(odd) {
+    --bs-table-striped-bg: rgb(var(--elements-tertiary-bg));
+}
+
+.component-table-dataset .component-table-header a {
+    color: rgb(var(--elements-primary-bg));
+}
+
+.component-table-dataset .component-table-header a:focus-visible {
+    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+}
+
+.component-filters-counter {
+    color: rgb(var(--elements-primary-text));
+    background-color: rgb(var(--elements-primary-bg));
+}
+
+.component-table-header .sort-asc:after {
+    display: inline-block;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+    transform: rotate(-180deg);
+}
+
+.component-table-header .sort-desc:after {
+    display: inline-block;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+}

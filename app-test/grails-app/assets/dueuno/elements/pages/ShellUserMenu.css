@@ -1,0 +1,61 @@
+#shell-user-menu {
+    border: none;
+}
+
+#shell-user-menu .offcanvas-title {
+    text-overflow: clip;
+}
+
+.offcanvas.no-slide {
+    transition: none;
+}
+
+#shell-user-menu .offcanvas-header {
+    height: calc(var(--elements-font-size) * 3.3);
+    padding-right: calc(var(--elements-font-size) / 1.8);
+}
+
+#shell-user-menu .offcanvas-title img {
+    height: calc(var(--elements-font-size) * 1.4);
+    margin-top: calc(var(--elements-font-size) * -0.2);
+}
+
+#shell-user-menu .offcanvas-body {
+    width: 100%;
+    position: absolute;
+    top: calc(var(--elements-font-size) * 3.3);
+    bottom: 0;
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+
+#shell-user-menu .offcanvas-body::-webkit-scrollbar {
+    display: none;
+}
+
+#shell-user-menu .offcanvas-body .simplebar-scrollbar:before {
+    width: 10px;
+}
+
+#shell-user-menu .offcanvas-body .simplebar-track.simplebar-vertical {
+    padding: 0 .5rem 0 .5rem;
+}
+
+#shell-user-menu button:hover,
+#shell-user-menu button:focus,
+#shell-user-menu button:active,
+#shell-user-menu button {
+    border: 0;
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
+    background: none;
+}
+
+.offcanvas.offcanvas-end {
+    width: calc(var(--elements-font-size) * 15);
+}
+
+#shell-user-menu .nav-item a {
+    padding: 0.25rem 0.25rem 0.25rem 0.75rem !important;
+    transition: none;
+    color: var(--bs-light-rgb);
+}

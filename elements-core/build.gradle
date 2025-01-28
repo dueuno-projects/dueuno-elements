@@ -28,6 +28,7 @@ group = versionGroup
 repositories {
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core/" }
+    mavenLocal()
 }
 
 dependencies {
@@ -70,11 +71,11 @@ dependencies {
     api "org.grails.plugins:spring-security-core:7.0.0-M1"
 
     // Quartz (to schedule jobs when no Scheduler solution is in use)
-    api "org.grails.plugins:quartz:3.0.0"
-    api "org.quartz-scheduler:quartz:2.3.2" // Is not pulled in by default
+    api "org.grails.plugins:quartz:4.0.0-M2"
+//    api "org.quartz-scheduler:quartz:2.3.2" // Is not pulled in by default
 
     // Websockets
-    api "io.github.zyro23:grails-spring-websocket:2.6.0-RC1"
+    api "io.github.zyro23:grails-spring-websocket:2.7.0-SNAPSHOT"
 
     api project(":commons-utils")
 //    api project(":commons-keychain")
@@ -86,18 +87,19 @@ compileJava.options.release = javaVersion as Integer
 tasks.withType(Test) {
     useJUnitPlatform()
 }
+
 assets {
     packagePlugin = true
     excludes = [
-            'webjars/jquery/**',
-            'webjars/bootstrap/**',
-            'webjars/bootstrap-icons/**'
+            "webjars/jquery/**",
+            "webjars/bootstrap/**",
+            "webjars/bootstrap-icons/**"
     ]
     includes = [
-            'webjars/jquery/*/dist/jquery.js',
-            'webjars/bootstrap/*/dist/js/bootstrap.bundle.js',
-            'webjars/bootstrap/*/dist/css/bootstrap.css',
-            'webjars/bootstrap-icons/*/font/bootstrap-icons.css',
-            'webjars/bootstrap-icons/*/font/fonts/*',
+            "webjars/jquery/*/dist/jquery.js",
+            "webjars/bootstrap/*/dist/js/bootstrap.bundle.js",
+            "webjars/bootstrap/*/dist/css/bootstrap.css",
+            "webjars/bootstrap-icons/*/font/bootstrap-icons.css",
+            "webjars/bootstrap-icons/*/font/fonts/*",
     ]
 }

@@ -1,0 +1,168 @@
+// Temporary solutions until we get support for static fields
+// See: https://github.com/google/closure-compiler/issues/2731
+let PageModal_isActive = false;
+let PageModal_isShowRequested = false;
+let PageModal_dialog = null;
+let PageModal_$self = null;
+let PageModal_$header = null;
+let PageModal_$body = null;
+
+class PageModal extends Component {
+
+    static get isActive() { return PageModal_isActive }
+    static set isActive(value) { PageModal_isActive = value }
+
+    static get isShowRequested() { return PageModal_isShowRequested }
+    static set isShowRequested(value) { PageModal_isShowRequested = value }
+
+    static get dialog() { return PageModal_dialog }
+    static set dialog(value) { PageModal_dialog = value }
+
+    static get $self() { return PageModal_$self }
+    static set $self(value) { PageModal_$self = value }
+
+    static get $header() { return PageModal_$header }
+    static set $header(value) { PageModal_$header = value }
+
+    static get $body() { return PageModal_$body }
+    static set $body(value) { PageModal_$body = value }
+
+    static initialize() {
+        PageModal.$self = $('#page-modal');
+        PageModal.$header = $('#page-modal-header');
+        PageModal.$body = $('#page-modal-body');
+        PageModal.$backdrop = $('.modal-backdrop');
+
+        // Modal
+        PageModal.isActive = false;
+        PageModal.dialog = new bootstrap.Modal('#page-modal', {
+            backdrop: 'static',
+        });
+
+        // Close Button
+        let $closeButton = PageModal.$self.find('[data-21-id="closeButton"]');
+        $closeButton.attr('data-bs-dismiss', 'modal');
+        let $closeButtonLink = $closeButton.find('a')
+        $closeButtonLink.removeAttr('data-21-events');
+
+        // Events
+        PageModal.$self.off('shown.bs.modal').on('shown.bs.modal', PageModal.onShown);
+        PageModal.$self.off('hidden.bs.modal').on('hidden.bs.modal', PageModal.onHidden);
+        PageModal.$self.off('keydown').on('keydown', PageModal.onKeyDown);
+        $closeButton.off('click').on('click', PageModal.onClose);
+    }
+
+    static onShown(event) {
+        Page.finalizeContent(PageModal.$self);
+    }
+
+    static onClose(event) {
+        PageModal.close();
+        Page.reinitializeContent(PageContent.$self);
+    }
+
+    static onHidden(event) {
+        if (!PageModal.isActive) {
+            PageModal.$body.empty();
+
+        } else if (PageModal.isShowRequested && !PageMessageBox.isActive) {
+            PageModal.show();
+            PageModal.isShowRequested = false;
+        }
+    }
+
+    static onScroll(event) {
+        //no-op
+    }
+
+    static onKeyDown(event) {
+        if (event.key == 'Escape') {
+            PageModal.onClose(event);
+        }
+    }
+
+    static renderContent($content, componentEvent) {
+        let $contentHeader = $content.find('[data-21-id="header"]');
+        let $contentBody = $content.children().not('[data-21-id="header"]');
+
+        let contentProperties = Component.getProperties($content);
+        let modalProperties = Component.getProperties(PageModal.$self);
+        modalProperties['controller'] = contentProperties['controller'];
+        modalProperties['action'] = contentProperties['action'];
+        Component.setProperties(PageModal.$self, modalProperties);
+
+        PageModal.$header.children().not('[data-21-id="closeButton"]').remove();
+        PageModal.$header.append($contentHeader);
+        PageModal.$body.empty();
+        PageModal.$body.append($contentBody);
+    }
+
+    static renderDialog(componentEvent) {
+        // Buttons
+        let $closeButton = PageModal.$header.find('[data-21-id="closeButton"]');
+        let closeButtonComponent = Component.getByElement($closeButton);
+
+        if (componentEvent.renderProperties['closeButton']) {
+            Elements.callMethod($closeButton, closeButtonComponent, 'setDisplay', true);
+
+        } else {
+            Elements.callMethod($closeButton, closeButtonComponent, 'setDisplay', false);
+        }
+
+        // Size
+        PageModal.$self.find('.modal-dialog').removeClass('modal-lg modal-xl modal-fullscreen');
+
+        if (componentEvent.renderProperties['wide']) {
+            PageModal.$self.children().addClass('modal-xl');
+            PageModal.$self.children().children().addClass('rounded-4');
+
+        } else if (componentEvent.renderProperties['fullscreen']) {
+            PageModal.$self.children().addClass('modal-fullscreen');
+            PageModal.$self.children().children().removeClass('rounded-4');
+
+        } else {
+            PageModal.$self.children().addClass('modal-lg');
+            PageModal.$self.children().children().addClass('rounded-4');
+        }
+
+        // Scrollbar
+        enableSimpleBar(PageModal.$body[0]);
+        PageModal.$body.find('.simplebar-content-wrapper').off('scroll').on('scroll', PageModal.onScroll);
+    }
+
+    static open($content, componentEvent) {
+        PageModal.isActive = true;
+        PageModal.renderContent($content, componentEvent);
+        Page.initializeContent(PageModal.$self, true);
+        PageModal.renderDialog(componentEvent);
+
+        if (PageModal.isShown()) {
+            Page.finalizeContent(PageModal.$self);
+
+        } else {
+            PageModal.show();
+            // Will be finalized onShown()
+        }
+    }
+
+    static close() {
+        PageModal.isActive = false;
+        PageModal.isShowRequested = false;
+        PageModal.hide();
+    }
+
+    static isShown() {
+        return PageModal.$self.hasClass('show');
+    }
+
+    static show() {
+        PageModal.dialog.show('#page-modal');
+        PageModal.isShowRequested = true;
+    }
+
+    static hide() {
+        PageModal.dialog.hide();
+    }
+}
+
+Component.register(PageModal);

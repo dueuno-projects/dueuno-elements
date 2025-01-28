@@ -1,0 +1,16 @@
+.grid-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-column div {
+    flex: auto;
+}
+
+.grid-column div > *:last-child {
+    margin-bottom: 0 !important;
+}
+
+.grid-column .grid-border {
+    border-radius: var(--bs-border-radius-xl);
+}

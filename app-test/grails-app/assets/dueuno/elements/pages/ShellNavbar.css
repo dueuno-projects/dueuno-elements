@@ -1,0 +1,70 @@
+#shell-navbar {
+    z-index: 1001 !important;
+    margin-left: calc(var(--elements-font-size) * 15);
+    padding-left: calc(var(--elements-font-size) / 1.8);
+    padding-right: calc(var(--elements-font-size) / 1.8);
+    height: calc(var(--elements-font-size) * 3.3);
+    background-color: rgba(var(--elements-tertiary-bg), 0.7);
+    backdrop-filter: blur(21px);
+    -webkit-backdrop-filter: blur(21px);
+}
+
+#shell-navbar.has-sticky {
+    background-color: rgb(var(--elements-tertiary-bg));
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+#shell-navbar-menu-toggle button:hover,
+#shell-navbar-menu-toggle button:focus,
+#shell-navbar-menu-toggle button:active,
+#shell-navbar-menu-toggle button {
+    border: 0;
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
+    background: none;
+    color: #333333;
+}
+
+#shell-navbar-home {
+    margin-left: calc(var(--elements-font-size) / 2);
+}
+
+#shell-navbar-home a:hover,
+#shell-navbar-home a:focus,
+#shell-navbar-home a:active,
+#shell-navbar-home a {
+    margin-left: calc(var(--elements-font-size) / -2);
+    border: 0;
+    background: transparent;
+    color: #333333;
+}
+
+#shell-navbar-logo {
+    height: calc(var(--elements-font-size) * 1.6);
+    transform: translateX(-1rem); /* Hack to optically (more or less) center the title, we need to find the proper way of doing it */
+}
+
+#shell-navbar-notifications-toggle button:hover,
+#shell-navbar-notifications-toggle button:focus,
+#shell-navbar-notifications-toggle button:active,
+#shell-navbar-notifications-toggle button {
+    border: 0;
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
+    background: none;
+}
+
+#shell-navbar-notifications-toggle div {
+    font-size: 14px;
+    padding: 1px 10px 1px 10px;
+    border-radius: var(--bs-border-radius-xl);
+}
+
+#shell-navbar-user-menu-toggle button:focus,
+#shell-navbar-user-menu-toggle button:hover,
+#shell-navbar-user-menu-toggle button:active,
+#shell-navbar-user-menu-toggle button {
+    border: 0;
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
+    background: none;
+    color: #333333;
+}

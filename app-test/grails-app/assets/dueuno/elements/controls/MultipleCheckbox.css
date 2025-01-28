@@ -1,0 +1,11 @@
+.control-multiple-checkbox {
+    position: relative;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.control-multiple-checkbox span.control-multiple-checkbox {
+    margin-left: 5.357em;
+    position: absolute;
+    top: 0.571em;
+}

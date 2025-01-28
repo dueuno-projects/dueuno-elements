@@ -1,0 +1,140 @@
+.offcanvas-xxl.no-slide {
+    transition: none;
+}
+
+.offcanvas-xxl.offcanvas-start {
+    border: none;
+}
+
+#shell-menu .nav-link:focus-visible {
+    box-shadow: none;
+}
+
+#shell-menu {
+    position: fixed;
+    width: calc(var(--elements-font-size) * 15);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #303030 !important;
+}
+
+#shell-menu .offcanvas-body {
+    width: 100%;
+    position: absolute;
+    top: calc(var(--elements-font-size) * 3.3);
+    bottom: 0;
+    overflow: hidden;
+    scrollbar-width: none;
+    padding: 0;
+}
+
+#shell-menu .offcanvas-body ul {
+    overflow-y: scroll;
+    height: 100%;
+    width: 100%;
+    padding-bottom: calc(var(--elements-font-size) * 2);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#shell-menu .offcanvas-body li {
+    margin-left: 0.5rem !important;
+}
+
+#shell-menu .offcanvas-body ul::-webkit-scrollbar {
+  display: none;
+}
+
+#shell-menu .offcanvas-body .simplebar-scrollbar:before {
+    background: white !important;
+    width: 10px;
+}
+
+#shell-menu .offcanvas-body .simplebar-track.simplebar-vertical {
+    padding: 0 .5rem 0 .5rem;
+}
+
+#shell-menu .nav-item {
+    width: calc(var(--elements-font-size) * 14);
+}
+
+#shell-menu .nav-item > span {
+    padding: 0.5rem 0.25rem 0.5rem 0.75rem;
+    color: #707070;
+}
+
+#shell-menu .nav-item a {
+    padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+    transition: none;
+    color: var(--bs-light-rgb);
+}
+
+#shell-menu .nav-item a:focus {
+    background-color: #505050 !important;
+    outline: none;
+}
+
+#shell-menu .nav-item a:hover {
+    background-color: #505050 !important;
+}
+
+#shell-menu-search-icon {
+    background-color: var(--bs-dark-rgb) !important;
+}
+
+#shell-menu-search.offcanvas-header {
+    display: block;
+}
+
+#shell-menu-search {
+    width: calc(var(--elements-font-size) * 15);
+}
+
+#shell-menu-search .input-group-text {
+    border-radius: 0;
+    border: 0;
+}
+
+#shell-menu-search .input-group-text i {
+    color: #707070;
+}
+
+#shell-menu-search input::selection {
+    background-color: #505050 !important;
+}
+
+#shell-menu-search input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    height: var(--elements-font-size);
+    width: var(--elements-font-size);
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPgoKPHN2ZwogICB3aWR0aD0iNTBtbSIKICAgaGVpZ2h0PSI1MG1tIgogICB2aWV3Qm94PSIwIDAgNTAgNTAiCiAgIHZlcnNpb249IjEuMSIKICAgaWQ9InN2ZzUiCiAgIGlua3NjYXBlOnZlcnNpb249IjEuMi4xICg5YzZkNDFlLCAyMDIyLTA3LTE0KSIKICAgc29kaXBvZGk6ZG9jbmFtZT0ic2VhcmNoLWNhbmNlbC1pY29uLnN2ZyIKICAgeG1sbnM6aW5rc2NhcGU9Imh0dHA6Ly93d3cuaW5rc2NhcGUub3JnL25hbWVzcGFjZXMvaW5rc2NhcGUiCiAgIHhtbG5zOnNvZGlwb2RpPSJodHRwOi8vc29kaXBvZGkuc291cmNlZm9yZ2UubmV0L0RURC9zb2RpcG9kaS0wLmR0ZCIKICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8c29kaXBvZGk6bmFtZWR2aWV3CiAgICAgaWQ9Im5hbWVkdmlldzciCiAgICAgcGFnZWNvbG9yPSIjZmZmZmZmIgogICAgIGJvcmRlcmNvbG9yPSIjMDAwMDAwIgogICAgIGJvcmRlcm9wYWNpdHk9IjAuMjUiCiAgICAgaW5rc2NhcGU6c2hvd3BhZ2VzaGFkb3c9ImZhbHNlIgogICAgIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwLjAiCiAgICAgaW5rc2NhcGU6cGFnZWNoZWNrZXJib2FyZD0iMCIKICAgICBpbmtzY2FwZTpkZXNrY29sb3I9IiNkMWQxZDEiCiAgICAgaW5rc2NhcGU6ZG9jdW1lbnQtdW5pdHM9Im1tIgogICAgIHNob3dncmlkPSJmYWxzZSIKICAgICBpbmtzY2FwZTp6b29tPSIxLjU2OTc4MSIKICAgICBpbmtzY2FwZTpjeD0iMTM1LjM2OTIiCiAgICAgaW5rc2NhcGU6Y3k9IjEyOC4zNjE4NSIKICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjE1MTIiCiAgICAgaW5rc2NhcGU6d2luZG93LWhlaWdodD0iODQzIgogICAgIGlua3NjYXBlOndpbmRvdy14PSIwIgogICAgIGlua3NjYXBlOndpbmRvdy15PSIzOCIKICAgICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIxIgogICAgIGlua3NjYXBlOmN1cnJlbnQtbGF5ZXI9ImxheWVyMSIKICAgICBzaG93Ym9yZGVyPSJmYWxzZSIgLz4KICA8ZGVmcwogICAgIGlkPSJkZWZzMiIgLz4KICA8ZwogICAgIGlua3NjYXBlOmxhYmVsPSJMYXllciAxIgogICAgIGlua3NjYXBlOmdyb3VwbW9kZT0ibGF5ZXIiCiAgICAgaWQ9ImxheWVyMSI+CiAgICA8cGF0aAogICAgICAgaWQ9InBhdGgzNDIiCiAgICAgICBzdHlsZT0iZmlsbDojNzM3MzczO2ZpbGwtb3BhY2l0eToxO3N0cm9rZTpub25lO3N0cm9rZS13aWR0aDowLjY2MTQ1ODtzdHJva2UtbGluZWNhcDpzcXVhcmUiCiAgICAgICBkPSJNIDI1LC0yLjQ1ZS01IEMgMTEuMTkyODYyLC0zLjgwMzEwMDJlLTUgLTMuODAzMTAwMmUtNSwxMS4xOTI4NjIgLTIuNDVlLTUsMjUgLTMuNzc1NDg1OWUtNSwzOC44MDcxMzggMTEuMTkyODYyLDUwLjAwMDAzOCAyNSw1MC4wMDAwMjQgMzguODA3MTM4LDUwLjAwMDAzOCA1MC4wMDAwMzgsMzguODA3MTM4IDUwLjAwMDAyNSwyNSA1MC4wMDAwMzksMTEuMTkyODYyIDM4LjgwNzEzOCwtMy44MzA3MTQ1ZS01IDI1LC0yLjQ1ZS01IFogTSAxNC45NDYzNSwxMS4xNjEwNTEgYyAwLjk2Njc0NCwwIDEuOTMzNDg2LDAuMzcwNzkxIDIuNjc0MjU1LDEuMTExNTYgbCA3LjM3ODg3OCw3LjM3ODg3OCA3LjM3OTM5NCwtNy4zNzg4NzggYyAwLjc0MDc2OSwtMC43NDA3NjggMS43MDc1MTMsLTEuMTExNTYgMi42NzQyNTYsLTEuMTExNTYgMC45NjY3NDIsMCAxLjkzMzQ4NywwLjM3MDc5MiAyLjY3NDI1NiwxLjExMTU2IDEuNDgxNTM3LDEuNDgxNTM3IDEuNDgxNTM3LDMuODY2OTc0IDAsNS4zNDg1MTEgTCAzMC4zNDc5OTUsMjUgbCA3LjM3OTM5NCw3LjM3OTM5NCBjIDEuNDgxNTM4LDEuNDgxNTM4IDEuNDgxNTM4LDMuODY2OTczIDAsNS4zNDg1MTEgLTEuNDgxNTM4LDEuNDgxNTM4IC0zLjg2Njk3NCwxLjQ4MTUzOCAtNS4zNDg1MTIsMCBsIC03LjM3OTM5MywtNy4zNzkzOTUgLTcuMzc4ODc4LDcuMzc5Mzk1IGMgLTEuNDgxNTM2LDEuNDgxNTM3IC0zLjg2Njk3NCwxLjQ4MTUzNyAtNS4zNDg1MTEsMCAtMS40ODE1MzUsLTEuNDgxNTM3IC0xLjQ4MTUzNSwtMy44NjY5NzQgMCwtNS4zNDg1MTEgTCAxOS42NTA5NzMsMjUgMTIuMjcyMDk1LDE3LjYyMTEyMiBjIC0xLjQ4MTUzOCwtMS40ODE1MzggLTEuNDgxNTM4LC0zLjg2Njk3MyAwLC01LjM0ODUxMSAwLjc0MDc2OSwtMC43NDA3NjggMS43MDc1MTIsLTEuMTExNTU5IDIuNjc0MjU1LC0xLjExMTU2IHoiCiAgICAgICBzb2RpcG9kaTpub2RldHlwZXM9ImNjY2Njc3NjY3NzY2Nzc3NjY3NjY3NzcyIgLz4KICA8L2c+Cjwvc3ZnPgo=);
+    background-size: var(--elements-font-size) var(--elements-font-size);
+    color: white;
+}
+
+#shell-menu-search input {
+    height: calc(var(--elements-font-size) * 3.3);
+    color: white !important;
+    border: 0;
+    font-weight: normal !important;
+    background-color: #303030;
+}
+
+#shell-menu-search input::placeholder {
+    font-weight: 300;
+    color: #707070;
+    opacity: 1;
+}
+
+#shell-menu-search .form-control:focus,
+#shell-menu-search .form-control:focus-visible {
+    box-shadow: none !important;
+}
+
+#shell-menu-search button {
+    background-color: transparent !important;
+    color: #f0f0f0 !important;
+    border: 0;
+}

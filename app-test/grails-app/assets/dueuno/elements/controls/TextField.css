@@ -1,0 +1,24 @@
+.input-group-text {
+    font-size: var(--elements-font-size);
+    padding: 0.25rem 0.75rem;
+}
+
+.input-group .btn:last-child {
+    border-top-right-radius: var(--bs-border-radius-lg);
+    border-bottom-right-radius: var(--bs-border-radius-lg);
+}
+
+.input-group .btn:first-child {
+    border-top-left-radius: var(--bs-border-radius-lg);
+    border-bottom-left-radius: var(--bs-border-radius-lg);
+}
+
+.input-group ::placeholder {
+    font-weight: normal;
+    opacity: .65; /* Firefox */
+}
+
+.input-group ::-ms-input-placeholder { /* Edge 12 -18 */
+    font-weight: normal;
+    opacity: .65; /* Firefox */
+}

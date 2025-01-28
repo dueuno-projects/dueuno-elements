@@ -26,6 +26,7 @@ group = versionGroup
 repositories {
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core/" }
+    mavenLocal()
 }
 
 configurations.all {

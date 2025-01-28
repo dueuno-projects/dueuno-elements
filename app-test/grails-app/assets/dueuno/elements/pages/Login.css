@@ -1,0 +1,43 @@
+.page-login  {
+    margin: 0;
+    position: absolute;
+    width: 400px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+}
+
+@media (max-width: 420px) {
+    .page-login  {
+        width: calc(100% - 20px);
+    }
+}
+
+.page-login .component-form .input-group input {
+    font-weight: normal;
+}
+
+.page-login-box {
+    border-radius: var(--bs-border-radius-xl);
+    box-shadow: 0 0.25rem 0.75rem rgba(var(--bs-body-color-rgb), .15);
+    background-color: rgba(255, 255, 255, .6);
+    backdrop-filter: blur(21px);
+    -webkit-backdrop-filter: blur(21px);
+}
+
+.page-login-box .component-form {
+    background-color: transparent;
+}
+
+.page-login-logo {
+    width: 100%;
+}
+
+.page-login-logo img {
+    height: 45px;
+    width: auto;
+}
+
+.input-group:has(input[type=password]) {
+    margin-top: .25rem !important;
+}
