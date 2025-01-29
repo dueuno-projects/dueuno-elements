@@ -70,6 +70,7 @@ class BootStrap {
             connectionSourceService.create(
                     name: 'dynamicDatasource',
                     driverClassName: 'org.h2.Driver',
+                    dialect: 'org.hibernate.dialect.H2Dialect',
                     dbCreate: 'update',
                     username: 'sa',
                     password: '',
@@ -82,7 +83,7 @@ class BootStrap {
                     failOnError: true,
                     connectionSource: [
                             driverClassName: 'com.mysql.cj.jdbc.Driver',
-                            url            :'jdbc:mysql://localhost:3306/dueuno_elements_test?useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC',
+                            url            :'jdbc:mysql://localhost:3306/dueuno_elements_grails7_test?useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC',
                             username       : 'root',
                             password       : 'root',
                     ]

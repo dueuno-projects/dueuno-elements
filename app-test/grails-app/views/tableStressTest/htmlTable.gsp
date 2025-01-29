@@ -1,14 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta name="layout" content="osShell"/>
     <meta charset="UTF-8">
     <title>HTML Table Test</title>
 </head>
 <body>
 
 <p>
-    <a href="index">OS Elements Table</a>
+    <a href="index">Elements Table</a>
 </p>
 
 <table class="table">
