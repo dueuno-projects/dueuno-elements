@@ -665,11 +665,10 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
         } else { // Sets the groups
             groups.add(GROUP_USERS)
-            if (args.admin) {
-                groups.add(GROUP_ADMINS)
-            }
+            if (EnvUtils.isDevelopment()) groups.add(GROUP_DEVELOPERS)
+            if (args.admin) groups.add(GROUP_ADMINS)
 
-            for (groupName in groups) {
+            for (groupName in groups.unique()) {
                 TRoleGroup roleGroup = TRoleGroup.findByName(groupName)
                 if (roleGroup) {
                     TUserRoleGroup.create(user, roleGroup)
