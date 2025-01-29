@@ -290,22 +290,25 @@ trait WebRequestAware {
 
     /**
      * Returns the localised string associated with the passed code and args as found in /i18n/messages.properties.
-     * The params below must be passed as named params.
      *
      * @param code (mandatory) the code to lookup into /i18n/messages.properties
      * @param args (optional) a list of variables that can be used inside /i18n/messages.properties with the following notation: {0} first item in list, {1} second item, etc.
      *
      * @return the localised string associated with the passed 'code'
      */
-    String message(String code, Object[] args = []) {
+    String message(String code, List args = []) {
         return PrettyPrinter.message(locale, code, args)
+    }
+
+    String message(String code, Object[] args) {
+        return PrettyPrinter.message(locale, code, args as List)
     }
 
     String message(ObjectError error) {
         return PrettyPrinter.message(locale, error)
     }
 
-    String messageOrBlank(String code, Object[] args = []) {
+    String messageOrBlank(String code, List args = []) {
         return PrettyPrinter.messageOrBlank(locale, code, args)
     }
 

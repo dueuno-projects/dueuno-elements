@@ -77,6 +77,14 @@ class SandboxController implements ElementsController {
             addKeyField('timeTest', 'TIME', LocalTime.now())
             addField(
                     class: Button,
+                    id: 'messageWithParams',
+                    action: 'onMessage',
+                    params: [name: 'Gianluca Sartori'],
+                    displayLabel: false,
+                    cols: 12,
+            )
+            addField(
+                    class: Button,
                     id: 'loadingScreen',
                     action: 'onHideLoadingScreen',
                     displayLabel: false,
@@ -602,6 +610,10 @@ Grails application running at http://localhost:9992/test in environment: develop
         )
 
         display content: c, modal: true
+    }
+
+    def onMessage() {
+        display message: 'sandbox.message.with.params', messageArgs: [params.name], controller: 'table'
     }
 
     def onHideLoadingScreen() {

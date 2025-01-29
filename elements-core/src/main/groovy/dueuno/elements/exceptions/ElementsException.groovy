@@ -27,21 +27,16 @@ import org.springframework.validation.ObjectError
 @CompileStatic
 class ElementsException extends Exception implements WebRequestAware {
 
-    private Object[] args
+    private List args
 
     ElementsException(ObjectError error) {
         super(error.code)
-        this.args = error.arguments
+        this.args = error.arguments as List
     }
 
     ElementsException(String message, List args = []) {
         super(message)
-        this.args = args as Object[]
-    }
-
-    ElementsException(String message, Object[] args) {
-        super(message)
-        this.args = args
+        this.args = args as List
     }
 
     ElementsException(String message, Throwable cause) {

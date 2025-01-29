@@ -137,7 +137,8 @@ trait ElementsController implements Controller, WebRequestAware, LinkGeneratorAw
 
         } else if (args.message) {
             String message = args.message as String
-            t.infoMessage(message, args)
+            List messageArgs = args.messageArgs as List ?: []
+            t.infoMessage(message, messageArgs, args)
 
         } else if (args.exception) {
             Exception e = args.exception as Exception
@@ -146,7 +147,8 @@ trait ElementsController implements Controller, WebRequestAware, LinkGeneratorAw
 
         } else if (args.errorMessage) {
             String message = args.errorMessage as String
-            t.errorMessage(message, args)
+            List messageArgs = args.messageArgs as List ?: []
+            t.errorMessage(message, messageArgs, args)
 
         } else if (args.errors) {
             Integer submittedComponentCount = requestParams._21SubmittedCount as Integer
