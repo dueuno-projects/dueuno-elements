@@ -24,7 +24,7 @@ import groovy.transform.CompileStatic
  */
 
 @CompileStatic
-trait LinkGeneratorAware {
+trait LinkGeneratorAware implements ServletContextAware {
 
     private LinkGenerator getLinkGenerator() {
         return Elements.getBean("grailsLinkGenerator") as LinkGenerator
@@ -43,7 +43,7 @@ trait LinkGeneratorAware {
      * @return the absolute (Eg. http://..) application URL as configured on build.gradle
      */
     String linkApplication(Boolean absolute = false) {
-        String result = getLinkGenerator().link(uri: '/', absolute: absolute)
+        String result = link(uri: servletContext.contextPath, absolute: absolute)
         return result
     }
 
@@ -80,7 +80,7 @@ trait LinkGeneratorAware {
     }
 
     private String generateResourceLink(String action, String tenantId, String root, String pathname, Boolean absolute, Boolean reload) {
-        String request = "downloadResource/${action}?tenantId=${tenantId}&root=${root}&pathname=${pathname}${reload ? '&' + System.currentTimeMillis() : '' }"
+        String request = "/downloadResource/${action}?tenantId=${tenantId}&root=${root}&pathname=${pathname}${reload ? '&' + System.currentTimeMillis() : '' }"
         return linkApplication(absolute) + request
     }
 }

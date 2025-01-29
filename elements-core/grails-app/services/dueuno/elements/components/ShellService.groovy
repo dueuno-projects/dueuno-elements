@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @Slf4j
 @CompileStatic
-class ShellService implements ServletContextAware, WebRequestAware, LinkGeneratorAware {
+class ShellService implements WebRequestAware, LinkGeneratorAware {
 
     @Autowired
     private SystemPropertyService systemPropertyService
@@ -53,8 +53,7 @@ class ShellService implements ServletContextAware, WebRequestAware, LinkGenerato
 
     void install(String tenantId) {
         tenantService.withTenant(tenantId) {
-            String appLink = servletContext.contextPath
-            tenantPropertyService.setString('LOGO', appLink + linkPublicResource(tenantId, '/brand/logo.png'))
+            tenantPropertyService.setString('LOGO', linkPublicResource(tenantId, '/brand/logo.png', false, false))
         }
     }
 

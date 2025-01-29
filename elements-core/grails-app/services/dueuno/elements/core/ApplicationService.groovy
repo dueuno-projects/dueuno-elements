@@ -39,7 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @Slf4j
 @CompileStatic
-class ApplicationService implements ServletContextAware, LinkGeneratorAware {
+class ApplicationService implements LinkGeneratorAware {
 
     @Autowired
     private GrailsApplication grailsApplication

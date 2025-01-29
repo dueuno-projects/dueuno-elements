@@ -283,7 +283,7 @@ class SandboxController implements ElementsController {
             linkField.component.addComponent(
                     class: Image,
                     id: 'theImage',
-                    image: linkPublicResource("brand/login-logo.png"),
+                    image: linkPublicResource("brand/login-logo.png", false, false),
             )
             linkField.component.addComponent(
                     class: Label,

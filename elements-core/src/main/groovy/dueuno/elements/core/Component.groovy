@@ -38,7 +38,7 @@ import java.lang.reflect.Modifier
 
 @Slf4j
 @CompileStatic
-abstract class Component implements ServletContextAware, WebRequestAware, LinkGeneratorAware, Serializable {
+abstract class Component implements WebRequestAware, LinkGeneratorAware, Serializable {
 
     /** A component can contain Sub-Components */
     private Map<String, Component> components

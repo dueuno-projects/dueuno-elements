@@ -44,7 +44,7 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 
 @Slf4j
 @WithoutTenant
-class SecurityService implements WebRequestAware, ServletContextAware, LinkGeneratorAware {
+class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     public static final String GROUP_SUPERADMINS = 'SUPERADMINS'
     public static final String GROUP_DEVELOPERS = 'DEVELOPERS'
@@ -1073,8 +1073,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
         tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
 
-        String appLink = servletContext.contextPath
-        tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', appLink + linkPublicResource(tenantId, '/brand/login-background.jpg'))
-        tenantPropertyService.setString('LOGIN_LOGO', appLink + linkPublicResource(tenantId, '/brand/login-logo.png'))
+        tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', linkPublicResource(tenantId, '/brand/login-background.jpg', false, false))
+        tenantPropertyService.setString('LOGIN_LOGO', linkPublicResource(tenantId, '/brand/login-logo.png', false, false))
     }
 }

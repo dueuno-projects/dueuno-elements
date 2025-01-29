@@ -35,7 +35,7 @@ import org.springframework.validation.ObjectError
 
 @CompileStatic
 @Enhances("Controller")
-trait ElementsController implements Controller, ServletContextAware, WebRequestAware, LinkGeneratorAware {
+trait ElementsController implements Controller, WebRequestAware, LinkGeneratorAware {
 
     private Logger log = LoggerFactory.getLogger(ElementsController)
 
