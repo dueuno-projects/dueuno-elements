@@ -75,7 +75,7 @@ class CrudSqlController implements ElementsController {
                 addField(
                         class: TextField,
                         id: 'name',
-                        helpMessage: 'Hai bisogno di aiuto? Inserisci oil nome dell\'azienda! :)',
+                        help: 'Hai bisogno di aiuto? Inserisci oil nome dell\'azienda! :)',
                         cols: 8,
                 )
             }

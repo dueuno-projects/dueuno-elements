@@ -1776,11 +1776,11 @@ A form field wraps a `Control` with a label and sets it into the grid system. A 
 |`List`
 |
 |A list of objects to pass to the localized message (Eg. when using `{0}` in `message.properties`)
-|`helpMessage`
+|`help`
 |`String`
 |
 |A help message
-|`helpMessageArgs`
+|`helpArgs`
 |`List`
 |
 |A list of objects to pass to the localized message (Eg. when using `{0}` in `message.properties`)

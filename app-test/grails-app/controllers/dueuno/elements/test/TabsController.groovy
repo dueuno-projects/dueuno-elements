@@ -63,7 +63,7 @@ class TabsController implements ElementsController {
             addField(
                     class: TextField,
                     id: 't1',
-                    helpMessage: 'Hai letto il manuale? No? Bravo, e come pensi di sapere le cose? Per scienza infusa?',
+                    help: 'Hai letto il manuale? No? Bravo, e come pensi di sapere le cose? Per scienza infusa?',
             )
             addField(
                     class: TextField,

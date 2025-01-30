@@ -407,7 +407,7 @@ class UserController implements ElementsController {
         def c = buildForm(user)
 
         c.form['username'].readonly = true
-        c.form['usernameField'].helpMessage = 'user.edit.username.help'
+        c.form['usernameField'].help = 'user.edit.username.help'
 
         c.form.values = user
         c.form['password'].value = null

@@ -62,7 +62,7 @@ class Link extends Label {
 
         html = args.html
         containerSpecs.label = ''
-        containerSpecs.helpMessage = ''
+        containerSpecs.help = ''
 
         setOnClickEvent(args.onClick as String)
     }

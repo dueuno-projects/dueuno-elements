@@ -183,7 +183,7 @@ class TenantPropertyController implements ElementsController {
                     addField(
                             class: PasswordField,
                             id: 'value',
-                            helpMessage: 'tenantProperty.password.help',
+                            help: 'tenantProperty.password.help',
                             cols: 12,
                     )
                     break
