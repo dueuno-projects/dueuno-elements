@@ -29,8 +29,8 @@ class FormField extends Component {
 
     String label
     List labelArgs
-    String helpMessage
-    List helpMessageArgs
+    String help
+    List helpArgs
     Boolean nullable
 
     Boolean displayLabel
@@ -49,8 +49,8 @@ class FormField extends Component {
 
         label = args.label
         labelArgs = args.labelArgs as List ?: []
-        helpMessage = args.helpMessage
-        helpMessageArgs = args.helpMessageArgs as List
+        help = args.help
+        helpArgs = args.helpArgs as List
         nullable = (args.nullable == null) ? true : args.nullable
 
         displayLabel = (args.displayLabel == null) ? true : args.displayLabel

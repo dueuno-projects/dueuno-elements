@@ -18,6 +18,8 @@ import dueuno.elements.exceptions.ArgsException
 import grails.core.GrailsApplication
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.WithoutTenant
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.datastore.mapping.core.connections.ConnectionSource
 import org.grails.orm.hibernate.HibernateDatastore
@@ -34,6 +36,7 @@ import java.sql.DriverManager
 
 @Slf4j
 @WithoutTenant
+@CompileStatic
 class ConnectionSourceService {
 
     @Autowired
@@ -129,13 +132,15 @@ class ConnectionSourceService {
     }
 
     TConnectionSource get(Serializable id) {
-        return TConnectionSource.get(id)
+        return TConnectionSource.get(id) as TConnectionSource
     }
 
+    @CompileDynamic
     TConnectionSource getDefault() {
         return TConnectionSource.findByName('DEFAULT')
     }
 
+    @CompileDynamic
     private DetachedCriteria<TConnectionSource> buildQuery(Map filters) {
         def query = TConnectionSource.where {}
 
@@ -152,7 +157,7 @@ class ConnectionSourceService {
         return query.list(fetchParams)
     }
 
-    Integer count(Map filters = [:]) {
+    Number count(Map filters = [:]) {
         def query = buildQuery(filters)
         return query.count()
     }
@@ -175,6 +180,7 @@ class ConnectionSourceService {
         return obj
     }
 
+    @CompileDynamic
     TConnectionSource update(Map args) {
         Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false

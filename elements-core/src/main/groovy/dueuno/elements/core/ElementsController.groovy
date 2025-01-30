@@ -16,7 +16,6 @@ package dueuno.elements.core
 
 import dueuno.commons.utils.LogUtils
 import dueuno.elements.contents.ContentHeader
-import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.pages.PageBlank
 import grails.artefact.Controller
 import grails.artefact.Enhances
@@ -26,7 +25,6 @@ import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.validation.Errors
-import org.springframework.validation.ObjectError
 
 /**
  * @author Gianluca Sartori
@@ -35,7 +33,7 @@ import org.springframework.validation.ObjectError
 
 @CompileStatic
 @Enhances("Controller")
-trait ElementsController implements Controller, ServletContextAware, WebRequestAware, LinkGeneratorAware {
+trait ElementsController implements Controller, WebRequestAware, LinkGeneratorAware {
 
     private Logger log = LoggerFactory.getLogger(ElementsController)
 
@@ -137,7 +135,8 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
 
         } else if (args.message) {
             String message = args.message as String
-            t.infoMessage(message, args)
+            List messageArgs = args.messageArgs as List ?: []
+            t.infoMessage(message, messageArgs, args)
 
         } else if (args.exception) {
             Exception e = args.exception as Exception
@@ -146,7 +145,8 @@ trait ElementsController implements Controller, ServletContextAware, WebRequestA
 
         } else if (args.errorMessage) {
             String message = args.errorMessage as String
-            t.errorMessage(message, args)
+            List messageArgs = args.messageArgs as List ?: []
+            t.errorMessage(message, messageArgs, args)
 
         } else if (args.errors) {
             Integer submittedComponentCount = requestParams._21SubmittedCount as Integer

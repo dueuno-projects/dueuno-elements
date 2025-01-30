@@ -18,15 +18,22 @@ import dueuno.commons.utils.FileUtils
 import dueuno.elements.contents.ContentHeader
 import dueuno.elements.security.SecurityService
 import dueuno.elements.tenants.TenantPropertyService
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+
+import javax.servlet.ServletContext
 
 /**
  * @author Gianluca Sartori
  */
 
 @Slf4j
-class PageService implements ServletContextAware, WebRequestAware {
+@CompileStatic
+class PageService implements WebRequestAware, LinkGeneratorAware {
+
+    @Autowired
+    private ServletContext servletContext
 
     @Autowired
     private SecurityService securityService
@@ -90,6 +97,9 @@ class PageService implements ServletContextAware, WebRequestAware {
         args.tertiaryBackgroundColor = tenantPropertyService.getString('TERTIARY_BACKGROUND_COLOR')
         args.secondaryTextColor = tenantPropertyService.getString('SECONDARY_TEXT_COLOR')
         args.secondaryBackgroundColor = tenantPropertyService.getString('SECONDARY_BACKGROUND_COLOR')
+
+        args.favicon = linkPublicResource('brand/favicon.png', false, false)
+        args.appicon = linkPublicResource('brand/appicon.png', false, false)
 
         return args
     }

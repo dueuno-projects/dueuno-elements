@@ -98,7 +98,7 @@ class Form extends Component {
         }
 
         // Set field specific args
-        if (args.helpMessage == null) args.helpMessage = ''
+        if (args.help == null) args.help = ''
         if (args.label == null) args.label = buildLabel(id)
         if (args.cols == null) args.cols = 12
 

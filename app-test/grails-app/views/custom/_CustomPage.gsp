@@ -20,5 +20,8 @@
 <%-- Footer --%>
 <page:footer component="${c}"/>
 
+<%-- Page Init --%>
+<page:initialize />
+
 </body>
 </html>

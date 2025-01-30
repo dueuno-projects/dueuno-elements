@@ -170,7 +170,7 @@ class UserProfileController implements ElementsController {
                     id: 'username',
                     readonly: true,
                     icon: 'fa-user',
-                    helpMessage: 'userProfile.edit.username.help',
+                    help: 'userProfile.edit.username.help',
                     cols: 12,
             )
         }

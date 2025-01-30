@@ -29,7 +29,7 @@ class TranslateController implements ElementsController {
         String code = params.code
         List args = params.args
 
-        render message(code, args as Object[])
+        render message(code, args)
     }
 
 }

@@ -56,7 +56,7 @@ class Button extends Component {
 
         String buttonText = buildLabel(id)
         containerSpecs.label = (args.label == buttonText) ? '' : args.label
-        containerSpecs.helpMessage = ''
+        containerSpecs.help = ''
 
         Map defaultActionArgs = [:]
         defaultActionArgs.text = args.text ?: buttonText

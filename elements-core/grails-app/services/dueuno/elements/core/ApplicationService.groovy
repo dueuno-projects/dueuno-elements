@@ -31,6 +31,8 @@ import org.grails.io.support.PathMatchingResourcePatternResolver
 import org.grails.io.support.Resource
 import org.springframework.beans.factory.annotation.Autowired
 
+import javax.servlet.ServletContext
+
 /**
  * Application API
  *
@@ -39,10 +41,13 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @Slf4j
 @CompileStatic
-class ApplicationService implements ServletContextAware, LinkGeneratorAware {
+class ApplicationService implements LinkGeneratorAware {
 
     @Autowired
     private GrailsApplication grailsApplication
+
+    @Autowired
+    private ServletContext servletContext
 
     @Autowired
     private ConnectionSourceService connectionSourceService
@@ -58,6 +63,27 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
 
     private static Map<String, List> credits = [:]
 
+    /**
+     * Returns an application scoped variable
+     *
+     * @param name The name of the attribute
+     *
+     * @return The application variable
+     */
+    Object getAttribute(String name) {
+        return servletContext.getAttribute(name)
+    }
+
+    /**
+     * Sets an application scoped variable
+     *
+     * @param name The name of the variable to set
+     *
+     * @param value The value of the variable to set
+     */
+    void setAttribute(String name, Object value) {
+        servletContext.setAttribute(name, value)
+    }
 
     /**
      * Returns true if the specified plugin is installed

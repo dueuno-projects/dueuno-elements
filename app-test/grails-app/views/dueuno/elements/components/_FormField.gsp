@@ -1,4 +1,4 @@
-<div class="component-form-field ${c.cols} ${c.helpMessage ? 'help' : ''} ${c.cssClass}"
+<div class="component-form-field ${c.cols} ${c.help ? 'help' : ''} ${c.cssClass}"
      style="${c.cssStyle}"
      data-21-component="${c.className}"
      data-21-id="${c.id}"
@@ -23,7 +23,7 @@
          style="${c.rows}"
     >
         <render:component id="${c.component.getId()}" instance="${c.component}" properties="[:]" />
-        <g:if test="${c.helpMessage}">
+        <g:if test="${c.help}">
             <button class="component-help btn btn-secondary" type="button"
                     data-bs-toggle="collapse" data-bs-target="#${c.id}-help">
                 <i class="fa-solid fa-circle-question"></i>
@@ -37,10 +37,10 @@
             <span>Error!</span>
         </div>
 
-        <g:if test="${c.helpMessage}">
+        <g:if test="${c.help}">
             <div id="${c.id}-help" class="collapse">
                 <div class="help-message p-2 pb-3">
-                    <render:message code="${c.helpMessage}" args="${c.helpMessageArgs}"/>
+                    <render:message code="${c.help}" args="${c.helpArgs}"/>
                 </div>
             </div>
         </g:if>

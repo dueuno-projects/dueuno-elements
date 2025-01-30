@@ -32,9 +32,10 @@ import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices
+
+import javax.servlet.ServletContext
 
 /**
  * Security API
@@ -44,7 +45,7 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 
 @Slf4j
 @WithoutTenant
-class SecurityService implements WebRequestAware, ServletContextAware, LinkGeneratorAware {
+class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     public static final String GROUP_SUPERADMINS = 'SUPERADMINS'
     public static final String GROUP_DEVELOPERS = 'DEVELOPERS'
@@ -60,6 +61,9 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
     private static final String USERNAME_ADMIN = 'admin'
 
     public static final String DENY_AUTHORIZATION_MESSAGE = 'DENY_AUTHORIZATION_MESSAGE'
+
+    @Autowired
+    private ServletContext servletContext
 
     @Autowired
     private SecurityContextLogoutHandler securityContextLogoutHandler
@@ -665,11 +669,10 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
         } else { // Sets the groups
             groups.add(GROUP_USERS)
-            if (args.admin) {
-                groups.add(GROUP_ADMINS)
-            }
+            if (EnvUtils.isDevelopment()) groups.add(GROUP_DEVELOPERS)
+            if (args.admin) groups.add(GROUP_ADMINS)
 
-            for (groupName in groups) {
+            for (groupName in groups.unique()) {
                 TRoleGroup roleGroup = TRoleGroup.findByName(groupName)
                 if (roleGroup) {
                     TUserRoleGroup.create(user, roleGroup)
@@ -1073,8 +1076,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
         tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
 
-        String appLink = servletContext.contextPath
-        tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', appLink + linkPublicResource(tenantId, '/brand/login-background.jpg'))
-        tenantPropertyService.setString('LOGIN_LOGO', appLink + linkPublicResource(tenantId, '/brand/login-logo.png'))
+        tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', servletContext.contextPath + linkPublicResource(tenantId, '/brand/login-background.jpg', false, false))
+        tenantPropertyService.setString('LOGIN_LOGO', servletContext.contextPath + linkPublicResource(tenantId, '/brand/login-logo.png', false, false))
     }
 }

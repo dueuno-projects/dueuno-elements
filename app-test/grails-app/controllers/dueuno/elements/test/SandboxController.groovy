@@ -77,6 +77,14 @@ class SandboxController implements ElementsController {
             addKeyField('timeTest', 'TIME', LocalTime.now())
             addField(
                     class: Button,
+                    id: 'messageWithParams',
+                    action: 'onMessage',
+                    params: [name: 'Gianluca Sartori'],
+                    displayLabel: false,
+                    cols: 12,
+            )
+            addField(
+                    class: Button,
                     id: 'loadingScreen',
                     action: 'onHideLoadingScreen',
                     displayLabel: false,
@@ -172,7 +180,7 @@ class SandboxController implements ElementsController {
                     onSearch: 'onSelect3Search',
                     onChange: 'onSelect3Change',
                     submit: ['formFail'],
-                    helpMessage: 'Non sai cosa fare vero? Non ti preoccupare, continuerai a non saperlo... 8-)',
+                    help: 'Non sai cosa fare vero? Non ti preoccupare, continuerai a non saperlo... 8-)',
                     value: 3,
                     allowClear: true,
                     cols: 12,
@@ -283,7 +291,7 @@ class SandboxController implements ElementsController {
             linkField.component.addComponent(
                     class: Image,
                     id: 'theImage',
-                    image: linkPublicResource("brand/login-logo.png"),
+                    image: linkPublicResource("brand/login-logo.png", false, false),
             )
             linkField.component.addComponent(
                     class: Label,
@@ -505,7 +513,7 @@ Grails application running at http://localhost:9992/test in environment: develop
 //                    id: 'select1',
 //                    label: 'onSearch',
 //                    minLength: 3,
-//                    helpMessage: 'Digitare "user" o "admin"',
+//                    help: 'Digitare "user" o "admin"',
 //                    onSearch: 'onSearch',
 //                    optionsFromRecordset: securityService.listUser(),
 //                    defaultValue: 3,
@@ -602,6 +610,10 @@ Grails application running at http://localhost:9992/test in environment: develop
         )
 
         display content: c, modal: true
+    }
+
+    def onMessage() {
+        display message: 'sandbox.message.with.params', messageArgs: [params.name], controller: 'table'
     }
 
     def onHideLoadingScreen() {

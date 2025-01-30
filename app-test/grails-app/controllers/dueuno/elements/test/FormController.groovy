@@ -63,7 +63,7 @@ class FormController implements ElementsController {
                     class: Checkbox,
                     id: 'modal',
                     displayLabel: false,
-                    helpMessage: 'Questo è un messaggio di aiuto in una bottiglia',
+                    help: 'Questo è un messaggio di aiuto in una bottiglia',
                     cols: 6,
             )
             addField(
@@ -152,7 +152,7 @@ class FormController implements ElementsController {
                     optionsFromRecordset: TPerson.list(),
                     keys: ['id'],
                     value: params.person,
-                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
+                    help: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
                     cols: cols,
             )/*.on(
                     event: 'create',
@@ -211,7 +211,7 @@ class FormController implements ElementsController {
                     class: TextField,
                     id: 'textfield',
                     textTransform: TextTransform.UPPERCASE,
-                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
+                    help: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
                     cols: cols,
             )
             addField(
@@ -219,7 +219,7 @@ class FormController implements ElementsController {
                     id: 'textfield2',
                     value: [name: 'pippo'],
                     prettyPrinter: 'OBJ2TEXT',
-                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
+                    help: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
                     cols: cols,
             )
             def textfieldActions = addField(
@@ -333,7 +333,7 @@ class FormController implements ElementsController {
             addField(
                     class: DateField,
                     id: 'datefield',
-                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
+                    help: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
                     cols: cols,
             )
             addField(
@@ -357,7 +357,7 @@ class FormController implements ElementsController {
             addField(
                     class: Checkbox,
                     id: 'checkbox',
-                    helpMessage: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
+                    help: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
                     cols: cols,
             )
             addField(
