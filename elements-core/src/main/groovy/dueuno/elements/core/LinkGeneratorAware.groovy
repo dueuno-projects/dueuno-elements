@@ -14,7 +14,8 @@
  */
 package dueuno.elements.core
 
-import grails.web.mapping.LinkGenerator
+import grails.core.GrailsApplication
+import grails.util.Holders
 import groovy.transform.CompileStatic
 
 /**
@@ -26,25 +27,14 @@ import groovy.transform.CompileStatic
 @CompileStatic
 trait LinkGeneratorAware {
 
-    private LinkGenerator getLinkGenerator() {
-        return Elements.getBean("grailsLinkGenerator") as LinkGenerator
-    }
-
     /**
-     * Wrapper to Grails g.link() (See: Grails g.link())
-     * @return a URL built from the specified params
+     * Returns the absolute (Eg. http://..) application URL as configured on application.yml
+     * @return the absolute (Eg. http://..) application URL as configured on application.yml
      */
-    String link(Map args) {
-        return getLinkGenerator().link(args)
-    }
-
-    /**
-     * Returns the absolute (Eg. http://..) application URL as configured on build.gradle
-     * @return the absolute (Eg. http://..) application URL as configured on build.gradle
-     */
-    String linkApplication(Boolean absolute = false) {
-        String result = link(uri: '', absolute: absolute)
-        return result
+    String getContextPath() {
+        GrailsApplication grailsApplication = Holders.grailsApplication
+        String contextPath = grailsApplication.config['server.servlet.context-path'] ?: ''
+        return contextPath
     }
 
     /**
@@ -54,8 +44,8 @@ trait LinkGeneratorAware {
      * @param root The name of the system property specifying an absolute path in the filesystem
      * @param pathname The name of the file to serve
      */
-    String linkResource(String root, String pathname, Boolean absolute = false, Boolean reload = true) {
-        return generateResourceLink('system', '', root, pathname, absolute, reload)
+    String linkResource(String root, String pathname, Boolean reload = true) {
+        return generateResourceLink('system', '', root, pathname, reload)
     }
 
     /**
@@ -64,8 +54,8 @@ trait LinkGeneratorAware {
      *
      * @param pathname The name of the file to serve
      */
-    String linkPublicResource(String pathname, Boolean absolute = false, Boolean reload = true) {
-        return generateResourceLink('currentTenant', '', '', pathname, absolute, reload)
+    String linkPublicResource(String pathname, Boolean reload = true) {
+        return generateResourceLink('currentTenant', '', '', pathname, reload)
     }
 
     /**
@@ -75,12 +65,12 @@ trait LinkGeneratorAware {
      * @param tenantId The id of the tenant
      * @param pathname The name of the file to serve
      */
-    String linkPublicResource(String tenantId, String pathname, Boolean absolute = false, Boolean reload = true) {
-        return generateResourceLink('tenant', tenantId, '', pathname, absolute, reload)
+    String linkPublicResource(String tenantId, String pathname, Boolean reload = true) {
+        return generateResourceLink('tenant', tenantId, '', pathname, reload)
     }
 
-    private String generateResourceLink(String action, String tenantId, String root, String pathname, Boolean absolute, Boolean reload) {
+    private String generateResourceLink(String action, String tenantId, String root, String pathname, Boolean reload) {
         String request = "/downloadResource/${action}?tenantId=${tenantId}&root=${root}&pathname=${pathname}${reload ? '&' + System.currentTimeMillis() : '' }"
-        return linkApplication(absolute) + request
+        return contextPath + request
     }
 }

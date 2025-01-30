@@ -38,9 +38,6 @@ import javax.servlet.ServletContext
 class ShellService implements WebRequestAware, LinkGeneratorAware {
 
     @Autowired
-    private ServletContext servletContext
-
-    @Autowired
     private SystemPropertyService systemPropertyService
 
     @Autowired
@@ -57,7 +54,7 @@ class ShellService implements WebRequestAware, LinkGeneratorAware {
 
     void install(String tenantId) {
         tenantService.withTenant(tenantId) {
-            tenantPropertyService.setString('LOGO', servletContext.contextPath + linkPublicResource(tenantId, '/brand/logo.png', false, false))
+            tenantPropertyService.setString('LOGO', linkPublicResource(tenantId, '/brand/logo.png', false))
         }
     }
 

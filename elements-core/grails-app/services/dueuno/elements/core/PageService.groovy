@@ -33,9 +33,6 @@ import javax.servlet.ServletContext
 class PageService implements WebRequestAware, LinkGeneratorAware {
 
     @Autowired
-    private ServletContext servletContext
-
-    @Autowired
     private SecurityService securityService
 
     @Autowired
@@ -48,8 +45,8 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
     private TransitionService transitionService
 
     void install(String tenantId) {
-        tenantPropertyService.setString('FAVICON', servletContext.contextPath + linkPublicResource(tenantId, 'brand/favicon.png', false, false))
-        tenantPropertyService.setString('APPICON', servletContext.contextPath + linkPublicResource(tenantId, 'brand/appicon.png', false, false))
+        tenantPropertyService.setString('FAVICON', linkPublicResource(tenantId, 'brand/favicon.png', false))
+        tenantPropertyService.setString('APPICON', linkPublicResource(tenantId, 'brand/appicon.png', false))
     }
 
     Page getMainPage() {

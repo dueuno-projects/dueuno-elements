@@ -1,7 +1,4 @@
 info.app.name: app-test
-server:
-  servlet:
-    context-path: /test
 
 # ===================================================
 # SSL CONSIGURATION
