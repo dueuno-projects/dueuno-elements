@@ -16,6 +16,7 @@ package dueuno.elements.core
 
 import grails.core.GrailsApplication
 import grails.plugins.GrailsPluginManager
+import groovy.transform.CompileStatic
 import org.grails.web.servlet.mvc.GrailsWebRequest
 import org.grails.web.util.WebUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,6 +27,7 @@ import javax.servlet.ServletContext
  * @author Gianluca Sartori
  */
 
+@CompileStatic
 class SystemInfoService {
 
     @Autowired
@@ -41,6 +43,10 @@ class SystemInfoService {
         GrailsPluginManager pluginManager = (GrailsPluginManager) Elements.getBean('pluginManager')
         GrailsWebRequest request = WebUtils.retrieveGrailsWebRequest()
 
+        Double maxMemory = Runtime.getRuntime().maxMemory() / Math.pow(1024, 2)
+        Double totalMemory = Runtime.getRuntime().totalMemory() / Math.pow(1024, 2)
+        Double freeMemory = Runtime.getRuntime().freeMemory() / Math.pow(1024, 2)
+
         return [
                 browser      : request.getHeader("User-Agent"),
                 appName      : grailsApplication.config.getProperty('info.app.name', String),
@@ -52,9 +58,9 @@ class SystemInfoService {
                 grailsVersion: grailsApplication.config.getProperty('info.app.grailsVersion', String),
                 groovyVersion: GroovySystem.getVersion(),
 
-                jvmHeapMax   : "${Math.round(Runtime.getRuntime().maxMemory() / Math.pow(1024, 2))} Mb",
-                jvmHeapUsed  : "${Math.round(Runtime.getRuntime().totalMemory() / Math.pow(1024, 2))} Mb",
-                jvmHeapFree  : "${Math.round(Runtime.getRuntime().freeMemory() / Math.pow(1024, 2))} Mb",
+                jvmHeapMax   : "${Math.round(maxMemory)} Mb",
+                jvmHeapUsed  : "${Math.round(totalMemory)} Mb",
+                jvmHeapFree  : "${Math.round(freeMemory)} Mb",
                 jvmVersion   : System.getProperty('java.version') + ' ' + System.getProperty('java.vendor'),
                 jvmPath      : System.getProperty('java.home'),
 

@@ -3,8 +3,8 @@
 <head>
     <title><render:message code='springSecurity.login.title'/></title>
     <page:header component="${c}" />
-    <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="${c.linkPublicResource('DEFAULT', 'brand/appicon.png')}"/>
-    <link rel="icon" type="image/png" sizes="64x64" href="${c.linkPublicResource('DEFAULT', 'brand/favicon.png')}"/>
+    <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="${c.appicon}"/>
+    <link rel="icon" type="image/png" sizes="64x64" href="${c.favicon}"/>
     <asset:stylesheet src="elements/pages/Login.css" />
     <page:colors component="${c}"/>
 

@@ -32,9 +32,10 @@ import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices
+
+import javax.servlet.ServletContext
 
 /**
  * Security API
@@ -60,6 +61,9 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     private static final String USERNAME_ADMIN = 'admin'
 
     public static final String DENY_AUTHORIZATION_MESSAGE = 'DENY_AUTHORIZATION_MESSAGE'
+
+    @Autowired
+    private ServletContext servletContext
 
     @Autowired
     private SecurityContextLogoutHandler securityContextLogoutHandler
@@ -1072,7 +1076,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
         tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
 
-        tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', linkPublicResource(tenantId, '/brand/login-background.jpg', false, false))
-        tenantPropertyService.setString('LOGIN_LOGO', linkPublicResource(tenantId, '/brand/login-logo.png', false, false))
+        tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', servletContext.contextPath + linkPublicResource(tenantId, '/brand/login-background.jpg', false, false))
+        tenantPropertyService.setString('LOGIN_LOGO', servletContext.contextPath + linkPublicResource(tenantId, '/brand/login-logo.png', false, false))
     }
 }

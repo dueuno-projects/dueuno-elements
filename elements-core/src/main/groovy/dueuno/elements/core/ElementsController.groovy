@@ -16,7 +16,6 @@ package dueuno.elements.core
 
 import dueuno.commons.utils.LogUtils
 import dueuno.elements.contents.ContentHeader
-import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.pages.PageBlank
 import grails.artefact.Controller
 import grails.artefact.Enhances
@@ -26,7 +25,6 @@ import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.validation.Errors
-import org.springframework.validation.ObjectError
 
 /**
  * @author Gianluca Sartori

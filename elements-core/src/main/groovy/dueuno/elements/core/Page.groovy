@@ -29,6 +29,9 @@ abstract class Page extends Component {
     PageMessageBox messageBox
     transient PageContent content
 
+    String favicon
+    String appicon
+
     Page(Map args = [:]) {
         super(args)
 
@@ -36,6 +39,8 @@ abstract class Page extends Component {
 
         modal = addComponent(PageModal, 'modal', args)
         messageBox = addComponent(PageMessageBox, 'messagebox', args)
+        favicon = args.favicon
+        appicon = args.appicon
     }
 
     /**

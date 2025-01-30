@@ -19,9 +19,11 @@ import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.style.Color
 import dueuno.elements.utils.EnvUtils
+import grails.web.context.ServletContextHolder
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
+import javax.servlet.ServletContext
 import java.lang.reflect.Modifier
 
 /**
@@ -38,7 +40,7 @@ import java.lang.reflect.Modifier
 
 @Slf4j
 @CompileStatic
-abstract class Component implements WebRequestAware, LinkGeneratorAware, Serializable {
+abstract class Component implements WebRequestAware, Serializable {
 
     /** A component can contain Sub-Components */
     private Map<String, Component> components

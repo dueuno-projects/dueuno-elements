@@ -14,8 +14,11 @@
  */
 package dueuno.elements.core
 
+import grails.util.Holders
 import grails.web.mapping.LinkGenerator
 import groovy.transform.CompileStatic
+
+import javax.servlet.ServletContext
 
 /**
  * Helper trait to generate links from any class
@@ -24,7 +27,7 @@ import groovy.transform.CompileStatic
  */
 
 @CompileStatic
-trait LinkGeneratorAware implements ServletContextAware {
+trait LinkGeneratorAware {
 
     private LinkGenerator getLinkGenerator() {
         return Elements.getBean("grailsLinkGenerator") as LinkGenerator
@@ -43,7 +46,7 @@ trait LinkGeneratorAware implements ServletContextAware {
      * @return the absolute (Eg. http://..) application URL as configured on build.gradle
      */
     String linkApplication(Boolean absolute = false) {
-        String result = link(uri: servletContext.contextPath, absolute: absolute)
+        String result = link(uri: '', absolute: absolute)
         return result
     }
 
