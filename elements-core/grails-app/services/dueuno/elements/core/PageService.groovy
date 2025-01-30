@@ -22,8 +22,6 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 
-import javax.servlet.ServletContext
-
 /**
  * @author Gianluca Sartori
  */
@@ -31,9 +29,6 @@ import javax.servlet.ServletContext
 @Slf4j
 @CompileStatic
 class PageService implements WebRequestAware, LinkGeneratorAware {
-
-    @Autowired
-    private ServletContext servletContext
 
     @Autowired
     private SecurityService securityService
