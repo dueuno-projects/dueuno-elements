@@ -15,7 +15,6 @@
 package dueuno.elements.tenants
 
 import dueuno.commons.utils.StringUtils
-import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.PropertyService
 import dueuno.elements.core.PropertyType
 import dueuno.elements.exceptions.ArgsException
@@ -30,9 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @CurrentTenant
 class TenantPropertyService extends PropertyService {
-
-    @Autowired
-    private ApplicationService applicationService
 
     @Autowired
     private TenantService tenantService

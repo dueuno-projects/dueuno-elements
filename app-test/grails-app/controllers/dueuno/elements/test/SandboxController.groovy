@@ -33,6 +33,7 @@ import dueuno.elements.types.QuantityUnit
 import elements.test.TestEnum
 import grails.gorm.multitenancy.CurrentTenant
 
+import javax.servlet.ServletContext
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -40,6 +41,7 @@ import java.time.LocalTime
 @CurrentTenant
 class SandboxController implements ElementsController {
 
+    ServletContext servletContext
     ApplicationService applicationService
     QuantityService quantityService
     SecurityService securityService
@@ -292,7 +294,7 @@ class SandboxController implements ElementsController {
             linkField.component.addComponent(
                     class: Image,
                     id: 'theImage',
-                    image: linkPublicResource("brand/login-logo.png", false, false),
+                    image: linkPublicResource("brand/login-logo.png", false),
             )
             linkField.component.addComponent(
                     class: Label,
