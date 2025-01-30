@@ -2,7 +2,7 @@ include "commons-utils"
 include "elements-core"
 //include "elements-extra"
 
-//include "elements-docs"
+include "elements-docs"
 //include "elements-docs-app"
 
 include "app-test"

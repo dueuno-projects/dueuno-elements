@@ -14,11 +14,8 @@
  */
 package dueuno.elements.core
 
-import grails.util.Holders
 import grails.web.mapping.LinkGenerator
 import groovy.transform.CompileStatic
-
-import javax.servlet.ServletContext
 
 /**
  * Helper trait to generate links from any class
@@ -83,7 +80,7 @@ trait LinkGeneratorAware {
     }
 
     private String generateResourceLink(String action, String tenantId, String root, String pathname, Boolean absolute, Boolean reload) {
-        String request = "/downloadResource/${action}?tenantId=${tenantId}&root=${root}&pathname=${pathname}${reload ? '&' + System.currentTimeMillis() : '' }"
+        String request = "/downloadResource/${action}?tenantId=${tenantId}&root=${root}&pathname=${pathname}${reload ? '&' + System.currentTimeMillis() : ''}"
         return linkApplication(absolute) + request
     }
 }

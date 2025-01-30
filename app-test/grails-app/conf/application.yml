@@ -15,7 +15,7 @@
 environments:
   development:
     server:
-      port: 9080
+      port: 9088
       #      port: 9443
       #      port-http: 9080
       servlet:

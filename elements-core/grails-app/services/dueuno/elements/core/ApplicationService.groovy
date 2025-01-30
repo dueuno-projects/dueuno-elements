@@ -31,7 +31,7 @@ import org.grails.io.support.PathMatchingResourcePatternResolver
 import org.grails.io.support.Resource
 import org.springframework.beans.factory.annotation.Autowired
 
-import javax.servlet.ServletContext
+import jakarta.servlet.ServletContext
 
 /**
  * Application API

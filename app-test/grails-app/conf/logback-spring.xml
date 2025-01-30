@@ -1,39 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <withJansi>true</withJansi>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>${CONSOLE_LOG_THRESHOLD}</level>
-        </filter>
+    <conversionRule conversionWord="highlightLogLevel" converterClass="dueuno.commons.logs.HighlightLogLevel" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-            <charset>${CONSOLE_LOG_CHARSET}</charset>
+            <pattern>%d{HH:mm:ss.SSS} %highlightLogLevel(%-5level) [%thread] %-40.40logger{36} : %highlightLogLevel(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <property resource="application.yml" />
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${info.app.name}/logs/${info.app.name}.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${info.app.name}/logs/archive/${info.app.name}.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <maxHistory>10</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>100GB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %-40.40logger{36} : %msg%n</pattern>
         </encoder>
     </appender>
 
     <root level="ERROR">
-        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
     </root>
 
-    <springProfile name="development">
-        <logger name="StackTrace" level="ERROR" additivity="false" />
+    <logger name="dueuno" level="DEBUG" />
 
-        <logger name="dueuno" level="DEBUG"/>
+    <!-- DUEUNO -->
+    <!--    <logger name="dueuno.commons.utils.SqlUtils" level="TRACE" />-->
+    <!--    <logger name="dueuno.ImportUtils" level="TRACE" />-->
 
-<!--        <logger name="org.hibernate.SQL" level="DEBUG"/>-->
-<!--        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>-->
-<!--        <logger name="org.springframework.security" level="TRACE"/>-->
+    <!-- GORM-->
+    <!--    <logger name="org.grails.datastore" level="DEBUG" />-->
+    <!--    <logger name="org.hibernate.SQL" level="DEBUG" />-->
+    <!--    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />-->
 
-<!--        <root level="WARN"/>-->
-    </springProfile>
+    <!-- SPRING SECURITY-->
+    <!--    <logger name="org.springframework.security" level="DEBUG" />-->
+    <!--    <logger name="grails.plugin.springsecurity.web.filter.DebugFilter" level="INFO" />-->
 
-<!--    logging to a file-->
-<!--    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>-->
-<!--    <include resource="org/springframework/boot/logging/logback/file-appender.xml" />-->
-<!--    <root level="ERROR">-->
-<!--        <appender-ref ref="FILE" />-->
-<!--    </root>-->
-<!--    add logging.file.name to application.yml-->
+    <!-- HTTP REST-->
+    <!--    <logger name="sun.net.www.protocol.http.HttpURLConnection" level="ALL" />-->
+
 </configuration>

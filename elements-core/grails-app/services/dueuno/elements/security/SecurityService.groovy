@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices
 
-import javax.servlet.ServletContext
+import jakarta.servlet.ServletContext
 
 /**
  * Security API

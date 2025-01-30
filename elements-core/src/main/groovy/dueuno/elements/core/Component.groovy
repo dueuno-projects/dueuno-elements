@@ -19,12 +19,8 @@ import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.style.Color
 import dueuno.elements.utils.EnvUtils
-import grails.web.context.ServletContextHolder
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-
-import javax.servlet.ServletContext
-import java.lang.reflect.Modifier
 
 /**
  * A Component is the basic building block of the Elements framework. Every UI element displayed to the user is a

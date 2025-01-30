@@ -1,0 +1,27 @@
+plugins {
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
+}
+
+repositories {
+    mavenCentral()
+}
+
+asciidoctor {
+    attributes = [
+            "application-name"  : versionName,
+            "revnumber"         : version,
+            "version-java"      : javaVersion,
+            "version-grails"    : grailsVersion,
+            "source-highlighter": "coderay",
+            "icons"             : "font",
+            "toc"               : "left",
+            "toclevels"         : 2,
+    ]
+
+    baseDirFollowsSourceDir()
+
+    outputDir = file("${projectDir}/docs/")
+    outputOptions {
+        backends = ["html5"]
+    }
+}

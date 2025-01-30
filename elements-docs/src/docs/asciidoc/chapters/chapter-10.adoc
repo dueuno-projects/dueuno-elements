@@ -1,0 +1,144 @@
+
+== Buttons
+
+A `Button` is the main _human-interaction_ point in a GUI. A button triggers an action, usually sending data that will be processed, in our case, by the server.
+
+=== Anatomy of a Button
+
+Buttons in Dueuno Elements are made up of three components:
+
+- `mainAction` +
+  A `Button` with just a main action will look like a common button. It will display just one text label, and it will trigger just one action. The main action will always take the first position from left to right in a button.
+
+image::images/chapter-10/button_mainAction.png[align="center"]
+
+- `tailAction` +
+  The tail action, if present, will be displayed in the second position from left to right, just after the main action. It will trigger a second action.
+
+image::images/chapter-10/button_tailAction.png[align="center"]
+
+- `actions` +
+  All other actions added to the `Button` will be placed into a list. The list can be shown clicking the arrow button that will appear on the right side. A menu will be displayed with all the available actions.
+
+image::images/chapter-10/button_actions.png[align="center"]
+
+Let's create a controller to see how buttons are used in a form.
+
+.Create `~/demo/grails-app/controller/com/example/ButtonController.groovy`
+[source,groovy]
+----
+package com.example
+
+import dueuno.elements.components.Button
+import dueuno.elements.contents.ContentForm
+import dueuno.elements.controls.TextField
+import dueuno.elements.core.ElementsController
+
+class ButtonController implements ElementsController {
+
+    def index() {
+        def c = createContent(ContentForm)
+
+        c.header.removeNextButton()
+
+        c.form.with {
+            addField(
+                    class: TextField,
+                    id: 'text',
+                    defaultValue: 'You are the journey',
+            )
+            addField(
+                    class: Button,
+                    id: 'show',
+                    action: 'onShow',
+                    submit: ['form'],
+                    primary: true,
+                    cols: 4,
+            )
+            Button caseBtn = addField(
+                    class: Button,
+                    id: 'lowercase',
+                    icon: 'fa-circle-down',
+                    action: 'onLowercase',
+                    submit: ['form'],
+                    cols: 4,
+            ).component
+            caseBtn.addTailAction(
+                    action: 'onUppercase',
+                    submit: ['form'],
+                    text: '',
+                    icon: 'fa-circle-up',
+            )
+
+            Button capitalizeBtn = addField(
+                    class: Button,
+                    id: 'capitalize',
+                    action: 'onCapitalize',
+                    submit: ['form'],
+                    cols: 4,
+            ).component
+            capitalizeBtn.addAction(
+                    action: 'onUncapitalize',
+                    submit: ['form'],
+            )
+            capitalizeBtn.addAction(
+                    action: 'onQuote',
+                    submit: ['form'],
+            )
+            capitalizeBtn.addAction(
+                    action: 'onHighlight',
+                    submit: ['form'],
+            )
+        }
+
+        display content: c
+    }
+
+    def onShow() {
+        String text = params.text
+        display message: text
+    }
+
+    def onUppercase() {
+        String text = params.text
+        display message: text.toUpperCase()
+    }
+
+    def onLowercase() {
+        String text = params.text
+        display message: text.toLowerCase()
+    }
+
+    def onCapitalize() {
+        String text = params.text
+        display message: text.split(' ')*.capitalize().join(' ')
+    }
+
+    def onUncapitalize() {
+        String text = params.text
+        display message: text.split(' ')*.uncapitalize().join(' ')
+    }
+
+    def onQuote() {
+        String text = params.text
+        display message: "'${text}'"
+    }
+
+    def onHighlight() {
+        String text = params.text
+        display message: "- ${text} -"
+    }
+}
+----
+
+.Execute the application
+[source,console,subs="attributes+"]
+----
+$ ./gradlew bootRun
+----
+
+video::lATAEaMBINo[youtube,width=640,height=480]
+
+=== Actions
+
+Each button action is implemented by a `Link` component. See <<link>>

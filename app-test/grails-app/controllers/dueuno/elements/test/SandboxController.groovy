@@ -30,6 +30,7 @@ import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.QuantityService
 import dueuno.elements.types.QuantityUnit
+import elements.test.TestEnum
 import grails.gorm.multitenancy.CurrentTenant
 
 import java.time.LocalDate
