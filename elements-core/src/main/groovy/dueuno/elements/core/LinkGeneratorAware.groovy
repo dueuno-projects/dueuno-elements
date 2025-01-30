@@ -33,8 +33,8 @@ trait LinkGeneratorAware {
      */
     String getContextPath() {
         GrailsApplication grailsApplication = Holders.grailsApplication
-        String contextPath = grailsApplication.config['server.servlet.context-path'] ?: ''
-        return contextPath
+        String contextPath = grailsApplication.config['server.servlet.context-path']
+        return !contextPath || contextPath == '/' ? '' : contextPath
     }
 
     /**
