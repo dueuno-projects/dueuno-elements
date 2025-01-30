@@ -19,9 +19,9 @@ import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.PropertyService
 import dueuno.elements.core.PropertyType
 import dueuno.elements.exceptions.ArgsException
+import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
-import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
@@ -40,7 +40,7 @@ class TenantPropertyService extends PropertyService {
     void install() {
         // Logs
         setBoolean('LOG_ERROR', false)
-        setBoolean('LOG_DEBUG', false)
+        setBoolean('LOG_DEBUG', EnvUtils.isDevelopment())
         setBoolean('LOG_TRACE', false)
 
         // System
