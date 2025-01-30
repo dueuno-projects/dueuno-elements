@@ -21,11 +21,7 @@ import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.security.SecurityService
 import dueuno.elements.security.TUser
-import dueuno.elements.style.TextAlign
-import dueuno.elements.style.TextDefault
-import dueuno.elements.style.TextStyle
-import dueuno.elements.style.TextTransform
-import dueuno.elements.style.TextWrap
+import dueuno.elements.style.*
 import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.QuantityService
@@ -33,7 +29,6 @@ import dueuno.elements.types.QuantityUnit
 import elements.test.TestEnum
 import grails.gorm.multitenancy.CurrentTenant
 
-import javax.servlet.ServletContext
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -41,7 +36,6 @@ import java.time.LocalTime
 @CurrentTenant
 class SandboxController implements ElementsController {
 
-    ServletContext servletContext
     ApplicationService applicationService
     QuantityService quantityService
     SecurityService securityService

@@ -22,8 +22,6 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 
-import javax.servlet.ServletContext
-
 /**
  * @author Gianluca Sartori
  */
