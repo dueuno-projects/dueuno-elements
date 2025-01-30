@@ -22,6 +22,8 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 
+import javax.servlet.ServletContext
+
 /**
  * @author Gianluca Sartori
  */
@@ -29,6 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired
 @Slf4j
 @CompileStatic
 class PageService implements WebRequestAware, LinkGeneratorAware {
+
+    @Autowired
+    private ServletContext servletContext
 
     @Autowired
     private SecurityService securityService
@@ -41,6 +46,11 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
 
     @Autowired
     private TransitionService transitionService
+
+    void install(String tenantId) {
+        tenantPropertyService.setString('FAVICON', servletContext.contextPath + linkPublicResource(tenantId, 'brand/favicon.png', false, false))
+        tenantPropertyService.setString('APPICON', servletContext.contextPath + linkPublicResource(tenantId, 'brand/appicon.png', false, false))
+    }
 
     Page getMainPage() {
         return session['_main_page_'] as Page
@@ -83,6 +93,8 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
          * See https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use
          */
         args.iconStyle = tenantPropertyService.getString('ICON_STYLE')
+        args.favicon = tenantPropertyService.getString('FAVICON')
+        args.appicon = tenantPropertyService.getString('APPICON')
 
         /** Colors */
         args.primaryTextColor = tenantPropertyService.getString('PRIMARY_TEXT_COLOR')
@@ -92,9 +104,6 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
         args.tertiaryBackgroundColor = tenantPropertyService.getString('TERTIARY_BACKGROUND_COLOR')
         args.secondaryTextColor = tenantPropertyService.getString('SECONDARY_TEXT_COLOR')
         args.secondaryBackgroundColor = tenantPropertyService.getString('SECONDARY_BACKGROUND_COLOR')
-
-        args.favicon = linkPublicResource('brand/favicon.png', false, false)
-        args.appicon = linkPublicResource('brand/appicon.png', false, false)
 
         return args
     }

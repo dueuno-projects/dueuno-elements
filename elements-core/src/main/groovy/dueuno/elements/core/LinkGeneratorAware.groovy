@@ -14,11 +14,8 @@
  */
 package dueuno.elements.core
 
-import grails.util.Holders
 import grails.web.mapping.LinkGenerator
 import groovy.transform.CompileStatic
-
-import javax.servlet.ServletContext
 
 /**
  * Helper trait to generate links from any class

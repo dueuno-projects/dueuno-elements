@@ -32,6 +32,7 @@ import dueuno.elements.types.QuantityService
 import dueuno.elements.types.QuantityUnit
 import grails.gorm.multitenancy.CurrentTenant
 
+import javax.servlet.ServletContext
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -39,6 +40,7 @@ import java.time.LocalTime
 @CurrentTenant
 class SandboxController implements ElementsController {
 
+    ServletContext servletContext
     ApplicationService applicationService
     QuantityService quantityService
     SecurityService securityService

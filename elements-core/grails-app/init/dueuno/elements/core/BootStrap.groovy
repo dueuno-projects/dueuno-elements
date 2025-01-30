@@ -26,12 +26,14 @@ import dueuno.elements.types.Types
 class BootStrap {
 
     ApplicationService applicationService
+    PageService pageService
     ShellService shellService
     SecurityService securityService
 
     def init = { servletContext ->
 
         applicationService.onPluginInstall { String tenantId ->
+            pageService.install(tenantId)
             shellService.install(tenantId)
         }
 
