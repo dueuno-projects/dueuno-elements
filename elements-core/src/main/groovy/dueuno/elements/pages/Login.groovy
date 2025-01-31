@@ -65,7 +65,6 @@ class Login extends Page {
                     class: TextField,
                     id: 'username',
                     placeholder: 'authentication.username.placeholder',
-                    textTransform: TextTransform.LOWERCASE,
                     displayLabel: false,
                     cssClass: 'rounded-bottom-0',
             )

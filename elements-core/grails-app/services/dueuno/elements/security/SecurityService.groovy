@@ -341,10 +341,11 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
 
         Object principal = springSecurityService.principal
-        TUser user = getUserByUsername(principal.username)
+        String username = (principal.username as String).toLowerCase()
+        TUser user = getUserByUsername(username)
         if (!user) {
             user = createUser(
-                    username: principal.username,
+                    username: username,
                     password: StringUtils.generateRandomToken(),
             )
         }
