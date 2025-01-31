@@ -9,7 +9,7 @@
 >
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content border-0 rounded-4 shadow">
-            <div id="loading-screen-modal" class="fade-in"><div><i class="fa-solid fa-circle-notch fa-spin"></i></div></div>
+            <div id="loading-screen-modal" class=""><div><i class="fa-solid fa-circle-notch fa-spin"></i></div></div>
             <div id="page-modal-header"
                  class="modal-header"
                  style="background-color: ${c.tertiaryBackgroundColor}"

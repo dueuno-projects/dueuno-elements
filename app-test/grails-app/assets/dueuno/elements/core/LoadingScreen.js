@@ -58,7 +58,7 @@ class LoadingScreen {
         }
     }
 
-    static show(show, timeout = 350) {
+    static show(show, timeout = 0) {
         if (PageModal.isActive) {
             LoadingScreen.modal(show, timeout);
         } else {
