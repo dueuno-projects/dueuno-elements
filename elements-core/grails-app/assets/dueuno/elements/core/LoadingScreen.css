@@ -37,5 +37,5 @@
     visibility: hidden;
     animation: loading-fade-in .5s;
     animation-fill-mode: forwards;
-    animation-delay: 1s;
+    animation-delay: 1.5s;
 }
