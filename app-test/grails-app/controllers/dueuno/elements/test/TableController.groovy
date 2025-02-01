@@ -82,6 +82,7 @@ class TableController implements ElementsController {
                     'name',
                     'postcode',
                     'address',
+                    'empty',
                     'company',
                     'salary',
                     'active',
@@ -92,6 +93,7 @@ class TableController implements ElementsController {
             labels = [
                     email: 'Runtime generated label EMAIL',
                     active: '', // Per non mostrare l'etichetta
+                    empty: '',
             ]
             transformers = [
                     address: 'MAIUSCOLO',

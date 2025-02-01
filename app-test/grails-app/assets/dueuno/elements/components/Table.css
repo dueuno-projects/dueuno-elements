@@ -1,7 +1,13 @@
 .table>:not(caption)>*>* {
-    padding: calc(var(--elements-spacing-y) * 1.5) calc(var(--elements-spacing-x) * .5);
+    padding: calc(var(--elements-spacing-y) * 1.5) calc(var(--elements-spacing-x) * .15);
+    padding-right: .5rem;
     background-color: transparent;
     color: inherit;
+}
+
+.table>:not(caption)>*>* > .component-label,
+.table>:not(caption)>*>* > .input-group > .component-label {
+    padding-left: 0;
 }
 
 .component-table table {
@@ -12,7 +18,6 @@
 
 .component-table thead th {
     background-color: white;
-    padding: var(--elements-spacing-x) var(--elements-spacing-y);
 }
 
 .component-table ::-webkit-scrollbar {
@@ -47,8 +52,7 @@
 
 .component-table-dataset .component-table-header a {
     text-decoration: none;
-    padding: 0.25rem 0.5rem;
-    margin-left: -0.5rem;
+    padding-right: .5rem;
 }
 
 .component-table-dataset .component-table-header a:focus-visible {
