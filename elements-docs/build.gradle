@@ -9,7 +9,7 @@ repositories {
 asciidoctor {
     attributes = [
             "application-name"  : versionName,
-            "revnumber"         : version,
+            "revnumber"         : '3.0',
             "version-java"      : javaVersion,
             "version-grails"    : grailsVersion,
             "source-highlighter": "coderay",
