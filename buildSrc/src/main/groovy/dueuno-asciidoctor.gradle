@@ -5,7 +5,7 @@ plugins {
 asciidoctor {
     attributes = [
             "application-name"  : projectName,
-            "revnumber"         : projectVersion,
+            "revnumber"         : '2.6',
             "version-java"      : javaVersion,
             "version-grails"    : grailsVersion,
             "source-highlighter": "coderay",
