@@ -183,9 +183,10 @@ To configure the application Features we register them in the `BootStrap.groovy`
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService // <1>
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.init { // <2>
             registerFeature( // <3>
@@ -198,7 +199,7 @@ class BootStrap {
 }
 ----
 <1> `ApplicationService` is the object in charge of the application setup
-<2> The `init = { servletContext -> ... }` Grails closure is executed each time the application starts up
+<2> The `init = { ... }` Grails closure is executed each time the application starts up
 <3> Within the `applicationService.init { ... }` closure you can call any of the `applicationService` methods. In this case the method `<<registerFeature>>`
 
 === Controllers
@@ -314,10 +315,11 @@ Each application has a `DEFAULT` database connection defined in the `grails-app/
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService // <1>
     ConnectionSourceService connectionSourceService // <2>
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.onInstall { String tenantId -> // <3>
             connectionSourceService.create( // <4>
@@ -366,9 +368,10 @@ Applications are made of features, we register one to work with movies (See <<fe
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService // <1>
 
-    def init = { servletContext ->
+    def init = {
         applicationService.init {
             registerFeature( // <2>
                     controller: 'movie',

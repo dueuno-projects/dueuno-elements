@@ -34,6 +34,7 @@ import java.time.LocalTime
 
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
     QuantityService quantityService
     SystemPropertyService systemPropertyService
@@ -44,7 +45,7 @@ class BootStrap {
     ShellService shellService
     TransitionService transitionService
 
-    def init = { ServletContext servletContext ->
+    def init = {
         applicationService.onUpdate('2021-10-03') { String tenantId ->
             println "${tenantId}: UPDATE N.2"
         }

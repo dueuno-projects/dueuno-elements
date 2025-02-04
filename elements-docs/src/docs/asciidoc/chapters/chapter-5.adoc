@@ -56,10 +56,11 @@ import java.time.LocalDate
 
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
     PersonService personService
 
-    def init = { servletContext ->
+    def init = {
         applicationService.onDevInstall { String tenantId ->
             personService.create(
                     firstname: 'Felicity',

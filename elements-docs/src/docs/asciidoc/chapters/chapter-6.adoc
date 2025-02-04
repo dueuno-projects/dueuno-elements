@@ -101,12 +101,13 @@ We are also adding some copy under the login form with a link to our website to 
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
     TenantPropertyService tenantPropertyService
 
     ...
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.onInstall { String tenantId ->
             tenantPropertyService.setString('PRIMARY_BACKGROUND_COLOR', '#018B84')

@@ -22,9 +22,10 @@ import dueuno.elements.core.ApplicationService
 
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
         applicationService.init {
 
             registerFeature(

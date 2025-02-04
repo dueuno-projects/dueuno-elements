@@ -46,9 +46,10 @@ import dueuno.elements.core.ApplicationService
 
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
         applicationService.init {
             // It's fine to leave this empty at the moment
         }
