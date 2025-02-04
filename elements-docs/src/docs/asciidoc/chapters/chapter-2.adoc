@@ -31,7 +31,7 @@ Find the `dependencies` section of the `build.gradle` file and add the following
 dependencies {
 ...
 
-    implementation 'org.dueuno:elements-core:{version-elements}'
+    implementation 'org.dueuno:elements-core:{revnumber}'
 }
 ----
 
@@ -46,9 +46,10 @@ import dueuno.elements.core.ApplicationService
 
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
         applicationService.init {
             // It's fine to leave this empty at the moment
         }

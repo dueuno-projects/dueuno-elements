@@ -20,17 +20,20 @@ import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.Types
 
+import javax.servlet.ServletContext
+
 /**
  * @author Gianluca Sartori
  */
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
     PageService pageService
     ShellService shellService
     SecurityService securityService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.onPluginInstall { String tenantId ->
             pageService.install(tenantId)

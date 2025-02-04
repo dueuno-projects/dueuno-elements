@@ -21,9 +21,10 @@ Add the following code to initialize the application:
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
         applicationService.init {
             // no-op // <1>
         }
@@ -65,10 +66,11 @@ We can set up our application to be accessible from a specific URL path. For exa
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
     TenantPropertyService tenantPropertyService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.onInstall { String tenantId ->
             tenantPropertyService.setString('SHELL_URL_MAPPING', '/admin')
@@ -112,9 +114,10 @@ Initializes the application. This closure gets called each time the application 
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService // <1>
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.init { // <2>
             // ...
@@ -134,9 +137,10 @@ Gets executed before the application is initialized. The session is not availabl
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.beforeInit {
             // ...
@@ -154,9 +158,10 @@ Gets executed after the application is initialized. The session is not available
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.afterInit {
             // ...
@@ -174,9 +179,10 @@ Gets executed after the user logged in. The session is active, you can set sessi
 ----
 class BootStrap {
 
+    ServletContext servletContext
     SecurityService securityService // <1>
 
-    def init = { servletContext ->
+    def init = {
 
         securityService.afterLogin {
             // ...
@@ -195,9 +201,10 @@ Gets executed after the user logged in. The session is NOT active, you can NOT m
 ----
 class BootStrap {
 
+    ServletContext servletContext
     SecurityService securityService // <1>
 
-    def init = { servletContext ->
+    def init = {
 
         securityService.afterLogout {
             // ...
@@ -216,9 +223,10 @@ Installs the application. This closure gets called only once when the applicatio
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.onInstall { String tenantId -> //<1>
             // ...
@@ -237,9 +245,10 @@ Gets executed only the first time the application is run.
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.onSystemInstall {
             // ...
@@ -257,9 +266,10 @@ Gets executed only the first time the application is run. It is used to install 
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.onPluginInstall { String tenantId ->
             // ...
@@ -279,9 +289,10 @@ This closure will NOT be executed when the application is run as JAR, WAR or whe
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.onDevInstall { String tenantId ->
             // ...
@@ -301,9 +312,10 @@ These closures get executed only once when the application starts up. The execut
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext -> // <1>
+    def init = { // <1>
 
         applicationService.onUpdate('2021-01-03') { String tenantId ->
             println "${tenantId}: UPDATE N.2"
@@ -333,9 +345,10 @@ Registers a string template to render an instance of a specific _Class_. A prett
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.init {
             registerPrettyPrinter(TProject, '${it.name}') //<1>
@@ -362,10 +375,11 @@ IMPORTANT: Be careful when using transformers since it may impact performances w
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
     SecurityService securityService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.init {
             registerTransformer('USER_FULLNAME') { Object value ->
@@ -385,9 +399,10 @@ Registers a role along with the people who took that role during the development
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.init {
             registerCredits('Application Development', 'Francesco Piceghello', 'Gianluca Sartori')
@@ -412,9 +427,10 @@ Registers a Feature.
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.init {
             registerFeature(
@@ -537,9 +553,10 @@ Registers a Feature in the _User Menu_. For the available options see: <<registe
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.init {
             registerUserFeature(
@@ -1053,9 +1070,10 @@ To finish it up we register a Pretty Printer for the book record and tell the 'S
 ----
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
         applicationService.init {
 
             registerPrettyPrinter('BOOK', '${it.title} - ${it.author}') // <1>

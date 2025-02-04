@@ -296,7 +296,7 @@ class BookController implements ElementsController {
 .Edit `~/demo/grails-app/init/com/example/BootStrap.groovy`
 [source,groovy]
 ----
-    def init = { servletContext ->
+    def init = {
 
         ...
 

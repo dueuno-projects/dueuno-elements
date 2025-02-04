@@ -571,12 +571,13 @@ import java.time.LocalDate
 
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
     TenantPropertyService tenantPropertyService
     PersonService personService
     CompanyService companyService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.onInstall { String tenantId ->
             tenantPropertyService.setString('PRIMARY_BACKGROUND_COLOR', '#018B84')
