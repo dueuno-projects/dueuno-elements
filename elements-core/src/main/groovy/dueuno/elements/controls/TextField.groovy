@@ -20,6 +20,7 @@ import dueuno.elements.core.Control
 import dueuno.elements.core.Elements
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextTransform
+import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
 
 /**
@@ -45,7 +46,7 @@ class TextField extends Control {
     TextField(Map args) {
         super(args)
 
-        valueType = 'TEXT'
+        valueType = Type.TEXT
 
         keyboardType = args.keyboardType as TextFieldKeyboardType ?: TextFieldKeyboardType.TEXT
         icon = args.icon ?: ''

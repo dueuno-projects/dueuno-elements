@@ -14,6 +14,7 @@
  */
 package dueuno.elements.controls
 
+import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
 
 /**
@@ -26,7 +27,7 @@ class MonthField extends DateTimeField {
     MonthField(Map args) {
         super(args)
 
-        valueType = 'DATE'
+        valueType = Type.DATE
     }
 
     @Override

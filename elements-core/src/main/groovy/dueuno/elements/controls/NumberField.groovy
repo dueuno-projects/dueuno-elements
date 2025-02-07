@@ -15,6 +15,7 @@
 package dueuno.elements.controls
 
 import dueuno.elements.core.Elements
+import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
 
 /**
@@ -34,7 +35,7 @@ class NumberField extends TextField {
         super(args)
 
         viewTemplate = 'TextField'
-        valueType = 'NUMBER'
+        valueType = Type.NUMBER
         pattern = args.pattern ?: '^[0-9\\-\\.\\,]*$'
         // TODO - See: https://www.sygnal.com/lessons/input-number-decimal-places#:~:text=Perhaps%20surprisingly%2C%20when%20you%20use,way%20most%20browsers%20handle%20it.
 //        keyboardType = args.keyboardType as TextFieldKeyboardType ?: TextFieldKeyboardType.NUMBER

@@ -17,6 +17,7 @@ package dueuno.elements.controls
 import dueuno.elements.components.Button
 import dueuno.elements.core.*
 import dueuno.elements.exceptions.ArgsException
+import dueuno.elements.types.Type
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import org.grails.orm.hibernate.cfg.GrailsHibernateUtil
@@ -277,12 +278,12 @@ class Select extends Control {
 
         if (value in List) {
             valueMap = [
-                    type : 'LIST',
+                    type : Type.LIST.toString(),
                     value: value.collect { it != null ? it as String : null },
             ]
         } else {
             valueMap = [
-                    type : 'TEXT',
+                    type : Type.TEXT.toString(),
                     value: value != null ? value as String : null,
             ]
         }

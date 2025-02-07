@@ -30,12 +30,19 @@ import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.QuantityService
 import dueuno.elements.types.QuantityUnit
+import dueuno.elements.types.Type
 import grails.gorm.multitenancy.CurrentTenant
 
 import javax.servlet.ServletContext
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+
+
+class MyType {
+    Integer i
+}
+
 
 @CurrentTenant
 class SandboxController implements ElementsController {
@@ -44,6 +51,10 @@ class SandboxController implements ElementsController {
     ApplicationService applicationService
     QuantityService quantityService
     SecurityService securityService
+
+    def handleException(Exception e) {
+        display exception: e
+    }
 
     def index() {
 
@@ -72,11 +83,23 @@ class SandboxController implements ElementsController {
 
         def formFail = c.addComponent(Form, 'formFail')
         formFail.with {
-            addKeyField('listTest', 'LIST', [1, 2, 3])
-            addKeyField('mapTest', 'MAP', [a:1, b:2, c:[a:1, b:2]])
-            addKeyField('datetimeTest', 'DATETIME', LocalDateTime.now())
-            addKeyField('dateTest', 'DATE', LocalDate.now())
-            addKeyField('timeTest', 'TIME', LocalTime.now())
+            // Typed key fields
+            addKeyField('listTest', Type.LIST, [1, 2, 3])
+            addKeyField('mapTest', Type.MAP, [a:1, b:2, c:[a:1, b:2]])
+            addKeyField('datetimeTest', Type.DATETIME, LocalDateTime.now())
+            addKeyField('dateTest', Type.DATE, LocalDate.now())
+            addKeyField('timeTest', Type.TIME, LocalTime.now())
+
+            // Automatic type retrieval
+            addKeyField('listTestAuto', [1, 2, 3])
+            addKeyField('mapTestAuto', [a:1, b:2, c:[a:1, b:2]])
+            addKeyField('datetimeTestAuto', LocalDateTime.now())
+            addKeyField('dateTestAuto', LocalDate.now())
+            addKeyField('timeTestAuto', LocalTime.now())
+
+//            addKeyField('typeError', new MyType(i: 10))
+//            addKeyField('typeError', 'MY_TYPE', 10)
+
             addField(
                     class: Button,
                     id: 'messageWithParams',

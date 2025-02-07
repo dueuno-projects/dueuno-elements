@@ -25,6 +25,7 @@ import dueuno.elements.core.ElementsController
 import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.QuantityUnit
+import dueuno.elements.types.Type
 import grails.gorm.multitenancy.CurrentTenant
 
 import javax.annotation.PostConstruct
@@ -136,8 +137,8 @@ class CrudSqlController implements ElementsController {
         c.form.with {
             validate = CrudRestValidator
             addKeyField('version', 0)
-            addKeyField('salary_currency', 'TEXT', 'EUR')
-            addKeyField('distance_km_unit', 'TEXT','KM')
+            addKeyField('salary_currency', Type.TEXT, 'EUR')
+            addKeyField('distance_km_unit', Type.TEXT,'KM')
             addField(
                     class: Select,
                     id: 'company_id',

@@ -27,6 +27,7 @@ import dueuno.elements.style.TextDefault
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
 import dueuno.elements.types.QuantityService
+import dueuno.elements.types.Type
 import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -240,10 +241,10 @@ class CrudController implements ElementsController {
 
         c.form.with {
             validate = TPerson
-            addKeyField('embedded', 'BOOLEAN')
+            addKeyField('embedded', Type.BOOL)
 
             //TODO: Fare in modo che l'azione riceva i dati convertiti in base al loro tipo
-            addKeyField('selection', 'LIST', [[id: 1]])
+            addKeyField('selection', Type.LIST, [[id: 1]])
 
             addField(
                     class: Select,

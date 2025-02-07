@@ -94,7 +94,7 @@ class DateField extends DateTimeField {
         let date = td.dates.parseInput(value);
 
         if (date) return {
-            type: 'DATE',
+            type: Type.DATE,
             value: {
                 year: date.year,
                 month: date.month + 1,

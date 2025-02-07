@@ -15,9 +15,9 @@
 package dueuno.elements.security
 
 import dueuno.elements.core.ElementsController
-import dueuno.elements.core.PageService
 import dueuno.elements.pages.Login
 import dueuno.elements.tenants.TenantPropertyService
+import dueuno.elements.tenants.TenantService
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -30,6 +30,7 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class AuthenticationController implements ElementsController {
 
+    TenantService tenantService
     SecurityService securityService
     TenantPropertyService tenantPropertyService
 
@@ -58,8 +59,6 @@ class AuthenticationController implements ElementsController {
 
     @Secured(['ROLE_USER'])
     def afterLogin() {
-        securityService.executeAfterLogin()
-
         if (session[SecurityService.DENY_AUTHORIZATION_MESSAGE]) {
             forward action: 'logout'
             return
@@ -68,6 +67,7 @@ class AuthenticationController implements ElementsController {
         ///////////////////////////////////////
         // IF YOU'RE HERE THE USER LOGGED IN //
         ///////////////////////////////////////
+        securityService.executeAfterLogin()
 
         // Loading user setting
         TUser user = securityService.currentUser

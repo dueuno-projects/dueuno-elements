@@ -172,7 +172,7 @@ class DateTimeField extends Control {
         let date = td.dates.parseInput(value);
 
         if (date) return {
-            type: 'DATETIME',
+            type: Type.DATETIME,
             value: {
                 year: date.year,
                 month: date.month + 1,

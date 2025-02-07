@@ -15,6 +15,7 @@
 package dueuno.elements.controls
 
 import dueuno.elements.core.Control
+import dueuno.elements.types.Type
 import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
 
@@ -29,7 +30,7 @@ class HiddenField extends Control {
         super(args)
 
         Map value = Types.serializeValue(args.value)
-        valueType = args.valueType ?: value?.type ?: 'TEXT'
+        valueType = args.valueType ?: value?.type ?: Type.TEXT
 
         skipFocus = true
         display = false

@@ -89,7 +89,7 @@ class TimeField extends DateTimeField {
         let time = td.dates.parseInput(value);
 
         if (time) return {
-            type: 'TIME',
+            type: Type.TIME,
             value: {
                 hour: time.hours,
                 minute: time.minutes,

@@ -17,6 +17,7 @@ package dueuno.elements.controls
 import dueuno.elements.core.Control
 import dueuno.elements.core.PrettyPrinter
 import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
 
 /**
@@ -35,7 +36,7 @@ class MultipleCheckbox extends Control {
     MultipleCheckbox(Map args) {
         super(args)
 
-        valueType = 'LIST'
+        valueType = Type.LIST
 
         simple = args.simple == null ? false : args.simple
         prettyPrinterProperties.messagePrefix = args.messagePrefix ?: controllerName

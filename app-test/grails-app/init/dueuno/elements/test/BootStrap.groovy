@@ -266,7 +266,7 @@ class BootStrap {
         }
 
         securityService.afterLogin { GrailsHttpSession session ->
-            println "Benvenuto in ${shellService.shell.id} caro ${securityService.currentUsername}"
+            println "${tenantService.currentTenantId}: Benvenuto in ${shellService.shell.id} caro ${securityService.currentUsername}"
             if (systemPropertyService.getBoolean('TEST_DENY_LOGIN')) {
                 securityService.denyLogin('Cannot execute login because of X reason')
             }

@@ -21,6 +21,7 @@ import dueuno.elements.core.Control
 import dueuno.elements.core.Elements
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.types.Type
 import dueuno.elements.types.Types
 import grails.gorm.validation.ConstrainedProperty
 import grails.validation.Validateable
@@ -151,13 +152,22 @@ class Form extends Component {
         }
     }
 
-    void addKeyField(String id, Number value = null) {
-        addKeyField(id, 'NUMBER', value)
+    void addKeyField(String id, Object value = null) {
+        String valueType = Types.getType(value)
+        addKeyField(id, valueType, value)
+    }
+
+    void addKeyField(String id, Type valueType, Object value = null) {
+        addKeyField(id, valueType.toString(), value)
     }
 
     void addKeyField(String id, String valueType, Object value = null) {
+        if (!Types.isType(valueType)) {
+            throw new ElementsException("Type '${valueType}' does not exist. Please choose one from: ${Types.availableTypeNames}")
+        }
+
         if (value in Enum) {
-            valueType = 'TEXT'
+            valueType = Type.TEXT.toString()
             value = value.toString()
         }
 

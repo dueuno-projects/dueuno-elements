@@ -40,7 +40,7 @@ class NumberField extends TextField {
         }
 
         return {
-            type: 'NUMBER',
+            type: Type.NUMBER,
             value: value,
         };
     }

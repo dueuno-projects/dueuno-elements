@@ -413,7 +413,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         initializeSessionDuration()
         initializeShell()
 
-        log.debug "Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
+        log.debug "${currentUserTenantId}: Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
         auditService.log(
                 action: 'LOGIN',
                 message: "Authorities: ${currentUserAuthorities}",

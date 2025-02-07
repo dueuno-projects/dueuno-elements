@@ -23,7 +23,6 @@ import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
-import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ConnectionSourceService
 import dueuno.elements.core.Elements
 import dueuno.elements.core.ElementsController

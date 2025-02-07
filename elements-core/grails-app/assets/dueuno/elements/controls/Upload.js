@@ -89,7 +89,7 @@ class Upload extends Control {
         let dropzone = $element[0].dropzone;
         if (!dropzone) {
             return {
-                type: 'LIST',
+                type: Type.LIST,
                 value: [],
             }
         }
@@ -101,7 +101,7 @@ class Upload extends Control {
         }
 
         return {
-            type: 'LIST',
+            type: Type.LIST,
             value: results,
         }
     }
