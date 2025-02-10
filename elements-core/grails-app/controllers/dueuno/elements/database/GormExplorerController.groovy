@@ -88,9 +88,13 @@ class GormExplorerController implements ElementsController {
         c.header.nextButton.icon = 'fa-pen-to-square'
         c.header.nextButton.action = 'sqlConsole'
 
+        def resetPagination = false
         String tenantId = params.tenantId ?: controllerSession['tenantId'] ?: tenantService.defaultTenantId
+        if (params.tenantId && params.tenantId != controllerSession['tenantId']) resetPagination = true
         controllerSession['tenantId'] = tenantId
+
         String domainClassName = params.domainClassName ?: controllerSession['domainClassName']
+        if (params.domainClassName && params.domainClassName != controllerSession['domainClassName']) resetPagination = true
         controllerSession['domainClassName'] = domainClassName
         Class domainClass
         if (domainClassName) {
@@ -134,6 +138,7 @@ class GormExplorerController implements ElementsController {
         }
 
         def table = c.addComponent(Table)
+        if (resetPagination) table.pagination.reset()
         if (domainClassName) {
             table.with {
                 filters.with {
@@ -154,13 +159,11 @@ class GormExplorerController implements ElementsController {
 
                 columns = getDomainColumns(domainClass)
                 labels = getDomainFieldNames(domainClass)
-                sortable = [id: 'asc']
+                sortable = [id: 'desc']
 
                 body.eachRow { TableRow row, Map values ->
                 }
             }
-
-            table.pagination.reset()
 
             tenantService.withTenant(tenantId) {
                 Number searchId = table.filterParams.id as Number
