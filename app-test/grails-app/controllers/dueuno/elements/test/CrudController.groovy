@@ -199,7 +199,7 @@ class CrudController implements ElementsController {
     }
 
     def onKeyPress() {
-        println requestParams
+        println params
         display
     }
 
@@ -220,7 +220,7 @@ class CrudController implements ElementsController {
     }
 
     def onGroupAction1() {
-        println requestParams
+        println params
         display action: 'index'
     }
 
@@ -229,13 +229,13 @@ class CrudController implements ElementsController {
                 ? createContent(ContentEdit)
                 : createContent(ContentCreate)
 
-        if (requestParams.embedded) {
-            c.header.addBackButton(animate: requestParams.animate)
+        if (params.embedded) {
+            c.header.addBackButton(animate: params.animate)
             c.header.backButton.with {
                 addAction(action: 'pippo')
             }
-            if (requestParams.animate) {
-                c.header.nextButton.animate = requestParams.animate
+            if (params.animate) {
+                c.header.nextButton.animate = params.animate
             }
         }
 
@@ -309,7 +309,7 @@ class CrudController implements ElementsController {
 
     def onCompanyChange() {
         def t = createTransition()
-        def company = TCompany.get(requestParams.company)
+        def company = TCompany.get(params.company)
         t.setValue('companyName', company?.name)
         t.set('name', 'readonly', company)
         display transition: t
@@ -348,7 +348,7 @@ class CrudController implements ElementsController {
     }
 
     def onCreate() {
-        TPerson obj = new TPerson(requestParams)
+        TPerson obj = new TPerson(params)
         obj.save(flush: true)
 
         if (obj.hasErrors()) {
@@ -356,7 +356,7 @@ class CrudController implements ElementsController {
             return
         }
 
-        if (requestParams.embedded) {
+        if (params.embedded) {
             display returnPoint(person: obj.id) + [modal: true]
         } else {
             display action: 'index'
@@ -364,7 +364,7 @@ class CrudController implements ElementsController {
     }
 
     def onEdit() {
-        TPerson obj = TPerson.read(requestParams.id)
+        TPerson obj = TPerson.read(params.id)
         obj.properties = params
         obj.save(flush: true)
 

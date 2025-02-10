@@ -53,9 +53,7 @@ class ShellService implements WebRequestAware, LinkGeneratorAware {
     private PageService pageService
 
     void install(String tenantId) {
-        tenantService.withTenant(tenantId) {
-            tenantPropertyService.setString('LOGO', linkPublicResource(tenantId, '/brand/logo.png', false))
-        }
+        tenantPropertyService.setString('LOGO', linkPublicResource(tenantId, '/brand/logo.png', false))
     }
 
     Shell getShell() {

@@ -67,10 +67,11 @@ class AuthenticationController implements ElementsController {
         ///////////////////////////////////////
         // IF YOU'RE HERE THE USER LOGGED IN //
         ///////////////////////////////////////
-        securityService.executeAfterLogin()
+
+        // Loads the user and sets up the current tenant
+        TUser user = securityService.currentUser
 
         // Loading user setting
-        TUser user = securityService.currentUser
         decimalFormat = user.decimalFormat
         prefixedUnit = user.prefixedUnit
         symbolicCurrency = user.symbolicCurrency
@@ -80,6 +81,9 @@ class AuthenticationController implements ElementsController {
         firstDaySunday = user.firstDaySunday
         fontSize = user.fontSize
         animations = user.animations
+
+        // Executing custom after login code
+        securityService.executeAfterLogin()
 
         // We redirect the user to the configured location
         String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
