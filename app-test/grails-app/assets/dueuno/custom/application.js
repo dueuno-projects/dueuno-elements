@@ -1,1 +1,1 @@
-console.log("APPLICATION CUSTOMIZATION!")
+console.log("CUSTOM JavaScript loaded.")

@@ -43,8 +43,3 @@
 <asset:assetPathExists src="custom/application.js">
     <asset:javascript src="custom/application.js"/>
 </asset:assetPathExists>
-
-<%-- Page Specific Javascripts --%>
-<asset:assetPathExists src="custom/${controllerName + '-' + actionName}.js">
-    <asset:javascript src="custom/${controllerName + '-' + actionName}.js"/>
-</asset:assetPathExists>

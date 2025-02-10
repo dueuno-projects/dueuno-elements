@@ -17,11 +17,6 @@
     <asset:stylesheet src="custom/application.css"/>
 </asset:assetPathExists>
 
-<%-- Page Specific Stylesheets --%>
-<asset:assetPathExists src="custom/${controllerName + '-' + actionName}.css">
-    <asset:stylesheet src="custom/${controllerName + '-' + actionName}.css"/>
-</asset:assetPathExists>
-
 <asset:stylesheet src="elements/main.css" media="screen"/>
 
 <style>
