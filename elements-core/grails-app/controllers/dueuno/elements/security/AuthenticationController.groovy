@@ -37,9 +37,10 @@ class AuthenticationController implements ElementsController {
     def login() {
         if (securityService.isLoggedIn()) {
             String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
-            String landingPage = securityService.landingPage
+            String userLandingPage = securityService.landingPage
+            String urlLandingPage = params.landingPage
 
-            redirect uri: landingPage ?: shellUrlMapping ?: '/'
+            redirect uri: urlLandingPage ?: userLandingPage ?: shellUrlMapping ?: '/'
             return
         }
 
@@ -87,18 +88,19 @@ class AuthenticationController implements ElementsController {
 
         // We redirect the user to the configured location
         String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
-        String landingPage = securityService.landingPage
+        String userLandingPage = securityService.landingPage
+        String urlLandingPage = params.landingPage
 
         if (params.ajax) { // Default login
             def message = [
                     login   : true,
                     success : true,
-                    redirect: landingPage ?: shellUrlMapping ?: '/',
+                    redirect: urlLandingPage ?: userLandingPage ?: shellUrlMapping ?: '/',
             ]
             render message as JSON
 
         } else { // Legacy, keep it just in case
-            redirect uri: landingPage ?: shellUrlMapping ?: '/'
+            redirect uri: userLandingPage ?: shellUrlMapping ?: '/'
         }
     }
 
