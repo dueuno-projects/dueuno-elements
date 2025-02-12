@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation project(":elements-core")
-//    implementation project(":elements-extra")
+    implementation project(":elements-extra")
 
     // LDAP
 //    implementation "org.grails.plugins:spring-security-ldap:4.0.0.M1"
