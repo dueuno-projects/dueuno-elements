@@ -27,6 +27,7 @@ import org.apache.commons.lang.time.StopWatch
 class RenderTagLib implements WebRequestAware {
 
     static namespace = "render"
+
     PageService pageService
 
     /**

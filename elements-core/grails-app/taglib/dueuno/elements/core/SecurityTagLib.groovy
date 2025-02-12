@@ -22,6 +22,7 @@ import dueuno.elements.security.SecurityService
 class SecurityTagLib {
 
     static namespace = "security"
+
     SecurityService securityService
 
     def username = { Map attrs ->

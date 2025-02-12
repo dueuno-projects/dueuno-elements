@@ -14,6 +14,8 @@
  */
 package dueuno.elements.core
 
+import javax.servlet.ServletContext
+
 /**
  * Page tags
  *
@@ -22,6 +24,8 @@ package dueuno.elements.core
 class PageTagLib {
 
     static namespace = "page"
+
+    ServletContext servletContext
 
     /**
      * Renders default elements header. Use: <page:header component="${c}" />
@@ -52,6 +56,10 @@ class PageTagLib {
      */
     def initialize = { Map attrs ->
         out << render(template: '/dueuno/elements/core/PageInitialize', model: null)
+    }
+
+    def contextPath = { Map attrs ->
+        out << servletContext.contextPath
     }
 
 }

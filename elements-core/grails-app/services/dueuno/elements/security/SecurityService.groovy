@@ -35,8 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices
 
-import javax.servlet.ServletContext
-
 /**
  * Security API
  *
@@ -446,7 +444,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @return
      */
     @CurrentTenant
-    String getLandingPage() {
+    String getUserLandingPage() {
         if (isAdmin()) // Admins never access to landing pages
             return ''
 
@@ -465,6 +463,22 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
         // Application defined landing page (applies to ALL users)
         return tenantPropertyService.getString('LOGIN_LANDING_URL', true)
+    }
+
+    String getLoginLandingPage() {
+        String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
+        String loginLandingPage = userLandingPage
+        String urlLandingPage = requestParams.landingPage
+
+        return urlLandingPage ?: loginLandingPage ?: shellUrlMapping ?: '/'
+    }
+
+    String getLogoutLandingPage() {
+        String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
+        String logoutLandingPage = tenantPropertyService.getString('LOGOUT_LANDING_URL', true)
+        String urlLandingPage = requestParams.landingPage
+
+        return urlLandingPage ?: logoutLandingPage ?: shellUrlMapping ?: '/'
     }
 
     //

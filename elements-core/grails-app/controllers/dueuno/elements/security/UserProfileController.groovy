@@ -236,7 +236,7 @@ class UserProfileController implements ElementsController {
         fontSize = params.fontSize as Integer
         animations = params.animations as Boolean
 
-        display controller: securityService.landingPage ?: 'shell', direct: true
+        display controller: securityService.userLandingPage ?: 'shell', direct: true
     }
 }
 

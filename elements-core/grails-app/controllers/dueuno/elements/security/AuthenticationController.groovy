@@ -32,25 +32,9 @@ class AuthenticationController implements ElementsController {
     SecurityService securityService
     TenantPropertyService tenantPropertyService
 
-    private String getLoginLandingPage() {
-        String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
-        String loginLandingPage = securityService.landingPage
-        String urlLandingPage = params.landingPage
-
-        return urlLandingPage ?: loginLandingPage ?: shellUrlMapping ?: '/'
-    }
-
-    private String getLogoutLandingPage() {
-        String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
-        String logoutLandingPage = tenantPropertyService.getString('LOGOUT_LANDING_URL', true)
-        String urlLandingPage = params.landingPage
-
-        return urlLandingPage ?: logoutLandingPage ?: shellUrlMapping ?: '/'
-    }
-
     def login() {
         if (securityService.isLoggedIn()) {
-            redirect uri: getLoginLandingPage()
+            redirect uri: securityService.loginLandingPage
             return
         }
 
@@ -101,18 +85,18 @@ class AuthenticationController implements ElementsController {
             def message = [
                     login   : true,
                     success : true,
-                    redirect: getLoginLandingPage(),
+                    redirect: securityService.loginLandingPage,
             ]
             render message as JSON
 
         } else { // Legacy, keep it just in case
-            redirect uri: getLoginLandingPage()
+            redirect uri: securityService.loginLandingPage
         }
     }
 
     def logout() {
         securityService.executeAfterLogout()
-        redirect uri: getLogoutLandingPage()
+        redirect uri: securityService.logoutLandingPage
     }
 
     def afterLogout() {
@@ -123,7 +107,7 @@ class AuthenticationController implements ElementsController {
             render message as JSON
 
         } else {
-            redirect uri: getLogoutLandingPage()
+            redirect uri: securityService.logoutLandingPage
         }
     }
 

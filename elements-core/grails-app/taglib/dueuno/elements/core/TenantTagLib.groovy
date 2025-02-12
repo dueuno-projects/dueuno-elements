@@ -23,6 +23,7 @@ import dueuno.elements.tenants.TenantService
 class TenantTagLib {
 
     static namespace = "tenant"
+
     TenantService tenantService
 
     def current = { Map attrs ->

@@ -9,6 +9,7 @@
     const _21_ = {
         app: {
             url: "${g.createLink(absolute:true, uri:"/")}",
+            path: "${page.contextPath()}",
             tenant: "${tenant.current()}",
         },
         <g:if test="${c}">
