@@ -63,9 +63,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     public static final String DENY_AUTHORIZATION_MESSAGE = 'DENY_AUTHORIZATION_MESSAGE'
 
     @Autowired
-    private ServletContext servletContext
-
-    @Autowired
     private SecurityContextLogoutHandler securityContextLogoutHandler
 
     @Autowired

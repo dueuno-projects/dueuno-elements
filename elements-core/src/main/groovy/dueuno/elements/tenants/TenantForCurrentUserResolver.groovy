@@ -37,11 +37,13 @@ class TenantForCurrentUserResolver implements TenantResolver, WebRequestAware {
             return TenantService.defaultTenantId
         }
 
-        TUser user = session['_21CurrentUser'] as TUser
-        if (user) {
-            return user.tenant.tenantId
+        try {
+            TUser user = session['_21CurrentUser'] as TUser
+            if (user) {
+                return user.tenant.tenantId
+            }
 
-        } else {
+        } finally {
             return TenantService.defaultTenantId
         }
     }
