@@ -418,6 +418,26 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         applicationService.executeBootEvents('afterLogin', session)
     }
 
+    void denyLogin(String message) {
+        if (!message) {
+            throw new ElementsException("A deny message must be provided.")
+        }
+
+        if (isLoginDenied()) {
+            return
+        }
+
+        session[DENY_AUTHORIZATION_MESSAGE] = message
+    }
+
+    Boolean isLoginDenied() {
+        return session[DENY_AUTHORIZATION_MESSAGE]
+    }
+
+    String getLoginDeniedMessage() {
+        return session[DENY_AUTHORIZATION_MESSAGE]
+    }
+
     void executeLogout() {
         // Equivalent to -> redirect uri: '/springSecurityLogout'
         securityContextLogoutHandler.logout(request, response, null)
@@ -516,18 +536,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     TUser getAdminUser() {
         return getUserByUsername(USERNAME_ADMIN)
-    }
-
-    void denyLogin(String message) {
-        if (!message) {
-            throw new ElementsException("A deny message must be provided.")
-        }
-
-        if (session[DENY_AUTHORIZATION_MESSAGE]) {
-            return
-        }
-
-        session[DENY_AUTHORIZATION_MESSAGE] = message
     }
 
     private DetachedCriteria<TUser> buildUserQuery(Map filters) {

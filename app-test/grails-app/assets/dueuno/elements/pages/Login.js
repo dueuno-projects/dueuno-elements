@@ -66,7 +66,7 @@ class Login extends Page {
             })
             .fail(function (request, textStatus, errorThrown) {
                 LoadingScreen.show(false);
-                PageMessageBox.error(null, {infoMessage: 'Error, please retry'});
+                PageMessageBox.error(null, {infoMessage: request.status + ': ' + request.responseText});
             });
     }
 }

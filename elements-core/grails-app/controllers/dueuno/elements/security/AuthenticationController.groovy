@@ -54,11 +54,6 @@ class AuthenticationController implements ElementsController {
 
     @Secured(['ROLE_USER'])
     def afterLogin() {
-        if (session[SecurityService.DENY_AUTHORIZATION_MESSAGE]) {
-            forward action: 'logout'
-            return
-        }
-
         ///////////////////////////////////////
         // IF YOU'RE HERE THE USER LOGGED IN //
         ///////////////////////////////////////
@@ -77,8 +72,12 @@ class AuthenticationController implements ElementsController {
         fontSize = user.fontSize
         animations = user.animations
 
-        // Executing custom after login code
+        // Executing custom after login code & check if we need to log the user out
         securityService.executeAfterLogin()
+        if (securityService.isLoginDenied()) {
+            forward action: 'logout'
+            return
+        }
 
         // We redirect the user to the configured location
         if (params.ajax) { // Default login
