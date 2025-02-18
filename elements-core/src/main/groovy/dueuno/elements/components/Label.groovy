@@ -39,6 +39,7 @@ class Label extends Component {
     TextWrap textWrap
     List<TextStyle> textStyle
     Boolean border
+    Boolean userSelect
 
     PrettyPrinterProperties prettyPrinterProperties
 
@@ -57,6 +58,7 @@ class Label extends Component {
         setTextStyle(args.textStyle)
 
         border = args.border == null ? (html ? false : true) : args.border
+        userSelect = args.userSelect == null ? false : args.userSelect
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
         prettyPrinterProperties.messageArgs = args.textArgs as List

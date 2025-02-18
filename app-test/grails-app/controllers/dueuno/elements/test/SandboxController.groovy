@@ -262,6 +262,7 @@ class SandboxController implements ElementsController {
                         class: Label,
                         id: "${i}Label",
                         displayLabel: false,
+                        userSelect: true,
                         cols: 9,
                 )
                 addField(
