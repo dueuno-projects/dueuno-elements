@@ -15,11 +15,15 @@
 package dueuno.elements.system
 
 import dueuno.elements.components.Label
+import dueuno.elements.components.Table
+import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.SystemInfoService
+import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
+import dueuno.elements.style.VerticalAlign
 import dueuno.elements.utils.EnvUtils
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -32,8 +36,8 @@ class SysinfoController implements ElementsController {
     SystemInfoService systemInfoService
 
     def index() {
-
         def c = createContent(ContentForm)
+
         c.header.with {
             removeBackButton()
             removeNextButton()
@@ -43,35 +47,24 @@ class SysinfoController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'environment',
+                    textStyle: TextStyle.MONOSPACE,
                     readonly: true,
                     cols: 4,
             )
             addField(
                     class: TextField,
                     id: 'applicationVersion',
+                    textStyle: TextStyle.MONOSPACE,
                     readonly: true,
                     cols: 4,
             )
             addField(
                     class: TextField,
                     id: 'coreVersion',
+                    textStyle: TextStyle.MONOSPACE,
                     readonly: true,
                     cols: 4,
             )
-            addField(
-                    class: Label,
-                    id: 'systemData',
-                    textWrap: TextWrap.LINE_WRAP,
-                    border: true,
-                    cols: 12,
-            )
-        }
-
-        // DATA
-        //
-        String systemData = ''
-        systemInfoService.info.each { key, value ->
-            if (key != 'coreVersion') systemData += "$key: $value\n"
         }
 
         c.form.values = [
@@ -81,10 +74,26 @@ class SysinfoController implements ElementsController {
                 coreVersion       : systemInfoService.info.coreVersion,
         ]
 
-        c.form['systemData'].text = systemData
+        List<Map> systemData = []
+        systemInfoService.info.each { String key, Object value ->
+            if (key != 'coreVersion') systemData << [key: key, value: value as String]
+        }
 
-        // RENDERING
-        //
-        display content: c, modal: true
+        def table = c.addComponent(Table)
+        table.with {
+            columns = [
+                    'key',
+                    'value',
+            ]
+            hasHeader = false
+            rowActions = false
+            body.eachRow { TableRow row, Map values ->
+                row.textStyle = TextStyle.MONOSPACE
+                row.cells['value'].textWrap = TextWrap.SOFT_WRAP
+            }
+            body = systemData
+        }
+
+        display content: c, modal: true, wide: true
     }
 }
