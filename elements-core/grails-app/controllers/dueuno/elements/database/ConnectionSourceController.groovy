@@ -28,8 +28,6 @@ import dueuno.elements.core.ElementsController
 import dueuno.elements.core.TConnectionSource
 import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.annotation.Secured
-import org.grails.orm.hibernate.HibernateDatastore
-import org.springframework.beans.factory.annotation.Autowired
 
 import java.sql.Driver
 
@@ -42,9 +40,6 @@ class ConnectionSourceController implements ElementsController {
 
     ApplicationService applicationService
     ConnectionSourceService connectionSourceService
-
-    @Autowired
-    private HibernateDatastore hibernateDatastore
 
     def index() {
         applicationService.registerPrettyPrinter(Driver, '${it.class.name}')

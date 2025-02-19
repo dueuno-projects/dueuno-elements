@@ -13,13 +13,13 @@
  * limitations under the License.
  */
 package dueuno.elements.audit
+
 import dueuno.elements.core.WebRequestAware
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.security.SecurityService
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import groovy.util.logging.Slf4j
-import org.springframework.beans.factory.annotation.Autowired
 
 import javax.servlet.http.HttpServletRequest
 import java.time.LocalDateTime
@@ -33,8 +33,7 @@ import java.time.LocalTime
 @CurrentTenant
 class AuditService implements WebRequestAware {
 
-    @Autowired
-    private SecurityService securityService
+    SecurityService securityService
 
     void log(Map args) {
         String action = ArgsException.requireArgument(args, 'action')

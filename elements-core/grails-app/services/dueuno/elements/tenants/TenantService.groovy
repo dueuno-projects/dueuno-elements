@@ -19,7 +19,6 @@ import dueuno.elements.ElementsGrailsPlugin
 import dueuno.elements.core.*
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.security.SecurityService
-import dueuno.elements.security.TUser
 import dueuno.elements.utils.ResourceUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
@@ -27,7 +26,6 @@ import grails.gorm.multitenancy.Tenants
 import grails.gorm.multitenancy.WithoutTenant
 import groovy.util.logging.Slf4j
 import org.grails.datastore.mapping.core.connections.ConnectionSource
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author Gianluca Sartori
@@ -37,20 +35,11 @@ import org.springframework.beans.factory.annotation.Autowired
 @WithoutTenant
 class TenantService {
 
-    @Autowired
-    private ApplicationService applicationService
-
-    @Autowired
-    private ConnectionSourceService connectionSourceService
-
-    @Autowired
-    private SystemPropertyService systemPropertyService
-
-    @Autowired
-    private TenantPropertyService tenantPropertyService
-
-    @Autowired
-    private SecurityService securityService
+    ApplicationService applicationService
+    ConnectionSourceService connectionSourceService
+    SystemPropertyService systemPropertyService
+    TenantPropertyService tenantPropertyService
+    SecurityService securityService
 
     void install() {
         create(

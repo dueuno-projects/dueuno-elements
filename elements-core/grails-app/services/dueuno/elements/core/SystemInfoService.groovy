@@ -14,11 +14,10 @@
  */
 package dueuno.elements.core
 
+import dueuno.elements.utils.EnvUtils
 import grails.core.GrailsApplication
 import grails.plugins.GrailsPluginManager
 import groovy.transform.CompileStatic
-import org.grails.web.servlet.mvc.GrailsWebRequest
-import org.grails.web.util.WebUtils
 import org.springframework.beans.factory.annotation.Autowired
 
 import javax.servlet.ServletContext
@@ -28,47 +27,47 @@ import javax.servlet.ServletContext
  */
 
 @CompileStatic
-class SystemInfoService {
+class SystemInfoService implements WebRequestAware {
 
     @Autowired
-    private GrailsApplication grailsApplication
+    GrailsPluginManager grailsPluginManager
 
-    @Autowired
-    private ServletContext servletContext
+    GrailsApplication grailsApplication
+    ServletContext servletContext
 
     /**
      * INTERNAL USE ONLY. Returns a map with the system info.
      */
     Map getInfo() {
-        GrailsPluginManager pluginManager = (GrailsPluginManager) Elements.getBean('pluginManager')
-        GrailsWebRequest request = WebUtils.retrieveGrailsWebRequest()
-
-        Double maxMemory = Runtime.getRuntime().maxMemory() / Math.pow(1024, 2)
-        Double totalMemory = Runtime.getRuntime().totalMemory() / Math.pow(1024, 2)
         Double freeMemory = Runtime.getRuntime().freeMemory() / Math.pow(1024, 2)
+        Double maxMemory = Runtime.getRuntime().maxMemory() / Math.pow(1024, 2)
+        Double usedMemory = (Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()) / Math.pow(1024, 2)
 
         return [
+                environment  : message('default.env.' + EnvUtils.currentEnvironment),
                 browser      : request.getHeader("User-Agent"),
-                appName      : grailsApplication.config.getProperty('info.app.name', String),
-                appVersion   : grailsApplication.config.getProperty('info.app.version', String),
-                appPath      : servletContext.getRealPath('/'),
-                deployedAsWAR: grailsApplication.isWarDeployed(),
 
-                serverVersion: servletContext.getServerInfo(),
-                grailsVersion: grailsApplication.config.getProperty('info.app.grailsVersion', String),
+                appName      : grailsApplication.config.getProperty('info.app.name', String) as String,
+                appVersion   : grailsApplication.config.getProperty('info.app.version', String) as String,
+                appPath      : servletContext.getRealPath('/'),
+
+                dueunoVersion: elementsVersion,
+                grailsVersion: grailsApplication.config.getProperty('info.app.grailsVersion', String) as String,
                 groovyVersion: GroovySystem.getVersion(),
+                serverVersion: servletContext.getServerInfo(),
 
                 jvmHeapMax   : "${Math.round(maxMemory)} Mb",
-                jvmHeapUsed  : "${Math.round(totalMemory)} Mb",
+                jvmHeapUsed  : "${Math.round(usedMemory)} Mb",
                 jvmHeapFree  : "${Math.round(freeMemory)} Mb",
-                jvmVersion   : System.getProperty('java.version') + ' ' + System.getProperty('java.vendor'),
                 jvmPath      : System.getProperty('java.home'),
+                jvmVersion   : System.getProperty('java.version') + ' ' + System.getProperty('java.vendor'),
 
-                osName       : System.getProperty('os.name'),
-                osVersion    : System.getProperty('os.version'),
-                osArch       : System.getProperty('os.arch'),
-
-                coreVersion  : (pluginManager.allPlugins.find { it.name == 'elements' })?.version,
+                osVersion    : System.getProperty('os.name') + ' ' + System.getProperty('os.version') + ' (' + System.getProperty('os.arch') + ')',
         ]
     }
+
+    String getElementsVersion() {
+        return (grailsPluginManager.allPlugins.find { it.name == 'elements' })?.version
+    }
+
 }

@@ -15,7 +15,6 @@
 package dueuno.elements.core
 
 import dueuno.elements.exceptions.ArgsException
-import grails.core.GrailsApplication
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.WithoutTenant
 import groovy.transform.CompileDynamic
@@ -25,7 +24,6 @@ import org.grails.datastore.mapping.core.connections.ConnectionSource
 import org.grails.orm.hibernate.HibernateDatastore
 import org.grails.orm.hibernate.connections.HibernateConnectionSourceSettings
 import org.hibernate.SessionFactory
-import org.springframework.beans.factory.annotation.Autowired
 
 import javax.sql.DataSource
 import java.sql.DriverManager
@@ -39,11 +37,8 @@ import java.sql.DriverManager
 @CompileStatic
 class ConnectionSourceService {
 
-    @Autowired
-    private HibernateDatastore hibernateDatastore
-
-    @Autowired
-    private ApplicationService applicationService
+    HibernateDatastore hibernateDatastore
+    ApplicationService applicationService
 
     void installOrConnect() {
         applicationService.registerPrettyPrinter(TConnectionSource, '${it.name}${it.tenant ? " Tenant" : ""} (${it.driverClassName})')

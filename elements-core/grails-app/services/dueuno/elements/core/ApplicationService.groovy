@@ -29,7 +29,6 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.io.support.PathMatchingResourcePatternResolver
 import org.grails.io.support.Resource
-import org.springframework.beans.factory.annotation.Autowired
 
 import javax.servlet.ServletContext
 
@@ -43,23 +42,12 @@ import javax.servlet.ServletContext
 @CompileStatic
 class ApplicationService implements LinkGeneratorAware {
 
-    @Autowired
-    private GrailsApplication grailsApplication
-
-    @Autowired
-    private ServletContext servletContext
-
-    @Autowired
-    private ConnectionSourceService connectionSourceService
-
-    @Autowired
-    private TenantService tenantService
-
-    @Autowired
-    private TenantPropertyService tenantPropertyService
-
-    @Autowired
-    private SystemPropertyService systemPropertyService
+    GrailsApplication grailsApplication
+    ServletContext servletContext
+    ConnectionSourceService connectionSourceService
+    TenantService tenantService
+    TenantPropertyService tenantPropertyService
+    SystemPropertyService systemPropertyService
 
     private static Map<String, List> credits = [:]
 

@@ -18,8 +18,6 @@ import dueuno.elements.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 
-import javax.annotation.PostConstruct
-
 @CurrentTenant
 class MovieService {
 

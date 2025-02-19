@@ -19,10 +19,8 @@ import dueuno.elements.components.Grid
 import dueuno.elements.components.Label
 import dueuno.elements.controls.NumberField
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextAlign
-import dueuno.elements.types.QuantityService
 import grails.gorm.multitenancy.CurrentTenant
 
 @CurrentTenant

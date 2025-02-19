@@ -21,7 +21,6 @@ import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author Gianluca Sartori
@@ -30,8 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired
 @CurrentTenant
 class TenantPropertyService extends PropertyService {
 
-    @Autowired
-    private TenantService tenantService
+    TenantService tenantService
 
     void install() {
         // Logs

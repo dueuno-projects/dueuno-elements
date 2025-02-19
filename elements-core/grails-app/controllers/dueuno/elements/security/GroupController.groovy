@@ -22,8 +22,8 @@ import dueuno.elements.contents.ContentList
 import dueuno.elements.controls.MultipleCheckbox
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.Menu
 import dueuno.elements.core.ElementsController
+import dueuno.elements.core.Menu
 import dueuno.elements.tenants.TenantService
 import grails.gorm.multitenancy.WithoutTenant
 import grails.plugin.springsecurity.annotation.Secured

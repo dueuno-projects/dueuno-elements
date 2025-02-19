@@ -20,7 +20,6 @@ import dueuno.elements.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.WithoutTenant
 import groovy.util.logging.Slf4j
-import org.springframework.beans.factory.annotation.Autowired
 
 import javax.annotation.PostConstruct
 
@@ -32,8 +31,7 @@ import javax.annotation.PostConstruct
 @WithoutTenant
 class SystemPropertyService extends PropertyService {
 
-    @Autowired
-    private ApplicationService applicationService
+    ApplicationService applicationService
 
     void install() {
         // System

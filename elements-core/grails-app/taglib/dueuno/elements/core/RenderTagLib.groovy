@@ -17,7 +17,6 @@ package dueuno.elements.core
 import dueuno.elements.components.Form
 import dueuno.elements.components.FormField
 import dueuno.elements.controls.HiddenField
-import org.apache.commons.lang.time.StopWatch
 
 /**
  * Render tags

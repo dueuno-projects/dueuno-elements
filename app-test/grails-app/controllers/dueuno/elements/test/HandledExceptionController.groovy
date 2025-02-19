@@ -14,7 +14,6 @@
  */
 package dueuno.elements.test
 
-import dueuno.commons.utils.LogUtils
 import dueuno.elements.components.Button
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.TextField

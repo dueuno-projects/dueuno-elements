@@ -23,7 +23,6 @@ import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.tenants.TTenant
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
-
 import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
@@ -61,31 +60,18 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     public static final String DENY_AUTHORIZATION_MESSAGE = 'DENY_AUTHORIZATION_MESSAGE'
 
     @Autowired
-    private SecurityContextLogoutHandler securityContextLogoutHandler
+    SecurityContextLogoutHandler securityContextLogoutHandler
 
     @Autowired
-    private TokenBasedRememberMeServices tokenBasedRememberMeServices
+    TokenBasedRememberMeServices tokenBasedRememberMeServices
 
-    @Autowired
-    private SpringSecurityService springSecurityService
-
-    @Autowired
-    private SystemPropertyService systemPropertyService
-
-    @Autowired
-    private TenantPropertyService tenantPropertyService
-
-    @Autowired
-    private ApplicationService applicationService
-
-    @Autowired
-    private ShellService shellService
-
-    @Autowired
-    private TenantService tenantService
-
-    @Autowired
-    private AuditService auditService
+    SpringSecurityService springSecurityService
+    SystemPropertyService systemPropertyService
+    TenantPropertyService tenantPropertyService
+    ApplicationService applicationService
+    ShellService shellService
+    TenantService tenantService
+    AuditService auditService
 
     void init() {
         applicationService.registerPrettyPrinter(TTenant, '${it.tenantId}')

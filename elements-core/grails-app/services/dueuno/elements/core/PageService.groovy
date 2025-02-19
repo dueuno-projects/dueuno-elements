@@ -20,9 +20,6 @@ import dueuno.elements.security.SecurityService
 import dueuno.elements.tenants.TenantPropertyService
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.springframework.beans.factory.annotation.Autowired
-
-import javax.servlet.ServletContext
 
 /**
  * @author Gianluca Sartori
@@ -32,17 +29,10 @@ import javax.servlet.ServletContext
 @CompileStatic
 class PageService implements WebRequestAware, LinkGeneratorAware {
 
-    @Autowired
-    private SecurityService securityService
-
-    @Autowired
-    private SystemPropertyService systemPropertyService
-
-    @Autowired
-    private TenantPropertyService tenantPropertyService
-
-    @Autowired
-    private TransitionService transitionService
+    SecurityService securityService
+    SystemPropertyService systemPropertyService
+    TenantPropertyService tenantPropertyService
+    TransitionService transitionService
 
     void install(String tenantId) {
         tenantPropertyService.setString('FAVICON', linkPublicResource(tenantId, 'brand/favicon.png', false))

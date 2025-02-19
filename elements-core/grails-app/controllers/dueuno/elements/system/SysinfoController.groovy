@@ -14,17 +14,12 @@
  */
 package dueuno.elements.system
 
-import dueuno.elements.components.Label
-import dueuno.elements.components.Table
 import dueuno.elements.components.TableRow
-import dueuno.elements.contents.ContentForm
-import dueuno.elements.controls.TextField
+import dueuno.elements.contents.ContentList
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.SystemInfoService
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
-import dueuno.elements.style.VerticalAlign
-import dueuno.elements.utils.EnvUtils
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
@@ -36,51 +31,13 @@ class SysinfoController implements ElementsController {
     SystemInfoService systemInfoService
 
     def index() {
-        def c = createContent(ContentForm)
+        def c = createContent(ContentList)
 
         c.header.with {
-            removeBackButton()
             removeNextButton()
         }
 
-        c.form.with {
-            addField(
-                    class: TextField,
-                    id: 'environment',
-                    textStyle: TextStyle.MONOSPACE,
-                    readonly: true,
-                    cols: 4,
-            )
-            addField(
-                    class: TextField,
-                    id: 'applicationVersion',
-                    textStyle: TextStyle.MONOSPACE,
-                    readonly: true,
-                    cols: 4,
-            )
-            addField(
-                    class: TextField,
-                    id: 'coreVersion',
-                    textStyle: TextStyle.MONOSPACE,
-                    readonly: true,
-                    cols: 4,
-            )
-        }
-
-        c.form.values = [
-                environment       : message('default.env.' + EnvUtils.currentEnvironment),
-                browser           : systemInfoService.info.browser,
-                applicationVersion: systemInfoService.info.appVersion,
-                coreVersion       : systemInfoService.info.coreVersion,
-        ]
-
-        List<Map> systemData = []
-        systemInfoService.info.each { String key, Object value ->
-            if (key != 'coreVersion') systemData << [key: key, value: value as String]
-        }
-
-        def table = c.addComponent(Table)
-        table.with {
+        c.table.with {
             columns = [
                     'key',
                     'value',
@@ -91,7 +48,7 @@ class SysinfoController implements ElementsController {
                 row.textStyle = TextStyle.MONOSPACE
                 row.cells['value'].textWrap = TextWrap.SOFT_WRAP
             }
-            body = systemData
+            body = systemInfoService.info.collect {[key: it.key, value: it.value]}
         }
 
         display content: c, modal: true, wide: true

@@ -5,7 +5,6 @@ import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.pattern.color.ANSIConstants
 import ch.qos.logback.core.pattern.color.ForegroundCompositeConverterBase
 import groovy.transform.CompileStatic
-import groovy.util.logging.Slf4j
 
 @CompileStatic
 class HighlightLogLevel extends ForegroundCompositeConverterBase<ILoggingEvent> {

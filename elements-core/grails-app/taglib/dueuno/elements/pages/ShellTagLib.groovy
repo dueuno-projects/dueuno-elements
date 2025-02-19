@@ -3,7 +3,6 @@ package dueuno.elements.pages
 import dueuno.elements.components.ShellService
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.WebRequestAware
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author Gianluca Sartori
