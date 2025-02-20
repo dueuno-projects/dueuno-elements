@@ -176,6 +176,10 @@ class Button extends Component {
         defaultAction.icon = value
     }
 
+    void setTooltip(String value) {
+        defaultAction.tooltip = value
+    }
+
     void setConfirmMessage(String value) {
         defaultAction.confirmMessage = value
     }

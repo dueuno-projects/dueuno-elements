@@ -1,6 +1,7 @@
 %{-- Keep the _TableRow.gsp inline Label component aligned with this _Label.gsp template --}%
 <span class="component-label w-100 ${c.textAlign} ${c.textWrap} ${c.textStyle} ${c.border ? 'border' : ''}  ${c.userSelect ? 'user-select-auto' : ''} ${c.html ? 'html' : ''} ${c.cssClass}"
       style="${c.cssStyleColors}${c.cssStyle}"
+      title="${c.message(c.tooltip)}"
       data-21-component="${c.className}"
       data-21-id="${c.id}"
       data-21-properties="${c.propertiesAsJSON}"

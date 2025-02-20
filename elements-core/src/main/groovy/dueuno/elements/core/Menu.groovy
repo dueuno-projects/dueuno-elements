@@ -230,6 +230,7 @@ class Menu extends Component {
         menuItemArgs.id = f.getId()
         menuItemArgs.text = f.text
         menuItemArgs.icon = f.icon
+        menuItemArgs.tooltip = f.tooltip
         menuItemArgs.image = f.image
         menuItemArgs.separator = f.controller ? false : true
         menuItemArgs.messagePrefix = messagePrefix
@@ -345,6 +346,14 @@ class Menu extends Component {
 
     void setIcon(String value) {
         link.icon = value
+    }
+
+    String getTooltip() {
+        return link.tooltip
+    }
+
+    void setTooltip(String value) {
+        link.tooltip = value
     }
 
     String getImage() {

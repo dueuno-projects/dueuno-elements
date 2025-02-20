@@ -157,6 +157,10 @@ class TableCell extends Component {
         if (component in Label) (component as Label).icon = value
     }
 
+    void setTooltip(String value) {
+        if (component in Label) (component as Label).tooltip = value
+    }
+
     void setUrl(String value) {
         if (component in Label) (component as Label).url = value
     }

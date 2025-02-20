@@ -65,6 +65,7 @@ class CrudController implements ElementsController {
             header.nextButton.addAction(action: 'onCreateRecords')
             header.nextButton.addAction(controller: 'crudCompany', modal: true)
             header.nextButton.addAction(controller: 'crudPOGO', modal: true)
+            header.nextButton.defaultAction.tooltip = 'default.create'
 
             table.with {
                 stickyHeaderOffset = 0
@@ -124,6 +125,7 @@ class CrudController implements ElementsController {
                 actions.tailAction.order = 9999
                 actions.tailAction.text = TextDefault.DELETE
                 actions.unsetTailAction()
+                actions.defaultAction.tooltip = 'Modifica record'
 
                 sortable = [
                         address: 'asc',
@@ -160,6 +162,7 @@ class CrudController implements ElementsController {
                     row.cells['name'].textWrap = TextWrap.SOFT_WRAP
                     row.cells['company'].textWrap = TextWrap.LINE_WRAP
                     row.cells['company'].icon = 'fa-building'
+                    row.cells['company'].tooltip = 'Questa è una azienda'
 
                     values.employeeCount = values.company.employees?.size()
 

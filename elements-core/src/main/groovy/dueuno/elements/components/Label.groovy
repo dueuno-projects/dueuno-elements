@@ -33,6 +33,7 @@ class Label extends Component {
     String html
     String url
     String icon
+    String tooltip
 
     VerticalAlign verticalAlign
     TextAlign textAlign
@@ -51,6 +52,7 @@ class Label extends Component {
         html = args.html
         url = args.url
         icon = args.icon
+        tooltip = args.tooltip
 
         verticalAlign = args.verticalAlign == null ? VerticalAlign.DEFAULT : args.verticalAlign as VerticalAlign
         textAlign = args.textAlign == null ? TextAlign.DEFAULT : args.textAlign as TextAlign
