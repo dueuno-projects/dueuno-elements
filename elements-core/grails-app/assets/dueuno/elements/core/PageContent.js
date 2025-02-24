@@ -27,10 +27,14 @@ class PageContent extends Component {
             return;
         }
 
-        // Initializing Bootstrap tooltips
-        let tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
-        for (let tooltipTrigger of tooltipTriggerList) {
-            new bootstrap.Tooltip(tooltipTrigger);
+        // Initializing Bootstrap tooltips.
+        // On Mobile we activate it only for Labels
+        let $tooltipTriggerList = Elements.onMobile
+            ? $('.component-label[data-bs-toggle="tooltip"]')
+            : $('[data-bs-toggle="tooltip"]');
+
+        for (let $tooltipTrigger of $tooltipTriggerList) {
+            new bootstrap.Tooltip($tooltipTrigger);
         }
 
         let content = PageContent.$self[0].getBoundingClientRect();
