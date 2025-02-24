@@ -1,11 +1,11 @@
 <a class="component-link ${c.textAlign} ${c.textWrap} ${c.border ? 'border' : ''} ${c.cssClass}"
    style="${c.cssStyleColors}${c.cssStyle}"
-   title="${c.message(c.tooltip)}"
    data-21-component="${c.className}"
    data-21-id="${c.id}"
    data-21-properties="${c.propertiesAsJSON}"
    data-21-events="${c.eventsAsJSON}"
    href="${dev.ifDevelopment() { c.devUrl } }"
+   ${c.tooltip ? 'data-bs-custom-class=tooltip data-bs-toggle=tooltip data-bs-title=' + raw(c.message(c.tooltip)) : ''}
    ${raw(attributes)}
 ><g:if test="${c.html}">${raw(c.prettyHtml)}</g:if>
 <g:elseif test="${c.components}"><render:componentList instance="${c}" /></g:elseif>

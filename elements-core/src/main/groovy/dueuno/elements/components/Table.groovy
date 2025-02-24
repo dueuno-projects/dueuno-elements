@@ -16,6 +16,7 @@ package dueuno.elements.components
 
 import dueuno.elements.core.Component
 import dueuno.elements.core.Elements
+import dueuno.elements.style.TextDefault
 import groovy.transform.CompileStatic
 
 /**
@@ -163,6 +164,7 @@ class Table extends Component {
                 action: 'edit',
                 text: '',
                 icon: 'fa-pencil-alt',
+                tooltip: TextDefault.EDIT,
         )
         actions.addTailAction(
                 action: 'onDelete',

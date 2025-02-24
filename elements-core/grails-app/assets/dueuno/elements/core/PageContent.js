@@ -27,6 +27,12 @@ class PageContent extends Component {
             return;
         }
 
+        // Initializing Bootstrap tooltips
+        let tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
+        for (let tooltipTrigger of tooltipTriggerList) {
+            new bootstrap.Tooltip(tooltipTrigger);
+        }
+
         let content = PageContent.$self[0].getBoundingClientRect();
         PageContent.$scrollbarBox.css({left: content.left, width: content.width});
         PageContent.updateScrollbar();
