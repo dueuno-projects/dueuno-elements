@@ -1,5 +1,5 @@
 %{-- Keep the _TableRow.gsp inline Label component aligned with this _Label.gsp template --}%
-<span class="component-label w-100 ${c.textAlign} ${c.textWrap} ${c.textStyle} ${c.border ? 'border' : ''}  ${c.userSelect ? 'user-select-auto' : ''} ${c.html ? 'html' : ''} ${c.cssClass}"
+<span class="component-label w-100 ${c.textAlign} ${c.textWrap} ${c.textStyle} ${c.border ? 'border' : ''}  ${c.userSelect ? 'user-select-text' : ''} ${c.html ? 'html' : ''} ${c.cssClass}"
       style="${c.cssStyleColors}${c.cssStyle}"
       ${c.tooltip ? raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + c.message(c.tooltip) + '"') : ''}
       data-21-component="${c.className}"
