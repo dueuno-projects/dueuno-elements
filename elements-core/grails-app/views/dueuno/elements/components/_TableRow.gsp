@@ -90,7 +90,7 @@
                 ><div class="input-group" style="${c.table.widths[column] ? 'width: ' + c.table.widths[column] + 'px;' : ''}">
                     <g:set var="label" value="${cell.component}" />
                     <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.userSelect ? 'user-select-auto' : ''} ${label.html ? 'html' : ''} ${label.cssClass}"
-                          style="color: ${label.textColor}; background-color: ${label.backgroundColor}; ${label.cssStyle}" ${label.tooltip ? 'data-bs-custom-class=tooltip data-bs-toggle=tooltip data-bs-title=' + raw(label.message(label.tooltip)) : ''}>
+                          style="color: ${label.textColor}; background-color: ${label.backgroundColor}; ${label.cssStyle}" ${label.tooltip ? raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"') : ''}>
                         <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
                         <g:else>
                             <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon ? 'me-2' : ''}"/></g:if>

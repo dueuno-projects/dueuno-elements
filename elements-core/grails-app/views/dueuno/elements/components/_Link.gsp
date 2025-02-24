@@ -5,7 +5,7 @@
    data-21-properties="${c.propertiesAsJSON}"
    data-21-events="${c.eventsAsJSON}"
    href="${dev.ifDevelopment() { c.devUrl } }"
-   ${c.tooltip ? 'data-bs-custom-class=tooltip data-bs-toggle=tooltip data-bs-title=' + raw(c.message(c.tooltip)) : ''}
+   ${c.tooltip ? raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + c.message(c.tooltip) + '"') : ''}
    ${raw(attributes)}
 ><g:if test="${c.html}">${raw(c.prettyHtml)}</g:if>
 <g:elseif test="${c.components}"><render:componentList instance="${c}" /></g:elseif>
