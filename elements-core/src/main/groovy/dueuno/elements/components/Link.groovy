@@ -68,12 +68,11 @@ class Link extends Label {
     }
 
     private void setOnClickEvent(String onClick = null) {
-        linkDefinition.infoMessage = message(linkDefinition.infoMessage)
-        linkDefinition.confirmMessage = message(linkDefinition.confirmMessage)
-
         on(linkDefinition.properties + [
                 event: 'click',
                 action: onClick ?: linkDefinition.action,
+                infoMessage: message(linkDefinition.infoMessage),
+                confirmMessage: message(linkDefinition.confirmMessage),
         ])
     }
 
