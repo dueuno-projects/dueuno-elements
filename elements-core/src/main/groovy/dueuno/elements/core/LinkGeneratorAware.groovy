@@ -16,6 +16,7 @@ package dueuno.elements.core
 
 import grails.core.GrailsApplication
 import grails.util.Holders
+import grails.web.mapping.LinkGenerator
 import groovy.transform.CompileStatic
 
 /**
@@ -28,8 +29,17 @@ import groovy.transform.CompileStatic
 trait LinkGeneratorAware {
 
     /**
-     * Returns the absolute (Eg. http://..) application URL as configured on application.yml
-     * @return the absolute (Eg. http://..) application URL as configured on application.yml
+     * Returns the absolute (Eg. http://..) application URL
+     * @return the absolute (Eg. http://..) application URL
+     */
+    String getApplicationUrl() {
+        LinkGenerator linkGenerator = Elements.getBean("grailsLinkGenerator") as LinkGenerator
+        return linkGenerator.link(uri: '/', absolute: true)
+    }
+
+    /**
+     * Returns the servlet context as configured on application.yml
+     * @return the servlet context as configured on application.yml
      */
     String getContextPath() {
         GrailsApplication grailsApplication = Holders.grailsApplication
