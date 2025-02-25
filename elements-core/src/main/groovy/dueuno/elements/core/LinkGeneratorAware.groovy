@@ -30,6 +30,9 @@ trait LinkGeneratorAware {
 
     /**
      * Returns the absolute application URL (Eg. http://my.server.com/myapp)
+     * The server URL will be automatically provided only when an HttpRequest is available, otherwise this method will return null.
+     * In such cases you can configure `grails.serverUrl` in application.yml and this method will return that value.
+     *
      * @return the absolute application URL (Eg. http://my.server.com/myapp)
      */
     String getBaseUrl() {
