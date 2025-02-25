@@ -29,17 +29,17 @@ import groovy.transform.CompileStatic
 trait LinkGeneratorAware {
 
     /**
-     * Returns the absolute (Eg. http://..) application URL
-     * @return the absolute (Eg. http://..) application URL
+     * Returns the absolute application URL (Eg. http://my.server.com/myapp)
+     * @return the absolute application URL (Eg. http://my.server.com/myapp)
      */
-    String getApplicationUrl() {
+    String getBaseUrl() {
         LinkGenerator linkGenerator = Elements.getBean("grailsLinkGenerator") as LinkGenerator
-        return linkGenerator.link(uri: '/', absolute: true)
+        return linkGenerator.serverBaseURL
     }
 
     /**
-     * Returns the servlet context as configured on application.yml
-     * @return the servlet context as configured on application.yml
+     * Returns the servlet context as configured in application.yml
+     * @return the servlet context as configured in application.yml
      */
     String getContextPath() {
         GrailsApplication grailsApplication = Holders.grailsApplication
