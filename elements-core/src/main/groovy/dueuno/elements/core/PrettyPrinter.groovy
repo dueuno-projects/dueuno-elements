@@ -387,7 +387,7 @@ class PrettyPrinter {
             }
 
             if (paramName != 'controller' && paramName != 'action') {
-                result = result + '(' + paramValue.getClass().getSimpleName() + ') ' + paramName + ' = ' + displayValue + '\n'
+                result = result + '(' + paramValue?.getClass()?.getSimpleName() + ') ' + paramName + ' = ' + displayValue + '\n'
             }
         }
         return result
