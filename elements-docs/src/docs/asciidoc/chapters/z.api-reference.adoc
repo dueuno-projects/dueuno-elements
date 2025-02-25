@@ -782,9 +782,9 @@ When rejecting values you can use the following default messages:
 |`url.invalid`
 |Not a valid URL
 |`email.invalid`
-|Not a valid e-mail
+|Invalid e-mail
 |`creditCard.invalid`
-|Not a valid card number
+|Invalid card number
 |`unique`
 |Already exists
 |`nullable`
