@@ -426,6 +426,7 @@ class Menu extends Component {
 
     void setText(String value) {
         link.text = value
+        link.tooltip = null
     }
 
     Boolean getLoading() {
