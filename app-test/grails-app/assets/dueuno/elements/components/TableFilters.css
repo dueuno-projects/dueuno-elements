@@ -32,6 +32,5 @@
     border-radius: var(--bs-border-radius-xl);
     display: inline-block;
     min-width: 21px;
-    margin-left: -5px;
     transform: scale(0.8);
 }
