@@ -69,7 +69,6 @@ class Elements {
         args.unshift($element);
         log.trace('CALLING "' + clazz.name + '.' + methodName + '(' + Elements.displayArgs(args) + ')"');
         return clazz[methodName].apply(clazz, args);
-
     }
 
     static displayArgs(args) {
