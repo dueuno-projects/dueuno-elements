@@ -21,16 +21,13 @@ import dueuno.elements.types.Quantity
 import dueuno.elements.types.Types
 import org.grails.gsp.GroovyPageSourceDecorator
 import org.grails.gsp.GroovyPagesTemplateEngine
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author Gianluca Sartori
  */
 class BootStrap {
 
-    @Autowired
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
-
     ApplicationService applicationService
     PageService pageService
     ShellService shellService
