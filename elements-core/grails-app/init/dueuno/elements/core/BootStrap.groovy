@@ -19,15 +19,18 @@ import dueuno.elements.security.SecurityService
 import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.Types
-
-import javax.servlet.ServletContext
+import org.grails.gsp.GroovyPageSourceDecorator
+import org.grails.gsp.GroovyPagesTemplateEngine
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author Gianluca Sartori
  */
 class BootStrap {
 
-    ServletContext servletContext
+    @Autowired
+    GroovyPagesTemplateEngine groovyPagesTemplateEngine
+
     ApplicationService applicationService
     PageService pageService
     ShellService shellService
@@ -41,6 +44,8 @@ class BootStrap {
         }
 
         applicationService.beforeInit {
+            groovyPagesTemplateEngine.groovyPageSourceDecorators = [new PageWhitespacesStripper() as GroovyPageSourceDecorator]
+
             Types.register(Money)
             Types.register(Quantity)
             

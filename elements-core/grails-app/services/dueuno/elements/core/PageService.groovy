@@ -22,8 +22,6 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.gsp.GroovyPagesTemplateEngine
 
-import javax.annotation.PostConstruct
-
 /**
  * @author Gianluca Sartori
  */
@@ -41,11 +39,6 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
     void install(String tenantId) {
         tenantPropertyService.setString('FAVICON', linkPublicResource(tenantId, 'brand/favicon.png', false))
         tenantPropertyService.setString('APPICON', linkPublicResource(tenantId, 'brand/appicon.png', false))
-    }
-
-    @PostConstruct
-    void init() {
-        groovyPagesTemplateEngine.groovyPageSourceDecorators.add(new PageWhitespacesStripper())
     }
 
     Page getMainPage() {

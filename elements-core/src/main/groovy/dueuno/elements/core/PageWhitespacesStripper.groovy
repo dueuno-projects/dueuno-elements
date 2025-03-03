@@ -47,9 +47,6 @@ class PageWhitespacesStripper implements GroovyPageSourceDecorator {
             }
 
             if (isScript || isStyle) {
-                println tag
-                println 'isScript: ' + isScript
-                println 'isStyle: ' + isStyle
                 process = false
                 for (k in j..(j + tagLength - 1)) {
                     sb.setCharAt(k, sb.charAt(i))
