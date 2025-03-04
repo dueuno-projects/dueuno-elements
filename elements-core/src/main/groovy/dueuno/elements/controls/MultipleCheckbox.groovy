@@ -146,6 +146,7 @@ class MultipleCheckbox extends Control {
         }
     }
 
+    @Override
     void setReadonly(Boolean isReadonly) {
         for (checkboxEntry in checkboxes) {
             Checkbox checkbox = checkboxEntry.value

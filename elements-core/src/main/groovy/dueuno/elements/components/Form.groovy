@@ -182,7 +182,7 @@ class Form extends Component {
 
     @Override
     void setReadonly(Boolean isReadonly) {
-        super.readonly = isReadonly
+        super.setReadonly(isReadonly)
         for (field in components) {
             (field as FormField).component.readonly = isReadonly
         }

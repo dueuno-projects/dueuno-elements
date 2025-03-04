@@ -122,10 +122,10 @@ abstract class Component implements WebRequestAware, Serializable {
         containerSpecs = args.containerSpecs as Map ?: [:]
         containerSpecs.attributes = [:]
 
-        visible = args.visible
-        display = args.display
-        readonly = args.readonly
-        skipFocus = args.skipFocus
+        visible = args.visible == null ? true : args.visible
+        display = args.display == null ? true : args.display
+        readonly = args.readonly == null ? false : args.readonly
+        skipFocus = args.skipFocus == null ? false : args.skipFocus
 
         textColor = args.textColor ?: ''
         backgroundColor = args.backgroundColor ?: ''
@@ -690,3 +690,5 @@ abstract class Component implements WebRequestAware, Serializable {
     }
 
 }
+
+
