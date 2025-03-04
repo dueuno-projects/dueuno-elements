@@ -675,4 +675,18 @@ abstract class Component implements WebRequestAware, Serializable {
         return results
     }
 
+    // We implement the setters to cover the case 'display = null'
+    // so that is is interpreted as false
+    void setDisplay(Boolean value) {
+        display = value ? true : false
+    }
+
+    void setVisible(Boolean value) {
+        visible = value ? true : false
+    }
+
+    void setReadonly(Boolean value) {
+        readonly = value ? true : false
+    }
+
 }
