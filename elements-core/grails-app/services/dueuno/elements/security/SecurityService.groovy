@@ -490,16 +490,43 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     //
     // Users
     //
+    private DetachedCriteria<TUser> buildUserQuery(Map filterParams) {
+        def query = TUser.where {
+            username != USERNAME_SUPERADMIN
+        }
+
+        if (!isSuperAdmin()) {
+            String currentTenantId = currentUserTenantId
+            query = query.where { tenant.tenantId == currentTenantId }
+        }
+
+        if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
+        if (filterParams.containsKey('username')) query = query.where { username == filterParams.username }
+        if (filterParams.containsKey('apiKey')) query = query.where { apiKey == filterParams.apiKey }
+        if (filterParams.containsKey('tenant')) query = query.where { tenant.id == filterParams.tenant }
+        if (filterParams.containsKey('tenantId')) query = query.where { tenant.tenantId == filterParams.tenantId }
+        if (filterParams.containsKey('deletable')) query = query.where { deletable == filterParams.deletable }
+        if (filterParams.containsKey('enabled')) query = query.where { enabled == filterParams.enabled }
+
+        if (filterParams.find) {
+            query = query.where {
+                true
+                        || apiKey =~ "%${filterParams.apiKey}%"
+                        || username =~ "%${filterParams.username}%"
+                        || firstname =~ "%${filterParams.firstname}%"
+                        || lastname =~ "%${filterParams.lastname}%"
+            }
+        }
+
+        return query
+    }
+
     TUser getUser(Serializable id) {
         Map fetch = [
                 tenant      : 'join',
                 defaultGroup: 'join',
         ]
-
-        DetachedCriteria<TUser> query = TUser.where {
-            id == id
-        }
-
+        def query = TUser.where { id == id }
         return query.get(fetch: fetch)
     }
 
@@ -509,11 +536,16 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 defaultGroup: 'join',
         ]
 
-        DetachedCriteria<TUser> query = TUser.where {
-            username == username
-        }
-
+        def query = TUser.where { username == username }
         return query.get(fetch: fetch)
+    }
+
+    TUser getUserByApiKey(String apiKey) {
+        Map fetch = [
+                tenant      : 'join',
+                defaultGroup: 'join',
+        ]
+        return buildUserQuery(apiKey: apiKey).get(fetch: fetch)
     }
 
     TUser getSuperAdminUser() {
@@ -524,68 +556,33 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return getUserByUsername(USERNAME_ADMIN)
     }
 
-    private DetachedCriteria<TUser> buildUserQuery(Map filters) {
-        def query = TUser.where {
-            username != USERNAME_SUPERADMIN
-        }
-
-        if (!isSuperAdmin()) {
-            String currentTenantId = currentUserTenantId
-            query = query.where { tenant.tenantId == currentTenantId }
-        }
-
-        if (filters) {
-            if (filters.containsKey('id')) query = query.where { id == filters.id }
-            if (filters.containsKey('tenant')) query = query.where { tenant.id == filters.tenant }
-            if (filters.containsKey('tenantId')) query = query.where { tenant.tenantId == filters.tenantId }
-            if (filters.containsKey('deletable')) query = query.where { deletable == filters.deletable }
-            if (filters.containsKey('enabled')) query = query.where { enabled == filters.enabled }
-            if (filters.username) query = query.where {
-                username =~ "%${filters.username}%"
-                        || firstname =~ "%${filters.username}%"
-                        || lastname =~ "%${filters.username}%"
-            }
-        }
-
-        return query
+    List<TUser> listAllUser(Map filterParams = [:], Map fetchParams = [:]) {
+        if (!fetchParams.sort) fetchParams.sort = 'lastname'
+        def query = buildUserQuery(filterParams)
+        return query.list(fetchParams)
     }
 
-    List<TUser> listUserByAuthorities(List authorities, Map params = [:]) {
-        //TODO: Quando hai tempo magari se ti ci metti eh? Sartori?
-//        def query = TRoleGroupRole.where {
-//            role.authority in authorities
-//        }
-//
-//        return query.list(params)
-    }
-
-    List<TUser> listAllUser(Map filters = [:], Map params = [:]) {
-        if (!params.sort) params.sort = 'lastname'
-        def query = buildUserQuery(filters)
-        return query.list(params)
-    }
-
-    Integer countAllUser(Map filters = [:]) {
-        def query = buildUserQuery(filters)
+    Integer countAllUser(Map filterParams = [:]) {
+        def query = buildUserQuery(filterParams)
         return query.count()
     }
 
-    List<TUser> listUser(Map filters = [:], Map params = [:]) {
-        filters.deletable = true
-        filters.tenantId = currentUserTenantId
-        return listAllUser(filters, params)
+    List<TUser> listUser(Map filterParams = [:], Map fetchParams = [:]) {
+        filterParams.deletable = true
+        filterParams.tenantId = currentUserTenantId
+        return listAllUser(filterParams, fetchParams)
     }
 
-    Integer countUser(Map filters = [:]) {
-        filters.deletable = true
-        filters.tenantId = currentUserTenantId
-        return countAllUser(filters)
+    Integer countUser(Map filterParams = [:]) {
+        filterParams.deletable = true
+        filterParams.tenantId = currentUserTenantId
+        return countAllUser(filterParams)
     }
 
-    List<String> listUsername(Map filters = [:], Map params = [:]) {
-        filters.deletable = true
-        filters.tenantId = currentUserTenantId
-        return listAllUser(filters, params).username
+    List<String> listUsername(Map filterParams = [:], Map fetchParams = [:]) {
+        filterParams.deletable = true
+        filterParams.tenantId = currentUserTenantId
+        return listAllUser(filterParams, fetchParams).username
     }
 
 
@@ -596,6 +593,14 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      */
     private String encodePassword(String password) {
         return springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
+    }
+
+    /**
+     * Generates an API-KEY
+     * @return the API-KEY
+     */
+    String generateApiKey() {
+        return UUID.randomUUID().toString().toUpperCase()
     }
 
     /**
@@ -622,7 +627,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      *
      * @return the newly created user
      */
-
     TUser createUser(Map args) {
         List<String> groups = args.groups ?: []
         String defaultGroup = args.defaultGroup
@@ -644,6 +648,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
         user = new TUser(
                 tenant: tenant,
+                apiKey: generateApiKey(),
                 deletable: args.deletable == null ? true : args.deletable,
                 username: args.username,
                 password: args.password ? encodePassword((String) args.password) : null,
@@ -731,19 +736,21 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         user.properties = args
         user.save(flush: true)
 
-        // Sets the groups
-        List groups = args.groups ?: []
-        TUserRoleGroup.removeAll(user)
+        if (!user.hasErrors()) {
+            // Sets the groups
+            List groups = args.groups ?: []
+            TUserRoleGroup.removeAll(user)
 
-        groups.add(GROUP_USERS)
-        if (args.admin) {
-            groups.add(GROUP_ADMINS)
-        }
+            groups.add(GROUP_USERS)
+            if (args.admin) {
+                groups.add(GROUP_ADMINS)
+            }
 
-        for (groupName in groups) {
-            TRoleGroup roleGroup = TRoleGroup.findByTenantAndName(tenant, groupName)
-            if (roleGroup) {
-                TUserRoleGroup.create(user, roleGroup)
+            for (groupName in groups) {
+                TRoleGroup roleGroup = TRoleGroup.findByTenantAndName(tenant, groupName)
+                if (roleGroup) {
+                    TUserRoleGroup.create(user, roleGroup)
+                }
             }
         }
 
@@ -824,7 +831,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
     }
 
-    private DetachedCriteria<TRoleGroup> buildGroupQuery(Map filters) {
+    private DetachedCriteria<TRoleGroup> buildGroupQuery(Map filterParams) {
         def query = TRoleGroup.where {
             name != GROUP_SUPERADMINS && name != GROUP_ADMINS
         }
@@ -834,12 +841,12 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             query = query.where { tenant.tenantId == currentTenantId }
         }
 
-        if (filters.hideUsers) query = query.where { name != GROUP_USERS }
-        if (filters.containsKey('id')) query = query.where { id == filters.id }
-        if (filters.containsKey('tenant')) query = query.where { tenant.id == filters.tenant }
-        if (filters.containsKey('tenantId')) query = query.where { tenant.tenantId == filters.tenantId }
-        if (filters.containsKey('name')) query = query.where { name =~ "%${filters.name}%" }
-        if (filters.containsKey('deletable')) query = query.where { deletable == filters.deletable }
+        if (filterParams.hideUsers) query = query.where { name != GROUP_USERS }
+        if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
+        if (filterParams.containsKey('tenant')) query = query.where { tenant.id == filterParams.tenant }
+        if (filterParams.containsKey('tenantId')) query = query.where { tenant.tenantId == filterParams.tenantId }
+        if (filterParams.containsKey('name')) query = query.where { name =~ "%${filterParams.name}%" }
+        if (filterParams.containsKey('deletable')) query = query.where { deletable == filterParams.deletable }
 
         return query
     }
@@ -853,14 +860,14 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * Returns the groups configured for the application
      * @return the groups configured for the application
      */
-    List<TRoleGroup> listGroup(Map filters = [:], Map params = [:]) {
-        if (!params.sort) params.sort = 'name'
-        def query = buildGroupQuery(filters)
-        return query.list(params)
+    List<TRoleGroup> listGroup(Map filterParams = [:], Map fetchParams = [:]) {
+        if (!fetchParams.sort) fetchParams.sort = 'name'
+        def query = buildGroupQuery(filterParams)
+        return query.list(fetchParams)
     }
 
-    Integer countGroup(Map filters = [:]) {
-        def query = buildGroupQuery(filters)
+    Integer countGroup(Map filterParams = [:]) {
+        def query = buildGroupQuery(filterParams)
         return query.count()
     }
 
@@ -920,7 +927,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return roleGroup
     }
 
-     /**
+    /**
      * Updates a group.
      *
      * @param name the name of the group to edit

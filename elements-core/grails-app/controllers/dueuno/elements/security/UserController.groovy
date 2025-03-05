@@ -25,6 +25,7 @@ import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PrettyPrinterDecimalFormat
 import dueuno.elements.core.SystemPropertyService
+import dueuno.elements.style.TextDefault
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
 import grails.gorm.multitenancy.WithoutTenant
@@ -53,6 +54,7 @@ class UserController implements ElementsController {
                 'firstname',
                 'lastname',
                 'defaultGroup',
+                'apiKey',
                 'enabled',
                 'admin',
                 'system',
@@ -75,7 +77,8 @@ class UserController implements ElementsController {
                 }
                 addField(
                         class: TextField,
-                        id: 'username',
+                        id: 'find',
+                        text: TextDefault.FIND,
                         cols: isSuperAdmin ? 8 : 10,
                 )
                 addField(
@@ -158,6 +161,17 @@ class UserController implements ElementsController {
         buildSensitiveDataForm(c)
 
         c.form.with {
+            addField(
+                    class: Separator,
+                    id: 'integrations',
+                    icon: 'fa-plug',
+            )
+            TextField apiKey = addField(
+                    class: TextField,
+                    id: 'apiKey',
+            ).component
+            apiKey.addAction(action: 'onGenerateApiKey', submit: ['form'], text: 'user.generateApiKey', icon: 'fa-key')
+
             addField(
                     class: Separator,
                     id: 'authorizations',
@@ -328,6 +342,14 @@ class UserController implements ElementsController {
             )
         }
     }
+
+    def onGenerateApiKey() {
+        def apiKey = securityService.generateApiKey()
+        def t = createTransition()
+        t.setValue('apiKey', apiKey)
+        display transition: t
+    }
+
 
     def onTenantChange() {
         def rs = securityService.listGroup(tenant: params.tenant, hideUsers: true)
