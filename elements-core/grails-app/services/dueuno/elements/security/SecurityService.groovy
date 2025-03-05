@@ -545,7 +545,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 tenant      : 'join',
                 defaultGroup: 'join',
         ]
-        return buildUserQuery(apiKey: apiKey).get(fetch: fetch)
+        def query = TUser.where { apiKey == apiKey }
+        return query.get(fetch: fetch)
     }
 
     TUser getSuperAdminUser() {
