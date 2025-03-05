@@ -78,7 +78,7 @@ class UserController implements ElementsController {
                 addField(
                         class: TextField,
                         id: 'find',
-                        text: TextDefault.FIND,
+                        label: TextDefault.FIND,
                         cols: isSuperAdmin ? 8 : 10,
                 )
                 addField(

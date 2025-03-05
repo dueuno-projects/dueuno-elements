@@ -511,10 +511,10 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         if (filterParams.find) {
             query = query.where {
                 true
-                        || apiKey =~ "%${filterParams.apiKey}%"
-                        || username =~ "%${filterParams.username}%"
-                        || firstname =~ "%${filterParams.firstname}%"
-                        || lastname =~ "%${filterParams.lastname}%"
+                        || apiKey =~ "%${filterParams.find}%"
+                        || username =~ "%${filterParams.find}%"
+                        || firstname =~ "%${filterParams.find}%"
+                        || lastname =~ "%${filterParams.find}%"
             }
         }
 
