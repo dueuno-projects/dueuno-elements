@@ -33,6 +33,10 @@ class RestUtils {
 
     private static final JsonSlurper JSON_SLURPER = new JsonSlurper()
 
+    static Map toMap(String jsonString) {
+        return JSON_SLURPER.parseText(jsonString) as Map
+    }
+
     @CompileDynamic
     static Map get(String url) {
         URLConnection get = new URL(url).openConnection()
@@ -41,7 +45,7 @@ class RestUtils {
         Map result = [responsCode: responseCode]
         if (responseCode == 200) {
             String responseText = get.inputStream.text
-            Map response = JSON_SLURPER.parseText(responseText) as Map
+            Map response = toMap(responseText)
             result.putAll(response)
         }
         return result
@@ -66,7 +70,7 @@ class RestUtils {
         Map result = [responsCode: responseCode]
         if (responseCode == 200) {
             String responseText = conn.inputStream.text
-            Map response = JSON_SLURPER.parseText(responseText)
+            Map response = toMap(responseText)
             result.putAll(response)
         }
         return result
@@ -76,7 +80,7 @@ class RestUtils {
         Part jsonPart = request.getPart(name)
         String jsonString = StringUtils.inputStreamToString(jsonPart.inputStream)
 
-        return JSON_SLURPER.parseText(jsonString) as Map
+        return toMap(jsonString)
     }
 
     static void saveFilePart(HttpServletRequest request, String name, String toPathname) {
@@ -84,4 +88,15 @@ class RestUtils {
         jsonPart.write(toPathname)
     }
 
+    static Map requestBodyToMap(HttpServletRequest request) {
+        StringBuilder sb = new StringBuilder()
+        BufferedReader reader = request.getReader()
+        String line
+        while ((line = reader.readLine()) != null) {
+            sb.append(line)
+        }
+        String jsonString = sb.toString()
+
+        return toMap(jsonString)
+    }
 }
