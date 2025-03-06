@@ -431,7 +431,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         // Handles remember-me cookie
         tokenBasedRememberMeServices.logout(request, response, null)
 
-        //La sessione deve essere invalidata poiché è stata disabilitata l'invalidazione di default (vedere plugin.groovy)
+        // Session must be explicitly invalidated, default behaviour has been disabled, see 'plugin.groovy'
         session.invalidate()
     }
 
