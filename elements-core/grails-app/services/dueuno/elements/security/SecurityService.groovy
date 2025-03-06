@@ -490,14 +490,14 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     //
     // Users
     //
-    private DetachedCriteria<TUser> buildUserQuery(Map filterParams) {
-        def query = TUser.where {
-            username != USERNAME_SUPERADMIN
-        }
+    private DetachedCriteria<TUser> buildQueryUser(Map filterParams) {
+        def query = TUser.where {}
 
         if (!isSuperAdmin()) {
             String currentTenantId = currentUserTenantId
-            query = query.where { tenant.tenantId == currentTenantId }
+            query = query.where {
+                username != USERNAME_SUPERADMIN && tenant.tenantId == currentTenantId
+            }
         }
 
         if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
@@ -559,12 +559,12 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     List<TUser> listAllUser(Map filterParams = [:], Map fetchParams = [:]) {
         if (!fetchParams.sort) fetchParams.sort = 'lastname'
-        def query = buildUserQuery(filterParams)
+        def query = buildQueryUser(filterParams)
         return query.list(fetchParams)
     }
 
     Integer countAllUser(Map filterParams = [:]) {
-        def query = buildUserQuery(filterParams)
+        def query = buildQueryUser(filterParams)
         return query.count()
     }
 
@@ -649,7 +649,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
         user = new TUser(
                 tenant: tenant,
-                apiKey: generateApiKey(),
+                apiKey: args.apiKey,
                 deletable: args.deletable == null ? true : args.deletable,
                 username: args.username,
                 password: args.password ? encodePassword((String) args.password) : null,
@@ -700,8 +700,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     }
 
     /**
-     * Creates a system user. A system user cannot be used to access the application
-     * and cannot be edited via the admin GUI.
+     * Creates a system user. A system user has a random password, cannot be deleted from the GUI and automatically generates an API Key
      *
      * @param args
      * @return the newly created user
@@ -710,6 +709,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     TUser createSystemUser(Map args) {
         args.deletable = false
         if (!args.password) args.password = StringUtils.generateRandomToken(32)
+        args.apiKey = generateApiKey()
         createUser(args)
     }
 
@@ -832,7 +832,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
     }
 
-    private DetachedCriteria<TRoleGroup> buildGroupQuery(Map filterParams) {
+    private DetachedCriteria<TRoleGroup> buildQueryGroup(Map filterParams) {
         def query = TRoleGroup.where {
             name != GROUP_SUPERADMINS && name != GROUP_ADMINS
         }
@@ -853,7 +853,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     }
 
     TRoleGroup getGroup(Serializable id) {
-        def query = buildGroupQuery(id: id)
+        def query = buildQueryGroup(id: id)
         return query.get()
     }
 
@@ -863,12 +863,12 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      */
     List<TRoleGroup> listGroup(Map filterParams = [:], Map fetchParams = [:]) {
         if (!fetchParams.sort) fetchParams.sort = 'name'
-        def query = buildGroupQuery(filterParams)
+        def query = buildQueryGroup(filterParams)
         return query.list(fetchParams)
     }
 
     Integer countGroup(Map filterParams = [:]) {
-        def query = buildGroupQuery(filterParams)
+        def query = buildQueryGroup(filterParams)
         return query.count()
     }
 

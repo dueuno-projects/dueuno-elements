@@ -163,17 +163,6 @@ class UserController implements ElementsController {
         c.form.with {
             addField(
                     class: Separator,
-                    id: 'integrations',
-                    icon: 'fa-plug',
-            )
-            TextField apiKey = addField(
-                    class: TextField,
-                    id: 'apiKey',
-            ).component
-            apiKey.addAction(action: 'onGenerateApiKey', submit: ['form'], text: 'user.generateApiKey', icon: 'fa-key')
-
-            addField(
-                    class: Separator,
                     id: 'authorizations',
                     icon: 'fa-shield-halved',
             )
@@ -217,6 +206,18 @@ class UserController implements ElementsController {
                     nullable: true,
                     cols: 6,
             )
+
+            addField(
+                    class: Separator,
+                    id: 'integration',
+                    icon: 'fa-plug',
+            )
+            TextField apiKey = addField(
+                    class: TextField,
+                    id: 'apiKey',
+                    readonly: !securityService.isSuperAdmin() && !obj?.deletable,
+            ).component
+            apiKey.addAction(action: 'onGenerateApiKey', submit: ['form'], text: 'user.generateApiKey', icon: 'fa-key')
         }
 
         buildPreferencesForm(c)
@@ -428,8 +429,10 @@ class UserController implements ElementsController {
         def user = TUser.findByUsername(params.username)
         def c = buildForm(user)
 
-        c.form['username'].readonly = true
-        c.form['usernameField'].help = 'user.edit.username.help'
+        if (!securityService.isSuperAdmin()) {
+            c.form['username'].readonly = true
+            c.form['usernameField'].help = 'user.edit.username.help'
+        }
 
         c.form.values = user
         c.form['password'].value = null

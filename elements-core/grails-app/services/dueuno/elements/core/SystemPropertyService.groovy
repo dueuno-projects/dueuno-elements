@@ -68,7 +68,8 @@ class SystemPropertyService extends PropertyService {
             if (filters.find) {
                 String search = filters.find.replaceAll('\\*', '%')
                 query = query.where {
-                    name =~ "%${search}%"
+                    true
+                            || name =~ "%${search}%"
                             || string =~ "%${search}%"
                             || stringDefault =~ "%${search}%"
                             || filename =~ "%${search}%"
@@ -135,7 +136,7 @@ class SystemPropertyService extends PropertyService {
         if (property) {
             oldValue = property[typeName]
             Map updatedProperty = [
-                    id: property.id,
+                    id        : property.id,
                     (typeName): value,
                     validation: validation ?: property.validation,
             ]
@@ -146,8 +147,8 @@ class SystemPropertyService extends PropertyService {
 
         } else {
             Map newProperty = [
-                    name: name,
-                    type: type,
+                    name      : name,
+                    type      : type,
                     (typeName): value,
                     validation: validation,
             ]

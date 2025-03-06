@@ -68,7 +68,8 @@ class TenantPropertyService extends PropertyService {
             if (filters.find) {
                 String search = filters.find.replaceAll('\\*', '%')
                 query = query.where {
-                    name =~ "%${search}%"
+                    true
+                            || name =~ "%${search}%"
                             || string =~ "%${search}%"
                             || stringDefault =~ "%${search}%"
                             || filename =~ "%${search}%"
