@@ -76,6 +76,18 @@ class RestUtils {
         return result
     }
 
+    static Map jsonBodyToMap(HttpServletRequest request) {
+        StringBuilder sb = new StringBuilder()
+        BufferedReader reader = request.getReader()
+        String line
+        while ((line = reader.readLine()) != null) {
+            sb.append(line)
+        }
+        String jsonString = sb.toString()
+
+        return toMap(jsonString)
+    }
+
     static Map jsonPartToMap(HttpServletRequest request, String name) {
         Part jsonPart = request.getPart(name)
         String jsonString = StringUtils.inputStreamToString(jsonPart.inputStream)
@@ -86,17 +98,5 @@ class RestUtils {
     static void saveFilePart(HttpServletRequest request, String name, String toPathname) {
         Part jsonPart = request.getPart(name)
         jsonPart.write(toPathname)
-    }
-
-    static Map requestBodyToMap(HttpServletRequest request) {
-        StringBuilder sb = new StringBuilder()
-        BufferedReader reader = request.getReader()
-        String line
-        while ((line = reader.readLine()) != null) {
-            sb.append(line)
-        }
-        String jsonString = sb.toString()
-
-        return toMap(jsonString)
     }
 }
