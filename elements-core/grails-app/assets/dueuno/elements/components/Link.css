@@ -1,6 +1,8 @@
 .btn i > img, li a i > img {
     margin-top: calc(var(--elements-font-size) * -0.2);
-    height: var(--elements-font-size);
+    height: calc(var(--elements-font-size)* 1.3);
+    border: 2px solid white;
+    border-radius: 100%;
 }
 
 .input-group:has(.component-link[readonly]) {

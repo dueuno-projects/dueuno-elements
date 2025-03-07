@@ -429,6 +429,14 @@ class Menu extends Component {
         link.tooltip = null
     }
 
+    String getTextArgs() {
+        return link.textArgs
+    }
+
+    void setTextArgs(List values) {
+        link.textArgs = values
+    }
+
     Boolean getLoading() {
         return link.loading
     }

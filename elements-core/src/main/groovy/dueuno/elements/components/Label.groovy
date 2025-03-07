@@ -64,6 +64,7 @@ class Label extends Component {
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
         prettyPrinterProperties.textArgs = args.textArgs as List
+        prettyPrinterProperties.textPrefix = args.textPrefix
         prettyPrinterProperties.renderTextPrefix = args.renderTextPrefix == null ? false : args.renderTextPrefix
         prettyPrinterProperties.renderBoolean = args.renderBoolean == null ? true : args.renderBoolean
         prettyPrinterProperties.highlightNegative = args.highlightNegative == null ? true : args.highlightNegative
