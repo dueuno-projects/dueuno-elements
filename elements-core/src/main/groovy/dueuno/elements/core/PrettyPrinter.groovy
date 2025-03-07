@@ -186,10 +186,10 @@ class PrettyPrinter {
 
     static String printString(String value, PrettyPrinterProperties properties) {
         Locale locale = properties.locale
-        Boolean renderMessagePrefix = properties.renderMessagePrefix == null ? true : properties.renderMessagePrefix
-        String prefix = properties.messagePrefix ? properties.messagePrefix + '.' : ''
-        String code = renderMessagePrefix ? prefix + value : value
-        List args = properties.messageArgs ?: []
+        Boolean renderTextPrefix = properties.renderTextPrefix == null ? true : properties.renderTextPrefix
+        String prefix = properties.textPrefix ? properties.textPrefix + '.' : ''
+        String code = renderTextPrefix ? prefix + value : value
+        List args = properties.textArgs ?: []
 
         String localizedValue = message(locale, code, args, 'X')
         if (localizedValue == 'X') {

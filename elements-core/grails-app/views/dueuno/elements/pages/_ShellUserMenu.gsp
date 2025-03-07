@@ -10,7 +10,6 @@
 
     <div class="offcanvas-header">
         <p class="offcanvas-title no-wrap fw-bold">
-            <i><asset:image src="libs/flags/${shell.displayFlagCode()}.svg" class="nav-flag me-1" /></i>
             <span>${c.title}</span>
         </p>
         <button type="button" class="btn btn-secondary"

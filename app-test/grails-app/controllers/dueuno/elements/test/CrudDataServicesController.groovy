@@ -63,7 +63,7 @@ class CrudDataServicesController implements ElementsController {
                 ]
                 prettyPrinterProperties = [
                         salary: [highlightNegative: false, renderZero: '-'],
-                        name: [renderMessagePrefix: true],
+                        name: [renderTextPrefix: true],
                 ]
 
                 body.eachRow { TableRow row, Map values ->

@@ -120,7 +120,7 @@ class GormExplorerController implements ElementsController {
                     id: 'domainClassName',
                     optionsFromList: grailsApplication.domainClasses*.fullName,
                     defaultValue: domainClassName,
-                    renderMessagePrefix: false,
+                    renderTextPrefix: false,
                     search: true,
                     onChange: 'index',
                     submit: 'form',

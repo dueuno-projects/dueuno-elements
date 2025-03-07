@@ -377,7 +377,7 @@ class FormController implements ElementsController {
                     class: MultipleCheckbox,
                     id: 'multiple',
                     checkboxes: ['1', '2', '3', '4', '5'],
-                    messagePrefix: 'checkbox',
+                    textPrefix: 'checkbox',
                     //simple: true,
             )*/
 //            addField(

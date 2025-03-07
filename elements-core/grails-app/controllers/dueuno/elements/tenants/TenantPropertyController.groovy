@@ -61,7 +61,7 @@ class TenantPropertyController implements ElementsController {
                         optionsFromList: ['error'],
                         search: false,
                         noSelection: true,
-//                        messagePrefix: 'tenantProperty.validation',
+//                        textPrefix: 'tenantProperty.validation',
                         cols: 2,
                 )
             }

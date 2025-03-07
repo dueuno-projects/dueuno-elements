@@ -138,16 +138,16 @@ class TableRow extends Component {
 
                 if (devDisplayHints) {
                     if (columnName in getKeys()) {
-                        cellLabel.prettyPrinterProperties.messagePrefix = ''
+                        cellLabel.prettyPrinterProperties.textPrefix = ''
                         cellLabel.html = '<i class="fa-solid fa-key me-1"></i><span>' + columnName + '</span>'
 
                     } else {
-                        String prefix = cellLabel.prettyPrinterProperties.messagePrefix
+                        String prefix = cellLabel.prettyPrinterProperties.textPrefix
                         String labelValue = cellLabel.text
                         String labelCode = prefix + '.' + columnName
 
                         if (labelCode != labelValue) {
-                            cellLabel.prettyPrinterProperties.renderMessagePrefix = false
+                            cellLabel.prettyPrinterProperties.renderTextPrefix = false
                             cellLabel.text = labelValue + ' (' + columnName + ')'
                         }
                     }
@@ -407,8 +407,8 @@ class TableRow extends Component {
                 class: Label,
                 id: columnName,
                 action: actionName,
-                messagePrefix: controllerName,
-                renderMessagePrefix: isHeader && !table.labels[columnName],
+                textPrefix: controllerName,
+                renderTextPrefix: isHeader && !table.labels[columnName],
                 textWrap: TextWrap.NO_WRAP,
                 textStyle: TextStyle.BOLD,
                 border: false,
@@ -427,8 +427,8 @@ class TableRow extends Component {
                         _21Table    : table.id,
                         _21TableSort: [(columnName): order],
                 ],
-                messagePrefix: controllerName,
-                renderMessagePrefix: isHeader && !table.labels[columnName],
+                textPrefix: controllerName,
+                renderTextPrefix: isHeader && !table.labels[columnName],
                 textWrap: TextWrap.NO_WRAP,
                 textStyle: TextStyle.BOLD,
         )

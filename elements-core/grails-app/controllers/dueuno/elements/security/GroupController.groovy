@@ -192,7 +192,7 @@ class GroupController implements ElementsController {
                     class: MultipleCheckbox,
                     id: 'authorities',
                     optionsFromList: ['ROLE_USER'],
-                    messagePrefix: controllerName,
+                    textPrefix: controllerName,
                     readonly: true,
             )
         } else {
@@ -200,7 +200,7 @@ class GroupController implements ElementsController {
                     class: MultipleCheckbox,
                     id: 'authorities',
                     optionsFromList: securityService.listAuthority(),
-                    messagePrefix: controllerName,
+                    textPrefix: controllerName,
             )
         }
 

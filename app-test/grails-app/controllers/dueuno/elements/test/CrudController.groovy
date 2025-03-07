@@ -79,7 +79,7 @@ class CrudController implements ElementsController {
                             id: 'company',
                             optionsFromRecordset: TCompany.list(),
                             transformer: 'TRANSFORM_ME',
-//                            renderMessagePrefix: true,
+//                            renderTextPrefix: true,
                             multiple: true,
                             placeholder: 'Seleziona qualcosa',
                             cols: 6,
@@ -150,7 +150,7 @@ class CrudController implements ElementsController {
                 ]
                 prettyPrinterProperties = [
                         salary: [highlightNegative: false, renderZero: '-'],
-                        name: [renderMessagePrefix: true],
+                        name: [renderTextPrefix: true],
                 ]
 
                 max = 10

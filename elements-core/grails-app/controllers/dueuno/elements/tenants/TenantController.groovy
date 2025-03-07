@@ -97,7 +97,7 @@ class TenantController implements ElementsController {
                     class: Select,
                     id: 'connectionSource.driverClassName',
                     optionsFromList: connectionSourceService.listAvailableDrivers(),
-                    renderMessagePrefix: false,
+                    renderTextPrefix: false,
                     cols: 6,
             )
             addField(

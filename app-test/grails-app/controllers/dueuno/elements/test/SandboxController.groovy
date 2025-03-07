@@ -253,6 +253,7 @@ class SandboxController implements ElementsController {
                         class: Label,
                         id: "${i}Label",
                         displayLabel: false,
+                        textArgs: [i],
                         userSelect: true,
                         cols: 9,
                 )
@@ -552,7 +553,7 @@ Grails application running at http://localhost:9992/test in environment: develop
 ////                    defaultValue: 'KM',
 ////                    noSelection: true,
 ////                    transformer: 'DB2UNIT',
-////                    messagePrefix: 'quantity.unit',
+////                    textPrefix: 'quantity.unit',
 ////            )
 //            addField(
 //                    class: NumberField,

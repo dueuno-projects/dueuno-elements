@@ -70,7 +70,7 @@ class CrudSqlController implements ElementsController {
                         optionsFromRecordset: SqlUtils.list(dataSource, tblCompany),
                         keys: ['id'],
                         prettyPrinter: 'T_COMPANY',
-                        renderMessagePrefix: false,
+                        renderTextPrefix: false,
                         cols: 4,
                 )
                 addField(

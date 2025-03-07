@@ -102,7 +102,7 @@ class ConnectionSourceController implements ElementsController {
                     class: Select,
                     id: 'driverClassName',
                     optionsFromList: connectionSourceService.listAvailableDrivers(),
-                    renderMessagePrefix: false,
+                    renderTextPrefix: false,
                     cols: 6,
             )
             addField(
@@ -114,7 +114,7 @@ class ConnectionSourceController implements ElementsController {
                     class: Select,
                     id: 'dbCreate',
                     optionsFromList: connectionSourceService.listAvailableSchemaGenerators(),
-                    renderMessagePrefix: false,
+                    renderTextPrefix: false,
                     cols: 6,
             )
             addField(

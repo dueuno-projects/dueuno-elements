@@ -74,7 +74,7 @@ class UserProfileController implements ElementsController {
                     class: Select,
                     id: 'language',
                     optionsFromList: applicationService.languages,
-                    messagePrefix: 'default.language',
+                    textPrefix: 'default.language',
                     search: false,
                     cols: 6,
             )
@@ -82,7 +82,7 @@ class UserProfileController implements ElementsController {
                     class: Select,
                     id: 'firstDaySunday',
                     options: [false: 'false', true: 'true'],
-                    messagePrefix: 'default.firstDaySunday',
+                    textPrefix: 'default.firstDaySunday',
                     search: false,
                     cols: 6,
             )
@@ -90,7 +90,7 @@ class UserProfileController implements ElementsController {
                     class: Select,
                     id: 'invertedMonth',
                     options: [false: 'false', true: 'true'],
-                    messagePrefix: 'default.invertedMonth',
+                    textPrefix: 'default.invertedMonth',
                     search: false,
                     cols: 6,
             )
@@ -98,7 +98,7 @@ class UserProfileController implements ElementsController {
                     class: Select,
                     id: 'twelveHours',
                     options: [false: 'false', true: 'true'],
-                    messagePrefix: 'default.twelveHours',
+                    textPrefix: 'default.twelveHours',
                     search: false,
                     cols: 6,
             )
@@ -106,7 +106,7 @@ class UserProfileController implements ElementsController {
                     class: Select,
                     id: 'decimalFormat',
                     optionsFromEnum: PrettyPrinterDecimalFormat,
-                    messagePrefix: 'default.decimalFormat',
+                    textPrefix: 'default.decimalFormat',
                     search: false,
                     cols: 6,
             )
@@ -114,7 +114,7 @@ class UserProfileController implements ElementsController {
                     class: Select,
                     id: 'prefixedUnit',
                     options: [false: 'false', true: 'true'],
-                    messagePrefix: 'default.prefixedUnit',
+                    textPrefix: 'default.prefixedUnit',
                     search: false,
                     cols: 6,
             )
@@ -122,7 +122,7 @@ class UserProfileController implements ElementsController {
                     class: Select,
                     id: 'symbolicCurrency',
                     options: [false: 'false', true: 'true'],
-                    messagePrefix: 'default.symbolicCurrency',
+                    textPrefix: 'default.symbolicCurrency',
                     search: false,
                     cols: 6,
             )
@@ -130,7 +130,7 @@ class UserProfileController implements ElementsController {
                     class: Select,
                     id: 'symbolicQuantity',
                     options: [false: 'false', true: 'true'],
-                    messagePrefix: 'default.symbolicQuantity',
+                    textPrefix: 'default.symbolicQuantity',
                     search: false,
                     cols: 6,
             )

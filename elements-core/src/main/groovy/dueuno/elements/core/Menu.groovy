@@ -42,7 +42,7 @@ class Menu extends Component {
     Boolean separator
 
     /** Prefix to use for text i18n */
-    String messagePrefix
+    String textPrefix
 
     /** Display order */
     Integer order
@@ -63,7 +63,7 @@ class Menu extends Component {
 
         this.menuId = generateMenuId()
         separator = args.separator == null ? false : args.separator
-        messagePrefix = args.messagePrefix
+        textPrefix = args.textPrefix
 
         order = (Integer) args.order ?: this.menuId * 10
 
@@ -233,7 +233,7 @@ class Menu extends Component {
         menuItemArgs.tooltip = f.tooltip
         menuItemArgs.image = f.image
         menuItemArgs.separator = f.controller ? false : true
-        menuItemArgs.messagePrefix = messagePrefix
+        menuItemArgs.textPrefix = textPrefix
         menuItemArgs.order = f.order
         menuItemArgs.renderProperties['scroll'] = 'reset'
         menuItemArgs.renderProperties['animate'] = 'fade'

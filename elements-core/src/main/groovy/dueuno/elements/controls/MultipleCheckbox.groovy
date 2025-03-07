@@ -39,7 +39,7 @@ class MultipleCheckbox extends Control {
         valueType = Type.LIST
 
         simple = args.simple == null ? false : args.simple
-        prettyPrinterProperties.messagePrefix = args.messagePrefix ?: controllerName
+        prettyPrinterProperties.textPrefix = args.textPrefix ?: controllerName
 
         if (args.optionsFromRecordset) {
             options = Select.optionsFromRecordset(
@@ -47,8 +47,8 @@ class MultipleCheckbox extends Control {
                     keys: args.keys,
                     keysSeparator: args.keysSeparator,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
-                    renderMessagePrefix: false,
+                    textPrefix: prettyPrinterProperties.textPrefix,
+                    renderTextPrefix: false,
                     locale: locale,
             )
 
@@ -56,7 +56,7 @@ class MultipleCheckbox extends Control {
             options = Select.optionsFromList(
                     list: args.optionsFromList,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
                     locale: locale,
             )
 
@@ -64,7 +64,7 @@ class MultipleCheckbox extends Control {
             options = Select.optionsFromEnum(
                     enum: args.optionsFromEnum,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
                     locale: locale,
             )
 
@@ -72,7 +72,7 @@ class MultipleCheckbox extends Control {
             options = Select.options(
                     options: args.options,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
                     locale: locale,
             )
         }

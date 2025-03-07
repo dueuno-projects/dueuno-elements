@@ -107,7 +107,7 @@ class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Qua
         if (symbolicQuantity) {
             PrettyPrinterProperties renderProperties = new PrettyPrinterProperties()
             renderProperties.locale = properties.locale
-            renderProperties.messagePrefix = 'quantity.unit'
+            renderProperties.textPrefix = 'quantity.unit'
             return PrettyPrinter.printString(unit.toString(), renderProperties)
 
         } else {

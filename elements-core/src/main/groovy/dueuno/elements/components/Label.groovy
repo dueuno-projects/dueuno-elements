@@ -29,7 +29,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Label extends Component {
 
-    Object text
+    String text
     String html
     String url
     String icon
@@ -63,8 +63,8 @@ class Label extends Component {
         userSelect = args.userSelect == null ? false : args.userSelect
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
-        prettyPrinterProperties.messageArgs = args.textArgs as List
-        prettyPrinterProperties.renderMessagePrefix = args.renderMessagePrefix == null ? false : args.renderMessagePrefix
+        prettyPrinterProperties.textArgs = args.textArgs as List
+        prettyPrinterProperties.renderTextPrefix = args.renderTextPrefix == null ? false : args.renderTextPrefix
         prettyPrinterProperties.renderBoolean = args.renderBoolean == null ? true : args.renderBoolean
         prettyPrinterProperties.highlightNegative = args.highlightNegative == null ? true : args.highlightNegative
 
@@ -74,28 +74,28 @@ class Label extends Component {
     }
 
     void setText(Object value) {
-        Object textObj
-
         if (value == null) {
-            textObj = buildLabel(id, prettyPrinterProperties.messagePrefix, prettyPrinterProperties.messageArgs)
+            text = buildLabel(id, prettyPrinterProperties)
 
         } else if (value in Boolean && prettyPrinterProperties.renderBoolean) {
             if (value) icon = 'fa-solid fa-check'
-            textObj = ''
+            text = ''
 
         } else if (value in Number && prettyPrinterProperties.highlightNegative) {
             if ((value as Number) < 0) textColor = '#cc0000'
-            textObj = value
+            text = value as String
 
         } else {
-            textObj = value
+            text = prettyPrint(value, prettyPrinterProperties)
         }
-
-        text = prettyPrint(textObj, prettyPrinterProperties)
     }
 
     void setTextArgs(List value) {
-        prettyPrinterProperties.messageArgs = value
+        prettyPrinterProperties.textArgs = value
+    }
+
+    List getTextArgs() {
+        return prettyPrinterProperties.textArgs
     }
 
     void setTextStyle(Object value) {

@@ -118,7 +118,7 @@ class TableController implements ElementsController {
                 row.cells.postcode.textColor = '#ffffff'
                 row.cells.postcode.textAlign = TextAlign.END
                 row.cells.name.textAlign = TextAlign.END
-                row.cells.name.prettyPrinterProperties.messageArgs = [3]
+                row.cells.name.prettyPrinterProperties.textArgs = [3]
             }
 
             body.eachRow { row ->

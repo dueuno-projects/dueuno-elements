@@ -79,7 +79,7 @@ class TableCell extends Component {
                 class: Label,
                 id: getId() + '-component',
                 replace: true,
-                messagePrefix: controllerName,
+                textPrefix: controllerName,
                 textWrap: TextWrap.NO_WRAP,
                 border: false,
         )

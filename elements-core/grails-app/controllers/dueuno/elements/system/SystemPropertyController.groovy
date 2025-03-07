@@ -63,7 +63,7 @@ class SystemPropertyController implements ElementsController {
                         optionsFromList: ['error'],
                         search: false,
                         noSelection: true,
-//                        messagePrefix: 'systemProperty.validation',
+//                        textPrefix: 'systemProperty.validation',
                         cols: 2,
                 )
             }

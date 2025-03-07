@@ -165,9 +165,9 @@ abstract class Component implements WebRequestAware, Serializable {
             if (eventName.startsWith('on')) {
                 String event = (eventName - 'on').toLowerCase()
                 Map eventArgs = [
-                        event: event,
-                        action: action,
-                        submit: submit ?: [getId()],
+                        event  : event,
+                        action : action,
+                        submit : submit ?: [getId()],
                         loading: event == 'load' ? false : args.loading,
                 ]
                 on(args + eventArgs)
@@ -210,17 +210,9 @@ abstract class Component implements WebRequestAware, Serializable {
      *
      * @return A prefixed label ready for i18n
      */
-    protected String buildLabel(String id, String messagePrefix = '', List messageArgs = []) {
-        PrettyPrinterProperties renderProperties = new PrettyPrinterProperties()
-        renderProperties.messageArgs = messageArgs
-
-        if (messagePrefix) {
-            renderProperties.messagePrefix = messagePrefix
-        } else {
-            renderProperties.messagePrefix = controllerName
-        }
-
-        return prettyPrint(id, renderProperties)
+    protected String buildLabel(String id, PrettyPrinterProperties prettyPrinterProperties = null) {
+        String prefix = prettyPrinterProperties?.textPrefix ?: controllerName
+        return prefix + '.' + id
     }
 
     /**

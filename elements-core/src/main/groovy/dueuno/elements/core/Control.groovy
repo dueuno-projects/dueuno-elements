@@ -69,9 +69,9 @@ abstract class Control extends Component {
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
         prettyPrinterProperties.locale = locale
-        prettyPrinterProperties.renderMessagePrefix = args.renderMessagePrefix == null ? true : args.renderMessagePrefix
-        prettyPrinterProperties.messagePrefix = args.messagePrefix ?: controllerName
-        prettyPrinterProperties.messageArgs = args.messageArgs as List
+        prettyPrinterProperties.renderTextPrefix = args.renderTextPrefix == null ? true : args.renderTextPrefix
+        prettyPrinterProperties.textPrefix = args.textPrefix ?: controllerName
+        prettyPrinterProperties.textArgs = args.textArgs as List
         prettyPrinterProperties.prettyPrinter = args.prettyPrinter
         prettyPrinterProperties.transformer = args.transformer
 

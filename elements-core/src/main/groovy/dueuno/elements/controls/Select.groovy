@@ -65,8 +65,8 @@ class Select extends Control {
                     prettyPrinter: prettyPrinter,
                     transformer: args.transformer,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
-                    renderMessagePrefix: args.renderMessagePrefix == null ? false : args.renderMessagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
+                    renderTextPrefix: args.renderTextPrefix == null ? false : args.renderTextPrefix,
                     locale: locale,
             )
 
@@ -78,8 +78,8 @@ class Select extends Control {
                     prettyPrinter: prettyPrinter,
                     transformer: args.transformer,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
-                    renderMessagePrefix: args.renderMessagePrefix == null ? true : args.renderMessagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
+                    renderTextPrefix: args.renderTextPrefix == null ? true : args.renderTextPrefix,
                     locale: locale,
             )
 
@@ -91,8 +91,8 @@ class Select extends Control {
                     prettyPrinter: prettyPrinter,
                     transformer: args.transformer,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
-                    renderMessagePrefix: args.renderMessagePrefix == null ? true : args.renderMessagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
+                    renderTextPrefix: args.renderTextPrefix == null ? true : args.renderTextPrefix,
                     locale: locale,
             )
 
@@ -104,8 +104,8 @@ class Select extends Control {
                     prettyPrinter: prettyPrinter,
                     transformer: args.transformer,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
-                    renderMessagePrefix: args.renderMessagePrefix == null ? true : args.renderMessagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
+                    renderTextPrefix: args.renderTextPrefix == null ? true : args.renderTextPrefix,
                     locale: locale,
             )
         }
@@ -243,8 +243,8 @@ class Select extends Control {
 
     private static PrettyPrinterProperties createItemPrettyPrinterProperties(Map args, Object firstItem) {
         PrettyPrinterProperties result = new PrettyPrinterProperties()
-        result.messagePrefix = args.messagePrefix
-        result.renderMessagePrefix = args.renderMessagePrefix
+        result.textPrefix = args.textPrefix
+        result.renderTextPrefix = args.renderTextPrefix
         result.locale = args.locale as Locale
 
         // We set the 'transformer' property to PrettyPrint the options

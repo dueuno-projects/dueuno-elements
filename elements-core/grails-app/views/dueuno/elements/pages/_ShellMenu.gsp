@@ -32,7 +32,7 @@
                 <g:each var="item" in="${c.listItems()}">
                     <g:if test="${item.hasSubitems()}">
                         <li class="nav-item ms-0 mt-4">
-                            <span class="nav-link">${item.link.text}<%--<dev:ifDisplayHints><span class="badge rounded-pill text-secondary bg-light">${item.order}</span></dev:ifDisplayHints>--%></span>
+                            <span class="nav-link">${c.message(item.link.text)}<%--<dev:ifDisplayHints><span class="badge rounded-pill text-secondary bg-light">${item.order}</span></dev:ifDisplayHints>--%></span>
                         </li>
                     </g:if>
                     <g:else>
