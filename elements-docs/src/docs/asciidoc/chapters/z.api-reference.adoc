@@ -1412,7 +1412,7 @@ c.table.with {
             renderZero: '-',
         ],
         name: [
-            renderMessagePrefix: true,
+            renderTextPrefix: true,
         ],
     ]
 }
@@ -2242,14 +2242,14 @@ Displays a list of options to choose from.
 - `MONOSPACE`
 - `UNDERLINE`
 - `LINE_THROUGH`
-|`messagePrefix`
+|`textPrefix`
 |`String`
 |
 |Prefix to add to each item so it can be referred in `message.properties` files to localise it
-|`renderMessagePrefix`
+|`renderTextPrefix`
 |`Boolean`
 |`true`
-|Whether to display the `messagePrefix` or not
+|Whether to display the `textPrefix` or not
 |`placeholder`
 |`String`
 |
@@ -2282,7 +2282,7 @@ Displays a list of options to choose from.
 |Method|Description
 
 |`Select.optionsFromRecordset(recordset: ...)`
-|Returns a `Map` of options to be used in a transition. See <<select-server-search>>. Accepts a `Map`, you can set the following arguments: `keys`, `keysSeparator`, `prettyPrinter`, `transformer`, `messagePrefix`, `renderMessagePrefix`, `locale`.
+|Returns a `Map` of options to be used in a transition. See <<select-server-search>>. Accepts a `Map`, you can set the following arguments: `keys`, `keysSeparator`, `prettyPrinter`, `transformer`, `textPrefix`, `renderTextPrefix`, `locale`.
 |`Select.optionsFromList(list: ...)`
 |Returns a `Map` of options to be used in a transition. See <<select-server-search>>. Accepts a `Map`, you can set the above arguments.
 |`Select.optionsFromEnum(enum: ...)`
@@ -2873,15 +2873,15 @@ Every value in _Dueuno Elements_ gets displayed by the `PrettyPrinter` subsystem
 |`Locale`
 |
 |-
-|`renderMessagePrefix`
+|`renderTextPrefix`
 |`Boolean`
 |
 |Default: `false`, set to `true` to translate the value into `message.properties` files
-|`messagePrefix`
+|`textPrefix`
 |`String`
 |
 |Add or change the message prefix
-|`messageArgs`
+|`textArgs`
 |`List`
 |
 |Add args for the i18n message
