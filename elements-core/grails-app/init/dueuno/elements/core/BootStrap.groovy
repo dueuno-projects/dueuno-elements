@@ -27,7 +27,7 @@ import org.grails.gsp.GroovyPagesTemplateEngine
  */
 class BootStrap {
 
-    GroovyPagesTemplateEngine groovyPagesTemplateEngine
+//    GroovyPagesTemplateEngine groovyPagesTemplateEngine
     ApplicationService applicationService
     PageService pageService
     ShellService shellService
@@ -41,7 +41,9 @@ class BootStrap {
         }
 
         applicationService.beforeInit {
-            groovyPagesTemplateEngine.groovyPageSourceDecorators = [new PageWhitespacesStripper() as GroovyPageSourceDecorator]
+            // It works only from the 'app-test' within this project
+            // not working as application dependency when compiled as plugin
+//            groovyPagesTemplateEngine.groovyPageSourceDecorators = [new PageWhitespacesStripper() as GroovyPageSourceDecorator]
 
             Types.register(Money)
             Types.register(Quantity)

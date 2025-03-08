@@ -62,7 +62,7 @@ class Shell extends Page {
     void setUser(String username, String firstname, String lastname) {
         this.username = username
         this.userFullname = firstname + ' ' + lastname
-        userMenu.title = firstname ?: lastname ?: username
+        userMenu.title =  firstname ?: lastname ?: username
         home.favouriteMenu.createFromFeature(config.features.main, true)
     }
 }

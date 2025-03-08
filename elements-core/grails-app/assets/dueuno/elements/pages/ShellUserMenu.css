@@ -55,7 +55,7 @@
 }
 
 #shell-user-menu .nav-item a {
-    padding: 0.25rem 0.25rem 0.25rem 0.75rem !important;
+    padding: 0.25rem !important;
     transition: none;
     color: var(--bs-light-rgb);
 }

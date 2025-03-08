@@ -60,12 +60,12 @@
 }
 
 #shell-menu .nav-item > span {
-    padding: 0.5rem 0.25rem 0.5rem 0.75rem;
+    padding: 0.5rem 0.25rem 0.5rem 0.5rem;
     color: #707070;
 }
 
 #shell-menu .nav-item a {
-    padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+    padding: 0.25rem 0.25rem 0.25rem 0.5rem;
     transition: none;
     color: var(--bs-light-rgb);
 }
