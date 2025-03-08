@@ -19,6 +19,7 @@ import dueuno.elements.contents.ContentHeader
 import dueuno.elements.pages.PageBlank
 import grails.artefact.Controller
 import grails.artefact.Enhances
+import grails.artefact.controller.RestResponder
 import grails.validation.Validateable
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
@@ -33,7 +34,7 @@ import org.springframework.validation.Errors
 
 @CompileStatic
 @Enhances("Controller")
-trait ElementsController implements Controller, WebRequestAware, LinkGeneratorAware {
+trait ElementsController implements Controller, RestResponder, WebRequestAware, LinkGeneratorAware {
 
     private Logger log = LoggerFactory.getLogger(ElementsController)
 
