@@ -86,12 +86,12 @@ class Label extends Component {
             if (value) icon = 'fa-solid fa-check'
             text = ''
 
-        } else if (value in Number && prettyPrinterProperties.highlightNegative) {
-            if ((value as Number) < 0) textColor = '#cc0000'
-            text = value as String
-
         } else {
             text = prettyPrint(value, prettyPrinterProperties)
+        }
+
+        if (value in Number && prettyPrinterProperties.highlightNegative) {
+            if ((value as Number) < 0) textColor = '#cc0000'
         }
     }
 

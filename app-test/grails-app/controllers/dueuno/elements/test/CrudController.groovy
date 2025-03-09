@@ -149,7 +149,8 @@ class CrudController implements ElementsController {
                         'company.employees',
                 ]
                 prettyPrinterProperties = [
-                        salary: [highlightNegative: false, renderZero: '-'],
+                        salary: [renderZero: '-'],
+                        salaryPerMonth: [highlightNegative: false, renderZero: '-'],
                         name: [renderTextPrefix: true],
                 ]
 
@@ -277,6 +278,7 @@ class CrudController implements ElementsController {
             addField(
                     class: MoneyField,
                     id: 'salary',
+                    negative: true,
             )
             addField(
                     class: QuantityField,
