@@ -20,6 +20,7 @@ import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
+import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
 
 /**
@@ -77,6 +78,9 @@ class Label extends Component {
     void setText(Object value) {
         if (value == null) {
             text = buildLabel(id, prettyPrinterProperties)
+
+        } else if (Types.isRegistered(value)) {
+            text = prettyPrint(value, prettyPrinterProperties)
 
         } else if (value in Boolean && prettyPrinterProperties.renderBoolean) {
             if (value) icon = 'fa-solid fa-check'
