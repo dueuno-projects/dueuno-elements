@@ -11,7 +11,7 @@
 </g:if>
 <g:else>
 <span class="control-checkbox input-group-text ${c.cssClass}"
-      style="${c.cssStyle}"><render:message code="${c.text}" />
+      style="${c.cssStyle}"><g:if test="${c.message(c.text)}"><render:message code="${c.text}" /></g:if><g:else>&nbsp;</g:else>
     <div class="form-check form-switch">
 </g:else>
 

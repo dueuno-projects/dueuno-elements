@@ -290,13 +290,13 @@ class SandboxController implements ElementsController {
                     class: NumberField,
                     id: 'textPattern',
                     pattern: '^(?!.*@.*@)(?!.*(\\.)\\1).[a-z0-9_\\.@]*$',
-                    cols: 12,
+                    cols: 6,
             )
             addField(
                     class: Checkbox,
                     id: 'checkThisOut',
                     onChange: 'onChangeCheckThisOut',
-                    cols: 12,
+                    cols: 6,
             )
 
             def linkField = addField(
