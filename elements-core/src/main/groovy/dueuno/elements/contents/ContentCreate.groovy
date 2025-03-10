@@ -28,6 +28,5 @@ class ContentCreate extends ContentForm {
         super(args)
 
         header.nextButton.action = 'onCreate'
-        header.nextButton.text = TextDefault.CREATE
     }
 }
