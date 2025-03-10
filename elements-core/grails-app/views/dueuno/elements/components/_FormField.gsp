@@ -10,7 +10,7 @@
             <g:if test="${dev.displayHints() == 'true'}">
                 <span><render:message code="${c.label}" args="${c.labelArgs}" />&nbsp;(${c.component.getId()}, ${c.id})</span><i class="${c.nullable ? 'd-none' : ''}"> *</i>
             </g:if>
-            <g:elseif test="${c.label}">
+            <g:elseif test="${c.message(c.label)}">
                 <span><render:message code="${c.label}" args="${c.labelArgs}" /></span><i class="${c.nullable ? 'd-none' : ''}"> *</i>
             </g:elseif>
             <g:else>
