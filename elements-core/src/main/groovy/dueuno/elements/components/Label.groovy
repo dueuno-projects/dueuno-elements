@@ -93,8 +93,6 @@ class Label extends Component {
         if (value in Number && prettyPrinterProperties.highlightNegative) {
             if ((value as Number) < 0) textColor = '#cc0000'
         }
-
-        visible = true
     }
 
     void setTextArgs(List value) {
