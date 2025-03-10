@@ -11,6 +11,8 @@ input[type] {
 }
 
 .component-form label i {
+    font-style: normal;
+    font-weight: bold;
     color: #cc0000;
 }
 
