@@ -55,6 +55,7 @@ class UploadController implements ElementsController {
                         acceptedFiles: ['.jpg', '.jpeg'],
                         submit: 'form',
                         loading: true,
+                        rows: 5,
                 )
                 addField(
                         class: TextField,

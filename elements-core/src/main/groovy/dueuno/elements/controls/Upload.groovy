@@ -49,6 +49,8 @@ class Upload extends Control {
         thumbnailWidth = args.thumbnailWidth as Integer
         thumbnailHeight = args.thumbnailHeight as Integer
         disablePreviews = args.disablePreviews as Boolean ?: false
+
+        containerSpecs.multiline = true
     }
 
     static String getFilename() {

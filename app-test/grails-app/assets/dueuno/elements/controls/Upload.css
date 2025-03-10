@@ -1,5 +1,13 @@
 .control-upload {
     padding: 0 .75rem;
+    min-height: auto;
+    align-content: center;
+    text-align: center;
+}
+
+.control-upload .dz-message {
+    margin: 0;
+    display: inline;
 }
 
 .control-upload .dz-message .dz-button {
