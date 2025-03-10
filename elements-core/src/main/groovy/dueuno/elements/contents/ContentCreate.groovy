@@ -29,6 +29,5 @@ class ContentCreate extends ContentForm {
 
         header.nextButton.action = 'onCreate'
         header.nextButton.text = TextDefault.CREATE
-        header.nextButton.icon = 'fa-plus'
     }
 }

@@ -62,7 +62,8 @@ class Header extends Component {
     Button addNextButton(Map args = [:]) {
         args.controller = args.controller ?: controllerName
         args.action = args.action ?: 'onConfirm'
-        args.text = (args.text == null) ? TextDefault.SAVE: args.text
+        args.submit = (args.submit == null) ? 'form' : args.submit
+        args.text = (args.text == null) ? TextDefault.SAVE : args.text
         args.icon = (args.icon == null) ? 'fa-solid fa-check' : args.icon
         if (args.group) nextButton.group = args.group
 
