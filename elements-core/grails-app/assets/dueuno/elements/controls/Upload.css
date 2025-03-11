@@ -78,3 +78,11 @@
 .control-upload .dz-preview .dz-remove {
     color: rgb(var(--elements-primary-bg));
 }
+
+.control-upload[readonly] {
+    background-color: rgb(var(--elements-tertiary-bg));
+}
+
+.control-upload[readonly] .dz-message .dz-button {
+    color: rgb(var(--elements-secondary-bg)) !important;
+}

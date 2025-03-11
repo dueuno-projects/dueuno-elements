@@ -45,6 +45,20 @@ class UploadController implements ElementsController {
                         value: 'This is a test',
                 )
                 addField(
+                        class: Button,
+                        id: 'enable',
+                        action: 'onEnable',
+                        loading: false,
+                        cols: 6,
+                )
+                addField(
+                        class: Button,
+                        id: 'disable',
+                        action: 'onDisable',
+                        loading: false,
+                        cols: 6,
+                )
+                addField(
                         class: Upload,
                         id: 'somefile',
 //                        onAddFile: 'onAddFile',
@@ -76,6 +90,18 @@ class UploadController implements ElementsController {
         def obj = TDemo.get(1)
         def c = buildForm(obj)
         display content: c, modal: true
+    }
+
+    def onDisable() {
+        def t = createTransition()
+        t.set('somefile', 'readonly', true)
+        display transition: t
+    }
+
+    def onEnable() {
+        def t = createTransition()
+        t.set('somefile', 'readonly', false)
+        display transition: t
     }
 
     def onUploadFile() {
