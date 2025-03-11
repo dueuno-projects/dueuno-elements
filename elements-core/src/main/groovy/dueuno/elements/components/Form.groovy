@@ -83,6 +83,7 @@ class Form extends Component {
         }
 
         // Set common args
+        if (args.submit == null) args.submit = getId()
         if (args.readonly == null) args.readonly = readonly
         if (!args.primaryTextColor) args.primaryTextColor = primaryTextColor
         if (!args.primaryBackgroundColor) args.primaryBackgroundColor = primaryBackgroundColor
