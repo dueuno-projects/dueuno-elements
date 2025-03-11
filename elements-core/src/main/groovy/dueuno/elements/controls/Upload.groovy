@@ -79,7 +79,7 @@ class Upload extends Control {
                 disablePreviews: disablePreviews,
 
                 messages: [
-                        disabled: message('control.upload.disabled'),
+                        disabled: '<i class="fa-solid fa-ban"></i>',
                         upload: message('control.upload.message'),
                         tooBig: message('control.upload.file.too.big'),
                         invalidType: message('control.upload.invalid.file.type'),
