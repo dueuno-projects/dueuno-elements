@@ -58,7 +58,7 @@ class Upload extends Control {
         let $element = $(this.element);
 
         let componentEvent = Component.getEvent($element, 'upload');
-        if (componentEvent.loading) {
+        if (componentEvent && componentEvent.loading) {
             LoadingScreen.show(true);
         }
 
