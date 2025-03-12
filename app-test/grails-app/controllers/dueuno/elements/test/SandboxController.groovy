@@ -270,6 +270,7 @@ class SandboxController implements ElementsController {
                     id: 'textUp',
                     value: 'lower UPPER Capitalized',
                     textTransform: TextTransform.UPPERCASE,
+                    onChange: 'onTextChange',
                     cols: 4,
             )
             addField(
@@ -632,6 +633,11 @@ Grails application running at http://localhost:9992/test in environment: develop
 
     def onMessage() {
         display message: 'sandbox.message.with.params', messageArgs: [params.name], controller: 'table'
+    }
+
+    def onTextChange() {
+        println "Event has been triggered"
+        display
     }
 
     def onHideLoadingScreen() {

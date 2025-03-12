@@ -45,7 +45,7 @@ class TextField extends Control {
             event.target.selectionEnd = selStart + 1;
         }
 
-        Transition.triggerEvent($element, 'keypress');
+        Transition.triggerEvent($element, 'change');
     }
 
     static onEnter(event) {
