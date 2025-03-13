@@ -13,21 +13,21 @@ class KeyPress extends Component {
         event.stopPropagation();
 
         let triggerKey = Component.getProperty($element, 'triggerKey');
+        let readingSpeed = Component.getProperty($element, 'readingSpeed');
+        let bufferCleanupTimeout = Component.getProperty($element, 'bufferCleanupTimeout');
+        let timer = Component.getProperty($element, 'timer');
+
         if (triggerKey == null) {
             return;
         }
 
-        if (isNaN(this.timer)) this.timer = 0;
-        let t = Date.now();
-        let timeInterval = t - this.timer;
-        this.timer = t;
+        if (isNaN(timer)) timer = 0;
+        let now = Date.now();
+        let timeInterval = now - timer;
+        Component.setProperty($element, 'timer', now);
 
-        //a barcode reader is typically much faster at typing than a human...
-        //we use this principle to understand if the typing comes from a reader
-        let checkMinTime = (timeInterval < 15);
-
-        //to prevent accidental typing, the buffer empties after a certain time
-        let checkMaxTime = (timeInterval > 1500);
+        let checkMinTime = (readingSpeed == 0 || timeInterval < readingSpeed);
+        let checkMaxTime = (bufferCleanupTimeout == 0 || timeInterval > bufferCleanupTimeout);
         if (checkMaxTime) {
             $search.val('');
         }

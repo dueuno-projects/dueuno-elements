@@ -31,11 +31,21 @@ class KeyPress extends Component {
     HiddenField valueField
 
     String triggerKey
+    Integer readingSpeed
+    Integer bufferCleanupTimeout
 
     KeyPress(Map args) {
         super(args)
 
         triggerKey = args.triggerKey == null ? 'Enter' : args.triggerKey
+
+        //a barcode reader is typically much faster at typing than a human...
+        //let's use this principle to understand if the typing comes from a reader (ms)
+        //(only evaluated if focus is on an "input" tag)
+        readingSpeed = args.readingSpeed == null ? 50 : args.readingSpeed as Integer
+
+        //to prevent accidental typing, the buffer empties after a certain time (ms)
+        bufferCleanupTimeout = args.bufferCleanupTimeout == null ? 500 : args.bufferCleanupTimeout as Integer
 
         linkDefinition = new LinkDefinition(args)
         linkDefinition.action = args.action ?: 'index'
@@ -58,6 +68,8 @@ class KeyPress extends Component {
     String getPropertiesAsJSON() {
         Map thisProperties = [
                 triggerKey: triggerKey,
+                readingSpeed: readingSpeed,
+                bufferCleanupTimeout: bufferCleanupTimeout,
         ]
         return Elements.encodeAsJSON(thisProperties)
     }
