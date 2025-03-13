@@ -54,6 +54,11 @@ class Transition {
         log.debug('<<< RESPONSE /' + componentEvent.controller + '/' + componentEvent.action);
         Transition.log(transition);
 
+        if (!transition.commands) {
+            log.error('Server side error, please verify the server logs!');
+            return;
+        }
+
         if (!transition.commands.length) {
             LoadingScreen.show(false);
         }
