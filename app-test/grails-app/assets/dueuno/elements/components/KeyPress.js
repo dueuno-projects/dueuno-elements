@@ -29,6 +29,10 @@ class KeyPress extends Component {
         let checkMinTime = (readingSpeed == 0 || timeInterval < readingSpeed);
         let checkMaxTime = (bufferCleanupTimeout == 0 || timeInterval > bufferCleanupTimeout);
 
+        if (checkMaxTime) {
+            $search.val('');
+        }
+
         let keycode = event.keyCode;
         let printable =
            (keycode > 47 && keycode < 58)   || // number keys
@@ -40,19 +44,15 @@ class KeyPress extends Component {
 
         if (triggerKey.length == 0) {
             $search.val(event.key);
-
         } else {
-            if (checkMaxTime) {
-                $search.val('');
-            }
-
             if (printable) {
                 $search.val($search.val() + event.key);
             }
         }
 
         if ((event.key == triggerKey && $search.val().length > 0) || triggerKey.length == 0) {
-            if (triggerKey == 'Enter' && $search.val().length > 0 && event.target.tagName == 'A') {
+            if (triggerKey.length > 0 && $search.val().length > 0 &&
+                (event.target.tagName == 'A' || event.target.tagName == 'BUTTON')) {
                 event.preventDefault();
             }
 
