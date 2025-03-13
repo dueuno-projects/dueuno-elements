@@ -33,7 +33,7 @@ class TenantPropertyService extends PropertyService {
 
     void install() {
         // Logs
-        setBoolean('LOG_ERROR', false)
+        setBoolean('LOG_ERROR', EnvUtils.isDevelopment())
         setBoolean('LOG_DEBUG', EnvUtils.isDevelopment())
         setBoolean('LOG_TRACE', false)
 
