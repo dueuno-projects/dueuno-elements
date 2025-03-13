@@ -28,12 +28,9 @@ class KeyPress extends Component {
 
         let checkMinTime = (readingSpeed == 0 || timeInterval < readingSpeed);
         let checkMaxTime = (bufferCleanupTimeout == 0 || timeInterval > bufferCleanupTimeout);
-        if (checkMaxTime) {
-            $search.val('');
-        }
 
         let keycode = event.keyCode;
-        let valid =
+        let printable =
            (keycode > 47 && keycode < 58)   || // number keys
            (keycode == 32)                  || // space bar
            (keycode > 64 && keycode < 91)   || // letter keys
@@ -41,24 +38,31 @@ class KeyPress extends Component {
            (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
            (keycode > 218 && keycode < 223);   // [\]' (in order)
 
-        if (valid) {
-            $search.val($search.val() + event.key);
-        }
+        if (triggerKey.length == 0) {
+            $search.val(event.key);
 
-        if (event.key == triggerKey || triggerKey.length == 0) {
-            if ($search.val().length > 0) {
-                if (event.target.tagName == 'A') {
-                    event.preventDefault();
-                }
-
-                let triggerEvent = Component.getEvent($element, 'keypress');
-                if (triggerEvent && (event.target.tagName != 'INPUT' || checkMinTime)) {
-                    if (!triggerEvent.params) triggerEvent.params = {};
-                    triggerEvent.params['_21KeyPressed'] = $search.val();
-                    Transition.submit(triggerEvent);
-                }
+        } else {
+            if (checkMaxTime) {
                 $search.val('');
             }
+
+            if (printable) {
+                $search.val($search.val() + event.key);
+            }
+        }
+
+        if ((event.key == triggerKey && $search.val().length > 0) || triggerKey.length == 0) {
+            if (triggerKey == 'Enter' && $search.val().length > 0 && event.target.tagName == 'A') {
+                event.preventDefault();
+            }
+
+            let triggerEvent = Component.getEvent($element, 'keypress');
+            if (triggerEvent && (event.target.tagName != 'INPUT' || !printable || checkMinTime)) {
+                if (!triggerEvent.params) triggerEvent.params = {};
+                triggerEvent.params['_21KeyPressed'] = $search.val();
+                Transition.submit(triggerEvent);
+            }
+            $search.val('');
         }
      }
 }
