@@ -58,7 +58,8 @@ grails:
     springsecurity:
       providerNames:
         - rememberMeAuthenticationProvider
-        - daoAuthenticationProvider
+        - externalIDAuthenticationProvider
+#        - daoAuthenticationProvider
 #        - ldapAuthProvider
 ---
 spring:
