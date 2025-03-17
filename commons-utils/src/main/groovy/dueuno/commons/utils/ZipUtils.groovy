@@ -34,7 +34,7 @@ import java.util.zip.ZipOutputStream
 class ZipUtils {
 
     static void zipDir(String fromDir, String toZipFile, String indent = '') {
-        String fromDirN = FileUtils.normalizeDirname(fromDir)
+        String fromDirN = FileUtils.normalizePath(fromDir)
         String toZipFileN = FileUtils.normalizePathname(toZipFile)
         File sourceDir = new File(fromDirN)
         File destZipFile = new File(toZipFileN)
@@ -47,7 +47,7 @@ class ZipUtils {
             String relativeFilename = absoluteFilename - rootPath
 
             if (file.isDirectory()) {
-                relativeFilename = FileUtils.normalizeDirname(relativeFilename)
+                relativeFilename = FileUtils.normalizePath(relativeFilename)
             }
 
             log.info "${indent}${indent}Adding '${Paths.get(relativeFilename)}'"
@@ -64,7 +64,7 @@ class ZipUtils {
 
     static void unzipFile(String fromZipFile, String toDir, String indent = '') {
         String fromZipFileN = FileUtils.normalizePathname(fromZipFile)
-        String toDirN = FileUtils.normalizeDirname(toDir)
+        String toDirN = FileUtils.normalizePath(toDir)
         ZipFile zipFile = new ZipFile(new File(fromZipFileN))
 
         log.info "${indent}Unzipping '${Paths.get(fromZipFileN)}' to '${Paths.get(toDirN)}'"

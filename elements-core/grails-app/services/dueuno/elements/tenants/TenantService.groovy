@@ -174,12 +174,12 @@ class TenantService {
 
             String privateDir = "${root}${obj.tenantId}/private"
             systemPropertyService.setDirectory(tenantIdUpper + '_TENANT_PRIVATE_DIR', privateDir)
-            FileUtils.createDir(privateDir)
+            FileUtils.createDirectory(privateDir)
             ResourceUtils.extractDirectory('/deploy/private', privateDir)
 
             String publicDir = "${root}${obj.tenantId}/public"
             systemPropertyService.setDirectory(tenantIdUpper + '_TENANT_PUBLIC_DIR', publicDir)
-            FileUtils.createDir(publicDir)
+            FileUtils.createDirectory(publicDir)
             ResourceUtils.extractDirectory('/deploy/public', publicDir)
 
             systemPropertyService.validateAll()
