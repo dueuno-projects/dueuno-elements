@@ -33,7 +33,7 @@ body {
 }
 
 .font-monospace {
-    font-size: calc(var(--elements-font-size) * 0.95) !important;
+    font-size: calc(var(--elements-font-size) * .95) !important;
 }
 
 .dev-hints {

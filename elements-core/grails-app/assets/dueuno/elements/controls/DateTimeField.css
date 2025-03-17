@@ -8,7 +8,7 @@
 }
 
 .tempus-dominus-widget {
-    box-shadow: 0 0.5rem 1rem rgba(var(--bs-body-color-rgb), .15);
+    box-shadow: 0 .5rem 1rem rgba(var(--bs-body-color-rgb), .15);
     padding-top: var(--elements-font-size);
     padding-right: 0;
     padding-bottom: 0;
@@ -33,7 +33,7 @@
 }
 
 .tempus-dominus-widget .calendar-header {
-    padding: 0.5rem;
+    padding: .5rem;
 }
 
 .tempus-dominus-widget,
