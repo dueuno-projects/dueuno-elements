@@ -1,6 +1,6 @@
 package dueuno.elements.providers
 
-import grails.core.GrailsApplication
+
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.userdetails.GormUserDetailsService

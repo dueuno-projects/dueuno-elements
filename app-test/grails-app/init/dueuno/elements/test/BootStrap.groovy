@@ -25,6 +25,8 @@ import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
 import dueuno.elements.types.Money
 import dueuno.elements.types.QuantityService
+import grails.plugin.springsecurity.SecurityFilterPosition
+import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.web.servlet.mvc.GrailsHttpSession
 
 import javax.servlet.ServletContext
@@ -46,6 +48,9 @@ class BootStrap {
     TransitionService transitionService
 
     def init = {
+        SpringSecurityUtils.clientRegisterFilter(
+                'externalIDAuthenticationFilter', SecurityFilterPosition.FIRST)
+
         applicationService.onUpdate('2021-10-03') { String tenantId ->
             println "${tenantId}: UPDATE N.2"
         }
