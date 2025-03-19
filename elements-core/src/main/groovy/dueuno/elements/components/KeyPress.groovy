@@ -33,6 +33,7 @@ class KeyPress extends Component {
     String triggerKey
     Integer readingSpeed
     Integer bufferCleanupTimeout
+    Boolean keepClean
 
     KeyPress(Map args) {
         super(args)
@@ -41,11 +42,14 @@ class KeyPress extends Component {
 
         //a barcode reader is typically much faster at typing than a human...
         //let's use this principle to understand if the typing comes from a reader (ms)
-        //(only evaluated if focus is on an "input" tag)
+        //(only evaluated if focus is on an "input" element)
         readingSpeed = args.readingSpeed == null ? 50 : args.readingSpeed as Integer
 
         //to prevent accidental typing, the buffer empties after a certain time (ms)
         bufferCleanupTimeout = args.bufferCleanupTimeout == null ? 500 : args.bufferCleanupTimeout as Integer
+
+        //avoid writing text if focus is on an "input" element (default false)
+        keepClean = args.keepClean == null ? false : args.keepClean
 
         linkDefinition = new LinkDefinition(args)
         linkDefinition.action = args.action ?: 'index'
@@ -70,6 +74,7 @@ class KeyPress extends Component {
                 triggerKey: triggerKey,
                 readingSpeed: readingSpeed,
                 bufferCleanupTimeout: bufferCleanupTimeout,
+                keepClean: keepClean,
         ]
         return Elements.encodeAsJSON(thisProperties)
     }
