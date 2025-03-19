@@ -36,7 +36,7 @@ grails.plugin.springsecurity.logout.afterLogoutUrl = '/authentication/afterLogou
 grails.plugin.springsecurity.logout.filterProcessesUrl = '/springSecurityLogout'
 grails.plugin.springsecurity.adh.errorPage = '/authentication/denied'
 grails.plugin.springsecurity.externalId.filterProcessesUrl = '/api/auth/external'
-grails.plugin.springsecurity.externalId.propertyName = 'username'
+grails.plugin.springsecurity.externalId.propertyName = 'externalId'
 
 // Prevent Session Fixation attacks
 grails.plugin.springsecurity.useSessionFixationPrevention = true
