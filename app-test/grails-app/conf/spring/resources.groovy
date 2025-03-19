@@ -1,16 +1,25 @@
 package spring
 
-import dueuno.elements.providers.DueunoAuthenticationDetailsSource
-import dueuno.elements.providers.DueunoUserDetailsService
-import dueuno.elements.providers.ExternalIDAuthenticationProvider
+import dueuno.elements.security.CustomUserDetailsService
+import dueuno.elements.security.ExternalIdAuthenticationFilter
+import dueuno.elements.security.ExternalIdAuthenticationProvider
 
 // Place your Spring DSL code here
 beans = {
-    authenticationDetailsSource(DueunoAuthenticationDetailsSource)
-    dueunoUserDetailsService(DueunoUserDetailsService) {
-        grailsApplication = grailsApplication
+    customUserDetailsService(CustomUserDetailsService) {
+        grailsApplication = ref('grailsApplication')
     }
-    externalIDAuthenticationProvider(ExternalIDAuthenticationProvider) {
-        dueunoUserDetailsService = dueunoUserDetailsService
+
+    externalIdAuthenticationProvider(ExternalIdAuthenticationProvider) {
+        customUserDetailsService = ref('customUserDetailsService')
     }
+
+    externalIdAuthenticationFilter(ExternalIdAuthenticationFilter, '/api/auth/external',
+            ref('authenticationManager'),
+            ref('authenticationSuccessHandler'),
+            ref('authenticationFailureHandler'),
+            ref('sessionAuthenticationStrategy'),
+            ref('rememberMeServices'),
+            ref('securityContextRepository')
+    )
 }

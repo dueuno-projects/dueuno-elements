@@ -48,8 +48,6 @@ class BootStrap {
     TransitionService transitionService
 
     def init = {
-        SpringSecurityUtils.clientRegisterFilter(
-                'externalIDAuthenticationFilter', SecurityFilterPosition.FIRST)
 
         applicationService.onUpdate('2021-10-03') { String tenantId ->
             println "${tenantId}: UPDATE N.2"
