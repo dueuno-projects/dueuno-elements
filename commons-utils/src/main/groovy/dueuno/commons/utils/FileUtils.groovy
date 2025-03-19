@@ -29,17 +29,17 @@ import java.time.format.DateTimeFormatter
 @CompileStatic
 class FileUtils {
 
-    static String normalizePathname(String path) {
-        if (!path) {
-            return ''
+    static String normalizePathname(String pathname) {
+        if (!pathname) {
+            return pathname
         }
 
-        return path.replace("\\", "/")
+        return pathname.replace("\\", "/")
     }
 
-    static String normalizeDirname(String path) {
+    static String normalizePath(String path) {
         if (!path) {
-            return ''
+            return path
         }
 
         String result = normalizePathname(path)
@@ -50,8 +50,12 @@ class FileUtils {
         return result
     }
 
-    static String stripDirname(String dirname) {
-        def f = normalizePathname(dirname)
+    static String stripPath(String pathname) {
+        if (!pathname) {
+            return pathname
+        }
+
+        def f = normalizePathname(pathname)
         int index = f.lastIndexOf('/')
         if (index == -1) {
             return ''
@@ -62,31 +66,39 @@ class FileUtils {
     }
 
     static String stripFilename(String pathname) {
+        if (!pathname) {
+            return pathname
+        }
+
         def f = normalizePathname(pathname)
         int index = f.lastIndexOf('/')
         String result = f.substring(index + 1)
         return result
     }
 
-    static String stripExtension(String filename) {
-        if (!filename) {
-            return ''
+    static String stripExtension(String pathname) {
+        if (!pathname) {
+            return pathname
         }
 
-        def dot = filename.lastIndexOf('.')
-        return filename
+        def dot = pathname.lastIndexOf('.')
+        return pathname
                 .substring(dot + 1)
                 .toLowerCase()
     }
 
-    static String removeExtension(String filename) {
-        def f = normalizePathname(filename)
+    static String removeExtension(String pathname) {
+        if (!pathname) {
+            return pathname
+        }
+
+        def f = normalizePathname(pathname)
         int index = f.lastIndexOf('.')
         String result = f.substring(0, index)
         return result
     }
 
-    static String buildSafeFilename(String filename) {
+    static String buildSafeFilename(String filename, String spaceReplacementChar = '-') {
         def unixFilenameInvalidChars = '[/]'
         def unixFilenameInvalidNonPrintableChars = '[\\u0000]' // NULL
         def win32FilenameInvalidChars = '[<>:"/\\\\|?*]'
@@ -101,17 +113,17 @@ class FileUtils {
                         + '|' + win32FilenameInvalidNonPrintableChars
                         + '|' + urlInvalidChars
                         + '|' + space,
-                '_')
+                spaceReplacementChar)
     }
 
-    static String getTempDir() {
+    static String getTempDirectory() {
         def result = System.getProperty("java.io.tmpdir")
-        return normalizeDirname(result)
+        return normalizePath(result)
     }
 
-    static String getWorkDir() {
-        Path workDirPath = Paths.get(System.getProperty("user.dir")).normalize()
-        return normalizeDirname(workDirPath.toString())
+    static String getWorkingDirectory() {
+        Path userDirPath = Paths.get(System.getProperty("user.dir")).normalize()
+        return normalizePath(userDirPath.toString())
     }
 
     static String getTempFilename(Integer length = 10) {
@@ -120,9 +132,9 @@ class FileUtils {
         return fileName
     }
 
-    static String getApplicationDir() {
+    static String getApplicationPath() {
         Path workDirPath = Paths.get(FileUtils.getProtectionDomain().getCodeSource().getLocation().toString()).normalize()
-        return normalizeDirname(workDirPath.toString())
+        return normalizePath(workDirPath.toString())
     }
 
     static String getFilenameTimestamp(String pattern = 'YYYYMMddHHmm') {
@@ -187,104 +199,104 @@ class FileUtils {
         return f.exists()
     }
 
-    static List<File> listFiles(String directory) {
-        return listFiles(directory, '*')
+    static List<File> listFiles(String path) {
+        return listFiles(path, '*')
     }
 
-    static List<File> listFiles(String folder, String pattern) {
-        Path folderPath = Paths.get(folder)
+    static List<File> listFiles(String path, String pattern) {
+        Path folderPath = Paths.get(path)
         DirectoryStream<Path> dir = Files.newDirectoryStream(folderPath, pattern)
 
         List<File> results = []
-        for (path in dir) {
-            if (!Files.isDirectory(path)) {
-                results.add(path.toFile())
+        for (part in dir) {
+            if (!Files.isDirectory(part)) {
+                results.add(part.toFile())
             }
         }
         return results
     }
 
-    static void createFile(String file, String indent = '') {
-        String fileN = normalizePathname(file)
+    static void createFile(String pathname, String indent = '') {
+        String newPathname = normalizePathname(pathname)
 
-        log.info "${indent}Creating file '${fileN}'"
-        File emptyFile = new File(file)
+        log.info "${indent}Creating file '${newPathname}'"
+        File emptyFile = new File(newPathname)
         emptyFile.createNewFile()
     }
 
-    static void deleteFile(String file, String indent = '') {
-        String fileN = normalizePathname(file)
-        Path fileToDelete = Paths.get(fileN)
+    static void deleteFile(String pathname, String indent = '') {
+        String deletePathname = normalizePathname(pathname)
+        Path fileToDelete = Paths.get(deletePathname)
 
         log.info "${indent}Deleting '${fileToDelete}'"
         Files.deleteIfExists(fileToDelete)
     }
 
-    static void renameFile(String fromFile, String toFile, String indent = '') {
-        String fromFileN = normalizePathname(fromFile)
-        String toFileN = normalizePathname(toFile)
-        File from = new File(fromFileN)
-        File to = new File(toFileN)
+    static void renameFile(String fromPathname, String toPathname, String indent = '') {
+        String renameFromPathname = normalizePathname(fromPathname)
+        String renameToPathname = normalizePathname(toPathname)
+        File from = new File(renameFromPathname)
+        File to = new File(renameToPathname)
 
         log.info "${indent}Renaming '${from}' to '${to}'"
         from.renameTo(to)
     }
 
-    static void copyFile(String fromFile, String toFile, String indent = '') {
-        String fromFileN = normalizePathname(fromFile)
-        String toFileN = normalizePathname(toFile)
-        Path from = Paths.get(fromFileN)
-        Path to = Paths.get(toFileN)
+    static void copyFile(String fromPathname, String toPathname, String indent = '') {
+        String copyFromPathname = normalizePathname(fromPathname)
+        String copyToPathname = normalizePathname(toPathname)
+        Path from = Paths.get(copyFromPathname)
+        Path to = Paths.get(copyToPathname)
 
         log.info "${indent}Copying '${from}' to '${to}'"
         Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING)
     }
 
-    static void copyFileToDir(String fromFile, String toDir, String indent = '') {
-        String fromFileN = normalizePathname(fromFile)
-        String toDirN = normalizeDirname(toDir)
-        Path from = Paths.get(fromFileN)
-        Path to = Paths.get(toDirN)
+    static void copyFileToDirectory(String fromPathname, String toPath, String indent = '') {
+        String copyFromPathname = normalizePathname(fromPathname)
+        String copyToPath = normalizePath(toPath)
+        Path from = Paths.get(copyFromPathname)
+        Path to = Paths.get(copyToPath)
         Path toFile = Paths.get("${to}/${from.fileName}")
 
         log.info "${indent}Copying '${from}' to '${toFile}'"
         Files.copy(from, toFile, StandardCopyOption.REPLACE_EXISTING)
     }
 
-    static String moveFile(String fromFile, String toFile, String indent = '') {
-        String fromFileN = normalizePathname(fromFile)
-        String toFileN = normalizePathname(toFile)
-        Path from = Paths.get(fromFileN)
-        Path to = Paths.get(toFileN)
+    static String moveFile(String fromPathname, String toPathname, String indent = '') {
+        String moveFromPathname = normalizePathname(fromPathname)
+        String moveToPathname = normalizePathname(toPathname)
+        Path from = Paths.get(moveFromPathname)
+        Path to = Paths.get(moveToPathname)
 
         log.info "${indent}Moving '${from}' to '${to}'"
         return Files.move(from, to, StandardCopyOption.REPLACE_EXISTING).toString()
     }
 
-    static String moveFileToDir(String fromFile, String toDir, String indent = '') {
-        String fromFileN = normalizePathname(fromFile)
-        String toDirN = normalizeDirname(toDir)
-        Path from = Paths.get(fromFileN)
-        Path to = Paths.get(toDirN)
-        Path toFile = Paths.get("${to}/${from.fileName}")
+    static String moveFileToDirectory(String fromPathname, String toPath, String indent = '') {
+        String moveFromPathname = normalizePathname(fromPathname)
+        String moveToPath = normalizePath(toPath)
+        Path from = Paths.get(moveFromPathname)
+        Path toDir = Paths.get(moveToPath)
+        Path to = Paths.get("${toDir}/${from.fileName}")
 
-        log.info "${indent}Moving '${from}' to '${toFile}'"
-        return Files.move(from, toFile, StandardCopyOption.REPLACE_EXISTING).toString()
+        log.info "${indent}Moving '${from}' to '${to}'"
+        return Files.move(from, to, StandardCopyOption.REPLACE_EXISTING).toString()
     }
 
-    static void createDir(String dir, String indent = '') {
-        String dirN = normalizeDirname(dir)
-        Path dirToCreate = Paths.get(dirN)
+    static void createDirectory(String path, String indent = '') {
+        String newPath = normalizePath(path)
+        Path pathToCreate = Paths.get(newPath)
 
-        if (Files.notExists(dirToCreate)) {
-            log.info "${indent}Creating '${dirToCreate}'"
-            Files.createDirectories(dirToCreate)
+        if (Files.notExists(pathToCreate)) {
+            log.info "${indent}Creating '${pathToCreate}'"
+            Files.createDirectories(pathToCreate)
         }
     }
 
-    static void deleteDir(String dir, String indent = '') {
-        String dirN = normalizeDirname(dir)
-        Path dirToDelete = Paths.get(dirN)
+    static void deleteDirectory(String path, String indent = '') {
+        String deleteDir = normalizePath(path)
+        Path dirToDelete = Paths.get(deleteDir)
         if (Files.notExists(dirToDelete)) {
             log.info "${indent}Deleting '${dirToDelete}' but does not exist, skipping."
             return
@@ -298,25 +310,25 @@ class FileUtils {
         log.info "${indent}... done."
     }
 
-    static void copyDir(String fromDir, String toDir, String indent = '') {
-        String fromDirN = normalizeDirname(fromDir)
-        String toDirN = normalizeDirname(toDir)
+    static void copyDirectory(String fromPath, String toPath, String indent = '') {
+        String copyFromPath = normalizePath(fromPath)
+        String copyToPath = normalizePath(toPath)
 
-        log.info "${indent}Copying '${Paths.get(fromDirN)}' to '${Paths.get(toDirN)}'"
-        copyDirRecursive(fromDirN, toDirN, indent)
+        log.info "${indent}Copying '${Paths.get(copyFromPath)}' to '${Paths.get(copyToPath)}'"
+        copyDirectoryRecursive(copyFromPath, copyToPath, indent)
         log.info "${indent}... done."
     }
 
-    private static void copyDirRecursive(String fromDir, String toDir, String indent = '') {
-        createDir(toDir)
-        DirectoryStream<Path> directory = Files.newDirectoryStream(Paths.get(fromDir))
+    private static void copyDirectoryRecursive(String fromPath, String toPath, String indent = '') {
+        createDirectory(toPath)
+        DirectoryStream<Path> directory = Files.newDirectoryStream(Paths.get(fromPath))
         for (path in directory) {
-            String fromPath = path
-            String toPath = "${toDir}/${path.getFileName()}"
+            String copyFromPath = path
+            String copyToPath = "${toPath}/${path.getFileName()}"
             if (Files.isDirectory(path)) {
-                copyDirRecursive(fromPath, toPath, indent)
+                copyDirectoryRecursive(copyFromPath, copyToPath, indent)
             } else {
-                copyFile(fromPath, toPath, indent)
+                copyFile(copyFromPath, copyToPath, indent)
             }
         }
     }

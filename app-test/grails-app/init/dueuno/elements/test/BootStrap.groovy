@@ -123,7 +123,7 @@ class BootStrap {
                     groups: ['DEVELOPERS', 'PROJECT MANAGER'],
             )
 
-            FileUtils.createDir(tenantService.publicDir + 'upload')
+            FileUtils.createDirectory(tenantService.publicDir + 'upload')
 
             quantityService.enableUnitLength(['KM', 'M'])
 

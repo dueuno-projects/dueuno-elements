@@ -35,7 +35,7 @@ class SystemPropertyService extends PropertyService {
 
     void install() {
         // System
-        String root = "${FileUtils.workDir}${applicationService.applicationName}/"
+        String root = "${FileUtils.workingDirectory}${applicationService.applicationName}/"
         setDirectory('APPLICATION_HOME_DIR', root)
         setDirectory('NEW_TENANT_DIR', "${root}tenants")
 

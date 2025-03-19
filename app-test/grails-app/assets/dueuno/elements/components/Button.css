@@ -16,7 +16,7 @@ button,
 
 .component-button[readonly] {
     cursor: default;
-    opacity: 0.5;
+    opacity: .5;
 }
 
 .component-button[readonly] .dropdown-toggle {
@@ -55,7 +55,7 @@ button {
 
 .dropdown-menu {
     border-radius: var(--bs-border-radius-lg);
-    box-shadow: 0 0.25rem 0.75rem rgba(var(--bs-body-color-rgb), .15);
+    box-shadow: 0 .25rem .75rem rgba(var(--bs-body-color-rgb), .15);
     background-color: rgba(255, 255, 255, .6);
     backdrop-filter: blur(21px);
     -webkit-backdrop-filter: blur(21px);
@@ -63,8 +63,8 @@ button {
 }
 
 .dropdown-item {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding-left: .75rem;
+    padding-right: .75rem;
 }
 
 .dropdown-item:focus,
@@ -75,14 +75,14 @@ button {
 
 a.btn:active,
 button:active {
-    transform: translateY(0.05rem);
+    transform: translateY(.05rem);
 }
 
 /* COLORS
 */
 .btn.dropdown-toggle:focus-visible,
 .form-control:focus-visible {
-    box-shadow: 0 0 0 0.25rem rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    box-shadow: 0 0 0 .25rem rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
 }
 
 .dropdown-menu a {

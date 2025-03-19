@@ -28,7 +28,7 @@ class UploadController implements WebRequestAware {
         def file = request.getFile(params.controlName)
         def filename = System.currentTimeMillis()
 
-        file.transferTo(new File(FileUtils.tempDir + filename))
+        file.transferTo(new File(FileUtils.tempDirectory + filename))
         render filename
     }
 }

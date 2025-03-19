@@ -28,7 +28,7 @@
 .select2-container--bootstrap-5 .select2-dropdown {
     padding: var(--elements-spacing-y);
     border-radius: var(--bs-border-radius-lg);
-    box-shadow: 0 0.25rem 0.75rem rgba(var(--bs-body-color-rgb), .15);
+    box-shadow: 0 .25rem .75rem rgba(var(--bs-body-color-rgb), .15);
     background-color: rgba(255, 255, 255, .6);
     backdrop-filter: blur(21px);
     -webkit-backdrop-filter: blur(21px);
@@ -123,7 +123,7 @@
 .select2-container--bootstrap-5.select2-container--focus .select2-selection,
 .select2-container--bootstrap-5.select2-container--open .select2-selection {
     border-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
-    box-shadow: 0 0 0 0.25rem rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    box-shadow: 0 0 0 .25rem rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
 }
 
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
@@ -142,6 +142,6 @@
 
 .select2-container--bootstrap-5.select2-container--disabled .select2-selection,
 .select2-container--bootstrap-5.select2-container--disabled.select2-container--focus .select2-selection {
-    background-color: rgba(var(--elements-tertiary-bg), 0.4) !important;
-    color: rgba(var(--elements-tertiary-text), 0.7) !important;
+    background-color: rgba(var(--elements-tertiary-bg), .4) !important;
+    color: rgba(var(--elements-tertiary-text), .7) !important;
 }

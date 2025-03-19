@@ -27,19 +27,28 @@
 
 .component-table ::-webkit-scrollbar-thumb {
     background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
-    border-radius: 0.5rem;
+    border-radius: .5rem;
 }
 
 .component-table ::-webkit-scrollbar-track {
-    margin: 0.5rem;
+    margin: .5rem;
 }
 
 .component-table > .component-separator {
     background-color: white;
-    margin-bottom: calc(var(--bs-border-radius-lg) * -1);
     border-top-left-radius: var(--bs-border-radius-lg);
     border-top-right-radius: var(--bs-border-radius-lg);
-    padding: 1rem;
+    padding: .5rem;
+}
+
+.component-table:has(.component-separator:not(.d-none)):has(.component-filters.d-none) .component-table-dataset-wrapper,
+.component-table:has(.component-separator:not(.d-none)):has(.component-filters:not(.d-none)) .component-filters-buttons * {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.component-table:has(.component-filters:not(.d-none)) .component-separator {
+    border-bottom-right-radius: var(--bs-border-radius-lg) !important;
 }
 
 .component-table-dataset .table-hover tr:hover td {
@@ -47,7 +56,7 @@
 }
 
 .component-table-dataset .sticky-header {
-    border-bottom: rgb(var(--elements-tertiary-bg)) 0.25rem solid;
+    border-bottom: rgb(var(--elements-tertiary-bg)) .25rem solid;
 }
 
 .component-table-dataset .component-table-header a {
@@ -108,8 +117,8 @@
 }
 
 .component-table-dataset:not(:has(.bootstrap-table)) {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
 }
 
 .component-table-cell select,
@@ -141,7 +150,7 @@
 .component-table tr.table-no-results,
 .component-table tr.table-no-results td,
 .component-table tr.table-no-results:hover td {
-    color: rgba(var(--elements-secondary-bg), 0.5);
+    color: rgba(var(--elements-secondary-bg), .5);
 }
 
 .component-table .table-hover tr.table-no-results:hover td {

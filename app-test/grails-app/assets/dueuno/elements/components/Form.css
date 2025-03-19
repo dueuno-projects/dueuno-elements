@@ -1,7 +1,7 @@
 .component-form {
     border-radius: var(--bs-border-radius-lg);
     background-color: white;
-    margin-bottom: 0.25rem;
+    margin-bottom: .25rem;
 }
 
 .component-form form {
