@@ -25,8 +25,6 @@ import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
 import dueuno.elements.types.Money
 import dueuno.elements.types.QuantityService
-import grails.plugin.springsecurity.SecurityFilterPosition
-import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.web.servlet.mvc.GrailsHttpSession
 
 import javax.servlet.ServletContext
@@ -235,6 +233,7 @@ class BootStrap {
                     email: 'user@company.it',
                     firstname: 'User',
                     lastname: 'ONE',
+                    externalId: tenantId == tenantService.defaultTenantId ? 'FB78E50B' : null,
             )
             securityService.createUser(
                     tenantId: tenantId,
