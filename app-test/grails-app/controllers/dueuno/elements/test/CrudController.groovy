@@ -42,7 +42,7 @@ class CrudController implements ElementsController {
     def index() {
 
         applicationService.registerTransformer('TRANSFORM_ME') { TCompany value ->
-            return value.name.toUpperCase()
+            return "<i class='fa-solid fa-building'></i> ${value.name.toUpperCase()}"
         }
 
 //        throw new Exception("ATTENZIONE!!!")

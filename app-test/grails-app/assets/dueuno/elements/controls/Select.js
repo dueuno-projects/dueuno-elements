@@ -16,6 +16,7 @@ class Select extends Control {
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
             dropdownAutoWidth : true,
             width: hasButtons ? 'auto' : '100%',
+            escapeMarkup: function(markup) { return markup; },
             language: {
                 inputTooShort: function (args) {
                     var remainingChars = args.minimum - args.input.length;
