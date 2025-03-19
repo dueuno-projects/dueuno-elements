@@ -48,7 +48,7 @@ class FTPSUtils {
     static List<File> listFiles(String remotePath, String host, Integer port, String username, String password, String indent = '') {
         String remotePathN = FileUtils.normalizePathname(remotePath)
         File remotePathFile = new File(remotePathN)
-        String remoteDirN = FileUtils.normalizeDirname(remotePathFile.parent)
+        String remoteDirN = FileUtils.normalizePath(remotePathFile.parent)
         String filenameGlob = "glob:${remotePathFile.name}"
 
         FTPSClient ftp = connect(host, port, username, password, indent)
@@ -99,7 +99,7 @@ class FTPSUtils {
     static void downloadFileToDir(String remoteFile, String localDir, String host, Integer port,
                                   String username, String password, String indent = '') {
         String filenameFrom = new File(remoteFile).name
-        String localFile = FileUtils.normalizeDirname(localDir) + filenameFrom
+        String localFile = FileUtils.normalizePath(localDir) + filenameFrom
 
         downloadFile(remoteFile, localFile, host, port, username, password, indent)
     }
@@ -141,7 +141,7 @@ class FTPSUtils {
     }
 
     static void deleteDir(String remoteDir, String host, Integer port, String username, String password, String indent = '') {
-        String dirN = FileUtils.normalizeDirname(remoteDir)
+        String dirN = FileUtils.normalizePath(remoteDir)
         log.info "${indent}Deleting '${dirN}'"
 
         FTPSClient ftp = connect(host, port, username, password, indent)
@@ -174,7 +174,7 @@ class FTPSUtils {
 
     static void uploadFileToDir(String localFile, String remoteDir, String host, Integer port, String username, String password, String indent = '') {
         String localFileN = FileUtils.normalizePathname(localFile)
-        String remoteDirN = FileUtils.normalizeDirname(remoteDir)
+        String remoteDirN = FileUtils.normalizePath(remoteDir)
         Path localFilePath = Paths.get(localFileN)
         String remoteFileN = "${remoteDirN}${localFilePath.fileName}"
 

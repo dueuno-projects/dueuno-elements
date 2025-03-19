@@ -43,8 +43,8 @@ class ResourceUtils {
         def rpr = new PathMatchingResourcePatternResolver()
         Resource[] resources = rpr.getResources("classpath*:${fromPath}/**").reverse()
 
-        fromPath = FileUtils.normalizeDirname(fromPath) ?: '/'
-        toPath = FileUtils.normalizeDirname(toPath)
+        fromPath = FileUtils.normalizePath(fromPath) ?: '/'
+        toPath = FileUtils.normalizePath(toPath)
 
         for (Resource resource in resources) {
             Boolean isDeployedAsBootJar = resource.URL.protocol.equals('jar')
@@ -71,7 +71,7 @@ class ResourceUtils {
                 }
             }
 
-            String normalizedResourcePathname = FileUtils.normalizeDirname(resourceDir) + resourceFile
+            String normalizedResourcePathname = FileUtils.normalizePath(resourceDir) + resourceFile
 
 //            log.debug "extractDirectory()"
 //            log.debug "**** Resource:            " + resource.URL.path
@@ -140,7 +140,7 @@ class ResourceUtils {
             Files.walk(bootJarResourcePath).forEach {
                 if (Files.isRegularFile(it) && it.fileName.toString().endsWith('.jar')) {
                     if (it.fileName.toString().startsWith(pluginName)) {
-                        tempPath = Paths.get(FileUtils.tempDir + '/' + it.fileName)
+                        tempPath = Paths.get(FileUtils.tempDirectory + '/' + it.fileName)
                         log.debug "Extracting '${pluginName}' to '${tempPath}'"
                         Files.copy(it, tempPath, StandardCopyOption.REPLACE_EXISTING)
                         return
@@ -194,9 +194,9 @@ class ResourceUtils {
 
 
     static void extractResource(Path root, Path resource, String toPath) {
-        toPath = FileUtils.normalizeDirname(toPath)
+        toPath = FileUtils.normalizePath(toPath)
 
-        FileUtils.createDir(toPath)
+        FileUtils.createDirectory(toPath)
         Files.walk(resource).forEach {
             String baseDirectory = root.toString() == '/' ? '' : root.toString()
             String directory = it.parent.toString() + '/' - baseDirectory
@@ -212,10 +212,10 @@ class ResourceUtils {
 //            log.debug ""
 
             if (Files.isDirectory(it) && !FileUtils.exists(toPath + directory + '/' + it.fileName)) {
-                FileUtils.createDir(toPath + directory + '/' + it.fileName)
+                FileUtils.createDirectory(toPath + directory + '/' + it.fileName)
 
             } else if (!FileUtils.exists(toPath + directory + '/' + it.fileName)) {
-                FileUtils.createDir(toPath + directory)
+                FileUtils.createDirectory(toPath + directory)
                 Files.copy(it, Paths.get(toPath + directory + '/' + it.fileName))
             }
         }

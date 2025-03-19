@@ -16,7 +16,7 @@
 }
 
 .control-upload .dz-preview .dz-details .dz-size {
-    margin-bottom: 0.25rem;
+    margin-bottom: .25rem;
 }
 
 .control-upload .dz-preview .dz-image {
@@ -72,7 +72,7 @@
 }
 
 .control-upload .dz-preview.dz-file-preview .dz-image {
-    background: rgba(var(--elements-secondary-bg), 0.5);
+    background: rgba(var(--elements-secondary-bg), .5);
 }
 
 .control-upload .dz-preview .dz-remove {

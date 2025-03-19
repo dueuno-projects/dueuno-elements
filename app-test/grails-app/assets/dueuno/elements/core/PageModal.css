@@ -49,8 +49,8 @@
 
 #page-modal-header {
     border: none;
-    padding: calc(var(--elements-font-size) * 0.8);
-    padding-bottom: calc(var(--elements-font-size)* 0.65);
+    padding: calc(var(--elements-font-size) * .8);
+    padding-bottom: calc(var(--elements-font-size)* .65);
 }
 
 #page-modal .component-header {
@@ -80,14 +80,14 @@
 
 .modal-backdrop.show {
     opacity: 1;
-    background-color: rgba(100,100,100,0.5);
+    background-color: rgba(100,100,100,.5);
     backdrop-filter: blur(21px) grayscale(100%);
     -webkit-backdrop-filter: blur(21px) grayscale(100%);
 }
 
 .modal-backdrop {
     opacity: 0;
-    background-color: rgba(100,100,100,0.5);
+    background-color: rgba(100,100,100,.5);
     backdrop-filter: blur(21px) grayscale(100%);
     -webkit-backdrop-filter: blur(21px) grayscale(100%);
 }
@@ -98,7 +98,7 @@
 }
 
 #page-modal-body {
-    padding: calc(var(--elements-font-size) * 0.5) !important;
+    padding: calc(var(--elements-font-size) * .5) !important;
     padding-top: 0 !important;
 }
 

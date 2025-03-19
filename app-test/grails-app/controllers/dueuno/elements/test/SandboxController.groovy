@@ -469,14 +469,16 @@ Grails application running at http://localhost:9992/test in environment: develop
         def table2 = c.addComponent(Table, 'table2')
         table2.with {
 //            hasComponents = true
-            filters.with {
-                addField(
-                        class: TextField,
-                        id: 'find',
-                        label: TextDefault.FIND,
-                        cols: 12,
-                )
-            }
+            title.display = true
+            title.icon = 'fa-file'
+//            filters.with {
+//                addField(
+//                        class: TextField,
+//                        id: 'find',
+//                        label: TextDefault.FIND,
+//                        cols: 12,
+//                )
+//            }
             columns = [
                     'company',
                     'name',
