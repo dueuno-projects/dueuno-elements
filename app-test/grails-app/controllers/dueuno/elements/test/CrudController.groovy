@@ -164,6 +164,7 @@ class CrudController implements ElementsController {
                     row.cells['company'].textWrap = TextWrap.LINE_WRAP
                     row.cells['company'].icon = 'fa-building'
                     row.cells['company'].tooltip = 'Questa è una azienda'
+                    row.cells['company'].url = 'https://google.com'
 
                     values.employeeCount = values.company.employees?.size()
 

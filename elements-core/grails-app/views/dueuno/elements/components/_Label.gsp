@@ -1,7 +1,13 @@
-%{-- Keep the _TableRow.gsp inline Label component aligned with this _Label.gsp template --}%
+%{--
+
+ATTENTION PLEASE
+================
+
+Update the label part of `_TableRow.gsp` each time you update this template
+
+--}%
 <span class="component-label w-100 ${c.textAlign} ${c.textWrap} ${c.textStyle} ${c.border ? 'border' : ''}  ${c.userSelect ? 'user-select-text' : ''} ${c.html ? 'html' : ''} ${c.cssClass}"
       style="${c.cssStyleColors}${c.cssStyle}"
-      ${c.tooltip ? raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + render.message(c.tooltip) + '"') : ''}
       data-21-component="${c.className}"
       data-21-id="${c.id}"
       data-21-properties="${c.propertiesAsJSON}"
@@ -9,6 +15,9 @@
 ><g:if test="${c.html}">${raw(c.prettyHtml)}</g:if>
     <g:else>
         <g:if test="${c.icon}"><render:icon icon="${c.icon}" class="${c.icon && c.text ? 'me-1' : ''}"/></g:if>
-        <g:if test="${c.url}"><a href="${c.url}" target="_blank"></g:if><span class="${c.verticalAlign}">${c.message(c.text, c.textArgs)}${c.border && !c.text ? raw('&nbsp;') : ''}</span><g:if test="${c.url}"></a></g:if>
+        <g:if test="${c.url}"><a href="${c.url}" target="_blank"></g:if><span
+            class="${c.verticalAlign}"
+            ${c.tooltip ? raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + render.message(c.tooltip) + '"') : ''}
+            >${c.message(c.text, c.textArgs)}${c.border && !c.text ? raw('&nbsp;') : ''}</span><g:if test="${c.url}"></a></g:if>
     </g:else>
 </span>
