@@ -77,7 +77,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         applicationService.registerPrettyPrinter(TTenant, '${it.tenantId}')
         applicationService.registerPrettyPrinter(TUser, '${it.fullname}')
         applicationService.registerPrettyPrinter(TRoleGroup, '${it.name}')
-        applicationService.registerPrettyPrinter('LANDING_PAGE', 'shell.${it.namespace ? it.namespace + "." : ""}${it.controller}')
+        applicationService.registerPrettyPrinter('LANDING_PAGE', '${it.text}')
 
         applicationService.registerFeature(
                 namespace: 'security',
