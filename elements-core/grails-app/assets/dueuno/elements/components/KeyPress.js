@@ -1,12 +1,12 @@
 class KeyPress extends Component {
 
-     static finalize($element, $root) {
-         $(document)
+    static finalize($element, $root) {
+        $(document)
             .off('keydown.keyPress')
             .on('keydown.keyPress', KeyPress.onKeyPress);
-     }
+    }
 
-     static onKeyPress(event) {
+    static onKeyPress(event) {
         let $element = $('[data-21-component="KeyPress"]');
         let $search = $element.find('input');
 
@@ -15,6 +15,7 @@ class KeyPress extends Component {
         let triggerKey = Component.getProperty($element, 'triggerKey');
         let readingSpeed = Component.getProperty($element, 'readingSpeed');
         let bufferCleanupTimeout = Component.getProperty($element, 'bufferCleanupTimeout');
+        let keepClean = Component.getProperty($element, 'keepClean');
         let timer = Component.getProperty($element, 'timer');
 
         if (triggerKey == null) {
@@ -35,12 +36,12 @@ class KeyPress extends Component {
 
         let keycode = event.keyCode;
         let printable =
-           (keycode > 47 && keycode < 58)   || // number keys
-           (keycode == 32)                  || // space bar
-           (keycode > 64 && keycode < 91)   || // letter keys
-           (keycode > 95 && keycode < 112)  || // numpad keys
-           (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
-           (keycode > 218 && keycode < 223);   // [\]' (in order)
+            (keycode > 47 && keycode < 58)   || // number keys
+            (keycode == 32)                  || // space bar
+            (keycode > 64 && keycode < 91)   || // letter keys
+            (keycode > 95 && keycode < 112)  || // numpad keys
+            (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
+            (keycode > 218 && keycode < 223);   // [\]' (in order)
 
         if (triggerKey.length == 0) {
             $search.val(event.key);
@@ -48,6 +49,11 @@ class KeyPress extends Component {
             if (printable) {
                 $search.val($search.val() + event.key);
             }
+        }
+
+        if (keepClean && !event.ctrlKey && checkMinTime && event.target.tagName == 'INPUT') {
+            event.preventDefault();
+            $(event.target).val('');
         }
 
         if ((event.key == triggerKey && $search.val().length > 0) || triggerKey.length == 0) {
@@ -64,7 +70,7 @@ class KeyPress extends Component {
             }
             $search.val('');
         }
-     }
+    }
 }
 
 Component.register(KeyPress);
