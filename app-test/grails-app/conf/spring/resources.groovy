@@ -14,12 +14,12 @@ beans = {
         customUserDetailsService = ref('customUserDetailsService')
     }
 
-    externalIdAuthenticationFilter(ExternalIdAuthenticationFilter, '/api/auth/external',
-            ref('authenticationManager'),
-            ref('authenticationSuccessHandler'),
-            ref('authenticationFailureHandler'),
-            ref('sessionAuthenticationStrategy'),
-            ref('rememberMeServices'),
-            ref('securityContextRepository')
-    )
+    externalIdAuthenticationFilter(ExternalIdAuthenticationFilter, '/api/auth/external') {
+        authenticationManager = ref('authenticationManager')
+        authenticationSuccessHandler = ref('authenticationSuccessHandler')
+        authenticationFailureHandler = ref('authenticationFailureHandler')
+        sessionAuthenticationStrategy = ref('sessionAuthenticationStrategy')
+        rememberMeServices = ref('rememberMeServices')
+        securityContextRepository = ref('securityContextRepository')
+    }
 }

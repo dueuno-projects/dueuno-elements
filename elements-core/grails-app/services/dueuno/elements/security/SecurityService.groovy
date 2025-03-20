@@ -503,6 +503,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
         if (filterParams.containsKey('username')) query = query.where { username == filterParams.username }
         if (filterParams.containsKey('apiKey')) query = query.where { apiKey == filterParams.apiKey }
+        if (filterParams.containsKey('externalId')) query = query.where { externalId == filterParams.externalId }
         if (filterParams.containsKey('tenant')) query = query.where { tenant.id == filterParams.tenant }
         if (filterParams.containsKey('tenantId')) query = query.where { tenant.tenantId == filterParams.tenantId }
         if (filterParams.containsKey('deletable')) query = query.where { deletable == filterParams.deletable }
@@ -512,6 +513,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             query = query.where {
                 true
                         || apiKey =~ "%${filterParams.find}%"
+                        || externalId =~ "%${filterParams.find}%"
                         || username =~ "%${filterParams.find}%"
                         || firstname =~ "%${filterParams.find}%"
                         || lastname =~ "%${filterParams.find}%"
@@ -546,6 +548,15 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 defaultGroup: 'join',
         ]
         def query = TUser.where { apiKey == apiKey }
+        return query.get(fetch: fetch)
+    }
+
+    TUser getUserByExternalId(String externalId) {
+        Map fetch = [
+                tenant      : 'join',
+                defaultGroup: 'join',
+        ]
+        def query = TUser.where { externalId == externalId }
         return query.get(fetch: fetch)
     }
 
@@ -650,6 +661,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         user = new TUser(
                 tenant: tenant,
                 apiKey: args.apiKey,
+                externalId: args.externalId,
                 deletable: args.deletable == null ? true : args.deletable,
                 username: args.username,
                 password: args.password ? encodePassword((String) args.password) : null,

@@ -19,6 +19,7 @@ import dueuno.elements.components.Form
 import dueuno.elements.components.Label
 import dueuno.elements.components.Link
 import dueuno.elements.controls.Checkbox
+import dueuno.elements.controls.HiddenField
 import dueuno.elements.controls.PasswordField
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.Page
@@ -44,6 +45,7 @@ class Login extends Page {
     String logoImage
 
     Form form
+    HiddenField externalId
 
     Login(Map args) {
         super(args)
@@ -58,7 +60,12 @@ class Login extends Page {
         logoImage = args.logoImage
         backgroundImage = args.backgroundImage
 
-        form = createComponent(Form)
+        externalId = createControl(
+                class: HiddenField,
+                id: 'externalId',
+        )
+
+        form = createComponent(Form, 'loginForm')
         form.with {
             addField(
                     class: TextField,
