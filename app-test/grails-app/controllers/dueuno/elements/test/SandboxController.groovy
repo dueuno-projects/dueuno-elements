@@ -749,7 +749,7 @@ Grails application running at http://localhost:9992/test in environment: develop
         println "SEARCH: $params"
         def t = createTransition()
         def search = params.select3?.replaceAll('\\*', '%')
-        def results = securityService.listAllUser(username: search)
+        def results = securityService.listAllUser([find: search], [sort: [firstname: 'asc']])
         def options = Select.optionsFromRecordset(recordset: results)
         t.set('select3', 'options', options)
         display transition: t

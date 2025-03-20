@@ -3,7 +3,7 @@ class Upload extends Control {
     static initialize($element, $root) {
         let properties = Control.getProperties($element);
 
-        let options = {
+        let initOptions = {
             paramName: '_21Upload',
             url: 'not/set',
             addRemoveLinks: true,
@@ -32,7 +32,7 @@ class Upload extends Control {
             init: Upload.registerEvents,
         };
 
-        $element.dropzone(options);
+        $element.dropzone(initOptions);
     }
 
     static finalize($element, $root) {
@@ -43,7 +43,7 @@ class Upload extends Control {
 
         let url = Transition.buildUrl(componentEvent);
         let queryString = Transition.buildQueryString(componentEvent);
-        $element[0].dropzone.options.url = url + queryString;
+        $element[0].dropzone.initOptions.url = url + queryString;
     }
 
     static registerEvents() {
@@ -116,11 +116,11 @@ class Upload extends Control {
         let dropzone = $element[0].dropzone;
 
         if (value) {
-            $button.html(dropzone.options.dictDisabled);
+            $button.html(dropzone.initOptions.dictDisabled);
             dropzone.disable();
 
         } else {
-            $button.html(dropzone.options.dictDefaultMessage);
+            $button.html(dropzone.initOptions.dictDefaultMessage);
             dropzone.enable();
         }
     }

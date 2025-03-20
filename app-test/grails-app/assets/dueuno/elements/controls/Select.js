@@ -5,7 +5,7 @@ class Select extends Control {
         let properties = Component.getProperties($element);
         let hasButtons = $element.parent().has('a, .component-help').exists();
 
-        let options = {
+        let initOptions = {
             theme: 'bootstrap-5',
             dropdownParent: $root,
             language: _21_.user.language,
@@ -13,7 +13,6 @@ class Select extends Control {
             placeholder: properties['multiple'] ? null : properties['placeholder'],
             minimumResultsForSearch: properties['search'] ? 0 : -1,
             allowClear: properties['multiple'] ? false : properties['allowClear'],
-            sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
             dropdownAutoWidth : true,
             width: hasButtons ? 'auto' : '100%',
             escapeMarkup: function(markup) { return markup; },
@@ -37,8 +36,8 @@ class Select extends Control {
 
         let searchEvent = Component.getEvent($element, 'search');
         if (searchEvent) {
-            options.minimumInputLength = properties['searchMinInputLength'];
-            options.ajax = {
+            initOptions.minimumInputLength = properties['searchMinInputLength'];
+            initOptions.ajax = {
                 url: Transition.buildUrl(searchEvent),
                 data: function (params) {
                     searchEvent.params = {
@@ -49,23 +48,16 @@ class Select extends Control {
                 },
                 processResults: function (data) {
                     let transition = Transition.fromHtml(data);
-                    let optionCommand = transition.commands.findLast(it => it.component == controlId && it.property == 'options');
-                    if (optionCommand) {
-                        let options = optionCommand.value.value ?? {};
-                        let results = [];
-
-                        for (let [key, value] of Object.entries(options)) {
-                            let option = {id: key, text: value};
-                            results.push(option);
-                        }
-
-                        return {results: results};
+                    let optionsCommand = transition.commands.findLast(it => it.component == controlId && it.property == 'options');
+                    if (optionsCommand) {
+                        let options = optionsCommand.value.value ?? {};
+                        return {results: options};
                     }
                 }
             }
         }
 
-        $element.select2(options);
+        $element.select2(initOptions);
     }
 
     static finalize($element, $root) {
@@ -113,7 +105,7 @@ class Select extends Control {
         let loadEvent = Component.getEvent($element, 'load');
         let hasOptions = Select.hasOptions($element);
         if (searchEvent && loadEvent && !hasOptions) {
-            Select.setOptions($element, {[valueMap.value]: '...'});
+            Select.setOptions($element, [{id: valueMap.value}, {text: '...'}]);
             if (trigger) {
                 Transition.submit(loadEvent);
             }
@@ -165,7 +157,7 @@ class Select extends Control {
     static setOptions($element, options) {
         let valueMap = Select.getValue($element);
 
-        if (!options) {
+        if (!options || !options.length) {
             valueMap.value = null;
             Select.setValue($element, valueMap, false);
             return;
@@ -173,9 +165,9 @@ class Select extends Control {
 
         $element.empty();
         let isValueInOptions = false;
-        for (let [key, value] of Object.entries(options)) {
-            $element.append(new Option(value, key, false, false));
-            if (key == valueMap.value) {
+        for (let option of options) {
+            $element.append(new Option(option.text, option.id, false, false));
+            if (option.id == valueMap.value) {
                 isValueInOptions = true
             }
         }

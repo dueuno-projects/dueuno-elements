@@ -6,7 +6,7 @@ class MonthField extends DateTimeField {
         let dateFormat = 'MM/yyyy';
         let startOfTheWeek = _21_.user.firstDaySunday ? 0 : 1;
 
-        let options = {
+        let initOptions = {
             allowInputToggle: false,
             display: {
                 theme: 'light',
@@ -23,7 +23,7 @@ class MonthField extends DateTimeField {
             restrictions: {},
         };
 
-        let td = new tempusDominus.TempusDominus($element.parent()[0], options);
+        let td = new tempusDominus.TempusDominus($element.parent()[0], initOptions);
         td.dates.parseInput = MonthField.parseInput;
         $element.data('td', td);
     }

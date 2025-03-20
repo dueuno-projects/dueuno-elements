@@ -30,7 +30,7 @@ import org.grails.orm.hibernate.cfg.GrailsHibernateUtil
 @CompileStatic
 class Select extends Control {
 
-    Map options
+    List<Map<String, String>> options
     Closure forEachOption
 
     Button actions
@@ -112,7 +112,7 @@ class Select extends Control {
 
         // Automatically selects the first element if it's the only choice
         if (autoSelect && !nullable && options.size() == 1) {
-            defaultValue = options.keySet()[0]
+            defaultValue = options[0]
         }
 
         setMultiple(args.multiple as Boolean)
@@ -133,6 +133,10 @@ class Select extends Control {
     void setMultiple(Boolean value) {
         this.multiple = (value == null) ? false : value
         if (multiple) allowClear = false
+    }
+
+    Map getOptions() {
+        return options.collectEntries { [(it.id): it.text]}
     }
 
     @Override
@@ -163,7 +167,7 @@ class Select extends Control {
     //
     // Utils
     //
-    static Map optionsFromRecordset(Map args) {
+    static List<Map<String, String>> optionsFromRecordset(Map args) {
         Collection recordset = args.recordset as Collection ?: []
         List<String> keys = args.keys as List<String>
         String keysSeparator = args.keysSeparator ?: ','
@@ -171,7 +175,7 @@ class Select extends Control {
 
         PrettyPrinterProperties prettyPrinterProperties = createItemPrettyPrinterProperties(args, recordset.getAt(0))
 
-        Map results = [:]
+        List<Map<String, String>> results = []
 
         // If the first record is a domain class we auto-setup 'id' as key
         Object firstRecord = recordset ? recordset.getAt(0) : null
@@ -194,48 +198,48 @@ class Select extends Control {
             if (forEachOption)
                 forEachOption.call(row)
 
-            String description = PrettyPrinter.prettyPrint(row, prettyPrinterProperties)
+            String text = PrettyPrinter.prettyPrint(row, prettyPrinterProperties)
 
-            results[buildKey(row, keys, keysSeparator)] = description
+            results.add([id: buildKey(row, keys, keysSeparator), text: text])
         }
         return results
     }
 
-    static Map optionsFromList(Map args) {
+    static List<Map<String, String>> optionsFromList(Map args) {
         List list = args.list as List ?: []
         Closure forEachOption = args.forEachOption as Closure ?: null
         PrettyPrinterProperties prettyPrinterProperties = createItemPrettyPrinterProperties(args, list.getAt(0))
 
-        Map results = [:]
+        List<Map<String, String>> results = []
         for (value in list) {
             if (forEachOption)
                 forEachOption.call(value)
 
-            String description = PrettyPrinter.prettyPrint(value, prettyPrinterProperties)
-            results[(value as String)] = description
+            String text = PrettyPrinter.prettyPrint(value, prettyPrinterProperties)
+            results.add([id: value as String, text: text])
         }
 
         return results
     }
 
     @CompileDynamic
-    static Map optionsFromEnum(Map args) {
+    static List<Map<String, String>> optionsFromEnum(Map args) {
         args.list = args.enum?.values()*.name()
         return optionsFromList(args)
     }
 
-    static Map options(Map args) {
+    static List<Map<String, String>> options(Map args) {
         Map options = args.options as Map ?: [:]
         Closure forEachOption = args.forEachOption as Closure ?: null
         PrettyPrinterProperties prettyPrinterProperties = createItemPrettyPrinterProperties(args, options.keySet().getAt(0))
 
-        Map results = [:]
+        List<Map<String, String>> results = []
         for (entry in options) {
             if (forEachOption)
                 forEachOption.call(entry)
 
-            String description = PrettyPrinter.prettyPrint(entry, prettyPrinterProperties)
-            results[(entry.key as String)] = description
+            String text = PrettyPrinter.prettyPrint(entry, prettyPrinterProperties)
+            results.add([id: entry.key as String, text: text])
         }
 
         return results

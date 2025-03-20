@@ -7,7 +7,7 @@ class TimeField extends DateTimeField {
         let timeFormat = _21_.user.twelveHours ? 'hh:mm' : 'HH:mm';
         let hourCycle = _21_.user.twelveHours ? 'h12' : 'h23';
 
-        let options = {
+        let initOptions = {
             stepping: properties.timeStep ?? 1,
             allowInputToggle: false,
             display: {
@@ -23,7 +23,7 @@ class TimeField extends DateTimeField {
             }
         };
 
-        let td = new tempusDominus.TempusDominus($element.parent()[0], options);
+        let td = new tempusDominus.TempusDominus($element.parent()[0], initOptions);
         td.dates.parseInput = TimeField.parseInput;
         $element.data('td', td);
     }
