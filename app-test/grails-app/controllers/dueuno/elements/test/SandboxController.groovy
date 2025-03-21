@@ -219,7 +219,9 @@ class SandboxController implements ElementsController {
                     class: TextField,
                     id: 'placeholderText',
                     validChars: '/:1234567890',
-                    prefix: 'PRE',
+//                    prefix: 'PRE',
+                    icon: 'fa-box',
+                    onChange: 'onIconChange',
                     maxSize: 7,
                     cols: 12,
             )
@@ -633,6 +635,12 @@ Grails application running at http://localhost:9992/test in environment: develop
         display content: c, modal: true
     }
 
+    def onIconChange() {
+        def t = createTransition()
+        t.set('placeholderText', 'icon', 'fa-box-open')
+        display transition: t
+    }
+
     def onMessage() {
         display message: 'sandbox.message.with.params', messageArgs: [params.name], controller: 'table'
     }
@@ -749,7 +757,7 @@ Grails application running at http://localhost:9992/test in environment: develop
         println "SEARCH: $params"
         def t = createTransition()
         def search = params.select3?.replaceAll('\\*', '%')
-        def results = securityService.listAllUser(username: search)
+        def results = securityService.listAllUser([find: search], [sort: [firstname: 'asc']])
         def options = Select.optionsFromRecordset(recordset: results)
         t.set('select3', 'options', options)
         display transition: t

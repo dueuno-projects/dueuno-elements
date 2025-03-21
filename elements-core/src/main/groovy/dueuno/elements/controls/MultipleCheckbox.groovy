@@ -28,7 +28,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class MultipleCheckbox extends Control {
 
-    Map options
+    List<Map<String, String>> options
     Boolean simple
 
     Map<String, Checkbox> checkboxes
@@ -78,35 +78,25 @@ class MultipleCheckbox extends Control {
         }
 
         checkboxes = [:]
-        for (optionEntry in options) {
-            String key = optionEntry.key
-            Object value = optionEntry.value
+        for (option in options) {
+            String id = option.id
+            Object text = option.text
 
             Checkbox checkbox = new Checkbox(
-                    id: getId() + '.' + key,
-                    optionKey: key,
-                    optionValue: PrettyPrinter.printObject(value),
+                    id: getId() + '.' + id,
+                    optionKey: id,
+                    optionValue: text,
                     simple: simple,
                     readonly: readonly,
                     primaryTextColor: primaryTextColor,
                     primaryBackgroundColor: primaryBackgroundColor,
                     primaryBackgroundColorAlpha: primaryBackgroundColorAlpha,
             )
-            checkboxes.put(key, checkbox)
+            checkboxes.put(id, checkbox)
         }
 
         containerSpecs.nullable = true
     }
-
-//    @Override
-//    String getValueAsJSON() {
-//        Map valueMap = [
-//                type: valueType,
-//                value: value as List,
-//        ]
-//
-//        return Elements.encodeAsJSON(valueMap)
-//    }
 
     @Override
     void setValue(Object value, Boolean transform = true) {

@@ -18,23 +18,23 @@
 }
 
 .no-wrap,
-.no-wrap span {
+.no-wrap .text {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.soft-wrap span {
+.soft-wrap .text {
     white-space: normal;
     word-wrap: break-word;
 }
 
-.line-wrap span {
+.line-wrap .text {
     white-space: pre-line;
     word-wrap: break-word;
 }
 
-.line-break span {
+.line-break .text {
     white-space: pre;
     word-wrap: break-word;
     overflow-x: scroll;

@@ -14,7 +14,7 @@
  */
 package dueuno.elements.security
 
-import dueuno.elements.components.ShellService
+
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
@@ -22,7 +22,9 @@ import dueuno.elements.contents.ContentList
 import dueuno.elements.controls.MultipleCheckbox
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
+import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
+import dueuno.elements.core.Feature
 import dueuno.elements.core.Menu
 import dueuno.elements.tenants.TenantService
 import grails.gorm.multitenancy.WithoutTenant
@@ -37,9 +39,9 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['ROLE_SECURITY'])
 class GroupController implements ElementsController {
 
+    ApplicationService applicationService
     SecurityService securityService
     TenantService tenantService
-    ShellService shellService
 
     def index() {
         Boolean isSuperAdmin = securityService.isSuperAdmin()
@@ -78,9 +80,6 @@ class GroupController implements ElementsController {
             ]
             keys = ['id']
             columns = cols
-            prettyPrinters = [
-                    landingPage: 'LANDING_PAGE',
-            ]
 
             body.eachRow { TableRow row, Map values ->
                 values.system = !values.deletable
@@ -141,24 +140,33 @@ class GroupController implements ElementsController {
                     id: 'landingPage',
                     optionsFromRecordset: getLandingPages(),
                     prettyPrinter: 'LANDING_PAGE',
-                    keys: ['controller'],
             )
         }
+
         return c
     }
 
-    private List<String> getLandingPages() {
-        List<Menu> results = []
+    private List<Map> getLandingPages() {
+        List<Map> results = []
 
-        for (item in shellService.shell.menu.items) {
-            if (item.items) {
-                results.addAll(item.items)
+        for (feature in applicationService.mainFeatures.features) {
+            List<Feature> subFeatures = feature.features
+            if (subFeatures) {
+                for (subFeature in subFeatures) {
+                    results.add(id: subFeature.controller, text: featureToText(subFeature))
+                }
             } else {
-                results.add(item)
+                results.add(id: feature.controller, text: featureToText(feature))
             }
         }
 
         return results
+    }
+
+    private String featureToText(Feature menu) {
+        String code = "shell.${menu.namespace ? menu.namespace + "." : ""}${menu.controller}"
+        String text = message(code)
+        return "<i class='fa-fw fa-solid ${menu.icon}'></i> ${text}"
     }
 
     def create() {

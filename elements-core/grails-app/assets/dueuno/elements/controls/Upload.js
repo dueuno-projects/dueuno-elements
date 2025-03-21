@@ -3,7 +3,7 @@ class Upload extends Control {
     static initialize($element, $root) {
         let properties = Control.getProperties($element);
 
-        let options = {
+        let initOptions = {
             paramName: '_21Upload',
             url: 'not/set',
             addRemoveLinks: true,
@@ -32,7 +32,7 @@ class Upload extends Control {
             init: Upload.registerEvents,
         };
 
-        $element.dropzone(options);
+        $element.dropzone(initOptions);
     }
 
     static finalize($element, $root) {

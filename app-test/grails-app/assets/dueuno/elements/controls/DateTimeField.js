@@ -7,7 +7,7 @@ class DateTimeField extends Control {
         let hourCycle = _21_.user.twelveHours ? 'h12' : 'h23';
         let startOfTheWeek = _21_.user.firstDaySunday ? 0 : 1;
 
-        let options = {
+        let initOptions = {
             stepping: properties.timeStep ?? 1,
             allowInputToggle: false,
             display: {
@@ -21,21 +21,21 @@ class DateTimeField extends Control {
             restrictions: {},
         }
 
-        let td = new tempusDominus.TempusDominus($element.parent()[0], options);
+        let td = new tempusDominus.TempusDominus($element.parent()[0], initOptions);
         td.dates.parseInput = DateTimeField.parseInput;
         $element.data('td', td);
     }
 
     static finalize($element, $root) {
         let properties = Component.getProperties($element);
-        let options = {
+        let initOptions = {
             restrictions: {
                 minDate: properties.min ? new Date(properties.min) : undefined,
                 maxDate: properties.max ? new Date(properties.max) : undefined,
             }
         };
         let td = $element.data('td');
-        td.updateOptions(options);
+        td.updateOptions(initOptions);
 
         $element.off('focus').on('focus', Control.onFocus);
         $element.off('paste').on('paste', Control.onPaste);
@@ -220,14 +220,14 @@ class DateTimeField extends Control {
             value?.minute ?? 0
         );
 
-        let options = {
+        let initOptions = {
             restrictions: {
                 minDate: value ? dateTime : undefined,
             }
         };
 
         let td = $element.data('td');
-        td.updateOptions(options);
+        td.updateOptions(initOptions);
     }
 
     static setMax($element, value) {
@@ -239,14 +239,14 @@ class DateTimeField extends Control {
             value?.minute ?? 0
         );
 
-        let options = {
+        let initOptions = {
             restrictions: {
                 maxDate: value ? dateTime : undefined,
             }
         };
 
         let td = $element.data('td');
-        td.updateOptions(options);
+        td.updateOptions(initOptions);
     }
 
     static setError($element, value) {

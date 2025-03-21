@@ -6,7 +6,7 @@ class DateField extends DateTimeField {
         let dateFormat = _21_.user.invertedMonth ? 'MM/dd/yyyy' : 'dd/MM/yyyy';
         let startOfTheWeek = _21_.user.firstDaySunday ? 0 : 1;
 
-        let options = {
+        let initOptions = {
             allowInputToggle: false,
             display: {
                 theme: 'light',
@@ -22,7 +22,7 @@ class DateField extends DateTimeField {
             restrictions: {},
         };
 
-        let td = new tempusDominus.TempusDominus($element.parent()[0], options);
+        let td = new tempusDominus.TempusDominus($element.parent()[0], initOptions);
         td.dates.parseInput = DateField.parseInput;
         $element.data('td', td);
     }
