@@ -93,8 +93,10 @@
                           style="color: ${label.textColor}; background-color: ${label.backgroundColor}; ${label.cssStyle}">
                         <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
                         <g:else>
+                            <span ${label.tooltip ? raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"') : ''}>
                             <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon && label.text ? 'me-1' : ''}"/></g:if>
-                            <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="${label.verticalAlign}" ${label.tooltip ? raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"') : ''}>${label.text}${label.border && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
+                            <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${label.text}${label.border && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
+                            </span>
                         </g:else>
                     </span>
                 </div>
