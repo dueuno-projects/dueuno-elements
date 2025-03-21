@@ -14,6 +14,7 @@
  */
 package dueuno.elements.pages
 
+import dueuno.elements.components.KeyPress
 import dueuno.elements.contents.ContentHome
 import dueuno.elements.core.Page
 import dueuno.elements.exceptions.ArgsException
@@ -33,6 +34,7 @@ class Shell extends Page {
     ShellNavbar navbar
     ShellMenu menu
     ShellUserMenu userMenu
+    KeyPress keyPress
 
     ContentHome home
 
@@ -47,6 +49,17 @@ class Shell extends Page {
 
         username = ''
         userFullname = ''
+
+        keyPress = createComponent(KeyPress)
+        keyPress.with {
+            id = '_21_keyPress'
+            //controller = tenantPropertyService.getString('KEYPRESS_CONTROLLER') ?: 'authentication'
+            //action = tenantPropertyService.getString('KEYPRESS_ACTION') ?: 'onExternalLogout'
+            //triggerKey = tenantPropertyService.getString('KEYPRESS_TRIGGER_KEY') ?: 'Enter'
+            controller = 'authentication'
+            action = 'onExternalLogout'
+            triggerKey = 'Enter'
+        }
 
         menu = addComponent(ShellMenu, 'menu', [shell: this, textPrefix: 'shell'])
         menu.createFromFeature(config.features.main)

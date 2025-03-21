@@ -103,6 +103,10 @@ class BootStrap {
                     'Copyright &copy; Dueuno.<br/>All rights reserved.<br/><br/><a href="' + appLink + '">&lt;&lt; Back to website</a>'
             )
 
+            tenantPropertyService.setString('KEYPRESS_CONTROLLER', '', '')
+            tenantPropertyService.setString('KEYPRESS_ACTION', '', '')
+            tenantPropertyService.setString('KEYPRESS_TRIGGER_KEY', '', '')
+
             securityService.updateGroup(
                     tenantId: tenantId,
                     name: 'USERS',

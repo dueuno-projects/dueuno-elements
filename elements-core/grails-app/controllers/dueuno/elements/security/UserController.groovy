@@ -55,6 +55,7 @@ class UserController implements ElementsController {
                 'lastname',
                 'defaultGroup',
                 'apiKey',
+                'externalId',
                 'enabled',
                 'admin',
                 'system',
@@ -103,6 +104,7 @@ class UserController implements ElementsController {
                 if (!values.deletable) {
                     row.actions.removeTailAction()
                 }
+                values.externalId = !!values.externalId
             }
         }
 
@@ -218,6 +220,11 @@ class UserController implements ElementsController {
                     readonly: !securityService.isSuperAdmin() && !obj?.deletable,
             ).component
             apiKey.addAction(action: 'onGenerateApiKey', submit: ['form'], text: 'user.generateApiKey', icon: 'fa-key')
+            addField(
+                    class: TextField,
+                    id: 'externalId',
+                    icon: 'fa-barcode',
+            )
         }
 
         buildPreferencesForm(c)

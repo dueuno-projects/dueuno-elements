@@ -98,6 +98,13 @@ class AuthenticationController implements ElementsController {
         redirect uri: securityService.logoutLandingPage
     }
 
+    def onExternalLogout() {
+        // Default action to log out via external id.
+        // Contains logic so that only the current user (if he has an external id) can log out.
+        // This action can be overridden in the application if it is necessary to manage barcode reading for different uses
+        display transition: securityService.logoutTransition()
+    }
+
     def afterLogout() {
         // Serve a gestire il DENY_AUTHORIZATION_MESSAGE ovvero l'avviso da mostrare nel caso l'utente non sia autorizzato
         // ad accedere per motivi legati all'applicazione

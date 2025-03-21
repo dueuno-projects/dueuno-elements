@@ -73,8 +73,7 @@ class Login extends Page {
                     $(event.target).val('');
                 }
 
-                //Login.onLogin(null, data);
-                console.log(data);
+                Login.onLogin(null, data);
             }
             $element.val('');
         }
