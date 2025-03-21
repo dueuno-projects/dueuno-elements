@@ -43,7 +43,7 @@ class Upload extends Control {
 
         let url = Transition.buildUrl(componentEvent);
         let queryString = Transition.buildQueryString(componentEvent);
-        $element[0].dropzone.initOptions.url = url + queryString;
+        $element[0].dropzone.options.url = url + queryString;
     }
 
     static registerEvents() {
@@ -116,11 +116,11 @@ class Upload extends Control {
         let dropzone = $element[0].dropzone;
 
         if (value) {
-            $button.html(dropzone.initOptions.dictDisabled);
+            $button.html(dropzone.options.dictDisabled);
             dropzone.disable();
 
         } else {
-            $button.html(dropzone.initOptions.dictDefaultMessage);
+            $button.html(dropzone.options.dictDefaultMessage);
             dropzone.enable();
         }
     }
