@@ -77,6 +77,17 @@ class TextField extends Control {
         $element[0].placeholder = value;
     }
 
+    static setIcon($element, value) {
+        let $icon = $element.parent().find('.input-group-text i')
+        $icon.removeClass();
+
+        $icon.addClass(value);
+        $icon.addClass('fa-fw');
+        if (value.search('fa-solid|fa-regular|fa-light|fa-thin|fa-duotone|fa-brand') == -1) {
+            $icon.addClass('fa-solid');
+        }
+    }
+
     static transform(value, properties) {
         switch (properties.textTransform) {
             case 'uppercase': return value.toUpperCase();
