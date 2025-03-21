@@ -13,6 +13,7 @@
 
 <div id="page-shell" class="m-0 p-0">
 
+        <render:component instance="${c.keyPress}" />
         <render:component instance="${c.menu}"/>
         <render:component instance="${c.navbar}"/>
         <render:component instance="${c.userMenu}"/>

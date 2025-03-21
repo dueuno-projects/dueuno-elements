@@ -50,12 +50,8 @@ class Shell extends Page {
         username = ''
         userFullname = ''
 
-        keyPress = createComponent(KeyPress)
+        keyPress = addComponent(KeyPress, '_21_keyPress')
         keyPress.with {
-            id = '_21_keyPress'
-            //controller = tenantPropertyService.getString('KEYPRESS_CONTROLLER') ?: 'authentication'
-            //action = tenantPropertyService.getString('KEYPRESS_ACTION') ?: 'onExternalLogout'
-            //triggerKey = tenantPropertyService.getString('KEYPRESS_TRIGGER_KEY') ?: 'Enter'
             controller = 'authentication'
             action = 'onExternalLogout'
             triggerKey = 'Enter'
