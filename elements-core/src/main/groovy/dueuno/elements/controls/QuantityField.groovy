@@ -36,14 +36,14 @@ class QuantityField extends NumberField {
         super(args)
 
         viewTemplate = 'QuantityField'
-        valueType = 'QUANTITY'
+        valueType = Quantity.TYPE_NAME
 
         decimals = args.decimals == null ? 2 : args.decimals as Integer
         negative = (args.negative == null) ? false : args.negative
         unitOptions = unitListToOptions(args.availableUnits as List)
         setDefaultUnit(args.defaultUnit as QuantityUnit)
 
-        inputMode = args.inputMode as TextFieldInputMode ?: (decimals ? TextFieldInputMode.DECIMAL : TextFieldInputMode.NUMBER)
+        inputMode = decimals ? TextFieldInputMode.DECIMAL : TextFieldInputMode.NUMERIC
     }
 
     void setDefaultUnit(QuantityUnit value) {

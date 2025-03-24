@@ -1,7 +1,7 @@
 <g:if test="${c.icon || c.prefix}">
     <span class="input-group-text"><g:if test="${c.icon}"><render:icon icon="${c.icon}" force="fa-solid" class="fa-fw"/></g:if>${c.prefix}</span>
 </g:if>
-<input type="${c.inputMode}"
+<input type="${c.inputType}"
        class="control-text-field form-control ${c.textStyle} ${c.cssClass}"
        style="${c.cssStyleColors}${c.cssStyle}"
        inputmode="${c.inputMode}"

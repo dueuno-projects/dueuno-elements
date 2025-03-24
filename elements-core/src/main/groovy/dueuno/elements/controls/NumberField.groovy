@@ -42,7 +42,8 @@ class NumberField extends TextField {
         min = args.min as Integer
         max = args.max as Integer
 
-        inputMode = args.inputMode as TextFieldInputMode ?: (decimals ? TextFieldInputMode.DECIMAL : TextFieldInputMode.NUMBER)
+        inputType = TextFieldInputType.NUMBER
+        inputMode = decimals ? TextFieldInputMode.DECIMAL : TextFieldInputMode.NUMERIC
     }
 
     String buildPattern() {

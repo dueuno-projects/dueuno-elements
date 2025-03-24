@@ -18,19 +18,16 @@ import groovy.transform.CompileStatic
 
 /**
  * @author Gianluca Sartori
- * @author Francesco Piceghello
  */
 
 @CompileStatic
-class PasswordField extends TextField {
-
-    PasswordField(Map args) {
-        super(args)
-
-        viewTemplate = 'TextField'
-        inputType = TextFieldInputType.PASSWORD
-
-        icon = (args.icon == null) ? 'fa-lock' : args.icon
-        autocomplete = false
-    }
+enum TextFieldInputType {
+    TEXT,
+    NUMBER,
+    DECIMAL,
+    SEARCH,
+    PASSWORD,
+    EMAIL,
+    URL,
+    TEL
 }

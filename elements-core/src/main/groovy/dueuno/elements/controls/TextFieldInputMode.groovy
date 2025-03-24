@@ -22,12 +22,12 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 enum TextFieldInputMode {
+    NONE,
     TEXT,
-    NUMBER,
+    NUMERIC,
     DECIMAL,
     SEARCH,
-    PASSWORD,
     EMAIL,
-    TEL,
-    URL
+    URL,
+    TEL
 }
