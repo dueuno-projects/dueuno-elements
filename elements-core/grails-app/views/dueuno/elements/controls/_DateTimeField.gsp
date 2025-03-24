@@ -4,9 +4,10 @@
       data-td-toggle="datetimepicker">
     <i class="fa-solid fa-fw fa-calendar-alt"></i>
 </span>
-<input type="number"
+<input type="text"
        class="control-date-time-field form-control ${c.textStyle}"
        style="${c.cssStyleColors}"
+       inputmode="numeric"
        autocomplete="off"
        data-td-target="#${c.id}"
        data-21-control="${c.className}"
