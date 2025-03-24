@@ -9,7 +9,11 @@ class KeyPressController implements ElementsController{
 
     def onKeyPress() {
         String externalId = params._21KeyPressed
-        securityService.executeLogoutIfExternalId(externalId)
-        display controller: 'authentication', action: 'login', direct: true
+        def user = securityService.getUserByExternalId(externalId)
+        if (user) {
+            display controller: 'authentication', action: 'logout'
+        } else {
+            display
+        }
     }
 }

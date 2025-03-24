@@ -435,13 +435,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         session.invalidate()
     }
 
-    void executeLogoutIfExternalId(String externalId) {
-        TUser user = getUserByExternalId(externalId)
-        if (user && user == currentUser) {
-            executeLogout()
-        }
-    }
-
     /**
      * INTERNAL USE ONLY. Executes custom post-logout code.
      */
