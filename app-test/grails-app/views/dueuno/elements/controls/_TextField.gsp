@@ -8,6 +8,7 @@
        maxlength="${(c.maxSize > 0) ? c.maxSize: ''}"
        autocapitalize="none"
        autocomplete="${c.autocomplete ? 'on' : 'off'}"
+       pattern="${c.keyboardType.toString() == 'number' ? '[0-9]*' : ''}"
        step="any"
        data-21-control="${c.className}"
        data-21-id="${c.id}"
