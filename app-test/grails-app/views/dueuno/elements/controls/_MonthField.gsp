@@ -4,7 +4,7 @@
       data-td-toggle="datetimepicker">
     <i class="fa-solid fa-fw fa-calendar-day"></i>
 </span>
-<input type="text"
+<input type="number"
        class="control-month-field form-control ${c.textStyle}"
        style="${c.cssStyleColors}"
        autocomplete="off"
