@@ -42,6 +42,8 @@ class QuantityField extends NumberField {
         negative = (args.negative == null) ? false : args.negative
         unitOptions = unitListToOptions(args.availableUnits as List)
         setDefaultUnit(args.defaultUnit as QuantityUnit)
+
+        inputMode = args.inputMode as TextFieldInputMode ?: (decimals ? TextFieldInputMode.DECIMAL : TextFieldInputMode.NUMBER)
     }
 
     void setDefaultUnit(QuantityUnit value) {

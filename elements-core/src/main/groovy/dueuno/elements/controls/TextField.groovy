@@ -30,7 +30,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class TextField extends Control {
 
-    TextFieldKeyboardType keyboardType
+    TextFieldInputMode inputMode
 
     Button actions
     String icon
@@ -47,7 +47,7 @@ class TextField extends Control {
 
         valueType = Type.TEXT
 
-        keyboardType = args.keyboardType as TextFieldKeyboardType ?: TextFieldKeyboardType.TEXT
+        inputMode = args.inputMode as TextFieldInputMode ?: TextFieldInputMode.TEXT
         icon = args.icon ?: ''
         prefix = args.prefix ?: ''
         maxSize = args.maxSize as Integer ?: 0
@@ -72,8 +72,8 @@ class TextField extends Control {
         return on(args)
     }
 
-    String getKeyboardType() {
-        return (keyboardType as String).toLowerCase()
+    String getInputMode() {
+        return (inputMode as String).toLowerCase()
     }
 
     Control addAction(Map args) {
