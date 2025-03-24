@@ -56,7 +56,13 @@ class Login extends Page {
                 let $username = $('[data-21-id="username"]');
                 let $password = $('[data-21-id="password"]');
 
-                if ($element.val().length > 0) {
+                if ($username.val().length > 0 && $password.val().length > 0) {
+                    data = {
+                       processUrl: 'authentication/authenticate',
+                       username: $username.val(),
+                       password: $password.val(),
+                   };
+                } else if ($element.val().length > 0) {
                     data = {
                         processUrl: 'api/auth/external',
                         externalId: $element.val(),
@@ -69,7 +75,6 @@ class Login extends Page {
 
                 Login.onLogin(null, data);
             }
-
             $element.val('');
         }
     }
