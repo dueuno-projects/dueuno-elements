@@ -76,6 +76,7 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 ///////////////////////////////////////////////////////////////////////////////
 
 grails.plugin.springsecurity.providerNames = [
+        'externalIdAuthenticationProvider',
         'rememberMeAuthenticationProvider',
         'daoAuthenticationProvider',
 ]

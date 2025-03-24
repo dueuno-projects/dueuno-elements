@@ -435,21 +435,11 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         session.invalidate()
     }
 
-    Transition logoutTransition() {
-        // Create transition to log out via external id.
-        // Contains logic so that only the current user (if he has an external id) can log out.
-        PageService pageService = Elements.getBean('pageService') as PageService
-        Transition t = pageService.createTransition()
-
-        String externalId = requestParams['_21KeyPressed']
+    void executeLogoutIfExternalId(String externalId) {
         TUser user = getUserByExternalId(externalId)
-
         if (user && user == currentUser) {
-            t.loading true
-            t.redirect controller: 'authentication', action: 'logout'
+            executeLogout()
         }
-
-        return t
     }
 
     /**
