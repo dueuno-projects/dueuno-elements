@@ -52,9 +52,8 @@ class Shell extends Page {
 
         keyPress = addComponent(KeyPress, '_21_keyPress')
         keyPress.with {
-            controller = 'authentication'
-            action = 'onExternalLogout'
-            triggerKey = 'Enter'
+            controller = 'keyPress'
+            action = 'onKeyPress'
         }
 
         menu = addComponent(ShellMenu, 'menu', [shell: this, textPrefix: 'shell'])

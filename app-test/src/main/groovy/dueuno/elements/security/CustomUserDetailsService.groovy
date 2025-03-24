@@ -25,6 +25,7 @@ class CustomUserDetailsService extends GormUserDetailsService {
         Class<?> User = dc.clazz
 
         def user = User.createCriteria().get {
+            ne((conf.externalId.propertyName), '')
             eq((conf.externalId.propertyName), externalId)
         }
 
