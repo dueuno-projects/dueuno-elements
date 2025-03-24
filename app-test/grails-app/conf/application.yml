@@ -56,12 +56,6 @@ environments:
 grails:
   plugin:
     springsecurity:
-      filterChain:
-        chainMap:
-          - pattern: '/api/auth/external'
-            filters: 'externalIdAuthenticationFilter'
-          - pattern: '/**'
-            filters: 'JOINED_FILTERS,-externalIdAuthenticationFilter'
       providerNames:
         - rememberMeAuthenticationProvider
         - daoAuthenticationProvider

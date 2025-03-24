@@ -217,6 +217,7 @@ class UserController implements ElementsController {
             TextField apiKey = addField(
                     class: TextField,
                     id: 'apiKey',
+                    icon: 'fa-plug',
                     readonly: !securityService.isSuperAdmin() && !obj?.deletable,
             ).component
             apiKey.addAction(action: 'onGenerateApiKey', submit: ['form'], text: 'user.generateApiKey', icon: 'fa-key')

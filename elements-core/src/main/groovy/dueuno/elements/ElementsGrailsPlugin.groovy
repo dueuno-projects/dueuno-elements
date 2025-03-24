@@ -15,7 +15,11 @@
 package dueuno.elements
 
 import dueuno.elements.core.SessionInitializer
+import dueuno.elements.security.CustomUserDetailsService
+import dueuno.elements.security.ExternalIdAuthenticationFilter
+import dueuno.elements.security.ExternalIdAuthenticationProvider
 import dueuno.elements.tenants.TenantForCurrentUserResolver
+import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugins.Plugin
 import groovy.util.logging.Slf4j
 import org.springframework.scheduling.annotation.EnableScheduling
@@ -72,6 +76,25 @@ class ElementsGrailsPlugin extends Plugin {
         tenantForCurrentUserResolver(TenantForCurrentUserResolver)
         sessionInitializer(SessionInitializer)
 //        keyChain(KeyChain)
+
+        ConfigObject conf = SpringSecurityUtils.securityConfig
+
+        customUserDetailsService(CustomUserDetailsService) {
+            grailsApplication = ref('grailsApplication')
+        }
+
+        externalIdAuthenticationProvider(ExternalIdAuthenticationProvider) {
+            customUserDetailsService = ref('customUserDetailsService')
+        }
+
+        externalIdAuthenticationFilter(ExternalIdAuthenticationFilter, conf.externalId.filterProcessesUrl) {
+            authenticationManager = ref('authenticationManager')
+            authenticationSuccessHandler = ref('authenticationSuccessHandler')
+            authenticationFailureHandler = ref('authenticationFailureHandler')
+            sessionAuthenticationStrategy = ref('sessionAuthenticationStrategy')
+            rememberMeServices = ref('rememberMeServices')
+            securityContextRepository = ref('securityContextRepository')
+        }
     } }
 
     void doWithDynamicMethods() {
