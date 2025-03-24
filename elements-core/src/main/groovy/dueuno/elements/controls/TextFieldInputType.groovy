@@ -21,12 +21,13 @@ import groovy.transform.CompileStatic
  */
 
 @CompileStatic
-enum TextFieldKeyboardType {
+enum TextFieldInputType {
     TEXT,
     NUMBER,
+    DECIMAL,
     SEARCH,
     PASSWORD,
     EMAIL,
-    TEL,
-    URL
+    URL,
+    TEL
 }

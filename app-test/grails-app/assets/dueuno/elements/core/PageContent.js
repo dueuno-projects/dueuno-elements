@@ -30,7 +30,7 @@ class PageContent extends Component {
         // Initializing Bootstrap tooltips.
         // On Mobile we activate it only for Labels
         let $tooltipTriggerList = Elements.onMobile
-            ? $('.component-label[data-bs-toggle="tooltip"]')
+            ? $('.component-label [data-bs-toggle="tooltip"]')
             : $('[data-bs-toggle="tooltip"]');
 
         for (let $tooltipTrigger of $tooltipTriggerList) {

@@ -1,14 +1,14 @@
 <g:if test="${c.icon || c.prefix}">
     <span class="input-group-text"><g:if test="${c.icon}"><render:icon icon="${c.icon}" force="fa-solid" class="fa-fw"/></g:if>${c.prefix}</span>
 </g:if>
-<input type="${c.keyboardType}"
+<input type="${c.inputType}"
        class="control-text-field form-control ${c.textStyle} ${c.cssClass}"
        style="${c.cssStyleColors}${c.cssStyle}"
+       inputmode="${c.inputMode}"
        placeholder="${c.message(c.placeholder)}"
        maxlength="${(c.maxSize > 0) ? c.maxSize: ''}"
        autocapitalize="none"
        autocomplete="${c.autocomplete ? 'on' : 'off'}"
-       step="any"
        data-21-control="${c.className}"
        data-21-id="${c.id}"
        data-21-properties="${c.propertiesAsJSON}"

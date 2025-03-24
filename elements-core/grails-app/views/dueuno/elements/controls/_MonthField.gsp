@@ -7,6 +7,7 @@
 <input type="text"
        class="control-month-field form-control ${c.textStyle}"
        style="${c.cssStyleColors}"
+       inputmode="numeric"
        autocomplete="off"
        data-td-target="#${c.id}"
        data-21-control="${c.className}"
