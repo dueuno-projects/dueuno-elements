@@ -206,7 +206,7 @@ class PrettyPrinter {
 
     static String printInteger(BigDecimal value, PrettyPrinterProperties properties) {
         properties.decimals = 0
-        printDecimal(value, properties)
+        return printDecimal(value, properties)
     }
 
     static String printDecimal(BigDecimal value, PrettyPrinterProperties properties) {
