@@ -49,7 +49,7 @@ class KeyPress extends Component {
             $(event.target).val('');
         }
 
-        if ((event.key == triggerKey && $search.val().length > 0) || triggerKey.length == 0) {
+        if ((event.key == triggerKey && $search.val().length > 0 && checkMinTime) || triggerKey.length == 0) {
             if (triggerKey.length > 0 && $search.val().length > 0 &&
                 (event.target.tagName == 'A' || event.target.tagName == 'BUTTON')) {
                 event.preventDefault();

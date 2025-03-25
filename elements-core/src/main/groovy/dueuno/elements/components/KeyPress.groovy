@@ -43,7 +43,7 @@ class KeyPress extends Component {
         //a barcode reader is typically much faster at typing than a human...
         //let's use this principle to understand if the typing comes from a reader (ms)
         //(only evaluated if focus is on an "input" element)
-        readingSpeed = args.readingSpeed == null ? 50 : args.readingSpeed as Integer
+        readingSpeed = args.readingSpeed == null ? 20 : args.readingSpeed as Integer
 
         //to prevent accidental typing, the buffer empties after a certain time (ms)
         bufferCleanupTimeout = args.bufferCleanupTimeout == null ? 500 : args.bufferCleanupTimeout as Integer
