@@ -12,7 +12,7 @@ class Login extends Page {
 
         event.stopPropagation();
 
-        let readingSpeed = 40;
+        let readingSpeed = 50;
         let bufferCleanupTimeout = 500;
         let timer = Component.getProperty($element, 'timer');
 
