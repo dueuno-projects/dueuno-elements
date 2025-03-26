@@ -95,11 +95,13 @@ class Elements {
     ]
 
     static Map toMap(Object object, List<String> columns = [], List<String> includes = [], List<String> excludes = []) {
-        if (!object)
+        if (!object) {
             return [:]
+        }
 
-        if (object in Map)
+        if (object in Map) {
             return object as Map
+        }
 
         Map results = [:]
 
@@ -122,8 +124,9 @@ class Elements {
 
             for (property in object.metaClass.properties) {
                 String name = property.name
-                if ((name in excludes || name in hasMany) && (name !in columns || name !in includes))
+                if ((name in excludes || name in hasMany) && (name !in columns || name !in includes)) {
                     continue
+                }
 
                 Object value = ObjectUtils.getValue(object, name)
                 results.put(name, value)
@@ -139,8 +142,9 @@ class Elements {
 
             for (property in object.properties) {
                 String name = property.key
-                if (name in excludes && (name !in columns || name !in includes))
+                if (name in excludes && (name !in columns || name !in includes)) {
                     continue
+                }
 
                 Object value = ObjectUtils.getValue(object, name)
                 results.put(name, value)

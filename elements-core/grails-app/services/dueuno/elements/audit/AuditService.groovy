@@ -14,11 +14,14 @@
  */
 package dueuno.elements.audit
 
+import dueuno.elements.core.Elements
 import dueuno.elements.core.WebRequestAware
 import dueuno.elements.security.SecurityService
 import grails.artefact.DomainClass
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
+import groovy.json.JsonBuilder
+import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
 
 import javax.servlet.http.HttpServletRequest
@@ -43,24 +46,21 @@ class AuditService implements WebRequestAware {
                 ip: ipAddress,
                 userAgent: userAgent,
                 operation: operation,
-                message: message,
+                message: message?.take(2000), // Keep in sync with TAuditLog domain class constraints
                 username: securityService.currentUsername ?: 'super',
         )
         auditLog.save(flush: true, failOnError: true)
     }
 
     void log(AuditOperation operation, DomainClass domainObject) {
-        log(operation, domainObject.toString(), getDomainObjectProperties(domainObject).toString())
+        Map properties = Elements.toMap(domainObject)
+        log(operation, domainObject.toString(), prettyProperties(properties))
     }
 
-    private Map<String, String> getDomainObjectProperties(DomainClass domainClass) {
-        Map<String, String> results = [id: domainClass['id']]
-        domainClass.constrainedProperties.each {
-            if (it.value.property.propertyType !in Set) {
-                results << [(it.key): domainClass[it.value.property.propertyName]]
-            }
-        }
-        return results
+    void log(AuditOperation operation, Class domainObject, Map stateBefore, Map stateAfter = null) {
+        String prettyStateBefore = prettyProperties(stateBefore)
+        String prettyStateAfter = prettyProperties(stateAfter)
+        log(operation, domainObject.toString(), prettyStateBefore, prettyStateAfter)
     }
 
     void log(AuditOperation operation, Class domainObject, String stateBefore, String stateAfter = null) {
@@ -76,8 +76,8 @@ class AuditService implements WebRequestAware {
                 userAgent: userAgent,
                 operation: operation,
                 objectName: objectName,
-                stateBefore: stateBefore,
-                stateAfter: stateAfter,
+                stateBefore: stateBefore?.take(4000), // Keep in sync with TAuditLog domain class constraints
+                stateAfter: stateAfter?.take(4000), // Keep in sync with TAuditLog domain class constraints
                 username: securityService.currentUsername ?: 'super',
         )
         auditLog.save(flush: true, failOnError: true)
@@ -108,6 +108,12 @@ class AuditService implements WebRequestAware {
 
         results.put("REMOTE_ADDR", request.getRemoteAddr())
         return results
+    }
+
+    private String prettyProperties(Map properties) {
+        Map<String, String> stringifiedProperties = properties.collectEntries { [(it.key): it.value.toString()] }
+        String json = new JsonBuilder(stringifiedProperties).toPrettyString()
+        return json
     }
 
     private DetachedCriteria<TAuditLog> buildQuery(Map filters) {

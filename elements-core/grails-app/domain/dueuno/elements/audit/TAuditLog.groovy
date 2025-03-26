@@ -39,9 +39,9 @@ class TAuditLog implements GormEntity, MultiTenant<TAuditLog> {
     static constraints = {
         ip nullable: true
         userAgent nullable: true
-        message nullable: true
+        message nullable: true, maxSize: 4000
         objectName nullable: true
-        stateBefore nullable: true, maxSize: 2000
-        stateAfter nullable: true, maxSize: 2000
+        stateBefore nullable: true, maxSize: 4000
+        stateAfter nullable: true, maxSize: 4000
     }
 }

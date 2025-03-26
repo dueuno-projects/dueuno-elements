@@ -14,6 +14,7 @@
  */
 package dueuno.elements.audit
 
+import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentList
 import dueuno.elements.controls.DateField
 import dueuno.elements.controls.Select
@@ -21,6 +22,7 @@ import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.security.SecurityService
 import dueuno.elements.style.TextDefault
+import dueuno.elements.style.TextWrap
 import grails.plugin.springsecurity.annotation.Secured
 
 import java.time.LocalDate
@@ -73,7 +75,7 @@ class AuditController implements ElementsController {
                 )
             }
             sortable = [
-                dateCreated: 'desc',
+                    dateCreated: 'desc',
             ]
             columns = [
                     'dateCreated',
@@ -87,6 +89,12 @@ class AuditController implements ElementsController {
                     'userAgent',
             ]
             rowActions = false
+            body.eachRow { TableRow row, Map values ->
+                row.cells.message.textWrap = TextWrap.SOFT_WRAP
+                row.cells.stateBefore.textWrap = TextWrap.SOFT_WRAP
+                row.cells.stateAfter.textWrap = TextWrap.SOFT_WRAP
+                row.cells.userAgent.textWrap = TextWrap.SOFT_WRAP
+            }
         }
 
         def filters = c.table.filterParams
