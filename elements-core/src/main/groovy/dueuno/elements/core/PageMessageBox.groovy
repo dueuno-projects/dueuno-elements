@@ -42,7 +42,7 @@ class PageMessageBox extends Component {
         cancel.stretch = false
 
         verify = addComponent(TextField, 'verify')
-        verify.placeholder = 'default.message.confirm.verify'
+        verify.placeholder = 'messagebox.confirm.verify'
 
         confirm = addComponent(Button, 'confirm')
         confirm.text = TextDefault.OK

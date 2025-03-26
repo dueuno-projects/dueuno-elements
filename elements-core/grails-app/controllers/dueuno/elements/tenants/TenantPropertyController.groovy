@@ -61,7 +61,6 @@ class TenantPropertyController implements ElementsController {
                         optionsFromList: ['error'],
                         search: false,
                         noSelection: true,
-//                        textPrefix: 'tenantProperty.validation',
                         cols: 2,
                 )
             }
@@ -74,7 +73,9 @@ class TenantPropertyController implements ElementsController {
                     'value',
                     'type',
                     'description',
-//                    'defaultValue',
+            ]
+            labels = [
+                    issues: '',
             ]
             prettyPrinterProperties = [
                     value       : [decimals: 5],

@@ -180,6 +180,11 @@ class SandboxController implements ElementsController {
             )
             addField(
                     class: Select,
+                    id: 'selectEnum',
+                    optionsFromEnum: TextFieldInputMode,
+            )
+            addField(
+                    class: Select,
                     id: 'select2',
                     label: 'onLoad',
                     onLoad: 'onSelect2Load',

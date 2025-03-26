@@ -422,7 +422,7 @@ class ApplicationService implements LinkGeneratorAware {
         }
 
         registerUserFeature(
-                text: 'shell.userMenu.credits',
+                text: 'shell.user.menu.credits',
                 icon: 'fa-circle-info',
                 controller: 'shell',
                 action: 'credits',

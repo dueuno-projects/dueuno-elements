@@ -118,7 +118,7 @@ class Table extends Component {
 
         noResults = (args.noResults == null) ? true : args.noResults
         noResultsIcon = (args.noResultsIcon == null) ? 'fa-regular fa-folder-open' : args.noResultsIcon
-        noResultsMessage = (args.noResultsMessage) ?: 'default.table.no.results'
+        noResultsMessage = (args.noResultsMessage) ?: 'component.table.no.results'
 
         readonly = (args.readonly == null) ? false : args.readonly
 
@@ -170,7 +170,7 @@ class Table extends Component {
                 action: 'onDelete',
                 text: '',
                 icon: 'fa-solid fa-trash-alt',
-                confirmMessage: 'default.confirm.message',
+                confirmMessage: TextDefault.CONFIRM_MESSAGE,
         )
         groupActions = createControl(
                 class: Button,
