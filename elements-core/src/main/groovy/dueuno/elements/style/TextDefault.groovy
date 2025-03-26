@@ -32,6 +32,7 @@ class TextDefault {
     static final String VIEW = 'default.text.view'
     static final String DELETE = 'default.text.delete'
     static final String UNDELETE = 'default.text.undelete'
+    static final String HARD_DELETE = 'default.text.hard.delete'
     static final String SAVE = 'default.text.save'
     static final String PRINT = 'default.text.print'
     static final String OK = 'default.text.ok'
