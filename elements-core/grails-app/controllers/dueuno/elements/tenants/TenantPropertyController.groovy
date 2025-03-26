@@ -85,19 +85,17 @@ class TenantPropertyController implements ElementsController {
             actions.removeTailAction()
 
             body.eachRow { TableRow row, Map values ->
-//                row.cells.defaultValue.component.monospace = true
-//                row.cells.defaultValue.textAlign = TextAlign.START
-                row.cells['value'].component.textStyle = TextStyle.MONOSPACE
+                row.cells['value'].textStyle = TextStyle.MONOSPACE
                 row.cells['value'].textAlign = TextAlign.START
 
                 if (values.validation) {
                     row.textColor = '#cc0000'
                     row.cells.issues.icon = 'fa-circle-exclamation'
+                    row.cells.issues.tooltip = values.validation
                 }
 
                 String typeName = StringUtils.screamingSnakeToCamel(values.type as String)
                 values.value = values[typeName]
-//                values.defaultValue = values[typeName + 'Default']
 
                 String descriptionCode = "tenant.property.${values.name}"
                 String description = messageOrBlank(descriptionCode)
