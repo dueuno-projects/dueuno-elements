@@ -72,7 +72,6 @@ class AuditController implements ElementsController {
                         cols: 4,
                 )
             }
-            //columnsFromClass = TAuditLog
             sortable = [
                 dateCreated: 'desc',
             ]
@@ -81,9 +80,9 @@ class AuditController implements ElementsController {
                     'username',
                     'operation',
                     'message',
-                    'dataObject',
-                    'dataBefore',
-                    'dataAfter',
+                    'objectName',
+                    'stateBefore',
+                    'stateAfter',
                     'ip',
                     'userAgent',
             ]

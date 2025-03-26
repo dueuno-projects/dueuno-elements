@@ -15,6 +15,7 @@
 package dueuno.elements.security
 
 import dueuno.commons.utils.StringUtils
+import dueuno.elements.audit.AuditOperation
 import dueuno.elements.audit.AuditService
 import dueuno.elements.components.ShellService
 import dueuno.elements.core.*
@@ -394,11 +395,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         initializeSessionDuration()
         initializeShell()
 
-        log.debug "${currentUserTenantId}: Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
-        auditService.log(
-                action: 'LOGIN',
-                message: "Authorities: ${currentUserAuthorities}",
-        )
+        log.info "${currentUserTenantId}: Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
+        auditService.log(AuditOperation.LOGIN, "Authorities: ${currentUserAuthorities}")
 
         // Executes custom login code
         applicationService.executeBootEvents('afterLogin', session)
@@ -440,7 +438,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      */
     @CurrentTenant
     void executeAfterLogout() {
-        auditService.log(action: 'LOGOUT', message: "-")
+        auditService.log(AuditOperation.LOGOUT, "-")
         applicationService.executeBootEvents('afterLogout')
         executeLogout()
     }

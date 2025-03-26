@@ -15,8 +15,8 @@
 package dueuno.elements.audit
 
 import dueuno.elements.core.WebRequestAware
-import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.security.SecurityService
+import grails.artefact.DomainClass
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import groovy.util.logging.Slf4j
@@ -35,28 +35,49 @@ class AuditService implements WebRequestAware {
 
     SecurityService securityService
 
-    void log(Map args) {
-        String action = ArgsException.requireArgument(args, 'action')
-        String message = args.message
-        String dataObject = args.dataObject
-        Map dataBefore = args.dataBefore
-        Map dataAfter = args.dataAfter
-
-        if (!dataObject && !dataBefore && !dataAfter) {
-            message = ArgsException.requireArgument(args, 'message')
-        }
-
+    void log(AuditOperation operation, String message) {
         String userAgent = request.getHeader("User-Agent")
         String ipAddress = getClientIpAddress(request).toMapString()
 
         def auditLog = new TAuditLog(
                 ip: ipAddress,
                 userAgent: userAgent,
-                operation: action,
+                operation: operation,
                 message: message,
-                dataObject: dataObject,
-                dataBefore: dataBefore,
-                dataAfter: dataAfter,
+                username: securityService.currentUsername ?: 'super',
+        )
+        auditLog.save(flush: true, failOnError: true)
+    }
+
+    void log(AuditOperation operation, DomainClass domainObject) {
+        log(operation, domainObject.toString(), getDomainObjectProperties(domainObject).toString())
+    }
+
+    private Map<String, String> getDomainObjectProperties(DomainClass domainClass) {
+        Map<String, String> results = [id: domainClass['id']]
+        domainClass.constrainedProperties.each {
+            if (it.value.property.propertyType !in Set) {
+                results << [(it.key): domainClass[it.value.property.propertyName]]
+            }
+        }
+        return results
+    }
+
+    void log(AuditOperation operation, Class domainObject, String stateBefore, String stateAfter = null) {
+        log(operation, domainObject.toString(), stateBefore, stateAfter)
+    }
+
+    void log(AuditOperation operation, String objectName, String stateBefore, String stateAfter = null) {
+        String userAgent = request.getHeader("User-Agent")
+        String ipAddress = getClientIpAddress(request).toMapString()
+
+        def auditLog = new TAuditLog(
+                ip: ipAddress,
+                userAgent: userAgent,
+                operation: operation,
+                objectName: objectName,
+                stateBefore: stateBefore,
+                stateAfter: stateAfter,
                 username: securityService.currentUsername ?: 'super',
         )
         auditLog.save(flush: true, failOnError: true)
@@ -106,9 +127,9 @@ class AuditService implements WebRequestAware {
                             || userAgent =~ "%${search}%"
                             || username =~ "%${search}%"
                             || message =~ "%${search}%"
-                            || dataObject =~ "%${search}%"
-                            || dataBefore =~ "%${search}%"
-                            || dataAfter =~ "%${search}%"
+                            || objectName =~ "%${search}%"
+                            || stateBefore =~ "%${search}%"
+                            || stateAfter =~ "%${search}%"
                 }
             }
 //            if (filters.organizationalUnit) query = query.where { organizationalUnit.id == filters.organizationalUnit }
@@ -123,7 +144,7 @@ class AuditService implements WebRequestAware {
     }
 
     List<TAuditLog> list(Map filterParams = [:], Map fetchParams = [:]) {
-        if (!fetchParams.sort) fetchParams.sort = [dateCreated: 'asc']
+        if (!fetchParams.sort) fetchParams.sort = [dateCreated: 'desc']
         def query = buildQuery(filterParams)
         return query.list(fetchParams)
     }

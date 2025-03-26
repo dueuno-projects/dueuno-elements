@@ -14,6 +14,8 @@
  */
 package dueuno.elements.test
 
+import dueuno.elements.audit.AuditOperation
+import dueuno.elements.audit.AuditService
 import dueuno.elements.components.KeyPress
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
@@ -36,6 +38,7 @@ import java.time.LocalDate
 @CurrentTenant
 class CrudController implements ElementsController {
 
+    AuditService auditService
     ApplicationService applicationService
     QuantityService quantityService
 
@@ -384,6 +387,7 @@ class CrudController implements ElementsController {
     def onDelete(TPerson obj) {
         try {
             obj.delete(flush: true, failOnError: true)
+            auditService.log(AuditOperation.DELETE, obj)
             display action: 'index'
         } catch (e) {
             e.printStackTrace()
