@@ -2,10 +2,6 @@
     border-radius: 0;
 }
 
-.component-label:not(.html) {
-    padding-left: .25rem;
-}
-
 .component-label.border {
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
     border-radius: var(--bs-border-radius-lg);

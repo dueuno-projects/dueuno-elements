@@ -161,7 +161,11 @@ class CrudController implements ElementsController {
 //                sort = [name: 'desc']
 
                 body.eachRow { TableRow row, Map values ->
-                    row.verticalAlign = VerticalAlign.TOP
+//                    row.verticalAlign = VerticalAlign.TOP
+                    row.cells.postcode.component.border = true
+                    row.cells.postcode.component.backgroundColor = '#cc0000'
+                    row.cells.postcode.component.textColor = 'white'
+
 
                     row.cells['name'].textWrap = TextWrap.SOFT_WRAP
                     row.cells['company'].textWrap = TextWrap.LINE_WRAP

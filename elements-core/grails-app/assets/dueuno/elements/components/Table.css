@@ -5,11 +5,6 @@
     color: inherit;
 }
 
-.table>:not(caption)>*>* > .component-label,
-.table>:not(caption)>*>* > .input-group > .component-label {
-    padding-left: 0;
-}
-
 .component-table table {
     -webkit-touch-callout: default; /* Safari */
     -webkit-user-select: text;
@@ -18,6 +13,10 @@
 
 .component-table thead th {
     background-color: white;
+}
+
+.component-table .component-label.border {
+    padding: 0 calc(var(--elements-spacing-x) / 2);
 }
 
 .component-table ::-webkit-scrollbar {

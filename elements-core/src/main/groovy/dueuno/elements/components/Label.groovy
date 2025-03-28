@@ -123,7 +123,9 @@ class Label extends Component {
     }
 
     void setHtml(String value) {
-        if (html) textWrap = TextWrap.DEFAULT
+        if (html) {
+            textWrap = TextWrap.DEFAULT
+        }
         html = value
     }
 

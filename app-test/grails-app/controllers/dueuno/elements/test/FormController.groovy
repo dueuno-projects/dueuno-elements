@@ -421,6 +421,7 @@ class FormController implements ElementsController {
                     class: Label,
                     id: 'paragraph',
                     textWrap: TextWrap.SOFT_WRAP,
+                    border: false,
                     cols: cols,
             )
         }
