@@ -69,7 +69,7 @@
                     <g:else>
                         <g:set var="label" value="${cell.component}" />
                         <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.cssClass}"
-                              style="color: ${label.textColor}; background-color: ${label.backgroundColor}; ${label.cssStyle}">
+                              style="${label.cssStyleColors}${label.cssStyle}">
                             <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
                             <g:else>
                                 <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon && label.text ? 'me-1' : ''}"/></g:if>
@@ -81,7 +81,7 @@
             </g:if>
             <g:else>
                 <td class="component-table-cell ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign}"
-                    style="background-color: ${cell.backgroundColor}; color: ${cell.textColor}; ${cell.cssStyle}"
+                    style="${cell.cssStyleColors}${cell.cssStyle}"
                     colspan="${cell.colspan}"
                     data-21-component="${cell.getClassName()}"
                     data-21-id="${cell.getId()}"
@@ -90,7 +90,7 @@
                 ><div class="input-group" style="${c.table.widths[column] ? 'width: ' + c.table.widths[column] + 'px;' : ''}">
                     <g:set var="label" value="${cell.component}" />
                     <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.userSelect ? 'user-select-text' : ''} ${label.html ? 'html' : ''} ${label.cssClass}"
-                          style="color: ${label.textColor}; background-color: ${label.backgroundColor}; ${label.cssStyle}">
+                          style="${label.cssStyleColors}${label.cssStyle}">
                         <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
                         <g:else>
                             <span ${label.tooltip ? raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"') : ''}>
