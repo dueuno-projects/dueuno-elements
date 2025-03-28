@@ -108,7 +108,6 @@ class TableRow extends Component {
             // Adds key columns to actions params
             Map _21Params = [
                     _21RowId: id,
-                    _21RowHash: hash,
             ]
             actions.addParams(_21Params + getKeys())
         }
@@ -253,10 +252,6 @@ class TableRow extends Component {
 
     Boolean isLast() {
         return rowset.lastRow != null
-    }
-
-    String getHash() {
-        return StringUtils.generateHash(keysAsJSON)
     }
 
     void setTextStyle(Object value) {
