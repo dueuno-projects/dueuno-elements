@@ -48,7 +48,7 @@ class Link extends Label {
 
         linkDefinition = new LinkDefinition(args)
         linkDefinition.action = args.action ?: 'index'
-        linkDefinition.loading = args.loading == null ? true : args.loading
+        linkDefinition.loading = args.loading
 
         icon = args.icon ?: ''
         iconClass = args.iconClass ?: ''

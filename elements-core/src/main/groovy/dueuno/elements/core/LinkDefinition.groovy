@@ -76,7 +76,7 @@ class LinkDefinition implements Serializable {
             // URLs are handled as direct links by default
             direct = args.direct == null ? true : args.direct as Boolean
         } else {
-            direct = args.direct == null ? false : args.direct as Boolean
+            direct = args.direct
         }
 
         params = args.params as Map ?: [:]
@@ -87,7 +87,7 @@ class LinkDefinition implements Serializable {
 
         target = args.target
         targetNew = args.targetNew
-        loading = args.loading == null ? false : args.loading
+        loading = args.loading
 
         infoMessage = args.infoMessage
         confirmMessage = args.confirmMessage

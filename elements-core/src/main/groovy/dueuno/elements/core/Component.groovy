@@ -122,10 +122,11 @@ abstract class Component implements WebRequestAware, Serializable {
         containerSpecs = args.containerSpecs as Map ?: [:]
         containerSpecs.attributes = [:]
 
-        visible = args.visible == null ? true : args.visible
-        display = args.display == null ? true : args.display
-        readonly = args.readonly == null ? false : args.readonly
-        skipFocus = args.skipFocus == null ? false : args.skipFocus
+        // Avoid calling the setter so we have 'null' instead of 'false' to be able to cleanupProperties()
+        this.@visible = args.visible
+        this.@display = args.display
+        this.@readonly = args.readonly
+        this.@skipFocus = args.skipFocus
 
         textColor = args.textColor ?: ''
         backgroundColor = args.backgroundColor ?: ''
@@ -621,7 +622,7 @@ abstract class Component implements WebRequestAware, Serializable {
             results[name] = value.asMap()
         }
 
-        Map cleanedUpEvents = cleanupItems(results)
+        Map cleanedUpEvents = cleanupProperties(results)
         return Elements.encodeAsJSON(cleanedUpEvents)
     }
 
@@ -636,7 +637,7 @@ abstract class Component implements WebRequestAware, Serializable {
         if (readonly != null) thisProperties.readonly = readonly
         if (sticky != null) thisProperties.sticky = sticky
 
-        Map cleanedupProperties = cleanupItems(thisProperties + properties)
+        Map cleanedupProperties = cleanupProperties(thisProperties + properties)
         return Elements.encodeAsJSON(cleanedupProperties)
     }
 
@@ -647,21 +648,26 @@ abstract class Component implements WebRequestAware, Serializable {
         return result
     }
 
-    private static Map cleanupItems(Map items) {
+    private static Map cleanupProperties(Map items) {
         Map results = [:]
 
         for (item in items) {
+            String name = item.key
             Object value = item.value
+
+            if (value in Map) {
+                Map cleanedUpProperty = cleanupProperties(value as Map)
+                if (cleanedUpProperty) {
+                    results[name] = cleanedUpProperty
+                }
+                continue
+            }
+
             if (value == null || value == '' || value == [] || value == [:]) {
                 continue
             }
 
-            if (value in Map) {
-                results.put(item.key, cleanupItems(value as Map))
-
-            } else {
-                results << item
-            }
+            results[name] = value
         }
 
         return results

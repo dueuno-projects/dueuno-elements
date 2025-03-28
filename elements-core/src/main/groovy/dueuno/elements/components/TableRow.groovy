@@ -168,8 +168,9 @@ class TableRow extends Component {
             return
         }
 
-        actions.display = table.actions.display
-        actions.copyActionsFrom(table.actions)
+        if (table.rowActions) {
+            actions.copyActionsFrom(table.actions)
+        }
     }
 
     private void processTransformers() {
