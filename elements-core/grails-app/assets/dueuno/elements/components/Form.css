@@ -8,7 +8,7 @@
     padding: .25rem .75rem .75rem .75rem;
 }
 
-.component-form .component-label {
+.component-form .component-label:not(.border) {
     padding-left: .25rem;
 }
 
