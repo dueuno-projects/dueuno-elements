@@ -67,7 +67,7 @@
 
             <g:else>
                 <td class="component-table-cell ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign}"
-                    style="background-color: ${cell.backgroundColor}; color: ${cell.textColor}; ${cell.cssStyle}"
+                    style="${cell.cssStyleColors}${cell.cssStyle}"
                     colspan="${cell.colspan}"
                     data-21-component="${cell.getClassName()}"
                     data-21-id="${cell.getId()}"
