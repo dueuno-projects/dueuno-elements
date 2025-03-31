@@ -1,3 +1,9 @@
+.tooltip {
+    --bs-tooltip-font-size: calc(var(--elements-font-size) * .9);
+    --bs-tooltip-color: rgb(var(--bs-light-rgb));
+    --bs-tooltip-bg: #303030;
+}
+
 .component-label {
     border-radius: 0;
 }

@@ -24,8 +24,3 @@
 #page-content-scrollbar-content-mirror {
     height: .5rem;
 }
-
-.tooltip {
-    --bs-tooltip-bg: #303030;
-    --bs-tooltip-color: rgb(var(--bs-light-rgb));
-}
