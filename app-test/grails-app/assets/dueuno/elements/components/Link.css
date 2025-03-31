@@ -1,7 +1,7 @@
 .btn i > img, li a i > img {
     margin-top: calc(var(--elements-font-size) * -.2);
     height: calc(var(--elements-font-size)* 1.3);
-    border: 2px solid white;
+    border: calc(var(--elements-font-size)* .15) solid white;
     border-radius: 100%;
 }
 
