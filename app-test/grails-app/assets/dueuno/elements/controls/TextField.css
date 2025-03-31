@@ -1,6 +1,6 @@
 .input-group-text {
     font-size: var(--elements-font-size);
-    padding: .25rem .75rem;
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
 }
 
 .input-group .btn:last-child {

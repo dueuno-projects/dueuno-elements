@@ -4,6 +4,10 @@ input[type] {
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
 }
 
+.space {
+    margin-right: var(--elements-spacing-x);
+}
+
 .component-form label {
     margin: .5rem 0 0 .25rem;
     font-size: calc(var(--elements-font-size) / 1.3);
