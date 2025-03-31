@@ -656,6 +656,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             return user
         }
 
+        if (args.fontSize < 12) args.fontSize = 12
+
         user = new TUser(
                 tenant: tenant,
                 apiKey: args.apiKey,
@@ -742,6 +744,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
 
         args.defaultGroup = TRoleGroup.findByTenantAndName(tenant, args.defaultGroup)
+        if (args.fontSize < 12) args.fontSize = 12
 
         TUser user = getUserByUsername(username)
         user.properties = args
@@ -783,6 +786,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         } else {
             args.remove('password')
         }
+
+        if (args.fontSize < 12) args.fontSize = 12
 
         TUser user = getUserByUsername(username)
         user.properties = args

@@ -10,9 +10,23 @@
 .tempus-dominus-widget {
     box-shadow: 0 .5rem 1rem rgba(var(--bs-body-color-rgb), .15);
     padding-top: var(--elements-font-size);
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: calc(var(--elements-spacing-y));
+    padding-right: calc(var(--elements-spacing-y));
+    padding-bottom: calc(var(--elements-spacing-y));
+    padding-left: calc(var(--elements-spacing-y) * 2);
+    width: auto;
+}
+
+.tempus-dominus-widget .date-container-days,
+.tempus-dominus-widget .time-container-clock {
+    grid-auto-columns: calc(var(--elements-font-size) * 2.3);
+    grid-auto-rows: calc(var(--elements-font-size) * 2.3);
+}
+
+.tempus-dominus-widget .date-container-decades,
+.tempus-dominus-widget .date-container-years,
+.tempus-dominus-widget .date-container-months {
+    grid-auto-columns: calc(var(--elements-font-size) * 3.4);
+    grid-auto-rows: calc(var(--elements-font-size) * 2.3);
 }
 
 .tempus-dominus-widget .date-container,

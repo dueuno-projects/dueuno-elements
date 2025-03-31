@@ -32,7 +32,7 @@
 }
 
 .shell-content-card a:focus-visible {
-    box-shadow: 0 0 0 .35rem rgba(var(--elements-primary-bg-shaded));
+    box-shadow: 0 0 0 calc(var(--elements-font-size) * .35) rgba(var(--elements-primary-bg-shaded));
     border-radius: calc(var(--bs-border-radius) * 4);
     display: block;
 }

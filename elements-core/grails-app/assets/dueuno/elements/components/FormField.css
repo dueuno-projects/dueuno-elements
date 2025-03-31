@@ -92,7 +92,7 @@ input:focus,
 input:focus-visible,
 .btn.btn-secondary:focus-visible,
 .btn.dropdown-toggle:focus-visible {
-    box-shadow: 0 0 0 .25rem rgba(var(--elements-primary-bg-shaded)) !important;
+    box-shadow: 0 0 0 calc(var(--elements-font-size) * .25) rgba(var(--elements-primary-bg-shaded)) !important;
 }
 
 .input-group:has(.form-control) a.btn,
