@@ -88,6 +88,7 @@
 }
 
 .select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field {
+    font-size: var(--elements-font-size);
     border-radius: var(--bs-border-radius-lg);
     border: 0;
 }
