@@ -4,6 +4,9 @@ class KeyPress extends Component {
         $(document)
             .off('keydown.keyPress')
             .on('keydown.keyPress', KeyPress.onKeyPress);
+
+        log.debug('Finalizing "' + Component.getId($element) + '"')
+        log.events($(document));
     }
 
     static onKeyPress(event) {
