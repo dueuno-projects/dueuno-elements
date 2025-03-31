@@ -28,14 +28,12 @@ class Link extends Label {
     /** Icon that graphically represents the Link. Choose one from Font Awesome icons */
     // String icon // inherited
     String iconClass
-    String iconStyle
 
     /** An SVG image that graphically represents the Link.
      * If specified it must be present in the Grails asset folder.
      */
     String image
     String imageClass
-    String imageStyle
 
     /** The link */
     LinkDefinition linkDefinition
@@ -52,11 +50,9 @@ class Link extends Label {
 
         icon = args.icon ?: ''
         iconClass = args.iconClass ?: ''
-        iconStyle = args.iconStyle ?: ''
 
         image = args.image ?: ''
         imageClass = args.imageClass ?: ''
-        imageStyle = args.imageStyle ?: ''
 
         border = args.border == null ? false : args.border
 

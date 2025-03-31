@@ -1,6 +1,6 @@
 <g:select
     class="control-select form-control shadow-3 ${c.actions.hasActions() ? 'has-actions' : ''} ${c.textStyle} ${c.cssClass}"
-    style="${c.cssStyleColors}${c.cssStyle}"
+    style="${c.cssStyleColors}"
     name="${c.id}"
     from="${c.options}"
     optionKey="key"

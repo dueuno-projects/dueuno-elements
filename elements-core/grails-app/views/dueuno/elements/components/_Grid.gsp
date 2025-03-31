@@ -10,7 +10,7 @@
             <div class="grid-column ${column.breakpoints}">
             <g:if test="${c.border}">
                 <div class="grid-border shadow ${c.cssClass}"
-                     style="${c.cssStyleColors}${c.cssStyle}">
+                     ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}>
                     <div class="grid-border overflow-hidden">
                         <render:componentList instance="${column}"/>
                     </div>
@@ -18,7 +18,7 @@
             </g:if>
             <g:else>
                 <div class="${c.cssClass}"
-                     style="${c.cssStyleColors}${c.cssStyle}">
+                     ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}>
                     <render:componentList instance="${column}"/>
                 </div>
             </g:else>

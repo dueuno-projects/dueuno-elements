@@ -436,7 +436,7 @@ Grails application running at http://localhost:9992/test in environment: develop
                         id      : 'number',
                         min     : -2,
                         max     : 10,
-                        cssStyle: 'text-align: right;',
+                        textAlign: TextAlign.END,
                 ]
                 row.cells.input.component.addAction(
                         action: 'onDecrement',

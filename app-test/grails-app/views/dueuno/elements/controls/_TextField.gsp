@@ -3,7 +3,6 @@
 </g:if>
 <input type="${c.inputType}"
        class="control-text-field form-control ${c.textStyle} ${c.cssClass}"
-       style="${c.cssStyleColors}${c.cssStyle}"
        inputmode="${c.inputMode}"
        placeholder="${c.message(c.placeholder)}"
        maxlength="${(c.maxSize > 0) ? c.maxSize: ''}"
@@ -14,6 +13,7 @@
        data-21-properties="${c.propertiesAsJSON}"
        data-21-events="${c.eventsAsJSON}"
        data-21-value="${c.valueAsJSON}"
+       ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}
        ${raw(attributes)}
 >
 <g:if test="${c.actions.hasActions()}"><!--

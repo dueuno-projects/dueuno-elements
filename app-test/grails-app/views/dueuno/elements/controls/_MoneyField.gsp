@@ -3,7 +3,6 @@
 </g:if>
 <input type="text"
        class="control-money-field form-control ${c.textStyle} ${c.cssClass}"
-       style="${c.cssStyleColors}${c.cssStyle}"
        inputmode="${c.inputMode}"
        maxlength="${(c.maxSize > 0) ? c.maxSize: ''}"
        step="any"
@@ -12,5 +11,6 @@
        data-21-properties="${c.propertiesAsJSON}"
        data-21-events="${c.eventsAsJSON}"
        data-21-value="${c.valueAsJSON}"
+       ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}
        ${raw(attributes)}
 />

@@ -105,7 +105,6 @@ class Form extends Component {
         if (args.cols == null) args.cols = 12
 
         args.remove('cssClass')
-        args.remove('cssStyle')
         args.remove('events')
         args.component = component
         args.putAll(component.containerSpecs)

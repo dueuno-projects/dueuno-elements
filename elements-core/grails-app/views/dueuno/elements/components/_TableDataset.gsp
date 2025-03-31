@@ -1,10 +1,10 @@
 <div class="component-table-dataset-wrapper bg-white rounded-3 pb-2">
     <div class="component-table-dataset mt-0 ${c.table.stickyHeader ? 'overflow-y-hidden' : 'overflow-y-visible'} ${c.cssClass}"
-         style="${c.cssStyleColors}${c.cssStyle}"
          data-21-component="${c.className}"
          data-21-id="${c.id}"
          data-21-properties="${c.propertiesAsJSON}"
          data-21-events="${c.eventsAsJSON}"
+         ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}
     >
         <table class="table m-0 ${c.table.rowStriped && c.table.body.hasRows() ? 'table-striped' : ''} ${c.table.rowHighlight ? 'table-hover' : ''} ${c.table.rowBorderless ? 'table-borderless' : ''} ${c.table.cssClass}">
             <g:if test="${c.table.hasHeader}">

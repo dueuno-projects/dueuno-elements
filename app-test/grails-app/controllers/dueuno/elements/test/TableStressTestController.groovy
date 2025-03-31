@@ -27,7 +27,7 @@ import grails.gorm.multitenancy.CurrentTenant
 class TableStressTestController implements ElementsController {
 
     private rowsQty = 100
-    private colsQtyPerType = 25
+    private colsQtyPerType = 50
     private colsType = [
             'String',
             'BigDecimal',

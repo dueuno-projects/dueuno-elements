@@ -1,5 +1,5 @@
 <tr class="component-table-row ${c.textStyle} ${c.cssClass}"
-    style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}${c.cssStyle}"
+    style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}"
     data-21-component="${c.className}"
     data-21-id="${c.id}"
     data-21-properties="${c.propertiesAsJSON}"
@@ -68,7 +68,8 @@
                     <g:else>
                         <g:set var="label" value="${cell.component}" />
                         <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.cssClass}"
-                              style="${label.cssStyleColors}${label.cssStyle}">
+                              ${label.cssStyleColors ? raw('style="' + label.cssStyleColors + '"') : ''}
+                        >
                             <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
                             <g:else>
                                 <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon && label.text ? 'me-1' : ''}"/></g:if>
@@ -80,16 +81,17 @@
             </g:if>
             <g:else>
                 <td class="component-table-cell ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign}"
-                    style="${cell.cssStyleColors}${cell.cssStyle}"
                     colspan="${cell.colspan}"
                     data-21-component="${cell.getClassName()}"
                     data-21-id="${cell.getId()}"
                     data-21-properties="${cell.propertiesAsJSON}"
                     data-21-events="${cell.eventsAsJSON}"
-                ><div class="input-group" style="${c.table.widths[column] ? 'width: ' + c.table.widths[column] + 'px;' : ''}">
+                    ${cell.cssStyleColors ? raw('style="' + cell.cssStyleColors + '"') : ''}
+                ><div class="input-group" ${c.table.widths[column] ? raw('style="width: ' + c.table.widths[column] + 'px"') : ''}>
                     <g:set var="label" value="${cell.component}" />
                     <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.userSelect ? 'user-select-text' : ''} ${label.html ? 'html' : ''} ${label.cssClass}"
-                          style="${label.cssStyleColors}${label.cssStyle}">
+                          ${label.cssStyleColors ? raw('style="' + label.cssStyleColors + '"') : ''}
+                    >
                         <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
                         <g:else>
                             <span ${label.tooltip ? raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"') : ''}>

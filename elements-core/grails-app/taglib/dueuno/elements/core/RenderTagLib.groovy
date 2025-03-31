@@ -103,10 +103,9 @@ class RenderTagLib implements WebRequestAware {
      */
     def icon = { attrs ->
         String cssClass = attrs['class'] ?: ''
-        String cssStyle = attrs['style'] ?: ''
         String icon = attrs.icon
         String force = attrs.force ?: ''
-        out << '<i class="' + getIconWithStyle(icon, force) + ' ' + cssClass + '" style="' + cssStyle + '" aria-hidden="true"></i>'
+        out << '<i class="' + getIconWithStyle(icon, force) + ' ' + cssClass + '" aria-hidden="true"></i>'
     }
 
     /**

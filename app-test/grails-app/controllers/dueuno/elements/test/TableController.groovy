@@ -158,8 +158,6 @@ class TableController implements ElementsController {
             removeSelection()
 
             textColor = 'red'
-//            cssStyle = 'text-decoration: line-through; font-weight: bold;'
-//            cssClass = 'text-decoration-line-through fw-bold'
             textStyle = [TextStyle.LINE_THROUGH, TextStyle.BOLD]
 
             actions.defaultAction?.text = 'Click me!'

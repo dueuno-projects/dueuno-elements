@@ -7,11 +7,11 @@ Update the label part of `_TableRow.gsp` each time you update this template
 
 --}%
 <span class="component-label w-100 ${c.textAlign} ${c.textWrap} ${c.textStyle} ${c.border ? 'border' : ''}  ${c.userSelect ? 'user-select-text' : ''} ${c.html ? 'html' : ''} ${c.cssClass}"
-      style="${c.cssStyleColors}${c.cssStyle}"
       data-21-component="${c.className}"
       data-21-id="${c.id}"
       data-21-properties="${c.propertiesAsJSON}"
       data-21-events="${c.eventsAsJSON}"
+      ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}
 ><g:if test="${c.html}">${raw(c.prettyHtml)}</g:if>
     <g:else>
         <span ${c.tooltip ? raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + render.message(c.tooltip) + '"') : ''}>

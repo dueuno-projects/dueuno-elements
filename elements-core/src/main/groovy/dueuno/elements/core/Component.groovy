@@ -102,7 +102,6 @@ abstract class Component implements WebRequestAware, Serializable {
 
     /** Custom CSS */
     String cssClass
-    String cssStyle
 
     Component(Map args) {
         this.id = (String) ArgsException.requireArgument(args, 'id')
@@ -148,7 +147,6 @@ abstract class Component implements WebRequestAware, Serializable {
         secondaryBackgroundColorInt = Color.hexToIntColor(secondaryBackgroundColor) ?: warnColorError(secondaryBackgroundColor)
 
         cssClass = args.cssClass ?: ''
-        cssStyle = args.cssStyle ?: ''
     }
 
     private void registerEvents(Map args) {
@@ -644,7 +642,7 @@ abstract class Component implements WebRequestAware, Serializable {
     String getCssStyleColors() {
         String result = ''
         if (textColor) result += "color: ${textColor}; "
-        if (backgroundColor) result += "background-color: ${backgroundColor}; "
+        if (backgroundColor) result += "background-color: ${backgroundColor};"
         return result
     }
 

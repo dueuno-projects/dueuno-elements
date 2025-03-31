@@ -1,5 +1,4 @@
 <div class="component-form-field ${c.cols} ${c.help ? 'help' : ''} ${c.cssClass}"
-     style="${c.cssStyle}"
      data-21-component="${c.className}"
      data-21-id="${c.id}"
      data-21-properties="${c.propertiesAsJSON}"
@@ -19,8 +18,9 @@
         </label>
     </g:if>
 
-    <div class="input-group ${c.displayLabel ? '' : 'mt-2'}" ${raw(c.component.getContainerAttributes())}
-         style="${c.rows}"
+    <div class="input-group ${c.displayLabel ? '' : 'mt-2'}"
+         ${raw(c.component.getContainerAttributes())}
+         ${c.rows ? raw('style="' + c.rows + '"') : ''}
     >
         <render:component id="${c.component.getId()}" instance="${c.component}" properties="[:]" />
         <g:if test="${c.help}">
