@@ -12,7 +12,7 @@
 }
 
 ::selection {
-    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha)) !important;
+    background-color: rgba(var(--elements-primary-bg-shaded)) !important;
 }
 
 /* See: https://github.com/twbs/bootstrap/pull/41246
@@ -37,7 +37,7 @@ body {
 }
 
 .dev-hints {
-    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    background-color: rgba(var(--elements-primary-bg-shaded));
     color: rgb(var(--elements-primary-bg));
     border-radius: var(--bs-border-radius-lg);
     position: relative;

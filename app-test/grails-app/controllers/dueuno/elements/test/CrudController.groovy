@@ -27,7 +27,6 @@ import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextDefault
 import dueuno.elements.style.TextWrap
-import dueuno.elements.style.VerticalAlign
 import dueuno.elements.types.QuantityService
 import dueuno.elements.types.Type
 import grails.gorm.multitenancy.CurrentTenant
@@ -53,9 +52,8 @@ class CrudController implements ElementsController {
         def c = createContent(ContentList)
         c.addComponent(
                 class: KeyPress,
-                id: 'pippo',
+                id: 'customKeyPress',
                 action: 'onKeyPress',
-                triggerKey: '',
         )
 
         c.title = 'Runtime "content" title'

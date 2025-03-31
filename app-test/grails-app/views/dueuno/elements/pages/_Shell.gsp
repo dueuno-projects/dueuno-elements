@@ -18,7 +18,7 @@
         <render:component instance="${c.navbar}"/>
         <render:component instance="${c.userMenu}"/>
 
-    <div id="shell-content" class="px-3 py-1"
+    <div id="shell-content"
          style="${c.config.display.menu ? '' : 'margin-left: 0 !important;'}"
     >
             <render:component instance="${c.content}"/>

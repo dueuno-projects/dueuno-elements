@@ -17,7 +17,7 @@
 }
 
 #page-content-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    background-color: rgba(var(--elements-primary-bg-shaded));
     border-radius: .5rem;
 }
 

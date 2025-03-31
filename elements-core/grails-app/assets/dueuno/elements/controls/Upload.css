@@ -64,7 +64,7 @@
 /* COLORS
 */
 .control-upload {
-    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    background-color: rgba(var(--elements-primary-bg-shaded));
 }
 
 .control-upload .dz-message .dz-button {

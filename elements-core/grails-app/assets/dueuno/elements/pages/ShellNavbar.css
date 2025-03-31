@@ -41,7 +41,13 @@
 
 #shell-navbar-logo {
     height: calc(var(--elements-font-size) * 1.6);
-    transform: translateX(-.75rem); /* Hack to optically (more or less) center the title, we need to find the proper way of doing it */
+}
+
+#shell-navbar:has(#shell-navbar-home) #shell-navbar-logo {
+    /* Hack to optically (more or less) center the title,
+     * we need to find the proper way of doing it
+     */
+    transform: translateX(-.8rem);
 }
 
 #shell-navbar-notifications-toggle button:hover,

@@ -52,3 +52,12 @@ body {
         width: calc(100% - var(--elements-font-size) * 15) !important;
     }
 }
+
+#shell-content {
+    margin-left: calc(var(--elements-font-size) * 15);
+    margin-top: calc(var(--elements-font-size) * 3.3);
+    padding-top: 1px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: calc(var(--elements-font-size) * 2) !important;
+}

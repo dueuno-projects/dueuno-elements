@@ -122,12 +122,12 @@
 
 .select2-container--bootstrap-5.select2-container--focus .select2-selection,
 .select2-container--bootstrap-5.select2-container--open .select2-selection {
-    border-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
-    box-shadow: 0 0 0 .25rem rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    border-color: rgba(var(--elements-primary-bg-shaded));
+    box-shadow: 0 0 0 .25rem rgba(var(--elements-primary-bg-shaded));
 }
 
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
-    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    background-color: rgba(var(--elements-primary-bg-shaded));
 }
 
 .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--selected,
@@ -137,7 +137,7 @@
 }
 
 .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--highlighted:not(.select2-results__option.select2-results__option--selected) {
-    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    background-color: rgba(var(--elements-primary-bg-shaded));
 }
 
 .select2-container--bootstrap-5.select2-container--disabled .select2-selection,

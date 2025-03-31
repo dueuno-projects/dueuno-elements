@@ -25,7 +25,7 @@
 }
 
 .component-table ::-webkit-scrollbar-thumb {
-    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    background-color: rgba(var(--elements-primary-bg-shaded));
     border-radius: .5rem;
 }
 
@@ -157,7 +157,7 @@
 }
 
 .component-table-dataset .table-hover tr:hover td {
-    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    background-color: rgba(var(--elements-primary-bg-shaded));
     --bs-table-hover-color: none;
 }
 
@@ -170,7 +170,7 @@
 }
 
 .component-table-dataset .component-table-header a:focus-visible {
-    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    background-color: rgba(var(--elements-primary-bg-shaded)));
 }
 
 .component-filters-counter {
