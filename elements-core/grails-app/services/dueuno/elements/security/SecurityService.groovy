@@ -661,8 +661,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             return user
         }
 
-        if (args.fontSize < 12) args.fontSize = 12
-
         user = new TUser(
                 tenant: tenant,
                 apiKey: args.apiKey,
