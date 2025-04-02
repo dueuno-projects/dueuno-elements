@@ -189,6 +189,16 @@ class TableCell extends Component {
         }
     }
 
+    void setBorder(String value) {
+        Label label = getLabel()
+        if (label) {
+            label.border = value
+            label.backgroundColor = value
+                    ? tertiaryBackgroundColor
+                    : null
+        }
+    }
+
     void setUrl(String value) {
         Label label = getLabel()
         if (label) {

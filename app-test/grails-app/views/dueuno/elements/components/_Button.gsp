@@ -3,7 +3,7 @@
      data-21-id="${c.id}"
      data-21-properties="${c.propertiesAsJSON}"
      data-21-events="${c.eventsAsJSON}"
-     ${c.maxWidth > 0 ? raw('style="max-width: ' + c.maxWidth + 'px') : ''}
+     ${c.maxWidth > 0 ? raw('style="max-width: ' + c.maxWidth + 'px"') : ''}
      ${c.primary ? 'primary' : ''}
 >
     <g:if test="${c.defaultAction}">
