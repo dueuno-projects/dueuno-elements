@@ -72,7 +72,8 @@
                     data-21-properties="${cell.propertiesAsJSON}"
                     data-21-events="${cell.eventsAsJSON}"
                     ${cell.cssStyleColors ? raw('style="' + cell.cssStyleColors + '"') : ''}
-                ><div class="input-group" ${c.table.widths[column] ? raw('style="width: ' + c.table.widths[column] + 'px"') : ''}>
+                ><div ${cell.label ? '' : raw('class="input-group"')}
+                      ${c.table.widths[column] ? raw('style="width: ' + c.table.widths[column] + 'px"') : ''}>
                     <render:component instance="${cell.component}" />
                 </div>
                 </td>

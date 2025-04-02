@@ -57,8 +57,9 @@ class AuditController implements ElementsController {
                 addField(
                         class: Select,
                         id: 'username',
-                        optionsFromList: securityService.listUsername(),
+                        optionsFromList: securityService.listAllUsername(),
                         renderTextPrefix: false,
+                        search: true,
                         cols: 2,
                 )
                 addField(

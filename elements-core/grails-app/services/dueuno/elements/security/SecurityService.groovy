@@ -589,6 +589,11 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return countAllUser(filterParams)
     }
 
+    List<String> listAllUsername(Map filterParams = [:], Map fetchParams = [:]) {
+        filterParams.tenantId = currentUserTenantId
+        return listAllUser(filterParams, fetchParams).username
+    }
+
     List<String> listUsername(Map filterParams = [:], Map fetchParams = [:]) {
         filterParams.deletable = true
         filterParams.tenantId = currentUserTenantId

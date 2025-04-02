@@ -431,6 +431,10 @@ Grails application running at http://localhost:9992/test in environment: develop
             body.eachRow { TableRow row, Map values ->
                 values.customColumn = 'PIPPO'
 
+                row.cells.postcode.label.border = true
+                row.cells.postcode.label.backgroundColor = '#cc0000'
+                row.cells.postcode.label.textColor = 'white'
+
                 row.cells.input.component = [
                         class   : NumberField,
                         id      : 'number',
