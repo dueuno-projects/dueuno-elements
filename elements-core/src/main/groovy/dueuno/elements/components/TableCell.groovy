@@ -66,15 +66,14 @@ class TableCell extends Component {
     }
 
     private void buildCellComponent(Component component) {
-        if (!component) {
-            setLabel()
-
-        } else {
+        if (component) {
             setComponent(component)
+        } else {
+            setLabel()
         }
     }
 
-    void setLabel() {
+    private void setLabel() {
         addComponent(
                 class: Label,
                 id: getId() + '-component',
@@ -83,6 +82,15 @@ class TableCell extends Component {
                 textWrap: TextWrap.NO_WRAP,
                 border: false,
         )
+    }
+
+    Label getLabel() {
+        Component component = getComponent()
+        if (component in Label) {
+            return component as Label
+        } else {
+            return null
+        }
     }
 
     void setComponent(Component component) {
@@ -124,49 +132,75 @@ class TableCell extends Component {
     }
 
     void setPrettyPrinterProperties(Map value) {
-        if (component in Label) {
-            (component as Label).prettyPrinterProperties.set(value)
+        Label label = getLabel()
+        if (label) {
+            label.prettyPrinterProperties.set(value)
         }
     }
 
     PrettyPrinterProperties getPrettyPrinterProperties() {
-        if (component in Label) {
-            return (component as Label).prettyPrinterProperties
+        Label label = getLabel()
+        if (label) {
+            return label.prettyPrinterProperties
         } else {
             return new PrettyPrinterProperties()
         }
     }
 
     void setTextWrap(TextWrap value) {
-        if (component in Label) (component as Label).textWrap = value
+        Label label = getLabel()
+        if (label) {
+            label.textWrap = value
+        }
     }
 
     void setTextStyle(TextStyle value) {
-        if (component in Label) (component as Label).setTextStyle(value)
+        Label label = getLabel()
+        if (label) {
+            label.setTextStyle(value)
+        }
     }
 
     void setTextStyle(List<TextStyle> value) {
-        if (component in Label) (component as Label).setTextStyle(value)
+        Label label = getLabel()
+        if (label) {
+            label.setTextStyle(value)
+        }
     }
 
     void setText(Object value) {
-        if (component in Label) (component as Label).text = value
+        Label label = getLabel()
+        if (label) {
+            label.text = value
+        }
     }
 
     void setIcon(String value) {
-        if (component in Label) (component as Label).icon = value
+        Label label = getLabel()
+        if (label) {
+            label.icon = value
+        }
     }
 
     void setTooltip(String value) {
-        if (component in Label) (component as Label).tooltip = value
+        Label label = getLabel()
+        if (label) {
+            label.tooltip = value
+        }
     }
 
     void setUrl(String value) {
-        if (component in Label) (component as Label).url = value
+        Label label = getLabel()
+        if (label) {
+            label.url = value
+        }
     }
 
     void setHtml(String value) {
-        if (component in Label) (component as Label).html = value
+        Label label = getLabel()
+        if (label) {
+            label.html = value
+        }
     }
 
     Boolean isColumnSpanned() {
