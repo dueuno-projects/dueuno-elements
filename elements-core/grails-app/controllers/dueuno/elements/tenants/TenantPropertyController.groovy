@@ -133,11 +133,11 @@ class TenantPropertyController implements ElementsController {
                 addField(
                         class: Label,
                         id: 'description',
-                        html: """<span class="ms-1">${description}</span>""",
+                        html: description,
                         textWrap: TextWrap.SOFT_WRAP,
                         displayLabel: false,
-                        tag: false,
-                        cols: 12,
+                        tag: true,
+                        backgroundColor: tertiaryBackgroundColor,
                 )
             }
 
@@ -146,7 +146,7 @@ class TenantPropertyController implements ElementsController {
                     id: 'name',
                     textStyle: TextStyle.MONOSPACE,
                     readonly: true,
-                    cols: 6,
+                    cols: 9,
             )
             addField(
                     class: Select,
@@ -155,7 +155,7 @@ class TenantPropertyController implements ElementsController {
                     textStyle: TextStyle.MONOSPACE,
                     readonly: true,
                     nullable: true,
-                    cols: 6,
+                    cols: 3,
             )
 
             switch (obj.type) {
@@ -167,7 +167,6 @@ class TenantPropertyController implements ElementsController {
                                 textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
                                 rows: 2,
-                                cols: 12,
                         )
                     }
                     addField(
@@ -175,7 +174,6 @@ class TenantPropertyController implements ElementsController {
                             id: 'value',
                             textStyle: TextStyle.MONOSPACE,
                             rows: 2,
-                            cols: 12,
                     )
                     break
 
@@ -184,7 +182,6 @@ class TenantPropertyController implements ElementsController {
                             class: PasswordField,
                             id: 'value',
                             help: 'tenantProperty.password.help',
-                            cols: 12,
                     )
                     break
 
@@ -195,7 +192,6 @@ class TenantPropertyController implements ElementsController {
                                 id: 'defaultValue',
                                 textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
@@ -205,7 +201,6 @@ class TenantPropertyController implements ElementsController {
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
                             submit: ['form'],
-                            cols: 12,
                     )
                     break
 
@@ -216,7 +211,6 @@ class TenantPropertyController implements ElementsController {
                                 id: 'defaultValue',
                                 textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
@@ -226,7 +220,6 @@ class TenantPropertyController implements ElementsController {
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
                             submit: ['form'],
-                            cols: 12,
                     )
                     break
 
@@ -237,7 +230,6 @@ class TenantPropertyController implements ElementsController {
                                 id: 'defaultValue',
                                 textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
@@ -247,7 +239,6 @@ class TenantPropertyController implements ElementsController {
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
                             submit: ['form'],
-                            cols: 12,
                     )
                     break
 
@@ -259,7 +250,6 @@ class TenantPropertyController implements ElementsController {
                                 textStyle: TextStyle.MONOSPACE,
                                 decimals: 5,
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
@@ -267,7 +257,6 @@ class TenantPropertyController implements ElementsController {
                             id: 'value',
                             textStyle: TextStyle.MONOSPACE,
                             decimals: 5,
-                            cols: 12,
                     )
                     break
 
@@ -278,14 +267,12 @@ class TenantPropertyController implements ElementsController {
                                 id: 'defaultValue',
                                 readonly: true,
                                 label: '',
-                                cols: 12,
                         )
                     }
                     addField(
                             class: Checkbox,
                             id: 'value',
                             label: '',
-                            cols: 12,
                     )
                     break
 
@@ -295,13 +282,11 @@ class TenantPropertyController implements ElementsController {
                                 class: DateTimeField,
                                 id: 'defaultValue',
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
                             class: DateTimeField,
                             id: 'value',
-                            cols: 12,
                     )
                     break
 
@@ -311,13 +296,11 @@ class TenantPropertyController implements ElementsController {
                                 class: DateField,
                                 id: 'defaultValue',
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
                             class: DateField,
                             id: 'value',
-                            cols: 12,
                     )
                     break
 
@@ -327,13 +310,11 @@ class TenantPropertyController implements ElementsController {
                                 class: TimeField,
                                 id: 'defaultValue',
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
                             class: TimeField,
                             id: 'value',
-                            cols: 12,
                     )
                     break
             }
