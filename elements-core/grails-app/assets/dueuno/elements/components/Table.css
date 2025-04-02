@@ -16,7 +16,8 @@
 }
 
 .component-table .component-label.border {
-    padding: 0 calc(var(--elements-spacing-x) / 2);
+    padding: calc(var(--elements-spacing-y) * .3) calc(var(--elements-spacing-x) * .5);
+    font-size: calc(var(--elements-font-size) * .9);
 }
 
 .component-table ::-webkit-scrollbar {
