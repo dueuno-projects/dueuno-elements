@@ -14,7 +14,6 @@
  */
 package dueuno.elements.security
 
-
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
@@ -25,7 +24,6 @@ import dueuno.elements.controls.TextField
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.Feature
-import dueuno.elements.core.Menu
 import dueuno.elements.tenants.TenantService
 import grails.gorm.multitenancy.WithoutTenant
 import grails.plugin.springsecurity.annotation.Secured

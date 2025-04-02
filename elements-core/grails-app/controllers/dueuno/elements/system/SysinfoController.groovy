@@ -18,6 +18,7 @@ import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentList
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.SystemInfoService
+import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import grails.plugin.springsecurity.annotation.Secured
@@ -45,8 +46,10 @@ class SysinfoController implements ElementsController {
             hasHeader = false
             rowActions = false
             body.eachRow { TableRow row, Map values ->
+                row.cells.key.tag = true
+                row.cells.key.textAlign = TextAlign.START
                 row.textStyle = TextStyle.MONOSPACE
-                row.cells['value'].textWrap = TextWrap.SOFT_WRAP
+                row.cells.value.textWrap = TextWrap.SOFT_WRAP
             }
             body = systemInfoService.info.collect {[key: it.key, value: it.value]}
         }

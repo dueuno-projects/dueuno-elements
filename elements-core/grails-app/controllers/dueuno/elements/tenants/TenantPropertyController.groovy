@@ -70,8 +70,8 @@ class TenantPropertyController implements ElementsController {
             columns = [
                     'issues',
                     'name',
-                    'value',
                     'type',
+                    'value',
                     'description',
             ]
             labels = [
@@ -85,8 +85,9 @@ class TenantPropertyController implements ElementsController {
             actions.removeTailAction()
 
             body.eachRow { TableRow row, Map values ->
-                row.cells['value'].textStyle = TextStyle.MONOSPACE
-                row.cells['value'].textAlign = TextAlign.START
+                row.cells.value.textStyle = TextStyle.MONOSPACE
+                row.cells.value.textAlign = TextAlign.START
+                row.cells.type.tag = true
 
                 if (values.validation) {
                     row.textColor = '#cc0000'
@@ -99,9 +100,9 @@ class TenantPropertyController implements ElementsController {
 
                 String descriptionCode = "tenant.property.${values.name}"
                 String description = messageOrBlank(descriptionCode)
-                row.cells['description'].html = description ?: descriptionCode
+                row.cells.description.html = description ?: descriptionCode
                 if (!description) {
-                    row.cells['description'].textColor = tertiaryBackgroundColor
+                    row.cells.description.textColor = tertiaryBackgroundColor
                 }
 
                 if (values.type == PropertyType.BOOL) {

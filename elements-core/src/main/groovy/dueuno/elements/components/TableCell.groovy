@@ -196,6 +196,7 @@ class TableCell extends Component {
                     ? (row.index % 2 == 0 ? 'white' : tertiaryBackgroundColor)
                     : tertiaryBackgroundColor
 
+            textAlign = TextAlign.CENTER
             label.tag = value
             label.backgroundColor = value
                     ? backgroundColor

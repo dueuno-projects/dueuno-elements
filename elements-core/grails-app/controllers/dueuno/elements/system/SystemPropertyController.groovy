@@ -73,16 +73,17 @@ class SystemPropertyController implements ElementsController {
             columns = [
                     'issues',
                     'name',
-                    'value',
                     'type',
+                    'value',
                     'description',
             ]
 
             actions.removeTailAction()
 
             body.eachRow { TableRow row, Map values ->
-                row.cells['value'].textStyle = TextStyle.MONOSPACE
-                row.cells['value'].textAlign = TextAlign.START
+                row.cells.value.textStyle = TextStyle.MONOSPACE
+                row.cells.value.textAlign = TextAlign.START
+                row.cells.type.tag = true
 
                 if (values.validation) {
                     row.textColor = '#cc0000'
@@ -95,9 +96,9 @@ class SystemPropertyController implements ElementsController {
 
                 String descriptionCode = "system.property.${values.name}"
                 String description = messageOrBlank(descriptionCode)
-                row.cells['description'].html = description ?: descriptionCode
-                if (!description) {
-                    row.cells['description'].textColor = tertiaryBackgroundColor
+                row.cells.description.html = description ?: descriptionCode
+                if (description) {
+                    row.cells.description.textColor = tertiaryBackgroundColor
                 }
 
                 if (values.type == PropertyType.BOOL) {
