@@ -69,6 +69,7 @@ class CrudController implements ElementsController {
             header.nextButton.defaultAction.tooltip = 'default.create'
 
             table.with {
+                rowStriped = true
                 stickyHeaderOffset = 0
 //                stickyHeaderZIndex = 9999
 

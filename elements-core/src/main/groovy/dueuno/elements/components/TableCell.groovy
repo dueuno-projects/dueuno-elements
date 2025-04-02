@@ -192,9 +192,13 @@ class TableCell extends Component {
     void setBorder(String value) {
         Label label = getLabel()
         if (label) {
+            String backgroundColor = table.rowStriped
+                    ? (row.index % 2 == 0 ? 'white' : tertiaryBackgroundColor)
+                    : tertiaryBackgroundColor
+
             label.border = value
             label.backgroundColor = value
-                    ? tertiaryBackgroundColor
+                    ? backgroundColor
                     : null
         }
     }
