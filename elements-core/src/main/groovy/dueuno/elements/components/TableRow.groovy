@@ -407,7 +407,7 @@ class TableRow extends Component {
                 renderTextPrefix: isHeader && !table.labels[columnName],
                 textWrap: TextWrap.NO_WRAP,
                 textStyle: TextStyle.BOLD,
-                border: false,
+                tag: false,
         )
 
         return addCell(columnName, header)

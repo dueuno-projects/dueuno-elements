@@ -49,7 +49,7 @@ class TransitionsController implements ElementsController {
                         text: 'Hai confermato, bravo!',
                         textColor: '#cc0000',
                         backgroundColor: "rgba(${primaryBackgroundColorInt.join(', ')}, ${primaryBackgroundColorAlpha})",
-                        border: true,
+                        tag: true,
                         displayLabel: false,
                         cols: 12,
                 )
@@ -102,7 +102,7 @@ class TransitionsController implements ElementsController {
                     class: Label,
                     id: 'label',
                     text: 'Replace me or add something below me',
-                    border: true,
+                    tag: true,
                     backgroundColor: primaryBackgroundColor,
                     cols: 12,
             )
@@ -257,7 +257,7 @@ class TransitionsController implements ElementsController {
         t.addComponent(
                 class: Label,
                 id: 'label',
-                border: true,
+                tag: true,
                 backgroundColor: 'green',
         )
         t.replace('label', 'label')

@@ -132,7 +132,7 @@ class SystemPropertyController implements ElementsController {
                         html: """<span class="ms-1">${description}</span>""",
                         textWrap: TextWrap.SOFT_WRAP,
                         displayLabel: false,
-                        border: false,
+                        tag: false,
                         cols: 12,
                 )
             }

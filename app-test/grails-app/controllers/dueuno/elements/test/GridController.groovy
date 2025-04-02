@@ -58,7 +58,7 @@ class GridController implements ElementsController {
         grid2.backgroundColor = c.primaryBackgroundColor
         grid2.textColor = c.primaryTextColor
         grid2.spacing = 4
-        grid2.border = true
+        grid2.tag = true
 
         for (i in 1..10) {
             def col = grid2.addColumn()

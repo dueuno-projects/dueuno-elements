@@ -11,6 +11,6 @@
     margin-bottom: 0 !important;
 }
 
-.grid-column .grid-border {
+.grid-column .grid-tag {
     border-radius: var(--bs-border-radius-xl);
 }

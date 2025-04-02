@@ -15,7 +15,7 @@
     background-color: white;
 }
 
-.component-table .component-label.border {
+.component-table .component-label.tag {
     font-size: calc(var(--elements-font-size) * .9);
 }
 

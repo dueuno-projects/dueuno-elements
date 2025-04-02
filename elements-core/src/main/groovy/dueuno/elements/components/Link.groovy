@@ -54,7 +54,7 @@ class Link extends Label {
         image = args.image ?: ''
         imageClass = args.imageClass ?: ''
 
-        border = args.border == null ? false : args.border
+        tag = args.tag == null ? false : args.tag
 
         html = args.html
         containerSpecs.label = ''

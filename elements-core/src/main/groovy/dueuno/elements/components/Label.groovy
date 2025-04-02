@@ -40,7 +40,7 @@ class Label extends Component {
     TextAlign textAlign
     TextWrap textWrap
     List<TextStyle> textStyle
-    Boolean border
+    Boolean tag
     Boolean userSelect
 
     PrettyPrinterProperties prettyPrinterProperties
@@ -60,7 +60,7 @@ class Label extends Component {
         textWrap = args.textWrap == null ? TextWrap.NO_WRAP : args.textWrap as TextWrap
         setTextStyle(args.textStyle)
 
-        border = args.border == null ? (html ? false : true) : args.border
+        tag = args.tag == null ? (html ? false : true) : args.tag
         userSelect = args.userSelect == null ? false : args.userSelect
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)

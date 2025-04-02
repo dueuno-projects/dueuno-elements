@@ -86,7 +86,7 @@ class ConnectionSourceController implements ElementsController {
                         id: 'info',
                         textColor: '#cc0000',
                         backgroundColor: "rgba(${primaryBackgroundColorInt.join(', ')}, ${primaryBackgroundColorAlpha})",
-                        border: true,
+                        tag: true,
                         text: 'connectionSource.edit.info',
                         displayLabel: false,
                         cols: 12,

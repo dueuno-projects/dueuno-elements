@@ -1,4 +1,4 @@
-<a class="component-link ${c.textAlign} ${c.textWrap} ${c.border ? 'border' : ''} ${c.cssClass}"
+<a class="component-link ${c.textAlign} ${c.textWrap} ${c.tag ? 'tag' : ''} ${c.cssClass}"
    data-21-component="${c.className}"
    data-21-id="${c.id}"
    data-21-properties="${c.propertiesAsJSON}"

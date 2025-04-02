@@ -68,14 +68,14 @@
                     </g:if>
                     <g:else>
                         <g:set var="label" value="${cell.component}" />
-                        <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.cssClass}"
+                        <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.tag ? 'tag' : ''} ${label.cssClass}"
                               ${label.cssStyleColors ? raw('style="' + label.cssStyleColors + '"') : ''}
                         >
                             <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
                             <g:else>
                                 <g:if test="${label.tooltip}"><span ${raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"')}></g:if>
                                 <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon && label.text ? 'me-1' : ''}"/></g:if>
-                                <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${label.text}${label.border && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
+                                <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${label.text}${label.tag && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
                                 <g:if test="${label.tooltip}"></span></g:if>
                             </g:else>
                         </span>
@@ -93,14 +93,14 @@
                     ${cell.cssStyleColors ? raw('style="' + cell.cssStyleColors + '"') : ''}
                 >${c.table.widths[column] ? raw('<div style="width: ' + c.table.widths[column] + 'px">') : ''}
                     <g:set var="label" value="${cell.component}" />
-                    <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.userSelect ? 'user-select-text' : ''} ${label.html ? 'html' : ''} ${label.cssClass}"
+                    <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.tag ? 'tag' : ''} ${label.userSelect ? 'user-select-text' : ''} ${label.html ? 'html' : ''} ${label.cssClass}"
                           ${label.cssStyleColors ? raw('style="' + label.cssStyleColors + '"') : ''}
                     >
                         <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
                         <g:else>
                             <g:if test="${label.tooltip}"><span ${raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"')}></g:if>
                             <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon && label.text ? 'me-1' : ''}"/></g:if>
-                            <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${label.text}${label.border && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
+                            <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${label.text}${label.tag && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
                             <g:if test="${label.tooltip}"></span></g:if>
                         </g:else>
                     </span>

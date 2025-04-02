@@ -80,7 +80,7 @@ class TableCell extends Component {
                 replace: true,
                 textPrefix: controllerName,
                 textWrap: TextWrap.NO_WRAP,
-                border: false,
+                tag: false,
         )
     }
 
@@ -189,14 +189,14 @@ class TableCell extends Component {
         }
     }
 
-    void setBorder(String value) {
+    void setTag(String value) {
         Label label = getLabel()
         if (label) {
             String backgroundColor = table.rowStriped
                     ? (row.index % 2 == 0 ? 'white' : tertiaryBackgroundColor)
                     : tertiaryBackgroundColor
 
-            label.border = value
+            label.tag = value
             label.backgroundColor = value
                     ? backgroundColor
                     : null

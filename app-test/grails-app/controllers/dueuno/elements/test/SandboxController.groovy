@@ -431,7 +431,7 @@ Grails application running at http://localhost:9992/test in environment: develop
             body.eachRow { TableRow row, Map values ->
                 values.customColumn = 'PIPPO'
 
-                row.cells.postcode.border = true
+                row.cells.postcode.tag = true
 
                 row.cells.input.component = [
                         class   : NumberField,
@@ -636,7 +636,7 @@ Grails application running at http://localhost:9992/test in environment: develop
                 textAlign: TextAlign.CENTER,
                 backgroundColor: 'red',
                 textColor: 'white',
-                border: true,
+                tag: true,
         )
 
         display content: c, modal: true

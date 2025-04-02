@@ -164,7 +164,7 @@ class CrudController implements ElementsController {
 
                 body.eachRow { TableRow row, Map values ->
 //                    row.verticalAlign = VerticalAlign.TOP
-                    row.cells.postcode.border = true
+                    row.cells.postcode.tag = true
 
                     row.cells['name'].textWrap = TextWrap.SOFT_WRAP
                     row.cells['company'].textWrap = TextWrap.LINE_WRAP

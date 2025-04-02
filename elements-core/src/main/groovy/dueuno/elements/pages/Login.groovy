@@ -125,7 +125,7 @@ class Login extends Page {
                         html: copy,
                         textAlign: TextAlign.CENTER,
                         displayLabel: false,
-                        border: true,
+                        tag: true,
                 )
             }
         }
