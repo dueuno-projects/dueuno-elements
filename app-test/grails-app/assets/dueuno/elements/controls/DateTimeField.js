@@ -47,6 +47,17 @@ class DateTimeField extends Control {
         Transition.triggerEvent($element, 'load');
     }
 
+    static dateToUTC(date) {
+        return new tempusDominus.DateTime(
+            date.getUTCFullYear(),
+            date.getUTCMonth(),
+            date.getUTCDate(),
+            date.getUTCHours(),
+            date.getUTCMinutes(),
+            date.getUTCSeconds()
+        );
+    }
+
     static parseInput(value) {
         let year;
         let month;
@@ -89,7 +100,13 @@ class DateTimeField extends Control {
             minute = value.substring(10, 12);
         }
 
-        let dateTime = new tempusDominus.DateTime(year + '-' + month + '-' + day + 'T' + hour + ':' + minute);
+        // This hack is here to input the right date/hour in different timezones
+        // We should find a better solution, I'm not investigating since this control
+        // is mostly used as a readonly view. Usually the time input is decoupled into a TimeField.
+        let date = new tempusDominus.DateTime(year + '-' + month + '-' + day);
+        let utcDate = DateTimeField.dateToUTC(date);
+        let utcDay = utcDate.date.toString().padStart(2, '0');
+        let dateTime = new tempusDominus.DateTime(year + '-' + month + '-' + utcDay + 'T' + hour + ':' + minute);
         return dateTime;
     }
 
@@ -171,7 +188,11 @@ class DateTimeField extends Control {
         let td = $element.data('td');
         let date = td.dates.parseInput(value);
 
-        if (date) return {
+        if (!date) {
+            return null;
+        }
+
+        let result = {
             type: Type.DATETIME,
             value: {
                 year: date.year,
@@ -183,7 +204,7 @@ class DateTimeField extends Control {
             }
         }
 
-        return null;
+        return result;
     }
 
     static setReadonly($element, value) {
@@ -253,6 +274,7 @@ class DateTimeField extends Control {
         let $formField = $element.closest('[data-21-component="FormField"]');
         FormField.setError($formField, value);
     }
+
 }
 
 Control.register(DateTimeField);

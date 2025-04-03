@@ -57,8 +57,9 @@ class DateField extends DateTimeField {
             day = value.substring(0, 2);
         }
 
-        let dateTime = new tempusDominus.DateTime(year + '-' + month + '-' + day);
-        return dateTime;
+        let date = new tempusDominus.DateTime(year + '-' + month + '-' + day);
+        let dateUTC = DateTimeField.dateToUTC(date);
+        return dateUTC;
     }
 
     static setValue($element, valueMap, trigger = true) {
@@ -93,7 +94,11 @@ class DateField extends DateTimeField {
         let td = $element.data('td');
         let date = td.dates.parseInput(value);
 
-        if (date) return {
+        if (!date) {
+            return null;
+        }
+
+        let result = {
             type: Type.DATE,
             value: {
                 year: date.year,
@@ -102,8 +107,9 @@ class DateField extends DateTimeField {
             }
         }
 
-        return null;
+        return result;
     }
+
 }
 
 Control.register(DateField);

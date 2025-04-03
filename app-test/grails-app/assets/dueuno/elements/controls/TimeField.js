@@ -52,8 +52,8 @@ class TimeField extends DateTimeField {
         if (isNaN(intHour) || intHour > 24) hour = '00';
         if (isNaN(intMinute) || intMinute > 59) minute = '00';
 
-        let dateTime = new tempusDominus.DateTime('1900-01-01T' + hour + ':' + minute);
-        return dateTime;
+        let time = new tempusDominus.DateTime('1900-01-01T' + hour + ':' + minute);
+        return time;
     }
 
     static setValue($element, valueMap, trigger = true) {
@@ -88,7 +88,11 @@ class TimeField extends DateTimeField {
         let td = $element.data('td');
         let time = td.dates.parseInput(value);
 
-        if (time) return {
+        if (!time) {
+            return null;
+        }
+
+        let result = {
             type: Type.TIME,
             value: {
                 hour: time.hours,
@@ -97,7 +101,7 @@ class TimeField extends DateTimeField {
             }
         }
 
-        return null;
+        return result;
     }
 }
 
