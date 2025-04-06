@@ -56,8 +56,8 @@ class Link extends Label {
                 componentEvent.renderProperties['updateUrl'] = true;
             }
 
-            componentEvent['loading'] = componentEvent['loading'] == null ? true : false;
-            componentEvent['direct'] = componentEvent['direct'] == null ? false : true;
+            componentEvent['loading'] = componentEvent['loading'] == null ? true : componentEvent['loading'];
+            componentEvent['direct'] = componentEvent['direct'] == null ? false : componentEvent['direct'];
             Transition.submit(componentEvent);
         }
     }
