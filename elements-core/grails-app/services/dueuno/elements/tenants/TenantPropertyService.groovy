@@ -21,11 +21,13 @@ import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
+import groovy.util.logging.Slf4j
 
 /**
  * @author Gianluca Sartori
  */
 
+@Slf4j
 @CurrentTenant
 class TenantPropertyService extends PropertyService {
 

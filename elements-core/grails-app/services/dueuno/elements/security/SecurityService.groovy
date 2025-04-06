@@ -1064,11 +1064,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     }
 
     void installTenantSecurity(String tenantId) {
-        createGroup(tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
-        createGroup(tenantId: tenantId, name: GROUP_DEVELOPERS, authorities: [ROLE_DEVELOPER], deletable: false)
-        createGroup(tenantId: tenantId, name: GROUP_ADMINS, authorities: [ROLE_ADMIN], deletable: false)
-        createAuthority('ROLE_SECURITY')
-
         if (tenantId == 'DEFAULT') {
             createGroup(tenantId: tenantService.defaultTenantId, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)
             createSystemUser(
@@ -1083,32 +1078,39 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             )
         }
 
-        String username = getAdminUsername(tenantId)
-        createSystemUser(
-                tenantId: tenantId,
-                username: username,
-                password: username,
-                firstname: 'Admin',
-                lastname: tenantId,
-                sessionDuration: 15, // defaults to 15 minutes for the Admin
-                rememberMeDuration: 15, // defaults to 15 minutes for the Admin
-                admin: true,
-        )
+        tenantService.withTenant(tenantId) {
+            createGroup(tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
+            createGroup(tenantId: tenantId, name: GROUP_DEVELOPERS, authorities: [ROLE_DEVELOPER], deletable: false)
+            createGroup(tenantId: tenantId, name: GROUP_ADMINS, authorities: [ROLE_ADMIN], deletable: false)
+            createAuthority('ROLE_SECURITY')
 
-        tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
+            String username = getAdminUsername(tenantId)
+            createSystemUser(
+                    tenantId: tenantId,
+                    username: username,
+                    password: username,
+                    firstname: 'Admin',
+                    lastname: tenantId,
+                    sessionDuration: 15, // defaults to 15 minutes for the Admin
+                    rememberMeDuration: 15, // defaults to 15 minutes for the Admin
+                    admin: true,
+            )
 
-        tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
-        tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
+            tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
 
-        tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', false)
-        tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
-        tenantPropertyService.setString('LOGIN_LANDING_URL', '')
-        tenantPropertyService.setString('LOGOUT_LANDING_URL', '')
-        tenantPropertyService.setString('LOGIN_REGISTRATION_URL', '')
-        tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
-        tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
+            tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
+            tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
 
-        tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', linkPublicResource(tenantId, '/brand/login-background.jpg', false))
-        tenantPropertyService.setString('LOGIN_LOGO', linkPublicResource(tenantId, '/brand/login-logo.png', false))
+            tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', false)
+            tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
+            tenantPropertyService.setString('LOGIN_LANDING_URL', '')
+            tenantPropertyService.setString('LOGOUT_LANDING_URL', '')
+            tenantPropertyService.setString('LOGIN_REGISTRATION_URL', '')
+            tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
+            tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
+
+            tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', linkPublicResource(tenantId, '/brand/login-background.jpg', false))
+            tenantPropertyService.setString('LOGIN_LOGO', linkPublicResource(tenantId, '/brand/login-logo.png', false))
+        }
     }
 }
