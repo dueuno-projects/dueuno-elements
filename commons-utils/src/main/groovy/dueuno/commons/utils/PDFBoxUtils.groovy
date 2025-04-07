@@ -80,11 +80,9 @@ class PDFBoxUtils {
     }
 
     static void write(PDPageContentStream content, Float x, Float y, String text, Float fontSize = 14) {
-        content.beginText()
-        content.setFont(PDType1Font.HELVETICA_BOLD, fontSize)
-        content.newLineAtOffset(x, y)
-        content.showText(text)
-        content.endText()
+        PDFont font = PDType1Font.HELVETICA_BOLD
+
+        write content, x, y, text, font, fontSize
     }
 
     static void writeCentered(PDPageContentStream content, PDDocument doc, String text, Float fontSize = 14, Float marginTop = 0) {
