@@ -93,6 +93,7 @@ class UserProfileController implements ElementsController {
                     textPrefix: 'default.invertedMonth',
                     search: false,
                     cols: 6,
+                    colsSmall: 6,
             )
             addField(
                     class: Select,
@@ -101,6 +102,7 @@ class UserProfileController implements ElementsController {
                     textPrefix: 'default.twelveHours',
                     search: false,
                     cols: 6,
+                    colsSmall: 6,
             )
             addField(
                     class: Select,
@@ -109,6 +111,7 @@ class UserProfileController implements ElementsController {
                     textPrefix: 'default.decimalFormat',
                     search: false,
                     cols: 6,
+                    colsSmall: 6,
             )
             addField(
                     class: Select,
@@ -117,6 +120,7 @@ class UserProfileController implements ElementsController {
                     textPrefix: 'default.prefixedUnit',
                     search: false,
                     cols: 6,
+                    colsSmall: 6,
             )
             addField(
                     class: Select,
@@ -138,11 +142,13 @@ class UserProfileController implements ElementsController {
                     class: NumberField,
                     id: 'fontSize',
                     cols: 6,
+                    colsSmall: 6,
             )
             addField(
                     class: Checkbox,
                     id: 'animations',
                     cols: 6,
+                    colsSmall: 6,
             )
         }
     }
