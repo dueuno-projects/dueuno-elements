@@ -1,10 +1,11 @@
-:root {
-    --elements-font-size: 18px;
+body {
     --elements-spacing-x: calc(var(--elements-font-size) / 1.5);
     --elements-spacing-y: calc(var(--elements-font-size) / 4);
     --bs-border-radius: calc(var(--elements-font-size) / 3);
     --bs-border-radius-lg: calc(var(--elements-font-size) / 2);
     --bs-border-radius-xl: calc(var(--elements-font-size) / 1);
+    font-size: var(--elements-font-size);
+    visibility: hidden;
 }
 
 :focus-visible {
@@ -26,10 +27,6 @@
 a,
 a:hover {
     color: rgb(var(--elements-primary-bg));
-}
-
-body {
-    font-size: var(--elements-font-size);
 }
 
 .font-monospace {

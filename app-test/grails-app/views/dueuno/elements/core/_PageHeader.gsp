@@ -21,7 +21,7 @@
 
 <style>
     :root {
-        --elements-font-size: ${c.fontSize ?: '17'}px;
+        --elements-font-size: ${c.fontSize ?: '16'}px;
     }
 </style>
 
