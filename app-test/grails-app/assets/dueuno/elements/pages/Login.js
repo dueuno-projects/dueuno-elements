@@ -8,12 +8,14 @@ class Login extends Page {
     }
 
     static onKeyPress(event) {
-        let $element = Elements.getElementById('externalId');
+        let $element = $('[data-21-component="KeyPress"]');
+        let $search = $element.find('input');
 
         event.stopPropagation();
 
-        let readingSpeed = 50;
-        let bufferCleanupTimeout = 500;
+        let triggerKey = Component.getProperty($element, 'triggerKey');
+        let readingSpeed = Component.getProperty($element, 'readingSpeed');
+        let bufferCleanupTimeout = Component.getProperty($element, 'bufferCleanupTimeout');
         let timer = Component.getProperty($element, 'timer');
         let lastKey = Component.getProperty($element, 'lastKey');
 
@@ -25,17 +27,17 @@ class Login extends Page {
 
         let checkMinTime = (readingSpeed == 0 || timeInterval < readingSpeed);
         let checkMaxTime = (bufferCleanupTimeout == 0 || timeInterval > bufferCleanupTimeout);
-        let triggerKey = (event.key == 'Enter');
+        let triggered = (event.key == triggerKey);
 
         if (checkMaxTime) {
-            $element.val('');
+            $search.val('');
         }
 
         let printable = KeyPress.isPrintable(event.keyCode);
         let isModifierPressed = KeyPress.isModifierPressed(event, lastKey);
 
         if (printable) {
-            $element.val($element.val() + event.key);
+            $search.val($search.val() + event.key);
         }
 
         if (event.target.tagName == 'INPUT') {
@@ -46,9 +48,9 @@ class Login extends Page {
             }
         }
 
-        if (triggerKey) {
+        if (triggered) {
             if ($(event.target).data('21-id') == 'authenticate') {
-                if ($element.val().length == 0) {
+                if ($search.val().length == 0) {
                     return;
                 }
                 event.preventDefault();
@@ -65,10 +67,10 @@ class Login extends Page {
                        username: $username.val(),
                        password: $password.val(),
                    };
-                } else if ($element.val().length > 0) {
+                } else if ($search.val().length > 0) {
                     data = {
                         processUrl: 'api/auth/external',
-                        externalId: $element.val(),
+                        externalId: $search.val(),
                     };
                 }
 
@@ -78,7 +80,7 @@ class Login extends Page {
 
                 Login.onLogin(null, data);
             }
-            $element.val('');
+            $search.val('');
         }
     }
 

@@ -12,8 +12,9 @@ class KeyPressController implements ElementsController{
         def user = securityService.getUserByExternalId(externalId)
         if (user) {
             display controller: 'authentication', action: 'logout'
-        } else {
-            display
+            return
         }
+
+        display
     }
 }
