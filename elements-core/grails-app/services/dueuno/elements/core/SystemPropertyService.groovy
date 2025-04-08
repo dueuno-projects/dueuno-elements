@@ -51,7 +51,7 @@ class SystemPropertyService extends PropertyService {
         setBoolean('DISPLAY_USER_MENU', true)
 
         // Other
-        setNumber('FONT_SIZE', 16, 16)
+        setNumber('FONT_SIZE', 14, 14)
     }
 
     @PostConstruct
