@@ -200,7 +200,6 @@ class TenantPropertyController implements ElementsController {
                             textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
-                            submit: ['form'],
                     )
                     break
 
@@ -219,7 +218,6 @@ class TenantPropertyController implements ElementsController {
                             textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
-                            submit: ['form'],
                     )
                     break
 
@@ -238,7 +236,6 @@ class TenantPropertyController implements ElementsController {
                             textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
-                            submit: ['form'],
                     )
                     break
 

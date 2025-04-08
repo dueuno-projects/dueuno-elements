@@ -42,7 +42,7 @@ class NumberField extends TextField {
         min = args.min as Integer
         max = args.max as Integer
 
-        inputType = TextFieldInputType.NUMBER
+        inputType = TextFieldInputType.TEXT
         inputMode = decimals ? TextFieldInputMode.DECIMAL : TextFieldInputMode.NUMERIC
     }
 

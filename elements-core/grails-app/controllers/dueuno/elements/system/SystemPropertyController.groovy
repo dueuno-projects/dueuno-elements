@@ -198,7 +198,6 @@ class SystemPropertyController implements ElementsController {
                             textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
-                            submit: ['form'],
                     )
                     break
 
@@ -217,7 +216,6 @@ class SystemPropertyController implements ElementsController {
                             textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
-                            submit: ['form'],
                     )
                     break
 
@@ -236,7 +234,6 @@ class SystemPropertyController implements ElementsController {
                             textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
-                            submit: ['form'],
                     )
                     break
 
