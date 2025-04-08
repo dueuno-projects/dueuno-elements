@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+import dueuno.elements.components.KeyPress
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
@@ -27,6 +28,7 @@ abstract class Page extends Component {
 
     PageModal modal
     PageMessageBox messageBox
+    KeyPress keyPress
     transient PageContent content
 
     String favicon
@@ -39,6 +41,11 @@ abstract class Page extends Component {
 
         modal = addComponent(PageModal, 'modal', args)
         messageBox = addComponent(PageMessageBox, 'messagebox', args)
+        keyPress = addComponent(KeyPress, '_21_keyPress', args.keyPress as Map)
+        keyPress.with {
+            controller = 'keyPress'
+            action = 'onKeyPress'
+        }
         favicon = args.favicon
         appicon = args.appicon
     }

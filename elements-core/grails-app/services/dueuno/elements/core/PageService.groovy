@@ -20,7 +20,6 @@ import dueuno.elements.security.SecurityService
 import dueuno.elements.tenants.TenantPropertyService
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.grails.gsp.GroovyPagesTemplateEngine
 
 /**
  * @author Gianluca Sartori
@@ -30,7 +29,6 @@ import org.grails.gsp.GroovyPagesTemplateEngine
 @CompileStatic
 class PageService implements WebRequestAware, LinkGeneratorAware {
 
-    GroovyPagesTemplateEngine groovyPagesTemplateEngine
     SecurityService securityService
     SystemPropertyService systemPropertyService
     TenantPropertyService tenantPropertyService
@@ -39,6 +37,11 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
     void install(String tenantId) {
         tenantPropertyService.setString('FAVICON', linkPublicResource(tenantId, 'brand/favicon.png', false))
         tenantPropertyService.setString('APPICON', linkPublicResource(tenantId, 'brand/appicon.png', false))
+
+        tenantPropertyService.setString('KEYPRESS_TRIGGER_KEY', 'Enter')
+        tenantPropertyService.setNumber('KEYPRESS_READING_SPEED', 20)
+        tenantPropertyService.setNumber('KEYPRESS_BUFFER_CLEANUP_TIMEOUT', 500)
+        tenantPropertyService.setBoolean('KEYPRESS_KEEP_CLEAN', false)
     }
 
     Page getMainPage() {
@@ -93,6 +96,13 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
         args.tertiaryBackgroundColor = tenantPropertyService.getString('TERTIARY_BACKGROUND_COLOR')
         args.secondaryTextColor = tenantPropertyService.getString('SECONDARY_TEXT_COLOR')
         args.secondaryBackgroundColor = tenantPropertyService.getString('SECONDARY_BACKGROUND_COLOR')
+
+        args.keyPress = [
+                triggerKey: tenantPropertyService.getString('KEYPRESS_TRIGGER_KEY'),
+                readingSpeed: tenantPropertyService.getNumber('KEYPRESS_READING_SPEED'),
+                bufferCleanupTimeout: tenantPropertyService.getNumber('KEYPRESS_BUFFER_CLEANUP_TIMEOUT'),
+                keepClean: tenantPropertyService.getBoolean('KEYPRESS_KEEP_CLEAN'),
+        ]
 
         return args
     }
