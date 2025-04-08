@@ -30,13 +30,14 @@ class Login extends Page {
         }
 
         let printable = KeyPress.isPrintable(event.keyCode);
+        let isModifierPressed = KeyPress.isModifierPressed(event);
 
         if (printable) {
             $element.val($element.val() + event.key);
         }
 
         if (event.target.tagName == 'INPUT') {
-            if (printable && !event.ctrlKey && checkMinTime) {
+            if (printable && !isModifierPressed && checkMinTime) {
                 $(event.target).css('color', 'rgb(var(--elements-tertiary-bg))');
             } else {
                 $(event.target).css('color', 'rgb(var(--elements-tertiary-text))');

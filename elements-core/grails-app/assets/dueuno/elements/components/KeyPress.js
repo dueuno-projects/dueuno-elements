@@ -38,6 +38,7 @@ class KeyPress extends Component {
         }
 
         let printable = KeyPress.isPrintable(event.keyCode);
+        let isModifierPressed = KeyPress.isModifierPressed(event);
 
         if (triggerKey.length == 0) {
             $search.val(event.key);
@@ -47,7 +48,7 @@ class KeyPress extends Component {
             }
         }
 
-        if (keepClean && !event.ctrlKey && checkMinTime && event.target.tagName == 'INPUT') {
+        if (keepClean && !isModifierPressed && checkMinTime && event.target.tagName == 'INPUT') {
             event.preventDefault();
             $(event.target).val('');
         }
@@ -77,6 +78,10 @@ class KeyPress extends Component {
             (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
             (keycode > 218 && keycode < 223);   // [\]' (in order)
         return printable;
+    }
+
+    static isModifierPressed(event) {
+        return event.shiftKey || event.ctrlKey || event.altKey || event.getModifierState('AltGraph');
     }
 }
 
