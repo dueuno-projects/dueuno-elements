@@ -38,7 +38,7 @@ class KeyPress extends Component {
     KeyPress(Map args) {
         super(args)
 
-        triggerKey = args.triggerKey == null ? 'Enter' : args.triggerKey
+        triggerKey = args.triggerKey == null ? 'Enter' : (args.triggerKey == '' ? 'Enter' : args.triggerKey)
 
         //a barcode reader is typically much faster at typing than a human...
         //let's use this principle to understand if the typing comes from a reader (ms)
