@@ -16,6 +16,7 @@ package dueuno.elements.core
 
 import dueuno.commons.utils.LogUtils
 import dueuno.elements.contents.ContentHeader
+import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.pages.PageBlank
 import grails.artefact.Controller
 import grails.artefact.Enhances
@@ -37,26 +38,39 @@ import org.springframework.validation.Errors
 trait ElementsController implements Controller, RestResponder, WebRequestAware, LinkGeneratorAware {
 
     private Logger log = LoggerFactory.getLogger(ElementsController)
+    private String DISPLAY_EXCEPTION_MESSAGE = "'display()' must be the last statement of an action"
 
     @CompileDynamic
     Boolean getDisplay() {
+        if (requestParams._21TransitionRendered) {
+            throw new ElementsException(DISPLAY_EXCEPTION_MESSAGE)
+        }
+
         try {
             render transition()
+            requestParams._21TransitionRendered = true
+
         } catch (Exception ignore) {
-            // no-op
+            log.error LogUtils.logStackTrace(ignore)
         }
         return true
     }
 
     @CompileDynamic
     void display(Map args = [:]) {
+        if (requestParams._21TransitionRendered) {
+            throw new ElementsException(DISPLAY_EXCEPTION_MESSAGE)
+        }
+
         if (!args.page && requestParams._21Transition) {
 //            StopWatch sw = new StopWatch()
 //            sw.start()
             try {
                 render transition(args)
+                requestParams._21TransitionRendered = true
+
             } catch (Exception ignore) {
-                // no-op
+                log.error LogUtils.logStackTrace(ignore)
             }
 //            sw.stop()
 //            log.info "Rendered TRANSITION in ${sw.toString()}, args: ${args}"
@@ -66,8 +80,10 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
 //            sw.start()
             try {
                 render page(args)
+                requestParams._21TransitionRendered = true
+
             } catch (Exception ignore) {
-                // no-op
+                log.error LogUtils.logStackTrace(ignore)
             }
 //            sw.stop()
 //            log.info "Rendered PAGE in ${sw.toString()}, args: ${args}"

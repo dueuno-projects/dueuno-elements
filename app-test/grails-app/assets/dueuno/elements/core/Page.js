@@ -51,6 +51,10 @@ class Page {
     }
 
     static initializePage() {
+        if (Elements.onMobile) {
+            $(':root').css('--elements-font-size', '16px');
+        }
+
         PageMessageBox.initialize();
         PageModal.initialize();
 
@@ -75,6 +79,8 @@ class Page {
         } catch (e) {
             log.error('Error finalizing page "' + page.name + '": ' + e);
         }
+
+        $('body').css('visibility', 'visible');
     }
 
     static triggerContentChange() {

@@ -95,6 +95,9 @@ class CrudController implements ElementsController {
 
                 actionbar.with {
                     addAction(
+                            action: 'doubleDisplay',
+                    )
+                    addAction(
                             action: 'someAction',
                             params: [p1: 1, p2: 2],
                     )
@@ -207,6 +210,11 @@ class CrudController implements ElementsController {
         c.table.paginate = query.count()
 
         display content: c
+    }
+
+    def doubleDisplay() {
+        display
+        display action: 'index'
     }
 
     def onKeyPress() {

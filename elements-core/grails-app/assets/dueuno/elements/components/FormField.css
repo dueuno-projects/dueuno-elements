@@ -10,7 +10,7 @@ input[type] {
 
 .component-form label {
     margin: .5rem 0 0 .25rem;
-    font-size: calc(var(--elements-font-size) * .88);
+    font-size: calc(var(--elements-font-size) * .85);
     color: rgba(var(--elements-tertiary-text), 0.4);
 }
 
@@ -69,7 +69,7 @@ input[type] {
 
 .component-form .error-message,
 .component-form .help-message {
-    font-size: calc(var(--elements-font-size) * .88);
+    font-size: calc(var(--elements-font-size) * .85);
 }
 
 .component-form .input-group .component-help,
