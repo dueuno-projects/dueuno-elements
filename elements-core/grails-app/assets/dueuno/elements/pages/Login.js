@@ -15,11 +15,13 @@ class Login extends Page {
         let readingSpeed = 50;
         let bufferCleanupTimeout = 500;
         let timer = Component.getProperty($element, 'timer');
+        let lastKey = Component.getProperty($element, 'lastKey');
 
         if (isNaN(timer)) timer = 0;
         let now = Date.now();
         let timeInterval = now - timer;
         Component.setProperty($element, 'timer', now);
+        Component.setProperty($element, 'lastKey', event.key);
 
         let checkMinTime = (readingSpeed == 0 || timeInterval < readingSpeed);
         let checkMaxTime = (bufferCleanupTimeout == 0 || timeInterval > bufferCleanupTimeout);
@@ -30,13 +32,14 @@ class Login extends Page {
         }
 
         let printable = KeyPress.isPrintable(event.keyCode);
+        let isModifierPressed = KeyPress.isModifierPressed(event, lastKey);
 
         if (printable) {
             $element.val($element.val() + event.key);
         }
 
         if (event.target.tagName == 'INPUT') {
-            if (printable && !event.ctrlKey && checkMinTime) {
+            if (printable && !isModifierPressed && checkMinTime) {
                 $(event.target).css('color', 'rgb(var(--elements-tertiary-bg))');
             } else {
                 $(event.target).css('color', 'rgb(var(--elements-tertiary-text))');

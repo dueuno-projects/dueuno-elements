@@ -20,6 +20,7 @@ class KeyPress extends Component {
         let bufferCleanupTimeout = Component.getProperty($element, 'bufferCleanupTimeout');
         let keepClean = Component.getProperty($element, 'keepClean');
         let timer = Component.getProperty($element, 'timer');
+        let lastKey = Component.getProperty($element, 'lastKey');
 
         if (triggerKey == null) {
             return;
@@ -29,6 +30,7 @@ class KeyPress extends Component {
         let now = Date.now();
         let timeInterval = now - timer;
         Component.setProperty($element, 'timer', now);
+        Component.setProperty($element, 'lastKey', event.key);
 
         let checkMinTime = (readingSpeed == 0 || timeInterval < readingSpeed);
         let checkMaxTime = (bufferCleanupTimeout == 0 || timeInterval > bufferCleanupTimeout);
@@ -38,6 +40,7 @@ class KeyPress extends Component {
         }
 
         let printable = KeyPress.isPrintable(event.keyCode);
+        let isModifierPressed = KeyPress.isModifierPressed(event, lastKey);
 
         if (triggerKey.length == 0) {
             $search.val(event.key);
@@ -47,7 +50,7 @@ class KeyPress extends Component {
             }
         }
 
-        if (keepClean && !event.ctrlKey && checkMinTime && event.target.tagName == 'INPUT') {
+        if (keepClean && !isModifierPressed && checkMinTime && event.target.tagName == 'INPUT') {
             event.preventDefault();
             $(event.target).val('');
         }
@@ -77,6 +80,10 @@ class KeyPress extends Component {
             (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
             (keycode > 218 && keycode < 223);   // [\]' (in order)
         return printable;
+    }
+
+    static isModifierPressed(event, lastKey) {
+        return event.shiftKey || event.ctrlKey || event.altKey || lastKey == 'AltGraph';
     }
 }
 
