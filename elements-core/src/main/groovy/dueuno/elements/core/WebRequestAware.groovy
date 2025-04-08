@@ -170,12 +170,9 @@ trait WebRequestAware {
         String action = args.action ?: actionName
 
         Map params = (Map) args.params ?: requestParams
-        params.remove('controller')
-        params.remove('action')
-
         returnPointController = controller
         returnPointAction = action
-        returnPointParams = params
+        returnPointParams = cleanupsParams(params)
     }
 
     /**
@@ -184,14 +181,18 @@ trait WebRequestAware {
      */
     Map returnPoint(Map params = [:]) {
         Map returnParams = returnPointParams + params
-        returnParams.remove('controller')
-        returnParams.remove('action')
-
         return [
                 controller: returnPointController,
                 action    : returnPointAction,
-                params    : returnParams,
+                params    : cleanupsParams(returnParams),
         ]
+    }
+
+    private Map cleanupsParams(Map params) {
+        params.remove('_21TransitionRendered')
+        params.remove('controller')
+        params.remove('action')
+        return params
     }
 
     /**
