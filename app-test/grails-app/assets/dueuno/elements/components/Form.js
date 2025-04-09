@@ -23,6 +23,7 @@ class Form extends Component {
                 'Separator',
             ];
             if (!Elements.onMobile && !excludedControls.includes(className) && !readonly) {
+                $control.css('visibility', 'visible');
                 $control.triggerHandler('focus');
                 return false;
             }
