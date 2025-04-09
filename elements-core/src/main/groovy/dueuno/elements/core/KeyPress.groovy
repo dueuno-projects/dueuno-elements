@@ -12,12 +12,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dueuno.elements.components
+package dueuno.elements.core
 
 import dueuno.elements.controls.HiddenField
-import dueuno.elements.core.Component
-import dueuno.elements.core.Elements
-import dueuno.elements.core.LinkDefinition
 import groovy.transform.CompileStatic
 
 /**
@@ -38,17 +35,19 @@ class KeyPress extends Component {
     KeyPress(Map args) {
         super(args)
 
-        triggerKey = args.triggerKey == null ? 'Enter' : (args.triggerKey == '' ? 'Enter' : args.triggerKey)
+        viewPath = '/dueuno/elements/core/'
 
-        //a barcode reader is typically much faster at typing than a human...
-        //let's use this principle to understand if the typing comes from a reader (ms)
-        //(only evaluated if focus is on an "input" element)
+        triggerKey = args.triggerKey ?: 'Enter'
+
+        // a barcode reader is typically much faster at typing than a human...
+        // let's use this principle to understand if the typing comes from a reader (ms)
+        // (only evaluated if focus is on an "input" element)
         readingSpeed = args.readingSpeed == null ? 20 : args.readingSpeed as Integer
 
-        //to prevent accidental typing, the buffer empties after a certain time (ms)
+        // to prevent accidental typing, the buffer empties after a certain time (ms)
         bufferCleanupTimeout = args.bufferCleanupTimeout == null ? 500 : args.bufferCleanupTimeout as Integer
 
-        //avoid writing text if focus is on an "input" element (default false)
+        // avoid writing text if focus is on an "input" element (default false)
         keepClean = args.keepClean == null ? false : args.keepClean
 
         linkDefinition = new LinkDefinition(args)

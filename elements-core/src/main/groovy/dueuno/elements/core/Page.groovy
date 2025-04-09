@@ -14,7 +14,7 @@
  */
 package dueuno.elements.core
 
-import dueuno.elements.components.KeyPress
+
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
