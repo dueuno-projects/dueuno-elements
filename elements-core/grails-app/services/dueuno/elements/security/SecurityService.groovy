@@ -747,7 +747,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
 
         args.defaultGroup = TRoleGroup.findByTenantAndName(tenant, args.defaultGroup)
-        if (args.fontSize < 12) args.fontSize = 12
+        validateFontSize(args)
 
         TUser user = getUserByUsername(username)
         user.properties = args
@@ -790,13 +790,19 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             args.remove('password')
         }
 
-        if (args.fontSize < 12) args.fontSize = 12
+        validateFontSize(args)
 
         TUser user = getUserByUsername(username)
         user.properties = args
         user.save(flush: true)
 
         return user
+    }
+
+    void validateFontSize(Map args) {
+        Integer fontSize = args.fontSize as Integer
+        if (fontSize < 12) args.fontSize = 12
+        if (fontSize > 42) args.fontSize = 42
     }
 
     void changeUsername(String oldUsername, String newUsername) {

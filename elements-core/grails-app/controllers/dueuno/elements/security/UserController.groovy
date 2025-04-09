@@ -337,12 +337,24 @@ class UserController implements ElementsController {
                     search: false,
                     cols: 6,
             )
-            addField(
-                    class: NumberField,
-                    id: 'fontSize',
-                    defaultValue: 16,
-                    cols: 6,
-            )
+            if (securityService.isAnyGranted('ROLE_DEVELOPER')) {
+                addField(
+                        class: NumberField,
+                        id: 'fontSize',
+                        defaultValue: 15,
+                        cols: 6,
+                )
+            } else {
+                addField(
+                        class: Select,
+                        id: 'fontSize',
+                        optionsFromList: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
+                        defaultValue: 15,
+                        renderTextPrefix: false,
+                        cols: 6,
+                        colsSmall: 6,
+                )
+            }
             addField(
                     class: Checkbox,
                     id: 'animations',
