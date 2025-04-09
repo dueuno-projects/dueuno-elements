@@ -875,6 +875,11 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return query.get()
     }
 
+    TRoleGroup getGroupByName(String name) {
+        def query = buildQueryGroup(name: name)
+        return query.get()
+    }
+
     /**
      * Returns the groups configured for the application
      * @return the groups configured for the application
