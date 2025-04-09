@@ -22,10 +22,8 @@ import dueuno.elements.contents.ContentList
 import dueuno.elements.controls.*
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PropertyType
-import dueuno.elements.style.TextAlign
-import dueuno.elements.style.TextDefault
-import dueuno.elements.style.TextStyle
-import dueuno.elements.style.TextWrap
+import dueuno.elements.security.SecurityService
+import dueuno.elements.style.*
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
@@ -34,11 +32,35 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['ROLE_ADMIN'])
 class TenantPropertyController implements ElementsController {
 
+    SecurityService securityService
     TenantPropertyService tenantPropertyService
 
     def index() {
         def c = createContent(ContentList)
-        c.header.removeNextButton()
+        def isDeveloper = securityService.isAnyGranted('ROLE_DEVELOPER')
+
+        if (isDeveloper) {
+            c.header.nextButton.with {
+                removeAllActions()
+                addAction(
+                        action: 'create',
+                        params: [type: 'STRING'],
+                        text: messageOrBlank('tenantProperty.create') + ' ' + messageOrBlank("tenantProperty.STRING"),
+                        icon: 'fa-plus'
+                )
+                for (String type in PropertyType.values()*.name()) {
+                    if (type == 'STRING') continue
+                    addAction(
+                            action: 'create',
+                            params: [type: type],
+                            text: messageOrBlank('tenantProperty.create') + ' ' + messageOrBlank("tenantProperty.${type}"),
+                    )
+                }
+            }
+        } else {
+            c.header.removeNextButton()
+        }
+
         c.table.with {
             filters.with {
                 fold = false
@@ -82,7 +104,9 @@ class TenantPropertyController implements ElementsController {
                     defaultValue: [decimals: 5],
             ]
 
-            actions.removeTailAction()
+            if (!isDeveloper) {
+                actions.removeTailAction()
+            }
 
             body.eachRow { TableRow row, Map values ->
                 row.cells.value.textStyle = TextStyle.MONOSPACE
@@ -145,7 +169,8 @@ class TenantPropertyController implements ElementsController {
                     class: TextField,
                     id: 'name',
                     textStyle: TextStyle.MONOSPACE,
-                    readonly: true,
+                    textTransform: TextTransform.UPPERCASE,
+                    readonly: obj.name,
                     cols: 9,
             )
             addField(
@@ -354,6 +379,12 @@ class TenantPropertyController implements ElementsController {
         display transition: t
     }
 
+    def create() {
+        def obj = new TTenantProperty(type: params.type as PropertyType)
+        def c = buildForm(obj)
+        display content: c, modal: true
+    }
+
     def edit() {
         def obj = tenantPropertyService.get(params.id)
         def c = buildForm(obj)
@@ -363,5 +394,15 @@ class TenantPropertyController implements ElementsController {
     def onEdit() {
         tenantPropertyService.setValue(params.type as PropertyType, params.name, params.value)
         display action: 'index'
+    }
+
+    def onDelete() {
+        try {
+            tenantPropertyService.delete(params.id)
+            display action: 'index'
+
+        } catch (Exception e) {
+            display exception: e
+        }
     }
 }

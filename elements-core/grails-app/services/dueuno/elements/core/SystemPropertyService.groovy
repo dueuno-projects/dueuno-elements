@@ -213,4 +213,9 @@ class SystemPropertyService extends PropertyService {
 //        sw.stop()
 //        log.info "SYSTEM: Properties validated in ${sw.toString()}"
     }
+
+    void delete(Serializable id) {
+        TSystemProperty obj = get(id)
+        obj.delete(flush: true, failOnError: true)
+    }
 }

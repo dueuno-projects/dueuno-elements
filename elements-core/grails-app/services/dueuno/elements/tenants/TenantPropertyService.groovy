@@ -217,4 +217,8 @@ class TenantPropertyService extends PropertyService {
 //        log.info "${tenantService.currentTenantId}: Properties validated in ${sw.toString()}"
     }
 
+    void delete(Serializable id) {
+        TTenantProperty obj = get(id)
+        obj.delete(flush: true, failOnError: true)
+    }
 }

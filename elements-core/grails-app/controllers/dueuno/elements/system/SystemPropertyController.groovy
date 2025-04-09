@@ -24,10 +24,8 @@ import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PropertyType
 import dueuno.elements.core.SystemPropertyService
 import dueuno.elements.core.TSystemProperty
-import dueuno.elements.style.TextAlign
-import dueuno.elements.style.TextDefault
-import dueuno.elements.style.TextStyle
-import dueuno.elements.style.TextWrap
+import dueuno.elements.security.SecurityService
+import dueuno.elements.style.*
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
@@ -36,11 +34,35 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['ROLE_SUPERADMIN'])
 class SystemPropertyController implements ElementsController {
 
+    SecurityService securityService
     SystemPropertyService systemPropertyService
 
     def index() {
         def c = createContent(ContentList)
-        c.header.removeNextButton()
+        def isDeveloper = securityService.isAnyGranted('ROLE_DEVELOPER')
+
+        if (isDeveloper) {
+            c.header.nextButton.with {
+                removeAllActions()
+                addAction(
+                        action: 'create',
+                        params: [type: 'STRING'],
+                        text: messageOrBlank('systemProperty.create') + ' ' + messageOrBlank("systemProperty.STRING"),
+                        icon: 'fa-plus'
+                )
+                for (String type in PropertyType.values()*.name()) {
+                    if (type == 'STRING') continue
+                    addAction(
+                            action: 'create',
+                            params: [type: type],
+                            text: messageOrBlank('systemProperty.create') + ' ' + messageOrBlank("systemProperty.${type}"),
+                    )
+                }
+            }
+        } else {
+            c.header.removeNextButton()
+        }
+
         c.table.with {
             filters.with {
                 fold = false
@@ -78,7 +100,9 @@ class SystemPropertyController implements ElementsController {
                     'description',
             ]
 
-            actions.removeTailAction()
+            if (!isDeveloper) {
+                actions.removeTailAction()
+            }
 
             body.eachRow { TableRow row, Map values ->
                 row.cells.value.textStyle = TextStyle.MONOSPACE
@@ -142,7 +166,8 @@ class SystemPropertyController implements ElementsController {
                     class: TextField,
                     id: 'name',
                     textStyle: TextStyle.MONOSPACE,
-                    readonly: true,
+                    textTransform: TextTransform.UPPERCASE,
+                    readonly: obj.name,
                     cols: 9,
             )
 
@@ -179,7 +204,7 @@ class SystemPropertyController implements ElementsController {
                     addField(
                             class: PasswordField,
                             id: 'value',
-                            help: 'tenantProperty.password.help',
+                            help: 'systemProperty.password.help',
                     )
                     break
 
@@ -350,6 +375,12 @@ class SystemPropertyController implements ElementsController {
         display transition: t
     }
 
+    def create() {
+        def obj = new TSystemProperty(type: params.type as PropertyType)
+        def c = buildForm(obj)
+        display content: c, modal: true
+    }
+
     def edit() {
         def obj = systemPropertyService.get(params.id)
         def c = buildForm(obj)
@@ -359,5 +390,15 @@ class SystemPropertyController implements ElementsController {
     def onEdit() {
         systemPropertyService.setValue(params.type as PropertyType, params.name, params.value)
         display action: 'index'
+    }
+
+    def onDelete() {
+        try {
+            systemPropertyService.delete(params.id)
+            display action: 'index'
+
+        } catch (Exception e) {
+            display exception: e
+        }
     }
 }
