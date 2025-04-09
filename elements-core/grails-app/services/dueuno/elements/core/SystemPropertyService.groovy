@@ -140,7 +140,7 @@ class SystemPropertyService extends PropertyService {
                     (typeName): value,
                     validation: validation ?: property.validation,
             ]
-            if (typeName != 'password') {
+            if (type != PropertyType.PASSWORD) {
                 updatedProperty[typeNameDefault] = defaultValue ?: property[typeNameDefault]
             }
             update(updatedProperty)
@@ -152,7 +152,7 @@ class SystemPropertyService extends PropertyService {
                     (typeName): value,
                     validation: validation,
             ]
-            if (typeName != 'password') {
+            if (type != PropertyType.PASSWORD) {
                 newProperty[typeNameDefault] = defaultValue
             }
             create(newProperty)
@@ -173,15 +173,15 @@ class SystemPropertyService extends PropertyService {
             return inMemoryProperties['SYSTEM'][name]
         }
 
-        TSystemProperty property = getByName(name)
         String typeName = StringUtils.screamingSnakeToCamel(type as String)
-        String typeNameDefault = typeName + 'Default'
-
+        TSystemProperty property = getByName(name)
         if (!property) {
             return null
+
         }
 
-        Object value = property[typeName] == null ? property[typeNameDefault] : property[typeName]
+        Object value = property[typeName]
+
         inMemoryProperties['SYSTEM'][name] = value
         return value
     }

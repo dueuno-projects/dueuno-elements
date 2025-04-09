@@ -16,7 +16,6 @@ package dueuno.elements.test
 
 import dueuno.elements.audit.AuditOperation
 import dueuno.elements.audit.AuditService
-import dueuno.elements.components.KeyPress
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
@@ -50,11 +49,6 @@ class CrudController implements ElementsController {
 //        throw new Exception("ATTENZIONE!!!")
 
         def c = createContent(ContentList)
-        c.addComponent(
-                class: KeyPress,
-                id: 'customKeyPress',
-                action: 'onKeyPress',
-        )
 
         c.title = 'Runtime "content" title'
         c.with {
@@ -215,11 +209,6 @@ class CrudController implements ElementsController {
     def doubleDisplay() {
         display
         display action: 'index'
-    }
-
-    def onKeyPress() {
-        println params
-        display
     }
 
     def onCreateRecords() {

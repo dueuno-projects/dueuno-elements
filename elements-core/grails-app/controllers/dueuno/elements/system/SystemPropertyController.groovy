@@ -388,6 +388,11 @@ class SystemPropertyController implements ElementsController {
     }
 
     def onEdit() {
+        if (!params.name) {
+            display errors: [name: 'nullable']
+            return
+        }
+
         systemPropertyService.setValue(params.type as PropertyType, params.name, params.value)
         display action: 'index'
     }

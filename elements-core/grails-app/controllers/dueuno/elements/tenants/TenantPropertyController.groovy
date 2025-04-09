@@ -392,6 +392,11 @@ class TenantPropertyController implements ElementsController {
     }
 
     def onEdit() {
+        if (!params.name) {
+            display errors: [name: 'nullable']
+            return
+        }
+
         tenantPropertyService.setValue(params.type as PropertyType, params.name, params.value)
         display action: 'index'
     }

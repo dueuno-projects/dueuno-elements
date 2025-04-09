@@ -138,20 +138,28 @@ class TenantPropertyService extends PropertyService {
 
         if (property) {
             oldValue = property[typeName]
-            update(
-                    id: property.id,
+            Map updatedProperty = [
+                    id        : property.id,
                     (typeName): value,
-                    (typeNameDefault): defaultValue ?: property[typeNameDefault],
-                    validation: validation ?: property.validation
-            )
+                    validation: validation ?: property.validation,
+            ]
+            if (type != PropertyType.PASSWORD) {
+                updatedProperty[typeNameDefault] = defaultValue ?: property[typeNameDefault]
+            }
+            update(updatedProperty)
+
+
         } else {
-            create(
-                    name: name,
-                    type: type,
+            Map newProperty = [
+                    name      : name,
+                    type      : type,
                     (typeName): value,
-                    (typeNameDefault): defaultValue,
-                    validation: validation
-            )
+                    validation: validation,
+            ]
+            if (type != PropertyType.PASSWORD) {
+                newProperty[typeNameDefault] = defaultValue
+            }
+            create(newProperty)
         }
 
         String tenantId = tenantService.currentTenantId
@@ -173,15 +181,13 @@ class TenantPropertyService extends PropertyService {
             return inMemoryProperties[tenantId][name]
         }
 
-        TTenantProperty property = getByName(name)
         String typeName = StringUtils.screamingSnakeToCamel(type as String)
-        String typeNameDefault = typeName + 'Default'
-
+        TTenantProperty property = getByName(name)
         if (!property) {
             return null
         }
 
-        Object value = property[typeName] == null ? property[typeNameDefault] : property[typeName]
+        Object value = property[typeName]
 
         if (!inMemoryProperties[tenantId]) inMemoryProperties[tenantId] = [:]
         inMemoryProperties[tenantId][name] = value
