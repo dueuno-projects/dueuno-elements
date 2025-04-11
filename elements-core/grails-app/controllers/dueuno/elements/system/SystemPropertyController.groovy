@@ -39,7 +39,7 @@ class SystemPropertyController implements ElementsController {
 
     def index() {
         def c = createContent(ContentList)
-        def isDeveloper = securityService.isAnyGranted('ROLE_DEVELOPER')
+        def isDeveloper = securityService.isDeveloper()
 
         if (isDeveloper) {
             c.header.nextButton.with {

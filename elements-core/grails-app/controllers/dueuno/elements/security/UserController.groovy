@@ -218,7 +218,7 @@ class UserController implements ElementsController {
                     class: TextField,
                     id: 'apiKey',
                     icon: 'fa-lock',
-                    readonly: !securityService.isAnyGranted('ROLE_DEVELOPER'),
+                    readonly: !securityService.isDeveloper(),
             ).component
             apiKey.addAction(action: 'onGenerateApiKey', submit: ['form'], text: 'user.generateApiKey', icon: 'fa-key')
             addField(
@@ -337,7 +337,7 @@ class UserController implements ElementsController {
                     search: false,
                     cols: 6,
             )
-            if (securityService.isAnyGranted('ROLE_DEVELOPER')) {
+            if (securityService.isDeveloper()) {
                 addField(
                         class: NumberField,
                         id: 'fontSize',

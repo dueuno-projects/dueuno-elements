@@ -265,20 +265,28 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     }
 
     /**
-     * Returns true if the user with the specified username has admin authorities
-     * @return true if the user with the specified username has admin authorities
+     * Returns true if the currently logged in user has the highest authorities
+     * @return true if the currently logged in user has the highest authorities
      */
-    Boolean isAdmin(String username) {
-        TUser user = getUserByUsername(username)
-        return user.authorities.find { it.name == GROUP_ADMINS } != null
+    Boolean isSuperAdmin() {
+        return isAnyGranted(ROLE_SUPERADMIN)
     }
 
     /**
      * Returns true if the currently logged in user has development authorities
      * @return true if the currently logged in user has development authorities
      */
-    Boolean isSuperAdmin() {
-        return isAnyGranted(ROLE_SUPERADMIN)
+    Boolean isDeveloper() {
+        return isAnyGranted(ROLE_DEVELOPER)
+    }
+
+    /**
+     * Returns true if the user with the specified username has admin authorities
+     * @return true if the user with the specified username has admin authorities
+     */
+    Boolean isAdmin(String username) {
+        TUser user = getUserByUsername(username)
+        return user.authorities.find { it.name == GROUP_ADMINS } != null
     }
 
     /**
