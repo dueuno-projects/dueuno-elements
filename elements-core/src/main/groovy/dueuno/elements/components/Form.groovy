@@ -157,11 +157,12 @@ class Form extends Component {
         addKeyField(id, valueType, value)
     }
 
-    void addKeyField(String id, Type valueType, Object value = null) {
+    void addKeyField(String id, Type valueType, Object value) {
         addKeyField(id, valueType.toString(), value)
     }
 
-    void addKeyField(String id, String valueType, Object value = null) {
+    // We are using a Sting instead of a Type to accomodate custom types (Eg. Money, Quantity, etc)
+    void addKeyField(String id, String valueType, Object value) {
         if (!Types.isType(valueType)) {
             throw new ElementsException("Type '${valueType}' does not exist. Please choose one from: ${Types.availableTypeNames}")
         }
