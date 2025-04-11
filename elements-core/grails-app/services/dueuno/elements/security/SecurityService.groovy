@@ -529,41 +529,41 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return query
     }
 
-    TUser getUser(Serializable id) {
-        Map fetch = [
+    private Map getFetchAll() {
+        // Add any relationship here (Eg. references to other DomainObjects or hasMany)
+        return [
                 tenant      : 'join',
                 defaultGroup: 'join',
         ]
+    }
+
+    private Map getFetch() {
+        // Add only single-sided relationships here (Eg. references to other Domain Objects)
+        // DO NOT add hasMany relationships, you are going to have troubles with pagination
+        return [
+                tenant      : 'join',
+                defaultGroup: 'join',
+        ]
+    }
+
+    TUser getUser(Serializable id) {
         def query = TUser.where { id == id }
-        return query.get(fetch: fetch)
+        return query.get(fetch: fetchAll)
     }
 
     TUser getUserByUsername(String username) {
-        Map fetch = [
-                tenant      : 'join',
-                defaultGroup: 'join',
-        ]
-
         def query = TUser.where { username == username }
-        return query.get(fetch: fetch)
+        return query.get(fetch: fetchAll)
     }
 
     TUser getUserByApiKey(String apiKey) {
-        Map fetch = [
-                tenant      : 'join',
-                defaultGroup: 'join',
-        ]
         def query = TUser.where { apiKey == apiKey }
-        return query.get(fetch: fetch)
+        return query.get(fetch: fetchAll)
     }
 
     TUser getUserByExternalId(String externalId) {
-        Map fetch = [
-                tenant      : 'join',
-                defaultGroup: 'join',
-        ]
         def query = TUser.where { externalId == externalId }
-        return query.get(fetch: fetch)
+        return query.get(fetch: fetchAll)
     }
 
     TUser getSuperAdminUser() {
@@ -576,6 +576,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     List<TUser> listAllUser(Map filterParams = [:], Map fetchParams = [:]) {
         if (!fetchParams.sort) fetchParams.sort = 'lastname'
+        fetchParams.fetch = fetch
         def query = buildQueryUser(filterParams)
         return query.list(fetchParams)
     }
