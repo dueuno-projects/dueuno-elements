@@ -85,6 +85,17 @@ class PDFBoxUtils {
         write content, x, y, text, font, fontSize
     }
 
+    static void writeFromTop(PDPageContentStream content, PDDocument doc, Float x, Float y, String text, Float fontSize = 14) {
+        PDRectangle mediaBox = doc.getPage(0).mediaBox
+        PDFont font = PDType1Font.HELVETICA_BOLD
+
+        Float titleHeight = font.getFontDescriptor().getFontBoundingBox().getHeight() / 1000 * fontSize as Float
+        x = mmToPt(x)
+        y = mediaBox.height - mmToPt(y) - titleHeight as Float
+
+        write content, x, y, text, font, fontSize
+    }
+
     static void writeCentered(PDPageContentStream content, PDDocument doc, String text, Float fontSize = 14, Float marginTop = 0) {
         PDRectangle mediaBox = doc.getPage(0).mediaBox
         PDFont font = PDType1Font.HELVETICA_BOLD
@@ -92,7 +103,7 @@ class PDFBoxUtils {
         Float titleWidth = font.getStringWidth(text) / 1000 * fontSize as Float
         Float titleHeight = font.getFontDescriptor().getFontBoundingBox().getHeight() / 1000 * fontSize as Float
         Float x = (mediaBox.width - titleWidth) / 2 as Float
-        Float y = mediaBox.height - marginTop - titleHeight as Float
+        Float y = mediaBox.height - mmToPt(marginTop) - titleHeight as Float
 
         write content, x, y, text, font, fontSize
     }
@@ -106,10 +117,18 @@ class PDFBoxUtils {
         content.drawImage(image, x, y, width, height)
     }
 
+    static void imageFromTop(PDPageContentStream content, PDDocument doc, String imageName, Float x, Float y, Float width, Float height) {
+        PDRectangle mediaBox = doc.getPage(0).mediaBox
+        x = mmToPt(x)
+        y = mediaBox.height - mmToPt(y) - mmToPt(height) as Float
+
+        image content, doc, imageName, x, y, width, height
+    }
+
     static void imageCentered(PDPageContentStream content, PDDocument doc, String imageName, Float width, Float height, Float marginTop = 0) {
         PDRectangle mediaBox = doc.getPage(0).mediaBox
         Float x = (mediaBox.width - mmToPt(width)) / 2 as Float
-        Float y = mediaBox.height - marginTop - mmToPt(height) as Float
+        Float y = mediaBox.height - mmToPt(marginTop) - mmToPt(height) as Float
 
         image content, doc, imageName, x, y, width, height
     }
