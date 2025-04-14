@@ -1212,10 +1212,6 @@ Each component extends the base class `Component` so each component share the fo
 |`String`
 |
 |Custom CSS class to apply. The CSS class must be a https://getbootstrap.com/[Bootstrap,window=_blank]] CSS class or a cusom one declared into the `grails-app/assets/dueuno/custom/application.css` file. See <<custom-css>>.
-|`cssStyle`
-|`String`
-|
-|Custom CSS inline style
 |===
 
 ==== Methods

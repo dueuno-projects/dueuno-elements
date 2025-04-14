@@ -1,5 +1,4 @@
 <div class="component-chart-bar ${c.cssClass}"
-     style="${c.cssStyle}"
      data-21-component="${c.className}"
      data-21-id="${c.id}"
      data-21-properties="${c.propertiesAsJSON}"
