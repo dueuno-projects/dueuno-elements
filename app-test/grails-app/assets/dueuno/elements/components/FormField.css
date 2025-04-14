@@ -70,6 +70,7 @@ input[type] {
 .component-form .error-message,
 .component-form .help-message {
     font-size: calc(var(--elements-font-size) * .85);
+    padding: calc(var(--elements-font-size) * .25);
 }
 
 .component-form .input-group .component-help,

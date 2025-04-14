@@ -39,7 +39,7 @@
 
         <g:if test="${c.help}">
             <div id="${c.id}-help" class="collapse">
-                <div class="help-message p-2 pb-3">
+                <div class="help-message">
                     <render:message code="${c.help}" args="${c.helpArgs}"/>
                 </div>
             </div>
