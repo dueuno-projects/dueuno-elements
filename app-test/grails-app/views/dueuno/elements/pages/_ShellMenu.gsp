@@ -31,7 +31,7 @@
                 class="nav nav-pills flex-column text-truncate pt-2 mb-auto">
                 <g:each var="item" in="${c.listItems()}">
                     <g:if test="${item.hasSubitems()}">
-                        <li class="nav-item ms-0 mt-4">
+                        <li class="nav-item nav-item-title">
                             <span class="nav-link">${c.message(item.link.text)}<%--<dev:ifDisplayHints><span class="badge rounded-pill text-secondary bg-light">${item.order}</span></dev:ifDisplayHints>--%></span>
                         </li>
                     </g:if>

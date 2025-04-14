@@ -34,11 +34,11 @@
 }
 
 #shell-user-menu .offcanvas-body .simplebar-scrollbar:before {
-    width: 10px;
+    width: calc(var(--elements-font-size) * .60);
 }
 
 #shell-user-menu .offcanvas-body .simplebar-track.simplebar-vertical {
-    padding: 0 .5rem 0 .5rem;
+    padding: 0 calc(var(--elements-font-size) * .5) 0 calc(var(--elements-font-size) * .5);
 }
 
 #shell-user-menu button:hover,
@@ -55,7 +55,11 @@
 }
 
 #shell-user-menu .nav-item a {
-    padding: .25rem !important;
+    padding: calc(var(--elements-font-size) * .25);
     transition: none;
     color: var(--bs-light-rgb);
+}
+
+#shell-user-menu .nav-item hr {
+    margin: var(--elements-font-size) 0;
 }

@@ -20,17 +20,17 @@
 }
 
 .component-table ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: calc(var(--elements-font-size) * .6);
+    height: calc(var(--elements-font-size) * .6);
 }
 
 .component-table ::-webkit-scrollbar-thumb {
     background-color: rgba(var(--elements-primary-bg-shaded));
-    border-radius: .5rem;
+    border-radius: var(--bs-border-radius);
 }
 
 .component-table ::-webkit-scrollbar-track {
-    margin: .5rem;
+    margin: calc(var(--elements-font-size) * .6);
 }
 
 .component-table > .component-separator {
@@ -116,8 +116,8 @@
 }
 
 .component-table-dataset:not(:has(.bootstrap-table)) {
-    padding-top: .5rem;
-    padding-bottom: .5rem;
+    padding-top: calc(var(--elements-font-size) * .5);
+    padding-bottom: calc(var(--elements-font-size) * .5);
 }
 
 .component-table-cell select,
