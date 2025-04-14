@@ -82,6 +82,13 @@ class Header extends Component {
         return nextButton
     }
 
+    Button addCloseButton(Map args = [:]) {
+        args.action = args.action ?: 'onClose'
+        args.icon = args.icon ?: 'fa-times'
+        args.text = args.text ?: ''
+        return addBackButton(args)
+    }
+
     Button addBackButton(Map args = [:]) {
         if (!args.controller && !args.action && hasReturnPoint()) {
             args.controller = args.controller ?: returnPointController ?: controllerName
