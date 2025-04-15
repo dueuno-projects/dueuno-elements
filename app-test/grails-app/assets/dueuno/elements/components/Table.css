@@ -37,7 +37,7 @@
     background-color: white;
     border-top-left-radius: var(--bs-border-radius-lg);
     border-top-right-radius: var(--bs-border-radius-lg);
-    padding: .5rem;
+    padding: calc(var(--elements-font-size) * .5);
 }
 
 .component-table:has(.component-separator:not(.d-none)):has(.component-filters.d-none) .component-table-dataset-wrapper,
@@ -48,6 +48,10 @@
 
 .component-table:has(.component-filters:not(.d-none)) .component-separator {
     border-bottom-right-radius: var(--bs-border-radius-lg) !important;
+}
+
+.component-table-dataset-wrapper {
+    padding-bottom: calc(var(--elements-font-size) * .5);
 }
 
 .component-table-dataset .table-hover tr:hover td {

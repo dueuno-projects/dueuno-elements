@@ -115,13 +115,13 @@
 }
 
 #page-modal-body .simplebar-vertical .simplebar-scrollbar:before {
-    width: 10px;
+    width: calc(var(--elements-font-size) * .6);
 }
 
 #page-modal-body .simplebar-horizontal .simplebar-scrollbar:before {
-    height: 10px;
+    height: calc(var(--elements-font-size) * .6);
 }
 
 #page-modal-body .simplebar-track {
-    padding: 0 .5rem 0 .5rem;
+    padding: 0 calc(var(--elements-font-size) * .5) 0 calc(var(--elements-font-size) * .5);
 }

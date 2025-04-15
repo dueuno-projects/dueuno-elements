@@ -9,7 +9,7 @@ input[type] {
 }
 
 .component-form label {
-    margin: .5rem 0 0 .25rem;
+    margin: calc(var(--elements-font-size) * .5) 0 0 calc(var(--elements-font-size) * .25);
     font-size: calc(var(--elements-font-size) * .85);
     color: rgba(var(--elements-tertiary-text), 0.4);
 }
