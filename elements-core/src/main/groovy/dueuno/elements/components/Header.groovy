@@ -89,6 +89,11 @@ class Header extends Component {
         return addBackButton(args)
     }
 
+    Button addCancelButton(Map args = [:]) {
+        args.text = args.text ?: TextDefault.CANCEL
+        return addBackButton(args)
+    }
+
     Button addBackButton(Map args = [:]) {
         if (!args.controller && !args.action && hasReturnPoint()) {
             args.controller = args.controller ?: returnPointController ?: controllerName
