@@ -54,7 +54,7 @@ class TransitionCommand {
             PageModal.open($content, componentEvent);
 
         } else {
-            if (PageModal.isActive) { PageModal.close(); }
+            PageModal.close();
             TransitionCommand.render(PageContent.$self, $content, componentEvent);
         }
 

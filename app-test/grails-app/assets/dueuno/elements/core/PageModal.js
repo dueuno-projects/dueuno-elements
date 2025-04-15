@@ -1,22 +1,14 @@
 // Temporary solutions until we get support for static fields
 // See: https://github.com/google/closure-compiler/issues/2731
-let PageModal_isActive = false;
-let PageModal_isShowRequested = false;
-let PageModal_dialog = null;
 let PageModal_$self = null;
 let PageModal_$header = null;
 let PageModal_$body = null;
+let PageModal_dialog = null;
+let PageModal_isActive = false;
+let PageModal_isShowRequested = false;
+let PageModal_hasCloseButton = true;
 
 class PageModal extends Component {
-
-    static get isActive() { return PageModal_isActive }
-    static set isActive(value) { PageModal_isActive = value }
-
-    static get isShowRequested() { return PageModal_isShowRequested }
-    static set isShowRequested(value) { PageModal_isShowRequested = value }
-
-    static get dialog() { return PageModal_dialog }
-    static set dialog(value) { PageModal_dialog = value }
 
     static get $self() { return PageModal_$self }
     static set $self(value) { PageModal_$self = value }
@@ -27,17 +19,26 @@ class PageModal extends Component {
     static get $body() { return PageModal_$body }
     static set $body(value) { PageModal_$body = value }
 
+    static get dialog() { return PageModal_dialog }
+    static set dialog(value) { PageModal_dialog = value }
+
+    static get isActive() { return PageModal_isActive }
+    static set isActive(value) { PageModal_isActive = value }
+
+    static get isShowRequested() { return PageModal_isShowRequested }
+    static set isShowRequested(value) { PageModal_isShowRequested = value }
+
+    static get hasCloseButton() { return PageModal_hasCloseButton }
+    static set hasCloseButton(value) { PageModal_hasCloseButton = value }
+
     static initialize() {
         PageModal.$self = $('#page-modal');
         PageModal.$header = $('#page-modal-header');
         PageModal.$body = $('#page-modal-body');
         PageModal.$backdrop = $('.modal-backdrop');
 
-        // Modal
         PageModal.isActive = false;
-        PageModal.dialog = new bootstrap.Modal('#page-modal', {
-            backdrop: 'static',
-        });
+        PageModal.dialog = new bootstrap.Modal('#page-modal', { backdrop: 'static' });
 
         // Close Button
         let $closeButton = PageModal.$self.find('[data-21-id="closeButton"]');
@@ -76,6 +77,12 @@ class PageModal extends Component {
     }
 
     static onKeyDown(event) {
+        if (!PageModal.hasCloseButton) {
+            // The dialog cannot be closed with the ESC key
+            // if the close button is not present
+            return;
+        }
+
         if (event.key == 'Escape') {
             PageModal.onClose(event);
         }
@@ -102,16 +109,13 @@ class PageModal extends Component {
         let $closeButton = PageModal.$header.find('[data-21-id="closeButton"]');
         let closeButtonComponent = Component.getByElement($closeButton);
 
-        if (componentEvent.renderProperties['closeButton']) {
-            Elements.callMethod($closeButton, closeButtonComponent, 'setDisplay', true);
-
-        } else {
-            Elements.callMethod($closeButton, closeButtonComponent, 'setDisplay', false);
-        }
+        // Dialog
+        PageModal.hasCloseButton = componentEvent.renderProperties['closeButton'];
+        Elements.callMethod($closeButton, closeButtonComponent, 'setDisplay', PageModal.hasCloseButton);
+        PageModal.dialog._config.keyboard = PageModal.hasCloseButton;
 
         // Size
         PageModal.$self.find('.modal-dialog').removeClass('modal-lg modal-xl modal-fullscreen');
-
         if (componentEvent.renderProperties['wide']) {
             PageModal.$self.children().addClass('modal-xl');
             PageModal.$self.children().children().addClass('rounded-4');

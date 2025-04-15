@@ -11,29 +11,29 @@
       data-21-page="${c.className}"
       data-21-id="${c.id}">
 
-<div id="page-shell" class="m-0 p-0">
+    <div id="page-shell" class="m-0 p-0">
 
-        <render:component instance="${c.keyPress}" />
-        <render:component instance="${c.menu}"/>
-        <render:component instance="${c.navbar}"/>
-        <render:component instance="${c.userMenu}"/>
+            <render:component instance="${c.keyPress}" />
+            <render:component instance="${c.menu}"/>
+            <render:component instance="${c.navbar}"/>
+            <render:component instance="${c.userMenu}"/>
 
-    <div id="shell-content"
-         style="${c.config.display.menu ? '' : 'margin-left: 0 !important;'}"
-    >
-            <render:component instance="${c.content}"/>
+        <div id="shell-content"
+             style="${c.config.display.menu ? '' : 'margin-left: 0 !important;'}"
+        >
+                <render:component instance="${c.content}"/>
+        </div>
+
     </div>
 
-</div>
+    <%-- Footer --%>
+    <page:footer component="${c}"/>
 
-<%-- Footer --%>
-<page:footer component="${c}"/>
+    <%-- Custom Page JS --%>
+    <asset:javascript src="elements/pages/Shell.js" />
 
-<%-- Custom Page JS --%>
-<asset:javascript src="elements/pages/Shell.js" />
-
-<%-- Page Init --%>
-<page:initialize />
+    <%-- Page Init --%>
+    <page:initialize />
 
 </body>
 </html>
