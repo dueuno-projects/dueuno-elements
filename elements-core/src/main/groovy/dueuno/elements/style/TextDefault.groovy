@@ -64,6 +64,8 @@ class TextDefault {
     static final String DELETED = 'default.text.deleted'
     static final String TOTAL = 'default.text.total'
     static final String COMPLETE = 'default.text.complete'
-    static final String CONFIRM_MESSAGE = 'default.text.confirm.message'
+
+    static final String MESSAGE_CONFIRM_UNRECOVERABLE_OPERATION = 'default.text.confirm.message.unrecoverable'
+    static final String MESSAGE_CONFIRM_OPERATION = 'default.text.confirm.message'
 
 }
