@@ -189,9 +189,9 @@ class TableCell extends Component {
         }
     }
 
-    void setTag(String value) {
+    void setTag(Boolean value) {
         Label label = getLabel()
-        if (label) {
+        if (label && row.values[column] != null) {
             String backgroundColor = table.rowStriped
                     ? (row.index % 2 == 0 ? 'white' : tertiaryBackgroundColor)
                     : tertiaryBackgroundColor

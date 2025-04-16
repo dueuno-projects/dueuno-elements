@@ -105,6 +105,8 @@ class UserController implements ElementsController {
                     row.actions.removeTailAction()
                 }
                 values.externalId = !!values.externalId
+
+                row.cells.apiKey.tag = true
             }
         }
 
