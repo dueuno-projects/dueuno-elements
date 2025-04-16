@@ -121,7 +121,7 @@
 }
 
 #shell-menu-search input {
-    height: calc(var(--elements-font-size) * 3.3);
+    height: calc(var(--elements-font-size) * 3.4);
     color: white !important;
     border: 0;
     font-weight: normal !important;
@@ -140,6 +140,7 @@
 }
 
 #shell-menu-search button {
+    height: calc(var(--elements-font-size) * 3.3);
     background-color: transparent !important;
     color: #f0f0f0 !important;
     border: 0;

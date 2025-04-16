@@ -7,7 +7,6 @@
         data-21-properties="${c.propertiesAsJSON}"
         data-21-events="${c.eventsAsJSON}"
     >
-        <g:if test="${c.shell.config.display.menuSearch}">
             <div id="shell-menu-search" class="offcanvas-header p-0" role="search">
                 <div class="input-group ps-1">
                     <button type="button" id="shell-navbar-menu-close"
@@ -17,14 +16,15 @@
                             aria-label="Close">
                         <i class="fa-solid fa-circle-xmark"></i>
                     </button>
-                    <span id="shell-menu-search-icon" class="input-group-text d-none d-lg-flex"><i
-                            class="fa-solid fa-magnifying-glass"></i></span>
-                    <input class="form-control text-light ps-0" type="search"
-                           placeholder="${c.message('shell.menu.search.placeholder')}"
-                           aria-label="Search">
+                    <g:if test="${c.shell.config.display.menuSearch}">
+                        <span id="shell-menu-search-icon" class="input-group-text d-none d-xxl-flex"><i
+                                class="fa-solid fa-magnifying-glass"></i></span>
+                        <input class="form-control text-light ps-0" type="search"
+                               placeholder="${c.message('shell.menu.search.placeholder')}"
+                               aria-label="Search">
+                    </g:if>
                 </div>
             </div>
-        </g:if>
 
         <nav class="offcanvas-body">
             <ul id="shell-menu-items"
