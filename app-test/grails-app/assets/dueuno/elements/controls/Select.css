@@ -28,7 +28,7 @@
 .select2-container--bootstrap-5 .select2-dropdown {
     padding: var(--elements-spacing-y);
     border-radius: var(--bs-border-radius-lg);
-    box-shadow: 0 .25rem .75rem rgba(var(--bs-body-color-rgb), .15);
+    box-shadow: 0 calc(var(--elements-font-size) * .25) calc(var(--elements-font-size) * .75) rgba(var(--bs-body-color-rgb), .15);
     background-color: rgba(255, 255, 255, .6);
     backdrop-filter: blur(21px);
     -webkit-backdrop-filter: blur(21px);

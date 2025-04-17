@@ -8,7 +8,7 @@
 }
 
 .tempus-dominus-widget {
-    box-shadow: 0 .5rem 1rem rgba(var(--bs-body-color-rgb), .15);
+    box-shadow: 0 calc(var(--elements-font-size) * .25) calc(var(--elements-font-size) * .75) rgba(var(--bs-body-color-rgb), .15);
     padding-top: var(--elements-font-size);
     padding-right: calc(var(--elements-spacing-y));
     padding-bottom: calc(var(--elements-spacing-y));

@@ -55,7 +55,7 @@ button {
 
 .dropdown-menu {
     border-radius: var(--bs-border-radius-lg);
-    box-shadow: 0 .25rem .75rem rgba(var(--bs-body-color-rgb), .15);
+    box-shadow: 0 calc(var(--elements-font-size) * .25) calc(var(--elements-font-size) * .75) rgba(var(--bs-body-color-rgb), .15);
     background-color: rgba(255, 255, 255, .6);
     backdrop-filter: blur(21px);
     -webkit-backdrop-filter: blur(21px);
@@ -63,14 +63,17 @@ button {
 }
 
 .dropdown-item {
-    padding-left: .75rem;
-    padding-right: .75rem;
+    padding: calc(var(--elements-font-size) * .25) calc(var(--elements-font-size) * .75);
 }
 
 .dropdown-item:focus,
 .dropdown-item:hover {
     border-radius: var(--bs-border-radius);
     outline: none;
+}
+
+.dropdown-divider {
+    margin: calc(var(--elements-font-size) * .5) 0;
 }
 
 a.btn:active,
