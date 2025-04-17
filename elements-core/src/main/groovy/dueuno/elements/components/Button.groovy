@@ -180,12 +180,20 @@ class Button extends Component {
         defaultAction.tooltip = value
     }
 
+    void setInfoMessage(String value) {
+        defaultAction.infoMessage = value
+    }
+
+    void setInfoMessageArgs(List value) {
+        defaultAction.infoMessageArgs = value
+    }
+
     void setConfirmMessage(String value) {
         defaultAction.confirmMessage = value
     }
 
-    void setInfoMessage(String value) {
-        defaultAction.infoMessage = value
+    void setConfirmMessageArgs(List value) {
+        defaultAction.confirmMessageArgs = value
     }
 
     void setTarget(String value) {

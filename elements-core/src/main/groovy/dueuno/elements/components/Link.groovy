@@ -249,6 +249,20 @@ class Link extends Label {
         setOnClickEvent()
     }
 
+    String getInfoMessage() {
+        return linkDefinition.infoMessage
+    }
+
+    void setInfoMessage(String value) {
+        linkDefinition.infoMessage = value
+        setOnClickEvent()
+    }
+
+    void setInfoMessageArgs(List value) {
+        linkDefinition.infoMessageArgs = value
+        setOnClickEvent()
+    }
+
     String getConfirmMessage() {
         return linkDefinition.confirmMessage
     }
@@ -258,12 +272,9 @@ class Link extends Label {
         setOnClickEvent()
     }
 
-    String getInfoMessage() {
-        return linkDefinition.infoMessage
-    }
-
-    void setInfoMessage(String value) {
-        linkDefinition.infoMessage = value
+    void setConfirmMessageArgs(List value) {
+        linkDefinition.confirmMessageArgs = value
+        setOnClickEvent()
     }
 
     String getPrettyHtml() {

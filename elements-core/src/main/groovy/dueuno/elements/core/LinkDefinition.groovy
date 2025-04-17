@@ -59,11 +59,14 @@ class LinkDefinition implements Serializable {
     /** If true a waiting screen will be displayed while the link gets retrieved */
     Boolean loading
 
-    /** If specified a confirm message will pop up giving the user a chance to cancel the action */
-    String confirmMessage
-
     /** If specified an info message will pop up, the link will never be executed */
     String infoMessage
+    List infoMessageArgs
+
+    /** If specified a confirm message will pop up giving the user a chance to cancel the action */
+    String confirmMessage
+    List confirmMessageArgs
+
 
     LinkDefinition(Map args) {
         namespace = args.namespace ?: ''
@@ -90,7 +93,9 @@ class LinkDefinition implements Serializable {
         loading = args.loading
 
         infoMessage = args.infoMessage
+        infoMessageArgs = args.infoMessageArgs as List
         confirmMessage = args.confirmMessage
+        confirmMessageArgs = args.confirmMessageArgs as List
 
         if (args.renderProperties)
             renderProperties = (PageRenderProperties) args.renderProperties

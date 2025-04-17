@@ -445,6 +445,18 @@ class Menu extends Component {
         link.loading = value
     }
 
+    String getInfoMessage() {
+        return link.infoMessage
+    }
+
+    void setInfoMessage(String value) {
+        link.infoMessage = value
+    }
+
+    void setInfoMessageArgs(List value) {
+        link.infoMessageArgs = value
+    }
+
     String getConfirmMessage() {
         return link.confirmMessage
     }
@@ -453,11 +465,7 @@ class Menu extends Component {
         link.confirmMessage = value
     }
 
-    String getInfoMessage() {
-        return link.infoMessage
-    }
-
-    void setInfoMessage(String value) {
-        link.infoMessage = value
+    void setConfirmMessageArgs(List value) {
+        link.confirmMessageArgs = value
     }
 }
