@@ -31,6 +31,7 @@ class Color {
     static final String SUCCESS_TEXT = '#014513'
     static final String SUCCESS_BACKGROUND = '#bce3c6'
     static final String DISABLED_TEXT = '#777777'
+    static final String WHITE = 'white'
 
     static List<Integer> hexToIntColor(String hexRgbColor) {
         if (!hexRgbColor) return []
