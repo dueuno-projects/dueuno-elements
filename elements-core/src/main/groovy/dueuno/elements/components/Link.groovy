@@ -67,8 +67,8 @@ class Link extends Label {
         on(linkDefinition.properties + [
                 event: 'click',
                 action: onClick ?: linkDefinition.action,
-                infoMessage: message(linkDefinition.infoMessage),
-                confirmMessage: message(linkDefinition.confirmMessage),
+                infoMessage: message(linkDefinition.infoMessage, linkDefinition.infoMessageArgs),
+                confirmMessage: message(linkDefinition.confirmMessage, linkDefinition.confirmMessageArgs),
         ])
     }
 
