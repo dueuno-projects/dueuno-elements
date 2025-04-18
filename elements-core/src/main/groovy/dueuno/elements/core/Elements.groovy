@@ -114,6 +114,8 @@ class Elements {
             }
 
         } else if (isDomainClass(object.class)) {
+            results.put('_object_', object)
+
             Set hasMany = []
             if (object.hasProperty('hasMany')) {
                 hasMany = (object['hasMany'] as Map).keySet()
@@ -138,6 +140,8 @@ class Elements {
             }
 
         } else {
+            results.put('_object_', object)
+
             excludes += groovyExclusions
 
             for (property in object.properties) {
