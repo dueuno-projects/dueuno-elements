@@ -205,15 +205,7 @@ class Form extends Component {
     private void setValue(Control control, Object obj = null) {
         Object value = ObjectUtils.getValue(obj, control.id)
         if (value != null) {
-            if (Types.isRegistered(value)) {
-                control.value = value
-
-            } else if (Elements.hasId(value)) {
-                control.value = value['id']
-
-            } else {
-                control.value = value
-            }
+            control.value = value
 
         } else {
             setDefaultValue(control)

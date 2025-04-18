@@ -56,6 +56,7 @@ class TextField extends Control {
         placeholder = args.placeholder == null ? '' : args.placeholder
         autocomplete = (args.autocomplete == null) ? false : args.autocomplete
         textTransform = args.textTransform as TextTransform ?: TextTransform.NONE
+        prettyPrinterProperties.renderTextPrefix = args.renderTextPrefix == null ? false : args.renderTextPrefix
         //onChangeMinChars = args.onChangeMinChars ?: 0 // forse in futuro
 
         setTextStyle(args.textStyle)
