@@ -23,6 +23,15 @@ import groovy.util.logging.Slf4j
 @Slf4j
 @CompileStatic
 class Color {
+
+    static final String ERROR_TEXT = '#cc0000'
+    static final String ERROR_BACKGROUND = '#ffdddd'
+    static final String WARNING_TEXT = '#755e01'
+    static final String WARNING_BACKGROUND = '#ffeeaa'
+    static final String SUCCESS_TEXT = '#014513'
+    static final String SUCCESS_BACKGROUND = '#bce3c6'
+    static final String DISABLED_TEXT = '#777777'
+
     static List<Integer> hexToIntColor(String hexRgbColor) {
         if (!hexRgbColor) return []
         if (!hexRgbColor.startsWith('#') || hexRgbColor.size() != 7) {
