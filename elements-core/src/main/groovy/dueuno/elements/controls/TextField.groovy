@@ -105,7 +105,7 @@ class TextField extends Control {
     String getValueAsJSON() {
         Map valueMap = [
                 type: valueType,
-                value: prettyPrint(value),
+                value: prettyPrint(value, prettyPrinterProperties),
         ]
 
         return Elements.encodeAsJSON(valueMap)
