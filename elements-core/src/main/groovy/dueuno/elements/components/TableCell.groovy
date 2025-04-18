@@ -78,6 +78,7 @@ class TableCell extends Component {
                 class: Label,
                 id: getId() + '-component',
                 replace: true,
+                iconFixedWidth: true,
                 textPrefix: controllerName,
                 textWrap: TextWrap.NO_WRAP,
                 tag: false,
