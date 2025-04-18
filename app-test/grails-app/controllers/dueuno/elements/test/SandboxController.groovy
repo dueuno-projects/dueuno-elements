@@ -635,7 +635,7 @@ Grails application running at http://localhost:9992/test in environment: develop
                 text: 'I am the one 8-)',
                 textAlign: TextAlign.CENTER,
                 backgroundColor: 'red',
-                textColor: 'white',
+                textColor: Color.WHITE,
                 tag: true,
         )
 

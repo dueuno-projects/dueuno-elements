@@ -14,10 +14,12 @@
  */
 package dueuno.elements.components
 
+import dueuno.commons.utils.ObjectUtils
 import dueuno.elements.controls.HiddenField
 import dueuno.elements.core.Component
 import dueuno.elements.core.PrettyPrinterProperties
 import dueuno.elements.exceptions.ArgsException
+import dueuno.elements.style.Color
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
@@ -192,9 +194,11 @@ class TableCell extends Component {
 
     void setTag(Boolean value) {
         Label label = getLabel()
-        if (label && row.values[column] != null) {
+        Object labelValue = ObjectUtils.getValue(row.values, column)
+
+        if (label && labelValue != null) {
             String backgroundColor = table.rowStriped
-                    ? (row.index % 2 == 0 ? 'white' : tertiaryBackgroundColor)
+                    ? (row.index % 2 == 0 ? Color.WHITE : tertiaryBackgroundColor)
                     : tertiaryBackgroundColor
 
             textAlign = TextAlign.CENTER
