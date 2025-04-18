@@ -252,7 +252,11 @@ trait WebRequestAware {
      * @return the 'return point' params
      */
     Map getReturnPointParams() {
-        return session ? (Map) session['_21ReturnPointParams'] : [:]
+        if (!session) {
+            return [:]
+        }
+
+        return session['_21ReturnPointParams'] as Map ?: [:]
     }
 
     /**
