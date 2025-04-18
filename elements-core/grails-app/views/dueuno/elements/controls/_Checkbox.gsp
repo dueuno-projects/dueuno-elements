@@ -27,6 +27,7 @@
 />
 
 <g:if test="${c.simple}">
+    </div>
 </div>
 </g:if>
 <g:else>
