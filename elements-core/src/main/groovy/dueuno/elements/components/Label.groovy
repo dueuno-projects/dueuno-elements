@@ -33,16 +33,41 @@ class Label extends Component {
     String text
     String html
     String url
+
+    /** Icon that graphically represents the Link. Choose one from Font Awesome icons */
     String icon
+    String iconClass
     Boolean iconFixedWidth
+
+    /** An SVG image that graphically represents the Link.
+     * If specified it must be present in the Grails asset folder.
+     */
+    String image
+    String imageClass
+
+    /**
+     * If specified a tooltip will be displayed on mouse hover
+     */
     String tooltip
 
+    /**
+     * Text alignment & styling
+     */
     VerticalAlign verticalAlign
     TextAlign textAlign
     TextWrap textWrap
     List<TextStyle> textStyle
-    Boolean tag
+
+    /**
+     * Normally a label will not be selectable (not copy/pastable) unless userSelect = true
+     */
     Boolean userSelect
+
+    /**
+     * Display the label as it was a tag.
+     * Set the backgroundColor to render the boxing background.
+     */
+    Boolean tag
 
     PrettyPrinterProperties prettyPrinterProperties
 
@@ -54,7 +79,10 @@ class Label extends Component {
         html = args.html
         url = args.url
         icon = args.icon
+        iconClass = args.iconClass
         iconFixedWidth = args.iconFixedWidth == null ? false : args.iconFixedWidth
+        image = args.image
+        imageClass = args.imageClass
         tooltip = args.tooltip
 
         verticalAlign = args.verticalAlign == null ? VerticalAlign.DEFAULT : args.verticalAlign as VerticalAlign
@@ -62,8 +90,8 @@ class Label extends Component {
         textWrap = args.textWrap == null ? TextWrap.NO_WRAP : args.textWrap as TextWrap
         setTextStyle(args.textStyle)
 
-        tag = args.tag == null ? (html ? false : true) : args.tag
         userSelect = args.userSelect == null ? false : args.userSelect
+        tag = args.tag == null ? (html ? false : true) : args.tag
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
         prettyPrinterProperties.textArgs = args.textArgs as List

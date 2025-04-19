@@ -38,7 +38,7 @@
         </div>
 
         <g:if test="${c.help}">
-            <div id="${c.id}-help" class="collapse">
+            <div id="${c.id}-help" class="collapse${c.helpCollapsed ? '' : ' show'}">
                 <div class="help-message">
                     <render:message code="${c.help}" args="${c.helpArgs}"/>
                 </div>

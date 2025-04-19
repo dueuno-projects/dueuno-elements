@@ -38,7 +38,7 @@
                     <g:else>
                         <li class="nav-item mb-1">
                             <render:component instance="${item.link}"
-                                            properties="[cssClass: 'nav-link text-truncate', iconClass: 'fa-fw', ]"
+                                            properties="[cssClass: 'nav-link text-truncate']"
                                             data-bs-dismiss="offcanvas"
                                             data-bs-target="#shell-menu"
                             />

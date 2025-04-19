@@ -33,7 +33,7 @@
                         </g:if>
                         <g:else>
                             <li class="nav-item">
-                                <render:component instance="${item.link}" properties="[cssClass: 'nav-link', iconClass: 'fa-fw']" />
+                                <render:component instance="${item.link}" properties="[cssClass: 'nav-link']" />
                                 <%--dev:ifDisplayHints><span class="badge rounded-pill text-secondary bg-light">${item.order}</span></dev:ifDisplayHints>--%>
                             </li>
                         </g:else>

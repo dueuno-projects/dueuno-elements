@@ -25,16 +25,6 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Link extends Label {
 
-    /** Icon that graphically represents the Link. Choose one from Font Awesome icons */
-    // String icon // inherited
-    String iconClass
-
-    /** An SVG image that graphically represents the Link.
-     * If specified it must be present in the Grails asset folder.
-     */
-    String image
-    String imageClass
-
     /** The link */
     LinkDefinition linkDefinition
 
@@ -47,12 +37,6 @@ class Link extends Label {
         linkDefinition = new LinkDefinition(args)
         linkDefinition.action = args.action ?: 'index'
         linkDefinition.loading = args.loading
-
-        icon = args.icon ?: ''
-        iconClass = args.iconClass ?: ''
-
-        image = args.image ?: ''
-        imageClass = args.imageClass ?: ''
 
         tag = args.tag == null ? false : args.tag
 
