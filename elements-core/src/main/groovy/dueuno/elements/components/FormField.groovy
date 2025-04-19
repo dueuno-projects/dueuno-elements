@@ -31,6 +31,7 @@ class FormField extends Component {
     List labelArgs
     String help
     List helpArgs
+    Boolean helpCollapsed
     Boolean nullable
 
     Boolean displayLabel
@@ -51,10 +52,11 @@ class FormField extends Component {
         labelArgs = args.labelArgs as List ?: []
         help = args.help
         helpArgs = args.helpArgs as List
-        nullable = (args.nullable == null) ? true : args.nullable
+        helpCollapsed = args.helpCollapsed == null ? false : args.helpCollapsed
+        nullable = args.nullable == null ? true : args.nullable
 
-        displayLabel = (args.displayLabel == null) ? true : args.displayLabel
-        multiline = (args.multiline == null) ? false : args.multiline
+        displayLabel = args.displayLabel == null ? true : args.displayLabel
+        multiline = args.multiline == null ? false : args.multiline
 
         setAcceptedRows(args.acceptedRows == null ? [] : args.acceptedRows as List)
         setAcceptedCols(args.acceptedCols == null ? [] : args.acceptedCols as List)

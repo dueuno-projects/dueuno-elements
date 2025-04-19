@@ -210,6 +210,7 @@ class FormController implements ElementsController {
                     value: [name: 'pippo'],
                     prettyPrinter: 'OBJ2TEXT',
                     help: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
+                    helpCollapsed: true,
             )
             def textfieldActions = addField(
                     class: TextField,
