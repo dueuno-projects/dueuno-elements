@@ -296,11 +296,12 @@ class FormController implements ElementsController {
                     id: 'buttonGroup',
                     stretch: true,
                     group: true,
-                    primary: true,
+                    backgroundColor: Color.ERROR_BACKGROUND,
+                    textColor: Color.ERROR_TEXT,
             )
-            buttonGroupField.component.addAction(action: 'anotherAction1', backgroundColor: Color.ERROR_BACKGROUND, textColor: Color.ERROR_TEXT)
-            buttonGroupField.component.addAction(action: 'anotherAction2', backgroundColor: Color.WARNING_BACKGROUND, textColor: Color.WARNING_TEXT)
-            buttonGroupField.component.addAction(action: 'anotherAction3', backgroundColor: Color.SUCCESS_BACKGROUND, textColor: Color.SUCCESS_TEXT)
+            buttonGroupField.component.addAction(action: 'anotherAction1', backgroundColor: Color.WARNING_BACKGROUND, textColor: Color.WARNING_TEXT)
+            buttonGroupField.component.addAction(action: 'anotherAction2', backgroundColor: Color.SUCCESS_BACKGROUND, textColor: Color.SUCCESS_TEXT)
+            buttonGroupField.component.addAction(action: 'anotherAction3', backgroundColor: Color.INFO_BACKGROUND, textColor: Color.INFO_TEXT)
             buttonGroupField.component.addAction(action: 'anotherAction4', backgroundColor: tertiaryBackgroundColor, textColor: Color.DISABLED_TEXT)
             addField(
                     class: Separator,
@@ -405,28 +406,35 @@ class FormController implements ElementsController {
                     id: 'errorColor',
                     textColor: Color.ERROR_TEXT,
                     backgroundColor: Color.ERROR_BACKGROUND,
-                    cols: 3,
+                    cols: 2,
             )
             addField(
                     class: Label,
                     id: 'warningColor',
                     textColor: Color.WARNING_TEXT,
                     backgroundColor: Color.WARNING_BACKGROUND,
-                    cols: 3,
+                    cols: 2,
             )
             addField(
                     class: Label,
                     id: 'successColor',
                     textColor: Color.SUCCESS_TEXT,
                     backgroundColor: Color.SUCCESS_BACKGROUND,
-                    cols: 3,
+                    cols: 2,
+            )
+            addField(
+                    class: Label,
+                    id: 'infoColor',
+                    textColor: Color.INFO_TEXT,
+                    backgroundColor: Color.INFO_BACKGROUND,
+                    cols: 2,
             )
             addField(
                     class: Label,
                     id: 'disabledColor',
                     textColor: Color.DISABLED_TEXT,
                     backgroundColor: tertiaryBackgroundColor,
-                    cols: 3,
+                    cols: 4,
             )
         }
 
@@ -459,6 +467,7 @@ class FormController implements ElementsController {
                     [status: 'ERROR', textColor: Color.ERROR_TEXT, backgroundColor: Color.ERROR_BACKGROUND],
                     [status: 'WARNING', textColor: Color.WARNING_TEXT, backgroundColor: Color.WARNING_BACKGROUND],
                     [status: 'SUCCESS', textColor: Color.SUCCESS_TEXT, backgroundColor: Color.SUCCESS_BACKGROUND],
+                    [status: 'INFO', textColor: Color.INFO_TEXT, backgroundColor: Color.INFO_BACKGROUND],
                     [status: 'DISABLED', textColor: Color.DISABLED_TEXT, backgroundColor: tertiaryBackgroundColor],
             ]
         }

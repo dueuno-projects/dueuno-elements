@@ -30,6 +30,8 @@ class Color {
     static final String WARNING_BACKGROUND = '#ffeeaa'
     static final String SUCCESS_TEXT = '#014513'
     static final String SUCCESS_BACKGROUND = '#bce3c6'
+    static final String INFO_TEXT = '#01224a'
+    static final String INFO_BACKGROUND = '#dbebff'
     static final String DISABLED_TEXT = '#777777'
     static final String WHITE = 'white'
 

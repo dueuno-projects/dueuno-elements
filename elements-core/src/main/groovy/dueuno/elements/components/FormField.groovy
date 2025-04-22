@@ -51,7 +51,7 @@ class FormField extends Component {
         label = args.label
         labelArgs = args.labelArgs as List ?: []
         help = args.help
-        helpArgs = args.helpArgs as List
+        helpArgs = args.helpArgs as List ?: []
         helpCollapsed = args.helpCollapsed == null ? false : args.helpCollapsed
         nullable = args.nullable == null ? true : args.nullable
 

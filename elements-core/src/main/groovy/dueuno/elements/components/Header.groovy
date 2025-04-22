@@ -63,7 +63,7 @@ class Header extends Component {
         args.controller = args.controller ?: controllerName
         args.action = args.action ?: 'onConfirm'
         args.submit = (args.submit == null) ? 'form' : args.submit
-        args.text = (args.text == null) ? TextDefault.SAVE : args.text
+        args.text = (args.text == null) ? TextDefault.CONFIRM : args.text
         args.icon = (args.icon == null) ? 'fa-solid fa-check' : args.icon
         if (args.group) nextButton.group = args.group
 
