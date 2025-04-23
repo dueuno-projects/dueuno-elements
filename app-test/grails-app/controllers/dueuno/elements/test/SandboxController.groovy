@@ -135,6 +135,7 @@ class SandboxController implements ElementsController {
                     displayLabel: false,
                     cols: 12,
                     colsSmall: 6,
+                    highlight: true,
             )
             addField(
                     class: DateTimeField,
@@ -144,6 +145,7 @@ class SandboxController implements ElementsController {
                     onLoad: 'onDateTimeLoad',
                     onChange: 'onDateTimeChange',
                     textStyle: TextStyle.LINE_THROUGH,
+                    highlight: true,
                     cols: 4,
             )
             addField(
@@ -153,6 +155,7 @@ class SandboxController implements ElementsController {
                     min: LocalDate.now().minusDays(3),
                     onChange: 'onDateChange',
                     textStyle: [TextStyle.LINE_THROUGH, TextStyle.ITALIC],
+                    highlight: true,
                     cols: 4,
             )
             addField(
@@ -163,6 +166,7 @@ class SandboxController implements ElementsController {
                     timeStep: 15,
                     onChange: 'onTimeChange',
                     textStyle: TextStyle.NORMAL,
+                    highlight: true,
                     cols: 2,
             )
             addField(
@@ -176,12 +180,14 @@ class SandboxController implements ElementsController {
                     id: 'm1',
                     value: LocalDate.now(),
                     textStyle: [TextStyle.LINE_THROUGH, TextStyle.NORMAL],
+                    highlight: true,
                     cols: 12,
             )
             addField(
                     class: Select,
                     id: 'selectEnum',
                     optionsFromEnum: TextFieldInputMode,
+                    highlight: true,
             )
             addField(
                     class: Select,
@@ -205,12 +211,14 @@ class SandboxController implements ElementsController {
                     value: 3,
                     allowClear: true,
                     cols: 12,
+                    highlight: true,
             )
             addField(
                     class: MoneyField,
                     id: 'testMoney',
                     value: new Money(),
                     cols: 6,
+                    highlight: true,
             )
             addField(
                     class: QuantityField,
@@ -219,6 +227,7 @@ class SandboxController implements ElementsController {
                     defaultUnit: QuantityUnit.KG,
                     value: new Quantity(),
                     cols: 6,
+                    highlight: true,
             )
             addField(
                     class: TextField,
@@ -227,6 +236,7 @@ class SandboxController implements ElementsController {
 //                    prefix: 'PRE',
                     icon: 'fa-box',
                     onChange: 'onIconChange',
+                    highlight: true,
                     maxSize: 7,
                     cols: 12,
             )
@@ -235,6 +245,7 @@ class SandboxController implements ElementsController {
                     id: 'placeholderArea',
                     invalidChars: '+-*/',
                     acceptNewLine: false,
+                    highlight: true,
                     cols: 12,
             )
             addField(

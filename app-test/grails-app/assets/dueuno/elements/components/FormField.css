@@ -135,3 +135,13 @@ input:focus-visible,
     background-color: rgba(var(--elements-tertiary-bg), .4) !important;
     color: rgb(var(--elements-tertiary-text)) !important;
 }
+
+.input-group.error-highlight {
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: 0 0 0 calc(var(--elements-font-size)* .08) rgba(204, 0, 0, .5) !important;
+}
+
+.input-group.field-highlight {
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: 0 0 0 calc(var(--elements-font-size) * .25) rgba(var(--elements-primary-bg-shaded)) !important;
+}

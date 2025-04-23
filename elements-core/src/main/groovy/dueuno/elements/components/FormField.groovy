@@ -32,9 +32,10 @@ class FormField extends Component {
     String help
     List helpArgs
     Boolean helpCollapsed
-    Boolean nullable
 
+    Boolean nullable
     Boolean displayLabel
+    Boolean highlight
     Boolean multiline
 
     List acceptedCols
@@ -53,9 +54,10 @@ class FormField extends Component {
         help = args.help
         helpArgs = args.helpArgs as List ?: []
         helpCollapsed = args.helpCollapsed == null ? false : args.helpCollapsed
-        nullable = args.nullable == null ? true : args.nullable
 
+        nullable = args.nullable == null ? true : args.nullable
         displayLabel = args.displayLabel == null ? true : args.displayLabel
+        highlight = args.highlight == null ? false : args.highlight
         multiline = args.multiline == null ? false : args.multiline
 
         setAcceptedRows(args.acceptedRows == null ? [] : args.acceptedRows as List)

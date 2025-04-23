@@ -126,6 +126,7 @@ abstract class Component implements WebRequestAware, Serializable {
         this.@display = args.display
         this.@readonly = args.readonly
         this.@skipFocus = args.skipFocus
+        this.@sticky = args.sticky
 
         textColor = args.textColor ?: ''
         backgroundColor = args.backgroundColor ?: ''
