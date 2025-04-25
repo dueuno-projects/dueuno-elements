@@ -296,8 +296,8 @@ class FormController implements ElementsController {
                     id: 'buttonGroup',
                     stretch: true,
                     group: true,
-                    backgroundColor: Color.ERROR_BACKGROUND,
-                    textColor: Color.ERROR_TEXT,
+                    backgroundColor: Color.DANGER_BACKGROUND,
+                    textColor: Color.DANGER_TEXT,
             )
             buttonGroupField.component.addAction(action: 'anotherAction1', backgroundColor: Color.WARNING_BACKGROUND, textColor: Color.WARNING_TEXT)
             buttonGroupField.component.addAction(action: 'anotherAction2', backgroundColor: Color.SUCCESS_BACKGROUND, textColor: Color.SUCCESS_TEXT)
@@ -404,8 +404,8 @@ class FormController implements ElementsController {
             addField(
                     class: Label,
                     id: 'errorColor',
-                    textColor: Color.ERROR_TEXT,
-                    backgroundColor: Color.ERROR_BACKGROUND,
+                    textColor: Color.DANGER_TEXT,
+                    backgroundColor: Color.DANGER_BACKGROUND,
                     cols: 2,
             )
             addField(
@@ -464,7 +464,7 @@ class FormController implements ElementsController {
                 row.backgroundColor = values.backgroundColor
             }
             body = [
-                    [status: 'ERROR', textColor: Color.ERROR_TEXT, backgroundColor: Color.ERROR_BACKGROUND],
+                    [status: 'ERROR', textColor: Color.DANGER_TEXT, backgroundColor: Color.DANGER_BACKGROUND],
                     [status: 'WARNING', textColor: Color.WARNING_TEXT, backgroundColor: Color.WARNING_BACKGROUND],
                     [status: 'SUCCESS', textColor: Color.SUCCESS_TEXT, backgroundColor: Color.SUCCESS_BACKGROUND],
                     [status: 'INFO', textColor: Color.INFO_TEXT, backgroundColor: Color.INFO_BACKGROUND],
