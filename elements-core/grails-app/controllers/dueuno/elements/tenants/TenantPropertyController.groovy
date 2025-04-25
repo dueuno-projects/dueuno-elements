@@ -45,7 +45,7 @@ class TenantPropertyController implements ElementsController {
                 addAction(
                         action: 'create',
                         params: [type: 'STRING'],
-                        text: messageOrBlank('tenantProperty.create') + ' ' + messageOrBlank("tenantProperty.STRING"),
+                        text: message("tenantProperty.STRING"),
                         icon: 'fa-plus'
                 )
                 for (String type in PropertyType.values()*.name()) {
@@ -53,7 +53,7 @@ class TenantPropertyController implements ElementsController {
                     addAction(
                             action: 'create',
                             params: [type: type],
-                            text: messageOrBlank('tenantProperty.create') + ' ' + messageOrBlank("tenantProperty.${type}"),
+                            text: message("tenantProperty.${type}"),
                     )
                 }
             }

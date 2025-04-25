@@ -47,7 +47,7 @@ class SystemPropertyController implements ElementsController {
                 addAction(
                         action: 'create',
                         params: [type: 'STRING'],
-                        text: messageOrBlank('systemProperty.create') + ' ' + messageOrBlank("systemProperty.STRING"),
+                        text: message("systemProperty.STRING"),
                         icon: 'fa-plus'
                 )
                 for (String type in PropertyType.values()*.name()) {
@@ -55,7 +55,7 @@ class SystemPropertyController implements ElementsController {
                     addAction(
                             action: 'create',
                             params: [type: type],
-                            text: messageOrBlank('systemProperty.create') + ' ' + messageOrBlank("systemProperty.${type}"),
+                            text: message("systemProperty.${type}"),
                     )
                 }
             }
@@ -121,7 +121,7 @@ class SystemPropertyController implements ElementsController {
                 String descriptionCode = "system.property.${values.name}"
                 String description = messageOrBlank(descriptionCode)
                 row.cells.description.html = description ?: descriptionCode
-                if (description) {
+                if (!description) {
                     row.cells.description.textColor = tertiaryBackgroundColor
                 }
 
