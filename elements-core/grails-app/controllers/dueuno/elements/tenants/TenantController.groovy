@@ -97,6 +97,7 @@ class TenantController implements ElementsController {
                     class: Select,
                     id: 'connectionSource.driverClassName',
                     optionsFromList: connectionSourceService.listAvailableDrivers(),
+                    textPrefix: 'jdbc',
                     search: true,
                     cols: 6,
             )

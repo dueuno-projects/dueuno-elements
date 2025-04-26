@@ -26,6 +26,7 @@ import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ConnectionSourceService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.TConnectionSource
+import dueuno.elements.style.Color
 import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -84,9 +85,8 @@ class ConnectionSourceController implements ElementsController {
                 addField(
                         class: Label,
                         id: 'info',
-                        textColor: '#cc0000',
-                        backgroundColor: "rgba(${primaryBackgroundColorInt.join(', ')}, ${primaryBackgroundColorAlpha})",
-                        tag: true,
+                        textColor: Color.DANGER_TEXT,
+                        backgroundColor: Color.DANGER_BACKGROUND,
                         text: 'connectionSource.edit.info',
                         displayLabel: false,
                         cols: 12,
@@ -102,7 +102,8 @@ class ConnectionSourceController implements ElementsController {
                     class: Select,
                     id: 'driverClassName',
                     optionsFromList: connectionSourceService.listAvailableDrivers(),
-                    renderTextPrefix: false,
+                    textPrefix: 'jdbc',
+                    search: true,
                     cols: 6,
             )
             addField(
