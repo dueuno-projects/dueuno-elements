@@ -76,7 +76,7 @@ class ConnectionSourceService {
         for (driver in DriverManager.drivers) {
             results.add(driver.getClass().getName())
         }
-        return results
+        return results.sort()
     }
 
     List<String> listAvailableSchemaGenerators() {

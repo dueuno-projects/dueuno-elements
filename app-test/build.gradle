@@ -8,10 +8,6 @@ dependencies {
 
     // LDAP
 //    implementation "org.grails.plugins:spring-security-ldap:4.0.0.M1"
-
-    // Database
-    runtimeOnly "com.mysql:mysql-connector-j"
-    runtimeOnly "org.postgresql:postgresql"
 }
 
 bootRun {
