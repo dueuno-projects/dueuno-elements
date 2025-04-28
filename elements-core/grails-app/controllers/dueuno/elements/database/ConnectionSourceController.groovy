@@ -58,11 +58,7 @@ class ConnectionSourceController implements ElementsController {
             ]
 
             body.eachRow { TableRow row, Map values ->
-                if (values.embedded) {
-                    row.actions.removeDefaultAction()
-                    row.actions.removeTailAction()
-                }
-                if (values.tenant) {
+                if (values.embedded || values.tenant) {
                     row.actions.removeTailAction()
                 }
             }
@@ -78,15 +74,18 @@ class ConnectionSourceController implements ElementsController {
                 ? createContent(ContentEdit)
                 : createContent(ContentCreate)
 
+        def isReadonly = obj?.embedded || obj?.tenant
+
         c.form.with {
             validate = TConnectionSource
+            readonly = isReadonly
 
-            if (obj) {
+            if (obj && !isReadonly) {
                 addField(
                         class: Label,
                         id: 'info',
-                        textColor: Color.DANGER_TEXT,
-                        backgroundColor: Color.DANGER_BACKGROUND,
+                        textColor: Color.WARNING_TEXT,
+                        backgroundColor: Color.WARNING_BACKGROUND,
                         text: 'connectionSource.edit.info',
                         displayLabel: false,
                         cols: 12,

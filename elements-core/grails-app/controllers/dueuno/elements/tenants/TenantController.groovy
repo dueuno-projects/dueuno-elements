@@ -58,7 +58,6 @@ class TenantController implements ElementsController {
 
             body.eachRow { TableRow row, Map values ->
                 if (!values.deletable) {
-                    row.actions.removeDefaultAction()
                     row.actions.removeTailAction()
                 }
             }
@@ -78,16 +77,18 @@ class TenantController implements ElementsController {
 
         c.form.with {
             validate = TTenant
-            addField(
-                    class: Label,
-                    id: 'info',
-                    html: 'tenant.info',
-                    color: Color.WARNING_TEXT,
-                    backgroundColor: Color.WARNING_BACKGROUND,
-                    textWrap: TextWrap.SOFT_WRAP,
-                    displayLabel: false,
-                    tag: true,
-            )
+            if (!obj) {
+                addField(
+                        class: Label,
+                        id: 'info',
+                        html: 'tenant.info',
+                        color: Color.WARNING_TEXT,
+                        backgroundColor: Color.WARNING_BACKGROUND,
+                        textWrap: TextWrap.SOFT_WRAP,
+                        displayLabel: false,
+                        tag: true,
+                )
+            }
             addField(
                     class: TextField,
                     id: 'tenantId',
@@ -102,7 +103,7 @@ class TenantController implements ElementsController {
             )
             addField(
                     class: Separator,
-                    id: 'connectionSource',
+                    id: 'connection.info',
                     icon: 'fa-database',
                     cols: 12,
             )
@@ -138,6 +139,9 @@ class TenantController implements ElementsController {
 
         if (obj) {
             c.form.values = obj
+            if (obj.tenantId == tenantService.defaultTenantId) {
+                c.form.readonly = true
+            }
         }
 
         return c

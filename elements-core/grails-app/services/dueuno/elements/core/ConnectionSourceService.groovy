@@ -132,7 +132,7 @@ class ConnectionSourceService {
 
     @CompileDynamic
     TConnectionSource getDefault() {
-        return TConnectionSource.findByName('DEFAULT')
+        return TConnectionSource.findByName(ConnectionSource.DEFAULT)
     }
 
     @CompileDynamic
