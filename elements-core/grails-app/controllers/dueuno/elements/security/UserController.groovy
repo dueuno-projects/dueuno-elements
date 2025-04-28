@@ -131,10 +131,15 @@ class UserController implements ElementsController {
             )
         }
 
+        def isCreatingNewUser = !obj
+        def isSuperAdmin = securityService.isSuperAdmin()
+        def isEditingUserButNotSuperAdmin = obj && obj.username != securityService.USERNAME_SUPERADMIN
+        def isTenantAdmin = obj && securityService.isAdmin(obj) && !obj.deletable
+
         c.form.with {
             validate = TUser
 
-            if (securityService.isSuperAdmin()) {
+            if (isSuperAdmin && (isCreatingNewUser || isEditingUserButNotSuperAdmin)) {
                 addField(
                         class: Select,
                         id: 'tenant',
@@ -145,6 +150,7 @@ class UserController implements ElementsController {
                         onLoad: 'onTenantChange',
                         onChange: 'onTenantChange',
                         submit: ['form'],
+                        readonly: isTenantAdmin,
                 )
             }
 
@@ -164,70 +170,72 @@ class UserController implements ElementsController {
 
         buildSensitiveDataForm(c)
 
-        c.form.with {
-            addField(
-                    class: Separator,
-                    id: 'authorizations',
-                    icon: 'fa-shield-halved',
-            )
-            addField(
-                    class: Select,
-                    id: 'groups',
-                    optionsFromRecordset: securityService.listGroup([hideUsers: true]),
-                    search: false,
-                    multiple: true,
-            )
-            addField(
-                    class: Select,
-                    id: 'defaultGroup',
-                    optionsFromRecordset: securityService.listGroup([hideUsers: true]),
-                    search: false,
-            )
-            addField(
-                    class: NumberField,
-                    id: 'sessionDuration',
-                    prefix: 'min',
-                    decimals: 0,
-                    defaultValue: tenantPropertyService.getNumber('DEFAULT_SESSION_DURATION'),
-                    cols: 6,
-            )
-            addField(
-                    class: NumberField,
-                    id: 'rememberMeDuration',
-                    prefix: 'min',
-                    decimals: 0,
-                    defaultValue: tenantPropertyService.getNumber('DEFAULT_REMEMBER_ME_DURATION'),
-                    cols: 6,
-            )
-            addField(
-                    class: Checkbox,
-                    id: 'admin',
-                    cols: 6,
-            )
-            addField(
-                    class: Checkbox,
-                    id: 'enabled',
-                    nullable: true,
-                    cols: 6,
-            )
-
-            addField(
-                    class: Separator,
-                    id: 'integration',
-                    icon: 'fa-plug',
-            )
-            TextField apiKey = addField(
-                    class: TextField,
-                    id: 'apiKey',
-                    icon: 'fa-lock',
-                    readonly: !securityService.isDeveloper(),
-            ).component
-            apiKey.addAction(action: 'onGenerateApiKey', submit: ['form'], text: 'user.generateApiKey', icon: 'fa-key')
-            addField(
-                    class: TextField,
-                    id: 'externalId',
-                    icon: 'fa-barcode',
-            )
+        if (isCreatingNewUser || isEditingUserButNotSuperAdmin) {
+            c.form.with {
+                addField(
+                        class: Separator,
+                        id: 'authorizations',
+                        icon: 'fa-shield-halved',
+                )
+                addField(
+                        class: Select,
+                        id: 'groups',
+                        optionsFromRecordset: securityService.listGroup([hideUsers: true]),
+                        search: false,
+                        multiple: true,
+                )
+                addField(
+                        class: Select,
+                        id: 'defaultGroup',
+                        optionsFromRecordset: securityService.listGroup([hideUsers: true]),
+                        search: false,
+                )
+                addField(
+                        class: NumberField,
+                        id: 'sessionDuration',
+                        prefix: 'min',
+                        decimals: 0,
+                        defaultValue: tenantPropertyService.getNumber('DEFAULT_SESSION_DURATION'),
+                        cols: 6,
+                )
+                addField(
+                        class: NumberField,
+                        id: 'rememberMeDuration',
+                        prefix: 'min',
+                        decimals: 0,
+                        defaultValue: tenantPropertyService.getNumber('DEFAULT_REMEMBER_ME_DURATION'),
+                        cols: 6,
+                )
+                addField(
+                        class: Checkbox,
+                        id: 'admin',
+                        cols: 6,
+                )
+                addField(
+                        class: Checkbox,
+                        id: 'enabled',
+                        defaultValue: true,
+                        nullable: true,
+                        cols: 6,
+                )
+                addField(
+                        class: Separator,
+                        id: 'integration',
+                        icon: 'fa-plug',
+                )
+                TextField apiKey = addField(
+                        class: TextField,
+                        id: 'apiKey',
+                        icon: 'fa-lock',
+                        readonly: !securityService.isDeveloper(),
+                ).component
+                apiKey.addAction(action: 'onGenerateApiKey', submit: ['form'], text: 'user.generateApiKey', icon: 'fa-key')
+                addField(
+                        class: TextField,
+                        id: 'externalId',
+                        icon: 'fa-barcode',
+                )
+            }
         }
 
         buildPreferencesForm(c)
@@ -404,8 +412,6 @@ class UserController implements ElementsController {
             c.header.nextButton.setDefaultAction(action: 'onCreateAndClose')
         }
 
-        c.form['enabled'].value = true
-
         def mustRefresh = c in ContentCreate && controllerSession.createAndNew
         display content: c, modal: true, closeButton: !mustRefresh
     }
@@ -448,10 +454,12 @@ class UserController implements ElementsController {
     }
 
     def edit() {
-        def user = TUser.findByUsername(params.username)
+        def user = securityService.getUserByUsername(params.username)
         def c = buildForm(user)
 
-        if (!securityService.isSuperAdmin()) {
+        def isNotSuperAdmin = !securityService.isSuperAdmin()
+        def isEditingSuperAdminUser = user.username == securityService.USERNAME_SUPERADMIN
+        if (isNotSuperAdmin || isEditingSuperAdminUser) {
             c.form['username'].readonly = true
             c.form['usernameField'].help = 'user.edit.username.help'
         }
@@ -459,12 +467,12 @@ class UserController implements ElementsController {
         c.form.values = user
         c.form['password'].value = null
 
-        c.form['admin'].value = (user.authorities.find { it.name == SecurityService.GROUP_ADMINS } != null)
-        c.form['admin'].readonly = !user.deletable
-//        c.form.readonly = !user.deletable
-        c.form['enabled'].readonly = !user.deletable
-
-        c.form['groups'].value = user.authorities.collect { it.id }
+        if (!isEditingSuperAdminUser) {
+            c.form['admin'].value = (user.authorities.find { it.name == SecurityService.GROUP_ADMINS } != null)
+            c.form['admin'].readonly = !user.deletable
+            c.form['enabled'].readonly = !user.deletable
+            c.form['groups'].value = user.authorities.collect { it.id }
+        }
 
         display content: c, modal: true
     }

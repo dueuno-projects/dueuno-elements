@@ -28,6 +28,7 @@ import dueuno.elements.security.SecurityService
 import dueuno.elements.style.Color
 import dueuno.elements.style.TextTransform
 import dueuno.elements.style.TextWrap
+import dueuno.elements.utils.EnvUtils
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
@@ -77,7 +78,7 @@ class TenantController implements ElementsController {
 
         c.form.with {
             validate = TTenant
-            if (!obj) {
+            if (!obj && EnvUtils.isDevelopment()) {
                 addField(
                         class: Label,
                         id: 'info',

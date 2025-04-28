@@ -56,8 +56,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     public static final String ROLE_ADMIN = 'ROLE_ADMIN'
     public static final String ROLE_USER = 'ROLE_USER'
 
-    private static final String USERNAME_SUPERADMIN = 'super'
-    private static final String USERNAME_ADMIN = 'admin'
+    public static final String USERNAME_SUPERADMIN = 'super'
+    public static final String USERNAME_ADMIN = 'admin'
 
     public static final String DENY_AUTHORIZATION_MESSAGE = 'DENY_AUTHORIZATION_MESSAGE'
 
@@ -285,9 +285,17 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * Returns true if the user with the specified username has admin authorities
      * @return true if the user with the specified username has admin authorities
      */
+    Boolean isAdmin(TUser user) {
+        return user.authorities.find { it.name == GROUP_ADMINS } != null
+    }
+
+    /**
+     * Returns true if the user with the specified username has admin authorities
+     * @return true if the user with the specified username has admin authorities
+     */
     Boolean isAdmin(String username) {
         TUser user = getUserByUsername(username)
-        return user.authorities.find { it.name == GROUP_ADMINS } != null
+        return isAdmin(user)
     }
 
     /**
@@ -706,11 +714,11 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
         } else { // Sets the groups
             groups.add(GROUP_USERS)
-            if (EnvUtils.isDevelopment()) groups.add(GROUP_DEVELOPERS)
+            if (user.username != USERNAME_SUPERADMIN && EnvUtils.isDevelopment()) groups.add(GROUP_DEVELOPERS)
             if (args.admin) groups.add(GROUP_ADMINS)
 
             for (groupName in groups.unique()) {
-                TRoleGroup roleGroup = TRoleGroup.findByName(groupName)
+                TRoleGroup roleGroup = TRoleGroup.findByTenantAndName(tenant, groupName)
                 if (roleGroup) {
                     TUserRoleGroup.create(user, roleGroup)
                 } else {
@@ -734,7 +742,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     TUser createSystemUser(Map args) {
         args.deletable = false
         if (!args.password) args.password = StringUtils.generateRandomToken(32)
-        args.apiKey = generateApiKey()
+        if (args.username != USERNAME_SUPERADMIN) args.apiKey = generateApiKey()
         createUser(args)
     }
 
@@ -756,14 +764,20 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             args.remove('password')
         }
 
-        args.defaultGroup = TRoleGroup.findByTenantAndName(tenant, args.defaultGroup)
+        if (args.username != USERNAME_SUPERADMIN) {
+            args.defaultGroup = TRoleGroup.findByTenantAndName(tenant, args.defaultGroup)
+        } else {
+            args.defaultGroup = TRoleGroup.findByTenantAndName(tenantService.defaultTenant, GROUP_SUPERADMINS)
+        }
+
         validateFontSize(args)
 
         TUser user = getUserByUsername(username)
         user.properties = args
         user.save(flush: true)
 
-        if (!user.hasErrors()) {
+        Boolean isSuperAdmin = user.username == USERNAME_SUPERADMIN
+        if (!user.hasErrors() && !isSuperAdmin) {
             // Sets the groups
             List groups = args.groups ?: []
             TUserRoleGroup.removeAll(user)
