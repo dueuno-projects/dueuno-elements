@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation project(":elements-core")
     implementation project(":elements-extra")
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
 
     // LDAP
 //    implementation "org.grails.plugins:spring-security-ldap:4.0.0.M1"

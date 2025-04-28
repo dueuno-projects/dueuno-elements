@@ -14,6 +14,7 @@
  */
 package dueuno.elements.tenants
 
+import dueuno.elements.components.Label
 import dueuno.elements.components.Separator
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
@@ -24,7 +25,9 @@ import dueuno.elements.controls.TextField
 import dueuno.elements.core.ConnectionSourceService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.security.SecurityService
+import dueuno.elements.style.Color
 import dueuno.elements.style.TextTransform
+import dueuno.elements.style.TextWrap
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
@@ -75,6 +78,16 @@ class TenantController implements ElementsController {
 
         c.form.with {
             validate = TTenant
+            addField(
+                    class: Label,
+                    id: 'info',
+                    html: 'tenant.info',
+                    color: Color.WARNING_TEXT,
+                    backgroundColor: Color.WARNING_BACKGROUND,
+                    textWrap: TextWrap.SOFT_WRAP,
+                    displayLabel: false,
+                    tag: true,
+            )
             addField(
                     class: TextField,
                     id: 'tenantId',

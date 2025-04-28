@@ -208,33 +208,13 @@ class TenantService {
         withTenant(tenantId) {
             securityService.installSecurity(tenantId)
             tenantPropertyService.install()
-
-            if (applicationService.hasBootEvents('onPluginInstall')) {
-                log.info "-" * 78
-                log.info "${tenantId} Tenant: INSTALLING PLUGINS..."
-                log.info "-" * 78
-                applicationService.executeOnPluginInstall(tenantId)
-            }
-
-            if (applicationService.hasBootEvents('onInstall') || applicationService.hasBootEvents('onDevInstall')) {
-                log.info ""
-                log.info "-" * 78
-                log.info "${tenantId} Tenant: INSTALLING APPLICATION..."
-                log.info "-" * 78
-                applicationService.executeOnInstall(tenantId)
-                applicationService.executeOnDevInstall(tenantId)
-            }
+            applicationService.executeOnPluginInstall(tenantId)
+            applicationService.executeOnInstall(tenantId)
         }
     }
 
     void provisionTenantUpdate(String tenantId) {
-        if (applicationService.hasBootEvents('onUpdate')) {
-            log.info ""
-            log.info "-" * 78
-            log.info "${tenantId} Tenant: INSTALLING UPDATES..."
-            log.info "-" * 78
-            applicationService.executeOnUpdate(tenantId)
-        }
+        applicationService.executeOnUpdate(tenantId)
     }
 
     TTenant update(Map args) {

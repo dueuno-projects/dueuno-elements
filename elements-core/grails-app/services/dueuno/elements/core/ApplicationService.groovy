@@ -111,24 +111,12 @@ class ApplicationService implements LinkGeneratorAware {
         if (!systemInstalled) {
             systemPropertyService.install()
             tenantService.install()
+            executeOnSystemInstall()
+        }
 
-            if (hasBootEvents('onSystemInstall')) {
-                log.info ""
-                log.info "-" * 78
-                log.info "SYSTEM: INSTALLING..."
-                log.info "-" * 78
-
-                executeOnSystemInstall()
-
-                log.info "-" * 78
-                log.info "SYSTEM: INSTALLATION COMPLETE."
-                log.info "-" * 78
-            }
-
-            // Tenant Provisioning
-            tenantService.eachTenant { String tenantId ->
-                tenantService.provisionTenant(tenantId)
-            }
+        // Tenant Provisioning
+        tenantService.eachTenant { String tenantId ->
+            tenantService.provisionTenant(tenantId)
         }
 
         // Tenant Updates
@@ -269,25 +257,53 @@ class ApplicationService implements LinkGeneratorAware {
     }
 
     void executeOnSystemInstall() {
-        executeInstall('onSystemInstall', 'DEFAULT')
+        if (hasBootEvents('onSystemInstall')) {
+            log.info ""
+            log.info "-" * 78
+            log.info "SYSTEM: INSTALLING..."
+            log.info "-" * 78
+
+            executeInstall('onSystemInstall', 'DEFAULT')
+
+            log.info "-" * 78
+            log.info "SYSTEM: INSTALLATION COMPLETE."
+            log.info "-" * 78
+        }
     }
 
     void executeOnPluginInstall(String tenantId) {
-        executeInstall('onPluginInstall', tenantId)
+        if (hasBootEvents('onPluginInstall')) {
+            log.info "-" * 78
+            log.info "${tenantId} Tenant: INSTALLING PLUGINS..."
+            log.info "-" * 78
+
+            executeInstall('onPluginInstall', tenantId)
+        }
     }
 
     void executeOnInstall(String tenantId) {
-        executeInstall('onInstall', tenantId)
-    }
+        if (hasBootEvents('onInstall') || hasBootEvents('onDevInstall')) {
+            log.info ""
+            log.info "-" * 78
+            log.info "${tenantId} Tenant: INSTALLING APPLICATION..."
+            log.info "-" * 78
 
-    void executeOnDevInstall(String tenantId) {
-        if (EnvUtils.isDevelopment()) {
-            executeInstall('onDevInstall', tenantId, true)
+            executeInstall('onInstall', tenantId)
+            if (EnvUtils.isDevelopment()) {
+                executeInstall('onDevInstall', tenantId, true)
+            }
         }
     }
 
     void executeOnUpdate(String tenantId) {
-        executeInstall('onUpdate', tenantId, false, true)
+        if (hasBootEvents('onUpdate')) {
+            log.info ""
+            log.info "-" * 78
+            log.info "${tenantId} Tenant: INSTALLING UPDATES..."
+            log.info "-" * 78
+
+            executeInstall('onUpdate', tenantId, false, true)
+        }
     }
 
     @WithoutTenant
