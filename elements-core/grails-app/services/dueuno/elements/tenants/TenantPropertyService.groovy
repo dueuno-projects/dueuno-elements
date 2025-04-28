@@ -167,7 +167,7 @@ class TenantPropertyService extends PropertyService {
         inMemoryProperties[tenantId][name] = value
 
         if (onChangeRegistry[name]) {
-            log.info "${tenantId}: Property changed '$name' = '$value'"
+            log.info "${tenantId} Tenant: Property changed '$name' = '$value'"
             onChangeRegistry[name].call(oldValue, value, defaultValue)
         }
 

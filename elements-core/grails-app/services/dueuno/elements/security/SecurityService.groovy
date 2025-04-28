@@ -50,6 +50,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     public static final String GROUP_ADMINS = 'ADMINS'
     public static final String GROUP_USERS = 'USERS'
 
+    public static final String ROLE_SECURITY = 'ROLE_SECURITY'
     public static final String ROLE_SUPERADMIN = 'ROLE_SUPERADMIN'
     public static final String ROLE_DEVELOPER = 'ROLE_DEVELOPER'
     public static final String ROLE_ADMIN = 'ROLE_ADMIN'
@@ -85,14 +86,14 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 controller: 'superadmin',
                 icon: 'fa-cog',
                 order: 10000000,
-                authorities: ['ROLE_SUPERADMIN'],
+                authorities: [ROLE_SUPERADMIN],
         )
         applicationService.registerFeature(
                 namespace: 'security',
                 controller: 'admin',
                 icon: 'fa-cog',
                 order: 9000000,
-                authorities: ['ROLE_ADMIN', 'ROLE_SECURITY'],
+                authorities: [ROLE_ADMIN, ROLE_SECURITY],
         )
     }
 
@@ -204,7 +205,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         if (!newFeature) {
             args.parent = 'admin'
             args.namespace = 'security'
-            args.authorities = ['ROLE_SECURITY']
+            args.authorities = [ROLE_SECURITY]
             applicationService.registerFeature(args)
         }
     }
@@ -717,7 +718,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 }
             }
 
-            log.info "${tenant.tenantId}: Created user '${args.username}' in groups: ${groups}"
+            log.info "${tenant.tenantId} Tenant: Created user '${args.username}' in groups: ${groups}"
         }
 
         return user
@@ -958,9 +959,9 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
 
         if (newGroup && authorities) {
-            log.info "${tenant.tenantId}: Created group '$groupName' with authorities: $authorities"
+            log.info "${tenant.tenantId} Tenant: Created group '$groupName' with authorities: $authorities"
         } else if (authorities) {
-            log.info "${tenant.tenantId}: Setting group '$groupName' with authorities: $authorities"
+            log.info "${tenant.tenantId} Tenant: Setting group '$groupName' with authorities: $authorities"
         }
 
         return roleGroup
@@ -1083,9 +1084,15 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
     }
 
-    void installTenantSecurity(String tenantId) {
-        if (tenantId == 'DEFAULT') {
-            createGroup(tenantId: tenantService.defaultTenantId, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)
+    void installSecurity(String tenantId) {
+        createGroup(tenantId: tenantService.defaultTenantId, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)
+        createGroup(tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
+        createGroup(tenantId: tenantId, name: GROUP_DEVELOPERS, authorities: [ROLE_DEVELOPER], deletable: false)
+        createGroup(tenantId: tenantId, name: GROUP_ADMINS, authorities: [ROLE_ADMIN], deletable: false)
+
+        createAuthority(ROLE_SECURITY)
+
+        if (tenantId == tenantService.defaultTenantId) {
             createSystemUser(
                     tenantId: tenantService.defaultTenantId,
                     groups: [GROUP_SUPERADMINS],
@@ -1098,26 +1105,20 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             )
         }
 
+        String username = getAdminUsername(tenantId)
+        createSystemUser(
+                tenantId: tenantId,
+                username: username,
+                password: username,
+                firstname: 'Admin',
+                lastname: tenantId,
+                sessionDuration: 15, // defaults to 15 minutes for the Admin
+                rememberMeDuration: 15, // defaults to 15 minutes for the Admin
+                admin: true,
+        )
+
         tenantService.withTenant(tenantId) {
-            createGroup(tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
-            createGroup(tenantId: tenantId, name: GROUP_DEVELOPERS, authorities: [ROLE_DEVELOPER], deletable: false)
-            createGroup(tenantId: tenantId, name: GROUP_ADMINS, authorities: [ROLE_ADMIN], deletable: false)
-            createAuthority('ROLE_SECURITY')
-
-            String username = getAdminUsername(tenantId)
-            createSystemUser(
-                    tenantId: tenantId,
-                    username: username,
-                    password: username,
-                    firstname: 'Admin',
-                    lastname: tenantId,
-                    sessionDuration: 15, // defaults to 15 minutes for the Admin
-                    rememberMeDuration: 15, // defaults to 15 minutes for the Admin
-                    admin: true,
-            )
-
             tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
-
             tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
             tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
 

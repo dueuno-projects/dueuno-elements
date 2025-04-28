@@ -192,7 +192,7 @@ class TenantService {
             )
 
             if (obj.tenantId != defaultTenantId) { // Default tenant gets its 'dataSource' from application.yml
-                log.info "${obj.tenantId}: Connecting to database..."
+                log.info "${obj.tenantId} Tenant: Connecting to database..."
                 connectionSourceService.connect(obj.connectionSource)
             }
 
@@ -206,21 +206,21 @@ class TenantService {
 
     void provisionTenant(String tenantId) {
         withTenant(tenantId) {
+            securityService.installSecurity(tenantId)
             tenantPropertyService.install()
-            securityService.installTenantSecurity(tenantId)
 
             if (applicationService.hasBootEvents('onPluginInstall')) {
-                log.info "-" * 80
-                log.info "${tenantId}: INSTALLING PLUGINS..."
-                log.info "-" * 80
+                log.info "-" * 78
+                log.info "${tenantId} Tenant: INSTALLING PLUGINS..."
+                log.info "-" * 78
                 applicationService.executeOnPluginInstall(tenantId)
             }
 
             if (applicationService.hasBootEvents('onInstall') || applicationService.hasBootEvents('onDevInstall')) {
                 log.info ""
-                log.info "-" * 80
-                log.info "${tenantId}: INSTALLING APPLICATION..."
-                log.info "-" * 80
+                log.info "-" * 78
+                log.info "${tenantId} Tenant: INSTALLING APPLICATION..."
+                log.info "-" * 78
                 applicationService.executeOnInstall(tenantId)
                 applicationService.executeOnDevInstall(tenantId)
             }
@@ -230,9 +230,9 @@ class TenantService {
     void provisionTenantUpdate(String tenantId) {
         if (applicationService.hasBootEvents('onUpdate')) {
             log.info ""
-            log.info "-" * 80
-            log.info "${tenantId}: INSTALLING UPDATES..."
-            log.info "-" * 80
+            log.info "-" * 78
+            log.info "${tenantId} Tenant: INSTALLING UPDATES..."
+            log.info "-" * 78
             applicationService.executeOnUpdate(tenantId)
         }
     }

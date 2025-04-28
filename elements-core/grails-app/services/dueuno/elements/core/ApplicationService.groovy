@@ -114,15 +114,15 @@ class ApplicationService implements LinkGeneratorAware {
 
             if (hasBootEvents('onSystemInstall')) {
                 log.info ""
-                log.info "-" * 80
+                log.info "-" * 78
                 log.info "SYSTEM: INSTALLING..."
-                log.info "-" * 80
+                log.info "-" * 78
 
                 executeOnSystemInstall()
 
-                log.info "-" * 80
+                log.info "-" * 78
                 log.info "SYSTEM: INSTALLATION COMPLETE."
-                log.info "-" * 80
+                log.info "-" * 78
             }
 
             // Tenant Provisioning
@@ -142,9 +142,9 @@ class ApplicationService implements LinkGeneratorAware {
      */
     void startApplication() {
         log.info ""
-        log.info "-" * 80
+        log.info "-" * 78
         log.info "APPLICATION: STARTING UP..."
-        log.info "-" * 80
+        log.info "-" * 78
 
         performInitialization()
         executeBeforeInit()
@@ -152,9 +152,9 @@ class ApplicationService implements LinkGeneratorAware {
         executeAfterInit()
         performFinalization()
 
-        log.info "-" * 80
+        log.info "-" * 78
         log.info "APPLICATION: STARTED."
-        log.info "-" * 80
+        log.info "-" * 78
         log.info ""
     }
 
@@ -300,18 +300,22 @@ class ApplicationService implements LinkGeneratorAware {
             String revisionName = revision.key
             Closure closure = revision.value
 
-            String pluginName = closure.getClass().getPackage().getName()
-            Integer isInstalled = TSystemInstall.countByPluginAndRevisionAndTenantIdAndDev(pluginName, revisionName, tenantId, isDev)
+            String moduleName = closure.getClass().getPackage().getName()
+            Integer isInstalled = TSystemInstall.countByModuleAndRevisionAndTenantIdAndDev(moduleName, revisionName, tenantId, isDev)
 
             if (!isInstalled) {
-                log.info "${tenantId}: Executing '${revisionName}'..."
+                log.info "${tenantId} Tenant: Executing '${revisionName}'..."
 
                 Tenants.withId(tenantId) {
-                    closure.call(tenantId)
+                    if (closure.maximumNumberOfParameters == 1) {
+                        closure.call(tenantId)
+                    } else {
+                        closure.call(tenantId, moduleName)
+                    }
                 }
 
                 new TSystemInstall(
-                        plugin: pluginName,
+                        module: moduleName,
                         revision: revisionName,
                         tenantId: tenantId,
                         dev: isDev,
@@ -357,6 +361,10 @@ class ApplicationService implements LinkGeneratorAware {
         return TSystemInstall.count() > 0
     }
 
+    @CompileDynamic
+    Boolean getPluginInstalled(String moduleName) {
+        return TSystemInstall.where { module == moduleName }.count() > 0
+    }
 
     void registerCredits(String task, String... people) {
         credits[task] = people as List<String>
