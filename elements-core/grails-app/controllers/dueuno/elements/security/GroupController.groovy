@@ -24,6 +24,7 @@ import dueuno.elements.controls.TextField
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.Feature
+import dueuno.elements.style.TextTransform
 import dueuno.elements.tenants.TenantService
 import grails.gorm.multitenancy.WithoutTenant
 import grails.plugin.springsecurity.annotation.Secured
@@ -132,6 +133,7 @@ class GroupController implements ElementsController {
                     class: TextField,
                     id: 'name',
                     icon: 'fa-shield',
+                    textTransform: TextTransform.UPPERCASE,
             )
             addField(
                     class: Select,

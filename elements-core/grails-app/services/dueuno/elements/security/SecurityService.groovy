@@ -344,6 +344,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         TUser user = getUserByUsername(username)
         if (!user) {
             user = createUser(
+                    failOnError: true,
                     username: username,
                     password: StringUtils.generateRandomToken(),
             )
@@ -661,6 +662,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @return the newly created user
      */
     TUser createUser(Map args) {
+        if (args.failOnError == null) args.failOnError = false
+
         List<String> groups = args.groups ?: []
         String defaultGroup = args.defaultGroup
         if (!defaultGroup && groups.size() > 0) {
@@ -754,6 +757,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      */
     TUser updateUserAndGroups(Map args) {
         String username = (String) ArgsException.requireArgument(args, 'username')
+        if (args.failOnError == null) args.failOnError = false
+
         TTenant tenant = args.tenant
                 ?: tenantService.getByTenantId(args.tenantId as String)
                 ?: tenantService.currentTenant
@@ -774,7 +779,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
         TUser user = getUserByUsername(username)
         user.properties = args
-        user.save(flush: true)
+        user.save(flush: true, failOnError: args.failOnError)
 
         Boolean isSuperAdmin = user.username == USERNAME_SUPERADMIN
         if (!user.hasErrors() && !isSuperAdmin) {
@@ -807,6 +812,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     TUser updateUser(Map args) {
         String username = (String) ArgsException.requireArgument(args, 'username')
+        if (args.failOnError == null) args.failOnError = false
 
         if (args.password) {
             args.password = encodePassword((String) args.password)
@@ -818,7 +824,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
         TUser user = getUserByUsername(username)
         user.properties = args
-        user.save(flush: true)
+        user.save(flush: true, failOnError: args.failOnError)
 
         return user
     }
@@ -936,7 +942,19 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @return the newly created group
      */
     TRoleGroup createGroup(Map args) {
-        String groupName = args.name
+        if (args.failOnError == null) args.failOnError = false
+
+        String groupName = (args.name as String).toUpperCase()
+        if (!args.ignoreGroupNameCollisions && groupName in [GROUP_SUPERADMINS, GROUP_DEVELOPERS, GROUP_ADMINS, GROUP_USERS]) {
+            if (args.failOnError) {
+                throw new Exception("Group name '${groupName}' is reserved and not available.")
+            } else {
+                TRoleGroup obj = new TRoleGroup()
+                obj.errors.rejectValue('name', 'user.group.name.reserved')
+                return obj
+            }
+        }
+
         List authorities = (List) args.authorities ?: []
         if (authorities in String) authorities = [authorities]
         Boolean deletable = args.deletable == null ? true : args.deletable
@@ -955,20 +973,20 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                     deletable: deletable,
                     landingPage: landingPage,
             )
-            roleGroup.save(flush: true)
+            roleGroup.save(flush: true, failOnError: args.failOnError)
             newGroup = true
         }
 
         for (authority in authorities) {
             TRole role = createAuthority((String) authority)
-            role.save(flush: true)
+            role.save(flush: true, failOnError: args.failOnError)
             TRoleGroupRole roleGroupRole = TRoleGroupRole.findByRoleGroupAndRole(roleGroup, role)
             if (!roleGroupRole) {
                 TRoleGroupRole newRoleGroupRole = new TRoleGroupRole(
                         roleGroup: roleGroup,
                         role: role,
                 )
-                newRoleGroupRole.save(flush: true)
+                newRoleGroupRole.save(flush: true, failOnError: args.failOnError)
             }
         }
 
@@ -991,6 +1009,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @return the updated group
      */
     TRoleGroup updateGroup(Map args) {
+        if (args.failOnError == null) args.failOnError = false
+
         Map group = ArgsException.requireArgument(args, ['id', 'tenantId'], true)
         if (args.tenantId && !args.name) {
             throw new ElementsException("Please specify the 'name' of the group to update.")
@@ -999,9 +1019,10 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         List authorities = (List) args.authorities ?: []
         if (authorities in String) authorities = [authorities]
 
+        String groupName = (args.name as String).toUpperCase()
         TTenant tenant = TTenant.findByTenantId(args.tenantId)
         TRoleGroup roleGroup = tenant
-                ? TRoleGroup.findByTenantAndName(tenant, args.name)
+                ? TRoleGroup.findByTenantAndName(tenant, groupName)
                 : TRoleGroup.get(group.id)
         if (!roleGroup) {
             throw new ElementsException("Group '${group.id}' not found!")
@@ -1050,25 +1071,25 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             return role
 
         // Role does not exist we create it
-        TRole newRole = new TRole(authority: authority).save(flush: true)
+        TRole newRole = new TRole(authority: authority).save(flush: true, failOnError: true)
 
         // Set ROLE_SUPERADMIN > ROLE_ADMIN > AUTHORITY so to avoid giving
         // SUPERADMIN and ADMIN permissions to each controller
         // ATTENTION: Modify the code below only if you know what you are doing
         if (newRole.authority !in [ROLE_SUPERADMIN, ROLE_ADMIN, ROLE_DEVELOPER]) {
-            new TRoleHierarchyEntry(entry: "${ROLE_ADMIN} > " + newRole.authority).save(flush: true)
+            new TRoleHierarchyEntry(entry: "${ROLE_ADMIN} > " + newRole.authority).save(flush: true, failOnError: true)
 
         } else if (newRole.authority == ROLE_ADMIN) {
-            new TRoleHierarchyEntry(entry: "${ROLE_SUPERADMIN} > ${ROLE_ADMIN}").save(flush: true)
+            new TRoleHierarchyEntry(entry: "${ROLE_SUPERADMIN} > ${ROLE_ADMIN}").save(flush: true, failOnError: true)
 
         } else if (newRole.authority == ROLE_DEVELOPER) {
-            new TRoleHierarchyEntry(entry: "${ROLE_SUPERADMIN} > ${ROLE_DEVELOPER}").save(flush: true)
+            new TRoleHierarchyEntry(entry: "${ROLE_SUPERADMIN} > ${ROLE_DEVELOPER}").save(flush: true, failOnError: true)
         }
 
         springSecurityService.reloadDBRoleHierarchy()
         log.info "Created authority '$authority'"
 
-        newRole.save(flush: true)
+        newRole.save(flush: true, failOnError: true)
         return newRole
     }
 
@@ -1099,10 +1120,10 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     }
 
     void installSecurity(String tenantId) {
-        createGroup(tenantId: tenantService.defaultTenantId, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)
-        createGroup(tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
-        createGroup(tenantId: tenantId, name: GROUP_DEVELOPERS, authorities: [ROLE_DEVELOPER], deletable: false)
-        createGroup(tenantId: tenantId, name: GROUP_ADMINS, authorities: [ROLE_ADMIN], deletable: false)
+        createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: tenantService.defaultTenantId, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)
+        createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
+        createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: tenantId, name: GROUP_DEVELOPERS, authorities: [ROLE_DEVELOPER], deletable: false)
+        createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: tenantId, name: GROUP_ADMINS, authorities: [ROLE_ADMIN], deletable: false)
 
         createAuthority(ROLE_SECURITY)
 

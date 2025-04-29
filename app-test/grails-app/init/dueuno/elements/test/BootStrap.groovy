@@ -104,16 +104,19 @@ class BootStrap {
             )
 
             securityService.updateGroup(
+                    failOnError: true,
                     tenantId: tenantId,
                     name: 'USERS',
                     landingPage: 'table',
             )
             securityService.createGroup(
+                    failOnError: true,
                     tenantId: tenantId,
                     name: 'PROJECT MANAGER',
                     authorities: ['ROLE_PROJECT_MANAGER'],
             )
             securityService.createUser(
+                    failOnError: true,
                     tenantId: tenantId,
                     firstname: "Developer",
                     username: tenantId == tenantService.defaultTenantId ? 'dev' : "${tenantId}/dev",
