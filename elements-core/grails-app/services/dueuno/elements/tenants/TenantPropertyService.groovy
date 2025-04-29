@@ -21,6 +21,7 @@ import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
+import grails.gorm.multitenancy.WithoutTenant
 import groovy.util.logging.Slf4j
 
 /**

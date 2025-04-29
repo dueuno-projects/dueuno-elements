@@ -25,6 +25,7 @@ import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PrettyPrinterDecimalFormat
 import dueuno.elements.core.SystemPropertyService
+import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextDefault
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
@@ -48,17 +49,16 @@ class UserController implements ElementsController {
 
     def index() {
         Boolean isSuperAdmin = securityService.isSuperAdmin()
-        List userColumns = isSuperAdmin ? ['tenant'] : []
-        userColumns += [
+        List cols = ['systemIcon']
+        if (isSuperAdmin) cols += ['tenant']
+        cols += [
+                'adminIcon',
                 'username',
-                'firstname',
-                'lastname',
+                'fullname',
                 'defaultGroup',
                 'apiKey',
                 'externalId',
                 'enabled',
-                'admin',
-                'system',
         ]
 
         def c = createContent(ContentList)
@@ -96,16 +96,35 @@ class UserController implements ElementsController {
                     username: 'asc',
             ]
             keys = ['username']
-            columns = userColumns
+            columns = cols
+            labels = [
+                    systemIcon: '',
+                    adminIcon: '',
+            ]
 
             body.eachRow { TableRow row, Map values ->
                 values.admin = securityService.isAdmin(values.username)
                 values.system = !values.deletable
-                if (!values.deletable) {
+                if (values.system) {
                     row.actions.removeTailAction()
+                    row.cells.systemIcon.icon = 'fa-gear'
+                    row.cells.systemIcon.tooltip = 'user.tooltip.system'
                 }
-                values.externalId = !!values.externalId
 
+                if (values.admin) {
+                    row.cells.adminIcon.icon = 'fa-house-user'
+                    row.cells.adminIcon.tooltip = 'user.tooltip.admin'
+                } else if (values.username == securityService.USERNAME_SUPERADMIN) {
+                    row.cells.adminIcon.icon = 'fa-screwdriver-wrench'
+                    row.cells.adminIcon.tooltip = 'user.tooltip.superadmin'
+
+                }
+
+                if (isSuperAdmin) {
+                    row.cells.tenant.tag = true
+                }
+
+                values.externalId = !!values.externalId
                 row.cells.apiKey.tag = true
             }
         }

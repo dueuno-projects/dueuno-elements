@@ -24,6 +24,7 @@ import dueuno.elements.controls.TextField
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.Feature
+import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextTransform
 import dueuno.elements.tenants.TenantService
 import grails.gorm.multitenancy.WithoutTenant
@@ -44,11 +45,11 @@ class GroupController implements ElementsController {
 
     def index() {
         Boolean isSuperAdmin = securityService.isSuperAdmin()
-        List cols = isSuperAdmin ? ['tenant'] : []
+        List cols = ['systemIcon']
+        if (isSuperAdmin) cols += ['tenant']
         cols += [
                 'name',
                 'landingPage',
-                'system',
         ]
         for (authority in (securityService.listAuthority())) {
             cols.add(authority)
@@ -79,11 +80,20 @@ class GroupController implements ElementsController {
             ]
             keys = ['id']
             columns = cols
+            labels = [
+                    systemIcon: '',
+            ]
 
             body.eachRow { TableRow row, Map values ->
                 values.system = !values.deletable
-                if (!values.deletable) {
+                if (values.system) {
                     row.actions.removeTailAction()
+                    row.cells.systemIcon.icon = 'fa-gear'
+                    row.cells.systemIcon.tooltip = 'group.tooltip.system'
+                }
+
+                if (isSuperAdmin) {
+                    row.cells.tenant.tag = true
                 }
             }
         }
@@ -132,7 +142,7 @@ class GroupController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'name',
-                    icon: 'fa-shield',
+                    icon: 'fa-shield-halved',
                     textTransform: TextTransform.UPPERCASE,
             )
             addField(

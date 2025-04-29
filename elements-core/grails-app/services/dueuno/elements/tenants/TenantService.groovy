@@ -38,8 +38,6 @@ class TenantService {
     ApplicationService applicationService
     ConnectionSourceService connectionSourceService
     SystemPropertyService systemPropertyService
-    TenantPropertyService tenantPropertyService
-    SecurityService securityService
 
     void install() {
         create(
@@ -205,16 +203,14 @@ class TenantService {
     }
 
     void provisionTenant(String tenantId) {
-        withTenant(tenantId) {
-            securityService.installSecurity(tenantId)
-            tenantPropertyService.install()
-            applicationService.executeOnPluginInstall(tenantId)
-            applicationService.executeOnInstall(tenantId)
-        }
+        applicationService.executeOnPluginInstall(tenantId)
+        applicationService.executeOnInstall(tenantId)
     }
 
     void provisionTenantUpdate(String tenantId) {
-        applicationService.executeOnUpdate(tenantId)
+        withTenant(tenantId) {
+            applicationService.executeOnUpdate(tenantId)
+        }
     }
 
     TTenant update(Map args) {

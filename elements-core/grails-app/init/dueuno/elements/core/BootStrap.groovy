@@ -16,6 +16,7 @@ package dueuno.elements.core
 
 import dueuno.elements.components.ShellService
 import dueuno.elements.security.SecurityService
+import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.Types
@@ -29,13 +30,16 @@ class BootStrap {
 
 //    GroovyPagesTemplateEngine groovyPagesTemplateEngine
     ApplicationService applicationService
+    SecurityService securityService
+    TenantPropertyService tenantPropertyService
     PageService pageService
     ShellService shellService
-    SecurityService securityService
 
     def init = {
 
         applicationService.onPluginInstall { String tenantId ->
+            securityService.installSecurity(tenantId)
+            tenantPropertyService.install()
             pageService.install(tenantId)
             shellService.install(tenantId)
         }
