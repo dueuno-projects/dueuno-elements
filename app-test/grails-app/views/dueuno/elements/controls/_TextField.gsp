@@ -26,6 +26,6 @@
 --></g:if>
 <g:if test="${c.inputType == 'password'}">
     <button class="component-help btn btn-secondary show-hide-password" type="button">
-        <i class="fa-solid fa-eye-slash"></i>
+        <i class="fa-solid fa-eye"></i>
     </button>
 </g:if>
