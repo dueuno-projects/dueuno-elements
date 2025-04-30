@@ -7,12 +7,25 @@
     height: calc(var(--elements-font-size) * 1.3);
 }
 
+.control-checkbox-simple .form-check-input:checked {
+    background-color: rgba(var(--elements-primary-bg), 1);
+    border: none;
+}
+
 .control-checkbox.input-group-text {
     border-radius: var(--bs-border-radius-lg) !important;
     color: #333333 !important;
     width: 100%;
     font-size: var(--elements-font-size);
     font-weight: normal;
+    text-align: left;
+}
+
+.control-checkbox.input-group-text .text-wrapper {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .control-checkbox .form-switch .form-check-input:hover,
@@ -22,12 +35,9 @@
 }
 
 .control-checkbox .form-switch {
-    width: 100%;
     margin-bottom: 0;
-    display: flex;
-    justify-content: flex-end;
-    align-self: center;
-    padding-left: 0;
+    margin-left: calc(var(--elements-font-size) * 0.5);
+    margin-right: calc(var(--elements-font-size) * -0.5);
 }
 
 .control-checkbox .form-check {

@@ -1,15 +1,12 @@
 <g:if test="${c.simple}">
 <div class="control-checkbox-simple ${c.cssClass}">
     <div class="checkbox simple">
-<style>
-    .control-checkbox-simple .form-check-input:checked {
-        background-color: ${c.primaryBackgroundColor};
-        border: none;
-    }
-</style>
 </g:if>
 <g:else>
-<span class="control-checkbox input-group-text ${c.cssClass}"><g:if test="${c.message(c.text)}"><render:message code="${c.text}" /></g:if><g:else>&nbsp;</g:else>
+<span class="input-group-text control-checkbox ${c.cssClass}">
+    <div class="text-wrapper">
+        <g:if test="${c.message(c.text)}"><render:message code="${c.text}" /></g:if><g:else>&nbsp;</g:else>
+    </div>
     <div class="form-check form-switch">
 </g:else>
 
