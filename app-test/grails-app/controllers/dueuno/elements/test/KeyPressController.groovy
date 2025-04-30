@@ -1,14 +1,15 @@
 package dueuno.elements.test
 
 import dueuno.elements.core.ElementsController
+import dueuno.elements.core.KeyPress
 import dueuno.elements.security.SecurityService
 
-class KeyPressController implements ElementsController{
+class KeyPressController implements ElementsController {
 
     SecurityService securityService
 
     def onKeyPress() {
-        String externalId = params._21KeyPressed
+        String externalId = KeyPress.keyPressed
         def user = securityService.getUserByExternalId(externalId)
         if (user) {
             display controller: 'authentication', action: 'logout'

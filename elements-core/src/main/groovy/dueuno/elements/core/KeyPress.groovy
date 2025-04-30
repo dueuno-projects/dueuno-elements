@@ -61,6 +61,10 @@ class KeyPress extends Component {
         setOnKeyPressEvent()
     }
 
+    static String getKeyPressed() {
+        return getGrailsWebRequest().params._21KeyPressed
+    }
+
     private void setOnKeyPressEvent() {
         on(linkDefinition.properties + [
                 event: 'keypress',
