@@ -49,10 +49,13 @@ input[type] {
 }
 
 .component-form .input-group-text {
-    border-top-left-radius: var(--bs-border-radius-lg) !important;
-    border-bottom-left-radius: var(--bs-border-radius-lg) !important;
     border: none;
     font-weight: bold;
+}
+
+.component-form .input-group-text(:first-child) {
+    border-top-left-radius: var(--bs-border-radius-lg) !important;
+    border-bottom-left-radius: var(--bs-border-radius-lg) !important;
     padding-right: 0;
 }
 
@@ -76,6 +79,10 @@ input[type] {
 .component-form .input-group .component-help,
 .component-form .input-group .component-help:hover {
     border: none;
+}
+
+.component-form .input-group .component-help > i {
+    width: calc(var(--elements-font-size) * 1.3);
 }
 
 .component-form .error-icon,

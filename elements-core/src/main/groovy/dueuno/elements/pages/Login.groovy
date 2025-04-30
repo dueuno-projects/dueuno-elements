@@ -65,7 +65,6 @@ class Login extends Page {
                     id: 'username',
                     placeholder: 'authentication.username.placeholder',
                     displayLabel: false,
-                    cssClass: 'rounded-bottom-0',
             )
             addField(
                     class: PasswordField,
@@ -73,7 +72,6 @@ class Login extends Page {
                     icon: '',
                     placeholder: 'authentication.password.placeholder',
                     displayLabel: false,
-                    cssClass: 'rounded-top-0',
             )
             if (rememberMe) {
                 addField(
