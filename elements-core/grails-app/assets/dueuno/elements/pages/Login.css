@@ -38,6 +38,16 @@
     width: auto;
 }
 
-.page-login .input-group:has(input[type=password]) {
+.page-login .input-group:has(#username) > * {
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+.page-login .input-group:has(#password) {
     margin-top: .25rem !important;
+}
+
+.page-login .input-group:has(#password) > * {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
 }

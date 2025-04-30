@@ -23,4 +23,9 @@
     <g:each var="action" in="${c.actions.getMenuActions()}">
         --><render:component instance="${action.link}" properties="[cssClass: 'btn btn-secondary', readonly: c.readonly]" /><!--
     </g:each>
-    --></g:if>
+--></g:if>
+<g:if test="${c.inputType == 'password'}">
+    <button class="component-help btn btn-secondary show-hide-password" type="button">
+        <i class="fa-solid fa-eye-slash"></i>
+    </button>
+</g:if>
