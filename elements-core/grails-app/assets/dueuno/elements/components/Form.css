@@ -1,15 +1,19 @@
 .component-form {
     border-radius: var(--bs-border-radius-lg);
     background-color: white;
-    margin-bottom: calc(var(--elements-font-size) * .25);
+    margin-bottom: .25rem;
 }
 
 .component-form form {
-    padding: calc(var(--elements-font-size) * .75);
-    padding-top: calc(var(--elements-font-size) * .25);
+    padding: .75rem;
+    padding-top: .25rem;
 }
 
 .component-form .component-label:not(.html):not(.tag) {
-    padding-left: calc(var(--elements-font-size) * .25);
+    padding-left: .25rem;
 }
 
+.component-form .row>* {
+    padding-right: .25rem;
+    padding-left: .25rem;
+}

@@ -2,7 +2,7 @@
     position: fixed;
     bottom: 0;
     background-color: white;
-    padding: calc(var(--elements-font-size) * .6);
+    padding: .6rem;
     padding-top: 0;
     z-index: 999;
     display: none;
@@ -13,8 +13,8 @@
 }
 
 #page-content-scrollbar::-webkit-scrollbar {
-    width: calc(var(--elements-font-size) * .6);
-    height: calc(var(--elements-font-size) * .6);
+    width: .6rem;
+    height: .6rem;
 }
 
 #page-content-scrollbar::-webkit-scrollbar-thumb {
@@ -23,5 +23,5 @@
 }
 
 #page-content-scrollbar-content-mirror {
-    height: calc(var(--elements-font-size) * .5);
+    height: .5rem;
 }

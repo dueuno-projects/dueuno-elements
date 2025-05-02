@@ -29,11 +29,11 @@
 #loading-screen-modal div {
     margin: 0;
     position: absolute;
-    top: calc(50% - var(--elements-font-size) * 3);
-    left: calc(50% - var(--elements-font-size) * 3);
-    transform: translate(calc(-50% + var(--elements-font-size) * 3), calc(-50% + var(--elements-font-size) * 3));
+    top: calc(50% - 3rem);
+    left: calc(50% - 3rem);
+    transform: translate(calc(-50% + 3rem), calc(-50% + 3rem));
     color: rgb(var(--elements-secondary-bg), .6);
-    font-size: calc(var(--elements-font-size) * 6);
+    font-size: 6rem;
     visibility: hidden;
     animation: loading-fade-in .5s;
     animation-fill-mode: forwards;

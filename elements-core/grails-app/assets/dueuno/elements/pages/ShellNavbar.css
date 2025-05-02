@@ -1,8 +1,8 @@
 #shell-navbar {
     z-index: 1001 !important;
-    margin-left: calc(var(--elements-font-size) * 15);
-    padding: calc(var(--elements-font-size) * .5) calc(var(--elements-font-size) / 1.8);
-    height: calc(var(--elements-font-size) * 3.3);
+    margin-left: 15rem;
+    padding: .5rem;
+    height: 3.3rem;
     background-color: rgba(var(--elements-tertiary-bg), .7);
     backdrop-filter: blur(21px);
     -webkit-backdrop-filter: blur(21px);
@@ -25,21 +25,21 @@
 }
 
 #shell-navbar-home {
-    margin-left: calc(var(--elements-font-size) / 2);
+    margin-left: .5rem;
 }
 
 #shell-navbar-home a:hover,
 #shell-navbar-home a:focus,
 #shell-navbar-home a:active,
 #shell-navbar-home a {
-    margin-left: calc(var(--elements-font-size) / -2);
+    margin-left: -.5rem;
     border: 0;
     background: transparent;
     color: #333333;
 }
 
 #shell-navbar-logo {
-    height: calc(var(--elements-font-size) * 1.6);
+    height: 1.6rem;
 }
 
 #shell-navbar:has(#shell-navbar-home) #shell-navbar-logo {
@@ -59,7 +59,7 @@
 }
 
 #shell-navbar-notifications-toggle div {
-    font-size: 14px;
+    font-size: 1rem;
     padding: 1px 10px 1px 10px;
     border-radius: var(--bs-border-radius-xl);
 }

@@ -6,7 +6,8 @@
 
 /* Special positioning when inside the content to make the header width border-to-border */
 .page-content .component-header {
-    padding: 1rem 1rem .25rem 1rem;
+    padding: 1rem;
+    padding-bottom: .25rem;
     margin-left: -1rem;
     width: calc(100% + 2rem);
 }
@@ -25,10 +26,10 @@
 }
 
 .component-header .navbar-text {
-    font-size: calc(var(--elements-font-size) * 1.1);
+    font-size: 1.1rem;
     font-weight: bold;
-    margin-top: calc(var(--elements-font-size) / 8);
-    margin-left: -.5rem;
+    margin-top: .1rem;
+    margin-left: -.7rem;
     padding: 0;
 }
 

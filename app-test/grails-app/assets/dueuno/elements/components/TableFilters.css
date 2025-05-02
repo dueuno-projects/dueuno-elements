@@ -7,7 +7,7 @@
 }
 
 .component-filters-search {
-    margin-left: 1px;
+    margin-left: var(--bs-border-width);
 }
 
 .component-filters-toggle:not(.btn.collapsed) {
@@ -28,9 +28,9 @@
 }
 
 .component-filters-counter {
-    font-size: calc(var(--elements-font-size)* .7);
+    font-size: .7rem;
     border-radius: var(--bs-border-radius-xl);
     display: inline-block;
-    min-width: calc(var(--elements-font-size)* 1.05);
-    margin-left: calc(var(--elements-font-size)* -.3);
+    min-width: 1.05rem;
+    margin-left: -.3rem;
 }

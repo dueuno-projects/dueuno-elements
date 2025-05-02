@@ -11,7 +11,7 @@
 }
 
 .control-upload .dz-message .dz-button {
-    font-size: calc(var(--elements-font-size) * 1.1);
+    font-size: 1.1rem;
     font-weight: bold;
 }
 
@@ -20,8 +20,8 @@
 }
 
 .control-upload .dz-preview .dz-image {
-    width: calc(var(--elements-font-size) * 6);
-    height: calc(var(--elements-font-size) * 6);
+    width: 6rem;
+    height: 6rem;
 }
 
 .control-upload .dz-preview.dz-file-preview,
@@ -40,7 +40,7 @@
 
 .control-upload .dz-preview.dz-file-preview .dz-details::before {
     font-family: var(--fa-style-family-classic);
-    font-size: calc(var(--elements-font-size) * 1.5);
+    font-size: 1.5rem;
     font-weight: 900;
     margin-bottom: calc(var(--elements-font-size) / 1.5);
     display: block;

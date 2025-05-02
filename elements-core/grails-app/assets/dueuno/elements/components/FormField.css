@@ -1,16 +1,12 @@
 .btn,
 input[type] {
-    font-size: var(--elements-font-size);
+    font-size: 1rem;
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
 }
 
-.space {
-    margin-right: var(--elements-spacing-x);
-}
-
 .component-form label {
-    margin: calc(var(--elements-font-size) * .5) 0 0 calc(var(--elements-font-size) * .25);
-    font-size: calc(var(--elements-font-size) * .85);
+    margin: .5rem 0 0 .25rem;
+    font-size: .85rem;
     color: rgba(var(--elements-tertiary-text), 0.4);
 }
 
@@ -21,7 +17,7 @@ input[type] {
 }
 
 .component-form .input-group {
-    margin-top: calc(var(--elements-font-size) * -.3);
+    margin-top: -.3rem;
 }
 
 .component-form select,
@@ -53,15 +49,9 @@ input[type] {
     font-weight: bold;
 }
 
-.component-form .input-group-text(:first-child) {
-    border-top-left-radius: var(--bs-border-radius-lg) !important;
-    border-bottom-left-radius: var(--bs-border-radius-lg) !important;
-    padding-right: 0;
-}
-
 .component-form .input-group input ~ a,
 .component-form .input-group .dropdown ~ a {
-    margin-right: 1px;
+    margin-right: var(--bs-border-width);
 }
 
 .component-form .help-message td {
@@ -72,8 +62,8 @@ input[type] {
 
 .component-form .error-message,
 .component-form .help-message {
-    font-size: calc(var(--elements-font-size) * .85);
-    padding: calc(var(--elements-font-size) * .25);
+    font-size: .85rem;
+    padding: .25rem;
 }
 
 .component-form .input-group .component-help,
@@ -82,7 +72,7 @@ input[type] {
 }
 
 .component-form .input-group .component-help > i {
-    width: calc(var(--elements-font-size) * 1.3);
+    width: 1.3rem;
 }
 
 .component-form .error-icon,
@@ -100,7 +90,7 @@ input:focus,
 input:focus-visible,
 .btn.btn-secondary:focus-visible,
 .btn.dropdown-toggle:focus-visible {
-    box-shadow: 0 0 0 calc(var(--elements-font-size) * .25) rgba(var(--elements-primary-bg-shaded)) !important;
+    box-shadow: 0 0 0 .25rem rgba(var(--elements-primary-bg-shaded)) !important;
 }
 
 .input-group:has(.form-control) a.btn,
@@ -145,10 +135,10 @@ input:focus-visible,
 
 .input-group.error-highlight {
     border-radius: var(--bs-border-radius-lg);
-    box-shadow: 0 0 0 calc(var(--elements-font-size)* .08) rgba(204, 0, 0, .5) !important;
+    box-shadow: 0 0 0 .08rem rgba(204, 0, 0, .5) !important;
 }
 
 .input-group.field-highlight {
     border-radius: var(--bs-border-radius-lg);
-    box-shadow: 0 0 0 calc(var(--elements-font-size) * .25) rgba(var(--elements-primary-bg-shaded)) !important;
+    box-shadow: 0 0 0 .25rem rgba(var(--elements-primary-bg-shaded)) !important;
 }

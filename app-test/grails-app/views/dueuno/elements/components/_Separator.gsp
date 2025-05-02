@@ -4,4 +4,4 @@
      data-21-properties="${c.propertiesAsJSON}"
      data-21-events="${c.eventsAsJSON}"
      ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}
-><g:if test="${c.icon}"><render:icon icon="${c.icon}" force="fa-solid" class="me-2 fa-fw"/></g:if><render:message code="${c.text}" /></div>
+><g:if test="${c.icon}"><render:icon icon="${c.icon}" force="fa-solid" class="fa-fw me-2"/></g:if><render:message code="${c.text}" /></div>

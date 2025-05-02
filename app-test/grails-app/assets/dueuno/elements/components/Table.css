@@ -16,12 +16,12 @@
 }
 
 .component-table .component-label.tag {
-    font-size: calc(var(--elements-font-size) * .9);
+    font-size: .9rem;
 }
 
 .component-table ::-webkit-scrollbar {
-    width: calc(var(--elements-font-size) * .6);
-    height: calc(var(--elements-font-size) * .6);
+    width: .6rem;
+    height: .6rem;
 }
 
 .component-table ::-webkit-scrollbar-thumb {
@@ -30,14 +30,14 @@
 }
 
 .component-table ::-webkit-scrollbar-track {
-    margin: calc(var(--elements-font-size) * .6);
+    margin: .6rem;
 }
 
 .component-table > .component-separator {
     background-color: white;
     border-top-left-radius: var(--bs-border-radius-lg);
     border-top-right-radius: var(--bs-border-radius-lg);
-    padding: calc(var(--elements-font-size) * .5);
+    padding: .5rem;
 }
 
 .component-table:has(.component-separator:not(.d-none)):has(.component-filters.d-none) .component-table-dataset-wrapper,
@@ -51,7 +51,7 @@
 }
 
 .component-table-dataset-wrapper {
-    padding-bottom: calc(var(--elements-font-size) * .5);
+    padding-bottom: .5rem;
 }
 
 .component-table-dataset .table-hover tr:hover td {
@@ -105,8 +105,8 @@
 }
 
 .table-no-results > td:first-child i {
-    font-size: 10em;
-    padding-bottom: 20px;
+    font-size: 10rem;
+    padding-bottom: 2rem;
 }
 
 .component-table tr.table-no-results,
@@ -120,8 +120,8 @@
 }
 
 .component-table-dataset:not(:has(.bootstrap-table)) {
-    padding-top: calc(var(--elements-font-size) * .5);
-    padding-bottom: calc(var(--elements-font-size) * .5);
+    padding-top: .5rem;
+    padding-bottom: .5rem;
 }
 
 .component-table-cell select,

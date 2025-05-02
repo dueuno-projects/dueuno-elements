@@ -1,16 +1,22 @@
 .input-group-text {
-    font-size: var(--elements-font-size);
+    font-size: 1rem;
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
 }
 
-.input-group .btn:last-child {
+.input-group :last-child {
     border-top-right-radius: var(--bs-border-radius-lg);
     border-bottom-right-radius: var(--bs-border-radius-lg);
 }
 
-.input-group .btn:first-child {
+.input-group :first-child {
     border-top-left-radius: var(--bs-border-radius-lg);
     border-bottom-left-radius: var(--bs-border-radius-lg);
+}
+
+.input-group .input-group-text {
+    border-top-left-radius: var(--bs-border-radius-lg) !important;
+    border-bottom-left-radius: var(--bs-border-radius-lg) !important;
+    padding-right: var(--bs-border-width);
 }
 
 .input-group ::placeholder {

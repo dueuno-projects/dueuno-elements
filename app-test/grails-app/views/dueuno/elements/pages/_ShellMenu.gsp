@@ -36,7 +36,7 @@
                         </li>
                     </g:if>
                     <g:else>
-                        <li class="nav-item mb-1">
+                        <li class="nav-item">
                             <render:component instance="${item.link}"
                                             properties="[cssClass: 'nav-link text-truncate']"
                                             data-bs-dismiss="offcanvas"

@@ -8,8 +8,8 @@
 }
 
 .tempus-dominus-widget {
-    box-shadow: 0 calc(var(--elements-font-size) * .25) calc(var(--elements-font-size) * .75) rgba(var(--bs-body-color-rgb), .15);
-    padding-top: var(--elements-font-size);
+    box-shadow: 0 .25rem .75rem rgba(var(--bs-body-color-rgb), .15);
+    padding-top: 1rem;
     padding-right: calc(var(--elements-spacing-y));
     padding-bottom: calc(var(--elements-spacing-y));
     padding-left: calc(var(--elements-spacing-y) * 2);
@@ -20,15 +20,15 @@
 .tempus-dominus-widget .time-container-clock,
 .tempus-dominus-widget .time-container-hour,
 .tempus-dominus-widget .time-container-minute {
-    grid-auto-columns: calc(var(--elements-font-size) * 2.3);
-    grid-auto-rows: calc(var(--elements-font-size) * 2.3);
+    grid-auto-columns: 2.3rem;
+    grid-auto-rows: 2.3rem;
 }
 
 .tempus-dominus-widget .date-container-decades,
 .tempus-dominus-widget .date-container-years,
 .tempus-dominus-widget .date-container-months {
-    grid-auto-columns: calc(var(--elements-font-size) * 3.4);
-    grid-auto-rows: calc(var(--elements-font-size) * 2.3);
+    grid-auto-columns: 3.4rem;
+    grid-auto-rows: 2.3rem;
 }
 
 .tempus-dominus-widget .date-container,
@@ -49,7 +49,7 @@
 }
 
 .tempus-dominus-widget .calendar-header {
-    padding: .5rem;
+    padding: .5rem
 }
 
 .tempus-dominus-widget,
