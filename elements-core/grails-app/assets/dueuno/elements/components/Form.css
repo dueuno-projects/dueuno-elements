@@ -12,8 +12,3 @@
 .component-form .component-label:not(.html):not(.tag) {
     padding-left: .25rem;
 }
-
-.component-form .row>* {
-    padding-right: .25rem;
-    padding-left: .25rem;
-}

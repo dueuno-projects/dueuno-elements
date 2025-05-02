@@ -20,15 +20,15 @@
 .tempus-dominus-widget .time-container-clock,
 .tempus-dominus-widget .time-container-hour,
 .tempus-dominus-widget .time-container-minute {
-    grid-auto-columns: 2.3rem;
-    grid-auto-rows: 2.3rem;
+    grid-auto-columns: 2.5rem;
+    grid-auto-rows: 2.5rem;
 }
 
 .tempus-dominus-widget .date-container-decades,
 .tempus-dominus-widget .date-container-years,
 .tempus-dominus-widget .date-container-months {
-    grid-auto-columns: 3.4rem;
-    grid-auto-rows: 2.3rem;
+    grid-auto-columns: 3.5rem;
+    grid-auto-rows: 2.5rem;
 }
 
 .tempus-dominus-widget .date-container,
