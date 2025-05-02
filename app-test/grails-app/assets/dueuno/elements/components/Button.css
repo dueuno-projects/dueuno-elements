@@ -5,7 +5,6 @@ button,
 .dropdown-toggle {
     border-radius: var(--bs-border-radius-lg);
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
-    font-size: 1rem;
     border: none;
 }
 
@@ -42,7 +41,6 @@ button {
 
 .dropdown,
 .dropdown-menu {
-    font-size: 1rem;
     padding: var(--elements-spacing-y);
 }
 

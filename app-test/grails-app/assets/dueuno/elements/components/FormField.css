@@ -1,6 +1,5 @@
 .btn,
 input[type] {
-    font-size: 1rem;
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
 }
 
@@ -69,10 +68,6 @@ input[type] {
 .component-form .input-group .component-help,
 .component-form .input-group .component-help:hover {
     border: none;
-}
-
-.component-form .input-group .component-help > i {
-    width: 1.3rem;
 }
 
 .component-form .error-icon,

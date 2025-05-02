@@ -59,7 +59,6 @@
 }
 
 #shell-navbar-notifications-toggle div {
-    font-size: 1rem;
     padding: 1px 10px 1px 10px;
     border-radius: var(--bs-border-radius-xl);
 }
