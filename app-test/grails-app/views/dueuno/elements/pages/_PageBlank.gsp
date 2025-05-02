@@ -9,7 +9,6 @@
 <body data-21-page="${c.className}"
       data-21-id="${c.id}"
 >
-
     <div id="page-content">
         <div class="p-3">
             <render:component instance="${c.content}" />

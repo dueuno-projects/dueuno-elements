@@ -29,12 +29,10 @@
     </style>
 </head>
 
-
 <body class="background-image"
       data-21-page="${c.className}"
       data-21-id="${c.id}"
 >
-
 <div id="page-content" class="page-login justify-content-center">
 
     <div class="page-login-box text-center p-3">
@@ -56,7 +54,6 @@
 
 </div>
 
-
 <%-- Footer --%>
 <page:footer component="${c}" />
 
@@ -67,5 +64,4 @@
 <page:initialize />
 
 </body>
-
 </html>

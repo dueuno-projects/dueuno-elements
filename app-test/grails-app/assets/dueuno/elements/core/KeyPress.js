@@ -1,9 +1,6 @@
 class KeyPress extends Component {
 
     static finalize($element, $root) {
-        if (Page.getClassName() != 'Shell')
-            return;
-
         $(document).off('keydown.keyPress').on('keydown.keyPress', KeyPress.onKeyPress);
 
         log.debug('Finalizing "' + Component.getId($element) + '"')

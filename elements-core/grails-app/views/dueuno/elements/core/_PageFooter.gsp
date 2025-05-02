@@ -4,6 +4,9 @@
 <%-- MessageBox --%>
 <render:component instance="${c.messageBox}" />
 
+<%-- KeyPress --%>
+<render:component instance="${c.keyPress}"/>
+
 <%-- JavaScript Helpers --%>
 <script>
     const _21_ = {
