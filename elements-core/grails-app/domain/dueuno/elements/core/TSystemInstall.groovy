@@ -25,13 +25,13 @@ class TSystemInstall implements GormEntity {
 
     LocalDateTime dateCreated
 
-    String module
+    String plugin
     String revision
     String tenantId
     Boolean dev
 
     static constraints = {
-        module unique: ['revision', 'tenantId', 'dev']
+        plugin unique: ['revision', 'tenantId', 'dev']
         revision blank: true
     }
 }

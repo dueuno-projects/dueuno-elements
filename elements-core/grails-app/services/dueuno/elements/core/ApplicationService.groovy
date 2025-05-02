@@ -316,8 +316,8 @@ class ApplicationService implements LinkGeneratorAware {
             String revisionName = revision.key
             Closure closure = revision.value
 
-            String moduleName = closure.getClass().getPackage().getName()
-            Integer isInstalled = TSystemInstall.countByModuleAndRevisionAndTenantIdAndDev(moduleName, revisionName, tenantId, isDev)
+            String pluginName = closure.getClass().getPackage().getName()
+            Integer isInstalled = TSystemInstall.countByPluginAndRevisionAndTenantIdAndDev(pluginName, revisionName, tenantId, isDev)
 
             if (!isInstalled) {
                 log.info "${tenantId} Tenant: Executing '${revisionName}'..."
@@ -326,12 +326,12 @@ class ApplicationService implements LinkGeneratorAware {
                     if (closure.maximumNumberOfParameters == 1) {
                         closure.call(tenantId)
                     } else {
-                        closure.call(tenantId, moduleName)
+                        closure.call(tenantId, pluginName)
                     }
                 }
 
                 new TSystemInstall(
-                        module: moduleName,
+                        plugin: pluginName,
                         revision: revisionName,
                         tenantId: tenantId,
                         dev: isDev,
@@ -378,8 +378,8 @@ class ApplicationService implements LinkGeneratorAware {
     }
 
     @CompileDynamic
-    Boolean getPluginInstalled(String moduleName) {
-        return TSystemInstall.where { module == moduleName }.count() > 0
+    Boolean isPluginInstalled(String pluginName) {
+        return TSystemInstall.where { plugin == pluginName }.count() > 0
     }
 
     void registerCredits(String task, String... people) {
