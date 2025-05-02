@@ -9,6 +9,10 @@
     margin-top: .25rem;
 }
 
+.component-separator i {
+    margin-right: .5rem;
+}
+
 /* COLORS
 */
 .component-separator {
