@@ -24,7 +24,7 @@
 
         [data-21-id="passwordRecoveryLink"],
         [data-21-id="copy"] {
-            font-size: calc(var(--elements-font-size) * 0.9);
+            font-size: .9rem;
         }
     </style>
 </head>

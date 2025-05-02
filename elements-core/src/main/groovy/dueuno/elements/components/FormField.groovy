@@ -113,6 +113,6 @@ class FormField extends Component {
         if (multiline == false || rows <= 1)
             return ''
 
-        return " height: calc(var(--elements-font-size) * 3 * ${rows});"
+        return " height: calc(1rem * 3 * ${rows});"
     }
 }

@@ -62,6 +62,7 @@
 
 #shell-menu .nav-item-title {
     margin-top: 1.3rem;
+    margin-bottom: 0;
 }
 
 #shell-menu .nav-item > span {
