@@ -1,10 +1,10 @@
 class KeyPress extends Component {
 
     static finalize($element, $root) {
-        // do not remove
-        // disabled for "Login" as it has its own behavior
-        if (Page.getClassName() == 'Login')
+        let enabled = Component.getProperty($element, 'enabled');
+        if (!enabled) {
             return;
+        }
 
         $(document).off('keydown.keyPress').on('keydown.keyPress', KeyPress.onKeyPress);
 
@@ -13,15 +13,15 @@ class KeyPress extends Component {
     }
 
     static onKeyPress(event) {
-        let $element = $('[data-21-component="KeyPress"]');
+        let $element = $('[data-21-id="keyPress"]');
         let $search = $element.find('input');
 
         event.stopPropagation();
 
         let triggerKey = Component.getProperty($element, 'triggerKey');
         let readingSpeed = Component.getProperty($element, 'readingSpeed');
-        let bufferCleanupTimeout = Component.getProperty($element, 'bufferCleanupTimeout');
-        let keepClean = Component.getProperty($element, 'keepClean');
+        let bufferTimeout = Component.getProperty($element, 'bufferTimeout');
+        let hideInput = Component.getProperty($element, 'hideInput');
         let timer = Component.getProperty($element, 'timer');
         let lastKey = Component.getProperty($element, 'lastKey');
 
@@ -36,7 +36,7 @@ class KeyPress extends Component {
         Component.setProperty($element, 'lastKey', event.key);
 
         let checkMinTime = (readingSpeed == 0 || timeInterval < readingSpeed);
-        let checkMaxTime = (bufferCleanupTimeout == 0 || timeInterval > bufferCleanupTimeout);
+        let checkMaxTime = (bufferTimeout == 0 || timeInterval > bufferTimeout);
 
         if (checkMaxTime) {
             $search.val('');
@@ -53,7 +53,7 @@ class KeyPress extends Component {
             }
         }
 
-        if (keepClean && !isModifierPressed && checkMinTime && event.target.tagName == 'INPUT') {
+        if (hideInput && !isModifierPressed && checkMinTime && event.target.tagName == 'INPUT') {
             event.preventDefault();
             $(event.target).val('');
         }

@@ -90,8 +90,16 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
         }
     }
 
+    String getKeyPressed() {
+        return KeyPress.keyPressed
+    }
+
     private PageService getPageService() {
         return Elements.getBean('pageService') as PageService
+    }
+
+    private Page getMainPage() {
+        return getPageService().mainPage ?: createPage(PageBlank)
     }
 
     /**
@@ -274,9 +282,5 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
                 template: p.view,
                 model   : p.model + args,
         ]
-    }
-
-    private Page getMainPage() {
-        return getPageService().mainPage ?: createPage(PageBlank)
     }
 }

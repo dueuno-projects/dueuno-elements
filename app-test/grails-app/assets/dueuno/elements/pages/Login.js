@@ -8,14 +8,14 @@ class Login extends Page {
     }
 
     static onKeyPress(event) {
-        let $element = $('[data-21-component="KeyPress"]');
+        let $element = $('[data-21-id="loginKeyPress"]');
         let $search = $element.find('input');
 
         event.stopPropagation();
 
         let triggerKey = Component.getProperty($element, 'triggerKey');
         let readingSpeed = Component.getProperty($element, 'readingSpeed');
-        let bufferCleanupTimeout = Component.getProperty($element, 'bufferCleanupTimeout');
+        let bufferTimeout = Component.getProperty($element, 'bufferTimeout');
         let timer = Component.getProperty($element, 'timer');
         let lastKey = Component.getProperty($element, 'lastKey');
 
@@ -26,7 +26,7 @@ class Login extends Page {
         Component.setProperty($element, 'lastKey', event.key);
 
         let checkMinTime = (readingSpeed == 0 || timeInterval < readingSpeed);
-        let checkMaxTime = (bufferCleanupTimeout == 0 || timeInterval > bufferCleanupTimeout);
+        let checkMaxTime = (bufferTimeout == 0 || timeInterval > bufferTimeout);
         let triggered = (event.key == triggerKey);
 
         if (checkMaxTime) {

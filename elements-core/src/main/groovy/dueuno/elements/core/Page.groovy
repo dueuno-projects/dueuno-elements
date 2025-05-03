@@ -40,12 +40,9 @@ abstract class Page extends Component {
         viewPath = '/dueuno/elements/pages/'
 
         modal = addComponent(PageModal, 'modal', args)
-        messageBox = addComponent(PageMessageBox, 'messagebox', args)
-        keyPress = addComponent(KeyPress, '_21_keyPress', args.keyPress as Map)
-        keyPress.with {
-            controller = 'keyPress'
-            action = 'onKeyPress'
-        }
+        messageBox = addComponent(PageMessageBox, 'messageBox', args)
+        keyPress = addComponent(KeyPress, 'keyPress', args.keyPress as Map)
+
         favicon = args.favicon
         appicon = args.appicon
     }

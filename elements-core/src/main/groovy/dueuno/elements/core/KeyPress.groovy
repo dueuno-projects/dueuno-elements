@@ -25,18 +25,20 @@ import groovy.transform.CompileStatic
 class KeyPress extends Component {
 
     LinkDefinition linkDefinition
-    HiddenField valueField
+    HiddenField buffer
 
+    Boolean enabled
     String triggerKey
     Integer readingSpeed
-    Integer bufferCleanupTimeout
-    Boolean keepClean
+    Integer bufferTimeout
+    Boolean hideInput
 
     KeyPress(Map args) {
         super(args)
 
         viewPath = '/dueuno/elements/core/'
 
+        enabled = args.enabled == null ? true : args.enabled
         triggerKey = args.triggerKey ?: 'Enter'
 
         // a barcode reader is typically much faster at typing than a human...
@@ -45,17 +47,18 @@ class KeyPress extends Component {
         readingSpeed = args.readingSpeed == null ? 20 : args.readingSpeed as Integer
 
         // to prevent accidental typing, the buffer empties after a certain time (ms)
-        bufferCleanupTimeout = args.bufferCleanupTimeout == null ? 500 : args.bufferCleanupTimeout as Integer
+        bufferTimeout = args.bufferTimeout == null ? 500 : args.bufferTimeout as Integer
 
         // avoid writing text if focus is on an "input" element (default false)
-        keepClean = args.keepClean == null ? false : args.keepClean
+        hideInput = args.hideInput == null ? false : args.hideInput
 
         linkDefinition = new LinkDefinition(args)
-        linkDefinition.action = args.action ?: 'index'
+        linkDefinition.controller = args.controller ?: 'keyPress'
+        linkDefinition.action = args.action ?: 'onKeyPress'
 
-        valueField = createControl(
+        buffer = createControl(
                 class: HiddenField,
-                id: args.id,
+                id: 'buffer',
         )
 
         setOnKeyPressEvent()
@@ -74,10 +77,11 @@ class KeyPress extends Component {
     @Override
     String getPropertiesAsJSON() {
         Map thisProperties = [
+                enabled: enabled,
                 triggerKey: triggerKey,
                 readingSpeed: readingSpeed,
-                bufferCleanupTimeout: bufferCleanupTimeout,
-                keepClean: keepClean,
+                bufferTimeout: bufferTimeout,
+                hideInput: hideInput,
         ]
         return Elements.encodeAsJSON(thisProperties)
     }

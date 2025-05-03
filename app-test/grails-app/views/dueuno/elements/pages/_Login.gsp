@@ -47,7 +47,7 @@
              style="color: #cc0000;"><render:message code="shell.auth.bad.credentials"/></>
     </div>
 
-    <render:component instance="${c.keyPress}" />
+    <render:component instance="${c.loginKeyPress}" />
     <render:component instance="${c.form}" />
 
 </div>
