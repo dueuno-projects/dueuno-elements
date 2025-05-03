@@ -2,8 +2,8 @@ class KeyPress extends Component {
 
     static finalize($element, $root) {
         // do not remove
-        // enabled only for "Shell" since "Login" has its own behavior. There are no other "Pages" for now
-        if (Page.getClassName() != 'Shell')
+        // disabled for "Login" as it has its own behavior
+        if (Page.getClassName() == 'Login')
             return;
 
         $(document).off('keydown.keyPress').on('keydown.keyPress', KeyPress.onKeyPress);
