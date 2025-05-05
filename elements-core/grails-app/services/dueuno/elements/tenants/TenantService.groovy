@@ -225,13 +225,12 @@ class TenantService {
 
     void delete(Serializable id) {
         TTenant tenant = get(id)
+        tenant.delete(flush: true, failOnError: true)
 
-        DetachedCriteria<TConnectionSource> connectionSource = TConnectionSource.where { name == tenant.tenantId }
-        connectionSource.get().delete(flush: true, failOnError: true)
+        TConnectionSource connectionSource = connectionSourceService.getByTenantId(tenant.tenantId)
+        connectionSourceService.delete(connectionSource.id)
 
         DetachedCriteria<TSystemInstall> systemInstall = TSystemInstall.where { tenantId == tenant.tenantId }
         systemInstall.deleteAll()
-
-        tenant.delete(flush: true, failOnError: true)
     }
 }

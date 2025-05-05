@@ -126,24 +126,28 @@ class ConnectionSourceService {
         ] as Map<String, Object>)
     }
 
-    TConnectionSource get(Serializable id) {
-        return TConnectionSource.get(id) as TConnectionSource
-    }
-
-    @CompileDynamic
-    TConnectionSource getDefault() {
-        return TConnectionSource.findByName(ConnectionSource.DEFAULT)
-    }
-
     @CompileDynamic
     private DetachedCriteria<TConnectionSource> buildQuery(Map filters) {
         def query = TConnectionSource.where {}
 
-        if (filters) {
-            if (filters.embedded != null) query = query.where { embedded == filters.embedded }
-        }
+        if (filters.containsKey('id')) query = query.where { id == filters.id }
+        if (filters.containsKey('name')) query = query.where { name == filters.name }
+        if (filters.containsKey('tenantId')) query = query.where { tenant == true &&  name == filters.tenantId }
+        if (filters.containsKey('embedded')) query = query.where { embedded == filters.embedded }
 
         return query
+    }
+
+    TConnectionSource get(Serializable id) {
+        return buildQuery(id: id).get()
+    }
+
+    TConnectionSource getByTenantId(String tenantId) {
+        return buildQuery(tenantId: tenantId).get()
+    }
+
+    TConnectionSource getDefault() {
+        return buildQuery(name: ConnectionSource.DEFAULT).get()
     }
 
     List<TConnectionSource> list(Map filterParams = [:], Map fetchParams = [:]) {
