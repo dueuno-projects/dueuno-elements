@@ -76,6 +76,10 @@ class ConnectionSourceController implements ElementsController {
 
         def isReadonly = obj?.embedded || obj?.tenant
 
+        if (isReadonly) {
+            c.header.removeNextButton()
+        }
+
         c.form.with {
             validate = TConnectionSource
             readonly = isReadonly

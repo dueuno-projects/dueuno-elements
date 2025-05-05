@@ -189,7 +189,6 @@ class TenantController implements ElementsController {
 
     def onDelete() {
         try {
-            securityService.deleteTenantUsersAndGroups(params.id)
             tenantService.delete(params.id)
             display action: 'index'
 

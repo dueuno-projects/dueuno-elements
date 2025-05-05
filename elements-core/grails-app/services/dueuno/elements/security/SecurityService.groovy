@@ -841,24 +841,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         user.save(flush: true, failOnError: true)
     }
 
-    void deleteTenantUsersAndGroups(Serializable tenantId) {
-        TTenant tenant = tenantService.get(tenantId)
-
-        DetachedCriteria<TUser> users = TUser.where { tenant == tenant }
-        for (user in users) {
-            DetachedCriteria<TUserRoleGroup> userRoleGroup = TUserRoleGroup.where { user == user }
-            userRoleGroup.deleteAll()
-        }
-        users.deleteAll()
-
-        DetachedCriteria<TRoleGroup> roleGroups = TRoleGroup.where { tenant == tenant }
-        for (roleGroup in roleGroups) {
-            DetachedCriteria<TRoleGroupRole> roleGroupRole = TRoleGroupRole.where { roleGroup == roleGroup }
-            roleGroupRole.deleteAll()
-        }
-        roleGroups.deleteAll()
-    }
-
     /**
      * Deletes a user.
      *
