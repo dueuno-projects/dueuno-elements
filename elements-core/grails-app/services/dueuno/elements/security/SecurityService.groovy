@@ -467,7 +467,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      */
     @CurrentTenant
     String getUserLandingPage() {
-        if (isAdmin()) // Admins never access to landing pages
+        if (isSuperAdmin())
             return ''
 
         TRoleGroup currentUserGroup = currentUser.defaultGroup
