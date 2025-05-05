@@ -25,11 +25,9 @@ import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PrettyPrinterDecimalFormat
 import dueuno.elements.core.SystemPropertyService
-import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextDefault
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
-import grails.gorm.multitenancy.WithoutTenant
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
@@ -37,7 +35,6 @@ import grails.plugin.springsecurity.annotation.Secured
  *
  * @author Gianluca Sartori
  */
-@WithoutTenant
 @Secured(['ROLE_SECURITY'])
 class UserController implements ElementsController {
 
@@ -400,7 +397,6 @@ class UserController implements ElementsController {
         display transition: t
     }
 
-
     def onTenantChange() {
         def rs = securityService.listGroup(tenant: params.tenant, hideUsers: true)
         def tenantGroups = Select.optionsFromRecordset(recordset: rs)
@@ -413,6 +409,17 @@ class UserController implements ElementsController {
         if (user) {
             t.setValue('defaultGroup',  user.defaultGroup?.id)
             t.setValue('groups',  user.authorities*.id)
+
+        } else {
+            def tenant = tenantService.get(params.tenant)
+            if (tenant) {
+                tenantService.withTenant(tenant.tenantId) {
+                    def sessionDuration = tenantPropertyService.getNumber('DEFAULT_SESSION_DURATION')
+                    def rememberMeDuration = tenantPropertyService.getNumber('DEFAULT_REMEMBER_ME_DURATION')
+                    t.setValue('sessionDuration',  sessionDuration)
+                    t.setValue('rememberMeDuration',  rememberMeDuration)
+                }
+            }
         }
 
         display transition: t

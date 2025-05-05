@@ -231,6 +231,7 @@ class TenantService {
         TTenant tenant = TTenant.get(id)
         deleteTenantUsersAndGroups(tenant)
         tenant.delete(flush: true, failOnError: true)
+        tenant.connectionSource.delete(flush: true, failOnError: true)
 
         DetachedCriteria<TSystemInstall> systemInstall = TSystemInstall.where { tenantId == tenant.tenantId }
         systemInstall.deleteAll()
