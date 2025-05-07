@@ -18,6 +18,18 @@
     padding-right: var(--bs-border-width);
 }
 
+.input-group .show-password,
+.input-group .show-password:active,
+.input-group .show-password:hover {
+    background-color: rgb(var(--elements-tertiary-bg));
+    color: rgb(var(--elements-tertiary-text));
+}
+
+.input-group .show-password i {
+    color: rgb(var(--elements-tertiary-text));
+    opacity: .5;
+}
+
 .input-group ::placeholder {
     color: rgb(var(--elements-tertiary-text));
     font-weight: normal;

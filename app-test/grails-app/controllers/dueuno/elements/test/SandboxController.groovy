@@ -181,7 +181,13 @@ class SandboxController implements ElementsController {
                     value: LocalDate.now(),
                     textStyle: [TextStyle.LINE_THROUGH, TextStyle.NORMAL],
                     highlight: true,
-                    cols: 12,
+                    cols: 6,
+            )
+            addField(
+                    class: PasswordField,
+                    id: 'passWithHelp',
+                    help: 'Type your password',
+                    cols: 6,
             )
             addField(
                     class: Select,
