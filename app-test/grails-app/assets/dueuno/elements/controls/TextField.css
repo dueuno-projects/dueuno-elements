@@ -19,11 +19,13 @@
 }
 
 .input-group ::placeholder {
+    color: rgb(var(--elements-tertiary-text));
     font-weight: normal;
-    opacity: .65; /* Firefox */
+    opacity: .5;
 }
 
 .input-group ::-ms-input-placeholder { /* Edge 12 -18 */
+    color: rgb(var(--elements-tertiary-text));
     font-weight: normal;
-    opacity: .65; /* Firefox */
+    opacity: .5;
 }
