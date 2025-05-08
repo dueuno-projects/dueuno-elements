@@ -648,7 +648,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
         TTenant tenant = args.tenant
                 ?: tenantService.getByTenantId(args.tenantId as String)
-                ?: tenantService.defaultTenant
+                ?: tenantService.currentTenant
 
         TUser user = TUser.findByUsername(args.username as String)
         if (user) {
