@@ -1,25 +1,29 @@
 // Temporary solutions until we get support for static fields
 // See: https://github.com/google/closure-compiler/issues/2731
 let PageContent_$self = null;
-let PageContent_$scrollableElements = [];
-let PageContent_$scrollbarBox = null;
 let PageContent_$scrollbar = null;
+let PageContent_$scrollbarBox = null;
+let PageContent_scrollableElements = [];
+let PageContent_tooltips = [];
 
 class PageContent extends Component {
 
     static get $self() { return PageContent_$self }
     static set $self(value) { PageContent_$self = value }
-    static get $scrollableElements() { return PageContent_$scrollableElements }
-    static set $scrollableElements(value) { PageContent_$scrollableElements = value }
-    static get $scrollbarBox() { return PageContent_$scrollbarBox }
-    static set $scrollbarBox(value) { PageContent_$scrollbarBox = value }
     static get $scrollbar() { return PageContent_$scrollbar }
     static set $scrollbar(value) { PageContent_$scrollbar = value }
+    static get $scrollbarBox() { return PageContent_$scrollbarBox }
+    static set $scrollbarBox(value) { PageContent_$scrollbarBox = value }
+    static get scrollableElements() { return PageContent_scrollableElements }
+    static set scrollableElements(value) { PageContent_scrollableElements = value }
+    static get tooltips() { return PageContent_tooltips }
+    static set tooltips(value) { PageContent_tooltips = value }
 
     static initialize() {
         PageContent.$self = $('#page-content');
         PageContent.$scrollbarBox = $('#page-content-scrollbar-box');
         PageContent.$scrollbar = $('#page-content-scrollbar');
+        PageContent.clearTooltips();
     }
 
     static finalize() {
@@ -27,15 +31,7 @@ class PageContent extends Component {
             return;
         }
 
-        // Initializing Bootstrap tooltips.
-        // On Mobile we activate it only for Labels
-        let $tooltipTriggerList = Elements.onMobile
-            ? $('.component-label [data-bs-toggle="tooltip"]')
-            : $('[data-bs-toggle="tooltip"]');
-
-        for (let $tooltipTrigger of $tooltipTriggerList) {
-            new bootstrap.Tooltip($tooltipTrigger);
-        }
+        PageContent.buildTooltips();
 
         let content = PageContent.$self[0].getBoundingClientRect();
         PageContent.$scrollbarBox.css({left: content.left, width: content.width});
@@ -44,6 +40,30 @@ class PageContent extends Component {
         PageContent.$scrollbar.off('scroll').on('scroll', PageContent.onScrollbarScroll);
         $(window).on('scroll', PageContent.onWindowScroll);
         $(window).on('resize', PageContent.onWindowResize);
+    }
+
+    static buildTooltips() {
+        // Initializing Bootstrap tooltips.
+        // On Mobile we activate it only for Labels
+        let $tooltipTriggerList = Elements.onMobile
+            ? $('.component-label [data-bs-toggle="tooltip"]')
+            : $('[data-bs-toggle="tooltip"]');
+
+        for (let $tooltipTrigger of $tooltipTriggerList) {
+            PageContent.tooltips.push(
+                new bootstrap.Tooltip($tooltipTrigger)
+            );
+        }
+    }
+
+    static clearTooltips() {
+        for (let tooltip of PageContent.tooltips) {
+            if (tooltip) {
+                tooltip.dispose();
+            }
+        }
+
+        PageContent.tooltips.length = 0;
     }
 
     static onWindowResize(event) {
@@ -67,7 +87,7 @@ class PageContent extends Component {
     }
 
     static addScrollableElement($content, $container) {
-        PageContent.$scrollableElements.push({
+        PageContent.scrollableElements.push({
             content: $content,
             container: $container,
         });
@@ -76,10 +96,10 @@ class PageContent extends Component {
     static getCurrentScrollableElement() {
         let height = window.innerHeight;
 
-        for (let $scrollable of PageContent.$scrollableElements) {
-            let scrollableRect = $scrollable.content[0].getBoundingClientRect();
+        for (let scrollable of PageContent.scrollableElements) {
+            let scrollableRect = scrollable.content[0].getBoundingClientRect();
             if (scrollableRect.top + 20 < height && scrollableRect.bottom > height - 20) {
-                return $scrollable;
+                return scrollable;
             }
         }
 
