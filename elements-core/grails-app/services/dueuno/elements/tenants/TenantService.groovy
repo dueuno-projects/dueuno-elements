@@ -36,7 +36,6 @@ import org.grails.datastore.mapping.core.connections.ConnectionSource
  */
 
 @Slf4j
-@WithoutTenant
 class TenantService {
 
     ApplicationService applicationService

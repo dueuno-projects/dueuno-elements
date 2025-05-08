@@ -20,8 +20,6 @@ import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.Types
-import org.grails.gsp.GroovyPageSourceDecorator
-import org.grails.gsp.GroovyPagesTemplateEngine
 
 /**
  * @author Gianluca Sartori
@@ -38,7 +36,7 @@ class BootStrap {
     def init = {
 
         applicationService.onPluginInstall { String tenantId ->
-            securityService.installSecurity(tenantId)
+            securityService.install()
             tenantPropertyService.install()
             pageService.install(tenantId)
             shellService.install(tenantId)

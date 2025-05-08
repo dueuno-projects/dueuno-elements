@@ -306,7 +306,6 @@ class ApplicationService implements LinkGeneratorAware {
         }
     }
 
-    @WithoutTenant
     @CompileDynamic
     private void executeInstall(String listName, String tenantId, Boolean isDev = false, Boolean sort = false) {
         Map<String, Closure> eventList = getBootEvents(listName)

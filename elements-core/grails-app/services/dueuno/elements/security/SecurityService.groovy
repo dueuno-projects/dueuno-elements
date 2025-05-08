@@ -27,7 +27,6 @@ import dueuno.elements.tenants.TenantService
 import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
-import grails.gorm.multitenancy.WithoutTenant
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.util.logging.Slf4j
@@ -42,7 +41,7 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
  */
 
 @Slf4j
-@WithoutTenant
+@CurrentTenant
 class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     public static final String GROUP_SUPERADMINS = 'SUPERADMINS'
@@ -362,24 +361,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return currentUser?.username
     }
 
-    private String getCurrentUserTenantId() {
-        if (currentUser) {
-            return currentUser.tenant.tenantId
-
-        } else {
-            return tenantService.defaultTenantId
-        }
-    }
-
-    TTenant getCurrentUserTenant() {
-        if (currentUser) {
-            return currentUser.tenant
-
-        } else {
-            return tenantService.defaultTenant
-        }
-    }
-
     /**
      * INTERNAL USE ONLY. Persists the current language for the currently logged in user.
      */
@@ -408,12 +389,12 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     /**
      * INTERNAL USE ONLY. Executes custom post-login code.
      */
-    @CurrentTenant
     void executeAfterLogin() {
         initializeSessionDuration()
         initializeShell()
 
-        log.info "${currentUserTenantId}: Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
+        String tenantId = tenantService.currentTenantId
+        log.info "${tenantId}: Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
         auditService.log(AuditOperation.LOGIN, "Authorities: ${currentUserAuthorities}")
 
         // Executes custom login code
@@ -454,7 +435,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     /**
      * INTERNAL USE ONLY. Executes custom post-logout code.
      */
-    @CurrentTenant
     void executeAfterLogout() {
         auditService.log(AuditOperation.LOGOUT, "-")
         applicationService.executeBootEvents('afterLogout')
@@ -465,7 +445,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * Returns the default landing page configured for the current user
      * @return
      */
-    @CurrentTenant
     String getUserLandingPage() {
         if (isSuperAdmin())
             return ''
@@ -477,7 +456,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             return '/' + currentUserGroup.landingPage
 
         } else { // USERS Group (applies to all users of a tenant)
-            TRoleGroup usersGroup = TRoleGroup.findByTenantAndName(currentUserTenant, GROUP_USERS)
+            TTenant currentTenant = tenantService.currentTenant
+            TRoleGroup usersGroup = TRoleGroup.findByTenantAndName(currentTenant, GROUP_USERS)
             if (usersGroup && usersGroup.landingPage) {
                 return '/' + usersGroup.landingPage
             }
@@ -510,7 +490,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         def query = TUser.where {}
 
         if (!isSuperAdmin()) {
-            String currentTenantId = currentUserTenantId
+            String currentTenantId = tenantService.currentTenantId
             query = query.where {
                 username != USERNAME_SUPERADMIN && tenant.tenantId == currentTenantId
             }
@@ -598,24 +578,20 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     List<TUser> listUser(Map filterParams = [:], Map fetchParams = [:]) {
         filterParams.deletable = true
-        filterParams.tenantId = currentUserTenantId
         return listAllUser(filterParams, fetchParams)
     }
 
     Integer countUser(Map filterParams = [:]) {
         filterParams.deletable = true
-        filterParams.tenantId = currentUserTenantId
         return countAllUser(filterParams)
     }
 
     List<String> listAllUsername(Map filterParams = [:], Map fetchParams = [:]) {
-        filterParams.tenantId = currentUserTenantId
         return listAllUser(filterParams, fetchParams).username
     }
 
     List<String> listUsername(Map filterParams = [:], Map fetchParams = [:]) {
         filterParams.deletable = true
-        filterParams.tenantId = currentUserTenantId
         return listAllUser(filterParams, fetchParams).username
     }
 
@@ -874,7 +850,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
 
         if (!isSuperAdmin()) {
-            String currentTenantId = currentUserTenantId
+            String currentTenantId = tenantService.currentTenantId
             query = query.where { tenant.tenantId == currentTenantId }
         }
 
@@ -1091,7 +1067,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return results
     }
 
-    String getAdminUsername(String tenantId) {
+    String getAdminUsername() {
+        String tenantId = tenantService.currentTenantId
         if (tenantId == tenantService.defaultTenantId) {
             return 'admin'
 
@@ -1101,17 +1078,20 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
     }
 
-    void installSecurity(String tenantId) {
-        createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: tenantService.defaultTenantId, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)
+    void install() {
+        String tenantId = tenantService.currentTenantId
+        String defaultTenantId = tenantService.defaultTenantId
+
+        createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: defaultTenantId, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)
         createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
         createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: tenantId, name: GROUP_DEVELOPERS, authorities: [ROLE_DEVELOPER], deletable: false)
         createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: tenantId, name: GROUP_ADMINS, authorities: [ROLE_ADMIN], deletable: false)
 
         createAuthority(ROLE_SECURITY)
 
-        if (tenantId == tenantService.defaultTenantId) {
+        if (tenantId == defaultTenantId) {
             createSystemUser(
-                    tenantId: tenantService.defaultTenantId,
+                    tenantId: defaultTenantId,
                     groups: [GROUP_SUPERADMINS],
                     firstname: 'Super',
                     lastname: 'Admin',
@@ -1122,7 +1102,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             )
         }
 
-        String username = getAdminUsername(tenantId)
+        String username = getAdminUsername()
         createSystemUser(
                 tenantId: tenantId,
                 username: username,
@@ -1134,7 +1114,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 admin: true,
         )
 
-        tenantService.withTenant(tenantId) {
+//        tenantService.withTenant(tenantId) {
             tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
             tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
             tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
@@ -1149,6 +1129,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
             tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', linkPublicResource(tenantId, '/brand/login-background.jpg', false))
             tenantPropertyService.setString('LOGIN_LOGO', linkPublicResource(tenantId, '/brand/login-logo.png', false))
-        }
+//        }
     }
 }

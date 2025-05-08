@@ -30,7 +30,6 @@ import grails.plugin.springsecurity.annotation.Secured
  *
  * @author Gianluca Sartori
  */
-@WithoutTenant
 @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 class UserProfileController implements ElementsController {
 

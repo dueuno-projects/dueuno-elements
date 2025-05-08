@@ -35,7 +35,6 @@ import grails.plugin.springsecurity.annotation.Secured
  *
  * @author Gianluca Sartori
  */
-@WithoutTenant
 @Secured(['ROLE_SECURITY'])
 class GroupController implements ElementsController {
 
@@ -176,7 +175,7 @@ class GroupController implements ElementsController {
     private String featureToText(Feature menu) {
         String code = "shell.${menu.namespace ? menu.namespace + "." : ""}${menu.controller}"
         String text = message(code)
-        return "<i class='fa-fw fa-solid ${menu.icon} space'></i>${text}"
+        return "<i class='fa-fw fa-solid ${menu.icon} me-2'></i>${text}"
     }
 
     def create() {
@@ -190,7 +189,7 @@ class GroupController implements ElementsController {
     }
 
     def onCreate() {
-        params.tenant = tenantService.get(params.tenant) ?: securityService.currentUserTenant
+        params.tenant = tenantService.get(params.tenant) ?: tenantService.currentTenant
         def obj = securityService.createGroup(params)
         if (obj.hasErrors()) {
             display errors: obj
@@ -228,7 +227,7 @@ class GroupController implements ElementsController {
     }
 
     def onEdit() {
-        params.tenant = tenantService.get(params.tenant) ?: securityService.currentUserTenant
+        params.tenant = tenantService.get(params.tenant) ?: tenantService.currentTenant
         def obj = securityService.updateGroup(params)
         if (obj.hasErrors()) {
             display errors: obj

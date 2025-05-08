@@ -33,7 +33,6 @@ import java.sql.DriverManager
  */
 
 @Slf4j
-@WithoutTenant
 @CompileStatic
 class ConnectionSourceService {
 

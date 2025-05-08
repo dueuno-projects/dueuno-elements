@@ -443,7 +443,7 @@ class UserController implements ElementsController {
     }
 
     private normalizeInput(Map params) {
-        params.tenant = tenantService.get(params.tenant) ?: securityService.currentUserTenant
+        params.tenant = tenantService.get(params.tenant) ?: tenantService.currentTenant
 
         List groups = []
         for (groupId in params.groups) {

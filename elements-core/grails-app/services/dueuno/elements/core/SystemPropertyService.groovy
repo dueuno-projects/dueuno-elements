@@ -28,7 +28,6 @@ import javax.annotation.PostConstruct
  */
 
 @Slf4j
-@WithoutTenant
 class SystemPropertyService extends PropertyService {
 
     ApplicationService applicationService
