@@ -84,14 +84,28 @@ enum QuantityUnit {
     ML('VOLUME_LITRE', 'quantity.unit.millilitre', -12),  // millilitro 10^-12 m^3
 
     TIME(),
-    YEAR('TIME', 'quantity.unit.year', 3),
+    YEAR('TIME', 'quantity.unit.year', 0),
     MONTH('TIME', 'quantity.unit.month', 0),
-    WEEK('TIME', 'quantity.unit.week', -3),
-    DAY('TIME', 'quantity.unit.day', -6),
-    HOUR('TIME', 'quantity.unit.hour', -9),
-    MIN('TIME', 'quantity.unit.minute', -12),
-    SEC('TIME', 'quantity.unit.second', -12),
-    MSEC('TIME', 'quantity.unit.millisecond', -12),
+    WEEK('TIME', 'quantity.unit.week', 0),
+    DAY('TIME', 'quantity.unit.day', 0),
+    HOUR('TIME', 'quantity.unit.hour', 0),
+    MIN('TIME', 'quantity.unit.minute', 0),
+    SEC('TIME', 'quantity.unit.second', 0),
+    MSEC('TIME', 'quantity.unit.millisecond', 0),
+
+    POWER(),
+    TW('POWER', 'quantity.unit.power.terawatt', 12),     // terawatt 10^9 m^3
+    GW('POWER', 'quantity.unit.power.gigawatt', 9),      // gigawatt 10^9 m^3
+    MW('POWER', 'quantity.unit.power.megawatt', 6),      // megawatt 10^6 m^3
+    KW('POWER', 'quantity.unit.power.kilowatt', 3),      // kilowatt 10^3 m^3
+    W('POWER', 'quantity.unit.power.watt', 0),           // watt
+
+    ENERGY(),
+    TWH('ENERGY', 'quantity.unit.power.terawatthour', 12),     // terawatthour 10^9 m^3
+    GWH('ENERGY', 'quantity.unit.power.gigawatthour', 9),      // gigawatthour 10^9 m^3
+    MWH('ENERGY', 'quantity.unit.power.megawatthour', 6),      // megawatthour 10^6 m^3
+    KWH('ENERGY', 'quantity.unit.power.kilowatthour', 3),      // kilowatthour 10^3 m^3
+    WH('ENERGY', 'quantity.unit.power.watthour', 0),           // watthour
 
     final String parent
     final String desc

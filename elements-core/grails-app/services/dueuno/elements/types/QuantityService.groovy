@@ -40,7 +40,7 @@ class QuantityService {
         return results
     }
 
-    List<String> listAllUnits(Boolean unit = true, Boolean mass = true, Boolean length = true, Boolean area = true, Boolean volume = true, Boolean volumeLitre = true, Boolean time = true) {
+    List<String> listAllUnits(Boolean unit = true, Boolean mass = true, Boolean length = true, Boolean area = true, Boolean volume = true, Boolean volumeLitre = true, Boolean power = true, Boolean time = true) {
         List<String> results = []
         if (unit) results.addAll(listUnit())
         if (mass) results.addAll(listUnitMass())
@@ -49,6 +49,7 @@ class QuantityService {
         if (volume) results.addAll(listUnitVolume())
         if (volumeLitre) results.addAll(listUnitVolumeLitre())
         if (time) results.addAll(listUnitTime())
+        if (power) results.addAll(listUnitPower())
         return results
     }
 
@@ -198,4 +199,47 @@ class QuantityService {
     void enableUnitTime(String... units) {
         tenantPropertyService.setString('UNIT_TIME', units.join(','))
     }
+
+    List<String> listUnitPower() {
+        String units = tenantPropertyService.getString('UNIT_POWER')
+        if (units) {
+            return units.split(',')
+        } else {
+            return []
+        }
+    }
+
+    void enableUnitPower(QuantityUnit... units) {
+        enableUnitPower(units as String[])
+    }
+
+    void enableUnitPower(List<String> units) {
+        enableUnitPower(units as String[])
+    }
+
+    void enableUnitPower(String... units) {
+        tenantPropertyService.setString('UNIT_POWER', units.join(','))
+    }
+
+    List<String> listUnitEnergy() {
+        String units = tenantPropertyService.getString('UNIT_ENERGY')
+        if (units) {
+            return units.split(',')
+        } else {
+            return []
+        }
+    }
+
+    void enableUnitEnergy(QuantityUnit... units) {
+        enableUnitEnergy(units as String[])
+    }
+
+    void enableUnitEnergy(List<String> units) {
+        enableUnitEnergy(units as String[])
+    }
+
+    void enableUnitEnergy(String... units) {
+        tenantPropertyService.setString('UNIT_ENERGY', units.join(','))
+    }
+
 }
