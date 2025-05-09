@@ -90,7 +90,6 @@ class TenantController implements ElementsController {
                         html: 'tenant.info',
                         color: Color.WARNING_TEXT,
                         backgroundColor: Color.WARNING_BACKGROUND,
-                        textWrap: TextWrap.SOFT_WRAP,
                         displayLabel: false,
                         tag: true,
                 )

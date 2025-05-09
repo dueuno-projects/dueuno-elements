@@ -552,7 +552,6 @@ Grails application running at http://localhost:9992/test in environment: develop
 //                    class: Separator,
 //                    id: 's1',
 //                    text: 'This is a long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long text!',
-//                    textWrap: TextWrap.SOFT_WRAP,
 //                    cols: 12,
 //            )
 //            addField(

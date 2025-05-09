@@ -60,7 +60,6 @@ class ShellController implements ElementsController {
                     class: Label,
                     id: 'title',
                     html: """<div class="m-4">${message('app.credits.text')}</div>""",
-                    textWrap: TextWrap.SOFT_WRAP,
                     textAlign: TextAlign.CENTER,
                     displayLabel: false,
             )

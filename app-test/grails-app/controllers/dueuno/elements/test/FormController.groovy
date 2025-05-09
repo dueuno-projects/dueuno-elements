@@ -397,7 +397,6 @@ class FormController implements ElementsController {
             addField(
                     class: Label,
                     id: 'paragraph',
-                    textWrap: TextWrap.SOFT_WRAP,
                     tag: false,
             )
 

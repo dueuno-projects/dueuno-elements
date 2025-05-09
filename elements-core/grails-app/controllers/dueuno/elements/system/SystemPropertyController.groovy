@@ -155,7 +155,6 @@ class SystemPropertyController implements ElementsController {
                         class: Label,
                         id: 'description',
                         html: description,
-                        textWrap: TextWrap.SOFT_WRAP,
                         displayLabel: false,
                         tag: true,
                         backgroundColor: tertiaryBackgroundColor,

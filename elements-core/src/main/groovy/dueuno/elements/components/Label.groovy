@@ -87,7 +87,7 @@ class Label extends Component {
 
         verticalAlign = args.verticalAlign == null ? VerticalAlign.DEFAULT : args.verticalAlign as VerticalAlign
         textAlign = args.textAlign == null ? TextAlign.DEFAULT : args.textAlign as TextAlign
-        textWrap = args.textWrap == null ? TextWrap.NO_WRAP : args.textWrap as TextWrap
+        textWrap = args.textWrap == null ? TextWrap.SOFT_WRAP : args.textWrap as TextWrap
         setTextStyle(args.textStyle)
 
         userSelect = args.userSelect == null ? false : args.userSelect
