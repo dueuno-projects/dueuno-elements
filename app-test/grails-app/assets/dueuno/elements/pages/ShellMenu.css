@@ -124,6 +124,7 @@
 }
 
 #shell-menu-search input {
+    padding-left: 0 !important;
     height: 3.4rem;
     color: white !important;
     border: 0;
