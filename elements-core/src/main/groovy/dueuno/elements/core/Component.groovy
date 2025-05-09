@@ -322,6 +322,10 @@ abstract class Component implements WebRequestAware, Serializable {
         args.secondaryBackgroundColor = this.secondaryBackgroundColor
     }
 
+    String getPrimaryBackgroundColorShade() {
+        return "rgba(${primaryBackgroundColorInt.join(', ')}, ${primaryBackgroundColorAlpha}) !important"
+    }
+
     /**
      * Creates a component and adds it as sub-component with name = lowercase of class name.
      *
