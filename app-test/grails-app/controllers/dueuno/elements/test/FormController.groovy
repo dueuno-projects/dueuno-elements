@@ -403,6 +403,7 @@ class FormController implements ElementsController {
             addField(
                     class: Label,
                     id: 'errorColor',
+                    textWrap: TextWrap.NO_WRAP,
                     textColor: Color.DANGER_TEXT,
                     backgroundColor: Color.DANGER_BACKGROUND,
                     cols: 2,
@@ -410,6 +411,7 @@ class FormController implements ElementsController {
             addField(
                     class: Label,
                     id: 'warningColor',
+                    textWrap: TextWrap.NO_WRAP,
                     textColor: Color.WARNING_TEXT,
                     backgroundColor: Color.WARNING_BACKGROUND,
                     cols: 2,
@@ -417,6 +419,7 @@ class FormController implements ElementsController {
             addField(
                     class: Label,
                     id: 'successColor',
+                    textWrap: TextWrap.NO_WRAP,
                     textColor: Color.SUCCESS_TEXT,
                     backgroundColor: Color.SUCCESS_BACKGROUND,
                     cols: 2,
@@ -424,6 +427,7 @@ class FormController implements ElementsController {
             addField(
                     class: Label,
                     id: 'infoColor',
+                    textWrap: TextWrap.NO_WRAP,
                     textColor: Color.INFO_TEXT,
                     backgroundColor: Color.INFO_BACKGROUND,
                     cols: 2,
@@ -431,6 +435,7 @@ class FormController implements ElementsController {
             addField(
                     class: Label,
                     id: 'disabledColor',
+                    textWrap: TextWrap.NO_WRAP,
                     textColor: Color.DISABLED_TEXT,
                     backgroundColor: tertiaryBackgroundColor,
                     cols: 4,

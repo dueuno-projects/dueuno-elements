@@ -99,20 +99,20 @@ class MultipleCheckbox extends Control {
     }
 
     @Override
-    void setValue(Object value, Boolean transform = true) {
+    void setValue(Object value) {
         if (value == null) {
             return
         }
 
         switch (value) {
             case String:
-                super.setValue([value], transform)
+                super.value = [value]
                 break
 
             case Set:
             case List:
                 List listValue = value.collect { it.hasProperty('id') != null ? it['id'] as String : it as String } as List
-                super.setValue(listValue, transform)
+                super.value = listValue
                 break
 
             default:

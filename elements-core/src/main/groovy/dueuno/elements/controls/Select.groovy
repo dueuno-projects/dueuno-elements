@@ -148,9 +148,9 @@ class Select extends Control {
     @Override
     void setValue(Object value) {
         if (Elements.hasId(value)) {
-            super.setValue(value['id'], false)
+            super.setValue(value['id'])
         } else {
-            super.setValue(value, false)
+            super.setValue(value)
         }
     }
 

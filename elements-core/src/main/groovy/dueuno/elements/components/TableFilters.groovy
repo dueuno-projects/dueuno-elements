@@ -121,7 +121,7 @@ class TableFilters extends Form {
             if (control.defaultValue != null) {
                 Object filterValue = control.defaultValue
                 actionSession[control.id] = filterValue
-                control.setValue(filterValue, false)
+                control.value = filterValue
 
             } else {
                 actionSession.remove(control.id)
@@ -134,19 +134,19 @@ class TableFilters extends Form {
         if (requestParams.containsKey(control.id)) {
             Object filterValue = requestParams[control.id]
             actionSession[control.id] = filterValue
-            control.setValue(filterValue, false)
+            control.value = filterValue
 
             // Gets filters from SESSION
         } else if (actionSession[control.id]) {
             Object filterValue = actionSession[control.id]
-            control.setValue(filterValue, false)
+            control.value = filterValue
 
         } else if (control.value != null) {
             // Gets filters from the assigned control value
             // See getValues()
 
         } else if (control.defaultValue != null) {
-            control.setValue(control.defaultValue, false)
+            control.value = control.defaultValue
             requestParams[control.id] = control.defaultValue
         }
     }

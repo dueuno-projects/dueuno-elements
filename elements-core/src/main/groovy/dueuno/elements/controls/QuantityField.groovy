@@ -81,8 +81,8 @@ class QuantityField extends NumberField {
     }
 
     @Override
-    void setValue(Object value, Boolean transform = true) {
-        super.setValue(value, transform)
+    void setValue(Object value) {
+        super.setValue(value)
 
         if (this.value != null && (this.value !instanceof Quantity)) {
             throw new ElementsException("${this.getClass().simpleName} can only accept values of type '${Quantity.name}'")

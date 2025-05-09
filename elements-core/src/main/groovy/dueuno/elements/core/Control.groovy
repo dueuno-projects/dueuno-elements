@@ -14,7 +14,6 @@
  */
 package dueuno.elements.core
 
-import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.style.TextStyle
 import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
@@ -102,19 +101,6 @@ abstract class Control extends Component {
 
     void setDefaultValue(Object value) {
         defaultValue = value
-    }
-
-    void setValue(Object value, Boolean transform = true) {
-        try {
-            if (transform && transformer) {
-                this.value = Transformer.transform(transformer, value)
-            } else {
-                this.value = value
-            }
-
-        } catch (Exception e) {
-            throw new ElementsException("Error assigning value '${value}' of class '${value.getClass().name}' to ${this.getClass().simpleName} '${this.id}': ${e.message}")
-        }
     }
 
     void setTextStyle(Object value) {
