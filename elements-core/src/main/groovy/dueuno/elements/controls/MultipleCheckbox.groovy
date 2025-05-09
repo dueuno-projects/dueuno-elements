@@ -106,13 +106,13 @@ class MultipleCheckbox extends Control {
 
         switch (value) {
             case String:
-                super.value = [value]
+                super.setValue([value])
                 break
 
             case Set:
             case List:
                 List listValue = value.collect { it.hasProperty('id') != null ? it['id'] as String : it as String } as List
-                super.value = listValue
+                super.setValue(listValue)
                 break
 
             default:

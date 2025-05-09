@@ -74,8 +74,8 @@ abstract class Control extends Component {
         prettyPrinterProperties.prettyPrinter = args.prettyPrinter
         prettyPrinterProperties.transformer = args.transformer
 
-        setDefaultValue(args.defaultValue)
-        setValue(args.value)
+        defaultValue = args.defaultValue
+        value = args.value
     }
 
     Component onSubmit(Map args) {
@@ -97,10 +97,6 @@ abstract class Control extends Component {
 
     String getPrettyPrinter() {
         return prettyPrinterProperties.prettyPrinter
-    }
-
-    void setDefaultValue(Object value) {
-        defaultValue = value
     }
 
     void setTextStyle(Object value) {
