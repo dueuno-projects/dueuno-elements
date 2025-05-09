@@ -12,10 +12,6 @@ body {
     visibility: hidden;
 }
 
-.me-2 {
-    margin-right: var(--elements-spacing-x) !important;
-}
-
 :focus-visible {
     outline: none;
 }

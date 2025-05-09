@@ -12,6 +12,11 @@
     border-bottom-right-radius: var(--bs-border-radius-lg);
 }
 
+.input-group:has(.input-group-text) input[type],
+.input-group:has(button) input[type] {
+    padding-left: .5rem !important;
+}
+
 .input-group .input-group-text {
     border-top-left-radius: var(--bs-border-radius-lg) !important;
     border-bottom-left-radius: var(--bs-border-radius-lg) !important;
