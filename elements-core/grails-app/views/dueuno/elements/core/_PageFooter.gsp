@@ -44,6 +44,6 @@
 </g:each>
 
 <%-- Application Specific Javascript --%>
-<asset:assetPathExists src="custom/application.js">
-    <asset:javascript src="custom/application.js"/>
+<asset:assetPathExists src="application.js">
+    <asset:javascript src="application.js"/>
 </asset:assetPathExists>

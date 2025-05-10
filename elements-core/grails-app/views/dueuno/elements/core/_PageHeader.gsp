@@ -13,8 +13,8 @@
 </g:each>
 
 <%-- Application Specific Stylesheet --%>
-<asset:assetPathExists src="custom/application.css">
-    <asset:stylesheet src="custom/application.css"/>
+<asset:assetPathExists src="application.css">
+    <asset:stylesheet src="application.css"/>
 </asset:assetPathExists>
 
 <asset:stylesheet src="elements/main.css" media="screen"/>
