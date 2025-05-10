@@ -70,6 +70,7 @@ class TableFilters extends Form {
                 id: 'resetButton',
                 action: actionName,
                 icon: 'fa-delete-left',
+                tooltip: 'component.table.filters.reset',
                 text: '',
         )
     }
