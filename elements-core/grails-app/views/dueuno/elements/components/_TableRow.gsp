@@ -84,7 +84,7 @@
                 </th>
             </g:if>
             <g:else>
-                <td class="component-table-cell ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign}"
+                <td class="component-table-cell ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign} ${cell.cssClass}"
                     colspan="${cell.colspan}"
                     data-21-component="${cell.getClassName()}"
                     data-21-id="${cell.getId()}"
