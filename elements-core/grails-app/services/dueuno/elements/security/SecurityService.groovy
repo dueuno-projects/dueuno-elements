@@ -1107,8 +1107,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 tenantId: tenantId,
                 username: username,
                 password: username,
-                firstname: 'Admin',
-                lastname: tenantId,
+                firstname: tenantId,
+                lastname: 'Admin',
                 sessionDuration: 15, // defaults to 15 minutes for the Admin
                 rememberMeDuration: 15, // defaults to 15 minutes for the Admin
                 admin: true,
