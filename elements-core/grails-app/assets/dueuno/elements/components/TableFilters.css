@@ -28,9 +28,15 @@
 }
 
 .component-filters-counter {
+    color: rgb(var(--elements-primary-text));
+    background-color: rgb(var(--elements-primary-bg));
     font-size: .7rem;
     border-radius: var(--bs-border-radius-xl);
     display: inline-block;
     min-width: 1.05rem;
     margin-left: -.3rem;
+}
+
+.component-filters-box {
+    background-color: rgba(255, 255, 255, .75) !important;
 }

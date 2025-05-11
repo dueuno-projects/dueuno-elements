@@ -1,35 +1,35 @@
 .component-header {
     padding-top: .25rem;
     padding-bottom: 1rem;
-    width: 100%;
+    width: calc(100% + 2rem);
 }
 
 /* Special positioning when inside the content to make the header width border-to-border */
 .page-content .component-header {
-    padding: 1rem;
-    padding-bottom: .25rem;
-    margin-left: -1rem;
-    width: calc(100% + 2rem);
+    margin: 0 0 1rem -1rem;
+    padding: .5rem 1rem .25rem 1rem;
+    background-color: rgb(var(--elements-tertiary-bg));
 }
 
-.component-header .btn-group a.btn,
-.component-header .btn-group a.btn:hover,
-.component-header .btn-group a.btn:focus,
-.component-header .btn-group a.btn:active,
-.component-header .btn-group button:hover,
-.component-header .btn-group button:focus,
-.component-header .btn-group button:active,
-.component-header .btn-group button {
-    background-color: white;
-    color: #333333;
-    font-weight: normal;
+.page-content .component-header.component-sticky {
+    padding-top: 1rem;
+}
+
+.page-content .component-header .component-header-box {
+    padding: .25rem;
+    border-radius: var(--bs-border-radius-lg);
+    background-color: rgba(255, 255, 255, .5);
+}
+
+.page-content .component-header .row {
+    margin-right: -.75rem;
 }
 
 .component-header .navbar-text {
     font-size: 1.1rem;
     font-weight: bold;
     margin-top: .1rem;
-    margin-left: -.5rem;
+    margin-left: -.25rem;
     padding: 0;
 }
 

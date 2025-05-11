@@ -153,7 +153,7 @@ class Component {
         if (value) {
             Component.setProperty($element, 'sticky', true);
             $element.addClass('component-sticky');
-            $element.css('margin-top', 'calc(-' + (Page.stickyOffset + 1) + 'px)');
+            $element.css('margin-top', 'calc(-' + (Page.stickyOffset + 1) + 'px - 1.5rem)');
 
         } else {
             Component.setProperty($element, 'sticky', false);

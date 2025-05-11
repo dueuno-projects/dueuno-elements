@@ -177,11 +177,6 @@
     background-color: rgba(var(--elements-primary-bg-shaded)));
 }
 
-.component-filters-counter {
-    color: rgb(var(--elements-primary-text));
-    background-color: rgb(var(--elements-primary-bg));
-}
-
 .component-table-header .sort-asc:after {
     display: inline-block;
     vertical-align: .255em;

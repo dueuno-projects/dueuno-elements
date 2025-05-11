@@ -47,12 +47,6 @@ body {
     }
 }
 
-@media (min-width: 1399.98px) {
-    .component-sticky {
-        width: calc(100% - 15rem) !important;
-    }
-}
-
 #shell-content {
     margin-left: 15rem;
     margin-top: 3.3rem;

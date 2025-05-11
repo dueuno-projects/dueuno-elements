@@ -106,7 +106,7 @@ class Page {
 
             if (!PageModal.isActive && properties['sticky']) {
                 Page.stickyOffset += element.offsetHeight;
-                PageContent.$self.css('margin-top', Page.stickyOffset);
+                PageContent.$self.css('margin-top', 'calc(' + Page.stickyOffset + 'px + 1rem)');
                 Elements.callMethod($element, component, 'setSticky', true);
             }
 
