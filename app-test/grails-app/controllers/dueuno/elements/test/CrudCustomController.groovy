@@ -14,7 +14,7 @@
  */
 package dueuno.elements.test
 
-
+import dueuno.elements.components.Header
 import dueuno.elements.components.Table
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
@@ -92,6 +92,9 @@ class CrudCustomController implements ElementsController {
             }
         }
 
+        c.addComponent(Header, 'h2')
+        c.addComponent(Header, 'h3')
+        c.addComponent(Header, 'h4')
         def table2 = c.addComponent(Table, 'table2')
         table2.with {
             rowStriped = true
@@ -148,6 +151,7 @@ class CrudCustomController implements ElementsController {
             }
         }
 
+        c.addComponent(Header, 'h5')
         def table3 = c.addComponent(Table, 'table3')
         table3.with {
             filters.with {
