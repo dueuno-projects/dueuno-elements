@@ -108,17 +108,8 @@ class RenderTagLib implements WebRequestAware {
         out << '<i class="' + getIconWithStyle(icon, force) + ' ' + cssClass + '" aria-hidden="true"></i>'
     }
 
-    /**
-     * Renders an icon css class
-     */
-    def iconClass = { attrs ->
-        String icon = attrs.icon
-        String force = attrs.force ?: ''
-        out << getIconWithStyle(icon, force)
-    }
-
     private String getIconWithStyle(String icon, String forceStyle) {
-        String declaredStyle = icon.find('fa-solid|fa-regular|fa-light|fa-thin|fa-duotone|fa-brand')
+        String declaredStyle = icon.find(/fa-solid\b|fa-regular\b|fa-light\b|fa-thin\b|fa-duotone\b|fa-brand\b/)
         String iconType = declaredStyle ? '' : (forceStyle ?: pageService.iconStyle) + ' '
         return iconType + icon
     }
