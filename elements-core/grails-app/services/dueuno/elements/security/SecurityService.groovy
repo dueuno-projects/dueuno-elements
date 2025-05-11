@@ -751,7 +751,9 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             args.defaultGroup = TRoleGroup.findByTenantAndName(tenantService.defaultTenant, GROUP_SUPERADMINS)
         }
 
-        validateFontSize(args)
+        if (args.fontSize) {
+            validateFontSize(args)
+        }
 
         TUser user = getUserByUsername(username)
         user.properties = args
@@ -796,7 +798,9 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             args.remove('password')
         }
 
-        validateFontSize(args)
+        if (args.fontSize) {
+            validateFontSize(args)
+        }
 
         TUser user = getUserByUsername(username)
         user.properties = args
