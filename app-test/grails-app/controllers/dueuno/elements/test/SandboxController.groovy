@@ -674,7 +674,7 @@ Grails application running at http://localhost:9992/test in environment: develop
     }
 
     def onHideLoadingScreen() {
-        sleep(3000)
+        sleep(5000)
         def t = createTransition()
         t.loading(false)
         display transition: t

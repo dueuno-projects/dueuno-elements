@@ -25,4 +25,4 @@
     }
 </style>
 
-<div id="loading-screen-page" class=""><div><i class="fa-solid fa-circle-notch fa-spin"></i></div></div>
+<div id="loading-screen-page" class=""><div><i class="fa-solid fa-mug-hot fa-beat-fade"></i></div></div>
