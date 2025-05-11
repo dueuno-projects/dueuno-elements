@@ -29,8 +29,12 @@
     font-size: 1.1rem;
     font-weight: bold;
     margin-top: .1rem;
-    margin-left: -.25rem;
+    margin-left: -.15rem;
     padding: 0;
+}
+
+#page-modal .component-header .navbar-text {
+    margin-left: -.45rem;
 }
 
 .component-header-back > .component-button {
