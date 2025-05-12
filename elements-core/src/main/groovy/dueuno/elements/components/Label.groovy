@@ -144,7 +144,7 @@ class Label extends Component {
                 break
 
             default:
-                textStyle = [TextStyle.NORMAL]
+                textStyle = [TextStyle.NONE]
         }
     }
 

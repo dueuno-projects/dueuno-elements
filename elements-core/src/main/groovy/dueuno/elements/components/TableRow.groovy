@@ -265,7 +265,7 @@ class TableRow extends Component {
                 break
 
             default:
-                textStyle = [TextStyle.NORMAL]
+                textStyle = [TextStyle.NONE]
         }
     }
 
