@@ -88,6 +88,21 @@ class Control extends Component {
         return value;
     }
 
+    static isPrintable(keycode) {
+        let printable =
+            (keycode > 47 && keycode < 58)   || // number keys
+            (keycode == 32)                  || // space bar
+            (keycode > 64 && keycode < 91)   || // letter keys
+            (keycode > 95 && keycode < 112)  || // numpad keys
+            (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
+            (keycode > 218 && keycode < 223);   // [\]' (in order)
+        return printable;
+    }
+
+    static isModifierPressed(event, lastKey = '') {
+        return event.shiftKey || event.ctrlKey || event.altKey || lastKey == 'AltGraph';
+    }
+
     static setNullable($element, value) {
         let $formField = $element.closest('[data-21-component="FormField"]');
         if ($formField) FormField.setNullable($formField, value);

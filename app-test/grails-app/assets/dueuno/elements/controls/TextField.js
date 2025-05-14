@@ -13,10 +13,10 @@ class TextField extends Control {
         let $element = $(event.currentTarget);
         let properties = Component.getProperties($element);
         let value = $element.val();
-
         let transformedValue = value;
+
         if (properties.textTransform) {
-            transformedValue = TextField.transform(value, properties);
+            transformedValue = TextField.transform(transformedValue, properties);
         }
 
         if (transformedValue != value) {
