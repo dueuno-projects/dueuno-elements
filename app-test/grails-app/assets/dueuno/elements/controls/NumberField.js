@@ -5,31 +5,38 @@ class NumberField extends TextField {
     static finalize($element, $root) {
         TextField.finalize($element, $root);
 
-        $element.off('keypress').on('keypress', NumberField.onKeyPress);
+        $element.off('input').on('input', NumberField.onChange);
     }
 
-    static onKeyPress(event) {
-        TextField.onKeyPress(event);
-
+    static onChange(event) {
         let $element = $(event.currentTarget);
         let properties = Component.getProperties($element);
-        let value = Control.getEventValue($element, event);
-
-        let pattern = new RegExp(properties.pattern);
-        let isValidValue = value.match(pattern);
-        let separator = value.slice(-1);
-        if (isValidValue && _21_.user.decimalFormat == "ISO_COM" && separator == '.') {
-            $element.val(value.slice(0, -1) + ',');
-            event.preventDefault();
-        }
+        let value = $element.val();
+        let transformedValue = value;
 
         let numberValue = parseFloat(value == '-' ? '-0' : value);
-        if (properties.min && numberValue < properties.min
-            || properties.max && numberValue > properties.max) {
-            event.preventDefault();
+        //TODO min value
+        //if (properties.min && numberValue < properties.min) {
+        //    transformedValue = (properties.min).toString();
+        //}
+        if (properties.max && numberValue > properties.max) {
+            transformedValue = (properties.max).toString();
         }
 
-        Transition.triggerEvent($element, 'keypress');
+        if (_21_.user.decimalFormat == "ISO_COM") {
+            transformedValue = transformedValue.replace(".", ",");
+        } else {
+            transformedValue = transformedValue.replace(",", ".");
+        }
+
+        if (transformedValue != value) {
+            let selStart = event.target.selectionStart;
+            $element.val(transformedValue);
+            event.target.selectionStart = selStart;
+            event.target.selectionEnd = selStart;
+        }
+
+        Transition.triggerEvent($element, 'change');
     }
 
     static getValue($element) {

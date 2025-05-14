@@ -42,8 +42,8 @@ class KeyPress extends Component {
             $search.val('');
         }
 
-        let printable = KeyPress.isPrintable(event.keyCode);
-        let isModifierPressed = KeyPress.isModifierPressed(event, lastKey);
+        let printable = Control.isPrintable(event.keyCode);
+        let isModifierPressed = Control.isModifierPressed(event, lastKey);
 
         if (triggerKey.length == 0) {
             $search.val(event.key);
@@ -72,21 +72,6 @@ class KeyPress extends Component {
             }
             $search.val('');
         }
-    }
-
-    static isPrintable(keycode) {
-        let printable =
-            (keycode > 47 && keycode < 58)   || // number keys
-            (keycode == 32)                  || // space bar
-            (keycode > 64 && keycode < 91)   || // letter keys
-            (keycode > 95 && keycode < 112)  || // numpad keys
-            (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
-            (keycode > 218 && keycode < 223);   // [\]' (in order)
-        return printable;
-    }
-
-    static isModifierPressed(event, lastKey) {
-        return event.shiftKey || event.ctrlKey || event.altKey || lastKey == 'AltGraph';
     }
 }
 

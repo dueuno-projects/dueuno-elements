@@ -3,14 +3,29 @@ class TextField extends Control {
     static finalize($element, $root) {
         $element.off('focus').on('focus', Control.onFocus);
         $element.off('paste').on('paste', Control.onPaste);
+        $element.off('keydown').on('keydown', TextField.onKeyPress);
         $element.off('input').on('input', TextField.onChange);
-        $element.off('keypress').on('keypress', TextField.onKeyPress);
 
         Transition.triggerEvent($element, 'load');
     }
 
     static onChange(event) {
         let $element = $(event.currentTarget);
+        let properties = Component.getProperties($element);
+        let value = $element.val();
+
+        let transformedValue = value;
+        if (properties.textTransform) {
+            transformedValue = TextField.transform(value, properties);
+        }
+
+        if (transformedValue != value) {
+            let selStart = event.target.selectionStart;
+            $element.val(transformedValue);
+            event.target.selectionStart = selStart;
+            event.target.selectionEnd = selStart;
+        }
+
         Transition.triggerEvent($element, 'change');
     }
 
@@ -24,28 +39,22 @@ class TextField extends Control {
         let $element = $(event.currentTarget);
         let properties = Component.getProperties($element);
         let value = Control.getEventValue($element, event);
+        let isPrintable = Control.isPrintable(event.keyCode);
+        let isModifierPressed = event.ctrlKey;
 
-        let isValidValue = true;
         if (properties.pattern) {
             let pattern = new RegExp(properties.pattern);
-            isValidValue = value.match(pattern);
+            let isValidValue = value.match(pattern);
+            if (isPrintable && !isModifierPressed && !isValidValue) {
+                event.preventDefault();
+            }
         }
 
-        if (!isValidValue) {
-            event.preventDefault();
+        if (isModifierPressed) {
+            return;
         }
 
-        if (isValidValue && properties.textTransform) {
-            let transformedValue = TextField.transform(value, properties);
-            $element.val(transformedValue);
-            event.preventDefault();
-
-            let selStart = event.target.selectionStart;
-            event.target.selectionStart = selStart + 1;
-            event.target.selectionEnd = selStart + 1;
-        }
-
-        Transition.triggerEvent($element, 'change');
+        //Transition.triggerEvent($element, 'keypress');
     }
 
     static onEnter(event) {
