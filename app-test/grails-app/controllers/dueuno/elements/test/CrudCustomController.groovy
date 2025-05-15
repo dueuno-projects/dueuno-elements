@@ -88,7 +88,7 @@ class CrudCustomController implements ElementsController {
 //
         def table = c.addComponent(Table)
         table.with {
-            sticky = true
+//            sticky = true
             filters.with {
                 addField(
                         class: DateField,
