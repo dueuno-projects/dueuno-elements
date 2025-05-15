@@ -14,6 +14,7 @@
  */
 package dueuno.elements.test
 
+import dueuno.elements.components.Form
 import dueuno.elements.components.Header
 import dueuno.elements.components.Table
 import dueuno.elements.components.TableRow
@@ -37,8 +38,25 @@ class CrudCustomController implements ElementsController {
                 icon: 'fa-plus',
         )
 
+        def form1 = c.addComponent(Form, 'form1')
+        form1.with {
+            sticky = true
+            addField(
+                    class: TextField,
+                    id: 'test1',
+                    cols: 6,
+            )
+            addField(
+                    class: Select,
+                    id: 'test2',
+                    optionsFromList: ['PIPPO', 'PLUTO', 'PAPERINO'],
+                    cols: 6,
+            )
+        }
+
         def table = c.addComponent(Table)
         table.with {
+            sticky = true
             filters.with {
                 /*addField(
                         class: Select,

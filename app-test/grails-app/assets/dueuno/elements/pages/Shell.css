@@ -50,7 +50,7 @@ body {
 #shell-content {
     margin-left: 15rem;
     margin-top: 3.3rem;
-    padding-top: var(--bs-border-width);
+    padding-top: 0;
     padding-left: 1rem;
     padding-right: 1rem;
     padding-bottom: 2rem !important;

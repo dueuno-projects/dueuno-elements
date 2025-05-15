@@ -48,7 +48,7 @@ class Button extends Component {
         if (PageModal.isActive) {
             PageModal.$self.append($menu);
         } else {
-            $('body').append($menu);
+            Page.$self.append($menu);
         }
 
         Button.dropdown.isDetached = true;

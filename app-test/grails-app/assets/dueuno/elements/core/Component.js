@@ -149,16 +149,4 @@ class Component {
         $element.css('color', value);
     }
 
-    static setSticky($element, value) {
-        if (value) {
-            Component.setProperty($element, 'sticky', true);
-            $element.addClass('component-sticky');
-            $element.css('margin-top', 'calc(-' + (Page.stickyOffset) + 'px - 1rem)');
-
-        } else {
-            Component.setProperty($element, 'sticky', false);
-            $element.removeClass('component-sticky');
-            $element.css('margin-top', 'initial');
-        }
-    }
 }

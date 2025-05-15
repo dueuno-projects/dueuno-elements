@@ -1,13 +1,8 @@
 //= require Transition
 
-// Temporary solutions until we get support for static fields
-// See: https://github.com/google/closure-compiler/issues/2731
-let Page_stickyOffset = 0;
-
 class Page {
 
-    static get stickyOffset() { return Page_stickyOffset }
-    static set stickyOffset(value) { Page_stickyOffset = value }
+    static get $self() { return $('body') }
 
     static register(clazz) {
         let clazzName = clazz.name;
@@ -20,18 +15,19 @@ class Page {
 
     static render() {
         Page.initializePage();
-        Page.initializeContent($('body'));
+        Page.initializeContent(Page.$self);
         $(window).on('load', Page.onLoad);
         LoadingScreen.show(false);
     }
 
     static onLoad(event) {
-        Page.finalizeContent($('body'));
+        Page.finalizeContent(Page.$self);
         Page.finalizePage();
         Page.triggerContentChange();
     }
 
     static initializeContent($root, reinitialize = false) {
+        PageStickyBox.initialize();
         PageContent.initialize();
         Page.initializeComponents($root, reinitialize);
         Page.initializeControls($root, reinitialize);
@@ -42,6 +38,7 @@ class Page {
         Page.finalizeControls($root, reinitialize);
         Page.finalizeComponents($root, reinitialize);
         PageContent.finalize();
+        PageStickyBox.finalize();
     }
 
     static reinitializeContent($root, reinitialize = false) {
@@ -62,7 +59,7 @@ class Page {
         try {
             if (Elements.hasMethod(page, 'initialize')) {
                 log.trace("INITIALIZING PAGE '" + page.name + "'");
-                Elements.callMethod($('body'), page, 'initialize');
+                Elements.callMethod(Page.$self, page, 'initialize');
             }
         } catch (e) {
             log.error('Error initializing page "' + page.name + '": ' + e);
@@ -74,13 +71,13 @@ class Page {
         try {
             if (Elements.hasMethod(page, 'finalize')) {
                 log.trace("FINALIZING PAGE '" + page.name + "'");
-                Elements.callMethod($('body'), page, 'finalize');
+                Elements.callMethod(Page.$self, page, 'finalize');
             }
         } catch (e) {
             log.error('Error finalizing page "' + page.name + '": ' + e);
         }
 
-        $('body').css('visibility', 'visible');
+        Page.$self.css('visibility', 'visible');
     }
 
     static triggerContentChange() {
@@ -88,7 +85,7 @@ class Page {
         try {
             if (Elements.hasMethod(page, 'onContentChange')) {
                 log.trace("FINALIZING CONTENT '" + page.name + "'");
-                Elements.callMethod($('body'), page, 'onContentChange');
+                Elements.callMethod(Page.$self, page, 'onContentChange');
             }
         } catch (e) {
             log.error('Error finalizing content for "' + page.name + '": ' + e);
@@ -96,22 +93,14 @@ class Page {
     }
 
     static initializeComponents($root, reinitialize) {
-        let elements = $root.find('[data-21-component]');
-        Page.stickyOffset = 0;
-
-        for (let element of elements) {
+        let $elements = $root.find('[data-21-component]');
+        for (let element of $elements) {
             let $element = $(element);
             let component = Component.getByElement($element);
             let properties = Component.getProperties($element);
 
-            if (!PageModal.isActive && properties['sticky']) {
-                Page.stickyOffset += element.offsetHeight;
-                PageContent.$self.css('margin-top', 'calc(' + Page.stickyOffset + 'px + .5rem)');
-                Elements.callMethod($element, component, 'setSticky', true);
-            }
-
-            let initialized = Elements.callMethod($element, component, 'isInitialized');
-            if (initialized && !reinitialize) {
+            let isInitialized = Elements.callMethod($element, component, 'isInitialized');
+            if (isInitialized && !reinitialize) {
                 continue; // Process next
             }
 
@@ -130,14 +119,14 @@ class Page {
     }
 
     static initializeControls($root, reinitialize) {
-        let elements = $root.find('[data-21-control]');
-        for (let element of elements) {
+        let $elements = $root.find('[data-21-control]');
+        for (let element of $elements) {
             let $element = $(element);
             let control = Control.getByElement($element);
             let properties = Component.getProperties($element);
 
-            let initialized = Elements.callMethod($element, control, 'isInitialized');
-            if (initialized && !reinitialize) {
+            let isInitialized = Elements.callMethod($element, control, 'isInitialized');
+            if (isInitialized && !reinitialize) {
                 continue; // Process next
             }
 
@@ -156,14 +145,14 @@ class Page {
     }
 
     static initializeControlValues($root, reinitialize) {
-        let elements = $root.find('[data-21-control]');
-        for (let element of elements) {
+        let $elements = $root.find('[data-21-control]');
+        for (let element of $elements) {
             let $element = $(element);
             let control = Control.getByElement($element);
             let properties = Component.getProperties($element);
 
-            let initialized = Elements.callMethod($element, control, 'isInitialized');
-            if (initialized && !reinitialize) {
+            let isInitialized = Elements.callMethod($element, control, 'isInitialized');
+            if (isInitialized && !reinitialize) {
                 continue; // Process next
             }
 
@@ -179,13 +168,13 @@ class Page {
     }
 
     static finalizeComponents($root, reinitialize) {
-        let elements = $root.find('[data-21-component]');
-        for (let element of elements) {
+        let $elements = $root.find('[data-21-component]');
+        for (let element of $elements) {
             let $element = $(element);
             let component = Component.getByElement($element);
 
-            let initialized = Elements.callMethod($element, component, 'isInitialized');
-            if (initialized && !reinitialize) {
+            let isInitialized = Elements.callMethod($element, component, 'isInitialized');
+            if (isInitialized && !reinitialize) {
                 continue; // Process next
             }
 
@@ -203,13 +192,13 @@ class Page {
     }
 
     static finalizeControls($root, reinitialize) {
-        let elements = $root.find('[data-21-control]');
-        for (let element of elements) {
+        let $elements = $root.find('[data-21-control]');
+        for (let element of $elements) {
             let $element = $(element);
             let control = Control.getByElement($element);
 
-            let initialized = Elements.callMethod($element, control, 'isInitialized');
-            if (initialized && !reinitialize) {
+            let isInitialized = Elements.callMethod($element, control, 'isInitialized');
+            if (isInitialized && !reinitialize) {
                 continue; // Process next
             }
 
@@ -243,7 +232,7 @@ class Page {
     }
 
     static getClassName() {
-        return $('body').data('21-page');
+        return Page.$self.data('21-page');
     }
 
     static getController() {
@@ -251,7 +240,7 @@ class Page {
         if (PageModal.isActive) {
             $content = PageModal.$self;
         } else {
-            $content = $('body').find('#page-content');
+            $content = PageContent.$self;
         }
 
         let controller = Component.getProperty($content, 'controller');
@@ -263,7 +252,7 @@ class Page {
         if (PageModal.isActive) {
             $content = PageModal.$self;
         } else {
-            $content = $('body').find('#page-content');
+            $content = PageContent.$self;
         }
 
         let action = Component.getProperty($content, 'action');

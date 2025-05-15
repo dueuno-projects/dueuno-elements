@@ -16,7 +16,7 @@ class ShellMenu extends Component {
 
     static onShown(event) {
         let $element = $(event.currentTarget);
-        let $offcanvas = $('body').find('.offcanvas-backdrop');
+        let $offcanvas = Page.$self.find('.offcanvas-backdrop');
         $offcanvas.removeClass('fade');
     }
 

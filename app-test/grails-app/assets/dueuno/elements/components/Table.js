@@ -3,13 +3,14 @@
 class Table extends Component {
 
     static initialize($element, $root) {
-        Table.initializeStickyHeader($element);
         let $dataset = $element.find('.component-table-dataset');
         let $table = $element.find('.component-table-dataset table');
         PageContent.addScrollableElement($table, $dataset);
     }
 
     static finalize($element, $root) {
+        Table.initializeStickyHeader($element);
+
         let $dataset = $element.find('.component-table-dataset');
         $dataset.on('scroll', Table.onScroll);
         let $selectAll = $element.find('.component-table-selection-header input');
@@ -27,7 +28,7 @@ class Table extends Component {
         let stickyHeaderZIndex = Component.getProperty($element, 'stickyHeaderZIndex');
         let stickyHeaderOffset = Component.getProperty($element, 'stickyHeaderOffset');
         if (!stickyHeaderOffset) {
-            stickyHeaderOffset = ShellNavbar.getHeight() + Page.stickyOffset;
+            stickyHeaderOffset = PageStickyBox.offset;
         }
 
         let $table = $element.find('table');
