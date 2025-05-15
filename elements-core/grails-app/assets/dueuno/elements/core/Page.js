@@ -35,10 +35,10 @@ class Page {
     }
 
     static finalizeContent($root, reinitialize = false) {
+        PageStickyBox.finalize();
         Page.finalizeControls($root, reinitialize);
         Page.finalizeComponents($root, reinitialize);
         PageContent.finalize();
-        PageStickyBox.finalize();
     }
 
     static reinitializeContent($root, reinitialize = false) {

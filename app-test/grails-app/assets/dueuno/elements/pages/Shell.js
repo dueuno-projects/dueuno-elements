@@ -13,7 +13,7 @@ class Shell extends Page {
     }
 
     static onContentChange() {
-        let $navbar = Page.$self.find('#shell-navbar');
+        let $navbar = $('#shell-navbar');
         if (PageStickyBox.isActive()) {
             $navbar.addClass('has-sticky');
         } else {

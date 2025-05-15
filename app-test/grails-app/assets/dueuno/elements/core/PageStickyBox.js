@@ -32,10 +32,6 @@ class PageStickyBox {
         if ($stickyComponents.exists()) {
             PageStickyBox.$self.empty();
             PageStickyBox.$self.append($stickyComponents);
-
-            let stickyBoxHeight = PageStickyBox.$self[0].offsetHeight - $stickyComponents.length - 1;
-            PageStickyBox.offset = PageStickyBox.top + stickyBoxHeight;
-            PageContent.$self.css('padding-top', stickyBoxHeight);
             PageContent.$self.prepend(PageStickyBox.$self);
             PageStickyBox.setActive();
 
@@ -50,6 +46,12 @@ class PageStickyBox {
         }
 
         PageContent.$self.before(PageStickyBox.$self);
+
+        // Sometimes the offest is one line bigger then needed, this trick
+        // of of -.3 reduces the cases to almost none
+        let offsetHeight = PageStickyBox.$self[0].offsetHeight - .3;
+        PageStickyBox.offset = PageStickyBox.top + offsetHeight;
+        PageContent.$self.css('padding-top', offsetHeight);
     }
 
     static setActive() {

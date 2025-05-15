@@ -33,7 +33,6 @@ class Table extends Component {
 
         let $table = $element.find('table');
         $table.stickyTableHeaders('destroy')
-        $table.stickyTableHeaders()
         $table.stickyTableHeaders({
             scrollableElement: '.component-table-dataset',
             fixedOffset: stickyHeaderOffset,
