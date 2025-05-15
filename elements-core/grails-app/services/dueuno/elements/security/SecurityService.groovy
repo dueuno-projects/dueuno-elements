@@ -609,6 +609,15 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * Generates an API-KEY
      * @return the API-KEY
      */
+    String generatePassword() {
+        List alphabet = ('A'..'Z') + ('0'..'9') + ('a'..'z') + ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', ';', ':', '?', '.', '>']
+        return StringUtils.generateRandomToken(16, alphabet)
+    }
+
+    /**
+     * Generates an API-KEY
+     * @return the API-KEY
+     */
     String generateApiKey() {
         return UUID.randomUUID().toString().toUpperCase()
     }

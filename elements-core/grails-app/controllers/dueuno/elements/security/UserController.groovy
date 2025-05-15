@@ -176,12 +176,14 @@ class UserController implements ElementsController {
                     icon: 'fa-user',
                     cols: 6,
             )
-            addField(
+            PasswordField password = addField(
                     class: PasswordField,
                     id: 'password',
                     nullable: obj,
                     cols: 6,
-            )
+            ).component
+            password.addAction(action: 'onGeneratePassword', submit: ['form'], tooltip: 'user.generatePassword', text: '', icon: 'fa-key')
+
         }
 
         buildSensitiveDataForm(c)
@@ -388,6 +390,14 @@ class UserController implements ElementsController {
                     cols: 6,
             )
         }
+    }
+
+    def onGeneratePassword() {
+        def password = securityService.generatePassword()
+        def t = createTransition()
+        t.set('password', 'showPassword', true)
+        t.setValue('password', password)
+        display transition: t
     }
 
     def onGenerateApiKey() {
