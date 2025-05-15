@@ -29,6 +29,7 @@ class Page {
     static initializeContent($root, reinitialize = false) {
         PageStickyBox.initialize();
         PageTooltips.initialize();
+        Page.deactivateComponents();
         Page.initializeComponents($root, reinitialize);
         Page.initializeControls($root, reinitialize);
         Page.initializeControlValues($root, reinitialize);
@@ -93,6 +94,25 @@ class Page {
         }
     }
 
+    static deactivateComponents() {
+        let $elements = Page.$self.find('[data-21-component][deactivate],[data-21-control][deactivate]');
+        for (let element of $elements) {
+            let $element = $(element);
+            let component = Elements.getByElement($element);
+
+            try {
+                if (Elements.hasMethod(component, 'onDeactivate')) {
+                    log.trace("DEACTIVATING COMPONENT '" + component.name + "'");
+                    Elements.callMethod($element, component, 'onDeactivate');
+                }
+            } catch (e) {
+                log.error('Error deactivating component "' + component.name + '": ' + e);
+            }
+
+            Elements.callMethod($element, component, 'setDeactivate', false);
+        }
+    }
+
     static initializeComponents($root, reinitialize) {
         let $elements = $root.find('[data-21-component]');
         for (let element of $elements) {
@@ -116,6 +136,30 @@ class Page {
             } catch (e) {
                 log.error('Error initializing component "' + component.name + '": ' + e);
             }
+        }
+    }
+
+    static finalizeComponents($root, reinitialize) {
+        let $elements = $root.find('[data-21-component]');
+        for (let element of $elements) {
+            let $element = $(element);
+            let component = Component.getByElement($element);
+
+            let isInitialized = Elements.callMethod($element, component, 'isInitialized');
+            if (isInitialized && !reinitialize) {
+                continue; // Process next
+            }
+
+            try {
+                if (Elements.hasMethod(component, 'finalize')) {
+                    log.trace("FINALIZING COMPONENT '" + component.name + "'");
+                    Elements.callMethod($element, component, 'finalize', $root);
+                }
+            } catch (e) {
+                log.error('Error finalizing component "' + component.name + '": ' + e);
+            }
+
+            Elements.callMethod($element, component, 'setInitialized', true);
         }
     }
 
@@ -145,53 +189,6 @@ class Page {
         }
     }
 
-    static initializeControlValues($root, reinitialize) {
-        let $elements = $root.find('[data-21-control]');
-        for (let element of $elements) {
-            let $element = $(element);
-            let control = Control.getByElement($element);
-            let properties = Component.getProperties($element);
-
-            let isInitialized = Elements.callMethod($element, control, 'isInitialized');
-            if (isInitialized && !reinitialize) {
-                continue; // Process next
-            }
-
-            try {
-                let value = Elements.callMethod($element, control, 'getServerValue');
-                if (value) {
-                    Elements.callMethod($element, control, 'setValue', value, false);
-                }
-            } catch (e) {
-                log.error('Error setting value to control "' + control.name + '": ' + e);
-            }
-        }
-    }
-
-    static finalizeComponents($root, reinitialize) {
-        let $elements = $root.find('[data-21-component]');
-        for (let element of $elements) {
-            let $element = $(element);
-            let component = Component.getByElement($element);
-
-            let isInitialized = Elements.callMethod($element, component, 'isInitialized');
-            if (isInitialized && !reinitialize) {
-                continue; // Process next
-            }
-
-            try {
-                if (Elements.hasMethod(component, 'finalize')) {
-                    log.trace("FINALIZING COMPONENT '" + component.name + "'");
-                    Elements.callMethod($element, component, 'finalize', $root);
-                }
-            } catch (e) {
-                log.error('Error finalizing component "' + component.name + '": ' + e);
-            }
-
-            Elements.callMethod($element, component, 'setInitialized', true);
-        }
-    }
-
     static finalizeControls($root, reinitialize) {
         let $elements = $root.find('[data-21-control]');
         for (let element of $elements) {
@@ -213,6 +210,29 @@ class Page {
             }
 
             Elements.callMethod($element, control, 'setInitialized', true);
+        }
+    }
+
+    static initializeControlValues($root, reinitialize) {
+        let $elements = $root.find('[data-21-control]');
+        for (let element of $elements) {
+            let $element = $(element);
+            let control = Control.getByElement($element);
+            let properties = Component.getProperties($element);
+
+            let isInitialized = Elements.callMethod($element, control, 'isInitialized');
+            if (isInitialized && !reinitialize) {
+                continue; // Process next
+            }
+
+            try {
+                let value = Elements.callMethod($element, control, 'getServerValue');
+                if (value) {
+                    Elements.callMethod($element, control, 'setValue', value, false);
+                }
+            } catch (e) {
+                log.error('Error setting value to control "' + control.name + '": ' + e);
+            }
         }
     }
 

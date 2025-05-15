@@ -57,6 +57,7 @@ class Select extends Control {
             }
         }
 
+        Component.setDeactivate($element, true);
         $element.select2(initOptions);
     }
 
@@ -69,6 +70,10 @@ class Select extends Control {
 
     static isInitialized($element) {
         return false;
+    }
+
+    static onDeactivate($element) {
+        Component.setDisplay($element, false);
     }
 
     // We need this to auto-focus the text input

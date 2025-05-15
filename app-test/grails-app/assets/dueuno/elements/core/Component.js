@@ -25,6 +25,15 @@ class Component {
         return initialized != undefined;
     }
 
+    static setDeactivate($element, value) {
+        let element = $element[0];
+        if (value) {
+            element.setAttribute('deactivate', '');
+        } else {
+            element.removeAttribute('deactivate');
+        }
+    }
+
     static getByClassName(className) {
         let component = Elements.components.get(className);
         return component;
