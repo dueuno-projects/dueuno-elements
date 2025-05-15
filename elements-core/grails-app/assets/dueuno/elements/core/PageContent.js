@@ -14,16 +14,10 @@ class PageContent extends Component {
     static get $scrollbar() { return $('#page-content-scrollbar') }
     static get $scrollbarBox() { return $('#page-content-scrollbar-box') }
 
-    static initialize() {
-        PageContent.clearTooltips();
-    }
-
     static finalize() {
         if (!PageContent.$self.exists()) {
             return;
         }
-
-        PageContent.buildTooltips();
 
         let content = PageContent.$self[0].getBoundingClientRect();
         PageContent.$scrollbarBox.css({left: content.left, width: content.width});
@@ -32,30 +26,6 @@ class PageContent extends Component {
         PageContent.$scrollbar.off('scroll').on('scroll', PageContent.onScrollbarScroll);
         $(window).on('scroll', PageContent.onWindowScroll);
         $(window).on('resize', PageContent.onWindowResize);
-    }
-
-    static buildTooltips() {
-        // Initializing Bootstrap tooltips.
-        // On Mobile we activate it only for Labels
-        let $tooltipTriggerList = Elements.onMobile
-            ? $('.component-label [data-bs-toggle="tooltip"]')
-            : $('[data-bs-toggle="tooltip"]');
-
-        for (let $tooltipTrigger of $tooltipTriggerList) {
-            PageContent.tooltips.push(
-                new bootstrap.Tooltip($tooltipTrigger)
-            );
-        }
-    }
-
-    static clearTooltips() {
-        for (let tooltip of PageContent.tooltips) {
-            if (tooltip) {
-                tooltip.dispose();
-            }
-        }
-
-        PageContent.tooltips.length = 0;
     }
 
     static onWindowResize(event) {

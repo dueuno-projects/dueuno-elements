@@ -28,7 +28,7 @@ class Page {
 
     static initializeContent($root, reinitialize = false) {
         PageStickyBox.initialize();
-        PageContent.initialize();
+        PageTooltips.initialize();
         Page.initializeComponents($root, reinitialize);
         Page.initializeControls($root, reinitialize);
         Page.initializeControlValues($root, reinitialize);
@@ -36,6 +36,7 @@ class Page {
 
     static finalizeContent($root, reinitialize = false) {
         PageStickyBox.finalize();
+        PageTooltips.finalize();
         Page.finalizeControls($root, reinitialize);
         Page.finalizeComponents($root, reinitialize);
         PageContent.finalize();

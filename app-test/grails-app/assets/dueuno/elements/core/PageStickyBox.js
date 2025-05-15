@@ -13,7 +13,7 @@ class PageStickyBox {
     static get $self() { return $('#page-sticky-box') }
 
     static initialize() {
-        if (PageModal.isActive) {
+        if (PageModal.isActive || !PageStickyBox.$self.exists()) {
             return;
         }
 
@@ -32,8 +32,11 @@ class PageStickyBox {
         if ($stickyComponents.exists()) {
             PageStickyBox.$self.empty();
             PageStickyBox.$self.append($stickyComponents);
-            PageContent.$self.prepend(PageStickyBox.$self);
             PageStickyBox.setActive();
+
+            Page.initializeComponents(PageStickyBox.$self, true);
+            Page.initializeControls(PageStickyBox.$self, true);
+            Page.initializeControlValues(PageStickyBox.$self, true);
 
         } else if (!PageStickyBox.isActive() && !$stickyComponents.exists()) {
             PageStickyBox.$self.empty();
@@ -41,11 +44,13 @@ class PageStickyBox {
     }
 
     static finalize() {
-        if (PageModal.isActive) {
+        if (PageModal.isActive || !PageStickyBox.$self.exists()) {
             return;
         }
 
         PageContent.$self.before(PageStickyBox.$self);
+        Page.finalizeControls(PageStickyBox.$self, true);
+        Page.finalizeComponents(PageStickyBox.$self, true);
 
         // Sometimes the offest is one line bigger then needed, this trick
         // of of -.3 reduces the cases to almost none
