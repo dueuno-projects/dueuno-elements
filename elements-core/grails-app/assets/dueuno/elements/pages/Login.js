@@ -33,8 +33,8 @@ class Login extends Page {
             $search.val('');
         }
 
-        let printable = KeyPress.isPrintable(event.keyCode);
-        let isModifierPressed = KeyPress.isModifierPressed(event, lastKey);
+        let printable = Control.isPrintable(event.keyCode);
+        let isModifierPressed = Control.isModifierPressed(event, lastKey);
 
         if (printable) {
             $search.val($search.val() + event.key);
