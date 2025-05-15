@@ -54,16 +54,42 @@ class CrudCustomController implements ElementsController {
             )
         }
 
+//        def form2 = c.addComponent(Form, 'form2')
+//        form2.with {
+//            sticky = true
+//            addField(
+//                    class: TextField,
+//                    id: 'test1',
+//                    cols: 6,
+//            )
+//            addField(
+//                    class: Select,
+//                    id: 'test2',
+//                    optionsFromList: ['PIPPO', 'PLUTO', 'PAPERINO'],
+//                    cols: 6,
+//            )
+//        }
+//
+//        def form3 = c.addComponent(Form, 'form3')
+//        form3.with {
+//            sticky = true
+//            addField(
+//                    class: TextField,
+//                    id: 'test1',
+//                    cols: 6,
+//            )
+//            addField(
+//                    class: Select,
+//                    id: 'test2',
+//                    optionsFromList: ['PIPPO', 'PLUTO', 'PAPERINO'],
+//                    cols: 6,
+//            )
+//        }
+//
         def table = c.addComponent(Table)
         table.with {
             sticky = true
             filters.with {
-                /*addField(
-                        class: Select,
-                        id: 'user1',
-                        optionsFromRecordset: TPerson.list(),
-                        keys: ['username'],
-                )*/
                 addField(
                         class: DateField,
                         id: 'dateFrom',

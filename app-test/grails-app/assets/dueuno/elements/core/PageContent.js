@@ -11,8 +11,8 @@ class PageContent extends Component {
     static set tooltips(value) { PageContent_tooltips = value }
 
     static get $self() { return $('#page-content') }
-    static get $scrollbar() { return $('#page-content-scrollbar-box') }
-    static get $scrollbarBox() { return $('#page-content-scrollbar') }
+    static get $scrollbar() { return $('#page-content-scrollbar') }
+    static get $scrollbarBox() { return $('#page-content-scrollbar-box') }
 
     static initialize() {
         PageContent.clearTooltips();

@@ -1,28 +1,20 @@
 // Temporary solutions until we get support for static fields
 // See: https://github.com/google/closure-compiler/issues/2731
-let PageContent_$self = null;
-let PageContent_$scrollbar = null;
-let PageContent_$scrollbarBox = null;
 let PageContent_scrollableElements = [];
 let PageContent_tooltips = [];
 
 class PageContent extends Component {
 
-    static get $self() { return PageContent_$self }
-    static set $self(value) { PageContent_$self = value }
-    static get $scrollbar() { return PageContent_$scrollbar }
-    static set $scrollbar(value) { PageContent_$scrollbar = value }
-    static get $scrollbarBox() { return PageContent_$scrollbarBox }
-    static set $scrollbarBox(value) { PageContent_$scrollbarBox = value }
     static get scrollableElements() { return PageContent_scrollableElements }
     static set scrollableElements(value) { PageContent_scrollableElements = value }
     static get tooltips() { return PageContent_tooltips }
     static set tooltips(value) { PageContent_tooltips = value }
 
+    static get $self() { return $('#page-content') }
+    static get $scrollbar() { return $('#page-content-scrollbar') }
+    static get $scrollbarBox() { return $('#page-content-scrollbar-box') }
+
     static initialize() {
-        PageContent.$self = $('#page-content');
-        PageContent.$scrollbarBox = $('#page-content-scrollbar-box');
-        PageContent.$scrollbar = $('#page-content-scrollbar');
         PageContent.clearTooltips();
     }
 
