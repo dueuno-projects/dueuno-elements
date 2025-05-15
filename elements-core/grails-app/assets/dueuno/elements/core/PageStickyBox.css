@@ -1,0 +1,12 @@
+#page-sticky-box {
+    position: fixed;
+    z-index: 1000;
+    width: calc(100% - 2rem) !important;
+    background-color: rgb(var(--elements-tertiary-bg));
+}
+
+@media (min-width: 1399.98px) {
+    #page-sticky-box {
+        width: calc(100% - 17rem) !important;
+    }
+}

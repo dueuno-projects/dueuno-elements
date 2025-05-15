@@ -1,8 +1,5 @@
 // Temporary solutions until we get support for static fields
 // See: https://github.com/google/closure-compiler/issues/2731
-let PageModal_$self = null;
-let PageModal_$header = null;
-let PageModal_$body = null;
 let PageModal_dialog = null;
 let PageModal_isActive = false;
 let PageModal_isShowRequested = false;
@@ -10,33 +7,21 @@ let PageModal_hasCloseButton = true;
 
 class PageModal extends Component {
 
-    static get $self() { return PageModal_$self }
-    static set $self(value) { PageModal_$self = value }
-
-    static get $header() { return PageModal_$header }
-    static set $header(value) { PageModal_$header = value }
-
-    static get $body() { return PageModal_$body }
-    static set $body(value) { PageModal_$body = value }
-
     static get dialog() { return PageModal_dialog }
     static set dialog(value) { PageModal_dialog = value }
-
     static get isActive() { return PageModal_isActive }
     static set isActive(value) { PageModal_isActive = value }
-
     static get isShowRequested() { return PageModal_isShowRequested }
     static set isShowRequested(value) { PageModal_isShowRequested = value }
-
     static get hasCloseButton() { return PageModal_hasCloseButton }
     static set hasCloseButton(value) { PageModal_hasCloseButton = value }
 
-    static initialize() {
-        PageModal.$self = $('#page-modal');
-        PageModal.$header = $('#page-modal-header');
-        PageModal.$body = $('#page-modal-body');
-        PageModal.$backdrop = $('.modal-backdrop');
+    static get $self() { return $('#page-modal') }
+    static get $header() { return $('#page-modal-header') }
+    static get $body() { return $('#page-modal-body') }
+    static get $backdrop() { return $('.modal-backdrop') }
 
+    static initialize() {
         PageModal.isActive = false;
         PageModal.dialog = new bootstrap.Modal('#page-modal', { backdrop: 'static' });
 

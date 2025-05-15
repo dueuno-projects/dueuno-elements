@@ -4,13 +4,17 @@
 
 class Shell extends Page {
 
+    static initialize() {
+        PageStickyBox.setTop($('#shell-navbar'));
+    }
+
     static finalize() {
         Transition.wsConnect();
     }
 
     static onContentChange() {
-        let $navbar = $('body').find('#shell-navbar');
-        if (Page.stickyOffset) {
+        let $navbar = $('#shell-navbar');
+        if (PageStickyBox.isActive()) {
             $navbar.addClass('has-sticky');
         } else {
             $navbar.removeClass('has-sticky');

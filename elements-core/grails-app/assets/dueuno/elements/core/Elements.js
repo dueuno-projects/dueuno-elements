@@ -33,7 +33,7 @@ class Elements {
 
     static getElementById(id, $root) {
         if (!$root) {
-            $root = $('body');
+            $root = Page.$self;
         }
 
         return $root.find('[data-21-id="' + id + '"]');

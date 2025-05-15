@@ -1,31 +1,27 @@
 .component-header {
     padding-top: .25rem;
     padding-bottom: 1rem;
-    width: calc(100% + 2rem);
-}
-
-/* Special positioning when inside the content to make the header width border-to-border */
-.page-content .component-header {
-    margin: 0 0 .5rem -1rem;
-    padding: .5rem 1rem .25rem 1rem;
     background-color: rgb(var(--elements-tertiary-bg));
 }
 
-.page-content .component-header.component-sticky {
-    padding-top: 1rem;
+/* Special positioning when inside the page content to make the header
+   width border-to-border */
+.component-header {
+    margin: 0 0 .5rem -1rem;
+    padding: .5rem 0 .25rem 1rem;
 }
 
-.page-content .component-header .component-header-box {
+.component-header .component-header-box {
     padding: .25rem;
     border-radius: var(--bs-border-radius-lg);
     background-color: rgba(255, 255, 255, .5);
 }
 
-.page-content .component-header .row {
+.component-header .row {
     margin-right: -.75rem;
 }
 
-.component-header .navbar-text {
+.component-header .component-header-title {
     font-size: 1.1rem;
     font-weight: bold;
     margin-top: .1rem;
@@ -33,16 +29,20 @@
     padding: 0;
 }
 
-#page-modal .component-header .navbar-text {
-    margin-left: -.45rem;
+#page-modal .component-header  {
+    width: 100%;
+    margin: 0;
+}
+
+#page-modal .component-header .component-header-title {
+    margin-left: -.5rem;
+}
+
+#page-modal .component-header .component-header-box {
+    background-color: rgb(var(--elements-tertiary-bg));
+    padding: 0;
 }
 
 .component-header-back > .component-button {
     padding-right: .15rem;
-}
-
-/* COLORS
-*/
-.component-header {
-    background-color: rgb(var(--elements-tertiary-bg));
 }

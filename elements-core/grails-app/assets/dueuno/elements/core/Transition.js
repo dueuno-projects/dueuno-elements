@@ -135,7 +135,7 @@ class Transition {
         let $root;
         switch (rootName) {
             case 'page':
-                $root = $('body');
+                $root = Page.$self;
                 if (rootName == targetName) return $root;
                 break;
 
