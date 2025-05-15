@@ -1,18 +1,10 @@
 .component-header {
-    padding-top: .25rem;
-    padding-bottom: 1rem;
     background-color: rgb(var(--elements-tertiary-bg));
-}
-
-/* Special positioning when inside the page content to make the header
-   width border-to-border */
-.component-header {
-    margin: 0 0 .5rem -1rem;
-    padding: .5rem 0 .25rem 1rem;
 }
 
 .component-header .component-header-box {
     padding: .25rem;
+    margin-bottom: .25rem;
     border-radius: var(--bs-border-radius-lg);
     background-color: rgba(255, 255, 255, .5);
 }
@@ -29,7 +21,16 @@
     padding: 0;
 }
 
-#page-modal .component-header  {
+#page-sticky-box:empty + #page-content > .component-header:nth-child(3) {
+    margin-bottom: 1rem !important;
+}
+
+#page-content .component-header {
+    padding-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+#page-modal .component-header {
     width: 100%;
     margin: 0;
 }
@@ -40,6 +41,7 @@
 
 #page-modal .component-header .component-header-box {
     background-color: rgb(var(--elements-tertiary-bg));
+    margin-bottom : 0;
     padding: 0;
 }
 

@@ -30,6 +30,8 @@ class PageStickyBox {
 
         let $stickyComponents = PageContent.$self.find('> [data-21-component][sticky]');
         if ($stickyComponents.exists()) {
+            Component.setDisplay(PageStickyBox.$self, true);
+
             PageStickyBox.$self.empty();
             PageStickyBox.$self.append($stickyComponents);
             PageStickyBox.setActive();
@@ -39,6 +41,7 @@ class PageStickyBox {
             Page.initializeControlValues(PageStickyBox.$self, true);
 
         } else if (!PageStickyBox.isActive() && !$stickyComponents.exists()) {
+            Component.setDisplay(PageStickyBox.$self, false);
             PageStickyBox.$self.empty();
         }
     }
@@ -48,16 +51,20 @@ class PageStickyBox {
             return;
         }
 
+        if (!PageStickyBox.$self.children().exists()) {
+            return;
+        }
+
         PageContent.$self.before(PageStickyBox.$self);
         Page.finalizeControls(PageStickyBox.$self, true);
         Page.finalizeComponents(PageStickyBox.$self, true);
 
         // On some combinations of font size and resolution the offest is one line bigger then needed,
         // this trick reduces the cases to almost none
-        let offsetAdjustment = Elements.onMobile ? 1 : .01
+        let offsetAdjustment = Elements.onMobile ? 1 : .3
         let offsetHeight = PageStickyBox.$self[0].offsetHeight - offsetAdjustment;
         PageStickyBox.offset = PageStickyBox.top + offsetHeight;
-        PageContent.$self.css('padding-top', offsetHeight);
+        PageContent.$self.css('padding-top', 'calc(' + offsetHeight + 'px + .73rem)');
     }
 
     static setActive() {
