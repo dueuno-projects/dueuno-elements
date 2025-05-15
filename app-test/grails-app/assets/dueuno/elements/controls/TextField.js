@@ -3,7 +3,7 @@ class TextField extends Control {
     static finalize($element, $root) {
         $element.off('focus').on('focus', Control.onFocus);
         $element.off('paste').on('paste', Control.onPaste);
-        $element.off('keydown').on('keydown', TextField.onKeyPress);
+        $element.off('keypress').on('keypress', TextField.onKeyPress);
         $element.off('input').on('input', TextField.onChange);
 
         Transition.triggerEvent($element, 'load');
@@ -39,19 +39,13 @@ class TextField extends Control {
         let $element = $(event.currentTarget);
         let properties = Component.getProperties($element);
         let value = Control.getEventValue($element, event);
-        let isPrintable = Control.isPrintable(event.keyCode);
-        let isModifierPressed = event.ctrlKey;
 
         if (properties.pattern) {
             let pattern = new RegExp(properties.pattern);
             let isValidValue = value.match(pattern);
-            if (isPrintable && !isModifierPressed && !isValidValue) {
+            if (!isValidValue) {
                 event.preventDefault();
             }
-        }
-
-        if (isModifierPressed) {
-            return;
         }
 
         //Transition.triggerEvent($element, 'keypress');

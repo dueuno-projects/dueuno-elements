@@ -85,9 +85,9 @@ class PDFBoxUtils {
         write content, x, y, text, font, fontSize
     }
 
-    static void writeFromTop(PDPageContentStream content, PDDocument doc, Float x, Float y, String text, Float fontSize = 14) {
+    static void writeFromTop(PDPageContentStream content, PDDocument doc, Float x, Float y, String text, Float fontSize = 14, PDFont font = null) {
         PDRectangle mediaBox = doc.getPage(0).mediaBox
-        PDFont font = PDType1Font.HELVETICA_BOLD
+        if (!font) font = PDType1Font.HELVETICA_BOLD
 
         Float titleHeight = font.getFontDescriptor().getFontBoundingBox().getHeight() / 1000 * fontSize as Float
         x = mmToPt(x)
@@ -96,9 +96,9 @@ class PDFBoxUtils {
         write content, x, y, text, font, fontSize
     }
 
-    static void writeCentered(PDPageContentStream content, PDDocument doc, String text, Float fontSize = 14, Float marginTop = 0) {
+    static void writeCentered(PDPageContentStream content, PDDocument doc, String text, Float fontSize = 14, Float marginTop = 0, PDFont font = null) {
         PDRectangle mediaBox = doc.getPage(0).mediaBox
-        PDFont font = PDType1Font.HELVETICA_BOLD
+        if (!font) font = PDType1Font.HELVETICA_BOLD
 
         Float titleWidth = font.getStringWidth(text) / 1000 * fontSize as Float
         Float titleHeight = font.getFontDescriptor().getFontBoundingBox().getHeight() / 1000 * fontSize as Float
