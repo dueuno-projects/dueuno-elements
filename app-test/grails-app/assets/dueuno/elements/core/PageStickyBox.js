@@ -53,8 +53,9 @@ class PageStickyBox {
         Page.finalizeComponents(PageStickyBox.$self, true);
 
         // Sometimes the offest is one line bigger then needed, this trick
-        // of of -.3 reduces the cases to almost none
-        let offsetHeight = PageStickyBox.$self[0].offsetHeight - .3;
+        // of reduces the cases to almost none
+        let offsetAdjustment = Elements.onMobile ? 1 : .3
+        let offsetHeight = PageStickyBox.$self[0].offsetHeight - offsetAdjustment;
         PageStickyBox.offset = PageStickyBox.top + offsetHeight;
         PageContent.$self.css('padding-top', offsetHeight);
     }
