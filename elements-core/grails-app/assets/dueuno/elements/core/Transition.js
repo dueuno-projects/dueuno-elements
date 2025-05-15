@@ -187,10 +187,10 @@ class Transition {
         }
     }
 
-    static triggerEvent($element, eventName) {
+    static triggerEvent($element, eventName, async = true) {
         let componentEvent = Component.getEvent($element, eventName);
         if (componentEvent) {
-            Transition.submit(componentEvent);
+            Transition.submit(componentEvent, async);
         }
     }
 

@@ -1,125 +1,78 @@
-//= require Component
+class KeyPress extends Component {
 
-class Control extends Component {
-
-    static register(clazz) {
-        let clazzName = clazz.name;
-        log.trace("REGISTERING CONTROL '" + clazzName + "'");
-        Elements.controls.set(
-            clazzName,
-            clazz
-        );
-    }
-
-    static onFocus(event) {
-        let $element = $(event.currentTarget);
-        let isReadonly = Component.getReadonly($element);
-
-        if (!isReadonly) {
-            $element.select();
+    static finalize($element, $root) {
+        let enabled = Component.getProperty($element, 'enabled');
+        if (!enabled) {
+            return;
         }
+
+        $(document).off('keydown.keyPress').on('keydown.keyPress', KeyPress.onKeyPress);
+
+        log.debug('Finalizing "' + Component.getId($element) + '"')
+        log.events($(document));
     }
 
-    static onPaste(event) {
-        let $element = $(event.currentTarget);
-        let properties = Component.getProperties($element);
-        let value = event.originalEvent.clipboardData.getData('text/plain');
+    static onKeyPress(event) {
+        let $element = $('[data-21-id="keyPress"]');
+        let $search = $element.find('input');
 
-        if (properties.pattern) {
-            let pattern = new RegExp(properties.pattern);
-            let isValidValue = value.match(pattern);
-            if (!isValidValue) {
-                event.preventDefault();
+        event.stopPropagation();
+
+        let triggerKey = Component.getProperty($element, 'triggerKey');
+        let readingSpeed = Component.getProperty($element, 'readingSpeed');
+        let bufferTimeout = Component.getProperty($element, 'bufferTimeout');
+        let hideInput = Component.getProperty($element, 'hideInput');
+        let timer = Component.getProperty($element, 'timer');
+        let lastKey = Component.getProperty($element, 'lastKey');
+
+        if (triggerKey == null) {
+            return;
+        }
+
+        if (isNaN(timer)) timer = 0;
+        let now = Date.now();
+        let timeInterval = now - timer;
+        Component.setProperty($element, 'timer', now);
+        Component.setProperty($element, 'lastKey', event.key);
+
+        let checkMinTime = (readingSpeed == 0 || timeInterval < readingSpeed);
+        let checkMaxTime = (bufferTimeout == 0 || timeInterval > bufferTimeout);
+
+        if (checkMaxTime) {
+            $search.val('');
+        }
+
+        let printable = Control.isPrintable(event.keyCode);
+        let isModifierPressed = Control.isModifierPressed(event, lastKey);
+
+        if (triggerKey.length == 0) {
+            $search.val(event.key);
+        } else {
+            if (printable) {
+                $search.val($search.val() + event.key);
             }
         }
 
-        Transition.triggerEvent($element, 'paste');
-    }
-
-    static getByClassName(className) {
-        let control = Elements.controls.get(className);
-        return control;
-    }
-
-    static getByElement($element) {
-        let className = Control.getClassName($element);
-        return Control.getByClassName(className);
-    }
-
-    static getClassName($element) {
-        return $element.data('21-control');
-    }
-
-    static getServerValue($element) {
-        return JSON.parse($element.attr('data-21-value'))
-    }
-
-    static getValueType($element) {
-        return $element.data('21-value')['type'];
-    }
-
-    static getValue($element) {
-        let className = Elements.getClassName($element);
-        log.error('Control "' + className + '" has no "getValue()" method. Please implement one.')
-    }
-
-    static setValue($element, valueMap, trigger = true) {
-        let className = Elements.getClassName($element);
-        log.error('Control "' + className + '" has no "setValue()" method. Please implement one.')
-    }
-
-    static getEventValue($element, event) {
-        let keyPressed = event.key;
-        let oldValue = event.target.value || '';
-        let selStart = event.target.selectionStart;
-
-        let value;
-        if (selStart) {
-            value = oldValue.substr(0, selStart) + keyPressed + oldValue.substr(selStart);
-        } else {
-            value = oldValue + keyPressed;
+        if (hideInput && !isModifierPressed && checkMinTime && event.target.tagName == 'INPUT') {
+            event.preventDefault();
+            $(event.target).val('');
         }
 
-        // If selected we clear the current input
-        if (oldValue && document.getSelection().toString() == oldValue) {
-            value = keyPressed;
-        }
+        if ((event.key == triggerKey && $search.val().length > 0 && checkMinTime) || triggerKey.length == 0) {
+            if (triggerKey.length > 0 && $search.val().length > 0 &&
+                (event.target.tagName == 'A' || event.target.tagName == 'BUTTON')) {
+                event.preventDefault();
+            }
 
-        return value;
-    }
-
-    static isPrintable(keycode) {
-        let printable =
-            (keycode > 47 && keycode < 58)   || // number keys
-            (keycode == 32)                  || // space bar
-            (keycode > 64 && keycode < 91)   || // letter keys
-            (keycode > 95 && keycode < 112)  || // numpad keys
-            (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
-            (keycode > 218 && keycode < 223);   // [\]' (in order)
-        return printable;
-    }
-
-    static isModifierPressed(event, lastKey = '') {
-        return event.shiftKey || event.ctrlKey || event.altKey || lastKey == 'AltGraph';
-    }
-
-    static setNullable($element, value) {
-        let $formField = $element.closest('[data-21-component="FormField"]');
-        if ($formField) FormField.setNullable($formField, value);
-    }
-
-    static setReadonly($element, value) {
-        Component.setReadonly($element, value);
-
-        let $formField = $element.closest('[data-21-component="FormField"]');
-        if ($formField) FormField.setReadonly($formField, value);
-    }
-
-    static setFocus($element, value) {
-        if (value) {
-            $element[0].select();
-        } else {
-            document.activeElement.blur();
+            let triggerEvent = Component.getEvent($element, 'keypress');
+            if (triggerEvent && (event.target.tagName != 'INPUT' || !printable || checkMinTime)) {
+                if (!triggerEvent.params) triggerEvent.params = {};
+                triggerEvent.params['_21KeyPressed'] = $search.val();
+                Transition.submit(triggerEvent);
+            }
+            $search.val('');
         }
     }
 }
+
+Component.register(KeyPress);
