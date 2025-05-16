@@ -10,6 +10,9 @@ class PageStickyBox {
     static set top(value) { PageStickyBox_top = value }
     static get offset() { return PageStickyBox_offset }
     static set offset(value) { PageStickyBox_offset = value }
+    // On some combinations of font size and resolution the offest is one line bigger then needed,
+    // this trick reduces the cases to almost none
+    static get offsetAdjustment() { return Elements.onMobile ? 1 : .3 }
     static get isActive() { return PageStickyBox.isStickyBoxActive() }
 
     static get $self() { return $('#page-sticky-box') }
@@ -53,10 +56,9 @@ class PageStickyBox {
                 let $stickyBox = $('<div id="page-sticky-box"></div>');
                 PageContent.$self.before($stickyBox);
                 $stickyBox.append($stickyComponents);
-                // On some combinations of font size and resolution the offest is one line bigger then needed,
-                // this trick reduces the cases to almost none
-                let offsetAdjustment = Elements.onMobile ? 1 : .3
-                let offsetHeight = PageStickyBox.$self[0].offsetHeight - offsetAdjustment;
+
+                // Making space for the #page-content
+                let offsetHeight = PageStickyBox.$self[0].offsetHeight - PageStickyBox.offsetAdjustment;
                 PageStickyBox.offset = PageStickyBox.top + offsetHeight;
                 PageContent.$self.css('padding-top', 'calc(' + offsetHeight + 'px + .25rem)');
             }
@@ -113,7 +115,7 @@ class PageStickyBox {
     }
 
     static setTop($element) {
-        PageStickyBox.top = $element[0].offsetHeight;
+        PageStickyBox.top = $element[0].offsetHeight - PageStickyBox.offsetAdjustment;
     }
 
 }
