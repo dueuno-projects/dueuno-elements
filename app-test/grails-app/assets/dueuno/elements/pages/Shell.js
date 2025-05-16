@@ -14,7 +14,7 @@ class Shell extends Page {
 
     static onContentChange() {
         let $navbar = $('#shell-navbar');
-        if (PageStickyBox.isActive()) {
+        if (PageStickyBox.isActive) {
             $navbar.addClass('has-sticky');
         } else {
             $navbar.removeClass('has-sticky');

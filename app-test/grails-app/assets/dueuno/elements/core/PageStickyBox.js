@@ -2,6 +2,7 @@
 // See: https://github.com/google/closure-compiler/issues/2731
 let PageStickyBox_top = 0;
 let PageStickyBox_offset = 0;
+let PageStickyBox_isActive = false;
 
 class PageStickyBox {
 
@@ -9,70 +10,97 @@ class PageStickyBox {
     static set top(value) { PageStickyBox_top = value }
     static get offset() { return PageStickyBox_offset }
     static set offset(value) { PageStickyBox_offset = value }
+    static get isActive() { return PageStickyBox.isStickyBoxActive() }
 
     static get $self() { return $('#page-sticky-box') }
 
     static initialize() {
-        if (PageModal.isActive || !PageStickyBox.$self.exists()) {
+        if (PageModal.isActive) {
             return;
         }
 
+        PageStickyBox.markStickyComponents();
         PageStickyBox.offset = PageStickyBox.top;
 
+        let isNeeded = PageStickyBox.isStickyBoxNeeded();
+        let isActive = PageStickyBox.isStickyBoxActive();
+        let hasNewStickyComponents = PageStickyBox.hasNewStickyComponents();
+
+        if (!isNeeded || (isActive && hasNewStickyComponents)) {
+            // Loading a new content from a Transition
+            // - WITHOUT stickies
+            // - With NEW stickies for an already active sticky box
+            PageStickyBox.$self.remove();
+
+        } else if (isActive) {
+            // A PageModal has been opened and closed. We move the StickyBox into
+            // #page-content to let Page.initializeContent() to do its job
+            PageContent.$self.prepend(PageStickyBox.$self);
+        }
+    }
+
+    static finalize() {
+        if (PageModal.isActive) {
+            return;
+        }
+
+        let isNeeded = PageStickyBox.isStickyBoxNeeded();
+        let isActive = PageStickyBox.isStickyBoxActive();
+        if (isNeeded && !isActive) {
+            // First time or new sticky components have been provided
+            let $stickyComponents = PageContent.$self.find('> [data-21-component][sticky]');
+            if ($stickyComponents.exists()) {
+                let $stickyBox = $('<div id="page-sticky-box"></div>');
+                PageContent.$self.before($stickyBox);
+                $stickyBox.append($stickyComponents);
+                // On some combinations of font size and resolution the offest is one line bigger then needed,
+                // this trick reduces the cases to almost none
+                let offsetAdjustment = Elements.onMobile ? 1 : .3
+                let offsetHeight = PageStickyBox.$self[0].offsetHeight - offsetAdjustment;
+                PageStickyBox.offset = PageStickyBox.top + offsetHeight;
+                PageContent.$self.css('padding-top', 'calc(' + offsetHeight + 'px + .25rem)');
+            }
+
+        } else if (isActive) {
+            // We just move the sticky box back to its sticky position
+            PageContent.$self.before(PageStickyBox.$self);
+        }
+
+        // We need to manually finalize the sticky box since it is outside
+        // of the #page-content element and will not be automatically
+        // initialized
+        Page.finalizeControls(PageStickyBox.$self, true);
+        Page.finalizeComponents(PageStickyBox.$self, true);
+    }
+
+    static markStickyComponents() {
+        let hasStickyComponents = false;
         let $components = PageContent.$self.find('> [data-21-component]');
         for (let component of $components) {
             let $component = $(component);
             let properties = Component.getProperties($component);
             if (properties['sticky']) {
                 PageStickyBox.setSticky($(component));
+                hasStickyComponents = true;
             }
         }
 
+        if (hasStickyComponents) {
+            PageContent.$self[0].setAttribute('sticky', '');
+        }
+    }
+
+    static hasNewStickyComponents() {
         let $stickyComponents = PageContent.$self.find('> [data-21-component][sticky]');
-        if ($stickyComponents.exists()) {
-            Component.setDisplay(PageStickyBox.$self, true);
-
-            PageStickyBox.$self.empty();
-            PageStickyBox.$self.append($stickyComponents);
-            PageStickyBox.setActive();
-
-            Page.initializeComponents(PageStickyBox.$self, true);
-            Page.initializeControls(PageStickyBox.$self, true);
-            Page.initializeControlValues(PageStickyBox.$self, true);
-
-        } else if (!PageStickyBox.isActive() && !$stickyComponents.exists()) {
-            Component.setDisplay(PageStickyBox.$self, false);
-            PageStickyBox.$self.empty();
-        }
+        return $stickyComponents.exists();
     }
 
-    static finalize() {
-        if (PageModal.isActive || !PageStickyBox.$self.exists()) {
-            return;
-        }
-
-        if (!PageStickyBox.$self.children().exists()) {
-            return;
-        }
-
-        PageContent.$self.before(PageStickyBox.$self);
-        Page.finalizeControls(PageStickyBox.$self, true);
-        Page.finalizeComponents(PageStickyBox.$self, true);
-
-        // On some combinations of font size and resolution the offest is one line bigger then needed,
-        // this trick reduces the cases to almost none
-        let offsetAdjustment = Elements.onMobile ? 1 : .3
-        let offsetHeight = PageStickyBox.$self[0].offsetHeight - offsetAdjustment;
-        PageStickyBox.offset = PageStickyBox.top + offsetHeight;
-        PageContent.$self.css('padding-top', 'calc(' + offsetHeight + 'px + .73rem)');
+    static isStickyBoxNeeded() {
+        return PageContent.$self[0].hasAttribute('sticky');
     }
 
-    static setActive() {
-        PageContent.$self[0].setAttribute('has-sticky', '');
-    }
-
-    static isActive() {
-        return PageContent.$self[0].hasAttribute('has-sticky', '');
+    static isStickyBoxActive() {
+        return PageStickyBox.$self.exists();
     }
 
     static getContentStickyComponents() {

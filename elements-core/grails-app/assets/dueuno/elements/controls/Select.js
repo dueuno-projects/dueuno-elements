@@ -68,12 +68,12 @@ class Select extends Control {
         Transition.triggerEvent($element, 'load');
     }
 
-    static isInitialized($element) {
-        return false;
+    static deactivate($element) {
+        Component.setDisplay($element, false);
     }
 
-    static onDeactivate($element) {
-        Component.setDisplay($element, false);
+    static isInitialized($element) {
+        return false;
     }
 
     // We need this to auto-focus the text input

@@ -1,4 +1,3 @@
-<div id="page-sticky-box"></div>
 <div id="page-content"
      class="page-content"
      data-21-component="PageContent"

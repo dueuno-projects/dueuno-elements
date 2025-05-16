@@ -27,6 +27,7 @@ class Page {
     }
 
     static initializeContent($root, reinitialize = false) {
+        // Do not change the sequence unless you know what you are doing
         PageStickyBox.initialize();
         PageTooltips.initialize();
         Page.deactivateComponents();
@@ -36,6 +37,7 @@ class Page {
     }
 
     static finalizeContent($root, reinitialize = false) {
+        // Do not change the sequence unless you know what you are doing
         PageStickyBox.finalize();
         PageTooltips.finalize();
         Page.finalizeControls($root, reinitialize);
@@ -101,9 +103,9 @@ class Page {
             let component = Elements.getByElement($element);
 
             try {
-                if (Elements.hasMethod(component, 'onDeactivate')) {
+                if (Elements.hasMethod(component, 'deactivate')) {
                     log.trace("DEACTIVATING COMPONENT '" + component.name + "'");
-                    Elements.callMethod($element, component, 'onDeactivate');
+                    Elements.callMethod($element, component, 'deactivate');
                 }
             } catch (e) {
                 log.error('Error deactivating component "' + component.name + '": ' + e);
