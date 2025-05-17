@@ -41,6 +41,8 @@ class TextField extends Control {
     String placeholder
     Boolean autocomplete
     TextTransform textTransform
+
+    Boolean onChangeAsync
     //Integer onChangeMinChars // Maybe in future
 
     TextField(Map args) {
@@ -54,9 +56,11 @@ class TextField extends Control {
         prefix = args.prefix ?: ''
         maxSize = args.maxSize as Integer ?: 0
         placeholder = args.placeholder == null ? '' : args.placeholder
-        autocomplete = (args.autocomplete == null) ? false : args.autocomplete
+        autocomplete = args.autocomplete == null ? false : args.autocomplete
         textTransform = args.textTransform as TextTransform ?: TextTransform.NONE
         prettyPrinterProperties.renderTextPrefix = args.renderTextPrefix == null ? false : args.renderTextPrefix
+
+        onChangeAsync = args.onChangeAsync == null ? false : args.onChangeAsync
         //onChangeMinChars = args.onChangeMinChars ?: 0 // forse in futuro
 
         setTextStyle(args.textStyle)
@@ -98,6 +102,7 @@ class TextField extends Control {
         Map thisProperties = [
                 autocomplete: autocomplete,
                 textTransform: textTransform as String,
+                onChangeAsync: onChangeAsync,
         ]
         return super.getPropertiesAsJSON(thisProperties + properties)
     }

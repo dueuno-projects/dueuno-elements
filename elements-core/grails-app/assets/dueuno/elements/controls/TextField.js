@@ -26,7 +26,8 @@ class TextField extends Control {
             event.target.selectionEnd = selStart;
         }
 
-        Transition.triggerEvent($element, 'change', false);
+        let async = properties['onChangeAsync'];
+        Transition.triggerEvent($element, 'change', async);
     }
 
     static onKeyPress(event) {
@@ -47,8 +48,6 @@ class TextField extends Control {
                 event.preventDefault();
             }
         }
-
-        //Transition.triggerEvent($element, 'keypress');
     }
 
     static onEnter(event) {
