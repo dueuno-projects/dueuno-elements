@@ -261,6 +261,8 @@ class TransitionsController implements ElementsController {
                 backgroundColor: 'green',
         )
         t.replace('label', 'label')
+        t.set('content.nextButton', 'text', "New is cool! B-)")
+        t.set('content.actions', 'text', "Act cool! B-)")
 
         List formNames = actionSession['formName'] ?: []
         if (formNames) {
