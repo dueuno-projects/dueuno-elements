@@ -62,6 +62,7 @@ class Select extends Control {
     }
 
     static finalize($element, $root) {
+        $element.parent().find('.select2-selection__rendered').removeAttr('title');
         $element.off('select2:select select2:unselect').on('select2:select select2:unselect', Select.onChange);
         $element.off('select2:open').on('select2:open', Select.onOpen);
 
