@@ -139,6 +139,11 @@ class Transition {
                 if (rootName == targetName) return $root;
                 break;
 
+            case 'messagebox':
+                $root = PageMessageBox.$self;
+                if (rootName == targetName) return $root;
+                break;
+
             case 'modal':
                 $root = PageModal.$self;
                 if (rootName == targetName) return $root;
