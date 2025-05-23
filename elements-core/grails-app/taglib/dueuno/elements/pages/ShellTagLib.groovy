@@ -23,18 +23,18 @@ class ShellTagLib implements WebRequestAware {
         out << applicationService.getFlagCode(currentLanguage)
     }
 
-    def displayUserNotifications = {
-        if (applicationService.hasGrailsPlugin('notifications')) {
-            out << g.render(template: tagsTemplatesPath + "displayTopBarNotifications")
-        }
-    }
-
-    def displayUserMenuNotifications = {
-        if (applicationService.hasGrailsPlugin('notifications')) {
-            out << g.render(template: tagsTemplatesPath + "displayUserMenuNotifications")
-            out << g.render(template: tagsTemplatesPath + "displayUserMenuSeparator")
-        }
-    }
+//    def displayUserNotifications = {
+//        if (applicationService.hasPlugin('notifications')) {
+//            out << g.render(template: tagsTemplatesPath + "displayTopBarNotifications")
+//        }
+//    }
+//
+//    def displayUserMenuNotifications = {
+//        if (applicationService.hasPlugin('notifications')) {
+//            out << g.render(template: tagsTemplatesPath + "displayUserMenuNotifications")
+//            out << g.render(template: tagsTemplatesPath + "displayUserMenuSeparator")
+//        }
+//    }
 
     def displayUserMenuExtensions = { attrs ->
         def menu = shellService.shell.config.features.user.items

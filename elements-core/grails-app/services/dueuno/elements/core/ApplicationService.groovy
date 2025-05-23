@@ -77,7 +77,7 @@ class ApplicationService implements LinkGeneratorAware {
      * Returns true if the specified plugin is installed
      * @return true if the specified plugin is installed
      */
-    Boolean hasGrailsPlugin(String name) {
+    Boolean hasPlugin(String name) {
         return Holders.pluginManager.hasGrailsPlugin(name)
     }
 
