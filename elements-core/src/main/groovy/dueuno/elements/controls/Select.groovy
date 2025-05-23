@@ -198,7 +198,7 @@ class Select extends Control {
             if (forEachOption)
                 forEachOption.call(row)
 
-            String text = PrettyPrinter.prettyPrint(row, prettyPrinterProperties)
+            String text = PrettyPrinter.print(row, prettyPrinterProperties)
 
             results.add([id: buildKey(row, keys, keysSeparator), text: text])
         }
@@ -215,7 +215,7 @@ class Select extends Control {
             if (forEachOption)
                 forEachOption.call(value)
 
-            String text = PrettyPrinter.prettyPrint(value, prettyPrinterProperties)
+            String text = PrettyPrinter.print(value, prettyPrinterProperties)
             results.add([id: value as String, text: text])
         }
 
@@ -238,7 +238,7 @@ class Select extends Control {
             if (forEachOption)
                 forEachOption.call(entry)
 
-            String text = PrettyPrinter.prettyPrint(entry, prettyPrinterProperties)
+            String text = PrettyPrinter.print(entry, prettyPrinterProperties)
             results.add([id: entry.key as String, text: text])
         }
 

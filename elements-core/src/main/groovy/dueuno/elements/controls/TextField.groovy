@@ -43,7 +43,7 @@ class TextField extends Control {
     TextTransform textTransform
 
     Boolean onChangeAsync
-    //Integer onChangeMinChars // Maybe in future
+    //Integer onChangeMinChars // Maybe in the future
 
     TextField(Map args) {
         super(args)

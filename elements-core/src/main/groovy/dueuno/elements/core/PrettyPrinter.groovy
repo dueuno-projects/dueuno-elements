@@ -81,7 +81,7 @@ class PrettyPrinter {
         return templateRegistry[prettyPrinterName]
     }
 
-    static String prettyPrint(Object object, PrettyPrinterProperties properties = new PrettyPrinterProperties()) {
+    static String print(Object object, PrettyPrinterProperties properties = new PrettyPrinterProperties()) {
         Object value = transform(object, properties)
 
         switch (value) {

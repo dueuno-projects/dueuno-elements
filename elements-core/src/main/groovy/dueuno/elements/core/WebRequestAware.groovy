@@ -336,7 +336,7 @@ trait WebRequestAware {
         if (properties.twelveHours == null) properties.twelveHours = twelveHours
         if (properties.firstDaySunday == null) properties.firstDaySunday = firstDaySunday
 
-        return PrettyPrinter.prettyPrint(value, properties)
+        return PrettyPrinter.print(value, properties)
     }
 
     String prettyPrint(Object value, String prettyPrinter, PrettyPrinterProperties properties = new PrettyPrinterProperties()) {
