@@ -28,13 +28,25 @@ body {
   user-select: text !important;
 }
 
+/* Disable text selection when compiled for PROD environment */
+body.prod {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 a,
 a:hover {
     color: rgb(var(--elements-primary-bg));
 }
 
-.font-monospace {
+.font-monospace, pre {
     font-size: .95rem !important;
+}
+
+pre {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .dev-hints {
@@ -50,11 +62,4 @@ textarea, input:matches([type="text"], [type="number"], [type="password"], [type
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-}
-
-/* Disable text selection when compiled for PROD environment */
-body.prod {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
 }
