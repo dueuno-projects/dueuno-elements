@@ -27,6 +27,7 @@ class Link extends Label {
 
     /** The link */
     LinkDefinition linkDefinition
+    String eventName
 
     Link(Map args) {
         super(args)
@@ -44,13 +45,14 @@ class Link extends Label {
         containerSpecs.label = ''
         containerSpecs.help = ''
 
-        setOnClickEvent(args.onClick as String)
+        eventName = 'click'
+        setOnEvent(args.onClick as String)
     }
 
-    private void setOnClickEvent(String onClick = null) {
+    void setOnEvent(String onEvent = null) {
         on(linkDefinition.properties + [
-                event: 'click',
-                action: onClick ?: linkDefinition.action,
+                event: eventName,
+                action: onEvent ?: linkDefinition.action,
                 infoMessage: message(linkDefinition.infoMessage, linkDefinition.infoMessageArgs),
                 confirmMessage: message(linkDefinition.confirmMessage, linkDefinition.confirmMessageArgs),
         ])
@@ -92,7 +94,7 @@ class Link extends Label {
 
     void setNamespace(String value) {
         linkDefinition.namespace = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getController() {
@@ -101,7 +103,7 @@ class Link extends Label {
 
     void setController(String value) {
         linkDefinition.controller = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getAction() {
@@ -110,7 +112,7 @@ class Link extends Label {
 
     void setAction(String value) {
         linkDefinition.action = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Map getParams() {
@@ -119,7 +121,7 @@ class Link extends Label {
 
     void setParams(Map value) {
         linkDefinition.params = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getFragment() {
@@ -128,7 +130,7 @@ class Link extends Label {
 
     void setFragment(String value) {
         linkDefinition.fragment = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getPath() {
@@ -137,7 +139,7 @@ class Link extends Label {
 
     void setPath(String value) {
         linkDefinition.path = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getUrl() {
@@ -146,7 +148,7 @@ class Link extends Label {
 
     void setUrl(String value) {
         linkDefinition.url = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     List<String> getSubmit() {
@@ -159,7 +161,7 @@ class Link extends Label {
 
     void setSubmit(List<String> value) {
         linkDefinition.submit = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Boolean getDirect() {
@@ -176,7 +178,7 @@ class Link extends Label {
 
     void setModal(Boolean value) {
         linkDefinition.renderProperties.modal = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Boolean getWide() {
@@ -185,7 +187,7 @@ class Link extends Label {
 
     void setWide(Boolean value) {
         linkDefinition.renderProperties.wide = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getAnimate() {
@@ -194,7 +196,7 @@ class Link extends Label {
 
     void setAnimate(String value) {
         linkDefinition.renderProperties.animate = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Boolean getCloseButton() {
@@ -203,7 +205,7 @@ class Link extends Label {
 
     void setCloseButton(Boolean value) {
         linkDefinition.renderProperties.closeButton = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getScroll() {
@@ -212,7 +214,7 @@ class Link extends Label {
 
     void setScroll(String value) {
         linkDefinition.renderProperties.scroll = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Boolean getTargetNew() {
@@ -221,7 +223,7 @@ class Link extends Label {
 
     void setTargetNew(Boolean value) {
         linkDefinition.targetNew = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Boolean getLoading() {
@@ -230,7 +232,7 @@ class Link extends Label {
 
     void setLoading(Boolean value) {
         linkDefinition.loading = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getInfoMessage() {
@@ -239,12 +241,12 @@ class Link extends Label {
 
     void setInfoMessage(String value) {
         linkDefinition.infoMessage = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     void setInfoMessageArgs(List value) {
         linkDefinition.infoMessageArgs = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getConfirmMessage() {
@@ -253,12 +255,12 @@ class Link extends Label {
 
     void setConfirmMessage(String value) {
         linkDefinition.confirmMessage = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     void setConfirmMessageArgs(List value) {
         linkDefinition.confirmMessageArgs = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getPrettyHtml() {

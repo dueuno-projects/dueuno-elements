@@ -194,7 +194,7 @@ class Transition {
         }
     }
 
-    static submit(componentEvent, async = true) {
+    static submit(componentEvent, async = true, silentFail = false) {
         let url = Transition.buildUrl(componentEvent);
         if (!url) {
             return;
@@ -214,7 +214,7 @@ class Transition {
         }
 
         let values = Transition.build21Params(componentEvent);
-        Transition.call(url, values, componentEvent, async);
+        Transition.call(url, values, componentEvent, async, silentFail);
     }
 
     static buildUrl(componentEvent, values = null) {
@@ -285,15 +285,15 @@ class Transition {
         return {_21Params: JSON.stringify(_21Params)};
     }
 
-    static call(url, values, componentEvent, async) {
+    static call(url, values, componentEvent, async, silentFail) {
         log.debug('');
         log.debug('>>> REQUEST ' + url);
         log.debug(JSON.stringify(JSON.parse(values._21Params), null, 2));
 
-        Transition.ajaxCall(url, values, componentEvent, async);
+        Transition.ajaxCall(url, values, componentEvent, async, silentFail);
     }
 
-    static ajaxCall(url, values, componentEvent, async, callback = null) {
+    static ajaxCall(url, values, componentEvent, async, silentFail) {
         let call = {
             type: 'POST',
             url: url,
@@ -318,6 +318,10 @@ class Transition {
             })
             .fail(function (xhr, textStatus, errorThrown) {
                 LoadingScreen.show(false);
+
+                if (silentFail == true) {
+                    return;
+                }
 
                 if (xhr.readyState === 0) {
                     PageMessageBox.error(null, {infoMessage: 'Unable to connect to server.'});
