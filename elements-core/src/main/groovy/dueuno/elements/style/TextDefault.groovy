@@ -41,6 +41,7 @@ class TextDefault {
     static final String CANCEL = 'default.text.cancel'
     static final String CONFIRM = 'default.text.confirm'
     static final String CONTINUE = 'default.text.continue'
+    static final String INFO = 'default.text.info'
     static final String BACK = 'default.text.back'
     static final String NEXT = 'default.text.next'
     static final String CLOSE = 'default.text.close'
