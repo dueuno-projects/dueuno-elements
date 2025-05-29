@@ -93,6 +93,13 @@ class TableFilters extends Form {
         return field
     }
 
+    void reset() {
+        for (controlEntry in controls) {
+            Control control = controlEntry.value
+            actionSession.remove(control.id)
+        }
+    }
+
     private void setSubmitParams() {
         searchButton.params = table.submitParams + (Map)[
                 _21Table: table.id,
@@ -108,7 +115,9 @@ class TableFilters extends Form {
         for (field in components) {
             if (field.component in Control) {
                 Control control = field.component as Control
-                control.onSubmit(searchButton.properties)
+                Map args = searchButton.properties
+                args.loading = true
+                control.onSubmit(args)
             }
         }
     }
