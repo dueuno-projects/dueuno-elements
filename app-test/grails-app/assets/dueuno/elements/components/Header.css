@@ -21,6 +21,10 @@
     padding: 0;
 }
 
+.component-header .component-header-title i {
+    margin-right: .25rem;
+}
+
 #page-content .component-header {
     padding-top: .25rem;
     margin-bottom: .5rem;
