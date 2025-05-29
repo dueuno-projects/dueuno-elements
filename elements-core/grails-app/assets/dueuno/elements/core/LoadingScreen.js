@@ -10,7 +10,7 @@ class LoadingScreen {
     static get timeoutIdModal() { return LoadingScreen_timeoutIdModal }
     static set timeoutIdModal(value) { LoadingScreen_timeoutIdModal = value }
 
-    static page(show, timeout) {
+    static page(show) {
         clearTimeout(LoadingScreen.timeoutIdModal);
         LoadingScreen.timeoutIdModal = null;
         $('#loading-screen-modal').css('display', 'none');
@@ -24,7 +24,7 @@ class LoadingScreen {
             // Display the loading screen
             LoadingScreen.timeoutIdPage = setTimeout(() => {
                 $loading.css('display', 'block');
-            }, timeout);
+            }, 0);
 
         } else {
             // Hide the loading screen
@@ -34,7 +34,7 @@ class LoadingScreen {
         }
     }
 
-    static modal(show, timeout) {
+    static modal(show) {
         clearTimeout(LoadingScreen.timeoutIdPage);
         LoadingScreen.timeoutIdPage = null;
         $('#loading-screen-page').css('display', 'none');
@@ -48,7 +48,7 @@ class LoadingScreen {
             // Display the loading screen
             LoadingScreen.timeoutIdModal = setTimeout(() => {
                 $loading.css('display', 'block');
-            }, timeout);
+            }, 0);
 
         } else {
             // Hide the loading screen
@@ -58,11 +58,11 @@ class LoadingScreen {
         }
     }
 
-    static show(show, timeout = 0) {
+    static show(show) {
         if (PageModal.isActive) {
-            LoadingScreen.modal(show, timeout);
+            LoadingScreen.modal(show);
         } else {
-            LoadingScreen.page(show, timeout);
+            LoadingScreen.page(show);
         }
     }
 

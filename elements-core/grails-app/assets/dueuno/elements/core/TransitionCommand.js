@@ -13,8 +13,6 @@ class TransitionCommand {
     static get SET() { return 'SET' }
 
     static async redirect(componentEvent) {
-        LoadingScreen.show(false);
-
         if (PageModal.isActive && !componentEvent.renderProperties['modal']) {
             PageModal.close();
             await sleep(100); // We give time for the animations to start

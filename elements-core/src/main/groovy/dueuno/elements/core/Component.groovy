@@ -383,7 +383,24 @@ abstract class Component implements WebRequestAware, Serializable {
         return component
     }
 
-    /**
+    public <T> T addComponentBefore(String beforeComponentName, Class<T> clazz, String id = null, Map args = [:]) {
+        T newComponent = createComponent(clazz, id, args)
+        Map<String, Component> results = [:]
+
+        for (item in components) {
+            String componentName = item.value.id
+            if (componentName == beforeComponentName) {
+                results.put(id, newComponent as Component)
+            }
+
+            results.put(item.key, item.value)
+        }
+
+        components = results
+        return newComponent
+    }
+
+        /**
      * Creates a component and adds it as sub-component
      *
      * @param args initialization Map

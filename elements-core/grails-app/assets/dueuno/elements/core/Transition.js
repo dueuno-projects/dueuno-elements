@@ -189,15 +189,21 @@ class Transition {
 
     static triggerEvent($element, eventName, async = true) {
         let componentEvent = Component.getEvent($element, eventName);
-        if (componentEvent) {
-            Transition.submit(componentEvent, async);
-        }
+        Transition.submit(componentEvent, async);
     }
 
     static submit(componentEvent, async = true) {
+        if (!componentEvent) {
+            return;
+        }
+
         let url = Transition.buildUrl(componentEvent);
         if (!url) {
             return;
+        }
+
+        if (componentEvent['loading'] != null) {
+            LoadingScreen.show(componentEvent['loading']);
         }
 
         if (componentEvent['direct']) {
@@ -300,8 +306,6 @@ class Transition {
             data: values,
             async: async,
         }
-
-        LoadingScreen.show(componentEvent['loading']);
 
         $.ajax(call)
             .done(function (data, textStatus, xhr) {

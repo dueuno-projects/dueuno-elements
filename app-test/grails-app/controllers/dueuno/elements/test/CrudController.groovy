@@ -16,6 +16,7 @@ package dueuno.elements.test
 
 import dueuno.elements.audit.AuditOperation
 import dueuno.elements.audit.AuditService
+import dueuno.elements.components.Form
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
@@ -42,6 +43,8 @@ class CrudController implements ElementsController {
 
     def index() {
 
+//        sleep(2000)
+
         applicationService.registerTransformer('TRANSFORM_ME') { TCompany value ->
             return "<i class='fa-fw fa-solid fa-building me-1'></i>${value.name.toUpperCase()}"
         }
@@ -61,6 +64,18 @@ class CrudController implements ElementsController {
             header.nextButton.addAction(controller: 'crudCompany', modal: true)
             header.nextButton.addAction(controller: 'crudPOGO', modal: true)
             header.nextButton.defaultAction.tooltip = 'default.create'
+
+            def form = c.addComponentBefore('table', Form)
+            form.with {
+                addField(
+                        class: Select,
+                        id: 'testLoadingScreen',
+                        optionsFromList: ['Select me...', 'Select me too!'],
+                        onChange: 'onTestLoadingScreen',
+                        loading: true,
+                        cols: 3,
+                )
+            }
 
             table.with {
                 rowStriped = true
@@ -83,7 +98,7 @@ class CrudController implements ElementsController {
                     addField(
                             class: TextField,
                             id: 'name',
-                            cols: 6,
+                            cols: 3,
                     )
                 }
 
@@ -92,8 +107,7 @@ class CrudController implements ElementsController {
                             action: 'doubleDisplay',
                     )
                     addAction(
-                            action: 'someAction',
-                            params: [p1: 1, p2: 2],
+                            action: 'loadingScreenOnRedirect',
                     )
                     addAction(
                             controller: 'someController',
@@ -209,6 +223,16 @@ class CrudController implements ElementsController {
     def doubleDisplay() {
         display
         display action: 'index'
+    }
+
+    def loadingScreenOnRedirect() {
+//        sleep(5000)
+        display action: 'index'
+    }
+
+    def onTestLoadingScreen() {
+//        sleep(5000)
+        display action: 'index', loading: true
     }
 
     def onCreateRecords() {
