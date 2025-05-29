@@ -155,7 +155,9 @@ class Transition {
                 break;
 
             default:
-                $root = PageModal.isActive ? PageModal.$self : PageContent.$self;
+                $root = PageModal.isActive
+                    ? PageModal.$self
+                    : $.merge(PageContent.$self, PageStickyBox.$self);
                 targetName = componentId;
         }
 
