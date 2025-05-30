@@ -38,6 +38,7 @@
     border-top-left-radius: var(--bs-border-radius-lg);
     border-top-right-radius: var(--bs-border-radius-lg);
     padding: .75rem;
+    padding-bottom: .5rem;
 }
 
 .component-table:has(.component-separator:not(.d-none)):has(.component-filters.d-none) .component-table-dataset-wrapper,
