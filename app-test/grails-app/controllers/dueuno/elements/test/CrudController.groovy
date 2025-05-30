@@ -82,6 +82,8 @@ class CrudController implements ElementsController {
                 stickyHeaderOffset = 0
 //                stickyHeaderZIndex = 9999
 
+                noResultsIcon = ''
+
                 filters.with {
                     fold = false
                     autoFold = true

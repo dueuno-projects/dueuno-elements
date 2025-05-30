@@ -37,7 +37,7 @@
     background-color: white;
     border-top-left-radius: var(--bs-border-radius-lg);
     border-top-right-radius: var(--bs-border-radius-lg);
-    padding: .5rem;
+    padding: .75rem;
 }
 
 .component-table:has(.component-separator:not(.d-none)):has(.component-filters.d-none) .component-table-dataset-wrapper,
@@ -98,15 +98,24 @@
     padding-bottom: 0;
 }
 
-.table-no-results > td:first-child{
+
+.table-no-results {
     width: 100% !important;
     text-align: center;
-    padding: 60px 20px !important;
+}
+
+.table-no-results > td:first-child:not(:has(i)) {
+    padding-top: .8rem;
+}
+
+.table-no-results > td:first-child:has(i) {
+    padding: 4rem 1rem !important;
 }
 
 .table-no-results > td:first-child i {
     font-size: 10rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
+    padding-left: 1.5rem;
 }
 
 .component-table tr.table-no-results,

@@ -20,10 +20,11 @@
             <g:if test="${c.table.noResults && !c.table.body.hasRows()}">
                 <tr class="table-no-results">
                     <td>
-                        <render:icon icon="${c.table.noResultsIcon}"/>
-                        <br/>
-                        <render:message
-                                code="${c.table.noResultsMessage}"/>
+                        <g:if test="${c.table.noResultsIcon}">
+                            <render:icon icon="${c.table.noResultsIcon}"/>
+                            <br/>
+                        </g:if>
+                        <render:message code="${c.table.noResultsMessage}"/>
                     </td>
                 </tr>
             </g:if>
