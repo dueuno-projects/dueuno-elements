@@ -19,7 +19,7 @@ class Grid extends Component {
     Grid(Map args) {
         super(args)
 
-        spacing = args.spacing == null ? 2 : args.spacing as Integer
+        spacing = args.spacing == null ? 1 : args.spacing as Integer
         tag = args.tag == null ? false : args.tag
 
         // No default for breakpoints since it would require
