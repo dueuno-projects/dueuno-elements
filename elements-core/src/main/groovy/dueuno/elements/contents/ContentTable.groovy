@@ -22,13 +22,12 @@ import groovy.transform.CompileStatic
  * @author Gianluca Sartori
  */
 
-@Deprecated
 @CompileStatic
-class ContentList extends ContentHeader {
+class ContentTable extends ContentHeader {
 
     Table table
 
-    ContentList(Map args) {
+    ContentTable(Map args) {
         super(args)
 
         header.addNextButton(
