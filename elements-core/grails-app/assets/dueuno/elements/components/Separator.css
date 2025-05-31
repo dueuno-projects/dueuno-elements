@@ -1,7 +1,8 @@
 .component-separator {
     font-weight: bold;
-    margin-top: 3rem;
+    margin-top: 2rem;
     margin-bottom: 0;
+    padding-bottom: .5rem;
     overflow: hidden;
 }
 
@@ -10,7 +11,7 @@
 }
 
 .component-separator i {
-    margin-right: .25rem;
+    margin-right: .5rem;
 }
 
 /* COLORS

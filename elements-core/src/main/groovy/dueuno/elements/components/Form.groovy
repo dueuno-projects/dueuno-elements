@@ -68,18 +68,14 @@ class Form extends Component {
         Class clazz = ArgsException.requireArgument(args, 'class') as Class
         String id = ArgsException.requireArgument(args, 'id')
 
-        if (validate) {
-            Map fieldConstraints = getFieldConstraints(validate, id)
-
-            // Auto assigns 'nullable' flag
-            if (args.nullable == null) {
-                args.nullable = fieldConstraints.nullable
-            }
-
-            // Auto assign 'maxSize'
-            if (args.maxSize == null) {
-                args.maxSize = fieldConstraints.maxSize ?: 255 // GORM default value for strings
-            }
+        Map fieldConstraints = getFieldConstraints(validate, id)
+        // Auto assigns 'nullable' flag
+        if (args.nullable == null) {
+            args.nullable = fieldConstraints.nullable == null ? true : fieldConstraints.nullable
+        }
+        // Auto assign 'maxSize'
+        if (args.maxSize == null) {
+            args.maxSize = fieldConstraints.maxSize ?: 255 // GORM default value for strings
         }
 
         // Set common args

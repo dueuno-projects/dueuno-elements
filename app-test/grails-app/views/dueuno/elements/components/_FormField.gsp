@@ -7,10 +7,10 @@
     <g:if test="${c.component.getClassName() != 'HiddenField'}">
         <label for="${c.component.getId()}" class="form-label text-truncate overflow-x-hidden ${dev.displayHints() == 'true' ? 'dev' : ''} ${c.displayLabel ? '' : 'd-none'}">
             <g:if test="${dev.displayHints() == 'true'}">
-                <span>${c.message(c.label, c.labelArgs)}&nbsp;(${c.component.getId()}, ${c.id})</span><span class="${c.nullable ? 'd-none' : ''}"> *</span>
+                <span>${c.message(c.label, c.labelArgs)}&nbsp;(${c.component.getId()}, ${c.id})</span><i class="${c.nullable ? 'd-none' : ''}"> *</i>
             </g:if>
             <g:elseif test="${c.message(c.label)}">
-                <span>${c.message(c.label, c.labelArgs)}</span><span class="${c.nullable ? 'd-none' : ''}"> *</span>
+                <span>${c.message(c.label, c.labelArgs)}</span><i class="${c.nullable ? 'd-none' : ''}"> *</i>
             </g:elseif>
             <g:else>
                 <span>&nbsp;</span>
