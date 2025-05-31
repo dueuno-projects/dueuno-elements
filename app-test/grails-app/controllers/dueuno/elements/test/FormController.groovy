@@ -375,6 +375,7 @@ class FormController implements ElementsController {
             addField(
                     class: Label,
                     id: 'label',
+                    label: 'The label of a label',
             )
             addField(
                     class: Label,

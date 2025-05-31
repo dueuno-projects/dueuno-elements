@@ -59,7 +59,7 @@ abstract class Control extends Component {
         viewPath = args.viewPath ?: '/dueuno/elements/controls/'
 
         valueType = args.valueType
-        nullable = (args.nullable == null) ? true : args.nullable
+        nullable = args.nullable == null ? true : args.nullable
 
         setInvalidChars(args.invalidChars as String)
         setValidChars(args.validChars as String)
