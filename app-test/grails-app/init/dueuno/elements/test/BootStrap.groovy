@@ -383,6 +383,11 @@ class BootStrap {
             )
             applicationService.registerFeature(
                     parent: 'elements',
+                    controller: 'timer',
+                    icon: 'fa-hourglass',
+            )
+            applicationService.registerFeature(
+                    parent: 'elements',
                     controller: 'transitions',
                     icon: 'fa-wand-sparkles',
                     modal: true,

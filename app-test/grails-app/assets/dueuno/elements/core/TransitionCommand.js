@@ -62,6 +62,10 @@ class TransitionCommand {
     }
 
     static render($component, $newComponent, componentEvent) {
+        let interval_id = setInterval(function() {}, Number.MAX_SAFE_INTEGER);
+        for (let i = 1; i <= interval_id; i++) {
+            clearInterval(i);
+        }
         let animation = componentEvent.renderProperties['animate'];
         TransitionCommand.animate(animation, $component, $newComponent)
 
