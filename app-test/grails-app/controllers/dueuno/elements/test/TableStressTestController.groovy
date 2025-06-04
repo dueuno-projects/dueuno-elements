@@ -15,7 +15,7 @@
 package dueuno.elements.test
 
 
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
@@ -80,7 +80,7 @@ class TableStressTestController implements ElementsController {
 
     def index() {
 
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.with {
             table.with {
 

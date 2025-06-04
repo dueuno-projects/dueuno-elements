@@ -21,7 +21,7 @@ import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentForm
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.*
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
@@ -51,7 +51,7 @@ class CrudController implements ElementsController {
 
 //        throw new Exception("ATTENZIONE!!!")
 
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
 
         c.title = 'Runtime "content" title'
         c.with {

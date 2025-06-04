@@ -15,7 +15,7 @@
 package dueuno.elements.audit
 
 import dueuno.elements.components.TableRow
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.DateField
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
@@ -37,7 +37,7 @@ class AuditController implements ElementsController {
     SecurityService securityService
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.header.removeNextButton()
         c.table.with {
             filters.with {

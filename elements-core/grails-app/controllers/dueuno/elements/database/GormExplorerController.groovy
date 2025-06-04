@@ -104,6 +104,7 @@ class GormExplorerController implements ElementsController {
 
         def form = c.addComponent(Form)
         form.with {
+            sticky = true
             addField(
                     class: Select,
                     id: 'tenantId',

@@ -18,7 +18,7 @@ import dueuno.elements.components.Label
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
@@ -45,7 +45,7 @@ class ConnectionSourceController implements ElementsController {
     def index() {
         applicationService.registerPrettyPrinter(Driver, '${it.class.name}')
 
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.table.with {
             columns = [
                     'name',

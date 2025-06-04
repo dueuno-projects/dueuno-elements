@@ -18,7 +18,7 @@ import dueuno.commons.utils.StringUtils
 import dueuno.elements.components.Label
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.*
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PropertyType
@@ -36,7 +36,7 @@ class TenantPropertyController implements ElementsController {
     TenantPropertyService tenantPropertyService
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         def isDeveloper = securityService.isDeveloper()
 
         if (isDeveloper) {

@@ -15,14 +15,14 @@
 package dueuno.elements.test
 
 
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.core.ElementsController
 import dueuno.elements.types.Money
 
 class DemoController implements ElementsController {
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
 
         c.header.text = "Shopping cart"
 
