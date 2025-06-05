@@ -43,8 +43,8 @@ class PageModal extends Component {
     }
 
     static onClose(event) {
+        Page.reinitializeContent(PageContent.$self, false, true);
         PageModal.close();
-        Page.reinitializeContent(PageContent.$self);
     }
 
     static onHidden(event) {
@@ -120,10 +120,10 @@ class PageModal extends Component {
     }
 
     static open($content, componentEvent) {
-        PageModal.isActive = true;
         PageModal.renderContent($content, componentEvent);
-        Page.initializeContent(PageModal.$self, true);
+        Page.initializeContent(PageModal.$self, true, true);
         PageModal.renderDialog(componentEvent);
+        PageModal.isActive = true;
 
         if (PageModal.isShown()) {
             Page.finalizeContent(PageModal.$self);
