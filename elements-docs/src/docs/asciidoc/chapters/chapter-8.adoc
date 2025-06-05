@@ -271,7 +271,7 @@ package com.example
 import dueuno.elements.components.Table
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextDefault
@@ -282,7 +282,7 @@ class CompanyController implements ElementsController {
     CompanyService companyService
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.table.with {
             filters.with {
                 addField(
@@ -393,7 +393,7 @@ package com.example
 import dueuno.elements.components.Separator
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.DateField
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
@@ -406,7 +406,7 @@ class PersonController implements ElementsController {
     CompanyService companyService
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.table.with {
             filters.with {
                 addField(

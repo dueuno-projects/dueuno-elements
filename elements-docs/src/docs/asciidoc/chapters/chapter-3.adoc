@@ -159,7 +159,7 @@ class PersonController implements ElementsController {
     ]
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.table.with {
             columns = [
                     'firstname',
@@ -264,7 +264,7 @@ class PersonValidator implements Validateable {
 
 There’s a lot of stuff here. The most important things now are:
 
-. *Contents.* A Content is the canvas on which we design the UI. To do it we add `Components` and `Controls`. You can’t see it in the example because we are using preconfigured contents for tables (`ContentList`) and forms (`ContentCreate` & `ContentEdit`)
+. *Contents.* A Content is the canvas on which we design the UI. To do it we add `Components` and `Controls`. You can’t see it in the example because we are using preconfigured contents for tables (`ContentTable`) and forms (`ContentCreate` & `ContentEdit`)
 . *The `display()` method.* Each action terminates its execution with the `display()` method. This is the way we display the UI or route from one action to the other.
 
 IMPORTANT: For the sake of the demo we’ve implemented the Business Logic within the controller class. This is not something we do. Don’t do it. Ever. Don’t.

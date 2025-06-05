@@ -50,7 +50,7 @@ We then update the table view to display the new columns.
 [source,groovy,subs="attributes+"]
 ----
 def index() {
-    def c = createContent(ContentList)
+    def c = createContent(ContentTable)
     c.table.with {
         filters.with {
             addField(

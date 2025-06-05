@@ -252,7 +252,7 @@ class PersonController implements ElementsController {
     PersonService personService
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.table.with {
             filters.with {
                 addField(
