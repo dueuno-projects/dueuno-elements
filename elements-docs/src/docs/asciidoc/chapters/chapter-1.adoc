@@ -12,7 +12,7 @@ After more than 15 years managing people, projects and clients, I was a develope
 
 I clearly remember what it meant developing _Desktop Applications_ with _Visual Basic_ or _Borland Delphi_. IDEs were _User Interface builders_, not only _code editors_. _SQL_ was the only way to interact with a databases. Most of the features were visually designed with _drag-and-drop_, in a kind of _WYSIWYG_ manner. It was somehting a single developer could have managed.
 
-But that was in the 90s. Fast forwarding to the present day, everyboy is developing _Web Applications_. And with good reasons.
+But that was in the 90s. Fast forwarding to the present day, everybody is developing _Web Applications_. And with good reasons.
 
 Web applications are not installed, they are just accessed from your web browser. When you fix a bug or add a new feature to a web application, you don’t need to update all the installed applications. https://www.sap.com/[Ask SAP about this, window=_blank].
 
@@ -48,7 +48,7 @@ We normal people avoid developing web applications as much as we can. We love _W
 
 Because the problem is with the UI. We keep reinventing the wheel each and every time. _“Hey, but each time gets better!”_ you would say. No. Each time gets worse.
 
-For backoffice web applications most of the costs lies in the UI development. The _Front End_, code executed by the browser. Something invented to display text and links is nowadays used to render a GUI whose development requires us to draw lines and align pixels.
+For back-office web applications most of the costs lies in the UI development. The _Front End_, code executed by the browser. Something invented to display text and links is nowadays used to render a GUI whose development requires us to draw lines and align pixels.
 
 We can’t just say _“Hey, browser, I need a modal dialog with a title and three buttons”_. We need to code an _HTML_ page to structure the content, tell the browser how to display it with _CSS_, write _JavaScript_ code so that the button _“click”_ event can send an _HTTP request_ to a server that executes a _Java_ function that returns a _JSON_ or _HTML_ we then use to update the page again with _JavaScript_ code.
 
@@ -73,7 +73,7 @@ So I jumped into this adventure of creating something to hide away all the _low 
 
 CAUTION: I want to code the _“what”_ and let the computer handle the _“how”_. Cause I am not one of those folks who just like doing stuff. _I want stuff to be done_.
 
-So, we had to build what is called a _Backoffice Application_. One of the most basic type of applications (I mean, it’s not a videogame, right?) We needed to develop the _usual suspects_, something the IT world have been doing for the last 50 years:
+So, we had to build what is called a _Back-Office Application_. One of the most basic type of applications (I mean, it’s not a videogame, right?) We needed to develop the _usual suspects_, something the IT world have been doing for the last 50 years:
 
 - _Authenticate_ and _Authorise_ users
 - Show them a _Menu_ to access the main features
@@ -98,4 +98,4 @@ CAUTION: We took decisions, of course. We created our standard UI and UX. Is it 
 
 TIP: BEWARE: If you like doing things, Dueuno Elements is not for you. If you like things to be done, follow me down the rabbit hole, you may find something useful.
 
-In the next chapters we’ll be going through the _Quirks and Quarks_ of building backoffice web applications with Dueuno Elements.
+In the next chapters we’ll be going through the _Quirks and Quarks_ of building back-office web applications with Dueuno Elements.

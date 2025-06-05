@@ -143,7 +143,7 @@ import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentForm
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
@@ -154,7 +154,7 @@ class BookController implements ElementsController {
     BookService bookService
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.table.with {
             filters.with {
                 fold = false
@@ -419,7 +419,7 @@ Using a https://gorm.grails.org/latest/hibernate/manual/[GORM Recordset,window=_
 Given this domain class:
 [source,groovy]
 ----
-class TBook {
+class TBook implements GormEntity, MultiTenant<TBook> {
     String title
     Strng author
     String description
@@ -477,7 +477,7 @@ c.table.with {
 ----
 
 === Group Actions
-The table can be configured to select multiple rows ad apply to all of them the same action. In this case we need to explicitly configure the action to submit the `Table` component so we can access its selected rows. The default `id` of the `Table` component embedded in the `ContentList` is `table`.
+The table can be configured to select multiple rows ad apply to all of them the same action. In this case we need to explicitly configure the action to submit the `Table` component so we can access its selected rows. The default `id` of the `Table` component embedded in the `ContentTable` is `table`.
 
 [source,groovy]
 ----

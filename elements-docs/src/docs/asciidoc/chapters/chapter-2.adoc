@@ -7,7 +7,7 @@ So let’s write our first Dueuno Elements application, shall we?
 
 NOTE: If you are a seasoned developer, or you’re in a hurry, install https://www.oracle.com/java/technologies/downloads/?er=221886#java{version-java}[Java {version-java}, window=_blank], go download the https://github.com/dueuno-projects/dueuno-app-template[Dueuno Elements Template Application, window=_blank], run it with `./gradlew bootRun` and these are your three steps.
 
-=== Grails
+=== Apache Grails
 
 Dueuno Elements is built on top of the Grails Framework. The Grails website gives us what we need to quickly start up with a _“blank”_ application project.
 
@@ -15,7 +15,7 @@ image::images/chapter-2/image-1.webp[Grails Forge]
 
 . https://www.oracle.com/java/technologies/downloads/?er=221886#java{version-java}[Download and install Java {version-java}, window=_blank]
 . Go here: https://start.grails.org[https://start.grails.org, window=_blank]
-. *Select “Java {version-java}” — SELECT JAVA {version-java} (We only support Grails {version-grails} with Java {version-java}.*
+. *Select “Java {version-java}”
 . Click _“Generate Project”_
 . Download the `demo.zip` file and uncompress it on your home folder
 

@@ -1,6 +1,6 @@
 [#api-reference]
 == API Reference
-Dueuno Elements is a https://grails.org/[Grails,window=_blank] plugin useful to develop backoffice applications.
+Dueuno Elements is a https://grails.org/[Grails,window=_blank] plugin useful to develop back-office applications.
 
 === Create an application
 Use https://start.grails.org[Grails Forge,window=_blank] to generate a *Web Application* with *Java 17* (we support only Java 17) then add the following repository and dependency to your newly created Grails application:
@@ -629,7 +629,7 @@ class BookController implements ElementsController {
     BookService bookService // <1>
 
     def index() {
-        def c = createContent(ContentList) // <2>
+        def c = createContent(ContentTable) // <2>
 
         c.table.with {
             columns = [
@@ -803,7 +803,7 @@ class BookController implements ElementsController {
     BookService bookService
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
 
         c.table.with {
             columns = [
@@ -882,7 +882,7 @@ class BookController implements ElementsController {
 }
 ----
 <1> We use our `BookValidator` class to make sure the fields are not `null` and the title is unique and, in case, highlight the invalid fields
-<2> The name of these methods is defined by the `ContentList`, `ContentCreate` and `ContentEdit` contents, you can see them in your browser hovering the mouse over the `Delete`, `Create` and `Save` buttons (look the bottom left of your browser to see which URL is going to be called when clicking the buttons)
+<2> The name of these methods is defined by the `ContentTable`, `ContentCreate` and `ContentEdit` contents, you can see them in your browser hovering the mouse over the `Delete`, `Create` and `Save` buttons (look the bottom left of your browser to see which URL is going to be called when clicking the buttons)
 
 image::images/api-reference/reference-book-validation.png[Book listing]
 
@@ -1154,7 +1154,7 @@ Extends `ContentForm` and provides a _Create_ `Button` that submits the `form` c
 === ContentEdit
 Extends `ContentForm` and provides a _Save_ `Button` that submits the `form` component to an action called `onEdit`.
 
-=== ContentList
+=== ContentTable
 Extends `ContentHeader` and embeds a `Table` component. Provides a _New_ `Button` that redirects to an action called `create`.
 
 The `Table` component is configured to present and _Edit_ and a _Delete_ `Button` for each displayed row. The _Edit_ `Button` submits the raw id to an action called `edit` while the _Delete_ `Button` asks for confirmation before redirecting to an action called `onDelete`.
@@ -2085,7 +2085,7 @@ We use the `KeyPress` component to intercept key pressed by the user on the GUI.
 
 [source,groovy]
 ----
-def c = createContent(ContentList)
+def c = createContent(ContentTable)
 c.addComponent(
     class: KeyPress,
     id: 'keyPress',
