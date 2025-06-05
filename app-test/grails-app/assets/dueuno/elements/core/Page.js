@@ -26,11 +26,13 @@ class Page {
         Page.triggerContentChange();
     }
 
-    static initializeContent($root, reinitialize = false) {
+    static initializeContent($root, reinitialize = false, deactivate = false) {
         // Do not change the sequence unless you know what you are doing
         PageStickyBox.initialize();
         PageTooltips.initialize();
-        Page.deactivateComponents();
+        if (deactivate) {
+            Page.deactivateComponents();
+        }
         Page.initializeComponents($root, reinitialize);
         Page.initializeControls($root, reinitialize);
         Page.initializeControlValues($root, reinitialize);
@@ -45,8 +47,8 @@ class Page {
         PageContent.finalize();
     }
 
-    static reinitializeContent($root, reinitialize = false) {
-        Page.initializeContent($root, reinitialize);
+    static reinitializeContent($root, reinitialize = false, deactivate = false) {
+        Page.initializeContent($root, reinitialize, deactivate);
         Page.finalizeContent($root, reinitialize);
         Page.triggerContentChange();
     }
@@ -132,6 +134,9 @@ class Page {
                     log.trace("INITIALIZING COMPONENT '" + component.name + "'");
                     Elements.callMethod($element, component, 'initialize', $root);
                 }
+                if (Elements.hasMethod(component, 'deactivate')) {
+                    Component.setDeactivate($element, true);
+                }
                 Elements.callMethod($element, component, 'setDisplay', properties['display']);
                 Elements.callMethod($element, component, 'setVisible', properties['visible']);
                 Elements.callMethod($element, component, 'setReadonly', properties['readonly']);
@@ -181,6 +186,9 @@ class Page {
                 if (Elements.hasMethod(control, 'initialize')) {
                     log.trace("INITIALIZING CONTROL '" + control.name + "'");
                     Elements.callMethod($element, control, 'initialize', $root);
+                }
+                if (Elements.hasMethod(control, 'deactivate')) {
+                    Component.setDeactivate($element, true);
                 }
                 Elements.callMethod($element, control, 'setDisplay', properties['display']);
                 Elements.callMethod($element, control, 'setVisible', properties['visible']);
@@ -258,25 +266,26 @@ class Page {
         return Page.$self.data('21-page');
     }
 
-    static getController() {
-        let $content
+    static getActiveContent() {
+        let $content;
         if (PageModal.isActive) {
             $content = PageModal.$self;
         } else {
             $content = PageContent.$self;
         }
+
+        return $content;
+    }
+
+    static getController() {
+        let $content = Page.getActiveContent();
 
         let controller = Component.getProperty($content, 'controller');
         return controller;
     }
 
     static getAction() {
-        let $content
-        if (PageModal.isActive) {
-            $content = PageModal.$self;
-        } else {
-            $content = PageContent.$self;
-        }
+        let $content = Page.getActiveContent();
 
         let action = Component.getProperty($content, 'action');
         return action;

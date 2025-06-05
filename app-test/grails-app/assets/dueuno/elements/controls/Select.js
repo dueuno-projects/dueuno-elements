@@ -57,7 +57,6 @@ class Select extends Control {
             }
         }
 
-        Component.setDeactivate($element, true);
         $element.select2(initOptions);
     }
 

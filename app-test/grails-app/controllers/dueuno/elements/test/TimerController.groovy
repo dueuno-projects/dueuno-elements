@@ -110,8 +110,6 @@ class TimerController implements ElementsController {
 
         Integer num = LocalDateTime.now().format(DateTimeFormatter.ofPattern("ss")).toInteger() % 30
 
-        println num
-
         t.addComponent(timerService.createGrid(num))
         t.replace('grid1', 'grid1')
 
