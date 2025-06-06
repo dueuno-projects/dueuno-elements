@@ -13,6 +13,7 @@ group = "org.dueuno"
 version = "1.0"
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core/" }
     maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
@@ -74,7 +75,7 @@ dependencies {
 
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 
-    implementation "org.dueuno:elements-core:2.6.10"
+    implementation "org.dueuno:elements-core:2.x-SNAPSHOT"
 }
 
 java {

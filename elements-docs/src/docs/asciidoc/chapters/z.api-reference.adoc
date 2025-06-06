@@ -1,6 +1,6 @@
 [#api-reference]
 == API Reference
-Dueuno Elements is a https://grails.org/[Grails,window=_blank] plugin useful to develop back-office applications.
+Dueuno Elements is an https://grails.org/[Apache Grails,window=_blank] plugin designed to develop back-office applications.
 
 === Create an application
 Use https://start.grails.org[Grails Forge,window=_blank] to generate a *Web Application* with *Java 17* (we support only Java 17) then add the following repository and dependency to your newly created Grails application:
@@ -104,138 +104,7 @@ class WebsiteUrlMappings {
 
 [[application]]
 == Application
-`ApplicationService` is the main component in charge of the application setup, mainly used in `BootStrap.groovy`. The following are the methods it exposes.
-
-=== init()
-Initializes the application. This closure gets called each time the application is executed.
-
-.grails-app/init/BootStrap.groovy
-[source,groovy]
-----
-class BootStrap {
-
-    ServletContext servletContext
-    ApplicationService applicationService // <1>
-
-    def init = {
-
-        applicationService.init { // <2>
-            // ...
-        }
-
-    }
-}
-----
-<1> Injects an instance of the `ApplicationService`
-<2> The `init { ... }` closure is executed each time the application starts up
-
-=== beforeInit()
-Gets executed before the application is initialized. The session is not available you can NOT set session variables from here.
-
-.grails-app/init/BootStrap.groovy
-[source,groovy]
-----
-class BootStrap {
-
-    ServletContext servletContext
-    ApplicationService applicationService
-
-    def init = {
-
-        applicationService.beforeInit {
-            // ...
-        }
-
-    }
-}
-----
-
-=== afterInit()
-Gets executed after the application is initialized. The session is not available you can NOT set session variables from here.
-
-.grails-app/init/BootStrap.groovy
-[source,groovy]
-----
-class BootStrap {
-
-    ServletContext servletContext
-    ApplicationService applicationService
-
-    def init = {
-
-        applicationService.afterInit {
-            // ...
-        }
-
-    }
-}
-----
-
-=== afterLogin()
-Gets executed after the user logged in. The session is active, you can set session variables from here.
-
-.grails-app/init/BootStrap.groovy
-[source,groovy]
-----
-class BootStrap {
-
-    ServletContext servletContext
-    SecurityService securityService // <1>
-
-    def init = {
-
-        securityService.afterLogin {
-            // ...
-        }
-
-    }
-}
-----
-<1> Injects an instance of the `SecurityService`
-
-=== afterLogout()
-Gets executed after the user logged in. The session is NOT active, you can NOT manage session variables from here.
-
-.grails-app/init/BootStrap.groovy
-[source,groovy]
-----
-class BootStrap {
-
-    ServletContext servletContext
-    SecurityService securityService // <1>
-
-    def init = {
-
-        securityService.afterLogout {
-            // ...
-        }
-
-    }
-}
-----
-<1> Injects an instance of the `SecurityService`
-
-=== onInstall()
-Installs the application. This closure gets called only once when the application is run for the first time. It is executed for the DEFAULT tenant and when a new tenant is created from the super admin GUI.
-
-.grails-app/init/BootStrap.groovy
-[source,groovy]
-----
-class BootStrap {
-
-    ServletContext servletContext
-    ApplicationService applicationService
-
-    def init = {
-
-        applicationService.onInstall { String tenantId -> //<1>
-            // ...
-        }
-
-    }
-}
-----
-<1> The `tenantId` tells what tenant is being installed
+`ApplicationService` is the main component in charge of the application setup, mainly used in `BootStrap.groovy`.
 
 === onSystemInstall()
 Gets executed only the first time the application is run.
@@ -258,8 +127,8 @@ class BootStrap {
 }
 ----
 
-=== onPluginInstall()
-Gets executed only the first time the application is run. It is used to install plugins.
+=== onInstall()
+Installs the application. This closure gets called only once when the application is run for the first time. It is executed for the DEFAULT tenant and when a new tenant is created from the super admin GUI.
 
 .grails-app/init/BootStrap.groovy
 [source,groovy]
@@ -271,13 +140,14 @@ class BootStrap {
 
     def init = {
 
-        applicationService.onPluginInstall { String tenantId ->
+        applicationService.onInstall { String tenantId -> //<1>
             // ...
         }
 
     }
 }
 ----
+<1> The `tenantId` tells what tenant is being installed
 
 === onDevInstall()
 Gets executed only once if the application is run from the IDE (only when the development environment is active). You can use this to preload data to test the application.
@@ -337,8 +207,8 @@ class BootStrap {
 ----
 <1> The closures will be executed in the following order based on the specified version string: `2021-01-02`, `2021-01-03`, `2021-01-04`, `2021-01-05`.
 
-=== registerPrettyPrinter()
-Registers a string template to render an instance of a specific _Class_. A pretty printer can be registered with just a name, in this case it must be explicitly assigned to a Control when defining it.
+=== init()
+Initializes the application. This closure gets called each time the application is executed.
 
 .grails-app/init/BootStrap.groovy
 [source,groovy]
@@ -346,29 +216,70 @@ Registers a string template to render an instance of a specific _Class_. A prett
 class BootStrap {
 
     ServletContext servletContext
-    ApplicationService applicationService
+    ApplicationService applicationService // <1>
 
     def init = {
 
-        applicationService.init {
-            registerPrettyPrinter(TProject, '${it.name}') //<1>
-            registerPrettyPrinter('PROJECT_ID', '${it.padLeft(4, "0")}') // <2>
+        applicationService.init { // <2>
+            // ...
         }
 
     }
 }
 ----
-<1> Registers a pretty printer for the `TProject` domain class. The `it` variable will refer to an instance of a `TProject` in this case we will display the `name` property
-<2> Registers a pretty printer called `PROJECT_ID`. Since we know that the project id is going to be a `String` we can call the `padLeft()` method on it
+<1> Injects an instance of the `ApplicationService`
+<2> The `init { ... }` closure is executed each time the application starts up
 
-=== registerTransformer()
-Registers a callback used to render an instance of a specific _Class_. To make it work it must be explicitly assigned to a Control when defining it.
+=== afterLogin()
+Gets executed after the user logged in. The session is active, you can set session variables from here.
 
-NOTE: The closure will receive the value that is being transformed and must return a _String_.
+.grails-app/init/BootStrap.groovy
+[source,groovy]
+----
+class BootStrap {
 
-****
-IMPORTANT: Be careful when using transformers since it may impact performances when the closure takes long time to execute.
-****
+    ServletContext servletContext
+    SecurityService securityService // <1>
+
+    def init = {
+
+        securityService.afterLogin {
+            // ...
+        }
+
+    }
+}
+----
+<1> Injects an instance of the `SecurityService`
+
+=== afterLogout()
+Gets executed after the user logged in. The session is NOT active, you can NOT manage session variables from here.
+
+.grails-app/init/BootStrap.groovy
+[source,groovy]
+----
+class BootStrap {
+
+    ServletContext servletContext
+    SecurityService securityService // <1>
+
+    def init = {
+
+        securityService.afterLogout {
+            // ...
+        }
+
+    }
+}
+----
+<1> Injects an instance of the `SecurityService`
+
+[[plugins]]
+== Plugins
+Dueuno Elements leverages the Apache Grails plugins infrastructure adding some useful methods.
+
+=== onPluginInstall()
+Gets executed only the first time the application is run or when a new Dueuno Elements Plugin is added as a dependency in `build.gradle`. It is used to install the plugin.
 
 .grails-app/init/BootStrap.groovy
 [source,groovy]
@@ -377,22 +288,21 @@ class BootStrap {
 
     ServletContext servletContext
     ApplicationService applicationService
-    SecurityService securityService
 
     def init = {
 
-        applicationService.init {
-            registerTransformer('USER_FULLNAME') { Object value ->
-                return securityService.getUserByUsername(value).fullname
-            }
+        applicationService.onPluginInstall { String tenantId ->
+            // ...
         }
 
     }
 }
 ----
 
-=== registerCredits()
-Registers a role along with the people who took that role during the development of the project. When a credit reference is registered a new menu item will appear in the _User Menu_.
+=== beforeInit()
+Available in Dueuno Elements Plugins, it gets executed before the application is initialized. The session is not available you can NOT set session variables from here.
+
+NOTE: This method is executed only when configured in a plugin, it does not get executed if implemented in the application.
 
 .grails-app/init/BootStrap.groovy
 [source,groovy]
@@ -404,8 +314,31 @@ class BootStrap {
 
     def init = {
 
-        applicationService.init {
-            registerCredits('Application Development', 'Francesco Piceghello', 'Gianluca Sartori')
+        applicationService.beforeInit {
+            // ...
+        }
+
+    }
+}
+----
+
+=== afterInit()
+Available in Dueuno Elements Plugins, it gets executed after the application is initialized. The session is not available you can NOT set session variables from here.
+
+NOTE: This method is executed only when configured in a plugin, it does not get executed if implemented in the application.
+
+.grails-app/init/BootStrap.groovy
+[source,groovy]
+----
+class BootStrap {
+
+    ServletContext servletContext
+    ApplicationService applicationService
+
+    def init = {
+
+        applicationService.afterInit {
+            // ...
         }
 
     }
@@ -564,6 +497,81 @@ class BootStrap {
                     icon: 'fa-book',
                     targetNew: true,
             )
+        }
+
+    }
+}
+----
+
+=== registerPrettyPrinter()
+Registers a string template to render an instance of a specific _Class_. A pretty printer can be registered with just a name, in this case it must be explicitly assigned to a Control when defining it.
+
+.grails-app/init/BootStrap.groovy
+[source,groovy]
+----
+class BootStrap {
+
+    ServletContext servletContext
+    ApplicationService applicationService
+
+    def init = {
+
+        applicationService.init {
+            registerPrettyPrinter(TProject, '${it.name}') //<1>
+            registerPrettyPrinter('PROJECT_ID', '${it.padLeft(4, "0")}') // <2>
+        }
+
+    }
+}
+----
+<1> Registers a pretty printer for the `TProject` domain class. The `it` variable will refer to an instance of a `TProject` in this case we will display the `name` property
+<2> Registers a pretty printer called `PROJECT_ID`. Since we know that the project id is going to be a `String` we can call the `padLeft()` method on it
+
+=== registerTransformer()
+Registers a callback used to render an instance of a specific _Class_. To make it work it must be explicitly assigned to a Control when defining it.
+
+NOTE: The closure will receive the value that is being transformed and must return a _String_.
+
+****
+IMPORTANT: Be careful when using transformers since it may impact performances when the closure takes long time to execute.
+****
+
+.grails-app/init/BootStrap.groovy
+[source,groovy]
+----
+class BootStrap {
+
+    ServletContext servletContext
+    ApplicationService applicationService
+    SecurityService securityService
+
+    def init = {
+
+        applicationService.init {
+            registerTransformer('USER_FULLNAME') { Object value ->
+                return securityService.getUserByUsername(value).fullname
+            }
+        }
+
+    }
+}
+----
+
+=== registerCredits()
+Registers a role along with the people who took that role during the development of the project. When a credit reference is registered a new menu item will appear in the _User Menu_.
+
+.grails-app/init/BootStrap.groovy
+[source,groovy]
+----
+class BootStrap {
+
+    ServletContext servletContext
+    ApplicationService applicationService
+
+    def init = {
+
+        applicationService.init {
+            registerCredits('Application Development', 'Francesco Piceghello', 'Gianluca Sartori')
         }
 
     }
@@ -749,7 +757,7 @@ class BookValidator implements Validateable {
     static constraints = {
         title validator: { Object val, BookValidator obj, Errors errors ->
             if (obj.bookService.getByTitle(val)) {
-                errors.rejectValue('title', 'unique')
+                errors.rejectValue('title', ErrorCode.IS_NOT_UNIQUE)
             }
         }
     }
@@ -1845,7 +1853,7 @@ c.form.with {
     button.addAction(controller: 'addAuthor')
 }
 ----
-<1> A `Button` can be initialized with the properties of an event (See <<events>> and `Link` (See <<link>>)
+<1> A `Button` can be initialized with the properties of an event (See <<events>>) and `Link` (See <<link>>)
 
 ==== Properties
 [cols="1,1,1,7a"]

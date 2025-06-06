@@ -14,7 +14,6 @@
  */
 package dueuno
 
-
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentTable
