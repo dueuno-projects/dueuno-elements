@@ -18,10 +18,6 @@ class PageStickyBox {
     static get $self() { return $('#page-sticky-box') }
 
     static initialize() {
-        if (PageModal.isActive) {
-            return;
-        }
-
         PageStickyBox.markStickyComponents();
         PageStickyBox.offset = PageStickyBox.top;
 
@@ -43,10 +39,6 @@ class PageStickyBox {
     }
 
     static finalize() {
-        if (PageModal.isActive) {
-            return;
-        }
-
         let isNeeded = PageStickyBox.isStickyBoxNeeded();
         let isActive = PageStickyBox.isStickyBoxActive();
         if (isNeeded && !isActive) {
