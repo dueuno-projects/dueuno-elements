@@ -29,6 +29,10 @@ class PageContent extends Component {
     }
 
     static onWindowResize(event) {
+        if (!PageContent.$self.exists()) {
+            return;
+        }
+
         let contentRect = PageContent.$self[0].getBoundingClientRect();
         PageContent.$scrollbarBox.css({left: contentRect.left, width: contentRect.width});
         PageContent.updateScrollbar();
