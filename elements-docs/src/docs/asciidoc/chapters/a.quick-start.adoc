@@ -502,8 +502,8 @@ class MovieController implements ElementsController {
             }
         }
 
-        c.table.body = movieService.list(c.table.filtersParams, c.table.fetchParams)
-        c.table.paginate = movieService.count(c.table.filtersParams)
+        c.table.body = movieService.list(c.table.filterParams, c.table.fetchParams)
+        c.table.paginate = movieService.count(c.table.filterParams)
 
         display content: c
     }
