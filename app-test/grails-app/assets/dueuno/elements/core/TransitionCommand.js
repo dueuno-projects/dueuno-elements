@@ -156,11 +156,16 @@ class TransitionCommand {
         Transition.triggerEvent($element, eventName);
     }
 
-    static async call($element, componentId, component, property, value) {
+    static async call($element, componentId, component, property, value, $components) {
         await sleep(100); // We give time for the animations to start
 
+        let $component
+        if ($components && value.component) {
+            $component = $components.find('[data-21-id="' + value.component + '"]');
+        }
+
         if (Elements.hasMethod(component, property)) {
-            Elements.callMethod($element, component, property, value);
+            Elements.callMethod($element, component, property, value, $component);
         } else {
             log.error('Cannot find method "' + componentId + '.' + property + '()"');
         }

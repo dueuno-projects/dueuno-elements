@@ -110,7 +110,7 @@ class Transition {
                 break;
 
             case TransitionCommand.CALL:
-                TransitionCommand.call($element, componentId, component, property, valueMap.value);
+                TransitionCommand.call($element, componentId, component, property, valueMap.value, $components);
                 break;
 
             case TransitionCommand.SET:

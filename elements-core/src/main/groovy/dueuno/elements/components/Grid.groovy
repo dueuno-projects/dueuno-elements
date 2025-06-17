@@ -34,7 +34,7 @@ class Grid extends Component {
 
     GridColumn addColumn(Map args = [:]) {
         args['class'] = GridColumn
-        args['id'] = "${id}-${components.size()}"
+        if (!args['id']) args['id'] = "${id}-${components.size()}"
         args['grid'] = this
 
         GridColumn column = addComponent(args)
