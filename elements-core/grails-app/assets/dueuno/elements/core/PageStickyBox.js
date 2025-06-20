@@ -22,6 +22,10 @@ class PageStickyBox {
             return;
         }
 
+        if (PageModal.isActive) {
+            return;
+        }
+
         PageStickyBox.markStickyComponents();
         PageStickyBox.offset = PageStickyBox.top;
 
@@ -47,6 +51,10 @@ class PageStickyBox {
             return;
         }
 
+        if (PageModal.isActive) {
+            return;
+        }
+
         let isNeeded = PageStickyBox.isStickyBoxNeeded();
         let isActive = PageStickyBox.isStickyBoxActive();
         if (isNeeded && !isActive) {
@@ -64,7 +72,7 @@ class PageStickyBox {
             }
 
         } else if (isActive) {
-            // We just move the sticky box back to its sticky position
+            // We move the sticky box back to its sticky position
             PageContent.$self.before(PageStickyBox.$self);
         }
 
@@ -87,7 +95,7 @@ class PageStickyBox {
             }
         }
 
-        if (hasStickyComponents) {
+        if (PageContent.$self.exists() && hasStickyComponents) {
             PageContent.$self[0].setAttribute('sticky', '');
         }
     }
@@ -98,6 +106,10 @@ class PageStickyBox {
     }
 
     static isStickyBoxNeeded() {
+        if (!PageContent.$self.exists()) {
+            return false;
+        }
+
         return PageContent.$self[0].hasAttribute('sticky');
     }
 
