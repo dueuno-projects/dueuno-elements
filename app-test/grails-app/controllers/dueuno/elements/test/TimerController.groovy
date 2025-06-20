@@ -43,6 +43,16 @@ class TimerController implements ElementsController {
                 id: 'show',
                 action: 'show',
                 displayLabel: false,
+                cols: 3,
+        )
+        c.form.addField(
+                class: Button,
+                id: 'showModal',
+                action: 'show',
+                modal: true,
+                fullscreen: true,
+                displayLabel: false,
+                cols: 3,
         )
         display content: c
     }
@@ -50,6 +60,7 @@ class TimerController implements ElementsController {
     def show() {
         def c = createContent()
 
+        c.header.addBackButton()
         c.header.nextButton.with {
             removeDefaultAction()
             addDefaultAction(action: 'enable', text: TextDefault.ENABLED, icon: 'fa-play')
@@ -86,7 +97,7 @@ class TimerController implements ElementsController {
             }
         }
 
-        display content: c, modal: true, fullscreen: true
+        display content: c
     }
 
     def enable() {
