@@ -36,12 +36,14 @@ class QuantityField extends NumberField {
         super(args)
 
         viewTemplate = 'QuantityField'
-        valueType = 'QUANTITY'
+        valueType = Quantity.TYPE_NAME
 
         decimals = args.decimals == null ? 2 : args.decimals as Integer
         negative = (args.negative == null) ? false : args.negative
         unitOptions = unitListToOptions(args.availableUnits as List)
         setDefaultUnit(args.defaultUnit as QuantityUnit)
+
+        inputMode = decimals ? TextFieldInputMode.DECIMAL : TextFieldInputMode.NUMERIC
     }
 
     void setDefaultUnit(QuantityUnit value) {
@@ -79,8 +81,8 @@ class QuantityField extends NumberField {
     }
 
     @Override
-    void setValue(Object value, Boolean transform = true) {
-        super.setValue(value, transform)
+    void setValue(Object value) {
+        super.setValue(value)
 
         if (this.value != null && (this.value !instanceof Quantity)) {
             throw new ElementsException("${this.getClass().simpleName} can only accept values of type '${Quantity.name}'")

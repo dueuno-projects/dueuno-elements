@@ -1,8 +1,8 @@
 .component-separator {
-    font-size: calc(var(--elements-font-size) * 1.1);
     font-weight: bold;
-    margin-top: 3rem;
+    margin-top: 2rem;
     margin-bottom: 0;
+    padding-bottom: .5rem;
     overflow: hidden;
 }
 
@@ -10,8 +10,12 @@
     margin-top: 0;
 }
 
+.component-separator i {
+    margin-right: .5rem;
+}
+
 /* COLORS
 */
 .component-separator {
-    border-bottom: 1px solid rgb(var(--elements-tertiary-bg));
+    border-bottom: var(--bs-border-width) solid rgb(var(--elements-tertiary-bg));
 }

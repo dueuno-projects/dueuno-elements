@@ -14,7 +14,7 @@
 
 .progress .progress-line{
     position: absolute;
-    opacity: 0.4;
+    opacity: .4;
     background: #3465a4;
     width: 150%;
     height: 20px;
@@ -31,7 +31,7 @@
 }
 
 .progress .progress-dec{
-    animation: decrease 2s 0.5s infinite;
+    animation: decrease 2s .5s infinite;
 }
 
 @keyframes increase {

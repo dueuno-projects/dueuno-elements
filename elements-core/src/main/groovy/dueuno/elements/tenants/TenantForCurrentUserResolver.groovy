@@ -1,6 +1,6 @@
 /*
  * Copyright 2021 the original author or authors.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
  *
  * You may obtain a copy of the License at
@@ -14,44 +14,40 @@
  */
 package dueuno.elements.tenants
 
-import dueuno.elements.security.SecurityService
-import grails.core.GrailsApplication
-import grails.util.Holders
+import dueuno.elements.core.WebRequestAware
+import dueuno.elements.security.TUser
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.datastore.mapping.multitenancy.TenantResolver
 import org.grails.datastore.mapping.multitenancy.exceptions.TenantNotFoundException
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
 /**
  * @author Gianluca Sartori
  */
 
 @Slf4j
-class TenantForCurrentUserResolver implements TenantResolver {
-
-    // Do not change the below declarations, otherwise it wont work with "grails run-app"
-    //
-    @Autowired
-    private SecurityService securityService
-
-    @Autowired
-    private TenantService tenantService
+@Component
+@CompileStatic
+class TenantForCurrentUserResolver implements TenantResolver, WebRequestAware {
 
     @Override
     Serializable resolveTenantIdentifier() throws TenantNotFoundException {
-
-        if (!securityService) {
-            // This hack is here because the services don't get automatically injected (it's a mistery)
-            GrailsApplication grailsApplication = Holders.grailsApplication
-            securityService = grailsApplication.mainContext.getBean('securityService')
-            tenantService = grailsApplication.mainContext.getBean('tenantService')
+        if (!hasRequest()) {
+            return TenantService.defaultTenantId
         }
 
-        if (securityService.currentUser) {
-            return securityService.currentUser.tenant.tenantId
+        try {
+            TUser user = session['_21CurrentUser'] as TUser
+            if (user) {
+                return user.tenant.tenantId
+            } else {
+                return TenantService.defaultTenantId
+            }
 
-        } else {
-            return tenantService.defaultTenantId
+        } catch (Exception ignore) {
+            return TenantService.defaultTenantId
         }
     }
+
 }

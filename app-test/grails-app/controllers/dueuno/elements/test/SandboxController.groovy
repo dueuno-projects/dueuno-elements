@@ -21,27 +21,31 @@ import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.security.SecurityService
 import dueuno.elements.security.TUser
-import dueuno.elements.style.TextAlign
-import dueuno.elements.style.TextDefault
-import dueuno.elements.style.TextStyle
-import dueuno.elements.style.TextTransform
-import dueuno.elements.style.TextWrap
-import dueuno.elements.types.Money
-import dueuno.elements.types.Quantity
-import dueuno.elements.types.QuantityService
-import dueuno.elements.types.QuantityUnit
+import dueuno.elements.style.*
+import dueuno.elements.types.*
 import grails.gorm.multitenancy.CurrentTenant
 
+import javax.servlet.ServletContext
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
+class MyType {
+    Integer i
+}
+
+
 @CurrentTenant
 class SandboxController implements ElementsController {
 
+    ServletContext servletContext
     ApplicationService applicationService
     QuantityService quantityService
     SecurityService securityService
+
+    def handleException(Exception e) {
+        display exception: e
+    }
 
     def index() {
 
@@ -70,24 +74,47 @@ class SandboxController implements ElementsController {
 
         def formFail = c.addComponent(Form, 'formFail')
         formFail.with {
-            addKeyField('listTest', 'LIST', [1, 2, 3])
-            addKeyField('mapTest', 'MAP', [a:1, b:2, c:[a:1, b:2]])
-            addKeyField('datetimeTest', 'DATETIME', LocalDateTime.now())
-            addKeyField('dateTest', 'DATE', LocalDate.now())
-            addKeyField('timeTest', 'TIME', LocalTime.now())
+            // Typed key fields
+            addKeyField('listTest', Type.LIST, [1, 2, 3])
+            addKeyField('mapTest', Type.MAP, [a:1, b:2, c:[a:1, b:2]])
+            addKeyField('datetimeTest', Type.DATETIME, LocalDateTime.now())
+            addKeyField('dateTest', Type.DATE, LocalDate.now())
+            addKeyField('timeTest', Type.TIME, LocalTime.now())
+
+            // Automatic type retrieval
+            addKeyField('listTestAuto', [1, 2, 3])
+            addKeyField('mapTestAuto', [a:1, b:2, c:[a:1, b:2]])
+            addKeyField('datetimeTestAuto', LocalDateTime.now())
+            addKeyField('dateTestAuto', LocalDate.now())
+            addKeyField('timeTestAuto', LocalTime.now())
+
+//            addKeyField('typeError', new MyType(i: 10))
+//            addKeyField('typeError', 'MY_TYPE', 10)
+
+            addField(
+                    class: Button,
+                    id: 'messageWithParams',
+                    action: 'onMessage',
+                    params: [name: 'Gianluca Sartori'],
+                    displayLabel: false,
+                    cols: 12,
+            )
             addField(
                     class: Button,
                     id: 'loadingScreen',
                     action: 'onHideLoadingScreen',
-                    loading: true,
+                    displayLabel: false,
                     cols: 12,
+                    colsSmall: 6,
             )
             addField(
                     class: Button,
                     id: 'redirectBtn',
                     action: 'messageWithRedirect',
                     modal: true,
+                    displayLabel: false,
                     cols: 12,
+                    colsSmall: 6,
             )
             addField(
                     class: Button,
@@ -95,7 +122,20 @@ class SandboxController implements ElementsController {
                     action: 'index',
                     onClick: 'onCustomParams',
 //                    params: [money: new Money(10), quantity: new Quantity(20)],
+                    displayLabel: false,
                     cols: 12,
+                    colsSmall: 6,
+            )
+            addField(
+                    class: Button,
+                    id: 'setErrors',
+                    action: 'onSetErrors',
+                    submit: 'formFail',
+                    loading: false,
+                    displayLabel: false,
+                    cols: 12,
+                    colsSmall: 6,
+                    highlight: true,
             )
             addField(
                     class: DateTimeField,
@@ -104,6 +144,8 @@ class SandboxController implements ElementsController {
                     min: LocalDate.now().minusDays(3),
                     onLoad: 'onDateTimeLoad',
                     onChange: 'onDateTimeChange',
+                    textStyle: TextStyle.LINE_THROUGH,
+                    highlight: true,
                     cols: 4,
             )
             addField(
@@ -112,15 +154,19 @@ class SandboxController implements ElementsController {
                     value: LocalDate.now().minusDays(4),
                     min: LocalDate.now().minusDays(3),
                     onChange: 'onDateChange',
+                    textStyle: [TextStyle.LINE_THROUGH, TextStyle.ITALIC],
+                    highlight: true,
                     cols: 4,
             )
             addField(
                     class: TimeField,
                     id: 't1',
-                    value: LocalTime.now(),
+                    defaultValue: LocalTime.now(),
                     min: LocalTime.now().minusHours(3),
                     timeStep: 15,
                     onChange: 'onTimeChange',
+                    textStyle: TextStyle.NORMAL,
+                    highlight: true,
                     cols: 2,
             )
             addField(
@@ -133,7 +179,21 @@ class SandboxController implements ElementsController {
                     class: MonthField,
                     id: 'm1',
                     value: LocalDate.now(),
-                    cols: 12,
+                    textStyle: [TextStyle.LINE_THROUGH, TextStyle.NORMAL],
+                    highlight: true,
+                    cols: 6,
+            )
+            addField(
+                    class: PasswordField,
+                    id: 'passWithHelp',
+                    help: 'Type your password',
+                    cols: 6,
+            )
+            addField(
+                    class: Select,
+                    id: 'selectEnum',
+                    optionsFromEnum: TextFieldInputMode,
+                    highlight: true,
             )
             addField(
                     class: Select,
@@ -153,16 +213,18 @@ class SandboxController implements ElementsController {
                     onSearch: 'onSelect3Search',
                     onChange: 'onSelect3Change',
                     submit: ['formFail'],
-                    helpMessage: 'Non sai cosa fare vero? Non ti preoccupare, continuerai a non saperlo... 8-)',
+                    help: 'Non sai cosa fare vero? Non ti preoccupare, continuerai a non saperlo... 8-)',
                     value: 3,
                     allowClear: true,
                     cols: 12,
+                    highlight: true,
             )
             addField(
                     class: MoneyField,
                     id: 'testMoney',
                     value: new Money(),
                     cols: 6,
+                    highlight: true,
             )
             addField(
                     class: QuantityField,
@@ -171,12 +233,16 @@ class SandboxController implements ElementsController {
                     defaultUnit: QuantityUnit.KG,
                     value: new Quantity(),
                     cols: 6,
+                    highlight: true,
             )
             addField(
                     class: TextField,
                     id: 'placeholderText',
                     validChars: '/:1234567890',
-                    prefix: 'PRE',
+//                    prefix: 'PRE',
+                    icon: 'fa-box',
+                    onChange: 'onIconChange',
+                    highlight: true,
                     maxSize: 7,
                     cols: 12,
             )
@@ -185,6 +251,7 @@ class SandboxController implements ElementsController {
                     id: 'placeholderArea',
                     invalidChars: '+-*/',
                     acceptNewLine: false,
+                    highlight: true,
                     cols: 12,
             )
             addField(
@@ -193,6 +260,7 @@ class SandboxController implements ElementsController {
                     action: 'index',
                     icon: 'fa-user',
                     onClick: 'onSetPlaceholder',
+                    loading: false,
                     cols: 2,
             )
             addField(
@@ -203,11 +271,30 @@ class SandboxController implements ElementsController {
                     targetNew: true,
                     cols: 10,
             )
+
+            for (i in 1..6) {
+                addField(
+                        class: Label,
+                        id: "${i}Label",
+                        displayLabel: false,
+                        textArgs: [i],
+                        userSelect: true,
+                        cols: 9,
+                )
+                addField(
+                        class: DateField,
+                        id: "${i}Date",
+                        displayLabel: false,
+                        cols: 3,
+                )
+            }
+
             addField(
                     class: TextField,
                     id: 'textUp',
                     value: 'lower UPPER Capitalized',
                     textTransform: TextTransform.UPPERCASE,
+                    onChange: 'onTextChange',
                     cols: 4,
             )
             addField(
@@ -228,13 +315,13 @@ class SandboxController implements ElementsController {
                     class: NumberField,
                     id: 'textPattern',
                     pattern: '^(?!.*@.*@)(?!.*(\\.)\\1).[a-z0-9_\\.@]*$',
-                    cols: 12,
+                    cols: 6,
             )
             addField(
                     class: Checkbox,
                     id: 'checkThisOut',
                     onChange: 'onChangeCheckThisOut',
-                    cols: 12,
+                    cols: 6,
             )
 
             def linkField = addField(
@@ -247,7 +334,7 @@ class SandboxController implements ElementsController {
             linkField.component.addComponent(
                     class: Image,
                     id: 'theImage',
-                    image: linkPublicResource("brand/login-logo.png"),
+                    image: linkPublicResource("brand/login-logo.png", false),
             )
             linkField.component.addComponent(
                     class: Label,
@@ -324,7 +411,10 @@ Grails application running at http://localhost:9992/test in environment: develop
 //            )
         }
 
-        formFail.values = TCompany.get(2)
+        formFail.values = [
+                name: 'PIPPO',
+                t1: LocalTime.now().plusHours(3)
+        ]
 
         def table = c.addComponent(Table, 'tableTest')
         table.with {
@@ -358,22 +448,24 @@ Grails application running at http://localhost:9992/test in environment: develop
             body.eachRow { TableRow row, Map values ->
                 values.customColumn = 'PIPPO'
 
+                row.cells.postcode.tag = true
+
                 row.cells.input.component = [
                         class   : NumberField,
                         id      : 'number',
                         min     : -2,
                         max     : 10,
-                        cssStyle: 'text-align: right;',
+                        textAlign: TextAlign.END,
                 ]
                 row.cells.input.component.addAction(
                         action: 'onDecrement',
-                        submit: "table-${row.index}",
+                        submit: "tableTest-${row.index}",
                         icon: 'fa-minus',
                         text: '',
                 )
                 row.cells.input.component.addAction(
                         action: 'onIncrement',
-                        submit: "table-${row.index}",
+                        submit: "tableTest-${row.index}",
                         icon: 'fa-plus',
                         text: '',
                 )
@@ -397,19 +489,22 @@ Grails application running at http://localhost:9992/test in environment: develop
                 action: 'onSetCellValue',
                 params: [value: '**PIPPO**'],
                 stretch: true,
+                loading: false,
         )
 
         def table2 = c.addComponent(Table, 'table2')
         table2.with {
 //            hasComponents = true
-            filters.with {
-                addField(
-                        class: TextField,
-                        id: 'find',
-                        label: TextDefault.FIND,
-                        cols: 12,
-                )
-            }
+            title.display = true
+            title.icon = 'fa-file'
+//            filters.with {
+//                addField(
+//                        class: TextField,
+//                        id: 'find',
+//                        label: TextDefault.FIND,
+//                        cols: 12,
+//                )
+//            }
             columns = [
                     'company',
                     'name',
@@ -457,7 +552,6 @@ Grails application running at http://localhost:9992/test in environment: develop
 //                    class: Separator,
 //                    id: 's1',
 //                    text: 'This is a long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long text!',
-//                    textWrap: TextWrap.SOFT_WRAP,
 //                    cols: 12,
 //            )
 //            addField(
@@ -465,7 +559,7 @@ Grails application running at http://localhost:9992/test in environment: develop
 //                    id: 'select1',
 //                    label: 'onSearch',
 //                    minLength: 3,
-//                    helpMessage: 'Digitare "user" o "admin"',
+//                    help: 'Digitare "user" o "admin"',
 //                    onSearch: 'onSearch',
 //                    optionsFromRecordset: securityService.listUser(),
 //                    defaultValue: 3,
@@ -487,7 +581,7 @@ Grails application running at http://localhost:9992/test in environment: develop
 ////                    defaultValue: 'KM',
 ////                    noSelection: true,
 ////                    transformer: 'DB2UNIT',
-////                    messagePrefix: 'quantity.unit',
+////                    textPrefix: 'quantity.unit',
 ////            )
 //            addField(
 //                    class: NumberField,
@@ -557,15 +651,30 @@ Grails application running at http://localhost:9992/test in environment: develop
                 text: 'I am the one 8-)',
                 textAlign: TextAlign.CENTER,
                 backgroundColor: 'red',
-                textColor: 'white',
-                border: true,
+                textColor: Color.WHITE,
+                tag: true,
         )
 
         display content: c, modal: true
     }
 
+    def onIconChange() {
+        def t = createTransition()
+        t.set('placeholderText', 'icon', 'fa-box-open')
+        display transition: t
+    }
+
+    def onMessage() {
+        display message: 'sandbox.message.with.params', messageArgs: [params.name], controller: 'table'
+    }
+
+    def onTextChange() {
+        println "Event has been triggered"
+        display
+    }
+
     def onHideLoadingScreen() {
-        sleep(3000)
+        sleep(5000)
         def t = createTransition()
         t.loading(false)
         display transition: t
@@ -584,6 +693,10 @@ Grails application running at http://localhost:9992/test in environment: develop
         def user = new TUser(username: 'G', password: 'G')
         user.errors.reject('obj.reject.error.test')
         display errors: user
+    }
+
+    def onSetErrors() {
+        display errors: [testMoney: 'Something wrong here', placeholderText: 'Here as well!']
     }
 
     def onSetCellValue() {
@@ -667,7 +780,7 @@ Grails application running at http://localhost:9992/test in environment: develop
         println "SEARCH: $params"
         def t = createTransition()
         def search = params.select3?.replaceAll('\\*', '%')
-        def results = securityService.listAllUser(username: search)
+        def results = securityService.listAllUser([find: search], [sort: [firstname: 'asc']])
         def options = Select.optionsFromRecordset(recordset: results)
         t.set('select3', 'options', options)
         display transition: t

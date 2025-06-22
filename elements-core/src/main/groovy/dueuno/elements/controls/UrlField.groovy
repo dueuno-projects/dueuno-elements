@@ -30,7 +30,7 @@ class UrlField extends TextField {
         viewTemplate = 'TextField'
         pattern = args.pattern ?: '^[a-zA-Z0-9@:%._\\/+~#=!?&]*$'
 
-        keyboardType = TextFieldKeyboardType.URL
+        inputMode = TextFieldInputMode.URL
         icon = 'fa-globe'
     }
 }

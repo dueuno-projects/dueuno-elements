@@ -3,7 +3,7 @@ class Upload extends Control {
     static initialize($element, $root) {
         let properties = Control.getProperties($element);
 
-        let options = {
+        let initOptions = {
             paramName: '_21Upload',
             url: 'not/set',
             addRemoveLinks: true,
@@ -32,7 +32,7 @@ class Upload extends Control {
             init: Upload.registerEvents,
         };
 
-        $element.dropzone(options);
+        $element.dropzone(initOptions);
     }
 
     static finalize($element, $root) {
@@ -58,8 +58,8 @@ class Upload extends Control {
         let $element = $(this.element);
 
         let componentEvent = Component.getEvent($element, 'upload');
-        if (componentEvent.loading) {
-            Transition.showLoadingScreen(true);
+        if (componentEvent && componentEvent.loading) {
+            LoadingScreen.show(true);
         }
 
         Transition.triggerEvent($element, 'addfile');
@@ -77,7 +77,7 @@ class Upload extends Control {
 
     static onError(file) {
         let $element = $(this.element);
-        Transition.showLoadingScreen(false);
+        LoadingScreen.show(false);
         Transition.triggerEvent($element, 'error');
     }
 
@@ -89,7 +89,7 @@ class Upload extends Control {
         let dropzone = $element[0].dropzone;
         if (!dropzone) {
             return {
-                type: 'LIST',
+                type: Type.LIST,
                 value: [],
             }
         }
@@ -101,7 +101,7 @@ class Upload extends Control {
         }
 
         return {
-            type: 'LIST',
+            type: Type.LIST,
             value: results,
         }
     }

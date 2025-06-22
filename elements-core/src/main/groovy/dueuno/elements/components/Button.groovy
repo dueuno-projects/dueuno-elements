@@ -56,7 +56,7 @@ class Button extends Component {
 
         String buttonText = buildLabel(id)
         containerSpecs.label = (args.label == buttonText) ? '' : args.label
-        containerSpecs.helpMessage = ''
+        containerSpecs.help = ''
 
         Map defaultActionArgs = [:]
         defaultActionArgs.text = args.text ?: buttonText
@@ -176,12 +176,24 @@ class Button extends Component {
         defaultAction.icon = value
     }
 
-    void setConfirmMessage(String value) {
-        defaultAction.confirmMessage = value
+    void setTooltip(String value) {
+        defaultAction.tooltip = value
     }
 
     void setInfoMessage(String value) {
         defaultAction.infoMessage = value
+    }
+
+    void setInfoMessageArgs(List value) {
+        defaultAction.infoMessageArgs = value
+    }
+
+    void setConfirmMessage(String value) {
+        defaultAction.confirmMessage = value
+    }
+
+    void setConfirmMessageArgs(List value) {
+        defaultAction.confirmMessageArgs = value
     }
 
     void setTarget(String value) {
@@ -212,6 +224,10 @@ class Button extends Component {
         args.id = args.id ?: (controller == controllerName ? action : controller + action?.capitalize())
         args.controller = controller
         args.action = action
+
+        if (defaultAction) {
+            args.loading = args.loading == null ? defaultAction.loading : args.loading
+        }
 
         return actionMenu.addItem(args)
     }

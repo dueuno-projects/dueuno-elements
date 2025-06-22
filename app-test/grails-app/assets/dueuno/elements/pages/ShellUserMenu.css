@@ -11,19 +11,19 @@
 }
 
 #shell-user-menu .offcanvas-header {
-    height: calc(var(--elements-font-size) * 3.3);
-    padding-right: calc(var(--elements-font-size) / 1.8);
+    height: 3.3rem;
+    padding-right: .75rem;
 }
 
 #shell-user-menu .offcanvas-title img {
-    height: calc(var(--elements-font-size) * 1.4);
-    margin-top: calc(var(--elements-font-size) * -0.2);
+    height: 1.4rem;
+    margin-top: -.2rem;
 }
 
 #shell-user-menu .offcanvas-body {
     width: 100%;
     position: absolute;
-    top: calc(var(--elements-font-size) * 3.3);
+    top: 3.3rem;
     bottom: 0;
     overflow-x: hidden;
     scrollbar-width: none;
@@ -31,6 +31,14 @@
 
 #shell-user-menu .offcanvas-body::-webkit-scrollbar {
     display: none;
+}
+
+#shell-user-menu .offcanvas-body .simplebar-scrollbar:before {
+    width: .60rem;
+}
+
+#shell-user-menu .offcanvas-body .simplebar-track.simplebar-vertical {
+    padding: 0 .5rem 0 .5rem;
 }
 
 #shell-user-menu button:hover,
@@ -43,11 +51,15 @@
 }
 
 .offcanvas.offcanvas-end {
-    width: calc(var(--elements-font-size) * 15);
+    width: 15rem;
 }
 
 #shell-user-menu .nav-item a {
-    padding: 0.25rem 0.25rem 0.25rem 0.75rem !important;
+    padding: .25rem;
     transition: none;
     color: var(--bs-light-rgb);
+}
+
+#shell-user-menu .nav-item hr {
+    margin: 1rem 0;
 }

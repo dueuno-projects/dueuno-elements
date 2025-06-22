@@ -14,6 +14,7 @@
  */
 package dueuno.elements.controls
 
+import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
 
 /**
@@ -29,7 +30,7 @@ class Textarea extends TextField {
     Textarea(Map args) {
         super(args)
 
-        valueType = 'TEXT'
+        valueType = Type.TEXT
 
         acceptNewLine = args.acceptNewLine == null ? true : args.acceptNewLine
 

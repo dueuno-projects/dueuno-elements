@@ -1,17 +1,17 @@
 plugins {
-    id 'dueuno-application'
+    id "dueuno-application"
 }
 
 dependencies {
-    implementation project(':elements-core')
+    implementation project(":elements-core")
 }
 
 bootRun {
-    jvmArgs('-Xms2g', '-Xmx2g')
+    jvmArgs("-Xms2g", "-Xmx2g")
 }
 
 configurations.all {
     resolutionStrategy {
-        cacheChangingModulesFor 0, 'seconds'
+        cacheChangingModulesFor 0, "seconds"
     }
 }

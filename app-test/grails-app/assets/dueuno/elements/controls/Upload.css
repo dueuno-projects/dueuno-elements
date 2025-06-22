@@ -1,19 +1,27 @@
 .control-upload {
-    padding: 0;
+    padding: 0 .75rem;
+    min-height: auto;
+    align-content: center;
+    text-align: center;
+}
+
+.control-upload .dz-message {
+    margin: 0;
+    display: inline;
 }
 
 .control-upload .dz-message .dz-button {
-    font-size: calc(var(--elements-font-size) * 1.3);
+    font-size: 1.1rem;
     font-weight: bold;
 }
 
 .control-upload .dz-preview .dz-details .dz-size {
-    margin-bottom: 0.25rem;
+    margin-bottom: .25rem;
 }
 
 .control-upload .dz-preview .dz-image {
-    width: calc(var(--elements-font-size) * 6);
-    height: calc(var(--elements-font-size) * 6);
+    width: 6rem;
+    height: 6rem;
 }
 
 .control-upload .dz-preview.dz-file-preview,
@@ -22,7 +30,7 @@
 }
 
 .dropzone .dz-preview.dz-file-preview .dz-details {
-    margin-top: calc(var(--elements-font-size) / -5);
+    margin-top: -.2rem;
 }
 
 .control-upload .dz-preview.dz-file-preview .dz-image,
@@ -32,19 +40,19 @@
 
 .control-upload .dz-preview.dz-file-preview .dz-details::before {
     font-family: var(--fa-style-family-classic);
-    font-size: calc(var(--elements-font-size) * 1.5);
+    font-size: 1.5rem;
     font-weight: 900;
-    margin-bottom: calc(var(--elements-font-size) / 1.5);
+    margin-bottom: .75rem;
     display: block;
     content: "\f15b";
 }
 
 .control-upload .dz-preview .dz-details {
-    font-size: calc(var(--elements-font-size) / 1.3);
+    font-size: .75rem;
 }
 
 .control-upload .dz-preview.dz-file-preview .dz-remove {
-    font-size: calc(var(--elements-font-size) / 1.3);
+    font-size: .75rem;
     position: relative;
     z-index: 9999;
 }
@@ -56,7 +64,7 @@
 /* COLORS
 */
 .control-upload {
-    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    background-color: rgba(var(--elements-primary-bg-shaded));
 }
 
 .control-upload .dz-message .dz-button {
@@ -64,9 +72,17 @@
 }
 
 .control-upload .dz-preview.dz-file-preview .dz-image {
-    background: rgba(var(--elements-secondary-bg), 0.5);
+    background: rgba(var(--elements-secondary-bg), .5);
 }
 
 .control-upload .dz-preview .dz-remove {
     color: rgb(var(--elements-primary-bg));
+}
+
+.control-upload[readonly] {
+    background-color: rgb(var(--elements-tertiary-bg));
+}
+
+.control-upload[readonly] .dz-message .dz-button {
+    color: rgb(var(--elements-secondary-bg)) !important;
 }

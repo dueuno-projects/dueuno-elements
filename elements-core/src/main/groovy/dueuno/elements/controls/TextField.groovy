@@ -18,8 +18,8 @@ import dueuno.elements.components.Button
 import dueuno.elements.core.Component
 import dueuno.elements.core.Control
 import dueuno.elements.core.Elements
-import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextTransform
+import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
 
 /**
@@ -30,7 +30,8 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class TextField extends Control {
 
-    TextFieldKeyboardType keyboardType
+    TextFieldInputType inputType
+    TextFieldInputMode inputMode
 
     Button actions
     String icon
@@ -39,22 +40,27 @@ class TextField extends Control {
     Integer maxSize
     String placeholder
     Boolean autocomplete
-    List<TextStyle> textStyle
     TextTransform textTransform
-    //Integer onChangeMinChars // Maybe in future
+
+    Boolean onChangeAsync
+    //Integer onChangeMinChars // Maybe in the future
 
     TextField(Map args) {
         super(args)
 
-        valueType = 'TEXT'
+        valueType = Type.TEXT
+        inputType = args.inputType as TextFieldInputType ?: TextFieldInputType.TEXT
+        inputMode = args.inputMode as TextFieldInputMode ?: TextFieldInputMode.TEXT
 
-        keyboardType = args.keyboardType as TextFieldKeyboardType ?: TextFieldKeyboardType.TEXT
         icon = args.icon ?: ''
         prefix = args.prefix ?: ''
         maxSize = args.maxSize as Integer ?: 0
         placeholder = args.placeholder == null ? '' : args.placeholder
-        autocomplete = (args.autocomplete == null) ? false : args.autocomplete
+        autocomplete = args.autocomplete == null ? false : args.autocomplete
         textTransform = args.textTransform as TextTransform ?: TextTransform.NONE
+        prettyPrinterProperties.renderTextPrefix = args.renderTextPrefix == null ? false : args.renderTextPrefix
+
+        onChangeAsync = args.onChangeAsync == null ? false : args.onChangeAsync
         //onChangeMinChars = args.onChangeMinChars ?: 0 // forse in futuro
 
         setTextStyle(args.textStyle)
@@ -73,30 +79,16 @@ class TextField extends Control {
         return on(args)
     }
 
-    String getKeyboardType() {
-        return (keyboardType as String).toLowerCase()
+    String getInputType() {
+        return inputType.toString().toLowerCase()
     }
 
-    void setTextStyle(Object value) {
-        switch (value) {
-            case TextStyle:
-                textStyle = [value as TextStyle]
-                break
-
-            case List<TextStyle>:
-                textStyle = value as List<TextStyle>
-                break
-
-            default:
-                textStyle = [TextStyle.NORMAL]
-        }
-    }
-
-    String getTextStyle() {
-        return textStyle.join(' ')
+    String getInputMode() {
+        return inputMode.toString().toLowerCase()
     }
 
     Control addAction(Map args) {
+        args.loading = args.loading != null ? args.loading : false
         actions.addAction(args)
         return this
     }
@@ -110,6 +102,7 @@ class TextField extends Control {
         Map thisProperties = [
                 autocomplete: autocomplete,
                 textTransform: textTransform as String,
+                onChangeAsync: onChangeAsync,
         ]
         return super.getPropertiesAsJSON(thisProperties + properties)
     }
@@ -118,7 +111,7 @@ class TextField extends Control {
     String getValueAsJSON() {
         Map valueMap = [
                 type: valueType,
-                value: prettyPrint(value),
+                value: prettyPrint(value, prettyPrinterProperties),
         ]
 
         return Elements.encodeAsJSON(valueMap)

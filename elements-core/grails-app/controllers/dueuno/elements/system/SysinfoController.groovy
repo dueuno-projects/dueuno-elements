@@ -14,13 +14,13 @@
  */
 package dueuno.elements.system
 
-import dueuno.elements.components.Label
-import dueuno.elements.contents.ContentForm
-import dueuno.elements.controls.TextField
+import dueuno.elements.components.TableRow
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.SystemInfoService
+import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
-import dueuno.elements.utils.EnvUtils
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
@@ -32,59 +32,28 @@ class SysinfoController implements ElementsController {
     SystemInfoService systemInfoService
 
     def index() {
+        def c = createContent(ContentTable)
 
-        def c = createContent(ContentForm)
         c.header.with {
-            removeBackButton()
             removeNextButton()
         }
 
-        c.form.with {
-            addField(
-                    class: TextField,
-                    id: 'environment',
-                    readonly: true,
-                    cols: 4,
-            )
-            addField(
-                    class: TextField,
-                    id: 'applicationVersion',
-                    readonly: true,
-                    cols: 4,
-            )
-            addField(
-                    class: TextField,
-                    id: 'coreVersion',
-                    readonly: true,
-                    cols: 4,
-            )
-            addField(
-                    class: Label,
-                    id: 'systemData',
-                    textWrap: TextWrap.LINE_WRAP,
-                    border: true,
-                    cols: 12,
-            )
+        c.table.with {
+            columns = [
+                    'key',
+                    'value',
+            ]
+            hasHeader = false
+            rowActions = false
+            body.eachRow { TableRow row, Map values ->
+                row.cells.key.tag = true
+                row.cells.key.textAlign = TextAlign.START
+                row.textStyle = TextStyle.MONOSPACE
+                row.cells.value.textWrap = TextWrap.SOFT_WRAP
+            }
+            body = systemInfoService.info.collect {[key: it.key, value: it.value]}
         }
 
-        // DATA
-        //
-        String systemData = ''
-        systemInfoService.info.each { key, value ->
-            if (key != 'coreVersion') systemData += "$key: $value\n"
-        }
-
-        c.form.values = [
-                environment       : message('default.env.' + EnvUtils.currentEnvironment),
-                browser           : systemInfoService.info.browser,
-                applicationVersion: systemInfoService.info.appVersion,
-                coreVersion       : systemInfoService.info.coreVersion,
-        ]
-
-        c.form['systemData'].text = systemData
-
-        // RENDERING
-        //
-        display content: c, modal: true
+        display content: c, modal: true, wide: true
     }
 }

@@ -81,7 +81,7 @@ class SSHUtils {
     static void downloadFileToDir(String remoteFile, String localDir, String host, Integer port,
                                   String username, String password, String indent = '') {
         String filenameFrom = new File(remoteFile).name
-        String localFile = FileUtils.normalizeDirname(localDir) + filenameFrom
+        String localFile = FileUtils.normalizePath(localDir) + filenameFrom
 
         downloadFile(remoteFile, localFile, host, port, username, password, indent)
     }
@@ -123,7 +123,7 @@ class SSHUtils {
     }
 
     static void deleteDir(String remoteDir, String host, Integer port, String username, String password, String indent = '') {
-        String dirN = FileUtils.normalizeDirname(remoteDir)
+        String dirN = FileUtils.normalizePath(remoteDir)
         log.info "${indent}Deleting '${dirN}'"
 
         Session session = connect(host, port, username, password, indent)
@@ -140,7 +140,7 @@ class SSHUtils {
     }
 
     static void deleteDirTree(String remoteDir, String host, Integer port, String username, String password, String indent = '') {
-        String dirN = FileUtils.normalizeDirname(remoteDir)
+        String dirN = FileUtils.normalizePath(remoteDir)
         log.info "${indent}Deleting '${dirN}'"
 
         String command = "rm -rf ${dirN}"
@@ -150,7 +150,7 @@ class SSHUtils {
     static void uploadFileToDir(String localFile, String remoteDir, String host, Integer port,
                                 String username, String password, String indent = '') {
         String localFileN = FileUtils.normalizePathname(localFile)
-        String remoteDirN = FileUtils.normalizeDirname(remoteDir)
+        String remoteDirN = FileUtils.normalizePath(remoteDir)
         Path localFilePath = Paths.get(localFileN)
         String remoteFileN = "${remoteDirN}${localFilePath.fileName}"
 

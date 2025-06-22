@@ -30,9 +30,6 @@ class ContentHeader extends ContentBlank {
         super(args)
 
         header = addComponent(Header)
-        header.addNextButton(
-                action: 'onConfirm',
-                submit: 'form',
-        )
+        header.addNextButton()
     }
 }

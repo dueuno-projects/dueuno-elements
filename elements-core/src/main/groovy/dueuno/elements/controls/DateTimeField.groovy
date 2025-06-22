@@ -16,6 +16,7 @@ package dueuno.elements.controls
 
 import dueuno.elements.core.Component
 import dueuno.elements.core.Control
+import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
 
 import java.time.LocalDate
@@ -38,7 +39,7 @@ class DateTimeField extends Control {
     DateTimeField(Map args) {
         super(args)
 
-        valueType = 'DATETIME'
+        valueType = Type.DATETIME
 
         addContainerAttribute('id', id)
         addContainerAttribute('data-td-target-input', 'nearest')

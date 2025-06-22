@@ -19,9 +19,12 @@ import dueuno.elements.style.TextDefault
 import groovy.transform.CompileStatic
 
 /**
+ * Use {@link ContentTable} instead
+ *
  * @author Gianluca Sartori
  */
 
+@Deprecated
 @CompileStatic
 class ContentList extends ContentHeader {
 

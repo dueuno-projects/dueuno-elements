@@ -4,10 +4,10 @@ class HiddenField extends Control {
         let value;
 
         switch (valueMap.type) {
-            case 'UNKNOWN':
-            case 'BOOLEAN':
-            case 'NUMBER':
-            case 'TEXT':
+            case Type.NA:
+            case Type.BOOLEAN:
+            case Type.NUMBER:
+            case Type.TEXT:
                 value = valueMap.value;
                 break
 
@@ -22,10 +22,10 @@ class HiddenField extends Control {
         let value = Control.getServerValue($element);
 
         switch (value.type) {
-            case 'UNKNOWN':
-            case 'BOOLEAN':
-            case 'NUMBER':
-            case 'TEXT':
+            case Type.NA:
+            case Type.BOOLEAN:
+            case Type.NUMBER:
+            case Type.TEXT:
                 value.value = $element.val();
                 break
 

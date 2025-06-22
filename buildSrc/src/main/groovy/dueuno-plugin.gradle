@@ -58,10 +58,11 @@ dependencies {
 
 assets {
     packagePlugin = true
+    skipNonDigests = true
     minifyCss = true
     minifyJs = true
     minifyOptions = [
             //SIMPLE (default) or ADVANCED or WHITESPACE_ONLY
-            optimizationLevel: 'SIMPLE',
+            optimizationLevel: "SIMPLE",
     ]
 }

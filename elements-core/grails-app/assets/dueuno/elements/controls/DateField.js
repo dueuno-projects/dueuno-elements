@@ -6,7 +6,7 @@ class DateField extends DateTimeField {
         let dateFormat = _21_.user.invertedMonth ? 'MM/dd/yyyy' : 'dd/MM/yyyy';
         let startOfTheWeek = _21_.user.firstDaySunday ? 0 : 1;
 
-        let options = {
+        let initOptions = {
             allowInputToggle: false,
             display: {
                 theme: 'light',
@@ -22,7 +22,7 @@ class DateField extends DateTimeField {
             restrictions: {},
         };
 
-        let td = new tempusDominus.TempusDominus($element.parent()[0], options);
+        let td = new tempusDominus.TempusDominus($element.parent()[0], initOptions);
         td.dates.parseInput = DateField.parseInput;
         $element.data('td', td);
     }
@@ -57,8 +57,9 @@ class DateField extends DateTimeField {
             day = value.substring(0, 2);
         }
 
-        let dateTime = new tempusDominus.DateTime(year + '-' + month + '-' + day);
-        return dateTime;
+        let date = new tempusDominus.DateTime(year + '-' + month + '-' + day);
+        let dateUTC = DateTimeField.dateToUTC(date);
+        return dateUTC;
     }
 
     static setValue($element, valueMap, trigger = true) {
@@ -93,8 +94,12 @@ class DateField extends DateTimeField {
         let td = $element.data('td');
         let date = td.dates.parseInput(value);
 
-        if (date) return {
-            type: 'DATE',
+        if (!date) {
+            return null;
+        }
+
+        let result = {
+            type: Type.DATE,
             value: {
                 year: date.year,
                 month: date.month + 1,
@@ -102,8 +107,9 @@ class DateField extends DateTimeField {
             }
         }
 
-        return null;
+        return result;
     }
+
 }
 
 Control.register(DateField);

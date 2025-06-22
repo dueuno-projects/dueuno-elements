@@ -15,6 +15,7 @@
 package dueuno.elements.security
 
 import dueuno.commons.utils.StringUtils
+import dueuno.elements.audit.AuditOperation
 import dueuno.elements.audit.AuditService
 import dueuno.elements.components.ShellService
 import dueuno.elements.core.*
@@ -23,11 +24,9 @@ import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.tenants.TTenant
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
-import dueuno.elements.tenants.UserData
 import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
-import grails.gorm.multitenancy.WithoutTenant
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.util.logging.Slf4j
@@ -42,70 +41,58 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
  */
 
 @Slf4j
-@WithoutTenant
-class SecurityService implements WebRequestAware, ServletContextAware, LinkGeneratorAware {
+@CurrentTenant
+class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     public static final String GROUP_SUPERADMINS = 'SUPERADMINS'
-    public static final String GROUP_ADMINS = 'ADMINS'
     public static final String GROUP_DEVELOPERS = 'DEVELOPERS'
+    public static final String GROUP_ADMINS = 'ADMINS'
     public static final String GROUP_USERS = 'USERS'
 
+    public static final String ROLE_SECURITY = 'ROLE_SECURITY'
     public static final String ROLE_SUPERADMIN = 'ROLE_SUPERADMIN'
-    public static final String ROLE_ADMIN = 'ROLE_ADMIN'
     public static final String ROLE_DEVELOPER = 'ROLE_DEVELOPER'
+    public static final String ROLE_ADMIN = 'ROLE_ADMIN'
     public static final String ROLE_USER = 'ROLE_USER'
 
-    private static final String USERNAME_SUPERADMIN = 'super'
-    private static final String USERNAME_ADMIN = 'admin'
+    public static final String USERNAME_SUPERADMIN = 'super'
+    public static final String USERNAME_ADMIN = 'admin'
 
     public static final String DENY_AUTHORIZATION_MESSAGE = 'DENY_AUTHORIZATION_MESSAGE'
 
     @Autowired
-    private SecurityContextLogoutHandler securityContextLogoutHandler
+    SecurityContextLogoutHandler securityContextLogoutHandler
 
     @Autowired
-    private TokenBasedRememberMeServices tokenBasedRememberMeServices
+    TokenBasedRememberMeServices tokenBasedRememberMeServices
 
-    @Autowired
-    private SpringSecurityService springSecurityService
-
-    @Autowired
-    private SystemPropertyService systemPropertyService
-
-    @Autowired
-    private TenantPropertyService tenantPropertyService
-
-    @Autowired
-    private ApplicationService applicationService
-
-    @Autowired
-    private ShellService shellService
-
-    @Autowired
-    private TenantService tenantService
-
-    @Autowired
-    private AuditService auditService
+    SpringSecurityService springSecurityService
+    SystemPropertyService systemPropertyService
+    TenantPropertyService tenantPropertyService
+    ApplicationService applicationService
+    ShellService shellService
+    TenantService tenantService
+    AuditService auditService
 
     void init() {
         applicationService.registerPrettyPrinter(TTenant, '${it.tenantId}')
         applicationService.registerPrettyPrinter(TUser, '${it.fullname}')
         applicationService.registerPrettyPrinter(TRoleGroup, '${it.name}')
-        applicationService.registerPrettyPrinter('LANDING_PAGE', 'shell.${it.namespace ? it.namespace + "." : ""}${it.controller}')
+        applicationService.registerPrettyPrinter('LANDING_PAGE', '${it.text}')
 
         applicationService.registerFeature(
                 namespace: 'security',
                 controller: 'superadmin',
                 icon: 'fa-cog',
                 order: 10000000,
-                authorities: ['ROLE_SUPERADMIN'],
+                authorities: [ROLE_SUPERADMIN],
         )
         applicationService.registerFeature(
                 namespace: 'security',
                 controller: 'admin',
                 icon: 'fa-cog',
                 order: 9000000,
-                authorities: ['ROLE_ADMIN', 'ROLE_SECURITY'],
+                authorities: [ROLE_ADMIN, ROLE_SECURITY],
         )
     }
 
@@ -131,7 +118,6 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         applicationService.registerSuperadminFeature(
                 controller: 'monitoring',
                 icon: 'fa-chart-simple',
-                direct: true,
                 targetNew: true,
         )
         applicationService.registerSuperadminFeature(
@@ -181,24 +167,32 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         )
         applicationService.registerDeveloperUserFeature(
                 controller: 'shell',
-                action: 'toggleDevHints',
-                icon: 'fa-code',
+                action: 'toggleClientLogs',
+                icon: 'fa-bug',
                 order: 10000040,
         )
         applicationService.registerDeveloperUserFeature(
-                controller: 'databaseExplorer',
+                controller: 'shell',
+                action: 'toggleDevHints',
+                icon: 'fa-key',
                 order: 10000050,
-                icon: 'fa-database',
-                direct: true,
         )
         applicationService.registerDeveloperUserFeature(
-                controller: 'connectionSource',
-                action: 'h2Console',
-                icon: 'fa-database',
-                order: 10000060,
-                direct: true,
+                controller: 'gormExplorer',
+                icon: 'fa-table',
                 targetNew: true,
+                order: 10000060,
         )
+
+        if (EnvUtils.isDevelopment()) {
+            applicationService.registerDeveloperUserFeature(
+                    controller: 'connectionSource',
+                    action: 'h2Console',
+                    icon: 'fa-database',
+                    targetNew: true,
+                    order: 10000070,
+            )
+        }
     }
 
     /**
@@ -210,38 +204,24 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         if (!newFeature) {
             args.parent = 'admin'
             args.namespace = 'security'
-            args.authorities = ['ROLE_SECURITY']
+            args.authorities = [ROLE_SECURITY]
             applicationService.registerFeature(args)
         }
     }
 
-    void initializeUser() {
-        if (!getCurrentUser(true)) {
-            throw new ElementsException("User authenticated but no user is configured in the application. " +
-                    "If you are authenticating with an external provider (Eg. LDAP) you need to configure " +
-                    "the user in the application as well.")
-        }
-    }
-
-    void initializeSessionDuration(TUser user = null) {
-        if (!user) {
-            user = currentUser
-        }
-
-        Integer sessionDuration = user.sessionDuration ?: tenantPropertyService.getNumber('DEFAULT_SESSION_DURATION')
-        session.maxInactiveInterval = EnvUtils.isDevelopment() ? 10000 : sessionDuration * 60 // minutes to seconds
-
-        Integer rememberMeDuration = user.rememberMeDuration ?: tenantPropertyService.getNumber('DEFAULT_REMEMBER_ME_DURATION')
-        tokenBasedRememberMeServices.tokenValiditySeconds = rememberMeDuration * 60 // minutes to seconds
+    void initializeSessionDuration() {
+        TUser user = currentUser
+        session.maxInactiveInterval = EnvUtils.isDevelopment() ? 10000 : user.sessionDuration * 60 // minutes to seconds
+        tokenBasedRememberMeServices.tokenValiditySeconds = user.rememberMeDuration * 60 // minutes to seconds
         tokenBasedRememberMeServices.cookieName = applicationService.applicationName.toUpperCase() + '-REMEMBER-ME'
     }
 
     void initializeShell() {
-        TUser user = getCurrentUser(true)
+        TUser user = currentUser
         String lang = (user?.language in applicationService.languages) ? user.language : tenantPropertyService.getString('DEFAULT_LANGUAGE', true)
         shellService.currentLanguage = lang
-        shellService.shell.setUser(currentUser.username, currentUser.firstname, currentUser.lastname)
-        shellService.setFontSize(currentUser.fontSize)
+        shellService.shell.setUser(currentUsername, user.firstname, user.lastname)
+        shellService.setFontSize(user.fontSize)
 
         setMenuVisibility(shellService.shell.menu)
         setMenuVisibility(shellService.shell.userMenu)
@@ -285,20 +265,36 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
     }
 
     /**
-     * Returns true if the user with the specified username has admin authorities
-     * @return true if the user with the specified username has admin authorities
+     * Returns true if the currently logged in user has the highest authorities
+     * @return true if the currently logged in user has the highest authorities
      */
-    Boolean isAdmin(String username) {
-        TUser user = getUserByUsername(username)
-        return user.authorities.find { it.name == GROUP_ADMINS } != null
+    Boolean isSuperAdmin() {
+        return isAnyGranted(ROLE_SUPERADMIN)
     }
 
     /**
      * Returns true if the currently logged in user has development authorities
      * @return true if the currently logged in user has development authorities
      */
-    Boolean isSuperAdmin() {
-        return isAnyGranted(ROLE_SUPERADMIN)
+    Boolean isDeveloper() {
+        return isAnyGranted(ROLE_DEVELOPER)
+    }
+
+    /**
+     * Returns true if the user with the specified username has admin authorities
+     * @return true if the user with the specified username has admin authorities
+     */
+    Boolean isAdmin(TUser user) {
+        return user.authorities.find { it.name == GROUP_ADMINS } != null
+    }
+
+    /**
+     * Returns true if the user with the specified username has admin authorities
+     * @return true if the user with the specified username has admin authorities
+     */
+    Boolean isAdmin(String username) {
+        TUser user = getUserByUsername(username)
+        return isAdmin(user)
     }
 
     /**
@@ -333,48 +329,43 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
      * @return the currently logged in user
      */
     TUser getCurrentUser(Boolean reload = false) {
-        try {
-            TUser sessionCurrentUser = session['_21CurrentUser']
-            if (sessionCurrentUser && !reload) {
-                return sessionCurrentUser
-            }
-
-            String username = springSecurityService.principal.username
-            TUser currentUser = getUserByUsername(username)
-            session['_21CurrentUser'] = currentUser
-            return currentUser
-
-        } catch (Exception ignore) {
+        if (!springSecurityService.isLoggedIn()) {
             return null
         }
-    }
 
-    /**
-     * Returns the currently logged in user tenant
-     * @return the currently logged in user tenant
-     */
-    TTenant getCurrentTenant() {
-        if (currentUser) {
-            return currentUser.tenant
-
-        } else {
-            return tenantService.default
+        TUser currentUser = session['_21CurrentUser'] as TUser
+        if (currentUser && !reload) {
+            return currentUser
         }
+
+        Object principal = springSecurityService.principal
+        String username = (principal.username as String).toLowerCase()
+        TUser user = getUserByUsername(username)
+        if (!user) {
+            user = createUser(
+                    failOnError: true,
+                    username: username,
+                    password: StringUtils.generateRandomToken(),
+            )
+        }
+
+        session['_21CurrentUser'] = user
+        return user
     }
 
     /**
-     * Returns true if the current tenant is the default (system) tenant
-     * @return true if the current tenant is the default (system) tenant
+     * Returns the currently logged in user username
+     * @return the currently logged in user username
      */
-    Boolean isCurrentTenantDefault() {
-        return currentUser.tenant.tenantId == tenantService.default.tenantId
+    String getCurrentUsername() {
+        return currentUser?.username
     }
 
     /**
      * INTERNAL USE ONLY. Persists the current language for the currently logged in user.
      */
     void saveCurrentUserLanguage() {
-        TUser current = getCurrentUser(true)
+        TUser current = getUserByUsername(currentUsername)
         current.language = currentLanguage
         current.save(flush: true, failOnError: true)
     }
@@ -398,20 +389,36 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
     /**
      * INTERNAL USE ONLY. Executes custom post-login code.
      */
-    @CurrentTenant
     void executeAfterLogin() {
-        initializeUser()
         initializeSessionDuration()
         initializeShell()
 
-        log.debug "Logged in as '${currentUser.username}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
-        auditService.log(
-                action: 'LOGIN',
-                message: "Authorities: ${currentUserAuthorities}",
-        )
+        String tenantId = tenantService.currentTenantId
+        log.info "${tenantId}: Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
+        auditService.log(AuditOperation.LOGIN, "Authorities: ${currentUserAuthorities}")
 
         // Executes custom login code
         applicationService.executeBootEvents('afterLogin', session)
+    }
+
+    void denyLogin(String message) {
+        if (!message) {
+            throw new ElementsException("A deny message must be provided.")
+        }
+
+        if (isLoginDenied()) {
+            return
+        }
+
+        session[DENY_AUTHORIZATION_MESSAGE] = message
+    }
+
+    Boolean isLoginDenied() {
+        return session[DENY_AUTHORIZATION_MESSAGE]
+    }
+
+    String getLoginDeniedMessage() {
+        return session[DENY_AUTHORIZATION_MESSAGE]
     }
 
     void executeLogout() {
@@ -421,16 +428,15 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         // Handles remember-me cookie
         tokenBasedRememberMeServices.logout(request, response, null)
 
-        //La sessione deve essere invalidata poiché è stata disabilitata l'invalidazione di default (vedere plugin.groovy)
+        // Session must be explicitly invalidated, default behaviour has been disabled, see 'plugin.groovy'
         session.invalidate()
     }
 
     /**
      * INTERNAL USE ONLY. Executes custom post-logout code.
      */
-    @CurrentTenant
     void executeAfterLogout() {
-        auditService.log(action: 'LOGOUT', message: "-")
+        auditService.log(AuditOperation.LOGOUT, "-")
         applicationService.executeBootEvents('afterLogout')
         executeLogout()
     }
@@ -439,9 +445,8 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
      * Returns the default landing page configured for the current user
      * @return
      */
-    @CurrentTenant
-    String getLandingPage() {
-        if (isAdmin()) // Admins never access to landing pages
+    String getUserLandingPage() {
+        if (isSuperAdmin())
             return ''
 
         TRoleGroup currentUserGroup = currentUser.defaultGroup
@@ -451,6 +456,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
             return '/' + currentUserGroup.landingPage
 
         } else { // USERS Group (applies to all users of a tenant)
+            TTenant currentTenant = tenantService.currentTenant
             TRoleGroup usersGroup = TRoleGroup.findByTenantAndName(currentTenant, GROUP_USERS)
             if (usersGroup && usersGroup.landingPage) {
                 return '/' + usersGroup.landingPage
@@ -461,65 +467,93 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         return tenantPropertyService.getString('LOGIN_LANDING_URL', true)
     }
 
+    String getLoginLandingPage() {
+        String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
+        String loginLandingPage = userLandingPage
+        String urlLandingPage = requestParams.landingPage
+
+        return urlLandingPage ?: loginLandingPage ?: shellUrlMapping ?: '/'
+    }
+
+    String getLogoutLandingPage() {
+        String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
+        String logoutLandingPage = tenantPropertyService.getString('LOGOUT_LANDING_URL', true)
+        String urlLandingPage = requestParams.landingPage
+
+        return urlLandingPage ?: logoutLandingPage ?: shellUrlMapping ?: '/'
+    }
+
     //
     // Users
     //
+    private DetachedCriteria<TUser> buildQueryUser(Map filterParams) {
+        def query = TUser.where {}
 
-    UserData getUserData(Serializable id) {
-        TUser user = getUser(id)
-        if (!user) {
-            return null
-//            throw new ElementsException("Cannot find user with id '${id}'")
+        if (!isSuperAdmin()) {
+            String currentTenantId = tenantService.currentTenantId
+            query = query.where {
+                username != USERNAME_SUPERADMIN && tenant.tenantId == currentTenantId
+            }
         }
-        return buildUserData(user)
+
+        if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
+        if (filterParams.containsKey('username')) query = query.where { username == filterParams.username }
+        if (filterParams.containsKey('apiKey')) query = query.where { apiKey == filterParams.apiKey }
+        if (filterParams.containsKey('externalId')) query = query.where { externalId == filterParams.externalId }
+        if (filterParams.containsKey('tenant')) query = query.where { tenant.id == filterParams.tenant }
+        if (filterParams.containsKey('tenantId')) query = query.where { tenant.tenantId == filterParams.tenantId }
+        if (filterParams.containsKey('deletable')) query = query.where { deletable == filterParams.deletable }
+        if (filterParams.containsKey('enabled')) query = query.where { enabled == filterParams.enabled }
+
+        if (filterParams.find) {
+            query = query.where {
+                true
+                        || apiKey =~ "%${filterParams.find}%"
+                        || externalId =~ "%${filterParams.find}%"
+                        || username =~ "%${filterParams.find}%"
+                        || firstname =~ "%${filterParams.find}%"
+                        || lastname =~ "%${filterParams.find}%"
+            }
+        }
+
+        return query
     }
 
-    UserData getUserDataByUsername(String username) {
-        TUser user = getUserByUsername(username)
-        if (!user) {
-            return null
-//            throw new ElementsException("Cannot find user with username '${username}'")
-        }
-        return buildUserData(user)
+    private Map getFetchAll() {
+        // Add any relationship here (Eg. references to other DomainObjects or hasMany)
+        return [
+                tenant      : 'join',
+                defaultGroup: 'join',
+        ]
     }
 
-    private UserData buildUserData(TUser user) {
-        return new UserData(
-                id: user.id,
-                username: user.username,
-                fullname: user.fullname,
-                firstname: user.firstname,
-                lastname: user.lastname,
-                language: user.language,
-                email: user.email,
-                telephone: user.telephone,
-        )
+    private Map getFetch() {
+        // Add only single-sided relationships here (Eg. references to other Domain Objects)
+        // DO NOT add hasMany relationships, you are going to have troubles with pagination
+        return [
+                tenant      : 'join',
+                defaultGroup: 'join',
+        ]
     }
 
     TUser getUser(Serializable id) {
-        Map fetch = [
-                tenant      : 'join',
-                defaultGroup: 'join',
-        ]
-
-        DetachedCriteria<TUser> query = TUser.where {
-            id == id
-        }
-
-        return query.get(fetch: fetch)
+        def query = TUser.where { id == id }
+        return query.get(fetch: fetchAll)
     }
 
     TUser getUserByUsername(String username) {
-        Map fetch = [
-                tenant      : 'join',
-                defaultGroup: 'join',
-        ]
+        def query = TUser.where { username == username }
+        return query.get(fetch: fetchAll)
+    }
 
-        DetachedCriteria<TUser> query = TUser.where {
-            username == username
-        }
+    TUser getUserByApiKey(String apiKey) {
+        def query = TUser.where { apiKey == apiKey }
+        return query.get(fetch: fetchAll)
+    }
 
-        return query.get(fetch: fetch)
+    TUser getUserByExternalId(String externalId) {
+        def query = TUser.where { externalId == externalId }
+        return query.get(fetch: fetchAll)
     }
 
     TUser getSuperAdminUser() {
@@ -530,78 +564,35 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         return getUserByUsername(USERNAME_ADMIN)
     }
 
-    void denyLogin(String message) {
-        if (!message) {
-            throw new ElementsException("A deny message must be provided.")
-        }
-
-        if (session[DENY_AUTHORIZATION_MESSAGE]) {
-            return
-        }
-
-        session[DENY_AUTHORIZATION_MESSAGE] = message
+    List<TUser> listAllUser(Map filterParams = [:], Map fetchParams = [:]) {
+        if (!fetchParams.sort) fetchParams.sort = 'lastname'
+        fetchParams.fetch = fetch
+        def query = buildQueryUser(filterParams)
+        return query.list(fetchParams)
     }
 
-    private DetachedCriteria<TUser> buildUserQuery(Map filters) {
-        def query = TUser.where {
-            username != USERNAME_SUPERADMIN
-        }
-
-        if (!isSuperAdmin()) {
-            query = query.where { tenant == currentTenant }
-        }
-
-        if (filters) {
-            if (filters.containsKey('id')) query = query.where { id == filters.id }
-            if (filters.containsKey('tenant')) query = query.where { tenant.id == filters.tenant }
-            if (filters.containsKey('deletable')) query = query.where { deletable == filters.deletable }
-            if (filters.containsKey('enabled')) query = query.where { enabled == filters.enabled }
-            if (filters.username) query = query.where {
-                username =~ "%${filters.username}%"
-                        || firstname =~ "%${filters.username}%"
-                        || lastname =~ "%${filters.username}%"
-            }
-        }
-
-        return query
-    }
-
-    List<TUser> listUserByAuthorities(List authorities, Map params = [:]) {
-        //TODO: Quando hai tempo magari se ti ci metti eh? Sartori?
-//        def query = TRoleGroupRole.where {
-//            role.authority in authorities
-//        }
-//
-//        return query.list(params)
-    }
-
-    List<TUser> listAllUser(Map filters = [:], Map params = [:]) {
-        if (!params.sort) params.sort = 'lastname'
-        def query = buildUserQuery(filters)
-        return query.list(params)
-    }
-
-    Integer countAllUser(Map filters = [:]) {
-        def query = buildUserQuery(filters)
+    Integer countAllUser(Map filterParams = [:]) {
+        def query = buildQueryUser(filterParams)
         return query.count()
     }
 
-    List<TUser> listUser(Map filters = [:], Map params = [:]) {
-        filters.deletable = true
-        filters.tenant = getCurrentTenant().id
-        return listAllUser(filters, params)
+    List<TUser> listUser(Map filterParams = [:], Map fetchParams = [:]) {
+        filterParams.deletable = true
+        return listAllUser(filterParams, fetchParams)
     }
 
-    Integer countUser(Map filters = [:]) {
-        filters.deletable = true
-        filters.tenant = getCurrentTenant().id
-        return countAllUser(filters)
+    Integer countUser(Map filterParams = [:]) {
+        filterParams.deletable = true
+        return countAllUser(filterParams)
     }
 
-    List<String> listUsername(Map filters = [:], Map params = [:]) {
-        filters.deletable = true
-        filters.tenant = getCurrentTenant().id
-        return listAllUser(filters, params).username
+    List<String> listAllUsername(Map filterParams = [:], Map fetchParams = [:]) {
+        return listAllUser(filterParams, fetchParams).username
+    }
+
+    List<String> listUsername(Map filterParams = [:], Map fetchParams = [:]) {
+        filterParams.deletable = true
+        return listAllUser(filterParams, fetchParams).username
     }
 
 
@@ -612,6 +603,23 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
      */
     private String encodePassword(String password) {
         return springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
+    }
+
+    /**
+     * Generates an API-KEY
+     * @return the API-KEY
+     */
+    String generatePassword() {
+        List alphabet = ('A'..'Z') + ('0'..'9') + ('a'..'z') + ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', ';', ':', '?', '.', '>']
+        return StringUtils.generateRandomToken(16, alphabet)
+    }
+
+    /**
+     * Generates an API-KEY
+     * @return the API-KEY
+     */
+    String generateApiKey() {
+        return UUID.randomUUID().toString().toUpperCase()
     }
 
     /**
@@ -638,8 +646,9 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
      *
      * @return the newly created user
      */
-
     TUser createUser(Map args) {
+        if (args.failOnError == null) args.failOnError = false
+
         List<String> groups = args.groups ?: []
         String defaultGroup = args.defaultGroup
         if (!defaultGroup && groups.size() > 0) {
@@ -648,18 +657,20 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
         TTenant tenant = args.tenant
                 ?: tenantService.getByTenantId(args.tenantId as String)
-                ?: currentTenant
+                ?: tenantService.currentTenant
 
         TUser user = TUser.findByUsername(args.username as String)
         if (user) {
             List userGroups = ((List<TUserRoleGroup>) TUserRoleGroup.findAllByUser(user))*.roleGroup.name
-            log.info "User '${args.username}' already exists in groups ${userGroups}, skipping user creation"
+            log.error "ERROR Creating user '${args.username}', already exists in groups ${userGroups}, skipping user creation"
             user.errors.rejectValue('username', 'user.username.already.exists', [args.username] as Object[], 'user.username.already.exists')
             return user
         }
 
         user = new TUser(
                 tenant: tenant,
+                apiKey: args.apiKey,
+                externalId: args.externalId,
                 deletable: args.deletable == null ? true : args.deletable,
                 username: args.username,
                 password: args.password ? encodePassword((String) args.password) : null,
@@ -691,12 +702,11 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
         } else { // Sets the groups
             groups.add(GROUP_USERS)
-            if (args.admin) {
-                groups.add(GROUP_ADMINS)
-            }
+            if (user.username != USERNAME_SUPERADMIN && EnvUtils.isDevelopment()) groups.add(GROUP_DEVELOPERS)
+            if (args.admin) groups.add(GROUP_ADMINS)
 
-            for (groupName in groups) {
-                TRoleGroup roleGroup = TRoleGroup.findByName(groupName)
+            for (groupName in groups.unique()) {
+                TRoleGroup roleGroup = TRoleGroup.findByTenantAndName(tenant, groupName)
                 if (roleGroup) {
                     TUserRoleGroup.create(user, roleGroup)
                 } else {
@@ -704,19 +714,14 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                 }
             }
 
-            log.info "${tenant.tenantId}: Created user '${args.username}' in groups: ${groups}"
-        }
-
-        if (!user.hasErrors() && isLoggedIn()) {
-            initializeSessionDuration(user)
+            log.info "${tenant.tenantId} Tenant: Created user '${args.username}' in groups: ${groups}"
         }
 
         return user
     }
 
     /**
-     * Creates a system user. A system user cannot be used to access the application
-     * and cannot be edited via the admin GUI.
+     * Creates a system user. A system user has a random password, cannot be deleted from the GUI and automatically generates an API Key
      *
      * @param args
      * @return the newly created user
@@ -725,6 +730,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
     TUser createSystemUser(Map args) {
         args.deletable = false
         if (!args.password) args.password = StringUtils.generateRandomToken(32)
+        if (args.username != USERNAME_SUPERADMIN) args.apiKey = generateApiKey()
         createUser(args)
     }
 
@@ -736,9 +742,11 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
      */
     TUser updateUserAndGroups(Map args) {
         String username = (String) ArgsException.requireArgument(args, 'username')
+        if (args.failOnError == null) args.failOnError = false
+
         TTenant tenant = args.tenant
                 ?: tenantService.getByTenantId(args.tenantId as String)
-                ?: currentTenant
+                ?: tenantService.currentTenant
 
         if (args.password) {
             args.password = encodePassword((String) args.password)
@@ -746,30 +754,37 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
             args.remove('password')
         }
 
-        args.defaultGroup = TRoleGroup.findByTenantAndName(tenant, args.defaultGroup)
+        if (args.username != USERNAME_SUPERADMIN) {
+            args.defaultGroup = TRoleGroup.findByTenantAndName(tenant, args.defaultGroup)
+        } else {
+            args.defaultGroup = TRoleGroup.findByTenantAndName(tenantService.defaultTenant, GROUP_SUPERADMINS)
+        }
+
+        if (args.fontSize) {
+            validateFontSize(args)
+        }
 
         TUser user = getUserByUsername(username)
         user.properties = args
-        user.save(flush: true)
+        user.save(flush: true, failOnError: args.failOnError)
 
-        // Sets the groups
-        List groups = args.groups ?: []
-        TUserRoleGroup.removeAll(user)
+        Boolean isSuperAdmin = user.username == USERNAME_SUPERADMIN
+        if (!user.hasErrors() && !isSuperAdmin) {
+            // Sets the groups
+            List groups = args.groups ?: []
+            TUserRoleGroup.removeAll(user)
 
-        groups.add(GROUP_USERS)
-        if (args.admin) {
-            groups.add(GROUP_ADMINS)
-        }
-
-        for (groupName in groups) {
-            TRoleGroup roleGroup = TRoleGroup.findByTenantAndName(tenant, groupName)
-            if (roleGroup) {
-                TUserRoleGroup.create(user, roleGroup)
+            groups.add(GROUP_USERS)
+            if (args.admin) {
+                groups.add(GROUP_ADMINS)
             }
-        }
 
-        if (!user.hasErrors() && isLoggedIn()) {
-            initializeSessionDuration(user)
+            for (groupName in groups) {
+                TRoleGroup roleGroup = TRoleGroup.findByTenantAndName(tenant, groupName)
+                if (roleGroup) {
+                    TUserRoleGroup.create(user, roleGroup)
+                }
+            }
         }
 
         return user
@@ -784,6 +799,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
     TUser updateUser(Map args) {
         String username = (String) ArgsException.requireArgument(args, 'username')
+        if (args.failOnError == null) args.failOnError = false
 
         if (args.password) {
             args.password = encodePassword((String) args.password)
@@ -791,33 +807,27 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
             args.remove('password')
         }
 
+        if (args.fontSize) {
+            validateFontSize(args)
+        }
+
         TUser user = getUserByUsername(username)
         user.properties = args
-        user.save(flush: true)
-
-        if (!user.hasErrors() && isLoggedIn()) {
-            initializeSessionDuration(user)
-        }
+        user.save(flush: true, failOnError: args.failOnError)
 
         return user
     }
 
-    void deleteTenantUsersAndGroups(Serializable tenantId) {
-        TTenant tenant = tenantService.get(tenantId)
+    void validateFontSize(Map args) {
+        Integer fontSize = args.fontSize as Integer
+        if (fontSize < 12) args.fontSize = 12
+        if (fontSize > 42) args.fontSize = 42
+    }
 
-        DetachedCriteria<TUser> users = TUser.where { tenant == tenant }
-        for (user in users) {
-            DetachedCriteria<TUserRoleGroup> userRoleGroup = TUserRoleGroup.where { user == user }
-            userRoleGroup.deleteAll()
-        }
-        users.deleteAll()
-
-        DetachedCriteria<TRoleGroup> roleGroups = TRoleGroup.where { tenant == tenant }
-        for (roleGroup in roleGroups) {
-            DetachedCriteria<TRoleGroupRole> roleGroupRole = TRoleGroupRole.where { roleGroup == roleGroup }
-            roleGroupRole.deleteAll()
-        }
-        roleGroups.deleteAll()
+    void changeUsername(String oldUsername, String newUsername) {
+        TUser user = getUserByUsername(oldUsername)
+        user.username = newUsername
+        user.save(flush: true, failOnError: true)
     }
 
     /**
@@ -847,26 +857,33 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         }
     }
 
-    private DetachedCriteria<TRoleGroup> buildGroupQuery(Map filters) {
+    private DetachedCriteria<TRoleGroup> buildQueryGroup(Map filterParams) {
         def query = TRoleGroup.where {
             name != GROUP_SUPERADMINS && name != GROUP_ADMINS
         }
 
         if (!isSuperAdmin()) {
-            query = query.where { tenant == currentTenant }
+            String currentTenantId = tenantService.currentTenantId
+            query = query.where { tenant.tenantId == currentTenantId }
         }
 
-        if (filters.hideUsers) query = query.where { name != GROUP_USERS }
-        if (filters.containsKey('id')) query = query.where { id == filters.id }
-        if (filters.containsKey('tenant')) query = query.where { tenant.id == filters.tenant }
-        if (filters.containsKey('name')) query = query.where { name =~ "%${filters.name}%" }
-        if (filters.containsKey('deletable')) query = query.where { deletable == filters.deletable }
+        if (filterParams.hideUsers) query = query.where { name != GROUP_USERS }
+        if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
+        if (filterParams.containsKey('tenant')) query = query.where { tenant.id == filterParams.tenant }
+        if (filterParams.containsKey('tenantId')) query = query.where { tenant.tenantId == filterParams.tenantId }
+        if (filterParams.containsKey('name')) query = query.where { name =~ "%${filterParams.name}%" }
+        if (filterParams.containsKey('deletable')) query = query.where { deletable == filterParams.deletable }
 
         return query
     }
 
     TRoleGroup getGroup(Serializable id) {
-        def query = buildGroupQuery(id: id)
+        def query = buildQueryGroup(id: id)
+        return query.get()
+    }
+
+    TRoleGroup getGroupByName(String name) {
+        def query = buildQueryGroup(name: name)
         return query.get()
     }
 
@@ -874,14 +891,14 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
      * Returns the groups configured for the application
      * @return the groups configured for the application
      */
-    List<TRoleGroup> listGroup(Map filters = [:], Map params = [:]) {
-        if (!params.sort) params.sort = 'name'
-        def query = buildGroupQuery(filters)
-        return query.list(params)
+    List<TRoleGroup> listGroup(Map filterParams = [:], Map fetchParams = [:]) {
+        if (!fetchParams.sort) fetchParams.sort = 'name'
+        def query = buildQueryGroup(filterParams)
+        return query.list(fetchParams)
     }
 
-    Integer countGroup(Map filters = [:]) {
-        def query = buildGroupQuery(filters)
+    Integer countGroup(Map filterParams = [:]) {
+        def query = buildQueryGroup(filterParams)
         return query.count()
     }
 
@@ -896,7 +913,19 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
      * @return the newly created group
      */
     TRoleGroup createGroup(Map args) {
-        String groupName = args.name
+        if (args.failOnError == null) args.failOnError = false
+
+        String groupName = (args.name as String).toUpperCase()
+        if (!args.ignoreGroupNameCollisions && groupName in [GROUP_SUPERADMINS, GROUP_DEVELOPERS, GROUP_ADMINS, GROUP_USERS]) {
+            if (args.failOnError) {
+                throw new Exception("Group name '${groupName}' is reserved and not available.")
+            } else {
+                TRoleGroup obj = new TRoleGroup()
+                obj.errors.rejectValue('name', 'user.group.name.reserved')
+                return obj
+            }
+        }
+
         List authorities = (List) args.authorities ?: []
         if (authorities in String) authorities = [authorities]
         Boolean deletable = args.deletable == null ? true : args.deletable
@@ -904,7 +933,7 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
 
         TTenant tenant = args.tenant
                 ?: tenantService.getByTenantId(args.tenantId as String)
-                ?: currentTenant
+                ?: tenantService.currentTenant
 
         Boolean newGroup = false
         TRoleGroup roleGroup = TRoleGroup.findByNameAndTenant(groupName, tenant)
@@ -915,33 +944,33 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
                     deletable: deletable,
                     landingPage: landingPage,
             )
-            roleGroup.save(flush: true)
+            roleGroup.save(flush: true, failOnError: args.failOnError)
             newGroup = true
         }
 
         for (authority in authorities) {
             TRole role = createAuthority((String) authority)
-            role.save(flush: true)
+            role.save(flush: true, failOnError: args.failOnError)
             TRoleGroupRole roleGroupRole = TRoleGroupRole.findByRoleGroupAndRole(roleGroup, role)
             if (!roleGroupRole) {
                 TRoleGroupRole newRoleGroupRole = new TRoleGroupRole(
                         roleGroup: roleGroup,
                         role: role,
                 )
-                newRoleGroupRole.save(flush: true)
+                newRoleGroupRole.save(flush: true, failOnError: args.failOnError)
             }
         }
 
         if (newGroup && authorities) {
-            log.info "${tenant.tenantId}: Created group '$groupName' with authorities: $authorities"
+            log.info "${tenant.tenantId} Tenant: Created group '$groupName' with authorities: $authorities"
         } else if (authorities) {
-            log.info "${tenant.tenantId}: Setting group '$groupName' with authorities: $authorities"
+            log.info "${tenant.tenantId} Tenant: Setting group '$groupName' with authorities: $authorities"
         }
 
         return roleGroup
     }
 
-     /**
+    /**
      * Updates a group.
      *
      * @param name the name of the group to edit
@@ -951,6 +980,8 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
      * @return the updated group
      */
     TRoleGroup updateGroup(Map args) {
+        if (args.failOnError == null) args.failOnError = false
+
         Map group = ArgsException.requireArgument(args, ['id', 'tenantId'], true)
         if (args.tenantId && !args.name) {
             throw new ElementsException("Please specify the 'name' of the group to update.")
@@ -959,9 +990,10 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         List authorities = (List) args.authorities ?: []
         if (authorities in String) authorities = [authorities]
 
+        String groupName = (args.name as String).toUpperCase()
         TTenant tenant = TTenant.findByTenantId(args.tenantId)
         TRoleGroup roleGroup = tenant
-                ? TRoleGroup.findByTenantAndName(tenant, args.name)
+                ? TRoleGroup.findByTenantAndName(tenant, groupName)
                 : TRoleGroup.get(group.id)
         if (!roleGroup) {
             throw new ElementsException("Group '${group.id}' not found!")
@@ -1010,22 +1042,25 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
             return role
 
         // Role does not exist we create it
-        TRole newRole = new TRole(authority: authority).save(flush: true)
+        TRole newRole = new TRole(authority: authority).save(flush: true, failOnError: true)
 
         // Set ROLE_SUPERADMIN > ROLE_ADMIN > AUTHORITY so to avoid giving
         // SUPERADMIN and ADMIN permissions to each controller
         // ATTENTION: Modify the code below only if you know what you are doing
         if (newRole.authority !in [ROLE_SUPERADMIN, ROLE_ADMIN, ROLE_DEVELOPER]) {
-            new TRoleHierarchyEntry(entry: "${ROLE_ADMIN} > " + newRole.authority).save(flush: true)
+            new TRoleHierarchyEntry(entry: "${ROLE_ADMIN} > " + newRole.authority).save(flush: true, failOnError: true)
 
         } else if (newRole.authority == ROLE_ADMIN) {
-            new TRoleHierarchyEntry(entry: "${ROLE_SUPERADMIN} > ${ROLE_ADMIN}").save(flush: true)
+            new TRoleHierarchyEntry(entry: "${ROLE_SUPERADMIN} > ${ROLE_ADMIN}").save(flush: true, failOnError: true)
+
+        } else if (newRole.authority == ROLE_DEVELOPER) {
+            new TRoleHierarchyEntry(entry: "${ROLE_SUPERADMIN} > ${ROLE_DEVELOPER}").save(flush: true, failOnError: true)
         }
 
         springSecurityService.reloadDBRoleHierarchy()
         log.info "Created authority '$authority'"
 
-        newRole.save(flush: true)
+        newRole.save(flush: true, failOnError: true)
         return newRole
     }
 
@@ -1045,16 +1080,31 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
         return results
     }
 
-    void installTenantSecurity(String tenantId) {
-        createGroup(tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
-        createGroup(tenantId: tenantId, name: GROUP_DEVELOPERS, authorities: [ROLE_DEVELOPER], deletable: false)
-        createGroup(tenantId: tenantId, name: GROUP_ADMINS, authorities: [ROLE_ADMIN], deletable: false)
-        createAuthority('ROLE_SECURITY')
+    String getAdminUsername() {
+        String tenantId = tenantService.currentTenantId
+        if (tenantId == tenantService.defaultTenantId) {
+            return 'admin'
 
-        if (tenantId == 'DEFAULT') {
-            createGroup(tenant: tenantService.default, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)
+        } else {
+            TTenant tenant = tenantService.getByTenantId(tenantId)
+            return tenant.tenantId.toLowerCase() + 'admin'
+        }
+    }
+
+    void install() {
+        String tenantId = tenantService.currentTenantId
+        String defaultTenantId = tenantService.defaultTenantId
+
+        createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: defaultTenantId, name: GROUP_SUPERADMINS, authorities: [ROLE_SUPERADMIN], deletable: false)
+        createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: tenantId, name: GROUP_USERS, authorities: [ROLE_USER], deletable: false)
+        createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: tenantId, name: GROUP_DEVELOPERS, authorities: [ROLE_DEVELOPER], deletable: false)
+        createGroup(failOnError: true, ignoreGroupNameCollisions: true, tenantId: tenantId, name: GROUP_ADMINS, authorities: [ROLE_ADMIN], deletable: false)
+
+        createAuthority(ROLE_SECURITY)
+
+        if (tenantId == defaultTenantId) {
             createSystemUser(
-                    tenant: tenantService.default,
+                    tenantId: defaultTenantId,
                     groups: [GROUP_SUPERADMINS],
                     firstname: 'Super',
                     lastname: 'Admin',
@@ -1065,36 +1115,33 @@ class SecurityService implements WebRequestAware, ServletContextAware, LinkGener
             )
         }
 
-        String username = tenantId == 'DEFAULT'
-                ? 'admin'
-                : tenantId.toLowerCase() + 'Admin'
-
+        String username = getAdminUsername()
         createSystemUser(
                 tenantId: tenantId,
                 username: username,
                 password: username,
-                firstname: 'Admin',
-                lastname: tenantId,
+                firstname: tenantId,
+                lastname: 'Admin',
                 sessionDuration: 15, // defaults to 15 minutes for the Admin
                 rememberMeDuration: 15, // defaults to 15 minutes for the Admin
                 admin: true,
         )
 
-        tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
+//        tenantService.withTenant(tenantId) {
+            tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
+            tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
+            tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
 
-        tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
-        tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
+            tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', false)
+            tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
+            tenantPropertyService.setString('LOGIN_LANDING_URL', '')
+            tenantPropertyService.setString('LOGOUT_LANDING_URL', '')
+            tenantPropertyService.setString('LOGIN_REGISTRATION_URL', '')
+            tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
+            tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
 
-        tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', false)
-        tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
-        tenantPropertyService.setString('LOGIN_LANDING_URL', '')
-        tenantPropertyService.setString('LOGOUT_LANDING_URL', '')
-        tenantPropertyService.setString('LOGIN_REGISTRATION_URL', '')
-        tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
-        tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
-
-        String appLink = servletContext.contextPath
-        tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', appLink + linkPublicResource(tenantId, '/brand/login-background.jpg'))
-        tenantPropertyService.setString('LOGIN_LOGO', appLink + linkPublicResource(tenantId, '/brand/login-logo.png'))
+            tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', linkPublicResource(tenantId, '/brand/login-background.jpg', false))
+            tenantPropertyService.setString('LOGIN_LOGO', linkPublicResource(tenantId, '/brand/login-logo.png', false))
+//        }
     }
 }

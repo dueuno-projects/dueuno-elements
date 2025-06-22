@@ -14,8 +14,5 @@
  */
 package spring
 
-import dueuno.elements.tenants.TenantForCurrentUserResolver
-
 beans = {
-    tenantForCurrentUserResolver(TenantForCurrentUserResolver)
 }

@@ -15,7 +15,6 @@
 package dueuno.elements.security
 
 import dueuno.elements.core.ElementsController
-import dueuno.elements.core.PageService
 import dueuno.elements.pages.Login
 import dueuno.elements.tenants.TenantPropertyService
 import grails.converters.JSON
@@ -30,20 +29,16 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class AuthenticationController implements ElementsController {
 
-    PageService pageService
     SecurityService securityService
     TenantPropertyService tenantPropertyService
 
     def login() {
-        if (securityService.loggedIn) {
-            String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
-            String landingPage = securityService.landingPage
-
-            redirect uri: landingPage ?: shellUrlMapping ?: '/'
+        if (securityService.isLoggedIn()) {
+            redirect uri: securityService.loginLandingPage
             return
         }
 
-        Map loginArgs = [
+        def loginArgs = [
                 backgroundImage    : tenantPropertyService.getString('LOGIN_BACKGROUND_IMAGE', true),
                 logoImage          : tenantPropertyService.getString('LOGIN_LOGO', true),
                 rememberMe         : tenantPropertyService.getBoolean('LOGIN_REMEMBER_ME', true),
@@ -52,26 +47,21 @@ class AuthenticationController implements ElementsController {
                 registerUrl        : tenantPropertyService.getString('LOGIN_REGISTRATION_URL', true),
                 passwordRecoveryUrl: tenantPropertyService.getString('LOGIN_PASSWORD_RECOVERY_URL', true),
         ]
-        def login = pageService.createPage(Login, loginArgs)
+        def login = createPage(Login, loginArgs)
 
         display page: login
     }
 
     @Secured(['ROLE_USER'])
     def afterLogin() {
-        securityService.executeAfterLogin()
-
-        if (session[SecurityService.DENY_AUTHORIZATION_MESSAGE]) {
-            forward action: 'logout'
-            return
-        }
-
         ///////////////////////////////////////
         // IF YOU'RE HERE THE USER LOGGED IN //
         ///////////////////////////////////////
 
-        // Loading user setting
+        // Loads the user and sets up the current tenant
         TUser user = securityService.currentUser
+
+        // Loading user setting
         decimalFormat = user.decimalFormat
         prefixedUnit = user.prefixedUnit
         symbolicCurrency = user.symbolicCurrency
@@ -82,29 +72,30 @@ class AuthenticationController implements ElementsController {
         fontSize = user.fontSize
         animations = user.animations
 
-        // We redirect the user to the configured location
-        String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
-        String landingPage = securityService.landingPage
+        // Executing custom after login code & check if we need to log the user out
+        securityService.executeAfterLogin()
+        if (securityService.isLoginDenied()) {
+            forward action: 'logout'
+            return
+        }
 
+        // We redirect the user to the configured location
         if (params.ajax) { // Default login
             def message = [
                     login   : true,
                     success : true,
-                    redirect: landingPage ?: shellUrlMapping ?: '/',
+                    redirect: securityService.loginLandingPage,
             ]
             render message as JSON
 
         } else { // Legacy, keep it just in case
-            redirect uri: landingPage ?: shellUrlMapping ?: '/'
+            redirect uri: securityService.loginLandingPage
         }
     }
 
     def logout() {
         securityService.executeAfterLogout()
-
-        String logoutLandingPage = tenantPropertyService.getString('LOGOUT_LANDING_URL', true)
-        String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
-        redirect uri: logoutLandingPage ?: shellUrlMapping ?: '/'
+        redirect uri: securityService.logoutLandingPage
     }
 
     def afterLogout() {
@@ -115,12 +106,8 @@ class AuthenticationController implements ElementsController {
             render message as JSON
 
         } else {
-            String logoutLandingPage = tenantPropertyService.getString('LOGOUT_LANDING_URL', true)
-            String shellUrlMapping = tenantPropertyService.getString('SHELL_URL_MAPPING', true)
-            redirect uri: logoutLandingPage ?: shellUrlMapping ?: '/'
+            redirect uri: securityService.logoutLandingPage
         }
-
-        securityService.executeLogout()
     }
 
     def err403() {

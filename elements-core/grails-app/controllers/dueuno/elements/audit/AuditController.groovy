@@ -14,14 +14,18 @@
  */
 package dueuno.elements.audit
 
-import dueuno.elements.contents.ContentList
+import dueuno.elements.components.TableRow
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.DateField
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.security.SecurityService
 import dueuno.elements.style.TextDefault
+import dueuno.elements.style.TextWrap
 import grails.plugin.springsecurity.annotation.Secured
+
+import java.time.LocalDate
 
 /**
  * @author Gianluca Sartori
@@ -33,7 +37,7 @@ class AuditController implements ElementsController {
     SecurityService securityService
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.header.removeNextButton()
         c.table.with {
             filters.with {
@@ -41,18 +45,21 @@ class AuditController implements ElementsController {
                 addField(
                         class: DateField,
                         id: 'dateFrom',
+                        defaultValue: LocalDate.now(),
                         cols: 2,
                 )
                 addField(
                         class: DateField,
                         id: 'dateTo',
+                        defaultValue: LocalDate.now(),
                         cols: 2,
                 )
                 addField(
                         class: Select,
                         id: 'username',
-                        optionsFromList: securityService.listUsername(),
-                        renderMessagePrefix: false,
+                        optionsFromList: securityService.listAllUsername(),
+                        renderTextPrefix: false,
+                        search: true,
                         cols: 2,
                 )
                 addField(
@@ -68,26 +75,33 @@ class AuditController implements ElementsController {
                         cols: 4,
                 )
             }
-            //columnsFromClass = TAuditLog
             sortable = [
-                dateCreated: 'desc',
+                    dateCreated: 'desc',
             ]
             columns = [
                     'dateCreated',
                     'username',
                     'operation',
                     'message',
-                    'dataObject',
-                    'dataBefore',
-                    'dataAfter',
+                    'objectName',
+                    'stateBefore',
+                    'stateAfter',
                     'ip',
                     'userAgent',
             ]
             rowActions = false
+            body.eachRow { TableRow row, Map values ->
+                row.cells.operation.tag = true
+
+                row.cells.message.textWrap = TextWrap.SOFT_WRAP
+                row.cells.stateBefore.textWrap = TextWrap.SOFT_WRAP
+                row.cells.stateAfter.textWrap = TextWrap.SOFT_WRAP
+                row.cells.userAgent.textWrap = TextWrap.SOFT_WRAP
+            }
         }
 
         def filters = c.table.filterParams
-        c.table.body = auditService.list(filters, params)
+        c.table.body = auditService.list(filters, c.table.fetchParams)
         c.table.paginate = auditService.count(filters)
 
         display content: c

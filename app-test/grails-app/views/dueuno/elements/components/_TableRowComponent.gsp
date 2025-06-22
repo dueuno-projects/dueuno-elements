@@ -1,5 +1,5 @@
 <tr class="component-table-row ${c.textStyle} ${c.cssClass}"
-    style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}${c.cssStyle}"
+    style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}"
     data-21-component="${c.className}"
     data-21-id="${c.id}"
     data-21-properties="${c.propertiesAsJSON}"
@@ -45,7 +45,6 @@
         <g:else>
             <td class="component-table-actions ${c.verticalAlign}">
                 <render:component instance="${c.actions}" />
-                <a id="${c.hash}"></a>
             </td>
         </g:else>
     </g:if>
@@ -66,14 +65,15 @@
             </g:if>
 
             <g:else>
-                <td class="component-table-cell ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign}"
-                    style="background-color: ${cell.backgroundColor}; color: ${cell.textColor}; ${cell.cssStyle}"
+                <td class="component-table-cell ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign} ${cell.cssClass}"
                     colspan="${cell.colspan}"
                     data-21-component="${cell.getClassName()}"
                     data-21-id="${cell.getId()}"
                     data-21-properties="${cell.propertiesAsJSON}"
                     data-21-events="${cell.eventsAsJSON}"
-                ><div class="input-group" style="${c.table.widths[column] ? 'width: ' + c.table.widths[column] + 'px;' : ''}">
+                    ${cell.cssStyleColors ? raw('style="' + cell.cssStyleColors + '"') : ''}
+                ><div ${cell.label ? '' : raw('class="input-group"')}
+                      ${c.table.widths[column] ? raw('style="width: ' + c.table.widths[column] + 'px"') : ''}>
                     <render:component instance="${cell.component}" />
                 </div>
                 </td>

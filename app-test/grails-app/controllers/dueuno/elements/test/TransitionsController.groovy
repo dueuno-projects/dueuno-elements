@@ -16,7 +16,6 @@ package dueuno.elements.test
 
 import dueuno.elements.components.Button
 import dueuno.elements.components.Form
-import dueuno.elements.components.FormField
 import dueuno.elements.components.Label
 import dueuno.elements.components.Separator
 import dueuno.elements.contents.ContentForm
@@ -50,7 +49,7 @@ class TransitionsController implements ElementsController {
                         text: 'Hai confermato, bravo!',
                         textColor: '#cc0000',
                         backgroundColor: "rgba(${primaryBackgroundColorInt.join(', ')}, ${primaryBackgroundColorAlpha})",
-                        border: true,
+                        tag: true,
                         displayLabel: false,
                         cols: 12,
                 )
@@ -103,7 +102,7 @@ class TransitionsController implements ElementsController {
                     class: Label,
                     id: 'label',
                     text: 'Replace me or add something below me',
-                    border: true,
+                    tag: true,
                     backgroundColor: primaryBackgroundColor,
                     cols: 12,
             )
@@ -243,6 +242,12 @@ class TransitionsController implements ElementsController {
         display transition: t
     }
 
+    def removeForm() {
+        def t = createTransition()
+        t.remove(params.formName)
+        display transition: t
+    }
+
     def onSelectChange() {
         println params
 
@@ -252,19 +257,38 @@ class TransitionsController implements ElementsController {
         t.addComponent(
                 class: Label,
                 id: 'label',
-                border: true,
+                tag: true,
                 backgroundColor: 'green',
         )
         t.replace('label', 'label')
+        t.set('content.nextButton', 'text', "New is cool! B-)")
+        t.set('content.actions', 'text', "Act cool! B-)")
 
-        def formAppend = t.addComponent(Form, 'formAppend')
+        List formNames = actionSession['formName'] ?: []
+        if (formNames) {
+            actionSession['formName'].add('formAppend' + formNames.size())
+        } else {
+            formNames = actionSession['formName'] = ['formAppend']
+        }
+        String formName = formNames.last()
+        def formAppend = t.addComponent(Form, formName)
         formAppend.with {
-            addField(class: Separator, id: 'sa1', text: 'An appended Form!', squeeze: true, cols: 12)
+            addField(class: Separator, id: 'sa1', text: "An appended form '${formName}'", squeeze: true, cols: 12)
             addField(class: TextField, id: 'fa1', value: 'An appended field...', cols: 4)
             addField(class: TextField, id: 'fa2', value: 'A second appended field...', cols: 4)
             addField(class: TextField, id: 'fa3', value: 'A third appended field...', cols: 4)
+            addField(
+                    class: Button,
+                    id: 'removeButton',
+                    action: 'removeForm',
+                    params: [formName: formName],
+                    text: "Remove '${formName}'",
+                    displayLabel: false,
+                    loading: false,
+                    cols: 12,
+            )
         }
-        t.append('formReplace', 'formAppend')
+        t.append('formReplace', formName)
 
         t.set('btn1Field', 'display', false)
         t.set('btn2Field', 'display', true)
@@ -329,15 +353,6 @@ class TransitionsController implements ElementsController {
                 ))
         t.setValue('select3', 'admin')
         //c.set('select3', 'readonly', false)
-
-
-        // Nuovi metodi da implementare
-        //
-//        t.add(control: 'name', before: 'name')
-//        t.add(component: 'name', after: 'name')
-
-//        t.remove(control: 'name')
-//        t.remove(component: 'name')
 
         display transition: t
     }

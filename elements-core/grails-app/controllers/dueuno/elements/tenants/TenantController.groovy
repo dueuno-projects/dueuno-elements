@@ -14,17 +14,21 @@
  */
 package dueuno.elements.tenants
 
+import dueuno.elements.components.Label
 import dueuno.elements.components.Separator
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ConnectionSourceService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.security.SecurityService
+import dueuno.elements.style.Color
 import dueuno.elements.style.TextTransform
+import dueuno.elements.style.TextWrap
+import dueuno.elements.utils.EnvUtils
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
@@ -38,7 +42,7 @@ class TenantController implements ElementsController {
     ConnectionSourceService connectionSourceService
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.table.with {
             filters.with {
             }
@@ -55,7 +59,6 @@ class TenantController implements ElementsController {
 
             body.eachRow { TableRow row, Map values ->
                 if (!values.deletable) {
-                    row.actions.removeDefaultAction()
                     row.actions.removeTailAction()
                 }
             }
@@ -73,12 +76,29 @@ class TenantController implements ElementsController {
                 ? createContent(ContentEdit)
                 : createContent(ContentCreate)
 
+        def isReadonly = obj?.tenantId == tenantService.defaultTenantId
+        if (isReadonly) {
+            c.header.removeNextButton()
+        }
+
         c.form.with {
             validate = TTenant
+            if (!obj && EnvUtils.isDevelopment()) {
+                addField(
+                        class: Label,
+                        id: 'info',
+                        html: 'tenant.info',
+                        color: Color.WARNING_TEXT,
+                        backgroundColor: Color.WARNING_BACKGROUND,
+                        displayLabel: false,
+                        tag: true,
+                )
+            }
             addField(
                     class: TextField,
                     id: 'tenantId',
                     textTransform: TextTransform.UPPERCASE,
+                    invalidChars: ' ',
                     cols: 6,
             )
             addField(
@@ -88,7 +108,7 @@ class TenantController implements ElementsController {
             )
             addField(
                     class: Separator,
-                    id: 'connectionSource',
+                    id: 'connection.info',
                     icon: 'fa-database',
                     cols: 12,
             )
@@ -96,7 +116,8 @@ class TenantController implements ElementsController {
                     class: Select,
                     id: 'connectionSource.driverClassName',
                     optionsFromList: connectionSourceService.listAvailableDrivers(),
-                    renderMessagePrefix: false,
+                    textPrefix: 'jdbc',
+                    search: true,
                     cols: 6,
             )
             addField(
@@ -123,6 +144,9 @@ class TenantController implements ElementsController {
 
         if (obj) {
             c.form.values = obj
+            if (isReadonly) {
+                c.form.readonly = true
+            }
         }
 
         return c
@@ -169,7 +193,6 @@ class TenantController implements ElementsController {
 
     def onDelete() {
         try {
-            securityService.deleteTenantUsersAndGroups(params.id)
             tenantService.delete(params.id)
             display action: 'index'
 

@@ -1,21 +1,32 @@
 plugins {
-    id 'dueuno-plugin'
+    id "dueuno-plugin"
 }
 
 dependencies {
+    api project(":commons-utils")
+
     // System monitoring
     implementation 'net.bull.javamelody:javamelody-spring-boot-starter:2.2.0'
 
     // Security (to use the @Secured annotation)
-    api 'org.grails.plugins:spring-security-core:7.0.0-SNAPSHOT'
+    api "org.grails.plugins:spring-security-core:7.0.0-M4"
 
     // Quartz (to schedule jobs when no Scheduler solution is in use)
-    api 'org.grails.plugins:quartz:3.0.0'
-    api 'org.quartz-scheduler:quartz:2.3.2' // Is not pulled in by default
+    api "org.grails.plugins:quartz:3.0.0"
+    api "org.quartz-scheduler:quartz:2.3.2" // Is not pulled in by default
 
     // Websockets
-    api 'io.github.zyro23:grails-spring-websocket:2.6.0-RC1'
+    api "io.github.zyro23:grails-spring-websocket:2.6.0-RC1"
 
-    api project(':commons-utils')
-//    api project(":commons-keychain")
+    // System monitoring
+    implementation "net.bull.javamelody:javamelody-spring-boot-starter:1.99.0"
+
+    // Database drivers
+    runtimeOnly "com.h2database:h2:2.3.232"
+    runtimeOnly "com.mysql:mysql-connector-j:9.2.0"
+    runtimeOnly "org.postgresql:postgresql:42.7.5"
+    runtimeOnly "com.microsoft.sqlserver:mssql-jdbc:12.10.0.jre11"
+    runtimeOnly "com.oracle.database.jdbc:ojdbc11:23.7.0.25.01"
+    runtimeOnly "com.ibm.db2:jcc:12.1.0.0"
+    runtimeOnly "com.sap.cloud.db.jdbc:ngdbc:2.24.7"
 }

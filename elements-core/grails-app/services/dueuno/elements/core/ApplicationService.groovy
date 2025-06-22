@@ -29,7 +29,8 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.io.support.PathMatchingResourcePatternResolver
 import org.grails.io.support.Resource
-import org.springframework.beans.factory.annotation.Autowired
+
+import javax.servlet.ServletContext
 
 /**
  * Application API
@@ -39,31 +40,44 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @Slf4j
 @CompileStatic
-class ApplicationService implements ServletContextAware, LinkGeneratorAware {
+class ApplicationService implements LinkGeneratorAware {
 
-    @Autowired
-    private GrailsApplication grailsApplication
-
-    @Autowired
-    private ConnectionSourceService connectionSourceService
-
-    @Autowired
-    private TenantService tenantService
-
-    @Autowired
-    private TenantPropertyService tenantPropertyService
-
-    @Autowired
-    private SystemPropertyService systemPropertyService
+    GrailsApplication grailsApplication
+    ServletContext servletContext
+    ConnectionSourceService connectionSourceService
+    TenantService tenantService
+    TenantPropertyService tenantPropertyService
+    SystemPropertyService systemPropertyService
 
     private static Map<String, List> credits = [:]
 
+    /**
+     * Returns an application scoped variable
+     *
+     * @param name The name of the attribute
+     *
+     * @return The application variable
+     */
+    Object getAttribute(String name) {
+        return servletContext.getAttribute(name)
+    }
+
+    /**
+     * Sets an application scoped variable
+     *
+     * @param name The name of the variable to set
+     *
+     * @param value The value of the variable to set
+     */
+    void setAttribute(String name, Object value) {
+        servletContext.setAttribute(name, value)
+    }
 
     /**
      * Returns true if the specified plugin is installed
      * @return true if the specified plugin is installed
      */
-    Boolean hasGrailsPlugin(String name) {
+    Boolean hasPlugin(String name) {
         return Holders.pluginManager.hasGrailsPlugin(name)
     }
 
@@ -97,24 +111,12 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
         if (!systemInstalled) {
             systemPropertyService.install()
             tenantService.install()
+            executeOnSystemInstall()
+        }
 
-            if (hasBootEvents('onSystemInstall')) {
-                log.info ""
-                log.info "-" * 80
-                log.info "SYSTEM: INSTALLING..."
-                log.info "-" * 80
-
-                executeOnSystemInstall()
-
-                log.info "-" * 80
-                log.info "SYSTEM: INSTALLATION COMPLETE."
-                log.info "-" * 80
-            }
-
-            // Tenant Provisioning
-            tenantService.eachTenant { String tenantId ->
-                tenantService.provisionTenant(tenantId)
-            }
+        // Tenant Provisioning
+        tenantService.eachTenant { String tenantId ->
+            tenantService.provisionTenant(tenantId)
         }
 
         // Tenant Updates
@@ -128,9 +130,9 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
      */
     void startApplication() {
         log.info ""
-        log.info "-" * 80
+        log.info "-" * 78
         log.info "APPLICATION: STARTING UP..."
-        log.info "-" * 80
+        log.info "-" * 78
 
         performInitialization()
         executeBeforeInit()
@@ -138,9 +140,9 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
         executeAfterInit()
         performFinalization()
 
-        log.info "-" * 80
+        log.info "-" * 78
         log.info "APPLICATION: STARTED."
-        log.info "-" * 80
+        log.info "-" * 78
         log.info ""
     }
 
@@ -255,28 +257,55 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
     }
 
     void executeOnSystemInstall() {
-        executeInstall('onSystemInstall', 'DEFAULT')
+        if (hasBootEvents('onSystemInstall')) {
+            log.info ""
+            log.info "-" * 78
+            log.info "SYSTEM: INSTALLING..."
+            log.info "-" * 78
+
+            executeInstall('onSystemInstall', 'DEFAULT')
+
+            log.info "-" * 78
+            log.info "SYSTEM: INSTALLATION COMPLETE."
+            log.info "-" * 78
+        }
     }
 
     void executeOnPluginInstall(String tenantId) {
-        executeInstall('onPluginInstall', tenantId)
+        if (hasBootEvents('onPluginInstall')) {
+            log.info "-" * 78
+            log.info "${tenantId} Tenant: INSTALLING PLUGINS..."
+            log.info "-" * 78
+
+            executeInstall('onPluginInstall', tenantId)
+        }
     }
 
     void executeOnInstall(String tenantId) {
-        executeInstall('onInstall', tenantId)
-    }
+        if (hasBootEvents('onInstall') || hasBootEvents('onDevInstall')) {
+            log.info ""
+            log.info "-" * 78
+            log.info "${tenantId} Tenant: INSTALLING APPLICATION..."
+            log.info "-" * 78
 
-    void executeOnDevInstall(String tenantId) {
-        if (EnvUtils.isDevelopment()) {
-            executeInstall('onDevInstall', tenantId, true)
+            executeInstall('onInstall', tenantId)
+            if (EnvUtils.isDevelopment()) {
+                executeInstall('onDevInstall', tenantId, true)
+            }
         }
     }
 
     void executeOnUpdate(String tenantId) {
-        executeInstall('onUpdate', tenantId, false, true)
+        if (hasBootEvents('onUpdate')) {
+            log.info ""
+            log.info "-" * 78
+            log.info "${tenantId} Tenant: INSTALLING UPDATES..."
+            log.info "-" * 78
+
+            executeInstall('onUpdate', tenantId, false, true)
+        }
     }
 
-    @WithoutTenant
     @CompileDynamic
     private void executeInstall(String listName, String tenantId, Boolean isDev = false, Boolean sort = false) {
         Map<String, Closure> eventList = getBootEvents(listName)
@@ -290,10 +319,14 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
             Integer isInstalled = TSystemInstall.countByPluginAndRevisionAndTenantIdAndDev(pluginName, revisionName, tenantId, isDev)
 
             if (!isInstalled) {
-                log.info "${tenantId}: Executing '${revisionName}'..."
+                log.info "${tenantId} Tenant: Executing '${revisionName}'..."
 
                 Tenants.withId(tenantId) {
-                    closure.call(tenantId)
+                    if (closure.maximumNumberOfParameters == 1) {
+                        closure.call(tenantId)
+                    } else {
+                        closure.call(tenantId, pluginName)
+                    }
                 }
 
                 new TSystemInstall(
@@ -343,6 +376,10 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
         return TSystemInstall.count() > 0
     }
 
+    @CompileDynamic
+    Boolean isPluginInstalled(String pluginName) {
+        return TSystemInstall.where { plugin == pluginName }.count() > 0
+    }
 
     void registerCredits(String task, String... people) {
         credits[task] = people as List<String>
@@ -408,7 +445,7 @@ class ApplicationService implements ServletContextAware, LinkGeneratorAware {
         }
 
         registerUserFeature(
-                text: 'shell.userMenu.credits',
+                text: 'shell.user.menu.credits',
                 icon: 'fa-circle-info',
                 controller: 'shell',
                 action: 'credits',

@@ -29,16 +29,19 @@ class FormField extends Component {
 
     String label
     List labelArgs
-    String helpMessage
-    List helpMessageArgs
-    Boolean nullable
+    String help
+    List helpArgs
+    Boolean helpCollapsed
 
+    Boolean nullable
     Boolean displayLabel
+    Boolean highlight
     Boolean multiline
 
     List acceptedCols
     List acceptedRows
     Integer cols
+    Integer colsSmall
     Integer rows
 
     FormField(Map args) {
@@ -48,17 +51,19 @@ class FormField extends Component {
 
         label = args.label
         labelArgs = args.labelArgs as List ?: []
-        helpMessage = args.helpMessage
-        helpMessageArgs = args.helpMessageArgs as List
-        nullable = (args.nullable == null) ? true : args.nullable
+        help = args.help
+        helpArgs = args.helpArgs as List ?: []
+        helpCollapsed = args.helpCollapsed == null ? false : args.helpCollapsed
 
-        displayLabel = (args.displayLabel == null) ? true : args.displayLabel
-        multiline = (args.multiline == null) ? false : args.multiline
+        nullable = args.nullable == null ? true : args.nullable
+        displayLabel = args.displayLabel == null ? true : args.displayLabel
+        highlight = args.highlight == null ? false : args.highlight
+        multiline = args.multiline == null ? false : args.multiline
 
         setAcceptedRows(args.acceptedRows == null ? [] : args.acceptedRows as List)
         setAcceptedCols(args.acceptedCols == null ? [] : args.acceptedCols as List)
-        setCols(args.cols == null ? 3 : args.cols as Integer)
-        setRows((args.rows as Integer) == null ? 3 : args.rows as Integer)
+        setCols(args.cols == null ? 12 : args.cols as Integer, args.colsSmall == null ? 12 : args.colsSmall as Integer)
+        setRows(args.rows == null ? 3 : args.rows as Integer)
     }
 
     void setAcceptedCols(List accepted) {
@@ -77,9 +82,10 @@ class FormField extends Component {
         acceptedRows = accepted
     }
 
-    void setCols(Integer columns) {
-        if (columns in acceptedCols) {
+    void setCols(Integer columns, Integer columnsSmall) {
+        if (columns in acceptedCols && columnsSmall in acceptedCols) {
             cols = columns
+            colsSmall = columnsSmall
         } else {
             throw new ArgsException("The '${component.getClass().simpleName}' control only accepts one of the following values for 'cols': " + acceptedCols.join(', '))
         }
@@ -98,13 +104,15 @@ class FormField extends Component {
     }
 
     String getCols() {
-        return ' col-lg-' + cols + ' col-sm-' + cols
+        String colClasses = ' col-sm-' + cols
+        if (colsSmall != 12) colClasses += ' col-' + colsSmall
+        return colClasses
     }
 
     String getRows() {
         if (multiline == false || rows <= 1)
             return ''
 
-        return " height: calc(var(--elements-font-size) * 3 * ${rows});"
+        return " height: calc(1rem * 3 * ${rows});"
     }
 }

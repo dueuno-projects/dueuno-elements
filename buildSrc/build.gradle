@@ -1,11 +1,13 @@
 plugins {
-    id 'groovy-gradle-plugin'
+    id "groovy-gradle-plugin"
 }
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.grails.org/grails/core' }
+    maven { url "https://repo.grails.org/grails/core" }
 }
+
+loadProperties()
 
 dependencies {
     implementation platform("org.grails:grails-bom:7.0.0-SNAPSHOT")
@@ -17,4 +19,16 @@ dependencies {
     implementation 'org.asciidoctor:asciidoctor-gradle-jvm:4.0.0-alpha.1'
     implementation 'org.asciidoctor:asciidoctor-gradle-jvm-pdf:4.0.0-alpha.1'
     implementation 'org.asciidoctor.jvm.convert:org.asciidoctor.jvm.convert.gradle.plugin:3.3.2'
+}
+
+def loadProperties() {
+    // Gives access to project root properties
+    Properties properties = new Properties()
+    FileInputStream input = new FileInputStream(file("../gradle.properties"))
+    properties.load(input)
+    input.close()
+
+    for (String key : properties.stringPropertyNames()) {
+        ext.set(key, properties.getProperty(key))
+    }
 }

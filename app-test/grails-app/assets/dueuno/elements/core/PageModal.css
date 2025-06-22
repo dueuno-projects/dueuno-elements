@@ -47,30 +47,31 @@
     }
 }
 
-#page-modal .modal-header {
+#page-modal-header {
     border: none;
-    padding: calc(var(--elements-font-size) * 0.8);
+    padding: .8rem;
+    padding-bottom: .65rem;
 }
 
 #page-modal .component-header {
     padding: 0;
 }
 
-#page-modal .modal-header .btn-group a.btn,
-#page-modal .modal-header .btn-group a.btn:hover,
-#page-modal .modal-header .btn-group a.btn:focus,
-#page-modal .modal-header .btn-group a.btn:active,
-#page-modal .modal-header .btn-group button:hover,
-#page-modal .modal-header .btn-group button:focus,
-#page-modal .modal-header .btn-group button:active,
-#page-modal .modal-header .btn-group button {
+#page-modal-header .btn-group a.btn,
+#page-modal-header .btn-group a.btn:hover,
+#page-modal-header .btn-group a.btn:focus,
+#page-modal-header .btn-group a.btn:active,
+#page-modal-header .btn-group button:hover,
+#page-modal-header .btn-group button:focus,
+#page-modal-header .btn-group button:active,
+#page-modal-header .btn-group button {
     background-color: white;
     color: #333333;
     font-weight: normal;
 }
 
-#page-modal [data-21-id="closeButton"] {
-    margin-right: 0.25rem;
+#page-modal-header > .component-button {
+    padding-right: .25rem;
 }
 
 #page-modal-body .simplebar-content > :nth-child(2) {
@@ -79,14 +80,14 @@
 
 .modal-backdrop.show {
     opacity: 1;
-    background-color: rgba(100,100,100,0.5);
+    background-color: rgba(100,100,100,.5);
     backdrop-filter: blur(21px) grayscale(100%);
     -webkit-backdrop-filter: blur(21px) grayscale(100%);
 }
 
 .modal-backdrop {
     opacity: 0;
-    background-color: rgba(100,100,100,0.5);
+    background-color: rgba(100,100,100,.5);
     backdrop-filter: blur(21px) grayscale(100%);
     -webkit-backdrop-filter: blur(21px) grayscale(100%);
 }
@@ -97,7 +98,7 @@
 }
 
 #page-modal-body {
-    padding: calc(var(--elements-font-size) * 0.5) !important;
+    padding: .5rem !important;
     padding-top: 0 !important;
 }
 
@@ -105,10 +106,22 @@
     margin-bottom: 0 !important;
 }
 
+#page-modal-body .simplebar-content-wrapper {
+    overscroll-behavior: contain;
+}
+
 #page-modal-body::-webkit-scrollbar {
     display: none;
 }
 
-#page-modal-body .simplebar-content-wrapper {
-    overscroll-behavior: contain;
+#page-modal-body .simplebar-vertical .simplebar-scrollbar:before {
+    width: .6rem;
+}
+
+#page-modal-body .simplebar-horizontal .simplebar-scrollbar:before {
+    height: .6rem;
+}
+
+#page-modal-body .simplebar-track {
+    padding: 0 .5rem 0 .5rem;
 }

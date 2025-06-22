@@ -1,6 +1,5 @@
 <div id="page-modal"
      class="page-modal modal ${c.animations ? 'fade' : ''} ${c.cssClass}"
-     aria-hidden="true"
      tabindex="-1"
 
      data-21-component="${c.className}"
@@ -10,7 +9,7 @@
 >
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content border-0 rounded-4 shadow">
-            <div id="modal-loading-screen"><i class="fa-solid fa-cog fa-spin"></i></div>
+            <div id="loading-screen-modal"><div class="ps-4"><i class="fa-solid fa-mug-hot fa-beat-fade"></i></div></div>
             <div id="page-modal-header"
                  class="modal-header"
                  style="background-color: ${c.tertiaryBackgroundColor}"

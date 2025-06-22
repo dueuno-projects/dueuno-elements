@@ -2,22 +2,17 @@
 // See: https://github.com/google/closure-compiler/issues/2731
 let PageMessageBox_isActive = false;
 let PageMessageBox_dialog = null;
-let PageMessageBox_$self = null;
 
 class PageMessageBox extends Component {
 
     static get isActive() { return PageMessageBox_isActive }
     static set isActive(value) { PageMessageBox_isActive = value }
-
     static get dialog() { return PageMessageBox_dialog }
     static set dialog(value) { PageMessageBox_dialog = value }
 
-    static get $self() { return PageMessageBox_$self }
-    static set $self(value) { PageMessageBox_$self = value }
+    static get $self() { return $('#page-messagebox') }
 
-    static initialize($element, $root) {
-        PageMessageBox.$self = $('#page-messagebox');
-
+    static initialize() {
         PageMessageBox.isActive = false;
         PageMessageBox.dialog = new bootstrap.Modal('#page-messagebox', {
             backdrop: 'static',
@@ -28,6 +23,8 @@ class PageMessageBox extends Component {
     }
 
     static onShow(event) {
+        LoadingScreen.show(false);
+
         if (PageMessageBox.isActive) {
             PageMessageBox.hide();
         }

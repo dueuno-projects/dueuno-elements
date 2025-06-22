@@ -28,7 +28,8 @@ class PasswordField extends TextField {
         super(args)
 
         viewTemplate = 'TextField'
-        keyboardType = TextFieldKeyboardType.PASSWORD
+        inputType = TextFieldInputType.PASSWORD
+
         icon = (args.icon == null) ? 'fa-lock' : args.icon
         autocomplete = false
     }

@@ -25,6 +25,15 @@ class Component {
         return initialized != undefined;
     }
 
+    static setDeactivate($element, value) {
+        let element = $element[0];
+        if (value) {
+            element.setAttribute('deactivate', '');
+        } else {
+            element.removeAttribute('deactivate');
+        }
+    }
+
     static getByClassName(className) {
         let component = Elements.components.get(className);
         return component;
@@ -149,16 +158,4 @@ class Component {
         $element.css('color', value);
     }
 
-    static setSticky($element, value) {
-        if (value) {
-            Component.setProperty($element, 'sticky', true);
-            $element.addClass('component-sticky');
-            $element.css('margin-top', 'calc(-' + Page.stickyOffset + 'px - 0.25rem)');
-
-        } else {
-            Component.setProperty($element, 'sticky', false);
-            $element.removeClass('component-sticky');
-            $element.css('margin-top', 'initial');
-        }
-    }
 }

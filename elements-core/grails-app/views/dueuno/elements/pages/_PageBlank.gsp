@@ -9,23 +9,21 @@
 <body data-21-page="${c.className}"
       data-21-id="${c.id}"
 >
-
-<div id="page-content">
-    <div class="p-3">
-        <render:component instance="${c.content}" />
+    <div id="page-content">
+        <div class="p-3">
+            <render:component instance="${c.content}" />
+        </div>
     </div>
-</div>
 
-<%-- Footer --%>
-<page:footer component="${c}" />
+    <%-- Footer --%>
+    <page:footer component="${c}" />
 
-<%-- Custom Page JS --%>
-<asset:javascript src="elements/pages/PageBlank.js" />
+    <%-- Custom Page JS --%>
+    <asset:javascript src="elements/pages/PageBlank.js" />
 
-<%-- Page Init --%>
-<page:initialize />
+    <%-- Page Init --%>
+    <page:initialize />
 
 </body>
-
 </html>
 

@@ -37,9 +37,6 @@ class TableRowset extends Component {
     Boolean isHeader
     Boolean isFooter
 
-    String cssClass
-    String cssStyle
-
     TableRowset(Map args) {
         super(args)
 
@@ -51,8 +48,6 @@ class TableRowset extends Component {
 
         isHeader = (args.isHeader == null) ? false : args.isHeader
         isFooter = (args.isFooter == null) ? false : args.isFooter
-        cssClass = ''
-        cssStyle = ''
     }
 
     void eachRow(Closure c) {

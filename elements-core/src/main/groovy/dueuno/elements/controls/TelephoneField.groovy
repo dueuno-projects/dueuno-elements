@@ -30,7 +30,7 @@ class TelephoneField extends TextField {
         viewTemplate = 'TextField'
         pattern = args.pattern ?: '^[0-9\\+]*$'
 
-        keyboardType = args.keyboardType as TextFieldKeyboardType ?: TextFieldKeyboardType.TEL
+        inputMode = args.inputMode as TextFieldInputMode ?: TextFieldInputMode.TEL
         icon = 'fa-phone'
     }
 }

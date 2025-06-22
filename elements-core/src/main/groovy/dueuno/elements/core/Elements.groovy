@@ -76,6 +76,7 @@ class Elements {
     static final List<String> gormExclusions = [
             // GORM lazy fetching may execute queries each time we access
             // one of the following properties
+            // Defined watching a debug session, see also: Grails `LazyMetaPropertyMap`
             'all',
             'count',
             'transients',
@@ -94,11 +95,13 @@ class Elements {
     ]
 
     static Map toMap(Object object, List<String> columns = [], List<String> includes = [], List<String> excludes = []) {
-        if (!object)
+        if (!object) {
             return [:]
+        }
 
-        if (object in Map)
+        if (object in Map) {
             return object as Map
+        }
 
         Map results = [:]
 
@@ -111,6 +114,8 @@ class Elements {
             }
 
         } else if (isDomainClass(object.class)) {
+            results.put('_object_', object)
+
             Set hasMany = []
             if (object.hasProperty('hasMany')) {
                 hasMany = (object['hasMany'] as Map).keySet()
@@ -121,8 +126,9 @@ class Elements {
 
             for (property in object.metaClass.properties) {
                 String name = property.name
-                if ((name in excludes || name in hasMany) && (name !in columns || name !in includes))
+                if ((name in excludes || name in hasMany) && (name !in columns || name !in includes)) {
                     continue
+                }
 
                 Object value = ObjectUtils.getValue(object, name)
                 results.put(name, value)
@@ -134,12 +140,15 @@ class Elements {
             }
 
         } else {
+            results.put('_object_', object)
+
             excludes += groovyExclusions
 
             for (property in object.properties) {
                 String name = property.key
-                if (name in excludes && (name !in columns || name !in includes))
+                if (name in excludes && (name !in columns || name !in includes)) {
                     continue
+                }
 
                 Object value = ObjectUtils.getValue(object, name)
                 results.put(name, value)
@@ -150,14 +159,17 @@ class Elements {
     }
 
     static Boolean hasId(Object obj) {
-        if (!obj)
+        if (!obj) {
             return false
+        }
 
-        if (obj in Map)
+        if (obj in Map) {
             return (obj as Map).containsKey('id')
+        }
 
-        if (obj.hasProperty('id'))
+        if (obj.hasProperty('id')) {
             return true
+        }
 
         return false
     }

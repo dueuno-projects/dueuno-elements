@@ -1,10 +1,15 @@
-:root {
-    --elements-font-size: 18px;
-    --elements-spacing-x: calc(var(--elements-font-size) / 1.5);
-    --elements-spacing-y: calc(var(--elements-font-size) / 4);
-    --bs-border-radius: calc(var(--elements-font-size) / 3);
-    --bs-border-radius-lg: calc(var(--elements-font-size) / 2);
-    --bs-border-radius-xl: calc(var(--elements-font-size) / 1);
+html {
+    /* See _PageHeader.gsp */
+    font-size: var(--elements-font-size);
+    --elements-spacing-x: .65rem;
+    --elements-spacing-y: .25rem;
+    --bs-border-radius: .3rem;
+    --bs-border-radius-lg: .5rem;
+    --bs-border-radius-xl: 1rem;
+}
+
+body {
+    visibility: hidden;
 }
 
 :focus-visible {
@@ -12,27 +17,15 @@
 }
 
 ::selection {
-    background-color: rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha)) !important;
+    background-color: rgba(var(--elements-primary-bg-shaded)) !important;
 }
 
-a,
-a:hover {
-    color: rgb(var(--elements-primary-bg));
-}
-
-body {
-    font-size: var(--elements-font-size);
-}
-
-.font-monospace {
-    font-size: calc(var(--elements-font-size) * 0.95) !important;
-}
-
-/* Remove iOS top shadow in controls */
-textarea, input:matches([type="text"], [type="number"], [type="password"], [type="search"], [type="email"], [type="tel"], [type="url"], [type="range"]) {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+/* See: https://github.com/twbs/bootstrap/pull/41246
+*/
+.user-select-text {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  user-select: text !important;
 }
 
 /* Disable text selection when compiled for PROD environment */
@@ -40,4 +33,33 @@ body.prod {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
+}
+
+a,
+a:hover {
+    color: rgb(var(--elements-primary-bg));
+}
+
+.font-monospace, pre {
+    font-size: .95rem !important;
+}
+
+pre {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.dev-hints {
+    background-color: rgba(var(--elements-primary-bg-shaded));
+    color: rgb(var(--elements-primary-bg));
+    border-radius: var(--bs-border-radius-lg);
+    position: relative;
+    z-index: 1040;
+}
+
+/* Remove iOS top shadow in controls */
+textarea, input:matches([type="text"], [type="number"], [type="password"], [type="search"], [type="email"], [type="tel"], [type="url"], [type="range"]) {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }

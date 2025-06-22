@@ -27,8 +27,7 @@ class ContentCreate extends ContentForm {
     ContentCreate(Map args) {
         super(args)
 
+        header.nextButton.text = TextDefault.SAVE
         header.nextButton.action = 'onCreate'
-        header.nextButton.text = TextDefault.CREATE
-        header.nextButton.icon = 'fa-plus'
     }
 }

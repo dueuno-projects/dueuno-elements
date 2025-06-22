@@ -25,8 +25,6 @@ import java.time.LocalDateTime
 class TPerson implements GormEntity, MultiTenant<TPerson> {
     LocalDateTime dateCreated
 
-    TCompany company
-
     String name
     String address
     Integer postcode
@@ -36,6 +34,11 @@ class TPerson implements GormEntity, MultiTenant<TPerson> {
     LocalDate dateEnd
     Boolean active
     String picture
+
+    TCompany company
+    static belongsTo = [
+            company: TCompany,
+    ]
 
     static embedded = [
             'salary',

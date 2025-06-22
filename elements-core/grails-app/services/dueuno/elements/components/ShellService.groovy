@@ -20,13 +20,10 @@ import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.pages.Shell
 import dueuno.elements.pages.ShellConfig
 import dueuno.elements.tenants.TenantPropertyService
-import dueuno.elements.tenants.TenantService
-import dueuno.elements.utils.EnvUtils
 import grails.gorm.multitenancy.CurrentTenant
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author Gianluca Sartori
@@ -34,28 +31,15 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @Slf4j
 @CompileStatic
-class ShellService implements ServletContextAware, WebRequestAware, LinkGeneratorAware {
+class ShellService implements WebRequestAware, LinkGeneratorAware {
 
-    @Autowired
-    private SystemPropertyService systemPropertyService
-
-    @Autowired
-    private TenantService tenantService
-
-    @Autowired
-    private TenantPropertyService tenantPropertyService
-
-    @Autowired
-    private ApplicationService applicationService
-
-    @Autowired
-    private PageService pageService
+    SystemPropertyService systemPropertyService
+    TenantPropertyService tenantPropertyService
+    ApplicationService applicationService
+    PageService pageService
 
     void install(String tenantId) {
-        tenantService.withTenant(tenantId) {
-            String appLink = servletContext.contextPath
-            tenantPropertyService.setString('LOGO', appLink + linkPublicResource(tenantId, '/brand/logo.png'))
-        }
+        tenantPropertyService.setString('LOGO', linkPublicResource(tenantId, '/brand/logo.png', false))
     }
 
     Shell getShell() {

@@ -18,9 +18,9 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 enum TextStyle {
-    NORMAL(''),
+    NONE(''),
+    NORMAL('fw-normal'),
     BOLD('fw-bold'),
-    LIGHT('fw-light'),
     ITALIC('fst-italic'),
     MONOSPACE('font-monospace'),
     UNDERLINE('text-decoration-underline'),

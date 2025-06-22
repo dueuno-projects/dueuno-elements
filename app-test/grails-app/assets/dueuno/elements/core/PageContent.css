@@ -1,0 +1,27 @@
+#page-content-scrollbar-box {
+    position: fixed;
+    bottom: 0;
+    background-color: white;
+    padding: .6rem;
+    padding-top: 0;
+    z-index: 999;
+    display: none;
+}
+
+#page-content-scrollbar {
+    overflow-x: scroll;
+}
+
+#page-content-scrollbar::-webkit-scrollbar {
+    width: .6rem;
+    height: .6rem;
+}
+
+#page-content-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--elements-primary-bg-shaded));
+    border-radius: var(--bs-border-radius);
+}
+
+#page-content-scrollbar-content-mirror {
+    height: .5rem;
+}

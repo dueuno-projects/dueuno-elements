@@ -14,10 +14,12 @@
  */
 package dueuno.elements.components
 
+import dueuno.commons.utils.ObjectUtils
 import dueuno.elements.controls.HiddenField
 import dueuno.elements.core.Component
 import dueuno.elements.core.PrettyPrinterProperties
 import dueuno.elements.exceptions.ArgsException
+import dueuno.elements.style.Color
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
@@ -54,7 +56,7 @@ class TableCell extends Component {
         textAlign = TextAlign.DEFAULT
         verticalAlign = VerticalAlign.DEFAULT
 
-        buildCellComponent(args.component)
+        buildCellComponent(args.component as Component)
     }
 
     @Override
@@ -65,52 +67,50 @@ class TableCell extends Component {
         return super.getPropertiesAsJSON(thisProperties + properties)
     }
 
-    private void buildCellComponent(Object component) {
-        Class componentClass = component ? component.getClass() : null
-
-        Boolean renderMessagePrefix
-        if (row.isHeader && !table.labels[column]) {
-            renderMessagePrefix = true
+    private void buildCellComponent(Component component) {
+        if (component) {
+            setComponent(component)
         } else {
-            renderMessagePrefix = false
+            setLabel()
         }
+    }
 
-        if (table.hasComponents) {
+    private void setLabel() {
+        addComponent(
+                class: Label,
+                id: getId() + '-component',
+                replace: true,
+                iconFixedWidth: true,
+                textPrefix: controllerName,
+                textWrap: TextWrap.NO_WRAP,
+                tag: false,
+        )
+    }
+
+    Label getLabel() {
+        Component component = getComponent()
+        if (component in Label) {
+            return component as Label
+        } else {
+            return null
+        }
+    }
+
+    void setComponent(Component component) {
+        if (!row.isHeader) {
+            table.hasComponents = true
             row.viewTemplate = 'TableRowComponent'
         }
 
-        if (componentClass && componentClass !in Label) {
-            setComponent(component.properties + [
-                    class              : componentClass,
-                    messagePrefix      : controllerName,
-                    renderMessagePrefix: renderMessagePrefix,
-            ])
-
-        } else if (componentClass && componentClass in Link) {
-            setComponent(component.properties + [
-                    messagePrefix      : controllerName,
-                    renderMessagePrefix: renderMessagePrefix,
-            ])
-
-        } else { // It's a Label
-            setLabel(
-                    class: componentClass ?: Label,
-                    messagePrefix: controllerName,
-                    renderMessagePrefix: renderMessagePrefix,
-                    textWrap: TextWrap.NO_WRAP,
-            )
-        }
-    }
-
-    void setLabel(Map args) {
-        args.id = getId() + '-component'
-        args.replace = true
-        addComponent(args)
+        component.id = getId() + '-component'
+        addComponent(component)
     }
 
     void setComponent(Map args) {
-        table.hasComponents = true
-        row.viewTemplate = 'TableRowComponent'
+        if (!row.isHeader) {
+            table.hasComponents = true
+            row.viewTemplate = 'TableRowComponent'
+        }
 
         args.id = getId() + '-component'
         args.replace = true
@@ -135,45 +135,92 @@ class TableCell extends Component {
     }
 
     void setPrettyPrinterProperties(Map value) {
-        if (component in Label) {
-            (component as Label).prettyPrinterProperties.set(value)
+        Label label = getLabel()
+        if (label) {
+            label.prettyPrinterProperties.set(value)
         }
     }
 
     PrettyPrinterProperties getPrettyPrinterProperties() {
-        if (component in Label) {
-            return (component as Label).prettyPrinterProperties
+        Label label = getLabel()
+        if (label) {
+            return label.prettyPrinterProperties
         } else {
             return new PrettyPrinterProperties()
         }
     }
 
     void setTextWrap(TextWrap value) {
-        if (component in Label) (component as Label).textWrap = value
+        Label label = getLabel()
+        if (label) {
+            label.textWrap = value
+        }
     }
 
     void setTextStyle(TextStyle value) {
-        if (component in Label) (component as Label).setTextStyle(value)
+        Label label = getLabel()
+        if (label) {
+            label.setTextStyle(value)
+        }
     }
 
     void setTextStyle(List<TextStyle> value) {
-        if (component in Label) (component as Label).setTextStyle(value)
+        Label label = getLabel()
+        if (label) {
+            label.setTextStyle(value)
+        }
     }
 
     void setText(Object value) {
-        if (component in Label) (component as Label).text = value
+        Label label = getLabel()
+        if (label) {
+            label.text = value
+        }
     }
 
     void setIcon(String value) {
-        if (component in Label) (component as Label).icon = value
+        Label label = getLabel()
+        if (label) {
+            label.icon = value
+        }
+    }
+
+    void setTooltip(String value) {
+        Label label = getLabel()
+        if (label) {
+            label.tooltip = value
+        }
+    }
+
+    void setTag(Boolean value) {
+        Label label = getLabel()
+        Object labelValue = ObjectUtils.getValue(row.values, column)
+
+        if (label && labelValue != null) {
+            String backgroundColor = table.rowStriped
+                    ? (row.index % 2 == 0 ? Color.WHITE : tertiaryBackgroundColor)
+                    : tertiaryBackgroundColor
+
+            textAlign = TextAlign.CENTER
+            label.tag = value
+            label.backgroundColor = value
+                    ? backgroundColor
+                    : null
+        }
     }
 
     void setUrl(String value) {
-        if (component in Label) (component as Label).url = value
+        Label label = getLabel()
+        if (label) {
+            label.url = value
+        }
     }
 
     void setHtml(String value) {
-        if (component in Label) (component as Label).html = value
+        Label label = getLabel()
+        if (label) {
+            label.html = value
+        }
     }
 
     Boolean isColumnSpanned() {

@@ -21,6 +21,8 @@ import dueuno.elements.core.Control
 import dueuno.elements.core.Elements
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.types.Type
+import dueuno.elements.types.Types
 import grails.gorm.validation.ConstrainedProperty
 import grails.validation.Validateable
 import groovy.transform.CompileStatic
@@ -50,10 +52,10 @@ class Form extends Component {
         autocomplete = (args.autocomplete == null) ? false : args.autocomplete
     }
 
-    List<FormField> getFields() {
+    List<FormField> getComponents() {
         List<FormField> fields = []
 
-        for (component in components) {
+        for (component in super.components) {
             if (component in FormField) {
                 fields.add(component as FormField)
             }
@@ -66,26 +68,18 @@ class Form extends Component {
         Class clazz = ArgsException.requireArgument(args, 'class') as Class
         String id = ArgsException.requireArgument(args, 'id')
 
-        if (validate) {
-            Map fieldConstraints = getFieldConstraints(validate, id)
-
-            // Auto assigns 'nullable' flag
-            if (args.nullable == null) {
-                args.nullable = fieldConstraints.nullable
-            }
-
-            // Auto assign 'maxSize'
-            if (args.maxSize == null) {
-                args.maxSize = fieldConstraints.maxSize ?: 255 // GORM default value for strings
-            }
+        Map fieldConstraints = getFieldConstraints(validate, id)
+        // Auto assigns 'nullable' flag
+        if (args.nullable == null) {
+            args.nullable = fieldConstraints.nullable == null ? true : fieldConstraints.nullable
         }
-
-        // Auto assigns values from 'params'
-        if (args.value == null && requestParams[id]) {
-            args.value = requestParams[id]
+        // Auto assign 'maxSize'
+        if (args.maxSize == null) {
+            args.maxSize = fieldConstraints.maxSize ?: 255 // GORM default value for strings
         }
 
         // Set common args
+        if (args.submit == null) args.submit = getId()
         if (args.readonly == null) args.readonly = readonly
         if (!args.primaryTextColor) args.primaryTextColor = primaryTextColor
         if (!args.primaryBackgroundColor) args.primaryBackgroundColor = primaryBackgroundColor
@@ -95,17 +89,18 @@ class Form extends Component {
         Component component
         if (clazz in Control) {
             component = addControl(args)
+            setDefaultValue(component)
+
         } else {
             component = addComponent(args)
         }
 
         // Set field specific args
-        if (args.helpMessage == null) args.helpMessage = ''
+        if (args.help == null) args.help = ''
         if (args.label == null) args.label = buildLabel(id)
         if (args.cols == null) args.cols = 12
 
         args.remove('cssClass')
-        args.remove('cssStyle')
         args.remove('events')
         args.component = component
         args.putAll(component.containerSpecs)
@@ -153,12 +148,25 @@ class Form extends Component {
         }
     }
 
-    void addKeyField(String id, Number value = null) {
-        addKeyField(id, 'NUMBER', value)
+    void addKeyField(String id, Object value = null) {
+        String valueType = Types.getType(value)
+        addKeyField(id, valueType, value)
     }
 
-    void addKeyField(String id, String valueType, Object value = null) {
-        if (valueType == 'TEXT' && value in Enum) value = value.toString()
+    void addKeyField(String id, Type valueType, Object value) {
+        addKeyField(id, valueType.toString(), value)
+    }
+
+    // We are using a Sting instead of a Type to accomodate custom types (Eg. Money, Quantity, etc)
+    void addKeyField(String id, String valueType, Object value) {
+        if (!Types.isType(valueType)) {
+            throw new ElementsException("Type '${valueType}' does not exist. Please choose one from: ${Types.availableTypeNames}")
+        }
+
+        if (value in Enum) {
+            valueType = Type.TEXT.toString()
+            value = value.toString()
+        }
 
         FormField field = addField(
                 class: HiddenField,
@@ -171,8 +179,8 @@ class Form extends Component {
 
     @Override
     void setReadonly(Boolean isReadonly) {
-        super.readonly = isReadonly
-        for (field in fields) {
+        super.setReadonly(isReadonly)
+        for (field in components) {
             (field as FormField).component.readonly = isReadonly
         }
     }
@@ -185,13 +193,33 @@ class Form extends Component {
         }
 
         for (controlEntry in controls) {
-            String controlName = controlEntry.key
             Control control = controlEntry.value
-
-            if (control.value == null) {
-                control.value = ObjectUtils.getValue(obj, controlName)
-            }
+            setValue(control, obj)
         }
     }
+
+    private void setValue(Control control, Object obj = null) {
+        Object value = ObjectUtils.getValue(obj, control.id)
+        if (value != null) {
+            control.value = value
+
+        } else {
+            setDefaultValue(control)
+        }
+    }
+
+    private void setDefaultValue(Control control) {
+        if (control.value != null) {
+            return
+        }
+
+        if (requestParams.containsKey(control.id)) {
+            control.value = requestParams[control.id]
+
+        } else if (control.defaultValue != null) {
+            control.value = control.defaultValue
+        }
+    }
+
 }
 

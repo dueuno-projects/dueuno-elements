@@ -1,44 +1,43 @@
+.tooltip {
+    --bs-tooltip-font-size: .9rem;
+    --bs-tooltip-color: rgb(var(--bs-light-rgb));
+    --bs-tooltip-bg: #303030;
+}
+
 .component-label {
     border-radius: 0;
 }
 
-.component-label.border {
+.component-label.tag {
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
     border-radius: var(--bs-border-radius-lg);
     border: none !important;
     height: 100%;
 }
 
-.component-label.text-monospace.border {
+.component-label.text-monospace.tag {
     padding: 7px 9px;
 }
 
 .no-wrap,
-.no-wrap span {
+.no-wrap .text {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.soft-wrap span {
+.soft-wrap .text {
     white-space: normal;
     word-wrap: break-word;
 }
 
-.line-wrap span {
+.line-wrap .text {
     white-space: pre-line;
     word-wrap: break-word;
 }
 
-.line-break span {
+.line-break .text {
     white-space: pre;
     word-wrap: break-word;
     overflow-x: scroll;
-}
-
-/* COLORS
-*/
-.component-label.border {
-    background-color: rgb(var(--elements-tertiary-bg));
-    color: rgb(var(--elements-tertiary-text));
 }

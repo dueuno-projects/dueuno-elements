@@ -19,10 +19,8 @@ import dueuno.elements.components.Grid
 import dueuno.elements.components.Label
 import dueuno.elements.controls.NumberField
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextAlign
-import dueuno.elements.types.QuantityService
 import grails.gorm.multitenancy.CurrentTenant
 
 @CurrentTenant
@@ -60,7 +58,7 @@ class GridController implements ElementsController {
         grid2.backgroundColor = c.primaryBackgroundColor
         grid2.textColor = c.primaryTextColor
         grid2.spacing = 4
-        grid2.border = true
+        grid2.tag = true
 
         for (i in 1..10) {
             def col = grid2.addColumn()

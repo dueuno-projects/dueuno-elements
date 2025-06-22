@@ -1,24 +1,48 @@
 .input-group-text {
-    font-size: var(--elements-font-size);
-    padding: 0.25rem 0.75rem;
+    padding: var(--elements-spacing-y) var(--elements-spacing-x);
 }
 
-.input-group .btn:last-child {
-    border-top-right-radius: var(--bs-border-radius-lg);
-    border-bottom-right-radius: var(--bs-border-radius-lg);
-}
-
-.input-group .btn:first-child {
+.input-group:has(.control-text-field) :first-child {
     border-top-left-radius: var(--bs-border-radius-lg);
     border-bottom-left-radius: var(--bs-border-radius-lg);
 }
 
+.input-group:has(.control-text-field) :last-child {
+    border-top-right-radius: var(--bs-border-radius-lg);
+    border-bottom-right-radius: var(--bs-border-radius-lg);
+}
+
+.input-group:has(.input-group-text) input[type],
+.input-group:has(button) input[type] {
+    padding-left: .5rem !important;
+}
+
+.input-group .input-group-text {
+    border-top-left-radius: var(--bs-border-radius-lg) !important;
+    border-bottom-left-radius: var(--bs-border-radius-lg) !important;
+    padding-right: var(--bs-border-width);
+}
+
+.input-group .show-password,
+.input-group .show-password:active,
+.input-group .show-password:hover {
+    background-color: rgb(var(--elements-tertiary-bg));
+    color: rgb(var(--elements-tertiary-text));
+}
+
+.input-group .show-password i {
+    color: rgb(var(--elements-tertiary-text));
+    opacity: .5;
+}
+
 .input-group ::placeholder {
+    color: rgb(var(--elements-tertiary-text));
     font-weight: normal;
-    opacity: .65; /* Firefox */
+    opacity: .5;
 }
 
 .input-group ::-ms-input-placeholder { /* Edge 12 -18 */
+    color: rgb(var(--elements-tertiary-text));
     font-weight: normal;
-    opacity: .65; /* Firefox */
+    opacity: .5;
 }

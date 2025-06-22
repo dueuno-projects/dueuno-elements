@@ -110,7 +110,7 @@ class Money extends Number implements CustomType, GormEntity, MultiTenant<Money>
         if (symbolicCurrency) {
             PrettyPrinterProperties renderProperties = new PrettyPrinterProperties()
             renderProperties.locale = properties.locale
-            renderProperties.messagePrefix = 'money.currency'
+            renderProperties.textPrefix = 'money.currency'
             return PrettyPrinter.printString(currency.toString(), renderProperties)
 
         } else {

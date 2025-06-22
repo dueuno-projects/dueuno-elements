@@ -72,8 +72,7 @@ class TableRow extends Component {
         isFooter = (args.isFooter == null) ? false : args.isFooter
         hasSelection = (args.hasSelection == null) ? true : args.hasSelection
 
-        verticalAlign = VerticalAlign.CENTER
-
+        verticalAlign = VerticalAlign.MIDDLE
         setTextStyle(args.textStyle)
 
         actions = createControl(
@@ -109,7 +108,6 @@ class TableRow extends Component {
             // Adds key columns to actions params
             Map _21Params = [
                     _21RowId: id,
-                    _21RowHash: hash,
             ]
             actions.addParams(_21Params + getKeys())
         }
@@ -139,16 +137,16 @@ class TableRow extends Component {
 
                 if (devDisplayHints) {
                     if (columnName in getKeys()) {
-                        cellLabel.prettyPrinterProperties.messagePrefix = ''
+                        cellLabel.prettyPrinterProperties.textPrefix = ''
                         cellLabel.html = '<i class="fa-solid fa-key me-1"></i><span>' + columnName + '</span>'
 
                     } else {
-                        String prefix = cellLabel.prettyPrinterProperties.messagePrefix
+                        String prefix = cellLabel.prettyPrinterProperties.textPrefix
                         String labelValue = cellLabel.text
                         String labelCode = prefix + '.' + columnName
 
                         if (labelCode != labelValue) {
-                            cellLabel.prettyPrinterProperties.renderMessagePrefix = false
+                            cellLabel.prettyPrinterProperties.renderTextPrefix = false
                             cellLabel.text = labelValue + ' (' + columnName + ')'
                         }
                     }
@@ -169,8 +167,9 @@ class TableRow extends Component {
             return
         }
 
-        actions.display = table.actions.display
-        actions.copyActionsFrom(table.actions)
+        if (table.rowActions) {
+            actions.copyActionsFrom(table.actions)
+        }
     }
 
     private void processTransformers() {
@@ -255,10 +254,6 @@ class TableRow extends Component {
         return rowset.lastRow != null
     }
 
-    String getHash() {
-        return StringUtils.generateHash(keysAsJSON)
-    }
-
     void setTextStyle(Object value) {
         switch (value) {
             case TextStyle:
@@ -270,7 +265,7 @@ class TableRow extends Component {
                 break
 
             default:
-                textStyle = [TextStyle.NORMAL]
+                textStyle = [TextStyle.NONE]
         }
     }
 
@@ -332,24 +327,31 @@ class TableRow extends Component {
     }
 
 
-
     //
     // CELLS
     //
     private void createCells() {
         cells = [:]
-        for (column in table.columns) {
-            if (isHeader && column in table.sortable) {
-                addSortableHeader(column)
+        for (columnName in table.columns) {
+            Boolean isSortableHeader = isHeader && columnName in table.sortable
+            if (isSortableHeader) {
+                addCellHeaderSortable(columnName)
+
+            } else if (isHeader) {
+                addCellHeader(columnName)
+
             } else {
-                addCell(column)
+                addCell(columnName)
             }
         }
     }
 
     private void setCellAlignment(String columnName, Object value) {
-        TableCell cell = cells[columnName]
+        if (value == null) {
+            return
+        }
 
+        TableCell cell = cells[columnName]
         if (cell.textAlign == TextAlign.DEFAULT) {
             switch (value) {
                 case Boolean:
@@ -377,13 +379,11 @@ class TableRow extends Component {
 
         // Set header alignment
         for (row in table.header.rows) {
-            if (row.cells[columnName].textAlign == TextAlign.DEFAULT) {
-                row.cells[columnName].textAlign = cell.textAlign
-            }
+            row.cells[columnName].textAlign = cell.textAlign
         }
     }
 
-    private TableCell addCell(String columnName, Object component = null) {
+    private TableCell addCell(String columnName, Component component = null) {
         String cellName = getId() + '-' + columnName
         TableCell cell = createComponent(
                 class: TableCell,
@@ -398,17 +398,35 @@ class TableRow extends Component {
         return cell
     }
 
-    private TableCell addSortableHeader(String columnName) {
+    private TableCell addCellHeader(String columnName) {
+        Label header = createComponent(
+                class: Label,
+                id: columnName,
+                action: actionName,
+                textPrefix: controllerName,
+                renderTextPrefix: isHeader && !table.labels[columnName],
+                textWrap: TextWrap.NO_WRAP,
+                textStyle: TextStyle.BOLD,
+                tag: false,
+        )
+
+        return addCell(columnName, header)
+    }
+
+    private TableCell addCellHeaderSortable(String columnName) {
         String order = table.sort[columnName] == 'asc' ? 'desc' : 'asc'
         Link sortableHeader = createComponent(
                 class: Link,
                 id: columnName,
                 action: actionName,
-                params: table.submitParams + (Map)[
+                params: table.submitParams + (Map) [
                         _21Table    : table.id,
                         _21TableSort: [(columnName): order],
                 ],
+                textPrefix: controllerName,
+                renderTextPrefix: isHeader && !table.labels[columnName],
                 textWrap: TextWrap.NO_WRAP,
+                textStyle: TextStyle.BOLD,
         )
 
         return addCell(columnName, sortableHeader)

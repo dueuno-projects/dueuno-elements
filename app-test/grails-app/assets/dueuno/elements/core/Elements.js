@@ -13,9 +13,16 @@ class Elements {
     static get onMobile() { return Elements_onMobile }
 
     static main() {
+        log.debug('-');
+        log.debug('URL: ' + _21_.app.url);
+        log.debug('Path: ' + _21_.app.path);
+        log.debug('Tenant: ' + _21_.app.tenant);
+
         let os = getOS();
         Elements_onMobile = (os == 'iOS' || os == 'Android');
-        log.debug('Running on: ' + os);
+        log.debug('Operating System: ' + os);
+        log.debug('-');
+
         Page.render();
     }
 
@@ -26,7 +33,7 @@ class Elements {
 
     static getElementById(id, $root) {
         if (!$root) {
-            $root = $('body');
+            $root = Page.$self;
         }
 
         return $root.find('[data-21-id="' + id + '"]');
@@ -62,7 +69,6 @@ class Elements {
         args.unshift($element);
         log.trace('CALLING "' + clazz.name + '.' + methodName + '(' + Elements.displayArgs(args) + ')"');
         return clazz[methodName].apply(clazz, args);
-
     }
 
     static displayArgs(args) {

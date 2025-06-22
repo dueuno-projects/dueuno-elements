@@ -20,7 +20,6 @@ import dueuno.elements.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.WithoutTenant
 import groovy.util.logging.Slf4j
-import org.springframework.beans.factory.annotation.Autowired
 
 import jakarta.annotation.PostConstruct
 
@@ -29,15 +28,13 @@ import jakarta.annotation.PostConstruct
  */
 
 @Slf4j
-@WithoutTenant
 class SystemPropertyService extends PropertyService {
 
-    @Autowired
-    private ApplicationService applicationService
+    ApplicationService applicationService
 
     void install() {
         // System
-        String root = "${FileUtils.workDir}${applicationService.applicationName}/"
+        String root = "${FileUtils.workingDirectory}${applicationService.applicationName}/"
         setDirectory('APPLICATION_HOME_DIR', root)
         setDirectory('NEW_TENANT_DIR', "${root}tenants")
 
@@ -53,7 +50,7 @@ class SystemPropertyService extends PropertyService {
         setBoolean('DISPLAY_USER_MENU', true)
 
         // Other
-        setNumber('FONT_SIZE', 16, 16)
+        setNumber('FONT_SIZE', 14, 14)
     }
 
     @PostConstruct
@@ -70,7 +67,8 @@ class SystemPropertyService extends PropertyService {
             if (filters.find) {
                 String search = filters.find.replaceAll('\\*', '%')
                 query = query.where {
-                    name =~ "%${search}%"
+                    true
+                            || name =~ "%${search}%"
                             || string =~ "%${search}%"
                             || stringDefault =~ "%${search}%"
                             || filename =~ "%${search}%"
@@ -137,23 +135,23 @@ class SystemPropertyService extends PropertyService {
         if (property) {
             oldValue = property[typeName]
             Map updatedProperty = [
-                    id: property.id,
+                    id        : property.id,
                     (typeName): value,
                     validation: validation ?: property.validation,
             ]
-            if (typeName != 'password') {
+            if (type != PropertyType.PASSWORD) {
                 updatedProperty[typeNameDefault] = defaultValue ?: property[typeNameDefault]
             }
             update(updatedProperty)
 
         } else {
             Map newProperty = [
-                    name: name,
-                    type: type,
+                    name      : name,
+                    type      : type,
                     (typeName): value,
                     validation: validation,
             ]
-            if (typeName != 'password') {
+            if (type != PropertyType.PASSWORD) {
                 newProperty[typeNameDefault] = defaultValue
             }
             create(newProperty)
@@ -174,15 +172,15 @@ class SystemPropertyService extends PropertyService {
             return inMemoryProperties['SYSTEM'][name]
         }
 
-        TSystemProperty property = getByName(name)
         String typeName = StringUtils.screamingSnakeToCamel(type as String)
-        String typeNameDefault = typeName + 'Default'
-
+        TSystemProperty property = getByName(name)
         if (!property) {
             return null
+
         }
 
-        Object value = property[typeName] == null ? property[typeNameDefault] : property[typeName]
+        Object value = property[typeName]
+
         inMemoryProperties['SYSTEM'][name] = value
         return value
     }
@@ -213,5 +211,10 @@ class SystemPropertyService extends PropertyService {
 
 //        sw.stop()
 //        log.info "SYSTEM: Properties validated in ${sw.toString()}"
+    }
+
+    void delete(Serializable id) {
+        TSystemProperty obj = get(id)
+        obj.delete(flush: true, failOnError: true)
     }
 }

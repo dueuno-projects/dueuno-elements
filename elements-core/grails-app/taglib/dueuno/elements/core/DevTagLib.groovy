@@ -22,9 +22,9 @@ import dueuno.elements.utils.EnvUtils
  */
 class DevTagLib implements WebRequestAware {
 
-    TenantPropertyService tenantPropertyService
-
     static namespace = "dev"
+
+    TenantPropertyService tenantPropertyService
 
     def ifDevelopment = { attrs, body ->
         if (EnvUtils.isDevelopment()) {

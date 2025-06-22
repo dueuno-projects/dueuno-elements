@@ -21,6 +21,7 @@ import dueuno.elements.components.Link
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.PasswordField
 import dueuno.elements.controls.TextField
+import dueuno.elements.core.KeyPress
 import dueuno.elements.core.Page
 import dueuno.elements.style.TextAlign
 import groovy.transform.CompileStatic
@@ -43,10 +44,14 @@ class Login extends Page {
     String backgroundImage
     String logoImage
 
+    KeyPress loginKeyPress
     Form form
 
     Login(Map args) {
         super(args)
+
+        keyPress.enabled = false
+        loginKeyPress = createComponent(KeyPress, 'loginKeyPress')
 
         rememberMe = (args.rememberMe == null) ? true : args.rememberMe
         autocomplete = (args.autocomplete == null) ? false : args.autocomplete
@@ -58,7 +63,7 @@ class Login extends Page {
         logoImage = args.logoImage
         backgroundImage = args.backgroundImage
 
-        form = createComponent(Form)
+        form = createComponent(Form, 'loginForm')
         form.with {
             addField(
                     class: TextField,

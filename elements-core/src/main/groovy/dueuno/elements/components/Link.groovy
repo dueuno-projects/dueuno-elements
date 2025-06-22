@@ -25,20 +25,9 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Link extends Label {
 
-    /** Icon that graphically represents the Link. Choose one from Font Awesome icons */
-    // String icon // inherited
-    String iconClass
-    String iconStyle
-
-    /** An SVG image that graphically represents the Link.
-     * If specified it must be present in the Grails asset folder.
-     */
-    String image
-    String imageClass
-    String imageStyle
-
     /** The link */
     LinkDefinition linkDefinition
+    String eventName
 
     Link(Map args) {
         super(args)
@@ -48,30 +37,33 @@ class Link extends Label {
 
         linkDefinition = new LinkDefinition(args)
         linkDefinition.action = args.action ?: 'index'
+        linkDefinition.loading = args.loading
 
-        icon = args.icon ?: ''
-        iconClass = args.iconClass ?: ''
-        iconStyle = args.iconStyle ?: ''
-
-        image = args.image ?: ''
-        imageClass = args.imageClass ?: ''
-        imageStyle = args.imageStyle ?: ''
+        tag = args.tag == null ? false : args.tag
 
         html = args.html
         containerSpecs.label = ''
-        containerSpecs.helpMessage = ''
+        containerSpecs.help = ''
 
-        setOnClickEvent(args.onClick as String)
+        eventName = 'click'
+        setOnEvent(args.onClick as String)
     }
 
-    private void setOnClickEvent(String onClick = null) {
-        linkDefinition.infoMessage = message(linkDefinition.infoMessage)
-        linkDefinition.confirmMessage = message(linkDefinition.confirmMessage)
-
+    void setOnEvent(String onEvent = null) {
         on(linkDefinition.properties + [
-                event: 'click',
-                action: onClick ?: linkDefinition.action,
+                event: eventName,
+                action: onEvent ?: linkDefinition.action,
+                infoMessage: message(linkDefinition.infoMessage, linkDefinition.infoMessageArgs),
+                confirmMessage: message(linkDefinition.confirmMessage, linkDefinition.confirmMessageArgs),
         ])
+    }
+
+    @Override
+    String getPropertiesAsJSON(Map properties = [:]) {
+        Map thisProperties = [
+                loading: loading,
+        ]
+        return super.getPropertiesAsJSON(thisProperties + properties)
     }
 
     String toString() {
@@ -102,7 +94,7 @@ class Link extends Label {
 
     void setNamespace(String value) {
         linkDefinition.namespace = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getController() {
@@ -111,7 +103,7 @@ class Link extends Label {
 
     void setController(String value) {
         linkDefinition.controller = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getAction() {
@@ -120,7 +112,7 @@ class Link extends Label {
 
     void setAction(String value) {
         linkDefinition.action = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Map getParams() {
@@ -129,7 +121,7 @@ class Link extends Label {
 
     void setParams(Map value) {
         linkDefinition.params = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getFragment() {
@@ -138,7 +130,7 @@ class Link extends Label {
 
     void setFragment(String value) {
         linkDefinition.fragment = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getPath() {
@@ -147,7 +139,7 @@ class Link extends Label {
 
     void setPath(String value) {
         linkDefinition.path = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getUrl() {
@@ -156,7 +148,7 @@ class Link extends Label {
 
     void setUrl(String value) {
         linkDefinition.url = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     List<String> getSubmit() {
@@ -169,7 +161,7 @@ class Link extends Label {
 
     void setSubmit(List<String> value) {
         linkDefinition.submit = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Boolean getDirect() {
@@ -186,7 +178,7 @@ class Link extends Label {
 
     void setModal(Boolean value) {
         linkDefinition.renderProperties.modal = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Boolean getWide() {
@@ -195,7 +187,7 @@ class Link extends Label {
 
     void setWide(Boolean value) {
         linkDefinition.renderProperties.wide = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getAnimate() {
@@ -204,7 +196,7 @@ class Link extends Label {
 
     void setAnimate(String value) {
         linkDefinition.renderProperties.animate = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Boolean getCloseButton() {
@@ -213,7 +205,7 @@ class Link extends Label {
 
     void setCloseButton(Boolean value) {
         linkDefinition.renderProperties.closeButton = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getScroll() {
@@ -222,7 +214,7 @@ class Link extends Label {
 
     void setScroll(String value) {
         linkDefinition.renderProperties.scroll = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Boolean getTargetNew() {
@@ -231,7 +223,7 @@ class Link extends Label {
 
     void setTargetNew(Boolean value) {
         linkDefinition.targetNew = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     Boolean getLoading() {
@@ -240,16 +232,7 @@ class Link extends Label {
 
     void setLoading(Boolean value) {
         linkDefinition.loading = value
-        setOnClickEvent()
-    }
-
-    String getConfirmMessage() {
-        return linkDefinition.confirmMessage
-    }
-
-    void setConfirmMessage(String value) {
-        linkDefinition.confirmMessage = value
-        setOnClickEvent()
+        setOnEvent()
     }
 
     String getInfoMessage() {
@@ -258,6 +241,26 @@ class Link extends Label {
 
     void setInfoMessage(String value) {
         linkDefinition.infoMessage = value
+        setOnEvent()
+    }
+
+    void setInfoMessageArgs(List value) {
+        linkDefinition.infoMessageArgs = value
+        setOnEvent()
+    }
+
+    String getConfirmMessage() {
+        return linkDefinition.confirmMessage
+    }
+
+    void setConfirmMessage(String value) {
+        linkDefinition.confirmMessage = value
+        setOnEvent()
+    }
+
+    void setConfirmMessageArgs(List value) {
+        linkDefinition.confirmMessageArgs = value
+        setOnEvent()
     }
 
     String getPrettyHtml() {

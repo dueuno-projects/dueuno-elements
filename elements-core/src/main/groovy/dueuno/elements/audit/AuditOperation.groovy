@@ -14,9 +14,12 @@
  */
 package dueuno.elements.audit
 
+import groovy.transform.CompileStatic
+
 /**
  * @author Gianluca Sartori
  */
+@CompileStatic
 enum AuditOperation {
     LOGIN,
     LOGOUT,

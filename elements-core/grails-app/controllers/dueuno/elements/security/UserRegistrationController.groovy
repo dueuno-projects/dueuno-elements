@@ -20,6 +20,7 @@ import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.EmailField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.pages.Login
+import dueuno.elements.types.Type
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
@@ -80,7 +81,7 @@ class UserRegistrationController implements ElementsController {
         c.header.nextButton.action = 'onCreateNewPassword'
         c.form.with {
             validate = UserRegistrationNewPasswordValidator
-            addKeyField('username', 'TEXT')
+            addKeyField('username', Type.TEXT)
             addField(
                     class: Label,
                     id: 'newPassword',

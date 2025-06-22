@@ -21,7 +21,6 @@ import dueuno.elements.types.Quantity
 import grails.util.Holders
 import groovy.text.SimpleTemplateEngine
 import groovy.text.Template
-import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.validation.ObjectError
@@ -82,7 +81,7 @@ class PrettyPrinter {
         return templateRegistry[prettyPrinterName]
     }
 
-    static String prettyPrint(Object object, PrettyPrinterProperties properties = new PrettyPrinterProperties()) {
+    static String print(Object object, PrettyPrinterProperties properties = new PrettyPrinterProperties()) {
         Object value = transform(object, properties)
 
         switch (value) {
@@ -187,12 +186,12 @@ class PrettyPrinter {
 
     static String printString(String value, PrettyPrinterProperties properties) {
         Locale locale = properties.locale
-        Boolean renderMessagePrefix = properties.renderMessagePrefix == null ? true : properties.renderMessagePrefix
-        String prefix = properties.messagePrefix ? properties.messagePrefix + '.' : ''
-        String code = renderMessagePrefix ? prefix + value : value
-        List args = properties.messageArgs ?: []
+        Boolean renderTextPrefix = properties.renderTextPrefix == null ? true : properties.renderTextPrefix
+        String prefix = properties.textPrefix ? properties.textPrefix + '.' : ''
+        String code = renderTextPrefix ? prefix + value : value
+        List args = properties.textArgs ?: []
 
-        String localizedValue = message(locale, code, args as Object[], 'X')
+        String localizedValue = message(locale, code, args, 'X')
         if (localizedValue == 'X') {
             // X = Not found in i18n messages
             return code
@@ -207,7 +206,7 @@ class PrettyPrinter {
 
     static String printInteger(BigDecimal value, PrettyPrinterProperties properties) {
         properties.decimals = 0
-        printDecimal(value, properties)
+        return printDecimal(value, properties)
     }
 
     static String printDecimal(BigDecimal value, PrettyPrinterProperties properties) {
@@ -343,11 +342,11 @@ class PrettyPrinter {
         }
     }
 
-    static String message(Locale locale, String code, Object[] args = [], String defaultMessage = code) {
-        return Holders.applicationContext.getMessage(code, args, defaultMessage, locale)
+    static String message(Locale locale, String code, List args = [], String defaultMessage = code) {
+        return Holders.applicationContext.getMessage(code, args as Object[], defaultMessage, locale)
     }
 
-    static String messageOrBlank(Locale locale, String code, Object[] args = []) {
+    static String messageOrBlank(Locale locale, String code, List args = []) {
         return message(locale, code, args,'')
     }
 
@@ -360,7 +359,6 @@ class PrettyPrinter {
         )
     }
 
-    @CompileDynamic
     static String printParams(Map params) {
         String result = ''
         for (param in params) {
@@ -374,11 +372,13 @@ class PrettyPrinter {
                     break
 
                 case Money:
-                    displayValue = "$paramValue.amount $paramValue.currency"
+                    Money m = paramValue as Money
+                    displayValue = "${m.amount} ${m.currency}"
                     break
 
                 case Quantity:
-                    displayValue = "$paramValue.amount $paramValue.unit"
+                    Quantity q = paramValue as Quantity
+                    displayValue = "${q.amount} ${q.unit}"
                     break
 
                 default:
@@ -387,7 +387,7 @@ class PrettyPrinter {
             }
 
             if (paramName != 'controller' && paramName != 'action') {
-                result = result + '(' + paramValue.getClass().getSimpleName() + ') ' + paramName + ' = ' + displayValue + '\n'
+                result = result + '(' + paramValue?.getClass()?.getSimpleName() + ') ' + paramName + ' = ' + displayValue + '\n'
             }
         }
         return result

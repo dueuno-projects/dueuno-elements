@@ -18,16 +18,14 @@ import dueuno.commons.utils.StringUtils
 import dueuno.elements.components.Label
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.*
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PropertyType
 import dueuno.elements.core.SystemPropertyService
 import dueuno.elements.core.TSystemProperty
-import dueuno.elements.style.TextAlign
-import dueuno.elements.style.TextDefault
-import dueuno.elements.style.TextStyle
-import dueuno.elements.style.TextWrap
+import dueuno.elements.security.SecurityService
+import dueuno.elements.style.*
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
@@ -36,11 +34,35 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['ROLE_SUPERADMIN'])
 class SystemPropertyController implements ElementsController {
 
+    SecurityService securityService
     SystemPropertyService systemPropertyService
 
     def index() {
-        def c = createContent(ContentList)
-        c.header.removeNextButton()
+        def c = createContent(ContentTable)
+        def isDeveloper = securityService.isDeveloper()
+
+        if (isDeveloper) {
+            c.header.nextButton.with {
+                removeAllActions()
+                addAction(
+                        action: 'create',
+                        params: [type: 'STRING'],
+                        text: message("systemProperty.STRING"),
+                        icon: 'fa-plus'
+                )
+                for (String type in PropertyType.values()*.name()) {
+                    if (type == 'STRING') continue
+                    addAction(
+                            action: 'create',
+                            params: [type: type],
+                            text: message("systemProperty.${type}"),
+                    )
+                }
+            }
+        } else {
+            c.header.removeNextButton()
+        }
+
         c.table.with {
             filters.with {
                 fold = false
@@ -63,7 +85,7 @@ class SystemPropertyController implements ElementsController {
                         optionsFromList: ['error'],
                         search: false,
                         noSelection: true,
-//                        messagePrefix: 'systemProperty.validation',
+//                        textPrefix: 'systemProperty.validation',
                         cols: 2,
                 )
             }
@@ -73,38 +95,34 @@ class SystemPropertyController implements ElementsController {
             columns = [
                     'issues',
                     'name',
-                    'value',
                     'type',
+                    'value',
                     'description',
-//                    'defaultValue',
             ]
-//            prettyPrinterProperties = [
-//                    value: [decimals: 5],
-//                    defaultValue: [decimals: 5],
-//            ]
 
-            actions.removeTailAction()
+            if (!isDeveloper) {
+                actions.removeTailAction()
+            }
 
             body.eachRow { TableRow row, Map values ->
-//                row.cells.defaultValue.component.monospace = true
-//                row.cells.defaultValue.textAlign = TextAlign.START
-                row.cells['value'].component.textStyle = TextStyle.MONOSPACE
-                row.cells['value'].textAlign = TextAlign.START
+                row.cells.value.textStyle = TextStyle.MONOSPACE
+                row.cells.value.textAlign = TextAlign.START
+                row.cells.type.tag = true
 
                 if (values.validation) {
                     row.textColor = '#cc0000'
                     row.cells.issues.icon = 'fa-circle-exclamation'
+                    row.cells.issues.tooltip = values.validation
                 }
 
                 String typeName = StringUtils.screamingSnakeToCamel(values.type as String)
                 values.value = values[typeName]
-//                values.defaultValue = values[typeName + 'Default']
 
                 String descriptionCode = "system.property.${values.name}"
                 String description = messageOrBlank(descriptionCode)
-                row.cells['description'].html = description ?: descriptionCode
+                row.cells.description.html = description ?: descriptionCode
                 if (!description) {
-                    row.cells['description'].textColor = tertiaryBackgroundColor
+                    row.cells.description.textColor = tertiaryBackgroundColor
                 }
 
                 if (values.type == PropertyType.BOOL) {
@@ -137,10 +155,9 @@ class SystemPropertyController implements ElementsController {
                         class: Label,
                         id: 'description',
                         html: description,
-                        textWrap: TextWrap.SOFT_WRAP,
                         displayLabel: false,
-                        border: true,
-                        cols: 12,
+                        tag: true,
+                        backgroundColor: tertiaryBackgroundColor,
                 )
             }
 
@@ -148,8 +165,9 @@ class SystemPropertyController implements ElementsController {
                     class: TextField,
                     id: 'name',
                     textStyle: TextStyle.MONOSPACE,
-                    readonly: true,
-                    cols: 6,
+                    textTransform: TextTransform.UPPERCASE,
+                    readonly: obj.name,
+                    cols: 9,
             )
 
             addField(
@@ -159,7 +177,7 @@ class SystemPropertyController implements ElementsController {
                     textStyle: TextStyle.MONOSPACE,
                     readonly: true,
                     nullable: true,
-                    cols: 6,
+                    cols: 3,
             )
 
             switch (obj.type) {
@@ -171,7 +189,6 @@ class SystemPropertyController implements ElementsController {
                                 textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
                                 rows: 2,
-                                cols: 12,
                         )
                     }
                     addField(
@@ -179,7 +196,6 @@ class SystemPropertyController implements ElementsController {
                             id: 'value',
                             textStyle: TextStyle.MONOSPACE,
                             rows: 2,
-                            cols: 12,
                     )
                     break
 
@@ -187,8 +203,7 @@ class SystemPropertyController implements ElementsController {
                     addField(
                             class: PasswordField,
                             id: 'value',
-                            helpMessage: 'tenantProperty.password.help',
-                            cols: 12,
+                            help: 'systemProperty.password.help',
                     )
                     break
 
@@ -199,7 +214,6 @@ class SystemPropertyController implements ElementsController {
                                 id: 'defaultValue',
                                 textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
@@ -208,8 +222,6 @@ class SystemPropertyController implements ElementsController {
                             textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
-                            submit: ['form'],
-                            cols: 12,
                     )
                     break
 
@@ -220,7 +232,6 @@ class SystemPropertyController implements ElementsController {
                                 id: 'defaultValue',
                                 textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
@@ -229,8 +240,6 @@ class SystemPropertyController implements ElementsController {
                             textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
-                            submit: ['form'],
-                            cols: 12,
                     )
                     break
 
@@ -241,7 +250,6 @@ class SystemPropertyController implements ElementsController {
                                 id: 'defaultValue',
                                 textStyle: TextStyle.MONOSPACE,
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
@@ -250,8 +258,6 @@ class SystemPropertyController implements ElementsController {
                             textStyle: TextStyle.MONOSPACE,
                             onLoad: 'onValidate',
                             onChange: 'onValidate',
-                            submit: ['form'],
-                            cols: 12,
                     )
                     break
 
@@ -263,7 +269,6 @@ class SystemPropertyController implements ElementsController {
                                 textStyle: TextStyle.MONOSPACE,
                                 decimals: 5,
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
@@ -271,7 +276,6 @@ class SystemPropertyController implements ElementsController {
                             id: 'value',
                             textStyle: TextStyle.MONOSPACE,
                             decimals: 5,
-                            cols: 12,
                     )
                     break
 
@@ -282,14 +286,12 @@ class SystemPropertyController implements ElementsController {
                                 id: 'defaultValue',
                                 readonly: true,
                                 label: '',
-                                cols: 12,
                         )
                     }
                     addField(
                             class: Checkbox,
                             id: 'value',
                             label: '',
-                            cols: 12,
                     )
                     break
 
@@ -299,13 +301,11 @@ class SystemPropertyController implements ElementsController {
                                 class: DateTimeField,
                                 id: 'defaultValue',
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
                             class: DateTimeField,
                             id: 'value',
-                            cols: 12,
                     )
                     break
 
@@ -315,13 +315,11 @@ class SystemPropertyController implements ElementsController {
                                 class: DateField,
                                 id: 'defaultValue',
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
                             class: DateField,
                             id: 'value',
-                            cols: 12,
                     )
                     break
 
@@ -331,13 +329,11 @@ class SystemPropertyController implements ElementsController {
                                 class: TimeField,
                                 id: 'defaultValue',
                                 readonly: true,
-                                cols: 12,
                         )
                     }
                     addField(
                             class: TimeField,
                             id: 'value',
-                            cols: 12,
                     )
                     break
             }
@@ -378,6 +374,12 @@ class SystemPropertyController implements ElementsController {
         display transition: t
     }
 
+    def create() {
+        def obj = new TSystemProperty(type: params.type as PropertyType)
+        def c = buildForm(obj)
+        display content: c, modal: true
+    }
+
     def edit() {
         def obj = systemPropertyService.get(params.id)
         def c = buildForm(obj)
@@ -385,7 +387,22 @@ class SystemPropertyController implements ElementsController {
     }
 
     def onEdit() {
+        if (!params.name) {
+            display errors: [name: 'nullable']
+            return
+        }
+
         systemPropertyService.setValue(params.type as PropertyType, params.name, params.value)
         display action: 'index'
+    }
+
+    def onDelete() {
+        try {
+            systemPropertyService.delete(params.id)
+            display action: 'index'
+
+        } catch (Exception e) {
+            display exception: e
+        }
     }
 }

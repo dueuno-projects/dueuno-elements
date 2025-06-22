@@ -17,6 +17,7 @@ package dueuno.elements.controls
 import dueuno.elements.core.Control
 import dueuno.elements.core.PrettyPrinter
 import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
 
 /**
@@ -27,7 +28,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class MultipleCheckbox extends Control {
 
-    Map options
+    List<Map<String, String>> options
     Boolean simple
 
     Map<String, Checkbox> checkboxes
@@ -35,10 +36,10 @@ class MultipleCheckbox extends Control {
     MultipleCheckbox(Map args) {
         super(args)
 
-        valueType = 'LIST'
+        valueType = Type.LIST
 
         simple = args.simple == null ? false : args.simple
-        prettyPrinterProperties.messagePrefix = args.messagePrefix ?: controllerName
+        prettyPrinterProperties.textPrefix = args.textPrefix ?: controllerName
 
         if (args.optionsFromRecordset) {
             options = Select.optionsFromRecordset(
@@ -46,8 +47,8 @@ class MultipleCheckbox extends Control {
                     keys: args.keys,
                     keysSeparator: args.keysSeparator,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
-                    renderMessagePrefix: false,
+                    textPrefix: prettyPrinterProperties.textPrefix,
+                    renderTextPrefix: false,
                     locale: locale,
             )
 
@@ -55,7 +56,7 @@ class MultipleCheckbox extends Control {
             options = Select.optionsFromList(
                     list: args.optionsFromList,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
                     locale: locale,
             )
 
@@ -63,7 +64,7 @@ class MultipleCheckbox extends Control {
             options = Select.optionsFromEnum(
                     enum: args.optionsFromEnum,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
                     locale: locale,
             )
 
@@ -71,57 +72,47 @@ class MultipleCheckbox extends Control {
             options = Select.options(
                     options: args.options,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
                     locale: locale,
             )
         }
 
         checkboxes = [:]
-        for (optionEntry in options) {
-            String key = optionEntry.key
-            Object value = optionEntry.value
+        for (option in options) {
+            String id = option.id
+            Object text = option.text
 
             Checkbox checkbox = new Checkbox(
-                    id: getId() + '.' + key,
-                    optionKey: key,
-                    optionValue: PrettyPrinter.printObject(value),
+                    id: getId() + '.' + id,
+                    optionKey: id,
+                    optionValue: text,
                     simple: simple,
                     readonly: readonly,
                     primaryTextColor: primaryTextColor,
                     primaryBackgroundColor: primaryBackgroundColor,
                     primaryBackgroundColorAlpha: primaryBackgroundColorAlpha,
             )
-            checkboxes.put(key, checkbox)
+            checkboxes.put(id, checkbox)
         }
 
         containerSpecs.nullable = true
     }
 
-//    @Override
-//    String getValueAsJSON() {
-//        Map valueMap = [
-//                type: valueType,
-//                value: value as List,
-//        ]
-//
-//        return Elements.encodeAsJSON(valueMap)
-//    }
-
     @Override
-    void setValue(Object value, Boolean transform = true) {
+    void setValue(Object value) {
         if (value == null) {
             return
         }
 
         switch (value) {
             case String:
-                super.setValue([value], transform)
+                super.setValue([value])
                 break
 
             case Set:
             case List:
                 List listValue = value.collect { it.hasProperty('id') != null ? it['id'] as String : it as String } as List
-                super.setValue(listValue, transform)
+                super.setValue(listValue)
                 break
 
             default:
@@ -145,6 +136,7 @@ class MultipleCheckbox extends Control {
         }
     }
 
+    @Override
     void setReadonly(Boolean isReadonly) {
         for (checkboxEntry in checkboxes) {
             Checkbox checkbox = checkboxEntry.value

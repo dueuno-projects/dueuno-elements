@@ -4,11 +4,16 @@
 <%-- MessageBox --%>
 <render:component instance="${c.messageBox}" />
 
+<%-- KeyPress --%>
+<render:component instance="${c.keyPress}"/>
+
 <%-- JavaScript Helpers --%>
 <script>
     const _21_ = {
         app: {
             url: "${g.createLink(absolute:true, uri:"/")}",
+            path: "${page.contextPath()}",
+            tenant: "${tenant.current()}",
         },
         <g:if test="${c}">
         user: {
@@ -23,20 +28,11 @@
             animations: ${c.animations},
         },
         </g:if>
-        <g:if env="production">
         log: {
             error: ${dev.logError()},
             debug: ${dev.logDebug()},
             trace: ${dev.logTrace()},
         },
-        </g:if>
-        <g:else>
-        log: {
-            error: true,
-            debug: true,
-            trace: ${dev.logTrace()},
-        },
-        </g:else>
     }
 </script>
 
@@ -48,11 +44,6 @@
 </g:each>
 
 <%-- Application Specific Javascript --%>
-<asset:assetPathExists src="custom/application.js">
-    <asset:javascript src="custom/application.js"/>
-</asset:assetPathExists>
-
-<%-- Page Specific Javascripts --%>
-<asset:assetPathExists src="custom/${controllerName + '-' + actionName}.js">
-    <asset:javascript src="custom/${controllerName + '-' + actionName}.js"/>
+<asset:assetPathExists src="application.js">
+    <asset:javascript src="application.js"/>
 </asset:assetPathExists>

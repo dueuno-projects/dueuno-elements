@@ -16,7 +16,7 @@ package dueuno.elements.test
 
 
 import dueuno.elements.components.TableRow
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.core.ElementsController
 import grails.gorm.multitenancy.CurrentTenant
 
@@ -24,7 +24,7 @@ import grails.gorm.multitenancy.CurrentTenant
 class CrudCompanyController implements ElementsController {
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.with {
             table.with {
                 sortable = [

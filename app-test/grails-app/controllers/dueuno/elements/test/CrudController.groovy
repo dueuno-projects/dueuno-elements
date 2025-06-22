@@ -14,19 +14,21 @@
  */
 package dueuno.elements.test
 
-import dueuno.elements.components.KeyPress
+import dueuno.elements.audit.AuditOperation
+import dueuno.elements.audit.AuditService
+import dueuno.elements.components.Form
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentForm
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.*
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextDefault
 import dueuno.elements.style.TextWrap
-import dueuno.elements.style.VerticalAlign
 import dueuno.elements.types.QuantityService
+import dueuno.elements.types.Type
 import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -35,24 +37,21 @@ import java.time.LocalDate
 @CurrentTenant
 class CrudController implements ElementsController {
 
+    AuditService auditService
     ApplicationService applicationService
     QuantityService quantityService
 
     def index() {
 
+//        sleep(2000)
+
         applicationService.registerTransformer('TRANSFORM_ME') { TCompany value ->
-            return value.name.toUpperCase()
+            return "<i class='fa-fw fa-solid fa-building me-1'></i>${value.name.toUpperCase()}"
         }
 
 //        throw new Exception("ATTENZIONE!!!")
 
-        def c = createContent(ContentList)
-        c.addComponent(
-                class: KeyPress,
-                id: 'pippo',
-                action: 'onKeyPress',
-                triggerKey: '',
-        )
+        def c = createContent(ContentTable)
 
         c.title = 'Runtime "content" title'
         c.with {
@@ -64,10 +63,26 @@ class CrudController implements ElementsController {
             header.nextButton.addAction(action: 'onCreateRecords')
             header.nextButton.addAction(controller: 'crudCompany', modal: true)
             header.nextButton.addAction(controller: 'crudPOGO', modal: true)
+            header.nextButton.defaultAction.tooltip = 'default.create'
+
+            def form = c.addComponentBefore('table', Form)
+            form.with {
+                addField(
+                        class: Select,
+                        id: 'testLoadingScreen',
+                        optionsFromList: ['Select me...', 'Select me too!'],
+                        onChange: 'onTestLoadingScreen',
+                        loading: true,
+                        cols: 3,
+                )
+            }
 
             table.with {
+                rowStriped = true
                 stickyHeaderOffset = 0
 //                stickyHeaderZIndex = 9999
+
+                noResultsIcon = ''
 
                 filters.with {
                     fold = false
@@ -77,7 +92,7 @@ class CrudController implements ElementsController {
                             id: 'company',
                             optionsFromRecordset: TCompany.list(),
                             transformer: 'TRANSFORM_ME',
-//                            renderMessagePrefix: true,
+//                            renderTextPrefix: true,
                             multiple: true,
                             placeholder: 'Seleziona qualcosa',
                             cols: 6,
@@ -85,14 +100,16 @@ class CrudController implements ElementsController {
                     addField(
                             class: TextField,
                             id: 'name',
-                            cols: 6,
+                            cols: 3,
                     )
                 }
 
                 actionbar.with {
                     addAction(
-                            action: 'someAction',
-                            params: [p1: 1, p2: 2],
+                            action: 'doubleDisplay',
+                    )
+                    addAction(
+                            action: 'loadingScreenOnRedirect',
                     )
                     addAction(
                             controller: 'someController',
@@ -123,6 +140,7 @@ class CrudController implements ElementsController {
                 actions.tailAction.order = 9999
                 actions.tailAction.text = TextDefault.DELETE
                 actions.unsetTailAction()
+                actions.defaultAction.tooltip = 'Modifica record'
 
                 sortable = [
                         address: 'asc',
@@ -146,19 +164,26 @@ class CrudController implements ElementsController {
                         'company.employees',
                 ]
                 prettyPrinterProperties = [
-                        salary: [highlightNegative: false, renderZero: '-'],
-                        name: [renderMessagePrefix: true],
+                        salary: [renderZero: '-'],
+                        salaryPerMonth: [highlightNegative: false, renderZero: '-'],
+                        name: [renderTextPrefix: true],
+                ]
+                widths = [
+                        company: 300,
                 ]
 
                 max = 10
 //                sort = [name: 'desc']
 
                 body.eachRow { TableRow row, Map values ->
-                    row.verticalAlign = VerticalAlign.TOP
+//                    row.verticalAlign = VerticalAlign.TOP
+                    row.cells.postcode.tag = true
 
                     row.cells['name'].textWrap = TextWrap.SOFT_WRAP
                     row.cells['company'].textWrap = TextWrap.LINE_WRAP
-                    row.cells['company'].icon = 'fa-building'
+                    row.cells['company'].icon = 'fa-lightbulb'
+                    row.cells['company'].tooltip = 'Questa è una azienda'
+                    row.cells['company'].url = 'https://google.com'
 
                     values.employeeCount = values.company.employees?.size()
 
@@ -197,9 +222,19 @@ class CrudController implements ElementsController {
         display content: c
     }
 
-    def onKeyPress() {
-        println requestParams
+    def doubleDisplay() {
         display
+        display action: 'index'
+    }
+
+    def loadingScreenOnRedirect() {
+//        sleep(5000)
+        display action: 'index'
+    }
+
+    def onTestLoadingScreen() {
+//        sleep(5000)
+        display action: 'index', loading: true
     }
 
     def onCreateRecords() {
@@ -219,7 +254,7 @@ class CrudController implements ElementsController {
     }
 
     def onGroupAction1() {
-        println requestParams
+        println params
         display action: 'index'
     }
 
@@ -228,22 +263,22 @@ class CrudController implements ElementsController {
                 ? createContent(ContentEdit)
                 : createContent(ContentCreate)
 
-        if (requestParams.embedded) {
-            c.header.addBackButton(animate: requestParams.animate)
+        if (params.embedded) {
+            c.header.addBackButton(animate: params.animate)
             c.header.backButton.with {
                 addAction(action: 'pippo')
             }
-            if (requestParams.animate) {
-                c.header.nextButton.animate = requestParams.animate
+            if (params.animate) {
+                c.header.nextButton.animate = params.animate
             }
         }
 
         c.form.with {
             validate = TPerson
-            addKeyField('embedded', 'BOOLEAN')
+            addKeyField('embedded', Type.BOOL)
 
             //TODO: Fare in modo che l'azione riceva i dati convertiti in base al loro tipo
-            addKeyField('selection', 'LIST', [[id: 1]])
+            addKeyField('selection', Type.LIST, [[id: 1]])
 
             addField(
                     class: Select,
@@ -260,6 +295,7 @@ class CrudController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'name',
+                    defaultValue: 'XXX',
             )
             addField(
                     class: Textarea,
@@ -272,6 +308,7 @@ class CrudController implements ElementsController {
             addField(
                     class: MoneyField,
                     id: 'salary',
+                    negative: true,
             )
             addField(
                     class: QuantityField,
@@ -307,7 +344,7 @@ class CrudController implements ElementsController {
 
     def onCompanyChange() {
         def t = createTransition()
-        def company = TCompany.get(requestParams.company)
+        def company = TCompany.get(params.company)
         t.setValue('companyName', company?.name)
         t.set('name', 'readonly', company)
         display transition: t
@@ -346,7 +383,7 @@ class CrudController implements ElementsController {
     }
 
     def onCreate() {
-        TPerson obj = new TPerson(requestParams)
+        TPerson obj = new TPerson(params)
         obj.save(flush: true)
 
         if (obj.hasErrors()) {
@@ -354,7 +391,7 @@ class CrudController implements ElementsController {
             return
         }
 
-        if (requestParams.embedded) {
+        if (params.embedded) {
             display returnPoint(person: obj.id) + [modal: true]
         } else {
             display action: 'index'
@@ -362,7 +399,7 @@ class CrudController implements ElementsController {
     }
 
     def onEdit() {
-        TPerson obj = TPerson.read(requestParams.id)
+        TPerson obj = TPerson.read(params.id)
         obj.properties = params
         obj.save(flush: true)
 
@@ -376,6 +413,7 @@ class CrudController implements ElementsController {
     def onDelete(TPerson obj) {
         try {
             obj.delete(flush: true, failOnError: true)
+            auditService.log(AuditOperation.DELETE, obj)
             display action: 'index'
         } catch (e) {
             e.printStackTrace()

@@ -42,7 +42,7 @@ class Menu extends Component {
     Boolean separator
 
     /** Prefix to use for text i18n */
-    String messagePrefix
+    String textPrefix
 
     /** Display order */
     Integer order
@@ -63,7 +63,7 @@ class Menu extends Component {
 
         this.menuId = generateMenuId()
         separator = args.separator == null ? false : args.separator
-        messagePrefix = args.messagePrefix
+        textPrefix = args.textPrefix
 
         order = (Integer) args.order ?: this.menuId * 10
 
@@ -230,9 +230,11 @@ class Menu extends Component {
         menuItemArgs.id = f.getId()
         menuItemArgs.text = f.text
         menuItemArgs.icon = f.icon
+        menuItemArgs.iconFixedWidth = true
+        menuItemArgs.tooltip = f.tooltip
         menuItemArgs.image = f.image
         menuItemArgs.separator = f.controller ? false : true
-        menuItemArgs.messagePrefix = messagePrefix
+        menuItemArgs.textPrefix = textPrefix
         menuItemArgs.order = f.order
         menuItemArgs.renderProperties['scroll'] = 'reset'
         menuItemArgs.renderProperties['animate'] = 'fade'
@@ -347,6 +349,14 @@ class Menu extends Component {
         link.icon = value
     }
 
+    String getTooltip() {
+        return link.tooltip
+    }
+
+    void setTooltip(String value) {
+        link.tooltip = value
+    }
+
     String getImage() {
         return link.image
     }
@@ -417,6 +427,15 @@ class Menu extends Component {
 
     void setText(String value) {
         link.text = value
+        link.tooltip = null
+    }
+
+    String getTextArgs() {
+        return link.textArgs
+    }
+
+    void setTextArgs(List values) {
+        link.textArgs = values
     }
 
     Boolean getLoading() {
@@ -427,6 +446,18 @@ class Menu extends Component {
         link.loading = value
     }
 
+    String getInfoMessage() {
+        return link.infoMessage
+    }
+
+    void setInfoMessage(String value) {
+        link.infoMessage = value
+    }
+
+    void setInfoMessageArgs(List value) {
+        link.infoMessageArgs = value
+    }
+
     String getConfirmMessage() {
         return link.confirmMessage
     }
@@ -435,11 +466,7 @@ class Menu extends Component {
         link.confirmMessage = value
     }
 
-    String getInfoMessage() {
-        return link.infoMessage
-    }
-
-    void setInfoMessage(String value) {
-        link.infoMessage = value
+    void setConfirmMessageArgs(List value) {
+        link.confirmMessageArgs = value
     }
 }

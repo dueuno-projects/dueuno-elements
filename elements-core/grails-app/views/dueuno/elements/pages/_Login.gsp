@@ -3,8 +3,8 @@
 <head>
     <title><render:message code='springSecurity.login.title'/></title>
     <page:header component="${c}" />
-    <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="${c.linkPublicResource('DEFAULT', 'brand/appicon.png')}"/>
-    <link rel="icon" type="image/png" sizes="64x64" href="${c.linkPublicResource('DEFAULT', 'brand/favicon.png')}"/>
+    <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="${c.appicon}"/>
+    <link rel="icon" type="image/png" sizes="64x64" href="${c.favicon}"/>
     <asset:stylesheet src="elements/pages/Login.css" />
     <page:colors component="${c}"/>
 
@@ -24,17 +24,15 @@
 
         [data-21-id="passwordRecoveryLink"],
         [data-21-id="copy"] {
-            font-size: calc(var(--elements-font-size) * 0.9);
+            font-size: .9rem;
         }
     </style>
 </head>
-
 
 <body class="background-image"
       data-21-page="${c.className}"
       data-21-id="${c.id}"
 >
-
 <div id="page-content" class="page-login justify-content-center">
 
     <div class="page-login-box text-center p-3">
@@ -49,12 +47,12 @@
              style="color: #cc0000;"><render:message code="shell.auth.bad.credentials"/></>
     </div>
 
+    <render:component instance="${c.loginKeyPress}" />
     <render:component instance="${c.form}" />
 
 </div>
 
 </div>
-
 
 <%-- Footer --%>
 <page:footer component="${c}" />
@@ -66,6 +64,4 @@
 <page:initialize />
 
 </body>
-
 </html>
-

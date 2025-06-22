@@ -1,0 +1,16 @@
+#page-sticky-box {
+    position: fixed;
+    z-index: 1000;
+    width: 100% !important;
+    /* Special positioning when inside the page content to make the header
+       width border-to-border */
+    margin: 0 -1rem 0 -1rem;
+    padding: .25rem 1rem 0 1rem;
+    background-color: rgb(var(--elements-tertiary-bg));
+}
+
+@media (min-width: 1399.98px) {
+    #page-sticky-box {
+        width: calc(100% - 15rem) !important;
+    }
+}

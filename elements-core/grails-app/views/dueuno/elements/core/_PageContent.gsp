@@ -1,4 +1,3 @@
-%{-- If you change this file you need to change also the class 'Transition.renderContent()' --}%
 <div id="page-content"
      class="page-content"
      data-21-component="PageContent"
@@ -6,5 +5,8 @@
      data-21-events="${c.eventsAsJSON}"
 >
     <page:colors component="${c}"/>
+    <div id="page-content-scrollbar-box"><div id="page-content-scrollbar"><div id="page-content-scrollbar-content-mirror"></div></div></div>
+
+    <%-- This must be the latest element for the CSS to work property on modals --%>
     <render:componentList instance="${c}"/>
 </div>

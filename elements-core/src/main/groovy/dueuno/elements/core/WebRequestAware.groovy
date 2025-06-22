@@ -170,12 +170,9 @@ trait WebRequestAware {
         String action = args.action ?: actionName
 
         Map params = (Map) args.params ?: requestParams
-        params.remove('controller')
-        params.remove('action')
-
         returnPointController = controller
         returnPointAction = action
-        returnPointParams = params
+        returnPointParams = cleanupsParams(params)
     }
 
     /**
@@ -184,14 +181,18 @@ trait WebRequestAware {
      */
     Map returnPoint(Map params = [:]) {
         Map returnParams = returnPointParams + params
-        returnParams.remove('controller')
-        returnParams.remove('action')
-
         return [
                 controller: returnPointController,
                 action    : returnPointAction,
-                params    : returnParams,
+                params    : cleanupsParams(returnParams),
         ]
+    }
+
+    private Map cleanupsParams(Map params) {
+        params.remove('_21TransitionRendered')
+        params.remove('controller')
+        params.remove('action')
+        return params
     }
 
     /**
@@ -251,7 +252,11 @@ trait WebRequestAware {
      * @return the 'return point' params
      */
     Map getReturnPointParams() {
-        return session ? (Map) session['_21ReturnPointParams'] : [:]
+        if (!session) {
+            return [:]
+        }
+
+        return session['_21ReturnPointParams'] as Map ?: [:]
     }
 
     /**
@@ -290,22 +295,25 @@ trait WebRequestAware {
 
     /**
      * Returns the localised string associated with the passed code and args as found in /i18n/messages.properties.
-     * The params below must be passed as named params.
      *
      * @param code (mandatory) the code to lookup into /i18n/messages.properties
      * @param args (optional) a list of variables that can be used inside /i18n/messages.properties with the following notation: {0} first item in list, {1} second item, etc.
      *
      * @return the localised string associated with the passed 'code'
      */
-    String message(String code, Object[] args = []) {
+    String message(String code, List args = []) {
         return PrettyPrinter.message(locale, code, args)
+    }
+
+    String message(String code, Object[] args) {
+        return PrettyPrinter.message(locale, code, args as List)
     }
 
     String message(ObjectError error) {
         return PrettyPrinter.message(locale, error)
     }
 
-    String messageOrBlank(String code, Object[] args = []) {
+    String messageOrBlank(String code, List args = []) {
         return PrettyPrinter.messageOrBlank(locale, code, args)
     }
 
@@ -328,7 +336,7 @@ trait WebRequestAware {
         if (properties.twelveHours == null) properties.twelveHours = twelveHours
         if (properties.firstDaySunday == null) properties.firstDaySunday = firstDaySunday
 
-        return PrettyPrinter.prettyPrint(value, properties)
+        return PrettyPrinter.print(value, properties)
     }
 
     String prettyPrint(Object value, String prettyPrinter, PrettyPrinterProperties properties = new PrettyPrinterProperties()) {

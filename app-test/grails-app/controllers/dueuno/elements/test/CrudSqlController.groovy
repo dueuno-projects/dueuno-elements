@@ -18,13 +18,14 @@ import dueuno.commons.utils.SqlUtils
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.*
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.QuantityUnit
+import dueuno.elements.types.Type
 import grails.gorm.multitenancy.CurrentTenant
 
 import jakarta.annotation.PostConstruct
@@ -60,7 +61,7 @@ class CrudSqlController implements ElementsController {
 
     def index() {
         applicationService.registerPrettyPrinter('T_COMPANY', '${it.name}')
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.table.with {
             filters.with {
                 addField(
@@ -69,13 +70,13 @@ class CrudSqlController implements ElementsController {
                         optionsFromRecordset: SqlUtils.list(dataSource, tblCompany),
                         keys: ['id'],
                         prettyPrinter: 'T_COMPANY',
-                        renderMessagePrefix: false,
+                        renderTextPrefix: false,
                         cols: 4,
                 )
                 addField(
                         class: TextField,
                         id: 'name',
-                        helpMessage: 'Hai bisogno di aiuto? Inserisci oil nome dell\'azienda! :)',
+                        help: 'Hai bisogno di aiuto? Inserisci oil nome dell\'azienda! :)',
                         cols: 8,
                 )
             }
@@ -136,8 +137,8 @@ class CrudSqlController implements ElementsController {
         c.form.with {
             validate = CrudRestValidator
             addKeyField('version', 0)
-            addKeyField('salary_currency', 'TEXT', 'EUR')
-            addKeyField('distance_km_unit', 'TEXT','KM')
+            addKeyField('salary_currency', Type.TEXT, 'EUR')
+            addKeyField('distance_km_unit', Type.TEXT,'KM')
             addField(
                     class: Select,
                     id: 'company_id',

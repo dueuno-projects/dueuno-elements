@@ -15,15 +15,15 @@
 package dueuno.elements.core
 
 import dueuno.elements.exceptions.ArgsException
-import grails.core.GrailsApplication
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.WithoutTenant
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.datastore.mapping.core.connections.ConnectionSource
 import org.grails.orm.hibernate.HibernateDatastore
 import org.grails.orm.hibernate.connections.HibernateConnectionSourceSettings
 import org.hibernate.SessionFactory
-import org.springframework.beans.factory.annotation.Autowired
 
 import javax.sql.DataSource
 import java.sql.DriverManager
@@ -33,14 +33,11 @@ import java.sql.DriverManager
  */
 
 @Slf4j
-@WithoutTenant
+@CompileStatic
 class ConnectionSourceService {
 
-    @Autowired
-    private HibernateDatastore hibernateDatastore
-
-    @Autowired
-    private ApplicationService applicationService
+    HibernateDatastore hibernateDatastore
+    ApplicationService applicationService
 
     void installOrConnect() {
         applicationService.registerPrettyPrinter(TConnectionSource, '${it.name}${it.tenant ? " Tenant" : ""} (${it.driverClassName})')
@@ -78,7 +75,7 @@ class ConnectionSourceService {
         for (driver in DriverManager.drivers) {
             results.add(driver.getClass().getName())
         }
-        return results
+        return results.sort()
     }
 
     List<String> listAvailableSchemaGenerators() {
@@ -128,22 +125,28 @@ class ConnectionSourceService {
         ] as Map<String, Object>)
     }
 
-    TConnectionSource get(Serializable id) {
-        return TConnectionSource.get(id)
-    }
-
-    TConnectionSource getDefault() {
-        return TConnectionSource.findByName('DEFAULT')
-    }
-
+    @CompileDynamic
     private DetachedCriteria<TConnectionSource> buildQuery(Map filters) {
         def query = TConnectionSource.where {}
 
-        if (filters) {
-            if (filters.embedded != null) query = query.where { embedded == filters.embedded }
-        }
+        if (filters.containsKey('id')) query = query.where { id == filters.id }
+        if (filters.containsKey('name')) query = query.where { name == filters.name }
+        if (filters.containsKey('tenantId')) query = query.where { tenant == true &&  name == filters.tenantId }
+        if (filters.containsKey('embedded')) query = query.where { embedded == filters.embedded }
 
         return query
+    }
+
+    TConnectionSource get(Serializable id) {
+        return buildQuery(id: id).get()
+    }
+
+    TConnectionSource getByTenantId(String tenantId) {
+        return buildQuery(tenantId: tenantId).get()
+    }
+
+    TConnectionSource getDefault() {
+        return buildQuery(name: ConnectionSource.DEFAULT).get()
     }
 
     List<TConnectionSource> list(Map filterParams = [:], Map fetchParams = [:]) {
@@ -152,7 +155,7 @@ class ConnectionSourceService {
         return query.list(fetchParams)
     }
 
-    Integer count(Map filters = [:]) {
+    Number count(Map filters = [:]) {
         def query = buildQuery(filters)
         return query.count()
     }
@@ -175,6 +178,7 @@ class ConnectionSourceService {
         return obj
     }
 
+    @CompileDynamic
     TConnectionSource update(Map args) {
         Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false

@@ -15,6 +15,7 @@
 package dueuno.elements.core
 
 import dueuno.commons.utils.FileUtils
+import grails.gorm.multitenancy.CurrentTenant
 
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -64,7 +65,7 @@ abstract class PropertyService {
 
     String getDirectory(String name, Boolean reload = false) {
         String value = getValue(PropertyType.DIRECTORY, name, reload) as String ?: ''
-        return FileUtils.normalizeDirname(value)
+        return FileUtils.normalizePath(value)
     }
 
     String getUrl(String name, Boolean reload = false) {
@@ -151,8 +152,8 @@ abstract class PropertyService {
     }
 
     void setDirectory(String name, String value, String defaultValue = null) {
-        def processedValue = FileUtils.normalizeDirname(value)
-        def processedDefaultValue = FileUtils.normalizeDirname(defaultValue)
+        def processedValue = FileUtils.normalizePath(value)
+        def processedDefaultValue = FileUtils.normalizePath(defaultValue)
         def validation = validateDirectory(processedValue)
         setValue(PropertyType.DIRECTORY, name, processedValue, processedDefaultValue, validation)
     }

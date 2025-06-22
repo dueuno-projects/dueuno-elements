@@ -62,7 +62,8 @@ class Header extends Component {
     Button addNextButton(Map args = [:]) {
         args.controller = args.controller ?: controllerName
         args.action = args.action ?: 'onConfirm'
-        args.text = (args.text == null) ? TextDefault.SAVE: args.text
+        args.submit = (args.submit == null) ? 'form' : args.submit
+        args.text = (args.text == null) ? TextDefault.CONFIRM : args.text
         args.icon = (args.icon == null) ? 'fa-solid fa-check' : args.icon
         if (args.group) nextButton.group = args.group
 
@@ -79,6 +80,18 @@ class Header extends Component {
         nextButton.removeDefaultAction()
         hasNextButton = false
         return nextButton
+    }
+
+    Button addCloseButton(Map args = [:]) {
+        args.action = args.action ?: 'onClose'
+        args.icon = args.icon ?: 'fa-times'
+        args.text = args.text ?: ''
+        return addBackButton(args)
+    }
+
+    Button addCancelButton(Map args = [:]) {
+        args.text = args.text ?: TextDefault.CANCEL
+        return addBackButton(args)
     }
 
     Button addBackButton(Map args = [:]) {

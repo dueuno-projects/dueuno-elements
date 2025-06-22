@@ -11,35 +11,33 @@ class Link extends Label {
     }
 
     static onClick(event) {
-        let $element = $(event.currentTarget);
-        let componentEvent = Component.getEvent($element, 'click');
-        let componentEventTemp = { ...componentEvent };
-
-        // From here on we take control
         event.preventDefault();
-//        Avoid accidental double clicks
-//        Component.setReadonly($element, true);
-//        setTimeout(() => {
-//            Component.setReadonly($element, false);
-//        }, 200);
 
-        if (event.metaKey || event.ctrlKey) {
-            componentEventTemp['target'] = '_blank';
-            componentEventTemp['direct'] = true;
-        }
-
-        if (Link.hasTarget(componentEventTemp)) {
-            let url = Transition.buildUrl(componentEventTemp);
-            let queryString = Transition.buildQueryString(componentEventTemp);
-            window.open(url + queryString, componentEventTemp['target']);
-            return;
-        }
-
-        if (!componentEvent) {
-            return;
-        }
-
+        let $element = $(event.currentTarget);
         if (Component.getReadonly($element)) {
+            return;
+        }
+
+        // No event defined
+        let componentEventNotToBeAltered = Component.getEvent($element, 'click');
+        if (!componentEventNotToBeAltered) {
+            return;
+        }
+
+        // We copy the defined event to not alter the DOM
+        let componentEvent = { ...componentEventNotToBeAltered };
+
+        // CRTL + Click to open on a new tab
+        if (event.metaKey || event.ctrlKey) {
+            componentEvent['target'] = '_blank';
+            componentEvent['direct'] = true;
+        }
+
+        // Open a on a different target tab
+        if (Link.hasTarget(componentEvent)) {
+            let url = Transition.buildUrl(componentEvent);
+            let queryString = Transition.buildQueryString(componentEvent);
+            window.open(url + queryString, componentEvent['target']);
             return;
         }
 
@@ -58,6 +56,8 @@ class Link extends Label {
                 componentEvent.renderProperties['updateUrl'] = true;
             }
 
+            componentEvent['loading'] = componentEvent['loading'] == null ? true : componentEvent['loading'];
+            componentEvent['direct'] = componentEvent['direct'] == null ? false : componentEvent['direct'];
             Transition.submit(componentEvent);
         }
     }

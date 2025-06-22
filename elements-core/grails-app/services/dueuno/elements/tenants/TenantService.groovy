@@ -19,6 +19,10 @@ import dueuno.elements.ElementsGrailsPlugin
 import dueuno.elements.core.*
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.security.SecurityService
+import dueuno.elements.security.TRoleGroup
+import dueuno.elements.security.TRoleGroupRole
+import dueuno.elements.security.TUser
+import dueuno.elements.security.TUserRoleGroup
 import dueuno.elements.utils.ResourceUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
@@ -26,30 +30,17 @@ import grails.gorm.multitenancy.Tenants
 import grails.gorm.multitenancy.WithoutTenant
 import groovy.util.logging.Slf4j
 import org.grails.datastore.mapping.core.connections.ConnectionSource
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author Gianluca Sartori
  */
 
 @Slf4j
-@WithoutTenant
 class TenantService {
 
-    @Autowired
-    private ApplicationService applicationService
-
-    @Autowired
-    private ConnectionSourceService connectionSourceService
-
-    @Autowired
-    private SystemPropertyService systemPropertyService
-
-    @Autowired
-    private TenantPropertyService tenantPropertyService
-
-    @Autowired
-    private SecurityService securityService
+    ApplicationService applicationService
+    ConnectionSourceService connectionSourceService
+    SystemPropertyService systemPropertyService
 
     void install() {
         create(
@@ -102,38 +93,37 @@ class TenantService {
      * Returns the name of the DEFAULT tenant
      * @return the name of the DEFAULT tenant
      */
-    String getDefaultTenantId() {
+    static String getDefaultTenantId() {
         return ConnectionSource.DEFAULT
     }
 
     /**
      * Returns the DEFAULT tenant
      */
-    TTenant getDefault() {
-        return getByTenantId(defaultTenantId)
+    TTenant getDefaultTenant() {
+        return getByTenantId(ConnectionSource.DEFAULT)
     }
 
     /**
-     * USE securityService.currentTenant INSTEAD
-     * Returns the name of the current tenant
-     * @return the name of the current tenant
+     * INTERNAL USE ONLY. Use SecurityService.getCurrentUserTenantId()
+     *
+     * Returns the name of the current tenantId
+     * @return the name of the current tenantId
      */
     @CurrentTenant
     String getCurrentTenantId() {
         return Tenants.currentId()
     }
 
-    String getAdminUsername(String tenantId = null) {
-        if (tenantId) {
-            TTenant tenant = getByTenantId(tenantId)
-            return tenant ? tenant.tenantId.toLowerCase() : null
-
-        } else if (currentTenantId == defaultTenantId) {
-            return 'admin'
-
-        } else {
-            return currentTenantId.toLowerCase()
-        }
+    /**
+     * INTERNAL USE ONLY. Use SecurityService.getCurrentUserTenant()
+     *
+     * Returns the name of the current tenant
+     * @return the name of the current tenant
+     */
+    @CurrentTenant
+    TTenant getCurrentTenant() {
+        return getByTenantId(currentTenantId)
     }
 
     TTenant get(Serializable id) {
@@ -185,12 +175,12 @@ class TenantService {
 
             String privateDir = "${root}${obj.tenantId}/private"
             systemPropertyService.setDirectory(tenantIdUpper + '_TENANT_PRIVATE_DIR', privateDir)
-            FileUtils.createDir(privateDir)
+            FileUtils.createDirectory(privateDir)
             ResourceUtils.extractDirectory('/deploy/private', privateDir)
 
             String publicDir = "${root}${obj.tenantId}/public"
             systemPropertyService.setDirectory(tenantIdUpper + '_TENANT_PUBLIC_DIR', publicDir)
-            FileUtils.createDir(publicDir)
+            FileUtils.createDirectory(publicDir)
             ResourceUtils.extractDirectory('/deploy/public', publicDir)
 
             systemPropertyService.validateAll()
@@ -203,7 +193,7 @@ class TenantService {
             )
 
             if (obj.tenantId != defaultTenantId) { // Default tenant gets its 'dataSource' from application.yml
-                log.info "${obj.tenantId}: Connecting to database..."
+                log.info "${obj.tenantId} Tenant: Connecting to database..."
                 connectionSourceService.connect(obj.connectionSource)
             }
 
@@ -216,34 +206,12 @@ class TenantService {
     }
 
     void provisionTenant(String tenantId) {
-        withTenant(tenantId) {
-            tenantPropertyService.install()
-            securityService.installTenantSecurity(tenantId)
-
-            if (applicationService.hasBootEvents('onPluginInstall')) {
-                log.info "-" * 80
-                log.info "${tenantId}: INSTALLING PLUGINS..."
-                log.info "-" * 80
-                applicationService.executeOnPluginInstall(tenantId)
-            }
-
-            if (applicationService.hasBootEvents('onInstall') || applicationService.hasBootEvents('onDevInstall')) {
-                log.info ""
-                log.info "-" * 80
-                log.info "${tenantId}: INSTALLING APPLICATION..."
-                log.info "-" * 80
-                applicationService.executeOnInstall(tenantId)
-                applicationService.executeOnDevInstall(tenantId)
-            }
-        }
+        applicationService.executeOnPluginInstall(tenantId)
+        applicationService.executeOnInstall(tenantId)
     }
 
     void provisionTenantUpdate(String tenantId) {
-        if (applicationService.hasBootEvents('onUpdate')) {
-            log.info ""
-            log.info "-" * 80
-            log.info "${tenantId}: INSTALLING UPDATES..."
-            log.info "-" * 80
+        withTenant(tenantId) {
             applicationService.executeOnUpdate(tenantId)
         }
     }
@@ -259,14 +227,35 @@ class TenantService {
     }
 
     void delete(Serializable id) {
-        TTenant tenant = get(id)
-
-        DetachedCriteria<TConnectionSource> connectionSource = TConnectionSource.where { name == tenant.tenantId }
-        connectionSource.get().delete(flush: true, failOnError: true)
+        TTenant tenant = TTenant.get(id)
+        deleteTenantUsersAndGroups(tenant)
+        tenant.delete(flush: true, failOnError: true)
+        tenant.connectionSource.delete(flush: true, failOnError: true)
 
         DetachedCriteria<TSystemInstall> systemInstall = TSystemInstall.where { tenantId == tenant.tenantId }
         systemInstall.deleteAll()
-
-        tenant.delete(flush: true, failOnError: true)
     }
+
+    private void deleteTenantUsersAndGroups(TTenant tenant) {
+        List<TUserRoleGroup> userRoleGroups = TUserRoleGroup.where { user.tenant == tenant }.list()
+        for (userRoleGroup in userRoleGroups) {
+            userRoleGroup.delete(flush: true, failOnError: true)
+        }
+
+        List<TUser> users = TUser.where { tenant == tenant }.list()
+        for (user in users) {
+            user.delete(flush: true, failOnError: true)
+        }
+
+        List<TRoleGroupRole> roleGroupRoles = TRoleGroupRole.where { roleGroup.tenant == tenant }.list()
+        for (roleGroupRole in roleGroupRoles) {
+            roleGroupRole.delete(flush: true, failOnError: true)
+        }
+
+        List<TRoleGroup> roleGroups = TRoleGroup.where { tenant == tenant }.list()
+        for (roleGroup in roleGroups) {
+            roleGroup.delete(flush: true, failOnError: true)
+        }
+    }
+
 }

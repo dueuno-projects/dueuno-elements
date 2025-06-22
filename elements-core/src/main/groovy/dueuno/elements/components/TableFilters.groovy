@@ -70,6 +70,7 @@ class TableFilters extends Form {
                 id: 'resetButton',
                 action: actionName,
                 icon: 'fa-delete-left',
+                tooltip: 'component.table.filters.reset',
                 text: '',
         )
     }
@@ -92,6 +93,13 @@ class TableFilters extends Form {
         return field
     }
 
+    void reset() {
+        for (controlEntry in controls) {
+            Control control = controlEntry.value
+            actionSession.remove(control.id)
+        }
+    }
+
     private void setSubmitParams() {
         searchButton.params = table.submitParams + (Map)[
                 _21Table: table.id,
@@ -104,14 +112,12 @@ class TableFilters extends Form {
                 _21TableOffset: 0,
         ]
 
-        for (field in fields) {
+        for (field in components) {
             if (field.component in Control) {
                 Control control = field.component as Control
-                control.onSubmit(
-                        action: searchButton.action,
-                        submit: searchButton.submit,
-                        params: searchButton.params,
-                )
+                Map args = searchButton.properties
+                args.loading = true
+                control.onSubmit(args)
             }
         }
     }
@@ -125,7 +131,7 @@ class TableFilters extends Form {
             if (control.defaultValue != null) {
                 Object filterValue = control.defaultValue
                 actionSession[control.id] = filterValue
-                control.setValue(filterValue, false)
+                control.value = filterValue
 
             } else {
                 actionSession.remove(control.id)
@@ -138,19 +144,19 @@ class TableFilters extends Form {
         if (requestParams.containsKey(control.id)) {
             Object filterValue = requestParams[control.id]
             actionSession[control.id] = filterValue
-            control.setValue(filterValue, false)
+            control.value = filterValue
 
             // Gets filters from SESSION
         } else if (actionSession[control.id]) {
             Object filterValue = actionSession[control.id]
-            control.setValue(filterValue, false)
+            control.value = filterValue
 
         } else if (control.value != null) {
             // Gets filters from the assigned control value
             // See getValues()
 
         } else if (control.defaultValue != null) {
-            control.setValue(control.defaultValue, false)
+            control.value = control.defaultValue
             requestParams[control.id] = control.defaultValue
         }
     }
@@ -175,7 +181,7 @@ class TableFilters extends Form {
             initializeFilter(control)
 
             String controlName = control.id - (filtersFieldPrefix)
-            Object controlValue = control.value != null ? control.value : control.defaultValue
+            Object controlValue = control.value
 
             if (controlValue) {
                 results[controlName] = controlValue
@@ -187,11 +193,6 @@ class TableFilters extends Form {
                 results.remove(controlName)
             }
         }
-
-//        // Reset table pagination for new searches
-//        if (table != null && requestParams._21FiltersSearch) {
-//            table.pagination.reset()
-//        }
 
         prettyValues = prettyResults
         return results

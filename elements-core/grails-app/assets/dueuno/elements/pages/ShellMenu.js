@@ -2,7 +2,7 @@ class ShellMenu extends Component {
 
     static initialize($element, $root) {
         let $menu = $('#shell-menu-items');
-        new SimpleBar($menu[0]);
+        enableSimpleBar($menu[0]);
     }
 
     static finalize($element, $root) {
@@ -10,13 +10,13 @@ class ShellMenu extends Component {
         $search.on('input', ShellMenu.onSearch);
 
         if (!_21_.user.animations) {
-            $element.off('shown.bs.offcanvas').on('shown.bs.offcanvas', ShellUserMenu.onShown);
+            $element.off('shown.bs.offcanvas').on('shown.bs.offcanvas', ShellMenu.onShown);
         }
     }
 
     static onShown(event) {
         let $element = $(event.currentTarget);
-        let $offcanvas = $('body').find('.offcanvas-backdrop');
+        let $offcanvas = Page.$self.find('.offcanvas-backdrop');
         $offcanvas.removeClass('fade');
     }
 

@@ -15,6 +15,7 @@
 package dueuno.elements.controls
 
 import dueuno.elements.core.Control
+import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
 import org.springframework.web.multipart.MultipartFile
 
@@ -39,6 +40,8 @@ class Upload extends Control {
     Upload(Map args) {
         super(args)
 
+        valueType = Type.LIST
+
         acceptedFiles = args.acceptedFiles as List ?: []
         maxFiles = args.maxFiles as Integer ?: null
         maxFileSize = args.maxFileSize as Integer ?: 20
@@ -46,6 +49,8 @@ class Upload extends Control {
         thumbnailWidth = args.thumbnailWidth as Integer
         thumbnailHeight = args.thumbnailHeight as Integer
         disablePreviews = args.disablePreviews as Boolean ?: false
+
+        containerSpecs.multiline = true
     }
 
     static String getFilename() {

@@ -18,27 +18,31 @@ import dueuno.commons.utils.FileUtils
 import dueuno.elements.contents.ContentHeader
 import dueuno.elements.security.SecurityService
 import dueuno.elements.tenants.TenantPropertyService
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author Gianluca Sartori
  */
 
 @Slf4j
-class PageService implements ServletContextAware, WebRequestAware {
+@CompileStatic
+class PageService implements WebRequestAware, LinkGeneratorAware {
 
-    @Autowired
-    private SecurityService securityService
+    SecurityService securityService
+    SystemPropertyService systemPropertyService
+    TenantPropertyService tenantPropertyService
+    TransitionService transitionService
 
-    @Autowired
-    private SystemPropertyService systemPropertyService
+    void install(String tenantId) {
+        tenantPropertyService.setString('FAVICON', linkPublicResource(tenantId, 'brand/favicon.png', false))
+        tenantPropertyService.setString('APPICON', linkPublicResource(tenantId, 'brand/appicon.png', false))
 
-    @Autowired
-    private TenantPropertyService tenantPropertyService
-
-    @Autowired
-    private TransitionService transitionService
+        tenantPropertyService.setString('KEYPRESS_TRIGGER_KEY', 'Enter')
+        tenantPropertyService.setNumber('KEYPRESS_READING_SPEED', 20)
+        tenantPropertyService.setNumber('KEYPRESS_BUFFER_CLEANUP_TIMEOUT', 500)
+        tenantPropertyService.setBoolean('KEYPRESS_KEEP_CLEAN', false)
+    }
 
     Page getMainPage() {
         return session['_main_page_'] as Page
@@ -81,6 +85,8 @@ class PageService implements ServletContextAware, WebRequestAware {
          * See https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use
          */
         args.iconStyle = tenantPropertyService.getString('ICON_STYLE')
+        args.favicon = tenantPropertyService.getString('FAVICON')
+        args.appicon = tenantPropertyService.getString('APPICON')
 
         /** Colors */
         args.primaryTextColor = tenantPropertyService.getString('PRIMARY_TEXT_COLOR')
@@ -90,6 +96,13 @@ class PageService implements ServletContextAware, WebRequestAware {
         args.tertiaryBackgroundColor = tenantPropertyService.getString('TERTIARY_BACKGROUND_COLOR')
         args.secondaryTextColor = tenantPropertyService.getString('SECONDARY_TEXT_COLOR')
         args.secondaryBackgroundColor = tenantPropertyService.getString('SECONDARY_BACKGROUND_COLOR')
+
+        args.keyPress = [
+                triggerKey: tenantPropertyService.getString('KEYPRESS_TRIGGER_KEY'),
+                readingSpeed: tenantPropertyService.getNumber('KEYPRESS_READING_SPEED'),
+                bufferCleanupTimeout: tenantPropertyService.getNumber('KEYPRESS_BUFFER_CLEANUP_TIMEOUT'),
+                keepClean: tenantPropertyService.getBoolean('KEYPRESS_KEEP_CLEAN'),
+        ]
 
         return args
     }

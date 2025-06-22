@@ -7,7 +7,7 @@ class DateTimeField extends Control {
         let hourCycle = _21_.user.twelveHours ? 'h12' : 'h23';
         let startOfTheWeek = _21_.user.firstDaySunday ? 0 : 1;
 
-        let options = {
+        let initOptions = {
             stepping: properties.timeStep ?? 1,
             allowInputToggle: false,
             display: {
@@ -21,21 +21,21 @@ class DateTimeField extends Control {
             restrictions: {},
         }
 
-        let td = new tempusDominus.TempusDominus($element.parent()[0], options);
+        let td = new tempusDominus.TempusDominus($element.parent()[0], initOptions);
         td.dates.parseInput = DateTimeField.parseInput;
         $element.data('td', td);
     }
 
     static finalize($element, $root) {
         let properties = Component.getProperties($element);
-        let options = {
+        let initOptions = {
             restrictions: {
                 minDate: properties.min ? new Date(properties.min) : undefined,
                 maxDate: properties.max ? new Date(properties.max) : undefined,
             }
         };
         let td = $element.data('td');
-        td.updateOptions(options);
+        td.updateOptions(initOptions);
 
         $element.off('focus').on('focus', Control.onFocus);
         $element.off('paste').on('paste', Control.onPaste);
@@ -45,6 +45,17 @@ class DateTimeField extends Control {
         $element.parent().off('error.td').on('error.td', DateTimeField.onError);
 
         Transition.triggerEvent($element, 'load');
+    }
+
+    static dateToUTC(date) {
+        return new tempusDominus.DateTime(
+            date.getUTCFullYear(),
+            date.getUTCMonth(),
+            date.getUTCDate(),
+            date.getUTCHours(),
+            date.getUTCMinutes(),
+            date.getUTCSeconds()
+        );
     }
 
     static parseInput(value) {
@@ -89,7 +100,13 @@ class DateTimeField extends Control {
             minute = value.substring(10, 12);
         }
 
-        let dateTime = new tempusDominus.DateTime(year + '-' + month + '-' + day + 'T' + hour + ':' + minute);
+        // This hack is here to input the right date/hour in different timezones
+        // We should find a better solution, I'm not investigating since this control
+        // is mostly used as a readonly view. Usually the time input is decoupled into a TimeField.
+        let date = new tempusDominus.DateTime(year + '-' + month + '-' + day);
+        let utcDate = DateTimeField.dateToUTC(date);
+        let utcDay = utcDate.date.toString().padStart(2, '0');
+        let dateTime = new tempusDominus.DateTime(year + '-' + month + '-' + utcDay + 'T' + hour + ':' + minute);
         return dateTime;
     }
 
@@ -171,8 +188,12 @@ class DateTimeField extends Control {
         let td = $element.data('td');
         let date = td.dates.parseInput(value);
 
-        if (date) return {
-            type: 'DATETIME',
+        if (!date) {
+            return null;
+        }
+
+        let result = {
+            type: Type.DATETIME,
             value: {
                 year: date.year,
                 month: date.month + 1,
@@ -183,7 +204,7 @@ class DateTimeField extends Control {
             }
         }
 
-        return null;
+        return result;
     }
 
     static setReadonly($element, value) {
@@ -220,14 +241,14 @@ class DateTimeField extends Control {
             value?.minute ?? 0
         );
 
-        let options = {
+        let initOptions = {
             restrictions: {
                 minDate: value ? dateTime : undefined,
             }
         };
 
         let td = $element.data('td');
-        td.updateOptions(options);
+        td.updateOptions(initOptions);
     }
 
     static setMax($element, value) {
@@ -239,20 +260,21 @@ class DateTimeField extends Control {
             value?.minute ?? 0
         );
 
-        let options = {
+        let initOptions = {
             restrictions: {
                 maxDate: value ? dateTime : undefined,
             }
         };
 
         let td = $element.data('td');
-        td.updateOptions(options);
+        td.updateOptions(initOptions);
     }
 
     static setError($element, value) {
         let $formField = $element.closest('[data-21-component="FormField"]');
         FormField.setError($formField, value);
     }
+
 }
 
 Control.register(DateTimeField);

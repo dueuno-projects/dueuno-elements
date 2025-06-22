@@ -1,9 +1,9 @@
 <div class="component-filters container-fluid p-0 ${c.cssClass}"
-     style="${c.cssStyleColors}${c.cssStyle}"
      data-21-component="${c.className}"
      data-21-id="${c.id}"
      data-21-properties="${c.propertiesAsJSON}"
      data-21-events="${c.eventsAsJSON}"
+     ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}
 >
     <div class="d-flex mb-1">
 
@@ -26,13 +26,12 @@
         </div>
 
         <render:component instance="${c.actionbar}" />
-
     </div>
 
-    <div class="component-filters-box component-form collapse ${c.isFolded() ? '' : 'show'} bg-white border-0 rounded-3 mb-1">
-        <form class="row gx-2 p-3 pt-1">
+    <div class="component-filters-box component-form collapse ${c.isFolded() ? '' : 'show'}">
+        <form class="row gx-2">
 
-            <form:renderFields instance="${c}" />
+            <render:componentList instance="${c}" />
 
         </form>
     </div>

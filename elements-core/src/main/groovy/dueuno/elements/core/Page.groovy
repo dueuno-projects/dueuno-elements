@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
@@ -27,7 +28,11 @@ abstract class Page extends Component {
 
     PageModal modal
     PageMessageBox messageBox
+    KeyPress keyPress
     transient PageContent content
+
+    String favicon
+    String appicon
 
     Page(Map args = [:]) {
         super(args)
@@ -35,7 +40,11 @@ abstract class Page extends Component {
         viewPath = '/dueuno/elements/pages/'
 
         modal = addComponent(PageModal, 'modal', args)
-        messageBox = addComponent(PageMessageBox, 'messagebox', args)
+        messageBox = addComponent(PageMessageBox, 'messageBox', args)
+        keyPress = addComponent(KeyPress, 'keyPress', args.keyPress as Map)
+
+        favicon = args.favicon
+        appicon = args.appicon
     }
 
     /**

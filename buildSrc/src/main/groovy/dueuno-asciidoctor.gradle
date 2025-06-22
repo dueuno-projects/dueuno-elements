@@ -1,23 +1,24 @@
 plugins {
-    id 'org.asciidoctor.jvm.convert'
+    id "org.asciidoctor.jvm.convert"
 }
 
 asciidoctor {
     attributes = [
-            'revnumber'         : projectVersion,
-            'application-name'  : projectName,
-            'grails-version'    : grailsVersion,
-            'source-highlighter': 'coderay',
-            'icons'             : 'font',
-            'toc'               : 'left',
-            'toclevels'         : 2,
+            "application-name"  : projectName,
+            "revnumber"         : projectVersion,
+            "version-java"      : javaVersion,
+            "version-grails"    : grailsVersion,
+            "source-highlighter": "coderay",
+            "icons"             : "font",
+            "toc"               : "left",
+            "toclevels"         : 2,
     ]
 
     baseDirFollowsSourceDir()
 
     outputDir = file("${projectDir}/docs/")
     outputOptions {
-        backends = ['html5']
+        backends = ["html5"]
     }
 }
 

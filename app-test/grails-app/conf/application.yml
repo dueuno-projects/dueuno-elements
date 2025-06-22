@@ -57,10 +57,8 @@ grails:
       providerNames:
         - rememberMeAuthenticationProvider
         - daoAuthenticationProvider
-
-spring:
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
+        - externalIdAuthenticationProvider
+#        - ldapAuthProvider
 
 ---
 spring:

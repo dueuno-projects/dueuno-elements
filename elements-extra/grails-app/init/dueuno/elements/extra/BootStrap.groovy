@@ -20,12 +20,11 @@ class BootStrap {
 
     ApplicationService applicationService
 
-    def init = { servletContext ->
+    def init = {
         applicationService.registerElements('elements/elements-extra')
     }
 
     def destroy = {
-        //no-op
     }
 
 }

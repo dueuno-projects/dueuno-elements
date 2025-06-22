@@ -3,14 +3,14 @@
     flex-direction: column;
 }
 
-.grid-column div {
+.grid-column > div {
     flex: auto;
 }
 
-.grid-column div > *:last-child {
+.grid-column > div > *:last-child {
     margin-bottom: 0 !important;
 }
 
-.grid-column .grid-border {
+.grid-column .grid-tag {
     border-radius: var(--bs-border-radius-xl);
 }

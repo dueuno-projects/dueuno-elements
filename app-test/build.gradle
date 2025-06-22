@@ -1,23 +1,32 @@
 plugins {
-    id 'dueuno-application'
+    id "dueuno-application"
 }
 
 dependencies {
-    implementation project(':elements-core')
-//    implementation project(':elements-extra')
-
-//    implementation 'org.grails.plugins:spring-security-ldap:4.0.0.M1'
+    implementation project(":elements-core")
+//    implementation project(":elements-extra")
+//    developmentOnly "org.springframework.boot:spring-boot-devtools"
 
     runtimeOnly 'com.mysql:mysql-connector-j:8.1.0'
     runtimeOnly 'org.postgresql:postgresql:42.2.18'
 }
 
 bootRun {
-    jvmArgs('-Xms2g', '-Xmx2g')
+    jvmArgs("-Xms2g", "-Xmx2g")
 }
 
 configurations.all {
     resolutionStrategy {
-        cacheChangingModulesFor 0, 'seconds'
+        cacheChangingModulesFor 0, "seconds"
     }
+}
+
+assets {
+    skipNonDigests = true
+    minifyCss = true
+    minifyJs = true
+    minifyOptions = [
+            //SIMPLE (default) or ADVANCED or WHITESPACE_ONLY
+            optimizationLevel: "SIMPLE",
+    ]
 }

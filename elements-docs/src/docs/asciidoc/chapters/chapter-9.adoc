@@ -1,0 +1,535 @@
+
+== Table
+
+One of the most important components in a Dueuno Elements application is the `Table` component. Its main purpose is displaying data in columns and rows. Usually, each row displays a record on a database, but it can display anything from in-memory data to the results of a web service call.
+
+The user can interact by clicking on one of the buttons displayed on the left side of each row. By default the `Table` component creates the `edit` and `delete` buttons. We call them _actions_. Actions can be customized removing or adding as many as we need. Each row can have different actions depending on the logged-in user or a specific state of the record.
+
+=== Sample CRUD
+
+To talk about the `Table` component we are going to create a new CRUD to manage our books. Let's create what we need:
+
+. A `TBook` domain class to _persist our books_
+. A `BookService` to implement the _Business Logic_
+. A `BookController` to implement the _User Interface_
+
+.Create `~/demo/grails-app/domain/com/example/TBook.groovy`
+[source,groovy]
+----
+package com.example
+
+import grails.gorm.MultiTenant
+import org.grails.datastore.gorm.GormEntity
+
+import java.time.LocalDateTime
+
+class TBook implements GormEntity, MultiTenant<TBook> {
+
+    String title
+    String author
+    String description
+    Boolean taken
+
+    static constraints = {
+    }
+
+}
+----
+
+.Create `~/demo/grails-app/services/com/example/BookService.groovy`
+[source,groovy]
+----
+package com.example
+
+import dueuno.elements.exceptions.ArgsException
+import grails.gorm.DetachedCriteria
+import grails.gorm.multitenancy.CurrentTenant
+
+import javax.annotation.PostConstruct
+
+@CurrentTenant
+class BookService {
+
+    @PostConstruct
+    void init() {
+        // Executes only once when the application starts
+    }
+
+    private DetachedCriteria<TBook> buildQuery(Map filterParams) {
+        def query = TBook.where {}
+
+        if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
+
+        if (filterParams.find) {
+            String search = filterParams.find.replaceAll('\\*', '%')
+            query = query.where { true
+                || title =~ "%${search}%"
+                || author =~ "%${search}%"
+                || description =~ "%${search}%"
+            }
+        }
+
+        // Add additional filters here
+
+        return query
+    }
+
+    TBook get(Serializable id) {
+        // Add any relationships here (Eg. references to other DomainObjects or hasMany)
+        Map fetch = [
+                relationshipName: 'join',
+        ]
+
+        return buildQuery(id: id).get(fetch: fetch)
+    }
+
+    List<TBook> list(Map filterParams = [:], Map fetchParams = [:]) {
+        if (!fetchParams.sort) fetchParams.sort = [dateCreated: 'asc']
+
+        // Add single-sided relationships here (Eg. references to other DomainObjects)
+        // DO NOT add hasMany relationships, you are going to have troubles with pagination
+        fetchParams.fetch = [
+                relationshipName: 'join',
+        ]
+
+        def query = buildQuery(filterParams)
+        return query.list(fetchParams)
+    }
+
+    Integer count(Map filterParams = [:]) {
+        def query = buildQuery(filterParams)
+        return query.count()
+    }
+
+    TBook create(Map args = [:]) {
+        if (args.failOnError == null) args.failOnError = false
+
+        TBook obj = new TBook(args)
+        obj.save(flush: true, failOnError: args.failOnError)
+        return obj
+    }
+
+    TBook update(Map args = [:]) {
+        Serializable id = ArgsException.requireArgument(args, 'id')
+        if (args.failOnError == null) args.failOnError = false
+
+        TBook obj = get(id)
+        obj.properties = args
+        obj.save(flush: true, failOnError: args.failOnError)
+        return obj
+    }
+
+    void delete(Serializable id) {
+        TBook obj = get(id)
+        obj.delete(flush: true, failOnError: true)
+    }
+
+    void take(Serializable id) {
+        update(id: id, taken: true)
+    }
+
+    void giveBack(Serializable id) {
+        update(id: id, taken: false)
+    }
+}
+----
+
+.Create `~/demo/grails-app/controllers/com/example/BookController.groovy`
+[source,groovy]
+----
+package com.example
+
+import dueuno.elements.components.TableRow
+import dueuno.elements.contents.ContentCreate
+import dueuno.elements.contents.ContentEdit
+import dueuno.elements.contents.ContentForm
+import dueuno.elements.contents.ContentTable
+import dueuno.elements.controls.Checkbox
+import dueuno.elements.controls.TextField
+import dueuno.elements.core.ElementsController
+import dueuno.elements.style.TextDefault
+
+class BookController implements ElementsController {
+
+    BookService bookService
+
+    def index() {
+        def c = createContent(ContentTable)
+        c.table.with {
+            filters.with {
+                fold = false
+                addField(
+                        class: TextField,
+                        id: 'find',
+                        label: TextDefault.FIND,
+                )
+            }
+            sortable = [
+                    title: 'asc',
+                    author: 'asc',
+            ]
+            columns = [
+                    'title',
+                    'author',
+                    'description',
+                    'taken',
+            ]
+
+            groupActions.addAction(
+                    action: 'onGiveBackAll',
+                    submit: 'table',
+                    icon: 'fa-regular fa-bookmark',
+                    confirmMessage: 'book.index.confirm.give.back.all',
+            )
+
+            body.eachRow { TableRow row, Map values ->
+                // Do not execute slow operations here to avoid slowing down the table rendering
+                if (values.taken) {
+                    row.actions.addAction(action: 'onGiveBack', icon: 'fa-regular fa-bookmark')
+                } else {
+                    row.actions.addAction(action: 'onTake', icon: 'fa-solid fa-bookmark')
+                }
+            }
+        }
+
+        c.table.body = bookService.list(c.table.filterParams, c.table.fetchParams)
+        c.table.paginate = bookService.count(c.table.filterParams)
+
+        display content: c
+    }
+
+    private ContentForm buildForm(TBook obj = null) {
+        def c = obj
+                ? createContent(ContentEdit)
+                : createContent(ContentCreate)
+
+        c.form.with {
+            validate = TBook
+            addField(
+                    class: TextField,
+                    id: 'title',
+            )
+            addField(
+                    class: TextField,
+                    id: 'author',
+            )
+            addField(
+                    class: TextField,
+                    id: 'description',
+            )
+            addField(
+                    class: Checkbox,
+                    id: 'taken',
+            )
+        }
+
+        if (obj) {
+            c.form.values = obj
+        }
+
+        return c
+    }
+
+    def onTake() {
+        bookService.take(params.id)
+        display action: 'index'
+    }
+
+    def onGiveBack() {
+        bookService.giveBack(params.id)
+        display action: 'index'
+    }
+
+    def onGiveBackAll() {
+        List<Long> ids = params.rows.findAll { it.selected }*.id
+        for (id in ids) {
+            bookService.giveBack(id)
+        }
+
+        display action: 'index'
+    }
+
+    def create() {
+        def c = buildForm()
+        display content: c, modal: true
+    }
+
+    def onCreate() {
+        def obj = bookService.create(params)
+
+        if (obj.hasErrors()) {
+            display errors: obj
+            return
+        }
+
+        display action: 'index'
+    }
+
+    def edit() {
+        def obj = bookService.get(params.id)
+        def c = buildForm(obj)
+        display content: c, modal: true
+    }
+
+    def onEdit() {
+        def obj = bookService.update(params)
+        if (obj.hasErrors()) {
+            display errors: obj
+            return
+        }
+
+        display action: 'index'
+    }
+
+    def onDelete() {
+        try {
+            bookService.delete(params.id)
+            display action: 'index'
+
+        } catch (e) {
+            display exception: e
+        }
+    }
+}
+----
+
+.Edit `~/demo/grails-app/init/com/example/BootStrap.groovy`
+[source,groovy]
+----
+    def init = {
+
+        ...
+
+        applicationService.onDevInstall { String tenantId ->
+
+            ...
+
+            bookService.create(
+                    title: 'The Teachings of Don Juan',
+                    author: 'Carlos Castaneda',
+                    description: 'This is a nice fictional book',
+                    borrowed: false,
+                    failOnError: true,
+            )
+            bookService.create(
+                    title: 'The Antipodes of the Mind',
+                    author: 'Benny Shanon',
+                    description: 'This is a nice scientific book',
+                    borrowed: false,
+                    failOnError: true,
+            )
+        }
+
+        applicationService.init {
+
+            ...
+
+            registerFeature(
+                    controller: 'book',
+                    icon: 'fa-book',
+            )
+        }
+    }
+----
+
+IMPORTANT: Delete the `~/demo/demo` folder
+
+.Execute the application
+[source,console,subs="attributes+"]
+----
+$ ./gradlew bootRun
+----
+
+video::iymb4FnC2Hc[youtube,width=640,height=480]
+
+=== Loading Data
+
+What can we load a table with?
+
+===== List of Lists
+Loading a table with a List of Lists is possible, the sequence will determine how each column will be mapped to each value. There is no hard relationship between the displayed column name and the value.
+
+For this reason we suggest using <<list-of-maps>> instead.
+
+[source,groovy]
+----
+c.table.columns = [
+    'title',
+    'author',
+    'description',
+]
+
+c.table.body = [
+    ['The Teachings of Don Juan', 'Carlos Castaneda', 'This is a nice fictional book'],
+    ['The Antipodes of the Mind', 'Benny Shanon', 'This is a nice scientific book'],
+]
+----
+
+[[list-of-maps]]
+===== List of Maps
+We can load a table with a "recordset" style data structure like the List of Maps. This way each column will display exactly the value associated to the key of the record (`Map`) having the same name of the column.
+
+[source,groovy]
+----
+c.table.columns = [
+    'title',
+    'author',
+    'id',
+]
+
+c.table.body = [
+    [id: '1', title: 'The Teachings of Don Juan', author: 'Carlos Castaneda', description: 'This is a nice fictional book'],
+    [id: '2', title: 'The Antipodes of the Mind', author: 'Benny Shanon', description: 'This is a nice scientific book'],
+]
+----
+
+===== List of POGOs
+A List of _Plain Old Groovy Objects_ can also be used to load a table.
+
+Given this POGO:
+[source,groovy]
+----
+class Book {
+    String id
+    String title
+    Strng author
+    String description
+}
+----
+
+We can load our table:
+
+[source,groovy]
+----
+c.table.columns = [
+    'title',
+    'author',
+    'id',
+]
+
+c.table.body = [
+    new Book(id: '1', title: 'The Teachings of Don Juan', author: 'Carlos Castaneda', description: 'This is a nice fictional book'),
+    new Book(id: '2', title: 'The Antipodes of the Mind', author: 'Benny Shanon', description: 'This is a nice scientific book'),
+]
+----
+
+===== GORM Recordsets
+Using a https://gorm.grails.org/latest/hibernate/manual/[GORM Recordset,window=_blank] is an easy way to load a table.
+
+Given this domain class:
+[source,groovy]
+----
+class TBook implements GormEntity, MultiTenant<TBook> {
+    String title
+    Strng author
+    String description
+}
+----
+
+We can load our table:
+
+[source,groovy]
+----
+c.table.with {
+    columns = [
+        'title',
+        'author',
+        'id',
+    ]
+    body = TBook.list()
+    paginate = TBook.count()
+}
+----
+
+=== Row Actions
+There are two ways to configure row actions. All at once and on a row basis. To set all rows to have the same actions we can set them up in the table namespace as follows:
+
+[source,groovy]
+----
+c.table.with {
+    columns = [
+        'title',
+        'author',
+    ]
+    actions.addAction(action: 'onTake')
+    actions.addAction(action: 'onGiveBack')
+}
+----
+
+If we need to configure the row actions depending on the record values, or other logics, we can do it from the `eachRow` closure.
+
+[source,groovy]
+----
+c.table.with {
+    columns = [
+        'title',
+        'author',
+    ]
+
+    body.eachRow { TableRow row, Map values ->
+        if (values.borrowed) {
+            row.actions.addAction(action: 'onGiveBack')
+        } else {
+            row.actions.addAction(action: 'onTake')
+        }
+    }
+}
+----
+
+=== Group Actions
+The table can be configured to select multiple rows ad apply to all of them the same action. In this case we need to explicitly configure the action to submit the `Table` component so we can access its selected rows. The default `id` of the `Table` component embedded in the `ContentTable` is `table`.
+
+[source,groovy]
+----
+c.table.with {
+    columns = [
+        'title',
+        'author',
+    ]
+
+    groupActions.addAction(action: 'onTake', submit: 'table')
+    groupActions.addAction(action: 'onGiveBack', submit: 'table')
+}
+----
+
+=== Filters
+Each table can have its own search `Form` to filter results. When submitting the filters, the action where they have been defined will be reloaded and the filters values will be available in the Grails `params` map.
+
+[source,groovy]
+----
+c.table.with {
+    filters.with {
+        addField(
+            class: TextField,
+            id: 'search',
+        )
+    }
+
+    Map filters = c.table.filterParams // <1>
+    c.table.body = bookService.list(filters)
+}
+----
+<1> The submitted values of the filters fields.
+
+=== Pagination
+
+The `Table` component let us paginate the results with a single instruction assigning the total record count. Underneath it uses the same params that https://gorm.grails.org/latest/hibernate/manual/[GORM Recordset,window=_blank] uses to paginate and sort its results. They are stored in the variable `c.table.fetchParams` and we can use it right away to instruct our GORM queries.
+
+[source,groovy]
+----
+c.table.with {
+    columns = [
+        'title',
+        'author',
+    ]
+
+    body = bookService.list(c.table.filterParams, c.table.fetchParams)
+    paginate = bookService.count(c.table.filterParams)
+}
+----
+
+.GORM Query
+[source,groovy]
+----
+def results = TBook.list(c.table.fetchParams)
+----

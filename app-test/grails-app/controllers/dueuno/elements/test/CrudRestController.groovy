@@ -17,7 +17,7 @@ package dueuno.elements.test
 
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.core.ElementsController
 import grails.gorm.multitenancy.CurrentTenant
 
@@ -28,7 +28,7 @@ class CrudRestController implements ElementsController {
 //    FileMakerClient fileMakerClient
 
     def index() {
-        ContentList c = createContent(ContentList)
+        ContentTable c = createContent(ContentTable)
         c.table.with {
             keys = [
                     'RecordID',

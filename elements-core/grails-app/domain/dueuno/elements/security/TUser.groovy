@@ -27,9 +27,11 @@ class TUser implements GormEntity, Serializable {
     private static final long serialVersionUID = 1
 
     TTenant tenant
+    String apiKey
 
     String username
     String password
+    String externalId
     boolean enabled
     boolean accountExpired
     boolean accountLocked
@@ -70,6 +72,8 @@ class TUser implements GormEntity, Serializable {
         defaultGroup nullable: true
         password blank: false, password: true
         username blank: false, unique: true
+        apiKey nullable: true, unique: true
+        externalId nullable: true, unique: true
         firstname nullable: true
         lastname nullable: true
         email nullable: true, email: true

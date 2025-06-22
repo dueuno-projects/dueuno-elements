@@ -5,7 +5,7 @@ class Select extends Control {
         let properties = Component.getProperties($element);
         let hasButtons = $element.parent().has('a, .component-help').exists();
 
-        let options = {
+        let initOptions = {
             theme: 'bootstrap-5',
             dropdownParent: $root,
             language: _21_.user.language,
@@ -15,6 +15,7 @@ class Select extends Control {
             allowClear: properties['multiple'] ? false : properties['allowClear'],
             dropdownAutoWidth : true,
             width: hasButtons ? 'auto' : '100%',
+            escapeMarkup: function(markup) { return markup; },
             language: {
                 inputTooShort: function (args) {
                     var remainingChars = args.minimum - args.input.length;
@@ -35,8 +36,8 @@ class Select extends Control {
 
         let searchEvent = Component.getEvent($element, 'search');
         if (searchEvent) {
-            options.minimumInputLength = properties['searchMinInputLength'];
-            options.ajax = {
+            initOptions.minimumInputLength = properties['searchMinInputLength'];
+            initOptions.ajax = {
                 url: Transition.buildUrl(searchEvent),
                 data: function (params) {
                     searchEvent.params = {
@@ -47,34 +48,28 @@ class Select extends Control {
                 },
                 processResults: function (data) {
                     let transition = Transition.fromHtml(data);
-                    let optionCommand = transition.commands.findLast(it => it.component == controlId && it.property == 'options');
-                    if (optionCommand) {
-                        let options = optionCommand.value.value ?? {};
-                        let results = [];
-
-                        for (let [key, value] of Object.entries(options)) {
-                            let option = {id: key, text: value};
-                            results.push(option);
-                        }
-
-                        return {results: results};
+                    let optionsCommand = transition.commands.findLast(it => it.component == controlId && it.property == 'options');
+                    if (optionsCommand) {
+                        let options = optionsCommand.value.value ?? {};
+                        return {results: options};
                     }
                 }
             }
         }
 
-        $element.select2(options);
+        $element.select2(initOptions);
     }
 
     static finalize($element, $root) {
-        $element
-            .off('select2:select select2:unselect select2:clear')
-            .on('select2:select select2:unselect select2:clear', Select.onChange);
-        $element
-            .off('select2:open')
-            .on('select2:open', Select.onOpen);
+        $element.parent().find('.select2-selection__rendered').removeAttr('title');
+        $element.off('select2:select select2:unselect').on('select2:select select2:unselect', Select.onChange);
+        $element.off('select2:open').on('select2:open', Select.onOpen);
 
         Transition.triggerEvent($element, 'load');
+    }
+
+    static deactivate($element) {
+        Component.setDisplay($element, false);
     }
 
     static isInitialized($element) {
@@ -96,32 +91,36 @@ class Select extends Control {
 
         // In case of user clear we align the control value
         if (select2Values.length == 0) {
-            $element.data('21-value', {
-                type: 'TEXT',
+            let valueMap = {
+                type: Type.TEXT,
                 value: null,
-            });
+            };
+            $element.data('21-value', valueMap);
+            $element.val(valueMap.value);
+            $element.trigger('change');
         }
 
         Transition.triggerEvent($element, 'change');
     }
 
     static setValue($element, valueMap, trigger = true) {
-        if (!trigger) $element.off('select2:select select2:clear');
+        if (!trigger) $element.off('select2:select select2:unselect');
 
         let searchEvent = Component.getEvent($element, 'search');
         let loadEvent = Component.getEvent($element, 'load');
         let hasOptions = Select.hasOptions($element);
         if (searchEvent && loadEvent && !hasOptions) {
-            Select.setOptions($element, {[valueMap.value]: '...'});
+            Select.setOptions($element, [{id: valueMap.value}, {text: '...'}]);
             if (trigger) {
                 Transition.submit(loadEvent);
             }
         }
 
+        $element.data('21-value', valueMap);
         $element.val(valueMap.value);
         $element.trigger('change');
 
-        if (!trigger) $element.on('select2:select select2:clear', Select.onChange);
+        if (!trigger) $element.on('select2:select select2:unselect', Select.onChange);
     }
 
     static getValue($element) {
@@ -141,15 +140,15 @@ class Select extends Control {
 
         let result = {};
         if (ids.length == 0) {
-            result.type = 'TEXT';
+            result.type = Type.TEXT;
             result.value = null;
 
         } else if (ids.length == 1 && !properties['multiple']) {
-            result.type = 'TEXT';
+            result.type = Type.TEXT;
             result.value = ids[0];
 
         } else {
-            result.type = 'LIST';
+            result.type = Type.LIST;
             result.value = ids;
         }
 
@@ -163,7 +162,7 @@ class Select extends Control {
     static setOptions($element, options) {
         let valueMap = Select.getValue($element);
 
-        if (!options) {
+        if (!options || !options.length) {
             valueMap.value = null;
             Select.setValue($element, valueMap, false);
             return;
@@ -171,24 +170,23 @@ class Select extends Control {
 
         $element.empty();
         let isValueInOptions = false;
-        for (let [key, value] of Object.entries(options)) {
-            $element.append(new Option(value, key, false, false));
-            if (key == valueMap.value) {
+        for (let option of options) {
+            $element.append(new Option(option.text, option.id, false, false));
+            if (option.id == valueMap.value) {
                 isValueInOptions = true
             }
         }
 
-        if (valueMap.value != null && !isValueInOptions) {
+        if (isValueInOptions) {
+            let properties = Component.getProperties($element);
+            let optionsCount = $element.children('option').length;
+            if (!properties['autoSelect'] || optionsCount > 1 || properties['nullable']) {
+                // Select2 automatically selects the first item on ajax loading
+                // so we need to implement an inverse logic
+                Select.setValue($element, valueMap, false);
+            }
+        } else {
             valueMap.value = null;
-            Select.setValue($element, valueMap, false);
-            return;
-        }
-
-        let properties = Component.getProperties($element);
-        let optionsCount = $element.children('option').length;
-        if (!properties['autoSelect'] || optionsCount > 1 || properties['nullable']) {
-            // Select2 automatically selects the first item on ajax loading
-            // so we need to implement an inverse logic
             Select.setValue($element, valueMap, false);
         }
     }

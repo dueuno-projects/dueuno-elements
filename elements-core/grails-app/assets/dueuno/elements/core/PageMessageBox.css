@@ -23,8 +23,8 @@
 
 #page-messagebox .message-icon {
     position: absolute;
-    font-size: 25vh;
+    font-size: 17rem;
     top: -3vh;
     left: -5vh;
-    opacity: 0.05;
+    opacity: .05;
 }

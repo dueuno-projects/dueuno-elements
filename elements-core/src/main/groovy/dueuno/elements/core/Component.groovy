@@ -22,8 +22,6 @@ import dueuno.elements.utils.EnvUtils
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
-import java.lang.reflect.Modifier
-
 /**
  * A Component is the basic building block of the Elements framework. Every UI element displayed to the user is a
  * Component. A Component can be made of subcomponents. Eg. A Table component can be made of several Row components
@@ -38,7 +36,7 @@ import java.lang.reflect.Modifier
 
 @Slf4j
 @CompileStatic
-abstract class Component implements ServletContextAware, WebRequestAware, LinkGeneratorAware, Serializable {
+abstract class Component implements WebRequestAware, Serializable {
 
     /** A component can contain Sub-Components */
     private Map<String, Component> components
@@ -104,7 +102,6 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
 
     /** Custom CSS */
     String cssClass
-    String cssStyle
 
     Component(Map args) {
         this.id = (String) ArgsException.requireArgument(args, 'id')
@@ -124,10 +121,12 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
         containerSpecs = args.containerSpecs as Map ?: [:]
         containerSpecs.attributes = [:]
 
-        visible = args.visible
-        display = args.display
-        readonly = args.readonly
-        skipFocus = args.skipFocus
+        // Avoid calling the setter so we have 'null' instead of 'false' to be able to cleanupProperties()
+        this.@visible = args.visible
+        this.@display = args.display
+        this.@readonly = args.readonly
+        this.@skipFocus = args.skipFocus
+        this.@sticky = args.sticky
 
         textColor = args.textColor ?: ''
         backgroundColor = args.backgroundColor ?: ''
@@ -149,7 +148,6 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
         secondaryBackgroundColorInt = Color.hexToIntColor(secondaryBackgroundColor) ?: warnColorError(secondaryBackgroundColor)
 
         cssClass = args.cssClass ?: ''
-        cssStyle = args.cssStyle ?: ''
     }
 
     private void registerEvents(Map args) {
@@ -167,9 +165,10 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
             if (eventName.startsWith('on')) {
                 String event = (eventName - 'on').toLowerCase()
                 Map eventArgs = [
-                        event: event,
-                        action: action,
-                        submit: submit ?: [getId()],
+                        event  : event,
+                        action : action,
+                        submit : submit ?: [getId()],
+                        loading: event == 'load' ? false : args.loading,
                 ]
                 on(args + eventArgs)
             }
@@ -211,17 +210,9 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
      *
      * @return A prefixed label ready for i18n
      */
-    protected String buildLabel(String id, String messagePrefix = '', List messageArgs = []) {
-        PrettyPrinterProperties renderProperties = new PrettyPrinterProperties()
-        renderProperties.messageArgs = messageArgs
-
-        if (messagePrefix) {
-            renderProperties.messagePrefix = messagePrefix
-        } else {
-            renderProperties.messagePrefix = controllerName
-        }
-
-        return prettyPrint(id, renderProperties)
+    protected String buildLabel(String id, PrettyPrinterProperties prettyPrinterProperties = null) {
+        String prefix = prettyPrinterProperties?.textPrefix ?: controllerName
+        return prefix + '.' + id
     }
 
     /**
@@ -331,6 +322,10 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
         args.secondaryBackgroundColor = this.secondaryBackgroundColor
     }
 
+    String getPrimaryBackgroundColorShade() {
+        return "rgba(${primaryBackgroundColorInt.join(', ')}, ${primaryBackgroundColorAlpha}) !important"
+    }
+
     /**
      * Creates a component and adds it as sub-component with name = lowercase of class name.
      *
@@ -388,7 +383,24 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
         return component
     }
 
-    /**
+    public <T> T addComponentBefore(String beforeComponentName, Class<T> clazz, String id = null, Map args = [:]) {
+        T newComponent = createComponent(clazz, id, args)
+        Map<String, Component> results = [:]
+
+        for (item in components) {
+            String componentName = item.value.id
+            if (componentName == beforeComponentName) {
+                results.put(id, newComponent as Component)
+            }
+
+            results.put(item.key, item.value)
+        }
+
+        components = results
+        return newComponent
+    }
+
+        /**
      * Creates a component and adds it as sub-component
      *
      * @param args initialization Map
@@ -523,21 +535,21 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
 
     /**
      * Removes a control as sub-component
-     * @param name The name of the control to remove
+     * @param id The name of the control to remove
      */
-    void removeControl(String name) {
-        controls.remove(name)
+    void removeControl(String id) {
+        controls.remove(id)
     }
 
     /**
      * Retrieves an instance of the control identified by its name
      *
-     * @param name The name of the control to retrieve
+     * @param id The name of the control to retrieve
      *
      * @return The control matching the provided name
      */
-    Control getControl(String name) {
-        return controls[name]
+    Control getControl(String id) {
+        return controls[id]
     }
 
     /**
@@ -553,17 +565,17 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
      * Returns a component or a control identified by the specified name. This enables the squared brackets syntax to
      * access sub-components and controls in a component
      *
-     * @param name The name of the component or control to access
+     * @param id The name of the component or control to access
      *
      * @return The instance of the specified component or control
      */
-    Component getAt(String name) {
-        Component component = getComponent(name)
+    Component getAt(String id) {
+        Component component = getComponent(id)
         if (component) {
             return component
         }
 
-        Control control = getControl(name)
+        Control control = getControl(id)
         if (control) {
             return control
 
@@ -630,7 +642,7 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
             results[name] = value.asMap()
         }
 
-        Map cleanedUpEvents = cleanupItems(results)
+        Map cleanedUpEvents = cleanupProperties(results)
         return Elements.encodeAsJSON(cleanedUpEvents)
     }
 
@@ -645,35 +657,56 @@ abstract class Component implements ServletContextAware, WebRequestAware, LinkGe
         if (readonly != null) thisProperties.readonly = readonly
         if (sticky != null) thisProperties.sticky = sticky
 
-        Map cleanedupProperties = cleanupItems(thisProperties + properties)
+        Map cleanedupProperties = cleanupProperties(thisProperties + properties)
         return Elements.encodeAsJSON(cleanedupProperties)
     }
 
     String getCssStyleColors() {
         String result = ''
         if (textColor) result += "color: ${textColor}; "
-        if (backgroundColor) result += "background-color: ${backgroundColor}; "
+        if (backgroundColor) result += "background-color: ${backgroundColor};"
         return result
     }
 
-    private static Map cleanupItems(Map items) {
+    private static Map cleanupProperties(Map items) {
         Map results = [:]
 
         for (item in items) {
+            String name = item.key
             Object value = item.value
+
+            if (value in Map) {
+                Map cleanedUpProperty = cleanupProperties(value as Map)
+                if (cleanedUpProperty) {
+                    results[name] = cleanedUpProperty
+                }
+                continue
+            }
+
             if (value == null || value == '' || value == [] || value == [:]) {
                 continue
             }
 
-            if (value in Map) {
-                results.put(item.key, cleanupItems(value as Map))
-
-            } else {
-                results << item
-            }
+            results[name] = value
         }
 
         return results
     }
 
+    // We implement the setters to cover the case 'display = null'
+    // so that is is interpreted as false
+    void setDisplay(Boolean value) {
+        display = value ? true : false
+    }
+
+    void setVisible(Boolean value) {
+        visible = value ? true : false
+    }
+
+    void setReadonly(Boolean value) {
+        readonly = value ? true : false
+    }
+
 }
+
+

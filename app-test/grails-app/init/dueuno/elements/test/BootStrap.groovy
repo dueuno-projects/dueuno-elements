@@ -34,6 +34,7 @@ import java.time.LocalTime
 
 class BootStrap {
 
+    ServletContext servletContext
     ApplicationService applicationService
     QuantityService quantityService
     SystemPropertyService systemPropertyService
@@ -44,21 +45,22 @@ class BootStrap {
     ShellService shellService
     TransitionService transitionService
 
-    def init = { ServletContext servletContext ->
+    def init = {
+
         applicationService.onUpdate('2021-10-03') { String tenantId ->
-            println "${tenantId}: UPDATE N.2"
+            println "${tenantId} Tenant: UPDATE N.2"
         }
 
         applicationService.onUpdate('2021-10-02') { String tenantId ->
-            println "${tenantId}: UPDATE N.1"
+            println "${tenantId} Tenant: UPDATE N.1"
         }
 
         applicationService.onUpdate('2021-10-05') { String tenantId ->
-            println "${tenantId}: UPDATE N.4"
+            println "${tenantId} Tenant: UPDATE N.4"
         }
 
         applicationService.onUpdate('2021-10-04') { String tenantId ->
-            println "${tenantId}: UPDATE N.3"
+            println "${tenantId} Tenant: UPDATE N.3"
         }
 
         applicationService.onSystemInstall {
@@ -82,7 +84,7 @@ class BootStrap {
                     failOnError: true,
                     connectionSource: [
                             driverClassName: 'com.mysql.cj.jdbc.Driver',
-                            url            :'jdbc:mysql://localhost:3306/dueuno_elements_test?useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC',
+                            url            : 'jdbc:mysql://localhost:3306/dueuno_elements_test?useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC',
                             username       : 'root',
                             password       : 'root',
                     ]
@@ -102,16 +104,19 @@ class BootStrap {
             )
 
             securityService.updateGroup(
+                    failOnError: true,
                     tenantId: tenantId,
                     name: 'USERS',
                     landingPage: 'table',
             )
             securityService.createGroup(
+                    failOnError: true,
                     tenantId: tenantId,
                     name: 'PROJECT MANAGER',
                     authorities: ['ROLE_PROJECT_MANAGER'],
             )
             securityService.createUser(
+                    failOnError: true,
                     tenantId: tenantId,
                     firstname: "Developer",
                     username: tenantId == tenantService.defaultTenantId ? 'dev' : "${tenantId}/dev",
@@ -119,10 +124,13 @@ class BootStrap {
                     groups: ['DEVELOPERS', 'PROJECT MANAGER'],
             )
 
-            FileUtils.createDir(tenantService.publicDir + 'upload')
+            FileUtils.createDirectory(tenantService.publicDir + 'upload')
 
             quantityService.enableUnitLength(['KM', 'M'])
 
+            // Creating a new tenant from the GUI gives an error here, to solve it you need to
+            // remove the 'spring-dev-tools' dependency in build.gradle
+            // See: https://github.com/spring-projects/spring-data-jpa/issues/2552
             TDemo demo = new TDemo(
                     textfield: 'Ventuno',
                     numberfield: 21,
@@ -181,7 +189,7 @@ class BootStrap {
         }
 
         applicationService.onDevInstall { String tenantId ->
-            println "${tenantId}: INSTALLING STUFF ONLY WHEN IN DEVELOPMENT ENVIRONMENT"
+            println "${tenantId} Tenant: INSTALLING STUFF ONLY WHEN IN DEVELOPMENT ENVIRONMENT"
 
             systemPropertyService.setBoolean('TEST_DENY_LOGIN', false)
 
@@ -228,6 +236,7 @@ class BootStrap {
                     email: 'user@company.it',
                     firstname: 'User',
                     lastname: 'ONE',
+                    externalId: tenantId == tenantService.defaultTenantId ? 'FB78E50B' : null,
             )
             securityService.createUser(
                     tenantId: tenantId,
@@ -262,14 +271,14 @@ class BootStrap {
         }
 
         securityService.afterLogin { GrailsHttpSession session ->
-            println "Benvenuto in ${shellService.shell.id} caro ${securityService.currentUser.username}"
-            if (systemPropertyService.getBoolean('TEST_DENY_LOGIN')) {
+            println "${tenantService.currentTenantId}: Benvenuto in ${shellService.shell.id} caro ${securityService.currentUsername}"
+            if (systemPropertyService.getBoolean('TEST_DENY_LOGIN', true)) {
                 securityService.denyLogin('Cannot execute login because of X reason')
             }
         }
 
         securityService.afterLogout {
-            println "Arrivederci ${securityService.currentUser?.username}!"
+            println "Arrivederci ${securityService.currentUsername}!"
         }
 
         applicationService.init {
@@ -371,6 +380,11 @@ class BootStrap {
                     parent: 'elements',
                     controller: 'tabs',
                     icon: 'fa-ellipsis-h',
+            )
+            applicationService.registerFeature(
+                    parent: 'elements',
+                    controller: 'timer',
+                    icon: 'fa-hourglass',
             )
             applicationService.registerFeature(
                     parent: 'elements',

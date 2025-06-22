@@ -6,7 +6,7 @@ class MonthField extends DateTimeField {
         let dateFormat = 'MM/yyyy';
         let startOfTheWeek = _21_.user.firstDaySunday ? 0 : 1;
 
-        let options = {
+        let initOptions = {
             allowInputToggle: false,
             display: {
                 theme: 'light',
@@ -23,7 +23,7 @@ class MonthField extends DateTimeField {
             restrictions: {},
         };
 
-        let td = new tempusDominus.TempusDominus($element.parent()[0], options);
+        let td = new tempusDominus.TempusDominus($element.parent()[0], initOptions);
         td.dates.parseInput = MonthField.parseInput;
         $element.data('td', td);
     }
@@ -49,7 +49,8 @@ class MonthField extends DateTimeField {
         }
 
         let dateTime = new tempusDominus.DateTime(year + '-' + month + '-01');
-        return dateTime;
+        let dateTimeUTC = DateTimeField.dateToUTC(dateTime);
+        return dateTimeUTC;
     }
 
     static setValue($element, valueMap, trigger = true) {
@@ -66,7 +67,7 @@ class MonthField extends DateTimeField {
         let dateTime = new tempusDominus.DateTime(
             value.year,
             value.month - 1,
-            value.day,
+            1,
             0, 0, 0
         );
 
@@ -84,17 +85,22 @@ class MonthField extends DateTimeField {
         let td = $element.data('td');
         let date = td.dates.parseInput(value);
 
-        if (date) return {
-            type: 'DATE',
+        if (!date) {
+            return null;
+        }
+
+        let result = {
+            type: Type.DATE,
             value: {
                 year: date.year,
                 month: date.month + 1,
-                day: date.date,
+                day: 1,
             }
         }
 
-        return null;
+        return result;
     }
+
 }
 
 Control.register(MonthField);

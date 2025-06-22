@@ -28,7 +28,7 @@ class EmailField extends TextField {
         super(args)
 
         viewTemplate = 'TextField'
-        keyboardType = args.keyboardType as TextFieldKeyboardType ?: TextFieldKeyboardType.EMAIL
+        inputMode = args.inputMode as TextFieldInputMode ?: TextFieldInputMode.EMAIL
         pattern = args.pattern ?: '^(?!.*@.*@)(?!.*(\\.)\\1).[A-Za-z0-9_\\-\\.@]*$'
         icon = 'fa-envelope'
     }

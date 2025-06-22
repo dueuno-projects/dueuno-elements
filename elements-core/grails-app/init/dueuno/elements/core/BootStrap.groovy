@@ -16,6 +16,7 @@ package dueuno.elements.core
 
 import dueuno.elements.components.ShellService
 import dueuno.elements.security.SecurityService
+import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.Types
@@ -25,17 +26,27 @@ import dueuno.elements.types.Types
  */
 class BootStrap {
 
+//    GroovyPagesTemplateEngine groovyPagesTemplateEngine
     ApplicationService applicationService
-    ShellService shellService
     SecurityService securityService
+    TenantPropertyService tenantPropertyService
+    PageService pageService
+    ShellService shellService
 
-    def init = { servletContext ->
+    def init = {
 
         applicationService.onPluginInstall { String tenantId ->
+            securityService.install()
+            tenantPropertyService.install()
+            pageService.install(tenantId)
             shellService.install(tenantId)
         }
 
         applicationService.beforeInit {
+            // It works only from the 'app-test' within this project
+            // not working as application dependency when compiled as plugin
+//            groovyPagesTemplateEngine.groovyPageSourceDecorators = [new PageWhitespacesStripper() as GroovyPageSourceDecorator]
+
             Types.register(Money)
             Types.register(Quantity)
             

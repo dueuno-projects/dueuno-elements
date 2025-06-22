@@ -1,0 +1,101 @@
+
+[#dueuno-elements-book]
+== The Dueuno Elements Book
+
+My name is Gianluca Sartori, I was born in Italy. I studied _Computer Science_ and started my career as a _Software Developer_, but quickly moved to _Project Management_.
+
+In the strangest twist of events of my life, I ended up leading a team of just two people working to deliver three separate web applications at the same time. I had to _get my hands dirty again_.
+
+After more than 15 years managing people, projects and clients, I was a developer. Again.
+
+=== The 90s
+
+I clearly remember what it meant developing _Desktop Applications_ with _Visual Basic_ or _Borland Delphi_. IDEs were _User Interface builders_, not only _code editors_. _SQL_ was the only way to interact with a databases. Most of the features were visually designed with _drag-and-drop_, in a kind of _WYSIWYG_ manner. It was somehting a single developer could have managed.
+
+But that was in the 90s. Fast forwarding to the present day, everybody is developing _Web Applications_. And with good reasons.
+
+Web applications are not installed, they are just accessed from your web browser. When you fix a bug or add a new feature to a web application, you don’t need to update all the installed applications. https://www.sap.com/[Ask SAP about this, window=_blank].
+
+But a web application is far more complex than a desktop one. To develop one, we need to know a couple of things:
+
+. Some protocols like _TCP/IP_, _HTTP_ and what a _Web Server_ is;
+
+. Be proficient with at least five languages: _HTML, CSS, JavaScript_, a _Backend_ language _(PHP, Java, C#, etc)_ to write your _Buiness Logic_ and _SQL_ to design and query databases;
+
+. We need to know the _Business Domain_, the _Business Processes_ and design the best _User Experience_ we can;
+
+. _Security_. The world has changed a lot from the 90s, our applications must be updated each time a breach is found on one of the software components we use. Let alone the security responsibilities we have in charge.
+
+. Applications today can be accessed from both a _Desktop PC_ and a _Mobile Phone_. We need to make sure they work on any screen resolution _(Responsive User Interface)_;
+
+. Applications today must speak to the users in different languages, at least your country’s language and English. So they must be translated and we have to take care of the _Internationalization (i18n)_;
+
+. Since we are providing the same application to potentially hundreds of thousands users, we need to know how to deploy it in a way it can serve all of them with decent performances. This opens up a _Pandora’s box_ I don’t even try talking about it here (google _On-Premises, SaaS, IaaS, PaaS, FaaS, Edge Computing_ and enjoy).
+
+I am happy though that we at least survived the _Browsers War_. Today we _virtually_ have one browser to develop applications for.
+
+=== Full-Stack Developers
+
+All of the above leads us to the _mythological figure_ of the _Full-Stack Developer_, a _super hero_ that can do all the stuff required to develop a web application.
+
+Yes, you can find a full-stack developer in the wild. It usually is the brightest one, the one that goes _Burnout_ sooner than the others. If you are a developer and you are still working helthy, you are not a full-stack developer.
+
+In history, waves of full-stack developers had quit their jobs, ending up in some remote exotic island doing manual work and investing in their _Surfing Skills_.
+
+=== The rest of us
+
+We normal people avoid developing web applications as much as we can. We love _Web Services_ though. _Same Shit, No User Interface_.
+
+Because the problem is with the UI. We keep reinventing the wheel each and every time. _“Hey, but each time gets better!”_ you would say. No. Each time gets worse.
+
+For back-office web applications most of the costs lies in the UI development. The _Front End_, code executed by the browser. Something invented to display text and links is nowadays used to render a GUI whose development requires us to draw lines and align pixels.
+
+We can’t just say _“Hey, browser, I need a modal dialog with a title and three buttons”_. We need to code an _HTML_ page to structure the content, tell the browser how to display it with _CSS_, write _JavaScript_ code so that the button _“click”_ event can send an _HTTP request_ to a server that executes a _Java_ function that returns a _JSON_ or _HTML_ we then use to update the page again with _JavaScript_ code.
+
+_This is hell_. For years big companies like Google or Facebook have been trying to make it less _hellish_ building frameworks to help us remain, if not healthy, at least safe.
+
+Add to this that — usually, people who have no clue about what they are talking about, are in charge of giving the UI requirements.
+
+Developers don’t hesitate adding buttons everywhere with no real logical connection. Developers don’t know what _Ergonomics_ means and those who know, they just don’t care: _“The client wants that button? Let’s give’em the fu***ng button”._
+
+Developers don’t like writing web applications.
+
+=== I don’t like writing web applications
+
+- I don’t like writing _HTML_.
+- I don’t like writing _CSS_.
+- I don’t like writing _JavaScript_.
+- I don’t like building User Interfaces.
+
+_But I had to._
+
+So I jumped into this adventure of creating something to hide away all the _low level programming_ and use just one single programming language: https://groovy-lang.org/[Apache Groovy, window=_blank].
+
+CAUTION: I want to code the _“what”_ and let the computer handle the _“how”_. Cause I am not one of those folks who just like doing stuff. _I want stuff to be done_.
+
+So, we had to build what is called a _Back-Office Application_. One of the most basic type of applications (I mean, it’s not a videogame, right?) We needed to develop the _usual suspects_, something the IT world have been doing for the last 50 years:
+
+- _Authenticate_ and _Authorise_ users
+- Show them a _Menu_ to access the main features
+- Implement _CRUD Views_
+- Implement _Dashboards_
+- Other more exotic stuff, let’s call it _Custom Views_
+- Translate the application to English, Italian, Polish and Chinese
+
+=== Dueuno Elements
+
+That’s the name of the technology we’ve created.
+
+We decided to go with Java because _Java is everywhere_. We have the most comprehensive set of libraries and frameworks, it is actively developed, mainteined and evolved, and many industries already adopted it.
+
+So, Dueuno Elements runs on the _JVM_. It builds on top of open source technologies like the https://grails.org/[Grails Framework (Spring), window=_blank], https://getbootstrap.com/[Bootstrap, window=_blank] and https://jquery.com/[jQuery, window=_blank] but lets you develop web applications with just one single programming language: the beautiful https://groovy-lang.org/[Apache Groovy, window=_blank].
+
+- No need to know HTML, CSS, JavaScript or any frotend framework;
+- No need to know the screen resolution of the device your app will be consumed;
+- No need to be a super hero (A.k.a. full-stack developer), you can just be a normal person.
+
+CAUTION: We took decisions, of course. We created our standard UI and UX. Is it perfect? No. Does it do the job. Yes. And we can only make it better from now on. At least we were able to develop our back office web applications that https://world.hey.com/dhh/the-one-person-framework-711e6318[One-Person, window=_blank] can handle.
+
+TIP: BEWARE: If you like doing things, Dueuno Elements is not for you. If you like things to be done, follow me down the rabbit hole, you may find something useful.
+
+In the next chapters we’ll be going through the _Quirks and Quarks_ of building back-office web applications with Dueuno Elements.

@@ -45,7 +45,7 @@ class WebsocketController implements ElementsController {
                     class: Select,
                     id: 'queue',
                     optionsFromList: ['channel', 'user'],
-                    renderMessagePrefix: false,
+                    renderTextPrefix: false,
             )
             addField(
                     class: TextField,
@@ -57,8 +57,8 @@ class WebsocketController implements ElementsController {
                     id: 'usr',
                     optionsFromRecordset: securityService.listAllUser(),
                     keys: ['username'],
-                    renderMessagePrefix: false,
-                    defaultValue: securityService.currentUser.username,
+                    renderTextPrefix: false,
+                    defaultValue: securityService.currentUsername,
             )
             addField(
                     class: TextField,

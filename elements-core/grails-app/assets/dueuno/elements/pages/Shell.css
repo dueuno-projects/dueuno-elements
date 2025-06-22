@@ -10,7 +10,7 @@ body {
 
 .offcanvas-backdrop.show {
     opacity: 1;
-    background-color: rgba(30,30,30,0.3);
+    background-color: rgba(30,30,30,.3);
     backdrop-filter: blur(21px) grayscale(100%);
     -webkit-backdrop-filter: blur(21px) grayscale(100%);
 }
@@ -21,7 +21,7 @@ body {
 
 .offcanvas-backdrop {
     opacity: 0;
-    background-color: rgba(30,30,30,0.3);
+    background-color: rgba(30,30,30,.3);
     backdrop-filter: blur(21px) grayscale(100%);
     -webkit-backdrop-filter: blur(21px) grayscale(100%);
 }
@@ -47,26 +47,11 @@ body {
     }
 }
 
-@media (min-width: 1399.98px) {
-    .component-sticky {
-        width: calc(100% - var(--elements-font-size) * 15) !important;
-    }
-}
-
 #shell-content {
-    margin-left: calc(var(--elements-font-size) * 15);
-    margin-top: calc(var(--elements-font-size) * 3.3);
-    padding-bottom: calc(var(--elements-font-size) * 2) !important;
-}
-
-.shell-content-card a,
-.shell-content-card a:hover {
-    text-decoration: none;
-}
-
-.shell-content-card i {
-    position: absolute;
-    font-size: 200px;
-    top: 10px;
-    right: -100px;
+    margin-left: 15rem;
+    margin-top: 3.3rem;
+    padding-top: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 2rem !important;
 }

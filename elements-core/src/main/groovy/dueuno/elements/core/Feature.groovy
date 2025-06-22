@@ -34,6 +34,7 @@ class Feature extends LinkDefinition {
     /** Text label & icon to display */
     String text
     String icon
+    String tooltip
     String image
 
     /** Logical order from the first (0) to the last (MAX_INT) */
@@ -65,7 +66,9 @@ class Feature extends LinkDefinition {
         id = generateId()
         text = args.text
         icon = args.icon
+        tooltip = args.tooltip
         image = args.image
+        loading = args.loading
 
         parent = args.parent as Feature
         if (parent) {

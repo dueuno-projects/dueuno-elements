@@ -14,13 +14,13 @@ class Grid extends Component {
     Integer xxl
 
     Integer spacing
-    Boolean border
+    Boolean tag
 
     Grid(Map args) {
         super(args)
 
-        spacing = args.spacing == null ? 2 : args.spacing as Integer
-        border = args.border == null ? false : args.border
+        spacing = args.spacing == null ? 1 : args.spacing as Integer
+        tag = args.tag == null ? false : args.tag
 
         // No default for breakpoints since it would require
         // to set all of them everytime
@@ -34,7 +34,7 @@ class Grid extends Component {
 
     GridColumn addColumn(Map args = [:]) {
         args['class'] = GridColumn
-        args['id'] = "${id}-${components.size()}"
+        if (!args['id']) args['id'] = "${id}-${components.size()}"
         args['grid'] = this
 
         GridColumn column = addComponent(args)

@@ -15,6 +15,7 @@
 package dueuno.commons.utils
 
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 
 import javax.imageio.ImageIO
 import java.awt.*
@@ -25,6 +26,7 @@ import java.awt.image.BufferedImage
  * @author Gianluca Sartori
  */
 
+@Slf4j
 @CompileStatic
 class ImageUtils {
 
@@ -43,13 +45,13 @@ class ImageUtils {
      *
      * @param image The image
      * @param pathname The pathname of the file to save
-     * @param formatName File format, it may be 'gif', 'png' or 'jpg'
+     * @param format File format, it may be 'gif', 'png' or 'jpg'
      */
-    static void save(BufferedImage image, String pathname, String formatName) {
+    static void save(BufferedImage image, String pathname, ImageUtilsFormat format) {
         File file = new File(pathname)
 
         try {
-            ImageIO.write(image, formatName, file)
+            ImageIO.write(image, format.extension, file)
 
         } catch (IOException e) {
             throw new Exception("Error writing file '${file}': ${e.message}")

@@ -1,6 +1,8 @@
 .btn i > img, li a i > img {
-    margin-top: calc(var(--elements-font-size) * -0.2);
-    height: var(--elements-font-size);
+    margin-top: -.2rem;
+    height: 1.3rem;
+    border: .15rem solid white;
+    border-radius: 100%;
 }
 
 .input-group:has(.component-link[readonly]) {
@@ -18,7 +20,7 @@
 .btn:focus-visible,
 button:focus-visible,
 .nav-link:focus-visible {
-    box-shadow: 0 0 0 0.25rem rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    box-shadow: 0 0 0 .25rem rgba(var(--elements-primary-bg-shaded));
 }
 
 .component-link:has([data-21-component]) {

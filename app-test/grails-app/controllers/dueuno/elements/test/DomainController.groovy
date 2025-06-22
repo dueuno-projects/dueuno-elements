@@ -14,22 +14,15 @@
  */
 package dueuno.elements.test
 
-
 import dueuno.elements.components.TableRow
-import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
-import dueuno.elements.controls.Checkbox
-import dueuno.elements.controls.TextField
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.core.ElementsController
-import org.grails.datastore.gorm.GormEntity
-
-import java.time.LocalDateTime
 
 class DomainController implements ElementsController {
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.header.removeNextButton()
 
         c.table.with {

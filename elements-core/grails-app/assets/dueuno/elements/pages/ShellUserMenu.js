@@ -2,7 +2,7 @@ class ShellUserMenu {
 
     static initialize($element, $root) {
         let $menu = $('#shell-user-menu-items');
-        new SimpleBar($menu[0]);
+        enableSimpleBar($menu[0]);
     }
 
     static finalize($element, $root) {
@@ -13,7 +13,7 @@ class ShellUserMenu {
 
     static onShown(event) {
         let $element = $(event.currentTarget);
-        let $offcanvas = $('body').find('.offcanvas-backdrop');
+        let $offcanvas = Page.$self.find('.offcanvas-backdrop');
         $offcanvas.removeClass('fade');
     }
 }

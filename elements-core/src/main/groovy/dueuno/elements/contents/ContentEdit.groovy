@@ -14,6 +14,7 @@
  */
 package dueuno.elements.contents
 
+import dueuno.elements.style.TextDefault
 import groovy.transform.CompileStatic
 
 /**
@@ -26,6 +27,7 @@ class ContentEdit extends ContentForm {
     ContentEdit(Map args) {
         super(args)
 
+        header.nextButton.text = TextDefault.SAVE
         header.nextButton.action = 'onEdit'
     }
 }

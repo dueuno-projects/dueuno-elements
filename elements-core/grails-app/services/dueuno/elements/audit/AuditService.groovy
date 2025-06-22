@@ -13,13 +13,16 @@
  * limitations under the License.
  */
 package dueuno.elements.audit
+
+import dueuno.elements.core.Elements
 import dueuno.elements.core.WebRequestAware
-import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.security.SecurityService
+import grails.artefact.DomainClass
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
+import groovy.json.JsonBuilder
+import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
-import org.springframework.beans.factory.annotation.Autowired
 
 import jakarta.servlet.http.HttpServletRequest
 import java.time.LocalDateTime
@@ -33,32 +36,49 @@ import java.time.LocalTime
 @CurrentTenant
 class AuditService implements WebRequestAware {
 
-    @Autowired
-    private SecurityService securityService
+    SecurityService securityService
 
-    void log(Map args) {
-        String action = ArgsException.requireArgument(args, 'action')
-        String message = args.message
-        String dataObject = args.dataObject
-        Map dataBefore = args.dataBefore
-        Map dataAfter = args.dataAfter
-
-        if (!dataObject && !dataBefore && !dataAfter) {
-            message = ArgsException.requireArgument(args, 'message')
-        }
-
+    void log(AuditOperation operation, String message) {
         String userAgent = request.getHeader("User-Agent")
         String ipAddress = getClientIpAddress(request).toMapString()
 
         def auditLog = new TAuditLog(
                 ip: ipAddress,
                 userAgent: userAgent,
-                operation: action,
-                message: message,
-                dataObject: dataObject,
-                dataBefore: dataBefore,
-                dataAfter: dataAfter,
-                username: securityService.currentUser?.username ?: 'super',
+                operation: operation,
+                message: message?.take(2000), // Keep in sync with TAuditLog domain class constraints
+                username: securityService.currentUsername ?: 'super',
+        )
+        auditLog.save(flush: true, failOnError: true)
+    }
+
+    void log(AuditOperation operation, DomainClass domainObject) {
+        Map properties = Elements.toMap(domainObject)
+        log(operation, domainObject.toString(), prettyProperties(properties))
+    }
+
+    void log(AuditOperation operation, Class domainObject, Map stateBefore, Map stateAfter = null) {
+        String prettyStateBefore = prettyProperties(stateBefore)
+        String prettyStateAfter = prettyProperties(stateAfter)
+        log(operation, domainObject.toString(), prettyStateBefore, prettyStateAfter)
+    }
+
+    void log(AuditOperation operation, Class domainObject, String stateBefore, String stateAfter = null) {
+        log(operation, domainObject.toString(), stateBefore, stateAfter)
+    }
+
+    void log(AuditOperation operation, String objectName, String stateBefore, String stateAfter = null) {
+        String userAgent = request.getHeader("User-Agent")
+        String ipAddress = getClientIpAddress(request).toMapString()
+
+        def auditLog = new TAuditLog(
+                ip: ipAddress,
+                userAgent: userAgent,
+                operation: operation,
+                objectName: objectName,
+                stateBefore: stateBefore?.take(4000), // Keep in sync with TAuditLog domain class constraints
+                stateAfter: stateAfter?.take(4000), // Keep in sync with TAuditLog domain class constraints
+                username: securityService.currentUsername ?: 'super',
         )
         auditLog.save(flush: true, failOnError: true)
     }
@@ -90,6 +110,12 @@ class AuditService implements WebRequestAware {
         return results
     }
 
+    private String prettyProperties(Map properties) {
+        Map<String, String> stringifiedProperties = properties.collectEntries { [(it.key): it.value.toString()] }
+        String json = new JsonBuilder(stringifiedProperties).toPrettyString()
+        return json
+    }
+
     private DetachedCriteria<TAuditLog> buildQuery(Map filters) {
         def query = TAuditLog.where {
         }
@@ -102,13 +128,14 @@ class AuditService implements WebRequestAware {
             if (filters.find) {
                 String search = filters.find.replaceAll('\\*', '%')
                 query = query.where {
-                    ip =~ "%${search}%" ||
-                            userAgent =~ "%${search}%" ||
-                            username =~ "%${search}%" ||
-                            message =~ "%${search}%" ||
-                            dataObject =~ "%${search}%" ||
-                            dataBefore =~ "%${search}%" ||
-                            dataAfter =~ "%${search}%"
+                    true
+                            || ip =~ "%${search}%"
+                            || userAgent =~ "%${search}%"
+                            || username =~ "%${search}%"
+                            || message =~ "%${search}%"
+                            || objectName =~ "%${search}%"
+                            || stateBefore =~ "%${search}%"
+                            || stateAfter =~ "%${search}%"
                 }
             }
 //            if (filters.organizationalUnit) query = query.where { organizationalUnit.id == filters.organizationalUnit }
@@ -123,7 +150,7 @@ class AuditService implements WebRequestAware {
     }
 
     List<TAuditLog> list(Map filterParams = [:], Map fetchParams = [:]) {
-        if (!fetchParams.sort) fetchParams.sort = [dateCreated: 'asc']
+        if (!fetchParams.sort) fetchParams.sort = [dateCreated: 'desc']
         def query = buildQuery(filterParams)
         return query.list(fetchParams)
     }

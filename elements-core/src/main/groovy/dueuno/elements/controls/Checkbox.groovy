@@ -16,6 +16,7 @@ package dueuno.elements.controls
 
 import dueuno.elements.core.Component
 import dueuno.elements.core.Control
+import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
 
 /**
@@ -34,7 +35,7 @@ class Checkbox extends Control {
     Checkbox(Map args) {
         super(args)
 
-        valueType = 'BOOLEAN'
+        valueType = Type.BOOL
 
         text = args.text == null ? buildLabel(id + ".text") : args.text
         simple = (args.simple == null) ? false : args.simple

@@ -32,16 +32,16 @@ class TAuditLog implements GormEntity, MultiTenant<TAuditLog> {
     AuditOperation operation
     String message
 
-    String dataObject
-    String dataBefore
-    String dataAfter
+    String objectName
+    String stateBefore
+    String stateAfter
 
     static constraints = {
         ip nullable: true
         userAgent nullable: true
-        message nullable: true
-        dataObject nullable: true
-        dataBefore nullable: true
-        dataAfter nullable: true
+        message nullable: true, maxSize: 4000
+        objectName nullable: true
+        stateBefore nullable: true, maxSize: 4000
+        stateAfter nullable: true, maxSize: 4000
     }
 }

@@ -10,7 +10,6 @@
 
     <div class="offcanvas-header">
         <p class="offcanvas-title no-wrap fw-bold">
-            <i><asset:image src="libs/flags/${shell.displayFlagCode()}.svg" class="nav-flag me-1" /></i>
             <span>${c.title}</span>
         </p>
         <button type="button" class="btn btn-secondary"
@@ -34,7 +33,7 @@
                         </g:if>
                         <g:else>
                             <li class="nav-item">
-                                <render:component instance="${item.link}" properties="[cssClass: 'nav-link p-0 pb-1', iconClass: 'fa-fw']" />
+                                <render:component instance="${item.link}" properties="[cssClass: 'nav-link']" />
                                 <%--dev:ifDisplayHints><span class="badge rounded-pill text-secondary bg-light">${item.order}</span></dev:ifDisplayHints>--%>
                             </li>
                         </g:else>

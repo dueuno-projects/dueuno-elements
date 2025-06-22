@@ -14,7 +14,8 @@
  */
 package dueuno.elements.test
 
-
+import dueuno.elements.components.Form
+import dueuno.elements.components.Header
 import dueuno.elements.components.Table
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
@@ -37,15 +38,58 @@ class CrudCustomController implements ElementsController {
                 icon: 'fa-plus',
         )
 
+        def form1 = c.addComponent(Form, 'form1')
+        form1.with {
+            sticky = true
+            addField(
+                    class: TextField,
+                    id: 'test1',
+                    cols: 6,
+            )
+            addField(
+                    class: Select,
+                    id: 'test2',
+                    optionsFromList: ['PIPPO', 'PLUTO', 'PAPERINO'],
+                    cols: 6,
+            )
+        }
+
+//        def form2 = c.addComponent(Form, 'form2')
+//        form2.with {
+//            sticky = true
+//            addField(
+//                    class: TextField,
+//                    id: 'test1',
+//                    cols: 6,
+//            )
+//            addField(
+//                    class: Select,
+//                    id: 'test2',
+//                    optionsFromList: ['PIPPO', 'PLUTO', 'PAPERINO'],
+//                    cols: 6,
+//            )
+//        }
+//
+//        def form3 = c.addComponent(Form, 'form3')
+//        form3.with {
+//            sticky = true
+//            addField(
+//                    class: TextField,
+//                    id: 'test1',
+//                    cols: 6,
+//            )
+//            addField(
+//                    class: Select,
+//                    id: 'test2',
+//                    optionsFromList: ['PIPPO', 'PLUTO', 'PAPERINO'],
+//                    cols: 6,
+//            )
+//        }
+//
         def table = c.addComponent(Table)
         table.with {
+            sticky = true
             filters.with {
-                /*addField(
-                        class: Select,
-                        id: 'user1',
-                        optionsFromRecordset: TPerson.list(),
-                        keys: ['username'],
-                )*/
                 addField(
                         class: DateField,
                         id: 'dateFrom',
@@ -92,6 +136,9 @@ class CrudCustomController implements ElementsController {
             }
         }
 
+        c.addComponent(Header, 'h2')
+        c.addComponent(Header, 'h3')
+        c.addComponent(Header, 'h4')
         def table2 = c.addComponent(Table, 'table2')
         table2.with {
             rowStriped = true
@@ -148,6 +195,7 @@ class CrudCustomController implements ElementsController {
             }
         }
 
+        c.addComponent(Header, 'h5')
         def table3 = c.addComponent(Table, 'table3')
         table3.with {
             filters.with {
@@ -251,7 +299,7 @@ class CrudCustomController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'address',
-                    helpMessage: 'Runtime help message',
+                    help: 'Runtime help message',
                     label: 'Indirizzo (runtime label)',
             )
             addField(

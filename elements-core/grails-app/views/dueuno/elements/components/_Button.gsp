@@ -1,9 +1,9 @@
 <div class="component-button btn-group ${c.stretch ? 'flex-fill' : ''} ${c.cssClass}"
-     style="${c.maxWidth > 0 ? 'max-width: ' + c.maxWidth + 'px;' : ''} ${c.cssStyle}"
      data-21-component="${c.className}"
      data-21-id="${c.id}"
      data-21-properties="${c.propertiesAsJSON}"
      data-21-events="${c.eventsAsJSON}"
+     ${c.maxWidth > 0 ? raw('style="max-width: ' + c.maxWidth + 'px"') : ''}
      ${c.primary ? 'primary' : ''}
 >
     <g:if test="${c.defaultAction}">
@@ -15,10 +15,11 @@
     </g:if>
 
     <g:if test="${!c.group && c.getMenuActions()}">
-        <button type="button" ${c.readonly ? 'disabled tabindex="-1"' : ''}
+        <button type="button"
             class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-            style="color: ${c.textColor}; background-color: ${c.backgroundColor};"
-            data-bs-toggle="dropdown" data-bs-reference="parent" aria-expanded="false">
+            data-bs-toggle="dropdown" data-bs-reference="parent" aria-expanded="false"
+            ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}
+            ${c.readonly ? 'disabled tabindex="-1"' : ''}>
         </button>
 
         <ul class="dropdown-menu" role="menu">

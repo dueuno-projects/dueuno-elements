@@ -11,9 +11,9 @@
 </g:if><g:else>
     <span class="control-quantity-field-unit input-group-text" data-21-unit="${c.defaultUnit}">${c.prettyDefaultUnit}</span>
 </g:else>
-<input type="${c.keyboardType}"
-       class="control-quantity-field form-control ${c.cssClass}"
-       style="${c.cssStyleColors}${c.cssStyle}"
+<input type="text"
+       class="control-quantity-field form-control ${c.textStyle} ${c.cssClass}"
+       inputmode="${c.inputMode}"
        maxlength="${(c.maxSize > 0) ? c.maxSize: ''}"
        step="any"
        data-21-control="${c.className}"
@@ -21,5 +21,6 @@
        data-21-properties="${c.propertiesAsJSON}"
        data-21-events="${c.eventsAsJSON}"
        data-21-value="${c.valueAsJSON}"
+       ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}
        ${raw(attributes)}
 />

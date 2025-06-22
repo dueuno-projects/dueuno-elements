@@ -31,16 +31,18 @@ class MoneyField extends NumberField {
         super(args)
 
         viewTemplate = 'MoneyField'
-        valueType = 'MONEY'
+        valueType = Money.TYPE_NAME
 
         decimals = args.decimals == null ? 2 : args.decimals as Integer
         negative = (args.negative == null) ? false : args.negative
         prefix = args.currency as String ?: 'EUR'
+
+        inputMode = decimals ? TextFieldInputMode.DECIMAL : TextFieldInputMode.NUMERIC
     }
 
     @Override
-    void setValue(Object value, Boolean transform = true) {
-        super.setValue(value, transform)
+    void setValue(Object value) {
+        super.setValue(value)
 
         if (this.value && (this.value !instanceof Money)) {
             throw new ElementsException("${this.getClass().simpleName} can only accept values of type '${Money.name}'")

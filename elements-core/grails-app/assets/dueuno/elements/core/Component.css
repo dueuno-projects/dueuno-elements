@@ -1,6 +1,11 @@
 .component-sticky {
     position: fixed;
     z-index: 1000;
-    padding-right: 2em;
     width: 100% !important;
+}
+
+@media (min-width: 1399.98px) {
+    .component-sticky {
+        width: calc(100% - 15rem) !important;
+    }
 }

@@ -1,38 +1,38 @@
-#shell-content-home i.icon-back {
+.shell-content-card .card > i.icon-back {
     position: absolute;
-    font-size: calc(var(--elements-font-size) * 9);
-    top: var(--elements-font-size);
-    right: var(--elements-font-size);
-    opacity: 0.1;
+    font-size: 9rem;
+    top: 1rem;
+    right: 1rem;
+    opacity: .1;
     filter: blur(14px);
 }
 
-#shell-content-home i {
+.shell-content-card .card > i {
     position: absolute;
-    font-size: calc(var(--elements-font-size) * 9);
-    top: var(--elements-font-size);
-    right: var(--elements-font-size);
-    opacity: 0.07;
+    font-size: 9rem;
+    top: 1rem;
+    right: 1rem;
+    opacity: .07;
     /*filter: blur(3px);*/
 }
 
 .shell-content-card .card {
     border-radius: calc(var(--bs-border-radius) * 4);
     border: none;
-    height: calc(var(--elements-font-size) * 11);
+    height: 11rem;
 }
 
 #shell-content-home h2 {
-    margin-top: calc(var(--elements-font-size) * 1.6);
+    margin-top: 1.6rem;
 }
 
 #shell-content-home p {
-    font-size: calc(var(--elements-font-size) * 1.2);
+    font-size: 1.2rem;
     opacity: .95;
 }
 
 .shell-content-card a:focus-visible {
-    box-shadow: 0 0 0 0.35rem rgba(var(--elements-primary-bg), var(--elements-primary-bg-alpha));
+    box-shadow: 0 0 0 .35rem rgba(var(--elements-primary-bg-shaded));
     border-radius: calc(var(--bs-border-radius) * 4);
     display: block;
 }

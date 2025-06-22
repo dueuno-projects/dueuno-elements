@@ -1,6 +1,5 @@
 <div id="page-messagebox"
      class="page-messagebox modal ${c.animations ? 'fade' : ''} ${c.cssClass}"
-     aria-hidden="true"
      tabindex="-1"
      role="dialog"
      data-21-component="${c.className}"

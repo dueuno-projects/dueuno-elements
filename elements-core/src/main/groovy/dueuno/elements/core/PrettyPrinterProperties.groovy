@@ -26,9 +26,9 @@ class PrettyPrinterProperties implements Serializable {
     String transformer
 
     Locale locale
-    Boolean renderMessagePrefix
-    String messagePrefix
-    List messageArgs
+    Boolean renderTextPrefix
+    String textPrefix
+    List textArgs
 
     Boolean renderBoolean       // Implemented in Label
     Boolean highlightNegative   // Implemented in Label
@@ -52,9 +52,9 @@ class PrettyPrinterProperties implements Serializable {
         prettyPrinter = args.prettyPrinter
         transformer = args.transformer
         locale = args.locale as Locale
-        renderMessagePrefix = args.renderMessagePrefix
-        messagePrefix = args.messagePrefix
-        messageArgs = args.messageArgs as List
+        renderTextPrefix = args.renderTextPrefix
+        textPrefix = args.textPrefix
+        textArgs = args.textArgs as List
         renderBoolean = args.renderBoolean
         highlightNegative = args.highlightNegative
         renderZero = args.renderZero
@@ -79,8 +79,8 @@ class PrettyPrinterProperties implements Serializable {
         }
     }
 
-    void setMessagePrefix(String value) {
-        messagePrefix = value
-        renderMessagePrefix = true
+    void setTextPrefix(String value) {
+        textPrefix = value
+        renderTextPrefix = true
     }
 }

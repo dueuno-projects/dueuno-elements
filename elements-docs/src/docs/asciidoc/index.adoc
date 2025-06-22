@@ -1,5 +1,5 @@
 = Dueuno Elements
-:source-highlighter: rouge
+:source-highlighter: highlight.js
 :compat-mode!:
 :icons: font
 :toc: left
@@ -9,9 +9,22 @@
 // IT - http://ramses.altervista.org/AppuntiAsciidoc.html
 // EN - https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/
 
-include::user-guide/1-introduction.adoc[]
-include::user-guide/2-quick-start.adoc[]
-include::user-guide/3-basics.adoc[]
-include::user-guide/4-building-applications.adoc[]
-include::user-guide/5-building-components.adoc[]
-include::user-guide/6-api-reference.adoc[]
+include::chapters/a.quick-start.adoc[]
+
+== ---
+
+include::chapters/chapter-1.adoc[]
+include::chapters/chapter-2.adoc[]
+include::chapters/chapter-3.adoc[]
+include::chapters/chapter-4.adoc[]
+include::chapters/chapter-5.adoc[]
+include::chapters/chapter-6.adoc[]
+include::chapters/chapter-7.adoc[]
+include::chapters/chapter-8.adoc[]
+include::chapters/chapter-9.adoc[]
+include::chapters/chapter-10.adoc[]
+
+== ---
+
+include::chapters/z.api-reference.adoc[]
+

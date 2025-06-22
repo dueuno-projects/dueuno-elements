@@ -1,5 +1,5 @@
 <tr class="component-table-row ${c.textStyle} ${c.cssClass}"
-    style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}${c.cssStyle}"
+    style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}"
     data-21-component="${c.className}"
     data-21-id="${c.id}"
     data-21-properties="${c.propertiesAsJSON}"
@@ -45,7 +45,6 @@
         <g:else>
             <td class="component-table-actions ${c.verticalAlign}">
                 <render:component instance="${c.actions}" />
-                <a id="${c.hash}"></a>
             </td>
         </g:else>
     </g:if>
@@ -58,38 +57,54 @@
             <g:if test="${cell.row.isHeader}">
                 <th colspan="${cell.colspan}"
                     class="component-table-header ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign}"
-                >
+                    data-21-component="${cell.getClassName()}"
+                    data-21-id="${cell.getId()}"
+                    data-21-properties="${cell.propertiesAsJSON}"
+                    data-21-events="${cell.eventsAsJSON}"
+                    ${cell.cssStyleColors ? raw('style="' + cell.cssStyleColors + '"') : ''}
+                >${c.table.widths[column] ? raw('<div style="width: ' + c.table.widths[column] + 'px">') : ''}
                     <g:if test="${cell.component.class in dueuno.elements.components.Link}">
                         <render:component instance="${cell.component}" />
                     </g:if>
                     <g:else>
                         <g:set var="label" value="${cell.component}" />
-                        <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.cssClass}"
-                              style="color: ${label.textColor}; background-color: ${label.backgroundColor}; ${label.cssStyle}">
+                        <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.tag ? 'tag' : ''} ${label.cssClass}"
+                              ${label.cssStyleColors ? raw('style="' + label.cssStyleColors + '"') : ''}
+                        >
                             <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
                             <g:else>
-                                <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon ? 'me-2' : ''}"/></g:if>
-                                <g:if test="${label.url}"><a href="${label.url}"></g:if><span>${label.text}${label.border && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
+                                <g:if test="${label.tooltip}"><span ${raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"')}></g:if>
+                                <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon && label.text ? 'me-1' : ''} ${label.iconFixedWidth ? 'fa-fw' : ''}"/></g:if>
+                                <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${label.text}${label.tag && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
+                                <g:if test="${label.tooltip}"></span></g:if>
                             </g:else>
                         </span>
                     </g:else>
+                ${c.table.widths[column] ? raw('</div>') : ''}
                 </th>
             </g:if>
             <g:else>
-                <td class="component-table-cell ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign}"
-                    style="background-color: ${cell.backgroundColor}; color: ${cell.textColor}; ${cell.cssStyle}"
+                <td class="component-table-cell ${cell.column} ${cell.id} ${cell.textAlign} ${cell.verticalAlign} ${cell.cssClass}"
                     colspan="${cell.colspan}"
-                ><div class="input-group" style="${c.table.widths[column] ? 'width: ' + c.table.widths[column] + 'px;' : ''}">
+                    data-21-component="${cell.getClassName()}"
+                    data-21-id="${cell.getId()}"
+                    data-21-properties="${cell.propertiesAsJSON}"
+                    data-21-events="${cell.eventsAsJSON}"
+                    ${cell.cssStyleColors ? raw('style="' + cell.cssStyleColors + '"') : ''}
+                >${c.table.widths[column] ? raw('<div style="width: ' + c.table.widths[column] + 'px">') : ''}
                     <g:set var="label" value="${cell.component}" />
-                    <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.border ? 'border' : ''} ${label.cssClass}"
-                          style="color: ${label.textColor}; background-color: ${label.backgroundColor}; ${label.cssStyle}">
+                    <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.tag ? 'tag' : ''} ${label.userSelect ? 'user-select-text' : ''} ${label.html ? 'html' : ''} ${label.cssClass}"
+                          ${label.cssStyleColors ? raw('style="' + label.cssStyleColors + '"') : ''}
+                    >
                         <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
                         <g:else>
-                            <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon ? 'me-2' : ''}"/></g:if>
-                            <g:if test="${label.url}"><a href="${label.url}"></g:if><span>${label.text}${label.border && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
+                            <g:if test="${label.tooltip}"><span ${raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"')}></g:if>
+                            <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon && label.text ? 'me-1' : ''} ${label.iconFixedWidth ? 'fa-fw' : ''}"/></g:if>
+                            <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${label.text}${label.tag && !label.text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
+                            <g:if test="${label.tooltip}"></span></g:if>
                         </g:else>
                     </span>
-                </div>
+                ${c.table.widths[column] ? raw('</div>') : ''}
                 </td>
             </g:else>
 
@@ -106,7 +121,13 @@
     <g:else>
         <td class="component-table-values d-none">
             <g:each var="field" in="${c.submit}">
-                <render:component instance="${field.value}" />
+                <input type="hidden"
+                       data-21-control="${field.value.className}"
+                       data-21-id="${field.value.id}"
+                       data-21-properties="${field.value.propertiesAsJSON}"
+                       data-21-events="${field.value.eventsAsJSON}"
+                       data-21-value="${field.value.valueAsJSON}"
+                />
             </g:each>
         </td>
     </g:else>

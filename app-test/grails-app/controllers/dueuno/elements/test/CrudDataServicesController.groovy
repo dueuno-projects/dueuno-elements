@@ -17,9 +17,10 @@ package dueuno.elements.test
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.*
 import dueuno.elements.core.ElementsController
+import dueuno.elements.types.Type
 
 import java.time.LocalDate
 
@@ -28,7 +29,7 @@ class CrudDataServicesController implements ElementsController {
     PersonService personService
 
     def index() {
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.with {
             table.with {
                 filters.with {
@@ -62,7 +63,7 @@ class CrudDataServicesController implements ElementsController {
                 ]
                 prettyPrinterProperties = [
                         salary: [highlightNegative: false, renderZero: '-'],
-                        name: [renderMessagePrefix: true],
+                        name: [renderTextPrefix: true],
                 ]
 
                 body.eachRow { TableRow row, Map values ->
@@ -99,10 +100,10 @@ class CrudDataServicesController implements ElementsController {
 
         c.form.with {
             validate = TPerson
-            addKeyField('embedded', 'BOOLEAN')
+            addKeyField('embedded', Type.BOOL)
 
             //TODO: Fare in modo che l'azione riceva i dati convertiti in base al loro tipo
-            addKeyField('selection', 'LIST', [[id: 1]])
+            addKeyField('selection', Type.LIST, [[id: 1]])
 
             addField(
                     class: Select,

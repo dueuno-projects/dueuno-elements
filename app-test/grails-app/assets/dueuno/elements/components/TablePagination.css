@@ -20,10 +20,10 @@
     position: relative;
     float: left;
     padding: 6px 12px;
-    margin-left: -1px;
+    margin-left: calc(var(--bs-border-width) * -1);
     line-height: 1.42857143;
     text-decoration: none;
-    border-width: 1px;
+    border-width: var(--bs-border-width);
     border-style: solid;
 }
 

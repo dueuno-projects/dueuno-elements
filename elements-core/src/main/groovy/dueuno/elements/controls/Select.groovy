@@ -15,13 +15,9 @@
 package dueuno.elements.controls
 
 import dueuno.elements.components.Button
-import dueuno.elements.core.Component
-import dueuno.elements.core.Control
-import dueuno.elements.core.Elements
-import dueuno.elements.core.PrettyPrinter
-import dueuno.elements.core.PrettyPrinterProperties
+import dueuno.elements.core.*
 import dueuno.elements.exceptions.ArgsException
-import dueuno.elements.style.TextStyle
+import dueuno.elements.types.Type
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import org.grails.orm.hibernate.cfg.GrailsHibernateUtil
@@ -34,7 +30,7 @@ import org.grails.orm.hibernate.cfg.GrailsHibernateUtil
 @CompileStatic
 class Select extends Control {
 
-    Map options
+    List<Map<String, String>> options
     Closure forEachOption
 
     Button actions
@@ -44,7 +40,6 @@ class Select extends Control {
     Boolean autoSelect // Auto selects if not nullable and the control has only one option
     Boolean multiple
     Boolean search
-    List<TextStyle> textStyle
 
     Integer searchMinInputLength
 
@@ -70,8 +65,8 @@ class Select extends Control {
                     prettyPrinter: prettyPrinter,
                     transformer: args.transformer,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
-                    renderMessagePrefix: args.renderMessagePrefix == null ? false : args.renderMessagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
+                    renderTextPrefix: args.renderTextPrefix == null ? false : args.renderTextPrefix,
                     locale: locale,
             )
 
@@ -83,8 +78,8 @@ class Select extends Control {
                     prettyPrinter: prettyPrinter,
                     transformer: args.transformer,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
-                    renderMessagePrefix: args.renderMessagePrefix == null ? true : args.renderMessagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
+                    renderTextPrefix: args.renderTextPrefix == null ? true : args.renderTextPrefix,
                     locale: locale,
             )
 
@@ -96,8 +91,8 @@ class Select extends Control {
                     prettyPrinter: prettyPrinter,
                     transformer: args.transformer,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
-                    renderMessagePrefix: args.renderMessagePrefix == null ? true : args.renderMessagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
+                    renderTextPrefix: args.renderTextPrefix == null ? true : args.renderTextPrefix,
                     locale: locale,
             )
 
@@ -109,15 +104,15 @@ class Select extends Control {
                     prettyPrinter: prettyPrinter,
                     transformer: args.transformer,
                     forEachOption: args.forEachOption,
-                    messagePrefix: prettyPrinterProperties.messagePrefix,
-                    renderMessagePrefix: args.renderMessagePrefix == null ? true : args.renderMessagePrefix,
+                    textPrefix: prettyPrinterProperties.textPrefix,
+                    renderTextPrefix: args.renderTextPrefix == null ? true : args.renderTextPrefix,
                     locale: locale,
             )
         }
 
         // Automatically selects the first element if it's the only choice
         if (autoSelect && !nullable && options.size() == 1) {
-            defaultValue = options.keySet()[0]
+            defaultValue = options[0]
         }
 
         setMultiple(args.multiple as Boolean)
@@ -140,6 +135,10 @@ class Select extends Control {
         if (multiple) allowClear = false
     }
 
+    Map getOptions() {
+        return options.collectEntries { [(it.id): it.text]}
+    }
+
     @Override
     Component onSubmit(Map args) {
         args.event = 'change'
@@ -149,13 +148,14 @@ class Select extends Control {
     @Override
     void setValue(Object value) {
         if (Elements.hasId(value)) {
-            super.setValue(value['id'], false)
+            super.setValue(value['id'])
         } else {
-            super.setValue(value, false)
+            super.setValue(value)
         }
     }
 
     Control addAction(Map args) {
+        args.loading = args.loading != null ? args.loading : false
         actions.addAction(args)
         return this
     }
@@ -164,29 +164,10 @@ class Select extends Control {
         actions.removeAction(args)
     }
 
-    void setTextStyle(Object value) {
-        switch (value) {
-            case TextStyle:
-                textStyle = [value as TextStyle]
-                break
-
-            case List<TextStyle>:
-                textStyle = value as List<TextStyle>
-                break
-
-            default:
-                textStyle = [TextStyle.NORMAL]
-        }
-    }
-
-    String getTextStyle() {
-        return textStyle.join(' ')
-    }
-
     //
     // Utils
     //
-    static Map optionsFromRecordset(Map args) {
+    static List<Map<String, String>> optionsFromRecordset(Map args) {
         Collection recordset = args.recordset as Collection ?: []
         List<String> keys = args.keys as List<String>
         String keysSeparator = args.keysSeparator ?: ','
@@ -194,7 +175,7 @@ class Select extends Control {
 
         PrettyPrinterProperties prettyPrinterProperties = createItemPrettyPrinterProperties(args, recordset.getAt(0))
 
-        Map results = [:]
+        List<Map<String, String>> results = []
 
         // If the first record is a domain class we auto-setup 'id' as key
         Object firstRecord = recordset ? recordset.getAt(0) : null
@@ -217,48 +198,48 @@ class Select extends Control {
             if (forEachOption)
                 forEachOption.call(row)
 
-            String description = PrettyPrinter.prettyPrint(row, prettyPrinterProperties)
+            String text = PrettyPrinter.print(row, prettyPrinterProperties)
 
-            results[buildKey(row, keys, keysSeparator)] = description
+            results.add([id: buildKey(row, keys, keysSeparator), text: text])
         }
         return results
     }
 
-    static Map optionsFromList(Map args) {
+    static List<Map<String, String>> optionsFromList(Map args) {
         List list = args.list as List ?: []
         Closure forEachOption = args.forEachOption as Closure ?: null
         PrettyPrinterProperties prettyPrinterProperties = createItemPrettyPrinterProperties(args, list.getAt(0))
 
-        Map results = [:]
+        List<Map<String, String>> results = []
         for (value in list) {
             if (forEachOption)
                 forEachOption.call(value)
 
-            String description = PrettyPrinter.prettyPrint(value, prettyPrinterProperties)
-            results[(value as String)] = description
+            String text = PrettyPrinter.print(value, prettyPrinterProperties)
+            results.add([id: value as String, text: text])
         }
 
         return results
     }
 
     @CompileDynamic
-    static Map optionsFromEnum(Map args) {
+    static List<Map<String, String>> optionsFromEnum(Map args) {
         args.list = args.enum?.values()*.name()
         return optionsFromList(args)
     }
 
-    static Map options(Map args) {
+    static List<Map<String, String>> options(Map args) {
         Map options = args.options as Map ?: [:]
         Closure forEachOption = args.forEachOption as Closure ?: null
         PrettyPrinterProperties prettyPrinterProperties = createItemPrettyPrinterProperties(args, options.keySet().getAt(0))
 
-        Map results = [:]
+        List<Map<String, String>> results = []
         for (entry in options) {
             if (forEachOption)
                 forEachOption.call(entry)
 
-            String description = PrettyPrinter.prettyPrint(entry, prettyPrinterProperties)
-            results[(entry.key as String)] = description
+            String text = PrettyPrinter.print(entry, prettyPrinterProperties)
+            results.add([id: entry.key as String, text: text])
         }
 
         return results
@@ -266,8 +247,8 @@ class Select extends Control {
 
     private static PrettyPrinterProperties createItemPrettyPrinterProperties(Map args, Object firstItem) {
         PrettyPrinterProperties result = new PrettyPrinterProperties()
-        result.messagePrefix = args.messagePrefix
-        result.renderMessagePrefix = args.renderMessagePrefix
+        result.textPrefix = args.textPrefix
+        result.renderTextPrefix = args.renderTextPrefix
         result.locale = args.locale as Locale
 
         // We set the 'transformer' property to PrettyPrint the options
@@ -301,12 +282,12 @@ class Select extends Control {
 
         if (value in List) {
             valueMap = [
-                    type : 'LIST',
+                    type : Type.LIST.toString(),
                     value: value.collect { it != null ? it as String : null },
             ]
         } else {
             valueMap = [
-                    type : 'TEXT',
+                    type : Type.TEXT.toString(),
                     value: value != null ? value as String : null,
             ]
         }

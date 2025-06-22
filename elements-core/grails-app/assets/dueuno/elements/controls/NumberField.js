@@ -5,31 +5,53 @@ class NumberField extends TextField {
     static finalize($element, $root) {
         TextField.finalize($element, $root);
 
-        $element.off('keypress').on('keypress', NumberField.onKeyPress);
+        $element.off('input').on('input', NumberField.onChange);
     }
 
-    static onKeyPress(event) {
-        TextField.onKeyPress(event);
-
+    static onChange(event) {
         let $element = $(event.currentTarget);
         let properties = Component.getProperties($element);
-        let value = Control.getEventValue($element, event);
+        let value = $element.val();
+        let selStart = event.target.selectionStart;
+        let transformedValue = value;
+        let decimalSeparator;
+        let decimalPattern;
 
-        let pattern = new RegExp(properties.pattern);
-        let isValidValue = value.match(pattern);
-        let separator = value.slice(-1);
-        if (isValidValue && _21_.user.decimalFormat == "ISO_COM" && separator == '.') {
-            $element.val(value.slice(0, -1) + ',');
-            event.preventDefault();
+        //TODO min/max value
+        //let numberValue = parseFloat(value == '-' ? '-0' : value);
+        //if (properties.min && numberValue < properties.min) {
+        //    transformedValue = (properties.min).toString();
+        //}
+        //if (properties.max && numberValue > properties.max) {
+        //    transformedValue = (properties.max).toString();
+        //}
+
+        if (_21_.user.decimalFormat == "ISO_COM") {
+            transformedValue = transformedValue.replace(".", ",");
+            decimalSeparator = ",";
+            decimalPattern = /,/g;
+        } else {
+            transformedValue = transformedValue.replace(",", ".");
+            decimalSeparator = ".";
+            decimalPattern = /\./g;
         }
 
-        let numberValue = parseFloat(value == '-' ? '-0' : value);
-        if (properties.min && numberValue < properties.min
-            || properties.max && numberValue > properties.max) {
-            event.preventDefault();
+        // This part of code is only useful for Android devices
+        let keyPressed = transformedValue.substr(selStart - 1, 1);
+        if (keyPressed == decimalSeparator) {
+            transformedValue = transformedValue.replace(decimalPattern, "");
+            if (properties.decimals && (value.length - selStart <= properties.decimals)) {
+                transformedValue = transformedValue.substr(0, selStart - 1) + decimalSeparator + transformedValue.substr(selStart - 1);
+            }
         }
 
-        Transition.triggerEvent($element, 'keypress');
+        if (transformedValue != value) {
+            $element.val(transformedValue);
+            event.target.selectionStart = selStart;
+            event.target.selectionEnd = selStart;
+        }
+
+        Transition.triggerEvent($element, 'change');
     }
 
     static getValue($element) {
@@ -40,7 +62,7 @@ class NumberField extends TextField {
         }
 
         return {
-            type: 'NUMBER',
+            type: Type.NUMBER,
             value: value,
         };
     }

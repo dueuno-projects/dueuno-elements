@@ -15,29 +15,30 @@
 package dueuno.elements.tenants
 
 import dueuno.commons.utils.StringUtils
-import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.PropertyService
 import dueuno.elements.core.PropertyType
 import dueuno.elements.exceptions.ArgsException
+import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import groovy.util.logging.Slf4j
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author Gianluca Sartori
  */
 
+@Slf4j
 @CurrentTenant
 class TenantPropertyService extends PropertyService {
 
-    @Autowired
-    private ApplicationService applicationService
-
-    @Autowired
-    private TenantService tenantService
+    TenantService tenantService
 
     void install() {
+        // Logs
+        setBoolean('LOG_ERROR', EnvUtils.isDevelopment())
+        setBoolean('LOG_DEBUG', EnvUtils.isDevelopment())
+        setBoolean('LOG_TRACE', false)
+
         // System
         setString('SHELL_URL_MAPPING', '/')
 
@@ -46,6 +47,7 @@ class TenantPropertyService extends PropertyService {
         // See: /assets/dueuno/libs/FONTAWESOME-README.TXT, use one of:
         // fa-solid, fa-regular, fa-light, fa-thin, fa-duotone, fa-brand
 
+        // Colors
         setString('PRIMARY_TEXT_COLOR', '#ffffff', '#ffffff')
         setString('PRIMARY_BACKGROUND_COLOR', '#cc0000', '#cc0000')
         setNumber('PRIMARY_BACKGROUND_COLOR_ALPHA', 0.15, 0.15)
@@ -68,7 +70,8 @@ class TenantPropertyService extends PropertyService {
             if (filters.find) {
                 String search = filters.find.replaceAll('\\*', '%')
                 query = query.where {
-                    name =~ "%${search}%"
+                    true
+                            || name =~ "%${search}%"
                             || string =~ "%${search}%"
                             || stringDefault =~ "%${search}%"
                             || filename =~ "%${search}%"
@@ -135,20 +138,28 @@ class TenantPropertyService extends PropertyService {
 
         if (property) {
             oldValue = property[typeName]
-            update(
-                    id: property.id,
+            Map updatedProperty = [
+                    id        : property.id,
                     (typeName): value,
-                    (typeNameDefault): defaultValue ?: property[typeNameDefault],
-                    validation: validation ?: property.validation
-            )
+                    validation: validation ?: property.validation,
+            ]
+            if (type != PropertyType.PASSWORD) {
+                updatedProperty[typeNameDefault] = defaultValue ?: property[typeNameDefault]
+            }
+            update(updatedProperty)
+
+
         } else {
-            create(
-                    name: name,
-                    type: type,
+            Map newProperty = [
+                    name      : name,
+                    type      : type,
                     (typeName): value,
-                    (typeNameDefault): defaultValue,
-                    validation: validation
-            )
+                    validation: validation,
+            ]
+            if (type != PropertyType.PASSWORD) {
+                newProperty[typeNameDefault] = defaultValue
+            }
+            create(newProperty)
         }
 
         String tenantId = tenantService.currentTenantId
@@ -156,7 +167,7 @@ class TenantPropertyService extends PropertyService {
         inMemoryProperties[tenantId][name] = value
 
         if (onChangeRegistry[name]) {
-            log.info "${tenantId}: Property changed '$name' = '$value'"
+            log.info "${tenantId} Tenant: Property changed '$name' = '$value'"
             onChangeRegistry[name].call(oldValue, value, defaultValue)
         }
 
@@ -170,15 +181,13 @@ class TenantPropertyService extends PropertyService {
             return inMemoryProperties[tenantId][name]
         }
 
-        TTenantProperty property = getByName(name)
         String typeName = StringUtils.screamingSnakeToCamel(type as String)
-        String typeNameDefault = typeName + 'Default'
-
+        TTenantProperty property = getByName(name)
         if (!property) {
             return null
         }
 
-        Object value = property[typeName] == null ? property[typeNameDefault] : property[typeName]
+        Object value = property[typeName]
 
         if (!inMemoryProperties[tenantId]) inMemoryProperties[tenantId] = [:]
         inMemoryProperties[tenantId][name] = value
@@ -214,4 +223,8 @@ class TenantPropertyService extends PropertyService {
 //        log.info "${tenantService.currentTenantId}: Properties validated in ${sw.toString()}"
     }
 
+    void delete(Serializable id) {
+        TTenantProperty obj = get(id)
+        obj.delete(flush: true, failOnError: true)
+    }
 }

@@ -19,6 +19,8 @@ import dueuno.elements.core.PrettyPrinterProperties
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
+import dueuno.elements.style.VerticalAlign
+import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
 
 /**
@@ -28,15 +30,44 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Label extends Component {
 
-    Object text
+    String text
     String html
     String url
-    String icon
 
+    /** Icon that graphically represents the Link. Choose one from Font Awesome icons */
+    String icon
+    String iconClass
+    Boolean iconFixedWidth
+
+    /** An SVG image that graphically represents the Link.
+     * If specified it must be present in the Grails asset folder.
+     */
+    String image
+    String imageClass
+
+    /**
+     * If specified a tooltip will be displayed on mouse hover
+     */
+    String tooltip
+
+    /**
+     * Text alignment & styling
+     */
+    VerticalAlign verticalAlign
     TextAlign textAlign
     TextWrap textWrap
     List<TextStyle> textStyle
-    Boolean border
+
+    /**
+     * Normally a label will not be selectable (not copy/pastable) unless userSelect = true
+     */
+    Boolean userSelect
+
+    /**
+     * Display the label as it was a tag.
+     * Set the backgroundColor to render the boxing background.
+     */
+    Boolean tag
 
     PrettyPrinterProperties prettyPrinterProperties
 
@@ -48,16 +79,24 @@ class Label extends Component {
         html = args.html
         url = args.url
         icon = args.icon
+        iconClass = args.iconClass
+        iconFixedWidth = args.iconFixedWidth == null ? false : args.iconFixedWidth
+        image = args.image
+        imageClass = args.imageClass
+        tooltip = args.tooltip
 
+        verticalAlign = args.verticalAlign == null ? VerticalAlign.DEFAULT : args.verticalAlign as VerticalAlign
         textAlign = args.textAlign == null ? TextAlign.DEFAULT : args.textAlign as TextAlign
-        textWrap = args.textWrap == null ? TextWrap.NO_WRAP : args.textWrap as TextWrap
+        textWrap = args.textWrap == null ? TextWrap.SOFT_WRAP : args.textWrap as TextWrap
         setTextStyle(args.textStyle)
 
-        border = args.border == null ? false : args.border
+        userSelect = args.userSelect == null ? false : args.userSelect
+        tag = args.tag == null ? (html ? false : true) : args.tag
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
-        prettyPrinterProperties.messageArgs = args.textArgs as List
-        prettyPrinterProperties.renderMessagePrefix = args.renderMessagePrefix == null ? false : args.renderMessagePrefix
+        prettyPrinterProperties.textArgs = args.textArgs as List
+        prettyPrinterProperties.textPrefix = args.textPrefix
+        prettyPrinterProperties.renderTextPrefix = args.renderTextPrefix == null ? false : args.renderTextPrefix
         prettyPrinterProperties.renderBoolean = args.renderBoolean == null ? true : args.renderBoolean
         prettyPrinterProperties.highlightNegative = args.highlightNegative == null ? true : args.highlightNegative
 
@@ -67,28 +106,31 @@ class Label extends Component {
     }
 
     void setText(Object value) {
-        Object textObj
-
         if (value == null) {
-            textObj = buildLabel(id, prettyPrinterProperties.messagePrefix, prettyPrinterProperties.messageArgs)
+            text = buildLabel(id, prettyPrinterProperties)
+
+        } else if (Types.isRegistered(value)) {
+            text = prettyPrint(value, prettyPrinterProperties)
 
         } else if (value in Boolean && prettyPrinterProperties.renderBoolean) {
             if (value) icon = 'fa-solid fa-check'
-            textObj = ''
-
-        } else if (value in Number && prettyPrinterProperties.highlightNegative) {
-            if ((value as Number) < 0) textColor = '#cc0000'
-            textObj = value
+            text = ''
 
         } else {
-            textObj = value
+            text = prettyPrint(value, prettyPrinterProperties)
         }
 
-        text = prettyPrint(textObj, prettyPrinterProperties)
+        if (value in Number && prettyPrinterProperties.highlightNegative) {
+            if ((value as Number) < 0) textColor = '#cc0000'
+        }
     }
 
     void setTextArgs(List value) {
-        prettyPrinterProperties.messageArgs = value
+        prettyPrinterProperties.textArgs = value
+    }
+
+    List getTextArgs() {
+        return prettyPrinterProperties.textArgs
     }
 
     void setTextStyle(Object value) {
@@ -102,7 +144,7 @@ class Label extends Component {
                 break
 
             default:
-                textStyle = [TextStyle.NORMAL]
+                textStyle = [TextStyle.NONE]
         }
     }
 
@@ -111,7 +153,9 @@ class Label extends Component {
     }
 
     void setHtml(String value) {
-        if (html) textWrap = TextWrap.DEFAULT
+        if (html) {
+            textWrap = TextWrap.DEFAULT
+        }
         html = value
     }
 

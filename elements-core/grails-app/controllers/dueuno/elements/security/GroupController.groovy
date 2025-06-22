@@ -14,16 +14,18 @@
  */
 package dueuno.elements.security
 
-import dueuno.elements.components.ShellService
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.MultipleCheckbox
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.Menu
+import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
+import dueuno.elements.core.Feature
+import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextTransform
 import dueuno.elements.tenants.TenantService
 import grails.gorm.multitenancy.WithoutTenant
 import grails.plugin.springsecurity.annotation.Secured
@@ -33,27 +35,26 @@ import grails.plugin.springsecurity.annotation.Secured
  *
  * @author Gianluca Sartori
  */
-@WithoutTenant
 @Secured(['ROLE_SECURITY'])
 class GroupController implements ElementsController {
 
+    ApplicationService applicationService
     SecurityService securityService
     TenantService tenantService
-    ShellService shellService
 
     def index() {
         Boolean isSuperAdmin = securityService.isSuperAdmin()
-        List cols = isSuperAdmin ? ['tenant'] : []
+        List cols = ['systemIcon']
+        if (isSuperAdmin) cols += ['tenant']
         cols += [
                 'name',
                 'landingPage',
-                'system',
         ]
         for (authority in (securityService.listAuthority())) {
             cols.add(authority)
         }
 
-        def c = createContent(ContentList)
+        def c = createContent(ContentTable)
         c.table.with {
             filters.with {
                 fold = false
@@ -78,14 +79,20 @@ class GroupController implements ElementsController {
             ]
             keys = ['id']
             columns = cols
-            prettyPrinters = [
-                    landingPage: 'LANDING_PAGE',
+            labels = [
+                    systemIcon: '',
             ]
 
             body.eachRow { TableRow row, Map values ->
                 values.system = !values.deletable
-                if (!values.deletable) {
+                if (values.system) {
                     row.actions.removeTailAction()
+                    row.cells.systemIcon.icon = 'fa-gear'
+                    row.cells.systemIcon.tooltip = 'group.tooltip.system'
+                }
+
+                if (isSuperAdmin) {
+                    row.cells.tenant.tag = true
                 }
             }
         }
@@ -126,39 +133,49 @@ class GroupController implements ElementsController {
                         class: Select,
                         id: 'tenant',
                         optionsFromRecordset: tenantService.list(),
+                        defaultValue: tenantService.defaultTenant.id,
                         search: false,
                         noSelection: false,
-                        defaultValue: tenantService.default.id,
                 )
             }
             addField(
                     class: TextField,
                     id: 'name',
-                    icon: 'fa-shield',
+                    icon: 'fa-shield-halved',
+                    textTransform: TextTransform.UPPERCASE,
             )
             addField(
                     class: Select,
                     id: 'landingPage',
                     optionsFromRecordset: getLandingPages(),
                     prettyPrinter: 'LANDING_PAGE',
-                    keys: ['controller'],
             )
         }
+
         return c
     }
 
-    private List<String> getLandingPages() {
-        List<Menu> results = []
+    private List<Map> getLandingPages() {
+        List<Map> results = []
 
-        for (item in shellService.shell.menu.items) {
-            if (item.items) {
-                results.addAll(item.items)
+        for (feature in applicationService.mainFeatures.features) {
+            List<Feature> subFeatures = feature.features
+            if (subFeatures) {
+                for (subFeature in subFeatures) {
+                    results.add(id: subFeature.controller, text: featureToText(subFeature))
+                }
             } else {
-                results.add(item)
+                results.add(id: feature.controller, text: featureToText(feature))
             }
         }
 
         return results
+    }
+
+    private String featureToText(Feature menu) {
+        String code = "shell.${menu.namespace ? menu.namespace + "." : ""}${menu.controller}"
+        String text = message(code)
+        return "<i class='fa-fw fa-solid ${menu.icon} me-2'></i>${text}"
     }
 
     def create() {
@@ -172,7 +189,7 @@ class GroupController implements ElementsController {
     }
 
     def onCreate() {
-        params.tenant = tenantService.get(params.tenant) ?: securityService.currentTenant
+        params.tenant = tenantService.get(params.tenant) ?: tenantService.currentTenant
         def obj = securityService.createGroup(params)
         if (obj.hasErrors()) {
             display errors: obj
@@ -192,7 +209,7 @@ class GroupController implements ElementsController {
                     class: MultipleCheckbox,
                     id: 'authorities',
                     optionsFromList: ['ROLE_USER'],
-                    messagePrefix: controllerName,
+                    textPrefix: controllerName,
                     readonly: true,
             )
         } else {
@@ -200,7 +217,7 @@ class GroupController implements ElementsController {
                     class: MultipleCheckbox,
                     id: 'authorities',
                     optionsFromList: securityService.listAuthority(),
-                    messagePrefix: controllerName,
+                    textPrefix: controllerName,
             )
         }
 
@@ -210,7 +227,7 @@ class GroupController implements ElementsController {
     }
 
     def onEdit() {
-        params.tenant = tenantService.get(params.tenant) ?: securityService.currentTenant
+        params.tenant = tenantService.get(params.tenant) ?: tenantService.currentTenant
         def obj = securityService.updateGroup(params)
         if (obj.hasErrors()) {
             display errors: obj

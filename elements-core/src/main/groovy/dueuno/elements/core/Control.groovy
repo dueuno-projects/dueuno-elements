@@ -14,7 +14,7 @@
  */
 package dueuno.elements.core
 
-import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.style.TextStyle
 import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
 
@@ -50,28 +50,32 @@ abstract class Control extends Component {
     /** Properties used by {@link PrettyPrinter PrettyPrinter} to render the value */
     PrettyPrinterProperties prettyPrinterProperties
 
+    /** Text styles */
+    List<TextStyle> textStyle
+
     Control(Map args) {
         super(args)
 
         viewPath = args.viewPath ?: '/dueuno/elements/controls/'
 
-        valueType = null
-        nullable = (args.nullable == null) ? true : args.nullable
+        valueType = args.valueType
+        nullable = args.nullable == null ? true : args.nullable
 
         setInvalidChars(args.invalidChars as String)
         setValidChars(args.validChars as String)
+        setTextStyle(args.textStyle)
         pattern = args.pattern ?: ''
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
         prettyPrinterProperties.locale = locale
-        prettyPrinterProperties.renderMessagePrefix = args.renderMessagePrefix == null ? true : args.renderMessagePrefix
-        prettyPrinterProperties.messagePrefix = args.messagePrefix ?: controllerName
-        prettyPrinterProperties.messageArgs = args.messageArgs as List
+        prettyPrinterProperties.renderTextPrefix = args.renderTextPrefix == null ? true : args.renderTextPrefix
+        prettyPrinterProperties.textPrefix = args.textPrefix ?: controllerName
+        prettyPrinterProperties.textArgs = args.textArgs as List
         prettyPrinterProperties.prettyPrinter = args.prettyPrinter
         prettyPrinterProperties.transformer = args.transformer
 
-        setDefaultValue(args.defaultValue)
-        setValue(args.value)
+        defaultValue = args.defaultValue
+        value = args.value
     }
 
     Component onSubmit(Map args) {
@@ -95,21 +99,23 @@ abstract class Control extends Component {
         return prettyPrinterProperties.prettyPrinter
     }
 
-    void setDefaultValue(Object value) {
-        defaultValue = value
+    void setTextStyle(Object value) {
+        switch (value) {
+            case TextStyle:
+                textStyle = [value as TextStyle]
+                break
+
+            case List<TextStyle>:
+                textStyle = value as List<TextStyle>
+                break
+
+            default:
+                textStyle = [TextStyle.BOLD]
+        }
     }
 
-    void setValue(Object value, Boolean transform = true) {
-        try {
-            if (transform && transformer) {
-                this.value = Transformer.transform(transformer, value)
-            } else {
-                this.value = value
-            }
-
-        } catch (Exception e) {
-            throw new ElementsException("Error assigning value '${value}' of class '${value.getClass().name}' to ${this.getClass().simpleName} '${this.id}': ${e.message}")
-        }
+    String getTextStyle() {
+        return textStyle.join(' ')
     }
 
     /**
@@ -144,7 +150,7 @@ abstract class Control extends Component {
 
     String getValueAsJSON() {
         if (!valueType) {
-            return null
+            return Elements.encodeAsJSON([:])
         }
 
         Map valueMap = Types.serializeValue(value, valueType)

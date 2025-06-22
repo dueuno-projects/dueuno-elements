@@ -3,4 +3,4 @@ distribution folder into '/assets/libs/fontawesome'
 
 This is why the 'fontawesome' folder does not include the version.
 
-Current version is: 6.5.1
+Current version is: 6.7.2

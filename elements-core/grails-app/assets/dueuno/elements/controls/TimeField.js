@@ -7,7 +7,7 @@ class TimeField extends DateTimeField {
         let timeFormat = _21_.user.twelveHours ? 'hh:mm' : 'HH:mm';
         let hourCycle = _21_.user.twelveHours ? 'h12' : 'h23';
 
-        let options = {
+        let initOptions = {
             stepping: properties.timeStep ?? 1,
             allowInputToggle: false,
             display: {
@@ -23,7 +23,7 @@ class TimeField extends DateTimeField {
             }
         };
 
-        let td = new tempusDominus.TempusDominus($element.parent()[0], options);
+        let td = new tempusDominus.TempusDominus($element.parent()[0], initOptions);
         td.dates.parseInput = TimeField.parseInput;
         $element.data('td', td);
     }
@@ -52,8 +52,8 @@ class TimeField extends DateTimeField {
         if (isNaN(intHour) || intHour > 24) hour = '00';
         if (isNaN(intMinute) || intMinute > 59) minute = '00';
 
-        let dateTime = new tempusDominus.DateTime('1900-01-01T' + hour + ':' + minute);
-        return dateTime;
+        let time = new tempusDominus.DateTime('1900-01-01T' + hour + ':' + minute);
+        return time;
     }
 
     static setValue($element, valueMap, trigger = true) {
@@ -88,8 +88,12 @@ class TimeField extends DateTimeField {
         let td = $element.data('td');
         let time = td.dates.parseInput(value);
 
-        if (time) return {
-            type: 'TIME',
+        if (!time) {
+            return null;
+        }
+
+        let result = {
+            type: Type.TIME,
             value: {
                 hour: time.hours,
                 minute: time.minutes,
@@ -97,7 +101,7 @@ class TimeField extends DateTimeField {
             }
         }
 
-        return null;
+        return result;
     }
 }
 

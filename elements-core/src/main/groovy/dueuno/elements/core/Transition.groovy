@@ -18,7 +18,6 @@ import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
-import org.grails.gsp.GroovyPagesTemplateEngine
 
 /**
  * @author Gianluca Sartori
@@ -116,6 +115,15 @@ class Transition implements WebRequestAware {
         )
     }
 
+    void remove(String component) {
+        addCommand(
+                TransitionCommandMethod.REMOVE,
+                component,
+                null,
+                null,
+        )
+    }
+
     void replace(String component, String newComponent) {
         addCommand(
                 TransitionCommandMethod.REPLACE,
@@ -171,7 +179,7 @@ class Transition implements WebRequestAware {
         }
 
         if (value in String && hasRequest()) {
-            value = message(value as String, valueArgs as Object[])
+            value = message(value as String, valueArgs)
         }
 
         addCommand(
@@ -201,7 +209,7 @@ class Transition implements WebRequestAware {
 
     void infoMessage(String type, String msg, List msgArgs = [], Map onClick = [:]) {
         String infoMessage = hasRequest()
-                ? message(msg, msgArgs as Object[])
+                ? message(msg, msgArgs)
                 : msg
 
         Map args = [:]
@@ -229,7 +237,7 @@ class Transition implements WebRequestAware {
 
     void optionsMessage(String msg, List msgArgs, Map onOption1Click, Map onOption2Click) {
         String confirmMessage = hasRequest()
-                ? message(msg, msgArgs as Object[])
+                ? message(msg, msgArgs)
                 : msg
 
         Map args = [:]

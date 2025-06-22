@@ -14,6 +14,7 @@
  */
 package dueuno.elements.pages
 
+
 import dueuno.elements.contents.ContentHome
 import dueuno.elements.core.Page
 import dueuno.elements.exceptions.ArgsException
@@ -48,21 +49,21 @@ class Shell extends Page {
         username = ''
         userFullname = ''
 
-        menu = addComponent(ShellMenu, 'menu', [shell: this, messagePrefix: 'shell'])
+        menu = addComponent(ShellMenu, 'menu', [shell: this, textPrefix: 'shell'])
         menu.createFromFeature(config.features.main)
         menu.displaySearch = config.display.menuSearch
 
-        userMenu = addComponent(ShellUserMenu, 'userMenu', [shell: this, messagePrefix: 'shell'])
+        userMenu = addComponent(ShellUserMenu, 'userMenu', [shell: this, textPrefix: 'shell'])
         userMenu.createFromFeature(config.features.user)
 
-        navbar = addComponent(ShellNavbar, 'navbar', [shell: this, messagePrefix: 'shell'])
-        home = createComponent(ContentHome, 'home', [shell: this, messagePrefix: 'shell'])
+        navbar = addComponent(ShellNavbar, 'navbar', [shell: this, textPrefix: 'shell'])
+        home = createComponent(ContentHome, 'home', [shell: this, textPrefix: 'shell'])
     }
 
     void setUser(String username, String firstname, String lastname) {
         this.username = username
         this.userFullname = firstname + ' ' + lastname
-        userMenu.title = firstname ?: lastname ?: username
+        userMenu.title =  firstname ?: lastname ?: username
         home.favouriteMenu.createFromFeature(config.features.main, true)
     }
 }

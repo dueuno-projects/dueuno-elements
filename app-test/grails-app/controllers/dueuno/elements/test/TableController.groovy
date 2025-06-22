@@ -82,6 +82,7 @@ class TableController implements ElementsController {
                     'name',
                     'postcode',
                     'address',
+                    'empty',
                     'company',
                     'salary',
                     'active',
@@ -92,6 +93,7 @@ class TableController implements ElementsController {
             labels = [
                     email: 'Runtime generated label EMAIL',
                     active: '', // Per non mostrare l'etichetta
+                    empty: '',
             ]
             transformers = [
                     address: 'MAIUSCOLO',
@@ -116,7 +118,7 @@ class TableController implements ElementsController {
                 row.cells.postcode.textColor = '#ffffff'
                 row.cells.postcode.textAlign = TextAlign.END
                 row.cells.name.textAlign = TextAlign.END
-                row.cells.name.prettyPrinterProperties.messageArgs = [3]
+                row.cells.name.prettyPrinterProperties.textArgs = [3]
             }
 
             body.eachRow { row ->
@@ -156,8 +158,6 @@ class TableController implements ElementsController {
             removeSelection()
 
             textColor = 'red'
-//            cssStyle = 'text-decoration: line-through; font-weight: bold;'
-//            cssClass = 'text-decoration-line-through fw-bold'
             textStyle = [TextStyle.LINE_THROUGH, TextStyle.BOLD]
 
             actions.defaultAction?.text = 'Click me!'

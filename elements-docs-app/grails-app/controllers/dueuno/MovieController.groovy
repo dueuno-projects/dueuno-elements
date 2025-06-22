@@ -17,7 +17,7 @@ package dueuno
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
-import dueuno.elements.contents.ContentList
+import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.NumberField
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
@@ -36,7 +36,7 @@ class MovieController implements ElementsController {
     }
 
     def index() {
-        ContentList c = createContent(ContentList)
+        ContentTable c = createContent(ContentTable)
         c.table.with {
             filters.with {
                 fold = false
