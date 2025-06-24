@@ -30,7 +30,7 @@ import groovy.util.logging.Slf4j
 import org.grails.io.support.PathMatchingResourcePatternResolver
 import org.grails.io.support.Resource
 
-import javax.servlet.ServletContext
+import jakarta.servlet.ServletContext
 
 /**
  * Application API
