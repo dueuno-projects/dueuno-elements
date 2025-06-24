@@ -1,20 +1,3 @@
-pluginManagement {
-    repositories {
-        mavenLocal()
-        maven { url "https://repo.grails.org/grails/core/" }
-        gradlePluginPortal()
-    }
-    plugins {
-        id "org.grails.grails-web" version "7.0.0-SNAPSHOT"
-        id "org.grails.grails-gsp" version "7.0.0-SNAPSHOT"
-        id "com.bertramlabs.asset-pipeline" version "4.5.1"
-        id "com.github.erdi.webdriver-binaries" version "3.2"
-        id 'io.github.gradle-nexus.publish-plugin' version '2.0.0'
-    }
-}
-
-rootProject.name = projectName
-
 include "commons-utils"
 include "elements-core"
 include "elements-extra"

@@ -6,8 +6,8 @@ asciidoctor {
     attributes = [
             "application-name"  : projectName,
             "revnumber"         : projectVersion,
-            "version-java"      : javaVersion,
-            "version-grails"    : grailsVersion,
+            "version-java"      : "21",
+            "version-grails"    : "7.0.0-M4",
             "source-highlighter": "coderay",
             "icons"             : "font",
             "toc"               : "left",

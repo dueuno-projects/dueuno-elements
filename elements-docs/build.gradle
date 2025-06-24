@@ -1,7 +1,1 @@
-plugins {
-    id "dueuno-asciidoctor"
-}
-
-repositories {
-    mavenCentral()
-}
+apply plugin: "org.asciidoctor.jvm.convert"
