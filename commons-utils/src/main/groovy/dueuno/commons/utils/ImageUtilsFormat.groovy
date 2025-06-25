@@ -13,4 +13,8 @@ enum ImageUtilsFormat {
     ImageUtilsFormat(String extension) {
         this.extension = extension
     }
+
+    static ImageUtilsFormat get(String extension) {
+        return values().find { it.extension == extension }
+    }
 }
