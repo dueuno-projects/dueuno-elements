@@ -3,37 +3,37 @@ class Grid extends Component {
     static increment($element, value, $component) {
         let $columns = $element.find('[data-21-component="GridColumn"]');
         let $newColumns = $component.find('[data-21-component="GridColumn"]');
-        let elements = [];
+        let $row = $element.find('.row').first();
+        let columnsToRemove = [];
         let replace = value.replace == null ? true : value.replace;
         let remove = value.remove == null ? true : value.remove;
 
-        $columns.each(function() {
-            let id = $(this).data('21-id');
+        for (let column of $columns) {
+            let $column = $(column);
+            let id = Elements.getId($column);
+            columnsToRemove.push(id);
+        }
 
-            elements.push(id);
-        });
+        for (let newColumn of $newColumns) {
+            let $newColumn = $(newColumn);
+            let id = Elements.getId($newColumn);
 
-        $newColumns.each(function() {
-            let id = $(this).data('21-id');
-
-            var exists = $element.find('[data-21-id="' + id + '"]');
-            if (exists.length) {
+            let $column = Elements.getElementById(id);
+            if ($column.length) {
                 if (replace) {
-                    $(exists).replaceWith(this);
+                    $column.replaceWith($newColumn);
                 }
-                elements = elements.filter(function(value, index, arr){
-                    return value != id;
-                });
+                columnsToRemove = columnsToRemove.filter((value) => value != id);
             } else {
-                $element.find('.row').first().append(this);
+                $row.append($newColumn);
             }
-        });
+        }
 
-        $.each(elements, function(i, id) {
+        for (let id of columnsToRemove) {
             if (remove) {
                 Grid.removeColumn($element, {id: id});
             }
-        });
+        }
 
         Page.reinitializeContent($element);
     }
@@ -49,7 +49,7 @@ class Grid extends Component {
 
         if (timeout) {
             $column.addClass('deleting');
-            setTimeout(function() {
+            setTimeout(() => {
                 $column.remove();
             }, timeout);
         }
@@ -70,7 +70,7 @@ class Grid extends Component {
         let timeout = value.timeout == null ? 0 : value.timeout;
 
         if (cssClass) {
-            setTimeout(function() {
+            setTimeout(() => {
                 $column.addClass(cssClass);
             }, timeout);
         }
@@ -87,7 +87,7 @@ class Grid extends Component {
         let timeout = value.timeout == null ? 0 : value.timeout;
 
         if (cssClass) {
-            setTimeout(function() {
+            setTimeout(() => {
                 $column.removeClass(cssClass);
             }, timeout);
         }
