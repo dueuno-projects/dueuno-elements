@@ -421,68 +421,6 @@ class CrudController implements ElementsController {
         }
     }
 
-//    def exportExcel() {
-//        def obj = TPerson.get(1)
-//
-//        List columns = [
-//                'id',
-//                'name',
-//                'salary',
-//                'distanceKm',
-//                'dateStart',
-//                'dateEnd',
-//                'active',
-//                'textfield',
-//                'numberfield',
-//        ]
-//
-//        Map exportProperties = [
-//                labels: [
-//                        textfield  : 'Campo di testo',
-//                        numberfield: 'Campo numerico',
-//                ]
-//        ]
-//
-//        def os = getDownloadOutputStream('ExcelExport.xlsx')
-//
-//        ExportUtils.toExcel(os, obj.list(), columns, exportProperties) { row ->
-//            // Do something with 'row'
-//        }
-//    }
-
-//    def printPdf() {
-//        def xmlWriter = new StringWriter()
-//        def xml = new MarkupBuilder(xmlWriter)
-//
-//        def results = TPerson.list()
-//
-//        xml.'ns0:CC_Map_Root'('xmlns:ns0': 'http://Greg_Maxey/CC_Mapping_Part') {
-//            'ns0:fullname'(security.userFullname)
-//            'ns0:username'(security.username)
-//
-//            results.each { row ->
-//                'ns0:row'() {
-//                    'ns0:id'(row.id)
-//                    'ns0:textfield'(row.textfield)
-//                    'ns0:numberfield'(row.numberfield)
-//                    'ns0:moneyfield'(row.moneyfield)
-//                    'ns0:quantityfield'(row.quantityfield)
-//                    'ns0:datefield'(row.datefield)
-//                    'ns0:timefield'(row.timefield)
-//                    'ns0:checkbox'(row.checkbox)
-//                }
-//            }
-//
-//        }
-
-//        printService.downloadPdf(
-//            xmlWriter: xmlWriter,
-//            response: response,
-//            templatePathname: 'printTest.docx',
-//            outputFilename: 'Pdf-' + new Date().format('yyyy-MM-dd'),
-//        )
-//    }
-
     @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
     def register() {
         def c = createContent(ContentForm)
