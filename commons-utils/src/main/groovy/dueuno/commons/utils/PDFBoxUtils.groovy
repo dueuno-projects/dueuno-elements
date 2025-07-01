@@ -47,7 +47,7 @@ class PDFBoxUtils {
     }
 
     /**
-     * @Deprecated Use ImageUtils.getPdfPreview()
+     * @Deprecated Use ImageUtils.generatePdfPreview()
      */
     @Deprecated
     static BufferedImage getPreview(String pathname, Integer dpi = 300) {

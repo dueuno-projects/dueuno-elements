@@ -102,7 +102,7 @@ class ImageUtils {
         return rotated
     }
 
-    static BufferedImage getPdfPreview(String pathname, Integer dpi = 300) {
+    static BufferedImage generatePdfPreview(String pathname, Integer dpi = 300) {
         PDDocument pd = PDDocument.load(new File(pathname))
         PDFRenderer pr = new PDFRenderer(pd)
         return pr.renderImageWithDPI(0, dpi)
