@@ -46,6 +46,10 @@ class PDFBoxUtils {
         return new PDPage(new PDRectangle(mmToPt(width), mmToPt(height)))
     }
 
+    /**
+     * @Deprecated Use ImageUtils.getPdfPreview()
+     */
+    @Deprecated
     static BufferedImage getPreview(String pathname, Integer dpi = 300) {
         PDDocument pd = PDDocument.load(new File(pathname))
         PDFRenderer pr = new PDFRenderer(pd)

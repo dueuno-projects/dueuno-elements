@@ -16,6 +16,8 @@ package dueuno.commons.utils
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.rendering.PDFRenderer
 
 import javax.imageio.ImageIO
 import java.awt.*
@@ -98,6 +100,12 @@ class ImageUtils {
         g2d.dispose()
 
         return rotated
+    }
+
+    static BufferedImage getPdfPreview(String pathname, Integer dpi = 300) {
+        PDDocument pd = PDDocument.load(new File(pathname))
+        PDFRenderer pr = new PDFRenderer(pd)
+        return pr.renderImageWithDPI(0, dpi)
     }
 
     static ImageUtilsFormat getFormatFromFilename(String filename) {
