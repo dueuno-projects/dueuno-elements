@@ -4,9 +4,9 @@ plugins {
     id "org.grails.grails-gsp"
     id "org.grails.grails-plugin"
     id "com.bertramlabs.asset-pipeline"
-    id "dueuno-publish"
     id "dueuno-asciidoctor"
     id "dueuno-codenarc"
+    id "dueuno-publish"
     id "eclipse"
     id "idea"
 }

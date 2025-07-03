@@ -9,7 +9,6 @@ pluginManagement {
         id "org.grails.grails-gsp" version grailsGradlePluginVersion
         id "com.bertramlabs.asset-pipeline" version grailsAssetPipelineVersion
         id "com.github.erdi.webdriver-binaries" version webdriverBinariesVersion
-        id "io.github.gradle-nexus.publish-plugin" version "2.0.0"
     }
 }
 

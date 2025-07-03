@@ -1,9 +1,10 @@
 plugins {
     id "groovy"
     id "java-library"
-    id "dueuno-publish"
+    id "maven-publish"
     id "dueuno-asciidoctor"
     id "dueuno-codenarc"
+    id "dueuno-publish"
 }
 
 group = projectGroup
