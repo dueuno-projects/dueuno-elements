@@ -1,4 +1,5 @@
 plugins {
+    id "groovy"
     id "java-library"
     id "maven-publish"
     id "signing"
@@ -26,6 +27,7 @@ publishing {
             from components.java
             pom {
                 name = project.name
+                description = project.name
                 url = "https://dueuno.com"
                 licenses {
                     license {
@@ -45,19 +47,10 @@ publishing {
                         email = "f.piceghello@gmail.com"
                     }
                 }
-            }
-        }
-    }
-
-    Boolean isSnapshot = version.endsWith("SNAPSHOT")
-    String repositoryUrl = isSnapshot ? repositorySnapshot : repositoryRelease
-    repositories {
-        maven {
-            name "ossrh-staging-api"
-            url repositoryUrl
-            credentials {
-                username sonatypeUsername
-                password sonatypePassword
+                scm {
+                    connection = 'scm:https://github.com/dueuno-projects/dueuno-elements.git'
+                    url = 'https://github.com/dueuno-projects'
+                }
             }
         }
     }
@@ -65,4 +58,8 @@ publishing {
 
 signing {
     sign publishing.publications.mavenJava
+    sign configurations.runtimeElements
+
+    // Send the Dueuno public key to a public server for Maven Central to work
+    // gpg --keyserver keyserver.ubuntu.com --send-keys 320BDF4E3F5990F2F3AE8DC93470E26E4FB7C68E
 }
