@@ -53,7 +53,7 @@ publishing {
     String repositoryUrl = isSnapshot ? repositorySnapshot : repositoryRelease
     repositories {
         maven {
-            name "OSSRH"
+            name "ossrh-staging-api"
             url repositoryUrl
             credentials {
                 username sonatypeUsername
