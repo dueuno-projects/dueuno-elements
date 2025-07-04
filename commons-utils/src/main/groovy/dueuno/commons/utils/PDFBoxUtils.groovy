@@ -14,7 +14,6 @@
  */
 package dueuno.commons.utils
 
-import be.quodlibet.boxable.BaseTable
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -54,25 +53,6 @@ class PDFBoxUtils {
         PDDocument pd = PDDocument.load(new File(pathname))
         PDFRenderer pr = new PDFRenderer(pd)
         return pr.renderImageWithDPI(0, dpi)
-    }
-
-    static void table(PDDocument document, PDPage page, Float y, @DelegatesTo(BaseTable) Closure closure) {
-        Float margin = 25
-        // starting y position is whole page height subtracted by top and bottom margin
-        Float yStartNewPage = page.getMediaBox().getHeight() - (2 * margin) as Float
-        // we want table across whole page width (subtracted by left and right margin ofcourse)
-        Float tableWidth = page.getMediaBox().getWidth() - (2 * margin) as Float
-
-        Boolean drawContent = true
-        Float yStart = yStartNewPage
-        Float bottomMargin = 70
-        // y position is your coordinate of top left corner of the table
-        Float yPosition = y
-
-        BaseTable table = new BaseTable(yPosition, yStartNewPage, bottomMargin, tableWidth, margin, document, page, true, drawContent)
-        closure.delegate = table
-        closure.call(table)
-        table.draw()
     }
 
     static void write(PDPageContentStream content, Float x, Float y, String text, PDFont font, Float fontSize) {
