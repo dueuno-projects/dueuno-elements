@@ -1,3 +1,7 @@
+.shell-content-card > a {
+    text-decoration: none;
+}
+
 .shell-content-card .card > i.icon-back {
     position: absolute;
     font-size: 9rem;
