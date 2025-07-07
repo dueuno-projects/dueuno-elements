@@ -11,6 +11,11 @@
     <asset:stylesheet src="${elementsImplementation}.css" media="screen"/>
 </g:each>
 
+<%-- Plugins Specific Stylesheet --%>
+<asset:assetPathExists src="plugin.css">
+    <asset:stylesheet src="plugin.css"/>
+</asset:assetPathExists>
+
 <%-- Application Specific Stylesheet --%>
 <asset:assetPathExists src="application.css">
     <asset:stylesheet src="application.css"/>

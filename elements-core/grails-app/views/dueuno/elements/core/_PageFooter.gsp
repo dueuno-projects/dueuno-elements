@@ -43,6 +43,11 @@
     <asset:javascript src="${elementsImplementation}.js"/>
 </g:each>
 
+<%-- Plugins Specific Javascript --%>
+<asset:assetPathExists src="plugin.js">
+    <asset:javascript src="plugin.js"/>
+</asset:assetPathExists>
+
 <%-- Application Specific Javascript --%>
 <asset:assetPathExists src="application.js">
     <asset:javascript src="application.js"/>
