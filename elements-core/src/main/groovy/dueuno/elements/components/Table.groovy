@@ -117,7 +117,7 @@ class Table extends Component {
         rowHighlightLastChanged = (args.rowHighlightLastChanged == null) ? false : args.rowHighlightLastChanged
 
         noResults = (args.noResults == null) ? true : args.noResults
-        noResultsIcon = (args.noResultsIcon == null) ? 'fa-regular fa-folder-open' : args.noResultsIcon
+        noResultsIcon = (args.noResultsIcon == null) ? 'fa-regular fa-folder-open ps-4' : args.noResultsIcon
         noResultsMessage = (args.noResultsMessage) ?: 'component.table.no.results'
 
         readonly = (args.readonly == null) ? false : args.readonly
