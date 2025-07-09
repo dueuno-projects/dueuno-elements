@@ -345,8 +345,12 @@ class Transition {
 
                     case 404: // Not Found
                     case 500: // Server Error
-                        let $content = $(xhr.responseText);
-                        TransitionCommand.renderContent($content, componentEvent);
+                        if (componentEvent.timerId) {
+                            PageMessageBox.error(null, {infoMessage: 'Internal server error: ' + xhr.status});
+                        } else {
+                            let $content = $(xhr.responseText);
+                            TransitionCommand.renderContent($content, componentEvent);
+                        }
                         return;
 
                     default:
