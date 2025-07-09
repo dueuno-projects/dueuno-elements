@@ -29,6 +29,9 @@ import java.nio.file.Paths
 @CompileStatic
 class Upload extends Control {
 
+    String text
+    String textDisabled
+
     List acceptedFiles
     Integer maxFiles
     Integer maxFileSize // MB
@@ -41,6 +44,9 @@ class Upload extends Control {
         super(args)
 
         valueType = Type.LIST
+
+        text = args.text == null ? 'control.upload.message' : args.text
+        textDisabled = args.textDisabled == null ? 'control.upload.disabled' : args.textDisabled
 
         acceptedFiles = args.acceptedFiles as List ?: []
         maxFiles = args.maxFiles as Integer ?: null
@@ -79,8 +85,8 @@ class Upload extends Control {
                 disablePreviews: disablePreviews,
 
                 messages: [
-                        disabled: message('control.upload.disabled'),
-                        upload: message('control.upload.message'),
+                        upload: message(text),
+                        disabled: message(textDisabled),
                         tooBig: message('control.upload.file.too.big'),
                         invalidType: message('control.upload.invalid.file.type'),
                         responseError: message('control.upload.response.error'),
