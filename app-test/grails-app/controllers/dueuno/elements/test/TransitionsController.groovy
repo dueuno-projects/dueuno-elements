@@ -20,7 +20,9 @@ import dueuno.elements.components.Label
 import dueuno.elements.components.Separator
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
+import dueuno.elements.core.ComponentEvent
 import dueuno.elements.core.ElementsController
+import dueuno.elements.security.SecurityService
 import dueuno.elements.style.TextStyle
 import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
@@ -33,6 +35,8 @@ import java.time.LocalTime
 
 @CurrentTenant
 class TransitionsController implements ElementsController {
+
+    SecurityService securityService
 
     def index() {
         // PAGE SETUP
@@ -231,14 +235,14 @@ class TransitionsController implements ElementsController {
     }
 
     def showConfirm() {
-        Map onConfirm = [
+        def onConfirm = new ComponentEvent(
                 controller    : 'transitions',
                 action        : 'index',
                 params: [transitioned: true],
 //                url           : 'https://www.google.com',
-        ]
+        )
         def t = createTransition()
-        t.confirmMessage('transitions.messagebox.confirm', ['Bene!'], onConfirm)
+        t.confirmMessage('transitions.messagebox.confirm', [securityService.currentUser.fullname], onConfirm)
         display transition: t
     }
 

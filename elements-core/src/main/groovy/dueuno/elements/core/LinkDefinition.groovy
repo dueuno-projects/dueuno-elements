@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+
 import groovy.transform.CompileStatic
 
 /**
@@ -66,9 +67,9 @@ class LinkDefinition implements Serializable {
     /** If specified a confirm message will pop up giving the user a chance to cancel the action */
     String confirmMessage
     List confirmMessageArgs
+    Map confirmMessageOnConfirm
 
-
-    LinkDefinition(Map args) {
+    LinkDefinition(Map args = [:]) {
         namespace = args.namespace ?: ''
         controller = args.controller ?: ''
         action = args.action ?: ''
@@ -96,6 +97,7 @@ class LinkDefinition implements Serializable {
         infoMessageArgs = args.infoMessageArgs as List
         confirmMessage = args.confirmMessage
         confirmMessageArgs = args.confirmMessageArgs as List
+        confirmMessageOnConfirm = args.confirmMessageOnClick as Map
 
         if (args.renderProperties)
             renderProperties = (PageRenderProperties) args.renderProperties

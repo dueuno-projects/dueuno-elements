@@ -14,7 +14,7 @@
  */
 package dueuno.elements.components
 
-
+import dueuno.elements.core.ComponentEvent
 import dueuno.elements.core.LinkDefinition
 import groovy.transform.CompileStatic
 
@@ -29,7 +29,7 @@ class Link extends Label {
     LinkDefinition linkDefinition
     String eventName
 
-    Link(Map args) {
+    Link(Map args = [:]) {
         super(args)
 
         args.confirmMessage = message(args.confirmMessage as String, args.confirmMessageArgs)
@@ -260,6 +260,11 @@ class Link extends Label {
 
     void setConfirmMessageArgs(List value) {
         linkDefinition.confirmMessageArgs = value
+        setOnEvent()
+    }
+
+    void setConfirmMessageOnConfirm(ComponentEvent value) {
+        linkDefinition.confirmMessageOnConfirm = value.asMap()
         setOnEvent()
     }
 

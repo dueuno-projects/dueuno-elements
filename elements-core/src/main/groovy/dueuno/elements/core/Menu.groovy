@@ -469,4 +469,8 @@ class Menu extends Component {
     void setConfirmMessageArgs(List value) {
         link.confirmMessageArgs = value
     }
+
+    void setConfirmMessageOnConfirm(ComponentEvent value) {
+        link.confirmMessageOnConfirm = value
+    }
 }

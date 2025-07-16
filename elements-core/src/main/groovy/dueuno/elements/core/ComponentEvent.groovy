@@ -33,8 +33,7 @@ class ComponentEvent extends LinkDefinition {
 
     ComponentEvent(Map args) {
         super(args)
-
-        on = args.on
+        on = args.on ?: 'click'
     }
 
     Map asMap() {

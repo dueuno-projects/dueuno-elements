@@ -263,6 +263,8 @@ class CrudController implements ElementsController {
                 ? createContent(ContentEdit)
                 : createContent(ContentCreate)
 
+        c.header.nextButton.confirmMessage = 'Are you sure?'
+
         if (params.embedded) {
             c.header.addBackButton(animate: params.animate)
             c.header.backButton.with {
@@ -275,7 +277,7 @@ class CrudController implements ElementsController {
 
         c.form.with {
             validate = TPerson
-            addKeyField('embedded', Type.BOOL)
+            addKeyField('embedded')
 
             //TODO: Fare in modo che l'azione riceva i dati convertiti in base al loro tipo
             addKeyField('selection', Type.LIST, [[id: 1]])

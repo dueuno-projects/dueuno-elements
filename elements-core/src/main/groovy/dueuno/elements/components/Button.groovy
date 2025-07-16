@@ -15,6 +15,7 @@
 package dueuno.elements.components
 
 import dueuno.elements.core.Component
+import dueuno.elements.core.ComponentEvent
 import dueuno.elements.core.Menu
 import dueuno.elements.style.TextWrap
 import groovy.transform.CompileStatic
@@ -190,10 +191,15 @@ class Button extends Component {
 
     void setConfirmMessage(String value) {
         defaultAction.confirmMessage = value
+        defaultAction.confirmMessageOnConfirm = new ComponentEvent(defaultAction.link.linkDefinition.asMap())
     }
 
     void setConfirmMessageArgs(List value) {
         defaultAction.confirmMessageArgs = value
+    }
+
+    void confirmMessageOnConfirm(ComponentEvent value) {
+        defaultAction.confirmMessageOnConfirm = value
     }
 
     void setTarget(String value) {
