@@ -36,6 +36,11 @@ class ComponentEvent extends LinkDefinition {
         on = args.on ?: 'click'
     }
 
+    ComponentEvent(String on) {
+        super()
+        this.on = on
+    }
+
     Map asMap() {
         return [
                 namespace: namespace,
