@@ -1,7 +1,14 @@
 class Label extends Component {
 
-    static setText($element, text) {
-        $element.find('span').html(text);
+    static setText($element, value) {
+        let $text = $element.find('span');
+        $text.html(value);
+    }
+
+    static setIcon($element, value) {
+        let $icon = $element.find('i');
+        $icon.removeClassesStartingWith('fa-');
+        $icon.addClass(value);
     }
 
     static setReadonly($element, value) {
