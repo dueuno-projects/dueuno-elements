@@ -159,7 +159,7 @@ class SystemPropertyService extends PropertyService {
 
         inMemoryProperties['SYSTEM'][name] = value
         if (onChangeRegistry[name]) {
-            log.info "SYSTEM: Property changed '$name' = '$value'"
+            log.info "APPLICATION - Property changed '$name' = '$value'"
             onChangeRegistry[name].call(oldValue, value, defaultValue)
         }
 
@@ -210,7 +210,7 @@ class SystemPropertyService extends PropertyService {
         }
 
 //        sw.stop()
-//        log.info "SYSTEM: Properties validated in ${sw.toString()}"
+//        log.info "APPLICATION - Properties validated in ${sw.toString()}"
     }
 
     void delete(Serializable id) {

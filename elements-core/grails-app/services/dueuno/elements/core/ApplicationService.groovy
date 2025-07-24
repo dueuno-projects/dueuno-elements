@@ -21,7 +21,6 @@ import dueuno.elements.tenants.TenantService
 import dueuno.elements.utils.EnvUtils
 import grails.core.GrailsApplication
 import grails.gorm.multitenancy.Tenants
-import grails.gorm.multitenancy.WithoutTenant
 import grails.util.Holders
 import grails.web.servlet.mvc.GrailsHttpSession
 import groovy.transform.CompileDynamic
@@ -111,7 +110,7 @@ class ApplicationService implements LinkGeneratorAware {
         if (!systemInstalled) {
             systemPropertyService.install()
             tenantService.install()
-            executeOnSystemInstall()
+            executeOnApplicationInstall()
         }
 
         // Tenant Provisioning
@@ -131,7 +130,7 @@ class ApplicationService implements LinkGeneratorAware {
     void startApplication() {
         log.info ""
         log.info "-" * 78
-        log.info "APPLICATION: STARTING UP..."
+        log.info "APPLICATION - STARTING UP"
         log.info "-" * 78
 
         performInitialization()
@@ -139,11 +138,6 @@ class ApplicationService implements LinkGeneratorAware {
         executeInit()
         executeAfterInit()
         performFinalization()
-
-        log.info "-" * 78
-        log.info "APPLICATION: STARTED."
-        log.info "-" * 78
-        log.info ""
     }
 
     /**
@@ -194,8 +188,8 @@ class ApplicationService implements LinkGeneratorAware {
      * Used by plugins to register a System setup closure. The closure will be executed only once.
      * @param closure a closure containing specific setup code
      */
-    void onSystemInstall(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
-        registerBootEvent('onSystemInstall', closure)
+    void onApplicationInstall(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
+        registerBootEvent('onApplicationInstall', closure)
     }
 
     /**
@@ -256,25 +250,20 @@ class ApplicationService implements LinkGeneratorAware {
         registerBootEvent('init', closure)
     }
 
-    void executeOnSystemInstall() {
-        if (hasBootEvents('onSystemInstall')) {
-            log.info ""
+    void executeOnApplicationInstall() {
+        if (hasBootEvents('onApplicationInstall')) {
             log.info "-" * 78
-            log.info "SYSTEM: INSTALLING..."
+            log.info "APPLICATION - INSTALLING"
             log.info "-" * 78
 
-            executeInstall('onSystemInstall', 'DEFAULT')
-
-            log.info "-" * 78
-            log.info "SYSTEM: INSTALLATION COMPLETE."
-            log.info "-" * 78
+            executeInstall('onApplicationInstall', 'DEFAULT')
         }
     }
 
     void executeOnPluginInstall(String tenantId) {
         if (hasBootEvents('onPluginInstall')) {
             log.info "-" * 78
-            log.info "${tenantId} Tenant - INSTALLING PLUGINS..."
+            log.info "${tenantId} Tenant - INSTALLING PLUGINS"
             log.info "-" * 78
 
             executeInstall('onPluginInstall', tenantId)
@@ -283,9 +272,8 @@ class ApplicationService implements LinkGeneratorAware {
 
     void executeOnInstall(String tenantId) {
         if (hasBootEvents('onInstall') || hasBootEvents('onDevInstall')) {
-            log.info ""
             log.info "-" * 78
-            log.info "${tenantId} Tenant - INSTALLING APPLICATION..."
+            log.info "${tenantId} Tenant - INSTALLING"
             log.info "-" * 78
 
             executeInstall('onInstall', tenantId)
@@ -297,9 +285,8 @@ class ApplicationService implements LinkGeneratorAware {
 
     void executeOnUpdate(String tenantId) {
         if (hasBootEvents('onUpdate')) {
-            log.info ""
             log.info "-" * 78
-            log.info "${tenantId} Tenant - INSTALLING UPDATES..."
+            log.info "${tenantId} Tenant - UPDATING"
             log.info "-" * 78
 
             executeInstall('onUpdate', tenantId, false, true)

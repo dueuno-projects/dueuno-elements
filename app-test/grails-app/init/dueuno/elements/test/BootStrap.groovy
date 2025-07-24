@@ -63,7 +63,7 @@ class BootStrap {
             println "${tenantId} Tenant - UPDATE N.3"
         }
 
-        applicationService.onSystemInstall {
+        applicationService.onApplicationInstall {
             systemPropertyService.setBoolean('DISPLAY_MENU', true)
             systemPropertyService.setString('DEFAULT_LANGUAGE', 'it')
             systemPropertyService.setString('EXCLUDED_LANGUAGES', 'de,pi')
@@ -288,7 +288,6 @@ class BootStrap {
 
             transitionService.subscribe('macchina-1')
             transitionService.subscribe('macchina-2')
-
 
             systemPropertyService.onChange('TEST_ON_CHANGE') { Object oldValue, Object value, Object defaultValue ->
                 println "*** TEST_ON_CHANGE *************************************************************"
