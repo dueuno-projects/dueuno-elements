@@ -546,11 +546,9 @@ class ApplicationService implements LinkGeneratorAware {
     private void registerLanguages() {
         List<String> available = getLanguagesFromResources()
         systemPropertyService.setString('AVAILABLE_LANGUAGES', available.join(','))
-        log.info "Available languages ${available}"
 
         // Exclusions
         List<String> excluded = systemPropertyService.getString('EXCLUDED_LANGUAGES').split(',') as List<String>
-        if (excluded) log.debug "Excluded languages ${excluded}"
 
         // Main check
         String main = systemPropertyService.getString('DEFAULT_LANGUAGE')
@@ -561,7 +559,7 @@ class ApplicationService implements LinkGeneratorAware {
             """)
         }
 
-        log.debug "Setting default language to '${main}'"
+        log.info "Available languages ${available}, excluded ${excluded}, default '${main}'"
     }
 
     List<String> getLanguages() {
