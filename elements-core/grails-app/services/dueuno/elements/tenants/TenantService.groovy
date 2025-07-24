@@ -193,7 +193,7 @@ class TenantService {
             )
 
             if (obj.tenantId != defaultTenantId) { // Default tenant gets its 'dataSource' from application.yml
-                log.info "${obj.tenantId} Tenant: Connecting to database..."
+                log.info "${obj.tenantId} Tenant - Connecting to database..."
                 connectionSourceService.connect(obj.connectionSource)
             }
 

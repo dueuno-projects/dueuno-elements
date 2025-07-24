@@ -274,7 +274,7 @@ class ApplicationService implements LinkGeneratorAware {
     void executeOnPluginInstall(String tenantId) {
         if (hasBootEvents('onPluginInstall')) {
             log.info "-" * 78
-            log.info "${tenantId} Tenant: INSTALLING PLUGINS..."
+            log.info "${tenantId} Tenant - INSTALLING PLUGINS..."
             log.info "-" * 78
 
             executeInstall('onPluginInstall', tenantId)
@@ -285,7 +285,7 @@ class ApplicationService implements LinkGeneratorAware {
         if (hasBootEvents('onInstall') || hasBootEvents('onDevInstall')) {
             log.info ""
             log.info "-" * 78
-            log.info "${tenantId} Tenant: INSTALLING APPLICATION..."
+            log.info "${tenantId} Tenant - INSTALLING APPLICATION..."
             log.info "-" * 78
 
             executeInstall('onInstall', tenantId)
@@ -299,7 +299,7 @@ class ApplicationService implements LinkGeneratorAware {
         if (hasBootEvents('onUpdate')) {
             log.info ""
             log.info "-" * 78
-            log.info "${tenantId} Tenant: INSTALLING UPDATES..."
+            log.info "${tenantId} Tenant - INSTALLING UPDATES..."
             log.info "-" * 78
 
             executeInstall('onUpdate', tenantId, false, true)
@@ -319,7 +319,7 @@ class ApplicationService implements LinkGeneratorAware {
             Integer isInstalled = TSystemInstall.countByPluginAndRevisionAndTenantIdAndDev(pluginName, revisionName, tenantId, isDev)
 
             if (!isInstalled) {
-                log.info "${tenantId} Tenant: Executing '${revisionName}'..."
+                log.info "${tenantId} Tenant - Executing '${revisionName}'..."
 
                 Tenants.withId(tenantId) {
                     if (closure.maximumNumberOfParameters == 1) {

@@ -714,7 +714,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 }
             }
 
-            log.info "${tenant.tenantId} Tenant: Created user '${args.username}' in groups: ${groups}"
+            log.info "${tenant.tenantId} Tenant - Created user '${args.username}' in groups: ${groups}"
         }
 
         return user
@@ -962,9 +962,9 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
 
         if (newGroup && authorities) {
-            log.info "${tenant.tenantId} Tenant: Created group '$groupName' with authorities: $authorities"
+            log.info "${tenant.tenantId} Tenant - Created group '$groupName' with authorities: $authorities"
         } else if (authorities) {
-            log.info "${tenant.tenantId} Tenant: Setting group '$groupName' with authorities: $authorities"
+            log.info "${tenant.tenantId} Tenant - Setting group '$groupName' with authorities: $authorities"
         }
 
         return roleGroup
