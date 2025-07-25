@@ -135,10 +135,10 @@ class Transition implements WebRequestAware {
         )
     }
 
-    void append(String component, String newComponent) {
+    void append(String parentComponent, String newComponent) {
         addCommand(
                 TransitionCommandMethod.APPEND,
-                component,
+                parentComponent,
                 null,
                 newComponent,
         )
