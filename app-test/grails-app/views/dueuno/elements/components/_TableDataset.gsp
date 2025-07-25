@@ -24,7 +24,7 @@
                             <render:icon icon="${c.table.noResultsIcon}"/>
                             <br/>
                         </g:if>
-                        <render:message code="${c.table.noResultsMessage}"/>
+                        <div><render:message code="${c.table.noResultsMessage}"/></div>
                     </td>
                 </tr>
             </g:if>

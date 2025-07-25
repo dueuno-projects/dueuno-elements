@@ -85,7 +85,7 @@ input:focus,
 input:focus-visible,
 .btn.btn-secondary:focus-visible,
 .btn.dropdown-toggle:focus-visible {
-    box-shadow: 0 0 0 .25rem rgba(var(--elements-primary-bg-shaded)) !important;
+    box-shadow: 0 0 0 .25rem rgb(var(--elements-primary-bg-shaded)) !important;
 }
 
 .input-group:has(.form-control) a.btn,
@@ -135,5 +135,5 @@ input:focus-visible,
 
 .input-group.field-highlight {
     border-radius: var(--bs-border-radius-lg);
-    box-shadow: 0 0 0 .25rem rgba(var(--elements-primary-bg-shaded)) !important;
+    box-shadow: 0 0 0 .25rem rgb(var(--elements-primary-bg-shaded)) !important;
 }

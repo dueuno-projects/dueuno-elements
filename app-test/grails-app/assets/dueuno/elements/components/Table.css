@@ -25,7 +25,7 @@
 }
 
 .component-table ::-webkit-scrollbar-thumb {
-    background-color: rgba(var(--elements-primary-bg-shaded));
+    background-color: rgb(var(--elements-primary-bg-shaded));
     border-radius: var(--bs-border-radius);
 }
 
@@ -115,7 +115,6 @@
 
 .table-no-results > td:first-child i {
     font-size: 10rem;
-    padding-bottom: 1rem;
 }
 
 .component-table tr.table-no-results,
@@ -162,7 +161,13 @@
 .component-table tr.table-no-results,
 .component-table tr.table-no-results td,
 .component-table tr.table-no-results:hover td {
-    color: rgba(var(--elements-secondary-bg), .5);
+    color: rgb(var(--elements-tertiary-bg));
+}
+
+.component-table tr.table-no-results td div {
+    margin-top: .5rem;
+    color: rgb(var(--elements-primary-bg-shaded));
+    font-weight: bold;
 }
 
 .component-table .table-hover tr.table-no-results:hover td {
@@ -170,7 +175,7 @@
 }
 
 .component-table-dataset .table-hover tr:hover td {
-    background-color: rgba(var(--elements-primary-bg-shaded));
+    background-color: rgb(var(--elements-primary-bg-shaded));
     --bs-table-hover-color: none;
 }
 

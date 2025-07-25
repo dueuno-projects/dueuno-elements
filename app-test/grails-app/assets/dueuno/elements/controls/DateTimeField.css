@@ -93,7 +93,7 @@
 .tempus-dominus-widget.light .time-container-hour div:not(.no-highlight):hover,
 .tempus-dominus-widget.light .time-container-minute div:not(.no-highlight):hover,
 .tempus-dominus-widget.light .toolbar div:hover {
-    background-color: rgba(var(--elements-primary-bg-shaded));
+    background-color: rgb(var(--elements-primary-bg-shaded));
 }
 
 .tempus-dominus-widget.light .date-container-decades div:not(.no-highlight).active,
