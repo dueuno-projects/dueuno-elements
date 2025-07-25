@@ -34,10 +34,6 @@ class TRoleGroup implements GormEntity, Serializable {
     Boolean deletable = false
     String landingPage
 
-    Set<TRole> getAuthorities() {
-        TRoleGroupRole.findAllByRoleGroup(this)*.role
-    }
-
     static constraints = {
         name blank: false, unique: ['tenant']
         landingPage nullable: true
@@ -45,5 +41,9 @@ class TRoleGroup implements GormEntity, Serializable {
 
     static mapping = {
         cache true
+    }
+
+    Set<TRole> getAuthorities() {
+        TRoleGroupRole.findAllByRoleGroup(this)*.role
     }
 }

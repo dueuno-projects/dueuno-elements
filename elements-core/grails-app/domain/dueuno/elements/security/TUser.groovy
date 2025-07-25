@@ -64,10 +64,6 @@ class TUser implements GormEntity, Serializable {
     Integer fontSize
     Boolean animations
 
-    Set<TRoleGroup> getAuthorities() {
-        TUserRoleGroup.findAllByUser(this)*.roleGroup
-    }
-
     static constraints = {
         defaultGroup nullable: true
         password blank: false, password: true
@@ -85,11 +81,20 @@ class TUser implements GormEntity, Serializable {
         password column: '`password`'
     }
 
+    // Alias for the required getAuthorities() that better fits our naming structure
+    Set<TRoleGroup> getGroups() {
+        getAuthorities()
+    }
+
+    Set<TRoleGroup> getAuthorities() {
+        TUserRoleGroup.findAllByUser(this)*.roleGroup
+    }
+
     String getFullname() {
         if (firstname || lastname) {
             return "${firstname ?: ''}${lastname ? ' ' + lastname : ''}"
-        } else {
-            return username
         }
+
+        return username
     }
 }

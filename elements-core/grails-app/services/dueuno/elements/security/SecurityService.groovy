@@ -906,6 +906,10 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return query.count()
     }
 
+    List<String> listGroupName(Map filterParams = [:], Map fetchParams = [:]) {
+        return listGroup(filterParams, fetchParams)*.name
+    }
+
     /**
      * Creates a group.
      *
@@ -1038,12 +1042,12 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      */
 
     TRole createAuthority(String authority) {
-        log.info "Creating authority '$authority'"
-
         TRole role = TRole.findByAuthority(authority)
         if (role) {
             return role
         }
+
+        log.info "Creating authority '$authority'"
 
         // Role does not exist we create it
         TRole newRole = new TRole(authority: authority).save(flush: true, failOnError: true)

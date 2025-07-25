@@ -30,6 +30,11 @@ class TRoleGroupRole implements GormEntity, Serializable {
     TRoleGroup roleGroup
     TRole role
 
+    static mapping = {
+        id composite: ['roleGroup', 'role']
+        version false
+    }
+
     @Override
     boolean equals(other) {
         if (other instanceof TRoleGroupRole) {
@@ -82,10 +87,5 @@ class TRoleGroupRole implements GormEntity, Serializable {
 
     static int removeAll(TRoleGroup rg) {
         rg == null ? 0 : TRoleGroupRole.where { roleGroup == rg }.deleteAll()
-    }
-
-    static mapping = {
-        id composite: ['roleGroup', 'role']
-        version false
     }
 }

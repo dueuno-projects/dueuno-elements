@@ -30,6 +30,11 @@ class TUserRoleGroup implements GormEntity, Serializable {
     TUser user
     TRoleGroup roleGroup
 
+    static mapping = {
+        id composite: ['roleGroup', 'user']
+        version false
+    }
+
     @Override
     boolean equals(other) {
         if (other instanceof TUserRoleGroup) {
@@ -82,22 +87,5 @@ class TUserRoleGroup implements GormEntity, Serializable {
 
     static int removeAll(TRoleGroup rg) {
         rg == null ? 0 : TUserRoleGroup.where { roleGroup == rg }.deleteAll()
-    }
-
-    //static constraints = {
-    //  user validator: { TUser u, TUserRoleGroup ug ->
-    //      if (ug.roleGroup?.id) {
-    //          TUserRoleGroup.withNewSession {
-    //              if (TUserRoleGroup.exists(u.id, ug.roleGroup.id)) {
-    //                  return ['userGroup.exists']
-    //              }
-    //          }
-    //      }
-    //  }
-    //}
-
-    static mapping = {
-        id composite: ['roleGroup', 'user']
-        version false
     }
 }
