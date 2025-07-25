@@ -394,7 +394,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         initializeShell()
 
         String tenantId = tenantService.currentTenantId
-        log.info "${tenantId}: Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
+        log.info "${tenantId} Tenant - Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
         auditService.log(AuditOperation.LOGIN, "Authorities: ${currentUserAuthorities}")
 
         // Executes custom login code
@@ -650,6 +650,13 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         if (args.failOnError == null) args.failOnError = false
 
         List<String> groups = args.groups ?: []
+        if (args.admin) groups.add(GROUP_ADMINS)
+        if (args.username != USERNAME_SUPERADMIN && EnvUtils.isDevelopment()) {
+            groups.add(GROUP_DEVELOPERS)
+        }
+        groups.add(GROUP_USERS)
+        groups.unique()
+
         String defaultGroup = args.defaultGroup
         if (!defaultGroup && groups.size() > 0) {
             defaultGroup = groups[0]
@@ -659,10 +666,12 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 ?: tenantService.getByTenantId(args.tenantId as String)
                 ?: tenantService.currentTenant
 
+        log.info "${tenant.tenantId} Tenant - Creating user '${args.username}' in groups ${groups} (default '${defaultGroup}')"
+
         TUser user = TUser.findByUsername(args.username as String)
         if (user) {
             List userGroups = ((List<TUserRoleGroup>) TUserRoleGroup.findAllByUser(user))*.roleGroup.name
-            log.error "ERROR Creating user '${args.username}', already exists in groups ${userGroups}, skipping user creation"
+            log.warn "${tenant.tenantId} Tenant - User '${args.username}' already exists, skipping user creation."
             user.errors.rejectValue('username', 'user.username.already.exists', [args.username] as Object[], 'user.username.already.exists')
             return user
         }
@@ -697,24 +706,19 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         user.save(flush: true, failOnError: args.failOnError)
 
         if (user.hasErrors()) {
-            log.error "ERROR Creating user '${args.username}' initialised as: ${args}"
+            log.error "${tenant.tenantId} Tenant - Error creating user '${args.username}' initialised as: ${args}"
             log.error user.errors.toString()
+            return user
+        }
 
-        } else { // Sets the groups
-            groups.add(GROUP_USERS)
-            if (user.username != USERNAME_SUPERADMIN && EnvUtils.isDevelopment()) groups.add(GROUP_DEVELOPERS)
-            if (args.admin) groups.add(GROUP_ADMINS)
-
-            for (groupName in groups.unique()) {
-                TRoleGroup roleGroup = TRoleGroup.findByTenantAndName(tenant, groupName)
-                if (roleGroup) {
-                    TUserRoleGroup.create(user, roleGroup)
-                } else {
-                    log.error "ERROR Creating roleGroup '${groupName}' for user: ${args.username}"
-                }
+        // Sets the groups
+        for (groupName in groups) {
+            TRoleGroup roleGroup = TRoleGroup.findByTenantAndName(tenant, groupName)
+            if (roleGroup) {
+                TUserRoleGroup.create(user, roleGroup)
+            } else {
+                log.error "${tenant.tenantId} Tenant - Error assigning group '${groupName}' to user '${args.username}', group not found!"
             }
-
-            log.info "${tenant.tenantId} Tenant - Created user '${args.username}' in groups: ${groups}"
         }
 
         return user
@@ -935,9 +939,9 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 ?: tenantService.getByTenantId(args.tenantId as String)
                 ?: tenantService.currentTenant
 
-        Boolean newGroup = false
         TRoleGroup roleGroup = TRoleGroup.findByNameAndTenant(groupName, tenant)
         if (!roleGroup) {
+            log.info "${tenant.tenantId} Tenant - Creating group '${groupName}' with authorities: ${authorities}"
             roleGroup = new TRoleGroup(
                     tenant: tenant,
                     name: groupName,
@@ -945,7 +949,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                     landingPage: landingPage,
             )
             roleGroup.save(flush: true, failOnError: args.failOnError)
-            newGroup = true
+        } else {
+            log.info "${tenant.tenantId} Tenant - Updating group '${groupName}' with authorities: ${authorities}"
         }
 
         for (authority in authorities) {
@@ -959,12 +964,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 )
                 newRoleGroupRole.save(flush: true, failOnError: args.failOnError)
             }
-        }
-
-        if (newGroup && authorities) {
-            log.info "${tenant.tenantId} Tenant - Created group '$groupName' with authorities: $authorities"
-        } else if (authorities) {
-            log.info "${tenant.tenantId} Tenant - Setting group '$groupName' with authorities: $authorities"
         }
 
         return roleGroup
@@ -1023,9 +1022,11 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     void deleteGroup(Serializable id) {
         TRoleGroup roleGroup = TRoleGroup.get(id)
+
+        log.info "Deleting group '${roleGroup}' with authorities ${roleGroup.authorities}"
+
         TRoleGroupRole.removeAll(roleGroup)
         roleGroup.delete(flush: true, failOnError: true)
-        log.info "Deleted group '$roleGroup' with authorities $roleGroup.authorities"
     }
 
     /**
@@ -1037,9 +1038,12 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      */
 
     TRole createAuthority(String authority) {
+        log.info "Creating authority '$authority'"
+
         TRole role = TRole.findByAuthority(authority)
-        if (role)
+        if (role) {
             return role
+        }
 
         // Role does not exist we create it
         TRole newRole = new TRole(authority: authority).save(flush: true, failOnError: true)
@@ -1058,7 +1062,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
 
         springSecurityService.reloadDBRoleHierarchy()
-        log.info "Created authority '$authority'"
 
         newRole.save(flush: true, failOnError: true)
         return newRole
@@ -1128,20 +1131,20 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         )
 
 //        tenantService.withTenant(tenantId) {
-            tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
-            tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
-            tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
+        tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
+        tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
+        tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
 
-            tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', false)
-            tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
-            tenantPropertyService.setString('LOGIN_LANDING_URL', '')
-            tenantPropertyService.setString('LOGOUT_LANDING_URL', '')
-            tenantPropertyService.setString('LOGIN_REGISTRATION_URL', '')
-            tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
-            tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
+        tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', false)
+        tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
+        tenantPropertyService.setString('LOGIN_LANDING_URL', '')
+        tenantPropertyService.setString('LOGOUT_LANDING_URL', '')
+        tenantPropertyService.setString('LOGIN_REGISTRATION_URL', '')
+        tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
+        tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
 
-            tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', linkPublicResource(tenantId, '/brand/login-background.jpg', false))
-            tenantPropertyService.setString('LOGIN_LOGO', linkPublicResource(tenantId, '/brand/login-logo.png', false))
+        tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', linkPublicResource(tenantId, '/brand/login-background.jpg', false))
+        tenantPropertyService.setString('LOGIN_LOGO', linkPublicResource(tenantId, '/brand/login-logo.png', false))
 //        }
     }
 }
