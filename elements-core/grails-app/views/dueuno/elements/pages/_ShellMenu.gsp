@@ -8,7 +8,7 @@
     data-21-events="${c.eventsAsJSON}"
 >
     <div id="shell-menu-search" class="offcanvas-header p-0" role="search">
-        <div class="input-group ps-1">
+        <div class="input-group">
             <button type="button" id="shell-navbar-menu-close"
                     class="btn btn-secondary"
                     data-bs-dismiss="offcanvas"

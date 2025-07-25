@@ -89,7 +89,9 @@
 
 #shell-menu-search-icon {
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
-    background-color: var(--bs-dark-rgb) !important;
+    background-color: #404040;
+    margin-left: .5rem;
+    margin-top: .5rem;
 }
 
 #shell-menu-search.offcanvas-header {
@@ -125,11 +127,19 @@
 
 #shell-menu-search input {
     padding-left: 0 !important;
-    height: 3.4rem;
     color: white !important;
     border: 0;
     font-weight: normal !important;
-    background-color: #303030;
+    background-color: #404040;
+    margin-right: .5rem;
+    margin-top: .5rem;
+}
+
+@media (max-width: 1399.98px) {
+    #shell-menu-search input {
+        background-color: inherit;
+        margin: 0;
+    }
 }
 
 #shell-menu-search input::placeholder {
