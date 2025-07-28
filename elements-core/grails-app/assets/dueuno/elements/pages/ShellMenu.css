@@ -90,8 +90,8 @@
 #shell-menu-search-icon {
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
     background-color: #404040;
-    margin-left: .5rem;
-    margin-top: .5rem;
+    margin-left: .75rem;
+    margin-top: .75rem;
 }
 
 #shell-menu-search.offcanvas-header {
@@ -131,8 +131,8 @@
     border: 0;
     font-weight: normal !important;
     background-color: #404040;
-    margin-right: .5rem;
-    margin-top: .5rem;
+    margin-right: .75rem;
+    margin-top: .75rem;
 }
 
 @media (max-width: 1399.98px) {
