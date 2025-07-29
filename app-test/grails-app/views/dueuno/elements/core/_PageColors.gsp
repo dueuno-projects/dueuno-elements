@@ -6,7 +6,7 @@
         --elements-primary-text: ${c.primaryTextColorInt.join(', ')};
         --elements-secondary-bg: ${c.secondaryBackgroundColorInt.join(', ')};
         --elements-secondary-text: ${c.secondaryTextColorInt.join(', ')};
-        --elements-tertiary-bg: ${c.tertiaryBackgroundColorInt.join(', ')};
-        --elements-tertiary-text: ${c.tertiaryTextColorInt.join(', ')};
+        --elements-main-bg: ${c.mainBackgroundColorInt.join(', ')};
+        --elements-main-text: ${c.mainTextColorInt.join(', ')};
     }
 </style>

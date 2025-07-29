@@ -6,6 +6,16 @@ html {
     --bs-border-radius: .3rem;
     --bs-border-radius-lg: .5rem;
     --bs-border-radius-xl: 1rem;
+
+    /* See _PageColors.gsp */
+    --elements-primary-bg: 204, 0, 0;
+    --elements-primary-bg-alpha: .15;
+    --elements-primary-bg-shaded: 204, 0, 0, .15;
+    --elements-primary-text: 255, 255, 255;
+    --elements-secondary-bg: 80, 69, 69;
+    --elements-secondary-text: 255, 255, 255;
+    --elements-main-bg: 244, 241, 241;
+    --elements-main-text: 51, 48, 48;
 }
 
 body {

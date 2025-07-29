@@ -125,7 +125,7 @@
 /* COLORS
 */
 .select2-container--bootstrap-5 .select2-selection {
-    background-color: rgb(var(--elements-tertiary-bg));
+    background-color: rgb(var(--elements-main-bg));
 }
 
 .select2-container--bootstrap-5.select2-container--focus .select2-selection,
@@ -150,6 +150,6 @@
 
 .select2-container--bootstrap-5.select2-container--disabled .select2-selection,
 .select2-container--bootstrap-5.select2-container--disabled.select2-container--focus .select2-selection {
-    background-color: rgba(var(--elements-tertiary-bg), .4) !important;
-    color: rgba(var(--elements-tertiary-text), .7) !important;
+    background-color: rgba(var(--elements-main-bg), .4) !important;
+    color: rgba(var(--elements-main-text), .7) !important;
 }

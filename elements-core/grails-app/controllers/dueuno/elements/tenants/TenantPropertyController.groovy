@@ -126,7 +126,7 @@ class TenantPropertyController implements ElementsController {
                 String description = messageOrBlank(descriptionCode)
                 row.cells.description.html = description ?: descriptionCode
                 if (!description) {
-                    row.cells.description.textColor = tertiaryBackgroundColor
+                    row.cells.description.textColor = mainBackgroundColor
                 }
 
                 if (values.type == PropertyType.BOOL) {
@@ -160,7 +160,7 @@ class TenantPropertyController implements ElementsController {
                         html: description,
                         displayLabel: false,
                         tag: true,
-                        backgroundColor: tertiaryBackgroundColor,
+                        backgroundColor: mainBackgroundColor,
                 )
             }
 

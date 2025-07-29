@@ -6,7 +6,7 @@ input[type] {
 .component-form label {
     margin: .5rem 0 0 .25rem;
     font-size: .85rem;
-    color: rgba(var(--elements-tertiary-text), 0.4);
+    color: rgba(var(--elements-main-text), 0.4);
 }
 
 .component-form label i {
@@ -100,12 +100,12 @@ input:focus-visible,
 .input-group .component-help, .input-group .component-help:hover,
 .input-group textarea, .input-group textarea:focus,
 .input-group input, .input-group input:focus {
-    background-color: rgb(var(--elements-tertiary-bg));
-    color: rgb(var(--elements-tertiary-text));
+    background-color: rgb(var(--elements-main-bg));
+    color: rgb(var(--elements-main-text));
 }
 
 .input-group-text {
-    color: rgba(var(--elements-tertiary-text), .7);
+    color: rgba(var(--elements-main-text), .7);
 }
 
 .input-group:has([readonly], [disabled]) > span:not(.select2),
@@ -117,15 +117,15 @@ input:focus-visible,
 .input-group:has([readonly], [disabled]) textarea,
 .input-group:has([readonly], [disabled]) > input,
 .input-group:has([readonly], [disabled]) > button {
-    background-color: rgba(var(--elements-tertiary-bg), .4) !important;
-    color: rgba(var(--elements-tertiary-text), .7) !important;
+    background-color: rgba(var(--elements-main-bg), .4) !important;
+    color: rgba(var(--elements-main-text), .7) !important;
     opacity: 1;
 }
 
 .input-group:has([readonly], [disabled]) .component-help,
 .input-group:has([readonly], [disabled]) .component-help:hover {
-    background-color: rgba(var(--elements-tertiary-bg), .4) !important;
-    color: rgb(var(--elements-tertiary-text)) !important;
+    background-color: rgba(var(--elements-main-bg), .4) !important;
+    color: rgb(var(--elements-main-text)) !important;
 }
 
 .input-group.error-highlight {

@@ -302,7 +302,7 @@ class FormController implements ElementsController {
             buttonGroupField.component.addAction(action: 'anotherAction1', backgroundColor: Color.WARNING_BACKGROUND, textColor: Color.WARNING_TEXT)
             buttonGroupField.component.addAction(action: 'anotherAction2', backgroundColor: Color.SUCCESS_BACKGROUND, textColor: Color.SUCCESS_TEXT)
             buttonGroupField.component.addAction(action: 'anotherAction3', backgroundColor: Color.INFO_BACKGROUND, textColor: Color.INFO_TEXT)
-            buttonGroupField.component.addAction(action: 'anotherAction4', backgroundColor: tertiaryBackgroundColor, textColor: Color.DISABLED_TEXT)
+            buttonGroupField.component.addAction(action: 'anotherAction4', backgroundColor: mainBackgroundColor, textColor: Color.DISABLED_TEXT)
             addField(
                     class: Separator,
                     id: 'separator',
@@ -438,7 +438,7 @@ class FormController implements ElementsController {
                     id: 'disabledColor',
                     textWrap: TextWrap.NO_WRAP,
                     textColor: Color.DISABLED_TEXT,
-                    backgroundColor: tertiaryBackgroundColor,
+                    backgroundColor: mainBackgroundColor,
                     cols: 4,
             )
         }
@@ -473,7 +473,7 @@ class FormController implements ElementsController {
                     [status: 'WARNING', textColor: Color.WARNING_TEXT, backgroundColor: Color.WARNING_BACKGROUND],
                     [status: 'SUCCESS', textColor: Color.SUCCESS_TEXT, backgroundColor: Color.SUCCESS_BACKGROUND],
                     [status: 'INFO', textColor: Color.INFO_TEXT, backgroundColor: Color.INFO_BACKGROUND],
-                    [status: 'DISABLED', textColor: Color.DISABLED_TEXT, backgroundColor: tertiaryBackgroundColor],
+                    [status: 'DISABLED', textColor: Color.DISABLED_TEXT, backgroundColor: mainBackgroundColor],
             ]
         }
 

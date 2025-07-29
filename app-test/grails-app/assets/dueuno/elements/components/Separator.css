@@ -17,5 +17,5 @@
 /* COLORS
 */
 .component-separator {
-    border-bottom: var(--bs-border-width) solid rgb(var(--elements-tertiary-bg));
+    border-bottom: var(--bs-border-width) solid rgb(var(--elements-main-bg));
 }

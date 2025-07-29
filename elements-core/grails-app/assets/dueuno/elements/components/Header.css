@@ -1,5 +1,5 @@
 .component-header {
-    background-color: rgb(var(--elements-tertiary-bg));
+    background-color: rgb(var(--elements-main-bg));
 }
 
 .component-header .component-header-box {
@@ -40,7 +40,7 @@
 }
 
 #page-modal .component-header .component-header-box {
-    background-color: rgb(var(--elements-tertiary-bg));
+    background-color: rgb(var(--elements-main-bg));
     margin-bottom : 0;
     padding: 0;
 }

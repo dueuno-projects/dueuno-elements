@@ -90,10 +90,10 @@ abstract class Component implements WebRequestAware, Serializable {
     List<Integer> primaryBackgroundColorInt
     Double primaryBackgroundColorAlpha
 
-    String tertiaryTextColor
-    List<Integer> tertiaryTextColorInt
-    String tertiaryBackgroundColor
-    List<Integer> tertiaryBackgroundColorInt
+    String mainTextColor
+    List<Integer> mainTextColorInt
+    String mainBackgroundColor
+    List<Integer> mainBackgroundColorInt
 
     String secondaryTextColor
     List<Integer> secondaryTextColorInt
@@ -137,10 +137,10 @@ abstract class Component implements WebRequestAware, Serializable {
         primaryBackgroundColorInt = Color.hexToIntColor(primaryBackgroundColor) ?: warnColorError(primaryBackgroundColor)
         primaryBackgroundColorAlpha = (Double) (args.primaryBackgroundColorAlpha == null ? 0.15d : args.primaryBackgroundColorAlpha)
 
-        tertiaryTextColor = args.tertiaryTextColor ?: '#333333'
-        tertiaryTextColorInt = Color.hexToIntColor(tertiaryTextColor) ?: warnColorError(tertiaryTextColor)
-        tertiaryBackgroundColor = args.tertiaryBackgroundColor ?: '#f0ebeb'
-        tertiaryBackgroundColorInt = Color.hexToIntColor(tertiaryBackgroundColor) ?: warnColorError(tertiaryBackgroundColor)
+        mainTextColor = args.mainTextColor ?: '#333333'
+        mainTextColorInt = Color.hexToIntColor(mainTextColor) ?: warnColorError(mainTextColor)
+        mainBackgroundColor = args.mainBackgroundColor ?: '#f0ebeb'
+        mainBackgroundColorInt = Color.hexToIntColor(mainBackgroundColor) ?: warnColorError(mainBackgroundColor)
 
         secondaryTextColor = args.secondaryTextColor ?: '#ffffff'
         secondaryTextColorInt = Color.hexToIntColor(secondaryTextColor) ?: warnColorError(secondaryTextColor)
@@ -316,8 +316,8 @@ abstract class Component implements WebRequestAware, Serializable {
         args.primaryTextColor = this.primaryTextColor
         args.primaryBackgroundColor = this.primaryBackgroundColor
         args.primaryBackgroundColorAlpha = this.primaryBackgroundColorAlpha
-        args.tertiaryTextColor = this.tertiaryTextColor
-        args.tertiaryBackgroundColor = this.tertiaryBackgroundColor
+        args.mainTextColor = this.mainTextColor
+        args.mainBackgroundColor = this.mainBackgroundColor
         args.secondaryTextColor = this.secondaryTextColor
         args.secondaryBackgroundColor = this.secondaryBackgroundColor
     }

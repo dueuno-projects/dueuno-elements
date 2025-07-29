@@ -80,7 +80,7 @@
 }
 
 .control-upload[readonly] {
-    background-color: rgb(var(--elements-tertiary-bg));
+    background-color: rgb(var(--elements-main-bg));
 }
 
 .control-upload[readonly] .dz-message .dz-button {

@@ -87,7 +87,7 @@ button:active {
 }
 
 .dropdown-menu a {
-    color: rgb(var(--elements-tertiary-text));
+    color: rgb(var(--elements-main-text));
 }
 
 a.btn,

@@ -60,7 +60,7 @@
 }
 
 .component-table-dataset .sticky-header {
-    border-bottom: rgb(var(--elements-tertiary-bg)) .25rem solid;
+    border-bottom: rgb(var(--elements-main-bg)) .25rem solid;
 }
 
 .component-table-dataset .component-table-header a {
@@ -161,7 +161,7 @@
 .component-table tr.table-no-results,
 .component-table tr.table-no-results td,
 .component-table tr.table-no-results:hover td {
-    color: rgb(var(--elements-tertiary-bg));
+    color: rgb(var(--elements-main-bg));
 }
 
 .component-table tr.table-no-results td div {
@@ -180,7 +180,7 @@
 }
 
 .component-table-dataset .table-striped tbody tr:nth-of-type(odd) {
-    --bs-table-striped-bg: rgb(var(--elements-tertiary-bg));
+    --bs-table-striped-bg: rgb(var(--elements-main-bg));
 }
 
 .component-table-dataset .component-table-header a {

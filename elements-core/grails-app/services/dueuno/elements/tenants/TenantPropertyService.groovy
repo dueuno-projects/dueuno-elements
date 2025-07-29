@@ -54,9 +54,8 @@ class TenantPropertyService extends PropertyService {
         setString('SECONDARY_TEXT_COLOR', '#ffffff', '#ffffff')
         setString('SECONDARY_BACKGROUND_COLOR', '#625b5b', '#625b5b')
         setNumber('SECONDARY_BACKGROUND_COLOR_ALPHA', 1, 1)
-        setString('TERTIARY_TEXT_COLOR', '#030303', '#030303')
-        setString('TERTIARY_BACKGROUND_COLOR', '#f4f1f1', '#f4f1f1')
-        setNumber('TERTIARY_BACKGROUND_COLOR_ALPHA', 1, 1)
+        setString('MAIN_TEXT_COLOR', '#030303', '#030303')
+        setString('MAIN_BACKGROUND_COLOR', '#f4f1f1', '#f4f1f1')
     }
 
     DetachedCriteria<TTenantProperty> buildQuery(Map filters) {
