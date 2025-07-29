@@ -16,7 +16,7 @@
     top: 0;
     bottom: 0;
     left: 0;
-    background-color: #303030 !important;
+    background-color: rgb(var(--elements-frame-bg)) !important;
 }
 
 #shell-menu .offcanvas-body {
@@ -47,7 +47,7 @@
 }
 
 #shell-menu .offcanvas-body .simplebar-scrollbar:before {
-    background: white !important;
+    background: rgb(var(--elements-frame-text)) !important;
     width: .6rem;
 }
 
@@ -68,7 +68,7 @@
 #shell-menu .nav-item > span {
     padding: .5rem;
     padding-right: .25rem;
-    color: #707070;
+    color: rgba(var(--elements-frame-text), .3);
 }
 
 #shell-menu .nav-item a {
@@ -79,17 +79,17 @@
 }
 
 #shell-menu .nav-item a:focus {
-    background-color: #505050 !important;
+    background-color: rgba(var(--elements-frame-text), .2) !important;
     outline: none;
 }
 
 #shell-menu .nav-item a:hover {
-    background-color: #505050 !important;
+    background-color: rgba(var(--elements-frame-text), .2) !important;
 }
 
 #shell-menu-search-icon {
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
-    background-color: #404040;
+    background-color: rgba(var(--elements-frame-text), .1);
     margin-left: .75rem;
     margin-top: .75rem;
 }
@@ -108,11 +108,11 @@
 }
 
 #shell-menu-search .input-group-text i {
-    color: #707070;
+    color: rgba(var(--elements-frame-text), .3);
 }
 
 #shell-menu-search input::selection {
-    background-color: #505050 !important;
+    background-color: rgba(var(--elements-frame-text), .1) !important;
 }
 
 #shell-menu-search input[type="search"]::-webkit-search-cancel-button {
@@ -127,12 +127,13 @@
 
 #shell-menu-search input {
     padding-left: 0 !important;
-    color: white !important;
+    color: rgb(var(--elements-frame-text)) !important;
     border: 0;
     font-weight: normal !important;
-    background-color: #404040;
+    background-color: rgba(var(--elements-frame-text), .1);
     margin-right: .75rem;
     margin-top: .75rem;
+    margin-left: 0;
 }
 
 @media (max-width: 1399.98px) {
@@ -144,7 +145,7 @@
 
 #shell-menu-search input::placeholder {
     font-weight: 300;
-    color: #707070;
+    color: rgba(var(--elements-frame-text), .4);
     opacity: 1;
 }
 
@@ -156,6 +157,6 @@
 #shell-menu-search button {
     height: 3.3rem;
     background-color: transparent !important;
-    color: #f0f0f0 !important;
+    color: rgb(var(--elements-frame-text)) !important;
     border: 0;
 }

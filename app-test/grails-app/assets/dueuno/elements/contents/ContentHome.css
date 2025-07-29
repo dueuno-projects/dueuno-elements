@@ -21,7 +21,7 @@
 }
 
 .shell-content-card .card {
-    border-radius: calc(var(--bs-border-radius) * 4);
+    border-radius: calc(var(--bs-border-radius-lg) * 3);
     border: none;
     height: 11rem;
 }

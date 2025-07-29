@@ -84,18 +84,23 @@ abstract class Component implements WebRequestAware, Serializable {
     String backgroundColor
 
     /** Colors */
-    String primaryTextColor
-    List<Integer> primaryTextColorInt
-    String primaryBackgroundColor
-    List<Integer> primaryBackgroundColorInt
-    Double primaryBackgroundColorAlpha
-
     String mainTextColor
     List<Integer> mainTextColorInt
     String mainBackgroundColor
     List<Integer> mainBackgroundColorInt
     String mainForegroundColor
     List<Integer> mainForegroundColorInt
+
+    String frameTextColor
+    List<Integer> frameTextColorInt
+    String frameBackgroundColor
+    List<Integer> frameBackgroundColorInt
+
+    String primaryTextColor
+    List<Integer> primaryTextColorInt
+    String primaryBackgroundColor
+    List<Integer> primaryBackgroundColorInt
+    Double primaryBackgroundColorAlpha
 
     String secondaryTextColor
     List<Integer> secondaryTextColorInt
@@ -139,6 +144,11 @@ abstract class Component implements WebRequestAware, Serializable {
         mainBackgroundColorInt = Color.hexToIntColor(mainBackgroundColor) ?: warnColorError(mainBackgroundColor)
         mainForegroundColor = args.mainForegroundColor ?: '#ffffff'
         mainForegroundColorInt = Color.hexToIntColor(mainForegroundColor) ?: warnColorError(mainForegroundColor)
+
+        frameTextColor = args.frameTextColor ?: '#f4f1f1'
+        frameTextColorInt = Color.hexToIntColor(frameTextColor) ?: warnColorError(frameTextColor)
+        frameBackgroundColor = args.frameBackgroundColor ?: '#333030'
+        frameBackgroundColorInt = Color.hexToIntColor(frameBackgroundColor) ?: warnColorError(frameBackgroundColor)
 
         primaryTextColor = args.primaryTextColor ?: '#ffffff'
         primaryTextColorInt = Color.hexToIntColor(primaryTextColor) ?: warnColorError(primaryTextColor)

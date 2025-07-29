@@ -8,7 +8,7 @@
 }
 
 .control-checkbox-simple .form-check-input:checked {
-    background-color: rgba(var(--elements-primary-bg), 1);
+    background-color: rgb(var(--elements-primary-bg));
     border: none;
 }
 
@@ -61,6 +61,7 @@
 
 .help .control-checkbox .form-switch .form-check-input {
     right: calc(1rem + 1rem * 1.6);
+    border-radius: 2rem;
 }
 
 .control-checkbox .form-switch .form-check-input:checked {

@@ -6,7 +6,7 @@ input[type] {
 .component-form label {
     margin: .5rem 0 0 .25rem;
     font-size: .85rem;
-    color: rgba(var(--elements-main-text), 0.4);
+    color: rgba(var(--elements-main-text), .7);
 }
 
 .component-form label i {
@@ -53,12 +53,6 @@ input[type] {
     margin-right: var(--bs-border-width);
 }
 
-.component-form .help-message td {
-    margin: 0;
-    padding: 0;
-    vertical-align: top;
-}
-
 .component-form .error-message,
 .component-form .help-message {
     font-size: .85rem;
@@ -68,6 +62,10 @@ input[type] {
 .component-form .input-group .component-help,
 .component-form .input-group .component-help:hover {
     border: none;
+}
+
+.component-form .help-message {
+    color: rgb(var(--elements-main-text));
 }
 
 .component-form .error-icon,
@@ -96,16 +94,10 @@ input:focus-visible,
 .input-group:has(.form-control) .dropdown-toggle:hover,
 .input-group:has(.form-control) .dropdown-toggle:focus,
 .input-group:has(.form-control) .dropdown-toggle:active,
-.input-group-text,
-.input-group .component-help, .input-group .component-help:hover,
 .input-group textarea, .input-group textarea:focus,
 .input-group input, .input-group input:focus {
     background-color: rgb(var(--elements-main-bg));
     color: rgb(var(--elements-main-text));
-}
-
-.input-group-text {
-    color: rgba(var(--elements-main-text), .7);
 }
 
 .input-group:has([readonly], [disabled]) > span:not(.select2),
@@ -118,14 +110,20 @@ input:focus-visible,
 .input-group:has([readonly], [disabled]) > input,
 .input-group:has([readonly], [disabled]) > button {
     background-color: rgba(var(--elements-main-bg), .4) !important;
-    color: rgba(var(--elements-main-text), .7) !important;
     opacity: 1;
+}
+
+.input-group-text,
+.input-group .component-help,
+.input-group .component-help:hover {
+    background-color: rgb(var(--elements-main-bg));
+    color: rgba(var(--elements-main-text), .7);
 }
 
 .input-group:has([readonly], [disabled]) .component-help,
 .input-group:has([readonly], [disabled]) .component-help:hover {
     background-color: rgba(var(--elements-main-bg), .4) !important;
-    color: rgb(var(--elements-main-text)) !important;
+    color: rgba(var(--elements-main-text), .7) !important;
 }
 
 .input-group.error-highlight {

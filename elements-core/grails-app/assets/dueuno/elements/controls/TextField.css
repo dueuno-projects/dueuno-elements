@@ -31,8 +31,7 @@
 }
 
 .input-group .show-password i {
-    color: rgb(var(--elements-main-text));
-    opacity: .5;
+    color: rgba(var(--elements-main-text), .7);
 }
 
 .input-group ::placeholder {

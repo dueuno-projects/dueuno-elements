@@ -1,7 +1,11 @@
 .tooltip {
     --bs-tooltip-font-size: .9rem;
-    --bs-tooltip-color: rgb(var(--bs-light-rgb));
-    --bs-tooltip-bg: #303030;
+    --bs-tooltip-color: rgb(var(--elements-frame-text));
+    --bs-tooltip-bg: rgb(var(--elements-frame-bg));
+}
+
+.tooltip.show {
+    opacity: 1;
 }
 
 .component-label {

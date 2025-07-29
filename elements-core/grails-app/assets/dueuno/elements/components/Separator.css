@@ -18,4 +18,5 @@
 */
 .component-separator {
     border-bottom: var(--bs-border-width) solid rgb(var(--elements-main-bg));
+    background-color: rgb(var(--elements-main-fg));
 }

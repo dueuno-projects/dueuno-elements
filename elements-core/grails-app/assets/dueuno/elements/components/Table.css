@@ -2,7 +2,7 @@
     padding: calc(var(--elements-spacing-y) * 1.5) calc(var(--elements-spacing-x) * .15);
     padding-right: .5rem;
     background-color: transparent;
-    color: rgb(var(--elements-main-text));
+    color: inherit;
 }
 
 .component-table table {
@@ -34,7 +34,6 @@
 }
 
 .component-table > .component-separator {
-    background-color: rgb(var(--elements-main-fg));
     border-top-left-radius: var(--bs-border-radius-lg);
     border-top-right-radius: var(--bs-border-radius-lg);
     padding: .75rem;

@@ -99,6 +99,8 @@
 .select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field {
     border-radius: var(--bs-border-radius-lg);
     border: 0;
+    background-color: rgb(var(--elements-main-bg));
+    color: rgb(var(--elements-main-text));
 }
 
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
