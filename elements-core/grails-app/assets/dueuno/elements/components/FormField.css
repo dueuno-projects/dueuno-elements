@@ -120,10 +120,11 @@ input:focus-visible,
     color: rgba(var(--elements-main-text), .7);
 }
 
+.input-group:has([readonly], [disabled]) .input-group-text,
 .input-group:has([readonly], [disabled]) .component-help,
 .input-group:has([readonly], [disabled]) .component-help:hover {
     background-color: rgba(var(--elements-main-bg), .4) !important;
-    color: rgba(var(--elements-main-text), .7) !important;
+    color: rgba(var(--elements-main-text), .4) !important;
 }
 
 .input-group.error-highlight {
