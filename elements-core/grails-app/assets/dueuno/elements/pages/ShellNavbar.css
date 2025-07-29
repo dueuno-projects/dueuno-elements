@@ -21,7 +21,7 @@
     border: 0;
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
     background: none;
-    color: #333333;
+    color: rgb(var(--elements-main-text));
 }
 
 #shell-navbar-home {
@@ -35,7 +35,7 @@
     margin-left: -.5rem;
     border: 0;
     background: transparent;
-    color: #333333;
+    color: rgb(var(--elements-main-text));
 }
 
 #shell-navbar-logo {
@@ -70,5 +70,5 @@
     border: 0;
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
     background: none;
-    color: #333333;
+    color: rgb(var(--elements-main-text));
 }

@@ -1,6 +1,6 @@
 .component-form {
     border-radius: var(--bs-border-radius-lg);
-    background-color: white;
+    background-color: rgb(var(--elements-main-fg));
     margin-bottom: .25rem;
 }
 

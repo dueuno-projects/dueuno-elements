@@ -10,23 +10,22 @@
 .select2-container--bootstrap-5 .select2-selection--single {
     padding: 0;
     font-weight: bold;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333030' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
     background-size: .8rem;
 }
 
 /* CANCEL BUTTON */
-
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__clear,
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__clear:hover,
 .select2-container--bootstrap-5 .select2-selection--single .select2-selection__clear,
 .select2-container--bootstrap-5 .select2-selection--single .select2-selection__clear:hover {
-    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23333333'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") 50%/1rem auto no-repeat;
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23333030'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") 50%/1rem auto no-repeat;
     padding: .4rem;
 }
 
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove:hover,
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove {
-    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23333333'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") 50%/1rem auto no-repeat;
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23333030'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") 50%/1rem auto no-repeat;
     padding: .4rem;
 }
 
@@ -43,10 +42,11 @@
     padding: var(--elements-spacing-y);
     border-radius: var(--bs-border-radius-lg);
     box-shadow: 0 .25rem .75rem rgba(var(--bs-body-color-rgb), .15);
-    background-color: rgba(255, 255, 255, .6);
+    background-color: rgba(var(--elements-main-fg), .6);
     backdrop-filter: blur(21px);
     -webkit-backdrop-filter: blur(21px);
     border: none;
+    color: rgb(var(--elements-main-text));
 }
 
 /* SINGLE */
@@ -75,7 +75,7 @@
 .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
     font-weight: bold;
-    color: inherit;
+    color: rgb(var(--elements-main-text));
 }
 
 .select2-container--bootstrap-5 .select2-selection--multiple {
@@ -107,6 +107,7 @@
     margin: var(--elements-spacing-y);
     margin-right: 0;
     border: 0;
+    color: rgb(var(--elements-main-text));
 }
 
 /* SELECTED */
@@ -145,6 +146,7 @@
 }
 
 .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--highlighted:not(.select2-results__option.select2-results__option--selected) {
+    color: rgb(var(--elements-main-text));
     background-color: rgb(var(--elements-primary-bg-shaded));
 }
 

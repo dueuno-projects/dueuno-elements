@@ -1,4 +1,4 @@
-html {
+:root, html {
     /* See _PageHeader.gsp */
     font-size: var(--elements-font-size);
     --elements-spacing-x: .65rem;
@@ -15,10 +15,13 @@ html {
     --elements-secondary-bg: 82, 71, 71;
     --elements-secondary-text: 255, 255, 255;
     --elements-main-bg: 244, 241, 241;
+    --elements-main-fg: 255, 255, 0;
     --elements-main-text: 51, 48, 48;
+    --bs-body-color: rgb(var(--elements-main-text));
 }
 
 body {
+    background-color: rgb(var(--elements-main-bg));
     visibility: hidden;
 }
 

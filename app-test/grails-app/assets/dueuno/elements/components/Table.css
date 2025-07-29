@@ -2,7 +2,7 @@
     padding: calc(var(--elements-spacing-y) * 1.5) calc(var(--elements-spacing-x) * .15);
     padding-right: .5rem;
     background-color: transparent;
-    color: inherit;
+    color: rgb(var(--elements-main-text));
 }
 
 .component-table table {
@@ -12,7 +12,7 @@
 }
 
 .component-table thead th {
-    background-color: white;
+    background-color: rgb(var(--elements-main-fg));
 }
 
 .component-table .component-label.tag {
@@ -34,7 +34,7 @@
 }
 
 .component-table > .component-separator {
-    background-color: white;
+    background-color: rgb(var(--elements-main-fg));
     border-top-left-radius: var(--bs-border-radius-lg);
     border-top-right-radius: var(--bs-border-radius-lg);
     padding: .75rem;
@@ -53,6 +53,7 @@
 
 .component-table-dataset-wrapper {
     padding-bottom: .5rem;
+    background-color: rgb(var(--elements-main-fg));
 }
 
 .component-table-dataset .table-hover tr:hover td {
@@ -120,7 +121,7 @@
 .component-table tr.table-no-results,
 .component-table tr.table-no-results td,
 .component-table tr.table-no-results:hover td {
-    background-color: white;
+    background-color: rgb(var(--elements-main-fg));
 }
 
 .component-table:has(.table-no-results) {
@@ -171,7 +172,7 @@
 }
 
 .component-table .table-hover tr.table-no-results:hover td {
-    background-color: white;
+    background-color: rgb(var(--elements-main-fg));
 }
 
 .component-table-dataset .table-hover tr:hover td {

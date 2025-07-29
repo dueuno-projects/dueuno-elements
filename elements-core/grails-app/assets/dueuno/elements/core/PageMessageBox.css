@@ -1,6 +1,6 @@
 #page-messagebox .modal-content {
     background-color: #303030;
-    color: white;
+    color: rgb(var(--elements-main-fg));
 }
 
 #page-messagebox .modal-footer {

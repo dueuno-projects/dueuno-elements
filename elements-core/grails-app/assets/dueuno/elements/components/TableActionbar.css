@@ -6,7 +6,7 @@
 .component-actionbar .btn-group button.dropdown-toggle:focus,
 .component-actionbar .btn-group button.dropdown-toggle:active,
 .component-actionbar .btn-group button.dropdown-toggle:hover {
-    background-color: white;
-    color: #333333;
+    background-color: rgb(var(--elements-main-fg));
+    color: rgb(var(--elements-main-text));
     font-weight: normal;
 }

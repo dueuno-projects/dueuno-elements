@@ -94,6 +94,7 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
         args.primaryBackgroundColorAlpha = (Double) tenantPropertyService.getNumber('PRIMARY_BACKGROUND_COLOR_ALPHA')
         args.mainTextColor = tenantPropertyService.getString('MAIN_TEXT_COLOR')
         args.mainBackgroundColor = tenantPropertyService.getString('MAIN_BACKGROUND_COLOR')
+        args.mainForegroundColor = tenantPropertyService.getString('MAIN_FOREGROUND_COLOR')
         args.secondaryTextColor = tenantPropertyService.getString('SECONDARY_TEXT_COLOR')
         args.secondaryBackgroundColor = tenantPropertyService.getString('SECONDARY_BACKGROUND_COLOR')
 

@@ -1,7 +1,7 @@
 .btn i > img, li a i > img {
     margin-top: -.2rem;
     height: 1.3rem;
-    border: .15rem solid white;
+    border: .15rem solid rgb(var(--elements-main-fg));
     border-radius: 100%;
 }
 

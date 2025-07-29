@@ -16,7 +16,7 @@
                 data-bs-dismiss="offcanvas"
                 data-bs-target="#shell-user-menu"
                 aria-label="Close">
-            <i class="fa-solid fa-circle-xmark text-dark"></i>
+            <i class="fa-solid fa-circle-xmark"></i>
         </button>
     </div>
 

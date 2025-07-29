@@ -1,7 +1,7 @@
 .control-checkbox-simple .form-check-input {
-    border-radius: var(--bs-border-radius);
-    background-color: #f0f0f0;
-    border: .15rem solid #707070;
+    border-radius: 2rem;
+    background-color: rgb(var(--elements-main-bg));
+    border: .15rem solid rgb(var(--elements-secondary-bg));
     padding: 0;
     width: 1.3rem;
     height: 1.3rem;
@@ -14,7 +14,7 @@
 
 .control-checkbox.input-group-text {
     border-radius: var(--bs-border-radius-lg) !important;
-    color: #333333 !important;
+    color: rgb(var(--elements-main-text)) !important;
     width: 100%;
     font-weight: normal;
     text-align: left;

@@ -1,4 +1,4 @@
-<div class="component-table-dataset-wrapper bg-white rounded-3">
+<div class="component-table-dataset-wrapper rounded-3">
     <div class="component-table-dataset mt-0 ${c.table.stickyHeader ? 'overflow-y-hidden' : 'overflow-y-visible'} ${c.cssClass}"
          data-21-component="${c.className}"
          data-21-id="${c.id}"

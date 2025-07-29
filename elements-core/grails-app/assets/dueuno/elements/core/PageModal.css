@@ -65,9 +65,13 @@
 #page-modal-header .btn-group button:focus,
 #page-modal-header .btn-group button:active,
 #page-modal-header .btn-group button {
-    background-color: white;
-    color: #333333;
+    background-color: rgb(var(--elements-main-fg));
+    color: rgb(var(--elements-main-text));
     font-weight: normal;
+}
+
+#page-modal-header {
+    background-color: rgb(var(--elements-main-bg));
 }
 
 #page-modal-header > .component-button {

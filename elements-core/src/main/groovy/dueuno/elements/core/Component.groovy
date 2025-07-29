@@ -94,6 +94,8 @@ abstract class Component implements WebRequestAware, Serializable {
     List<Integer> mainTextColorInt
     String mainBackgroundColor
     List<Integer> mainBackgroundColorInt
+    String mainForegroundColor
+    List<Integer> mainForegroundColorInt
 
     String secondaryTextColor
     List<Integer> secondaryTextColorInt
@@ -131,20 +133,22 @@ abstract class Component implements WebRequestAware, Serializable {
         textColor = args.textColor ?: ''
         backgroundColor = args.backgroundColor ?: ''
 
+        mainTextColor = args.mainTextColor ?: '#333030'
+        mainTextColorInt = Color.hexToIntColor(mainTextColor) ?: warnColorError(mainTextColor)
+        mainBackgroundColor = args.mainBackgroundColor ?: '#f4f1f1'
+        mainBackgroundColorInt = Color.hexToIntColor(mainBackgroundColor) ?: warnColorError(mainBackgroundColor)
+        mainForegroundColor = args.mainForegroundColor ?: '#ffffff'
+        mainForegroundColorInt = Color.hexToIntColor(mainForegroundColor) ?: warnColorError(mainForegroundColor)
+
         primaryTextColor = args.primaryTextColor ?: '#ffffff'
         primaryTextColorInt = Color.hexToIntColor(primaryTextColor) ?: warnColorError(primaryTextColor)
         primaryBackgroundColor = args.primaryBackgroundColor ?: '#cc0000'
         primaryBackgroundColorInt = Color.hexToIntColor(primaryBackgroundColor) ?: warnColorError(primaryBackgroundColor)
         primaryBackgroundColorAlpha = (Double) (args.primaryBackgroundColorAlpha == null ? 0.15d : args.primaryBackgroundColorAlpha)
 
-        mainTextColor = args.mainTextColor ?: '#333333'
-        mainTextColorInt = Color.hexToIntColor(mainTextColor) ?: warnColorError(mainTextColor)
-        mainBackgroundColor = args.mainBackgroundColor ?: '#f0ebeb'
-        mainBackgroundColorInt = Color.hexToIntColor(mainBackgroundColor) ?: warnColorError(mainBackgroundColor)
-
         secondaryTextColor = args.secondaryTextColor ?: '#ffffff'
         secondaryTextColorInt = Color.hexToIntColor(secondaryTextColor) ?: warnColorError(secondaryTextColor)
-        secondaryBackgroundColor = args.secondaryBackgroundColor ?: '#6b5a5a'
+        secondaryBackgroundColor = args.secondaryBackgroundColor ?: '#504545'
         secondaryBackgroundColorInt = Color.hexToIntColor(secondaryBackgroundColor) ?: warnColorError(secondaryBackgroundColor)
 
         cssClass = args.cssClass ?: ''
