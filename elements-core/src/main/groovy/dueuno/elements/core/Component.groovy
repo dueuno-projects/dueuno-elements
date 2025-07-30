@@ -107,6 +107,9 @@ abstract class Component implements WebRequestAware, Serializable {
     String secondaryBackgroundColor
     List<Integer> secondaryBackgroundColorInt
 
+    String requiredTextColor
+    List<Integer> errorTextColorInt
+
     /** Custom CSS */
     String cssClass
 
@@ -160,6 +163,9 @@ abstract class Component implements WebRequestAware, Serializable {
         secondaryTextColorInt = Color.hexToIntColor(secondaryTextColor) ?: warnColorError(secondaryTextColor)
         secondaryBackgroundColor = args.secondaryBackgroundColor ?: '#504545'
         secondaryBackgroundColorInt = Color.hexToIntColor(secondaryBackgroundColor) ?: warnColorError(secondaryBackgroundColor)
+
+        requiredTextColor = args.requiredTextColor ?: '#cc0000'
+        errorTextColorInt = Color.hexToIntColor(requiredTextColor) ?: warnColorError(requiredTextColor)
 
         cssClass = args.cssClass ?: ''
     }
@@ -337,6 +343,7 @@ abstract class Component implements WebRequestAware, Serializable {
         args.primaryBackgroundColorAlpha = this.primaryBackgroundColorAlpha
         args.secondaryTextColor = this.secondaryTextColor
         args.secondaryBackgroundColor = this.secondaryBackgroundColor
+        args.requiredTextColor = this.requiredTextColor
     }
 
     String getPrimaryBackgroundColorShade() {

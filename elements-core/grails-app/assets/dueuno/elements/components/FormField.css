@@ -12,7 +12,7 @@ input[type] {
 .component-form label i {
     font-style: normal;
     font-weight: bold;
-    color: #cc0000;
+    color: rgb(var(--elements-required-text));
 }
 
 .component-form .input-group {
@@ -70,7 +70,7 @@ input[type] {
 
 .component-form .error-icon,
 .component-form .error-message {
-    color: #cc0000;
+    color: rgb(var(--elements-required-text));
 }
 
 .input-group {
@@ -129,7 +129,7 @@ input:focus-visible,
 
 .input-group.error-highlight {
     border-radius: var(--bs-border-radius-lg);
-    box-shadow: 0 0 0 .08rem rgba(204, 0, 0, .5) !important;
+    box-shadow: 0 0 0 .08rem rgba(var(--elements-required-text), .5) !important;
 }
 
 .input-group.field-highlight {

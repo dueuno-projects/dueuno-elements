@@ -11,5 +11,6 @@
         --elements-primary-text: ${c.primaryTextColorInt.join(', ')};
         --elements-secondary-bg: ${c.secondaryBackgroundColorInt.join(', ')};
         --elements-secondary-text: ${c.secondaryTextColorInt.join(', ')};
+        --elements-required-text: ${c.errorTextColorInt.join(', ')};
     }
 </style>

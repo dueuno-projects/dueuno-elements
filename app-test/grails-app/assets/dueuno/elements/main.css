@@ -15,6 +15,7 @@
     --elements-primary-text: 255, 255, 255;
     --elements-secondary-bg: 82, 71, 71;
     --elements-secondary-text: 255, 255, 255;
+    --elements-required-text: 204, 0, 0;
 
     /* Bootstrap */
     --bs-body-color: rgb(var(--elements-main-text));

@@ -18,7 +18,7 @@
 
 #page-messagebox input::placeholder {
     font-weight: normal;
-    color: #a4a4a4;
+    color: rgba(var(--elements-frame-text), .7);
 }
 
 #page-messagebox .message-icon {

@@ -99,6 +99,7 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
         args.primaryBackgroundColorAlpha = (Double) tenantPropertyService.getNumber('PRIMARY_BACKGROUND_COLOR_ALPHA')
         args.secondaryTextColor = tenantPropertyService.getString('SECONDARY_TEXT_COLOR')
         args.secondaryBackgroundColor = tenantPropertyService.getString('SECONDARY_BACKGROUND_COLOR')
+        args.requiredTextColor = tenantPropertyService.getString('REQUIRED_TEXT_COLOR')
 
         args.keyPress = [
                 triggerKey: tenantPropertyService.getString('KEYPRESS_TRIGGER_KEY'),
