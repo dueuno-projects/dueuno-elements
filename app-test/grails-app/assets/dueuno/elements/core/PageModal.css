@@ -53,6 +53,10 @@
     padding-bottom: .65rem;
 }
 
+.modal-content {
+    background-color: inherit;
+}
+
 #page-modal .component-header {
     padding: 0;
 }

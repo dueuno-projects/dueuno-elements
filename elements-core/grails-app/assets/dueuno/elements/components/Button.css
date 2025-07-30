@@ -105,4 +105,5 @@ button:active,
 .btn-group :not(.btn-check)+.btn:active {
     background-color: rgb(var(--elements-secondary-bg));
     color: rgb(var(--elements-secondary-text));
+    border: none;
 }
