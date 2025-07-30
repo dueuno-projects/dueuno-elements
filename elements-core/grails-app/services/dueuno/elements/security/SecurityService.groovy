@@ -21,6 +21,7 @@ import dueuno.elements.components.ShellService
 import dueuno.elements.core.*
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.pages.Shell
 import dueuno.elements.tenants.TTenant
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
@@ -219,12 +220,13 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     void initializeShell() {
         TUser user = currentUser
         String lang = (user?.language in applicationService.languages) ? user.language : tenantPropertyService.getString('DEFAULT_LANGUAGE', true)
+        Shell shell = shellService.shell
         shellService.currentLanguage = lang
-        shellService.shell.setUser(currentUsername, user.firstname, user.lastname)
+        shell.setUser(currentUsername, user.firstname, user.lastname)
         shellService.setFontSize(user.fontSize)
 
-        setMenuVisibility(shellService.shell.menu)
-        setMenuVisibility(shellService.shell.userMenu)
+        setMenuVisibility(shell.menu)
+        setMenuVisibility(shell.userMenu)
     }
 
     private void setMenuVisibility(Menu menu) {
