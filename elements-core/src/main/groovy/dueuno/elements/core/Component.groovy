@@ -328,6 +328,7 @@ abstract class Component implements WebRequestAware, Serializable {
         args.backgroundColor = args.backgroundColor ?: this.backgroundColor
 
         args.mainTextColor = this.mainTextColor
+        args.mainForegroundColor = this.mainForegroundColor
         args.mainBackgroundColor = this.mainBackgroundColor
         args.frameTextColor = this.frameTextColor
         args.frameBackgroundColor = this.frameBackgroundColor
