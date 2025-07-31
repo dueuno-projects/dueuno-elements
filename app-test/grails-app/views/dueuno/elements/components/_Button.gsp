@@ -19,7 +19,7 @@
             class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
             data-bs-toggle="dropdown" data-bs-reference="parent" aria-expanded="false"
             ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}
-            ${c.readonly ? 'disabled tabindex="-1"' : ''}>
+            ${c.readonly ? 'disabled' : ''}>
         </button>
 
         <ul class="dropdown-menu" role="menu">
