@@ -165,9 +165,9 @@
 }
 
 .component-table tr.table-no-results td div {
-    margin-top: .5rem;
-    color: rgb(var(--elements-primary-bg-shaded));
+    color: rgba(var(--elements-main-text), .7);
     font-weight: bold;
+    margin-top: .5rem;
 }
 
 .component-table .table-hover tr.table-no-results:hover td {
