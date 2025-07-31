@@ -1,7 +1,10 @@
 class Form extends Component {
 
     static finalize($element, $root) {
-        Form.setFocusOnFirstInput($element);
+        let properties = Component.getProperties($element);
+        if (properties.autofocus) {
+            Form.setFocusOnFirstInput($element);
+        }
     }
 
     static setFocusOnFirstInput($element) {
