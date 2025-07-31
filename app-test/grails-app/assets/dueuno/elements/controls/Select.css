@@ -8,25 +8,43 @@
 
 /* ARROW BUTTON */
 .select2-container--bootstrap-5 .select2-selection--single {
-    padding: 0;
-    font-weight: bold;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333030' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-    background-size: .8rem;
+    background-image: none;
+}
+
+.select2-container--bootstrap-5 .select2-selection--single:before {
+    position: absolute;
+    right: .75rem;
+    top: .25rem;
+    color: rgba(var(--elements-main-text), .7);
+    font-family: FontAwesome;
+    content: "\f107";
 }
 
 /* CANCEL BUTTON */
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__clear,
-.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__clear:hover,
 .select2-container--bootstrap-5 .select2-selection--single .select2-selection__clear,
-.select2-container--bootstrap-5 .select2-selection--single .select2-selection__clear:hover {
-    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23333030'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") 50%/1rem auto no-repeat;
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove {
+    display: contents;
+    text-indent: inherit;
+    background-image: none;
     padding: .4rem;
 }
 
-.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove:hover,
-.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove {
-    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23333030'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") 50%/1rem auto no-repeat;
-    padding: .4rem;
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__clear:after,
+.select2-container--bootstrap-5 .select2-selection--single .select2-selection__clear:after {
+    position: absolute;
+    right: 2.5rem;
+    top: .25rem;
+    color: rgba(var(--elements-main-text), .7);
+    font-family: FontAwesome;
+    content: "\f00d";
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove:after {
+    color: rgba(var(--elements-main-text), .7);
+    font-family: FontAwesome;
+    content: "\f00d";
+    padding-right: .5rem;
 }
 
 .input-group:has(.component-help) .select2-container {
@@ -74,6 +92,7 @@
 
 .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
+    padding-right: 1rem;
     font-weight: bold;
     color: rgb(var(--elements-main-text));
 }
