@@ -12,7 +12,8 @@
     border: none;
 }
 
-.control-checkbox.input-group-text {
+.control-checkbox.input-group-text,
+.input-group:has([readonly], [disabled]) .control-checkbox.input-group-text {
     border-radius: var(--bs-border-radius-lg) !important;
     color: rgb(var(--elements-main-text)) !important;
     width: 100%;
