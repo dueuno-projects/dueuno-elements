@@ -61,9 +61,15 @@ class Select extends Control {
     }
 
     static finalize($element, $root) {
-        $element.parent().find('.select2-selection__rendered').removeAttr('title');
         $element.off('select2:select select2:unselect').on('select2:select select2:unselect', Select.onChange);
+
+        // We need this to auto-focus the text input
         $element.off('select2:open').on('select2:open', Select.onOpen);
+
+        // We need this to avoid displaying the title attribute as tooltip
+        // This is a hack since there is no way to configure a different behaviour on Select2
+        let $selection = $element.next().find('.select2-selection__rendered');
+        $selection.off('mouseenter').on('mouseenter', Select.onMouseEnter);
 
         Transition.triggerEvent($element, 'load');
     }
@@ -76,12 +82,19 @@ class Select extends Control {
         return false;
     }
 
-    // We need this to auto-focus the text input
+    static onMouseEnter(event) {
+        let $element = $(event.currentTarget);
+        $element.removeAttr('title');
+        $element.closest('.input-group').find('[title]').each(function (key, item) {
+            $(item).removeAttr('title');
+        });
+    }
+
     static onOpen(event) {
-        let selectId = event.target.id;
+        let selectId = event.currentTarget.id;
         let $select = $(".select2-search__field[aria-controls='select2-" + selectId + "-results']");
-        $select.each(function (key, value){
-            value.focus();
+        $select.each(function (key, element){
+            element.focus();
         })
     }
 
