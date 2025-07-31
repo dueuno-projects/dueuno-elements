@@ -173,6 +173,7 @@ class SandboxController implements ElementsController {
                     class: TimeField,
                     id: 't2',
                     value: LocalTime.now(),
+                    readonly: true,
                     cols: 2,
             )
             addField(
@@ -244,7 +245,13 @@ class SandboxController implements ElementsController {
                     onChange: 'onIconChange',
                     highlight: true,
                     maxSize: 7,
-                    cols: 12,
+                    cols: 6,
+            )
+            addField(
+                    class: TextField,
+                    id: 'readonlyText',
+                    readonly: true,
+                    cols: 6,
             )
             addField(
                     class: Textarea,

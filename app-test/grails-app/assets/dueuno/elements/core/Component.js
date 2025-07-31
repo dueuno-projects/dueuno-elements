@@ -142,10 +142,12 @@ class Component {
     static setReadonly($element, value) {
         if (value == null || value == false) {
             $element.removeAttr('readonly');
+            $element.removeAttr('tabindex');
 
         } else {
             for (let element of $element) {
                 element.setAttribute('readonly', '');
+                element.setAttribute('tabindex', '-1');
             }
         }
     }
