@@ -239,6 +239,7 @@ class SandboxController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'placeholderText',
+                    placeholder: 'sandbox.placeholder.text',
                     validChars: '/:1234567890',
 //                    prefix: 'PRE',
                     icon: 'fa-box',
@@ -256,6 +257,7 @@ class SandboxController implements ElementsController {
             addField(
                     class: Textarea,
                     id: 'placeholderArea',
+                    placeholder: 'sandbox.placeholder.textarea',
                     invalidChars: '+-*/',
                     acceptNewLine: false,
                     highlight: true,

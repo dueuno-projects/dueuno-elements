@@ -2,6 +2,7 @@
      style="${c.cssStyleColors}"
     ><div for="${c.id}" data-max="${c.maxSize}"></div>
     <textarea class="form-control h-100 ${c.textStyle}"
+              placeholder="${c.message(c.placeholder)}"
               maxlength="${(c.maxSize > 0) ? c.maxSize : ''}"
               data-21-control="${c.className}"
               data-21-id="${c.id}"
