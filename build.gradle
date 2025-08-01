@@ -16,9 +16,3 @@ nexusPublishing {
         }
     }
 }
-
-// Publish executing the following. Do not execute the two tasks separately!
-// ./gradlew clean publishToSonatype closeAndReleaseSonatypeStagingRepository
-//
-// Then go to: https://central.sonatype.com/publishing/deployments
-// And verify the state of the publishing
