@@ -79,6 +79,7 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
 //            StopWatch sw = new StopWatch()
 //            sw.start()
             try {
+                response.setHeader("Cache-Control", "no-store")
                 render page(args)
                 requestParams._21TransitionRendered = true
 
