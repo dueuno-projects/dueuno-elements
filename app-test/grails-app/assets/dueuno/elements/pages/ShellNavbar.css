@@ -39,7 +39,7 @@
 }
 
 #shell-navbar-logo {
-    height: 1.6rem;
+    height: 2rem;
 }
 
 #shell-navbar:has(#shell-navbar-home) #shell-navbar-logo {
