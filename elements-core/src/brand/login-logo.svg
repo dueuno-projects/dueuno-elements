@@ -4,10 +4,10 @@
 <svg
    version="1.1"
    id="svg26090"
-   width="1122.52"
-   height="793.70135"
-   viewBox="0 0 1122.52 793.70135"
-   sodipodi:docname="login-logo.svg"
+   width="940"
+   height="430"
+   viewBox="0 0 939.99998 430"
+   sodipodi:docname="logo.svg"
    inkscape:version="1.2.1 (9c6d41e, 2022-07-14)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,15 +23,15 @@
        id="rect1416" />
     <rect
        x="730.82709"
-       y="570.7671"
-       width="291.51351"
-       height="48.358549"
+       y="570.76709"
+       width="291.51352"
+       height="48.358547"
        id="rect29159" />
     <rect
-       x="676.33858"
-       y="519.00302"
+       x="676.33856"
+       y="519.00299"
        width="251.32823"
-       height="48.358549"
+       height="48.358547"
        id="rect29116" />
     <clipPath
        clipPathUnits="userSpaceOnUse"
@@ -690,11 +690,11 @@
          style="stroke-width:0.999998" />
     </clipPath>
     <filter
-       style="color-interpolation-filters:sRGB;"
+       style="color-interpolation-filters:sRGB"
        inkscape:label="Drop Shadow"
        id="filter1732"
        x="-0.13917379"
-       y="-0.65348004"
+       y="-0.65348005"
        width="1.3156822"
        height="2.1907322">
       <feFlood
@@ -769,20 +769,23 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
      inkscape:zoom="0.71743565"
-     inkscape:cx="530.36115"
-     inkscape:cy="377.73423"
-     inkscape:window-width="2560"
-     inkscape:window-height="1302"
+     inkscape:cx="417.45904"
+     inkscape:cy="336.61556"
+     inkscape:window-width="1419"
+     inkscape:window-height="1205"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="g26098">
     <inkscape:page
        x="0"
        y="0"
        id="page26096"
-       width="1122.52"
-       height="793.70135" />
+       width="940"
+       height="430"
+       inkscape:export-filename="../src/main/resources/deploy/public/brand/login-logo.png"
+       inkscape:export-xdpi="156.28"
+       inkscape:export-ydpi="156.28" />
   </sodipodi:namedview>
   <g
      id="g26098"
@@ -810,19 +813,12 @@
        inkscape:export-filename="../../../../../../../DueunoProjects/dartmaster/src/main/resources/deploy/public/brand/login-logo.png"
        inkscape:export-xdpi="152.19109"
        inkscape:export-ydpi="152.19109" />
-    <rect
-       style="fill:none;stroke-width:3.68504;stroke-linecap:square"
-       id="rect1760"
-       width="706.68359"
-       height="320.93469"
-       x="67.603226"
-       y="-458.10535"
-       transform="scale(1,-1)"
-       inkscape:export-filename="../src/main/resources/deploy/public/brand/login-logo.png"
-       inkscape:export-xdpi="157.04131"
-       inkscape:export-ydpi="157.04131" />
     <g
-       id="g8289">
+       id="g8289"
+       transform="translate(-68.44496,146.67926)"
+       inkscape:export-filename="../src/main/resources/deploy/public/brand/logo.png"
+       inkscape:export-xdpi="150.84"
+       inkscape:export-ydpi="150.84">
       <rect
          style="fill:#cc0000;fill-opacity:1;stroke-width:3.90707;stroke-linecap:square"
          id="rect5870"
@@ -865,6 +861,6 @@
        xml:space="preserve"
        transform="matrix(0.75000002,0,0,-0.75000002,0,595.27601)"
        id="text1414"
-       style="-inkscape-font-specification:'Arial Black, ';font-family:'Arial Black';font-size:53.33333333px;fill:#3b5a9c;stroke-linecap:square;stroke-width:15;line-height:285.3;text-align:center;stroke:#ffffff;paint-order:stroke fill markers;white-space:pre;shape-inside:url(#rect1416)" />
+       style="font-size:53.3333px;line-height:285.3;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, ';text-align:center;white-space:pre;shape-inside:url(#rect1416);display:inline;fill:#3b5a9c;stroke:#ffffff;stroke-width:15;stroke-linecap:square;paint-order:stroke fill markers" />
   </g>
 </svg>
