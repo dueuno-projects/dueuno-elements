@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="${c.locale}">
 <head>
-    <title><render:message code='springSecurity.login.title'/></title>
     <page:header component="${c}" />
     <asset:stylesheet src="elements/pages/Login.css" />
     <page:colors component="${c}"/>
@@ -31,6 +30,9 @@
       data-21-page="${c.className}"
       data-21-id="${c.id}"
 >
+
+<page:loading />
+
 <div id="page-content" class="page-login justify-content-center">
 
     <div class="page-login-box text-center p-3">
@@ -52,13 +54,8 @@
 
 </div>
 
-<%-- Footer --%>
 <page:footer component="${c}" />
-
-<%-- Custom Page JS --%>
 <asset:javascript src="elements/pages/Login.js" />
-
-<%-- Page Init --%>
 <page:initialize />
 
 </body>

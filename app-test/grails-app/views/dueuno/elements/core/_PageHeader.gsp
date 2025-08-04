@@ -9,6 +9,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="${c.message('app.name')}">
 
+<title>${c.message('app.name')}</title>
+
 <asset:stylesheet src="elements/includes.css" media="screen"/>
 <g:each var="elementsImplementation" in="${c.elementsRegistry}">
     <asset:stylesheet src="${elementsImplementation}.css" media="screen"/>
@@ -31,5 +33,3 @@
         --elements-font-size: ${c.fontSize ?: '14'}px;
     }
 </style>
-
-<div id="loading-screen-page"><div class="ps-4"><i class="fa-solid fa-mug-hot fa-beat-fade"></i></div></div>
