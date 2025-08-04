@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="/fontawesome-free-6.7.2-web/css/fontawesome.css" rel="stylesheet"/>
-    <link href="/fontawesome-free-6.7.2-web/css/brands.css" rel="stylesheet"/>
-    <link href="/fontawesome-free-6.7.2-web/css/solid.css" rel="stylesheet"/>
+    <link href="fontawesome-free-6.7.2-web/css/fontawesome.css" rel="stylesheet"/>
+    <link href="fontawesome-free-6.7.2-web/css/brands.css" rel="stylesheet"/>
+    <link href="fontawesome-free-6.7.2-web/css/solid.css" rel="stylesheet"/>
     <link rel="icon" href="images/brand/favicon.png" type="image/x-icon"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
@@ -80,6 +80,12 @@ p {
     line-height: 1.5;
     margin: 0 1rem 1rem 1rem;
 }
+p.highlight {
+    font-weight: bold;
+}
+.image {
+    width: 100%;
+}
 ul, ol {
     margin-top: 0.5rem;
     padding-left: 1.5rem;
@@ -135,12 +141,14 @@ footer {
 <main>
 
     <section>
-        <h2>What</h2>
-        <p>
-            An Open Source technology to create modern and responsive Back-Office Web Applications using just one
+        <p class="highlight">
+            Create modern and responsive Back-Office Web Applications using just one
             programming language: <a href="https://groovy-lang.org/" target="_blank">Apache Groovy</a>. No need to code
             HTML, CSS, or JavaScript.
         </p>
+
+        <img src="images/dueuno-login.png" alt="Dueuno Elements" class="image"/>
+
         <h2>Why</h2>
         <p>To clearly separate the Business Logic from the UI to future-proof your investment and simplify application
             development and maintenance.
