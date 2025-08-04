@@ -32,7 +32,6 @@ abstract class Page extends Component {
     transient PageContent content
 
     String favicon
-    String appicon
 
     Page(Map args = [:]) {
         super(args)
@@ -44,7 +43,6 @@ abstract class Page extends Component {
         keyPress = addComponent(KeyPress, 'keyPress', args.keyPress as Map)
 
         favicon = args.favicon
-        appicon = args.appicon
     }
 
     /**
