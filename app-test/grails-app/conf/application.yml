@@ -17,20 +17,19 @@ info.app.name: app-test
 environments:
   development:
     server:
-      port: 9080
-#      port: 9443
-#      port-http: 9080
+      port: 9443
+      port-http: 9080
       servlet:
         context-path: /test
         session:
           persistent: true
           store-dir: app-test
-#      ssl:
-#        enabled: true
-#        key-store-type: PKCS12
-#        key-store: classpath:certificates/dev-keystore.p12
-#        key-store-password: password
-#        key-alias: tomcat
+      ssl:
+        enabled: true
+        key-store-type: PKCS12
+        key-store: classpath:certificates/dev-keystore.p12
+        key-store-password: password
+        key-alias: tomcat
 
 # CREATE PRODUCTION CERTIFICATE
 # See: https://certbot.eff.org/en/instructions

@@ -36,6 +36,7 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
 
     void install(String tenantId) {
         tenantPropertyService.setString('FAVICON', linkPublicResource(tenantId, 'brand/favicon.png', false))
+        tenantPropertyService.setString('APPICON', linkPublicResource(tenantId, 'brand/appicon.png', false))
 
         tenantPropertyService.setString('KEYPRESS_TRIGGER_KEY', 'Enter')
         tenantPropertyService.setNumber('KEYPRESS_READING_SPEED', 20)
@@ -85,6 +86,7 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
          */
         args.iconStyle = tenantPropertyService.getString('ICON_STYLE')
         args.favicon = tenantPropertyService.getString('FAVICON')
+        args.appicon = tenantPropertyService.getString('APPICON')
 
         /** Colors */
         args.mainTextColor = tenantPropertyService.getString('MAIN_TEXT_COLOR')
