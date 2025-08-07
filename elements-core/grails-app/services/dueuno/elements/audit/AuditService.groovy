@@ -17,11 +17,9 @@ package dueuno.elements.audit
 import dueuno.elements.core.Elements
 import dueuno.elements.core.WebRequestAware
 import dueuno.elements.security.SecurityService
-import grails.artefact.DomainClass
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import groovy.json.JsonBuilder
-import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
 
 import javax.servlet.http.HttpServletRequest
@@ -52,7 +50,7 @@ class AuditService implements WebRequestAware {
         auditLog.save(flush: true, failOnError: true)
     }
 
-    void log(AuditOperation operation, DomainClass domainObject) {
+    void log(AuditOperation operation, Object domainObject) {
         Map properties = Elements.toMap(domainObject)
         log(operation, domainObject.toString(), prettyProperties(properties))
     }
