@@ -5,7 +5,7 @@
 
 <link rel="icon" type="image/png" sizes="64x64" href="${c.favicon}"/>
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="${c.appicon}"/>
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="${c.message('app.name')}">
 
