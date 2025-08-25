@@ -1,6 +1,9 @@
 class Login extends Page {
 
     static finalize() {
+        if (Elements.onMobile) {
+            window.history.pushState("", "", _21_.app.url);
+        }
         let $loginButton = $('[data-21-id="login"] > a');
         $loginButton.off('click').on('click', Login.onClick);
 
