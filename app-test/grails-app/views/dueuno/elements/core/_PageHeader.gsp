@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="${c.message('app.name')}">
 
 <title>${c.message('app.name')}</title>
-<link rel="manifest" href="${asset.assetPath(src: 'elements/manifest.json')}">
+<link rel="manifest" href="${asset.assetPath(src: 'elements/app-manifest.json')}">
 
 <asset:stylesheet src="elements/includes.css" media="screen"/>
 <g:each var="elementsImplementation" in="${c.elementsRegistry}">

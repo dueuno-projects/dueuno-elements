@@ -36,6 +36,18 @@
     }
 </script>
 
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register("${asset.assetPath(src: 'elements/app-serviceworker.js')}")
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(error) {
+                console.log('ServiceWorker registration failed:', error);
+            });
+    }
+</script>
+
 <%-- Elements Javascript --%>
 <asset:javascript src="elements/includes.js"/>
 
