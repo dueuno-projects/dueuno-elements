@@ -1,3 +1,4 @@
 {
-  "display": "standalone"
+    "start_url": "/test",
+    "display": "standalone"
 }
