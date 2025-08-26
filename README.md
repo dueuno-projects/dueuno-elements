@@ -2,7 +2,7 @@
 
 Dueuno Elements
 ===
-With [Dueuno Elements](https://dueuno.com), you can build Back-Office Progressive Web Applications using a single programming language: [Apache Groovy](https://groovy-lang.org).
+With [Dueuno Elements](https://dueuno.com), you can build Progressive Web Applications using a single programming language: [Apache Groovy](https://groovy-lang.org).
 
 The main goal of the framework is to clearly separate Business Logic from the User Interface, raising the level of abstraction so developers don’t need to work directly with HTML, CSS, or JavaScript to create CRUD operations and common UIs.
 
