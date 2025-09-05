@@ -170,6 +170,7 @@ class Table extends Component {
                 action: 'onDelete',
                 text: '',
                 icon: 'fa-solid fa-trash-alt',
+                tooltip: TextDefault.HARD_DELETE,
                 confirmMessage: TextDefault.MESSAGE_CONFIRM_UNRECOVERABLE_OPERATION,
         )
         groupActions = createControl(
