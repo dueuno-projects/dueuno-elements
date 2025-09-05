@@ -32,12 +32,13 @@ class Link extends Label {
     Link(Map args = [:]) {
         super(args)
 
-        args.confirmMessage = message(args.confirmMessage as String, args.confirmMessageArgs)
-        args.infoMessage = message(args.infoMessage as String, args.infoMessageArgs)
-
         linkDefinition = new LinkDefinition(args)
         linkDefinition.action = args.action ?: 'index'
         linkDefinition.loading = args.loading
+        linkDefinition.infoMessage = args.infoMessage
+        linkDefinition.infoMessageArgs = args.infoMessageArgs as List
+        linkDefinition.confirmMessage = args.confirmMessage
+        linkDefinition.confirmMessageArgs = args.confirmMessageArgs as List
 
         tag = args.tag == null ? false : args.tag
 

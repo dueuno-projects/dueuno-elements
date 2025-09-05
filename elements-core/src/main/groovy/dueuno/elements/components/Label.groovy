@@ -107,7 +107,7 @@ class Label extends Component {
 
     void setText(Object value) {
         if (value == null) {
-            text = buildLabel(id, prettyPrinterProperties)
+            text = prettyPrint(buildLabel(id, prettyPrinterProperties))
 
         } else if (Types.isRegistered(value)) {
             text = prettyPrint(value, prettyPrinterProperties)
