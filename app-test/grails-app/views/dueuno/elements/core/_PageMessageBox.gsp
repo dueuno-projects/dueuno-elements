@@ -15,9 +15,9 @@
             </div>
             <div id="page-messagebox-footer" class="modal-footer component-form d-flex border-0">
                 <render:component instance="${c.cancel}" />
-%{--                <div id="page-messagebox-verify" class="flex-fill">--}%
-%{--                    <render:component instance="${c.verify}" />--}%
-%{--                </div>--}%
+<%--                <div id="page-messagebox-verify" class="flex-fill">--%>
+<%--                    <render:component instance="${c.verify}" />--%>
+<%--                </div>--%>
                 <render:component instance="${c.confirm}" />
             </div>
         </div>
