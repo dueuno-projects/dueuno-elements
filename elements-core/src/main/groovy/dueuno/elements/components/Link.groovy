@@ -34,11 +34,6 @@ class Link extends Label {
 
         linkDefinition = new LinkDefinition(args)
         linkDefinition.action = args.action ?: 'index'
-        linkDefinition.loading = args.loading
-        linkDefinition.infoMessage = args.infoMessage
-        linkDefinition.infoMessageArgs = args.infoMessageArgs as List
-        linkDefinition.confirmMessage = args.confirmMessage
-        linkDefinition.confirmMessageArgs = args.confirmMessageArgs as List
 
         tag = args.tag == null ? false : args.tag
 
@@ -267,9 +262,5 @@ class Link extends Label {
     void setConfirmMessageOnConfirm(ComponentEvent value) {
         linkDefinition.confirmMessageOnConfirm = value.asMap()
         setOnEvent()
-    }
-
-    String getPrettyHtml() {
-        return prettyPrint(html, prettyPrinterProperties)
     }
 }

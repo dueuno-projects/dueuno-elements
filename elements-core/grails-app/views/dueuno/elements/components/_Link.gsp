@@ -12,6 +12,6 @@
 <g:else>
     <g:if test="${c.image}"><i><asset:image src="${c.image}" class="${c.text ? 'me-1' : ''} ${c.imageClass}"/></i></g:if>
     <g:elseif test="${c.icon}"><render:icon icon="${c.icon}" class="${c.icon && c.text ? 'me-1' : ''} ${c.iconFixedWidth ? 'fa-fw' : ''}"/></g:elseif>
-    <g:if test="${c.text}"><span class="${c.textStyle}">${c.text}</span></g:if>
+    <g:if test="${c.text}"><span class="${c.textStyle}">${c.prettyText}</span></g:if>
 </g:else>
 </a>

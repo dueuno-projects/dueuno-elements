@@ -74,7 +74,7 @@ class PageMessageBox extends Component {
         PageMessageBox.info(null, componentEvent);
     }
 
-    // args = {confirmMessage: '', option1Click: eventData1, option2Click: eventData2}
+    // args = {confirmMessage: '', clickCancel: eventData1, clickConfirm: eventData2}
     static confirm($element, args) {
         PageMessageBox.reset();
         PageMessageBox.setMessage(args['confirmMessage']);
@@ -88,20 +88,20 @@ class PageMessageBox extends Component {
 
         // Button 1 - CANCEL
         let $cancelButton = PageMessageBox.getButton('cancel');
-        if (args.option1Click) {
+        if (args.clickCancel) {
             args.confirmMessage = null;
             let $link = $cancelButton.find('a');
-            Component.setEvent($link, 'click', args.option1Click);
+            Component.setEvent($link, 'click', args.clickCancel);
         } else {
             $cancelButton.attr('data-bs-dismiss', 'modal');
         }
 
         // Button 2 - CONFIRM
         let $confirmButton = PageMessageBox.getButton('confirm');
-        if (args.option2Click) {
-            args.option2Click['confirmMessage'] = null;
+        if (args.clickConfirm) {
+            args.clickConfirm['confirmMessage'] = null;
             let $link = $confirmButton.find('a');
-            Component.setEvent($link, 'click', args.option2Click);
+            Component.setEvent($link, 'click', args.clickConfirm);
         } else {
             $confirmButton.attr('data-bs-dismiss', 'modal');
         }

@@ -93,8 +93,17 @@ class SandboxController implements ElementsController {
 
             addField(
                     class: Button,
-                    id: 'messageWithParams',
+                    id: 'messageAndRedirect',
                     action: 'onMessage',
+                    modal: true,
+                    displayLabel: false,
+                    cols: 12,
+                    colsSmall: 6,
+            )
+            addField(
+                    class: Button,
+                    id: 'confirmMessageAndRedirect',
+                    action: 'onConfirmMessage',
                     params: [name: 'Gianluca Sartori'],
                     displayLabel: false,
                     cols: 12,
@@ -103,15 +112,6 @@ class SandboxController implements ElementsController {
                     class: Button,
                     id: 'loadingScreen',
                     action: 'onHideLoadingScreen',
-                    displayLabel: false,
-                    cols: 12,
-                    colsSmall: 6,
-            )
-            addField(
-                    class: Button,
-                    id: 'redirectBtn',
-                    action: 'messageWithRedirect',
-                    modal: true,
                     displayLabel: false,
                     cols: 12,
                     colsSmall: 6,
@@ -674,7 +674,11 @@ Grails application running at http://localhost:9992/test in environment: develop
     }
 
     def onMessage() {
-        display message: 'sandbox.message.with.params', messageArgs: [params.name], controller: 'table'
+        display message: 'You will be redirected to "CRUD View"', controller: 'crud', modal: true, wide: true
+    }
+
+    def onConfirmMessage() {
+        display confirmMessage: 'sandbox.message.with.params', messageArgs: [params.name], controller: 'table', modal: true, wide: true
     }
 
     def onTextChange() {
@@ -687,10 +691,6 @@ Grails application running at http://localhost:9992/test in environment: develop
         def t = createTransition()
         t.loading(false)
         display transition: t
-    }
-
-    def messageWithRedirect() {
-        display message: 'You will be redirected to "CRUD View"', controller: 'crud', modal: true, wide: true
     }
 
     def onChangeCheckThisOut() {

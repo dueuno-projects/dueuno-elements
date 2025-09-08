@@ -219,25 +219,25 @@ class Transition implements WebRequestAware {
 
         if (onClick && (onClick.controller || onClick.action || onClick.url)) {
             initializeWithRequestData(onClick)
-            args.option2Click = onClick.asMap()
+            args.click = onClick.asMap()
         }
 
         call('messagebox', type, args)
     }
 
-    void confirmMessage(String msg, ComponentEvent onClick) {
-        optionsMessage(msg, [], null, onClick)
+    void confirmMessage(String msg, ComponentEvent onClickConfirm) {
+        optionsMessage(msg, [], null, onClickConfirm)
     }
 
-    void confirmMessage(String msg, List msgArgs, ComponentEvent onClick) {
-        optionsMessage(msg, msgArgs, null, onClick)
+    void confirmMessage(String msg, List msgArgs, ComponentEvent onClickConfirm) {
+        optionsMessage(msg, msgArgs, null, onClickConfirm)
     }
 
-    void optionsMessage(String msg, ComponentEvent onOption1Click, ComponentEvent onOption2Click) {
-        optionsMessage(msg, [], onOption1Click, onOption2Click)
+    void optionsMessage(String msg, ComponentEvent onClickCancel, ComponentEvent onClickConfirm) {
+        optionsMessage(msg, [], onClickCancel, onClickConfirm)
     }
 
-    void optionsMessage(String msg, List msgArgs, ComponentEvent onOption1Click, ComponentEvent onOption2Click) {
+    void optionsMessage(String msg, List msgArgs, ComponentEvent onClickCancel, ComponentEvent onClickConfirm) {
         String confirmMessage = hasRequest()
                 ? message(msg, msgArgs)
                 : msg
@@ -245,14 +245,14 @@ class Transition implements WebRequestAware {
         Map args = [:]
         args.confirmMessage = confirmMessage
 
-        if (onOption1Click && (onOption1Click.controller || onOption1Click.action || onOption1Click.url)) {
-            initializeWithRequestData(onOption1Click)
-            args.option1Click = onOption1Click.asMap()
+        if (onClickCancel && (onClickCancel.controller || onClickCancel.action || onClickCancel.url)) {
+            initializeWithRequestData(onClickCancel)
+            args.clickCancel = onClickCancel.asMap()
         }
 
-        if (onOption2Click && (onOption2Click.controller || onOption2Click.action || onOption2Click.url)) {
-            initializeWithRequestData(onOption2Click)
-            args.option2Click = onOption2Click.asMap()
+        if (onClickConfirm && (onClickConfirm.controller || onClickConfirm.action || onClickConfirm.url)) {
+            initializeWithRequestData(onClickConfirm)
+            args.clickConfirm = onClickConfirm.asMap()
         }
 
         call('messagebox', 'confirm', args)

@@ -220,11 +220,11 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     void initializeShell() {
         TUser user = currentUser
         String lang = (user?.language in applicationService.languages) ? user.language : tenantPropertyService.getString('DEFAULT_LANGUAGE', true)
-        Shell shell = shellService.shell
-        shellService.currentLanguage = lang
-        shell.setUser(currentUsername, user.firstname, user.lastname)
-        shellService.setFontSize(user.fontSize)
+        currentLanguage = lang
+        fontSize = user.fontSize
 
+        Shell shell = shellService.shell
+        shell.setUser(currentUsername, user.firstname, user.lastname)
         setMenuVisibility(shell.menu)
         setMenuVisibility(shell.userMenu)
     }

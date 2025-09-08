@@ -164,15 +164,20 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
             List messageArgs = args.messageArgs as List ?: []
             t.infoMessage(message, messageArgs, new ComponentEvent(args))
 
-        } else if (args.exception) {
-            Exception e = args.exception as Exception
-            log.error LogUtils.logStackTrace(e)
-            t.errorMessage(e.message, new ComponentEvent(args))
+        } else if (args.confirmMessage) {
+            String message = args.confirmMessage as String
+            List messageArgs = args.messageArgs as List ?: []
+            t.confirmMessage(message, messageArgs, new ComponentEvent(args))
 
         } else if (args.errorMessage) {
             String message = args.errorMessage as String
             List messageArgs = args.messageArgs as List ?: []
             t.errorMessage(message, messageArgs, new ComponentEvent(args))
+
+        } else if (args.exception) {
+            Exception e = args.exception as Exception
+            log.error LogUtils.logStackTrace(e)
+            t.errorMessage(e.message, new ComponentEvent(args))
 
         } else if (args.errors) {
             Integer submittedComponentCount = requestParams._21SubmittedCount as Integer

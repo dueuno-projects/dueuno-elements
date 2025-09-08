@@ -23,6 +23,9 @@ import dueuno.elements.style.VerticalAlign
 import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
 
+import java.time.LocalDate
+import java.time.temporal.Temporal
+
 /**
  * @author Gianluca Sartori
  */
@@ -94,8 +97,6 @@ class Label extends Component {
         tag = args.tag == null ? (html ? false : true) : args.tag
 
         prettyPrinterProperties = new PrettyPrinterProperties(args)
-        prettyPrinterProperties.textArgs = args.textArgs as List
-        prettyPrinterProperties.textPrefix = args.textPrefix
         prettyPrinterProperties.renderTextPrefix = args.renderTextPrefix == null ? false : args.renderTextPrefix
         prettyPrinterProperties.renderBoolean = args.renderBoolean == null ? true : args.renderBoolean
         prettyPrinterProperties.highlightNegative = args.highlightNegative == null ? true : args.highlightNegative
@@ -107,14 +108,14 @@ class Label extends Component {
 
     void setText(Object value) {
         if (value == null) {
-            text = prettyPrint(buildLabel(id, prettyPrinterProperties))
-
-        } else if (Types.isRegistered(value)) {
-            text = prettyPrint(value, prettyPrinterProperties)
+            text = buildLabel(id, prettyPrinterProperties)
 
         } else if (value in Boolean && prettyPrinterProperties.renderBoolean) {
             if (value) icon = 'fa-solid fa-check'
             text = ''
+
+        } else if (value in String || value in Boolean || value in Number || value in Temporal) {
+            text = value
 
         } else {
             text = prettyPrint(value, prettyPrinterProperties)
@@ -123,6 +124,11 @@ class Label extends Component {
         if (value in Number && prettyPrinterProperties.highlightNegative) {
             if ((value as Number) < 0) textColor = '#cc0000'
         }
+    }
+
+    String getPrettyText() {
+        prettyPrinterProperties.locale = locale
+        return prettyPrint(text, prettyPrinterProperties)
     }
 
     void setTextArgs(List value) {
@@ -160,6 +166,7 @@ class Label extends Component {
     }
 
     String getPrettyHtml() {
+        prettyPrinterProperties.locale = locale
         return prettyPrint(html, prettyPrinterProperties)
     }
 
