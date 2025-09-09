@@ -110,12 +110,18 @@ class Label extends Component {
         if (value == null) {
             text = buildLabel(id, prettyPrinterProperties)
 
-        } else if (value in Boolean && prettyPrinterProperties.renderBoolean) {
-            if (value) icon = 'fa-solid fa-check'
-            text = ''
-
-        } else if (value in String || value in Boolean || value in Number || value in Temporal) {
+        } else if (value in String) {
             text = value
+
+        } else if (value in Boolean) {
+            if (prettyPrinterProperties.renderBoolean) {
+                text = ''
+                if (value) {
+                    icon = 'fa-solid fa-check'
+                }
+            } else {
+                text = value
+            }
 
         } else {
             text = prettyPrint(value, prettyPrinterProperties)
