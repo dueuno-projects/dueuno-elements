@@ -73,7 +73,7 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
                 sw.stop()
 
                 if (EnvUtils.isDevelopment()) {
-                    log.warn "Rendered TRANSITION in ${sw.lastTaskTimeMillis}ms, args: ${args}"
+                    log.warn "TRANSITION rendered in ${sw.lastTaskTimeMillis}ms, args: ${args}"
                 }
 
             } catch (Exception ignore) {
@@ -89,7 +89,7 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
                 sw.stop()
 
                 if (EnvUtils.isDevelopment()) {
-                    log.warn "Rendered PAGE in ${sw.lastTaskTimeMillis}ms, args: ${args}"
+                    log.warn "PAGE rendered in ${sw.lastTaskTimeMillis}ms, args: ${args}"
                 }
 
             } catch (Exception ignore) {
