@@ -18,12 +18,14 @@ import dueuno.commons.utils.LogUtils
 import dueuno.elements.contents.ContentHeader
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.pages.PageBlank
+import dueuno.elements.utils.EnvUtils
 import grails.artefact.Controller
 import grails.artefact.Enhances
 import grails.artefact.controller.RestResponder
 import grails.validation.Validateable
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
+import org.grails.core.util.StopWatch
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.validation.Errors
@@ -62,32 +64,37 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
             throw new ElementsException(DISPLAY_EXCEPTION_MESSAGE)
         }
 
+        StopWatch sw = new StopWatch()
         if (!args.page && requestParams._21Transition) {
-//            StopWatch sw = new StopWatch()
-//            sw.start()
             try {
+                sw.start()
                 render transition(args)
                 requestParams._21TransitionRendered = true
+                sw.stop()
+
+                if (EnvUtils.isDevelopment()) {
+                    log.warn "Rendered TRANSITION in ${sw.lastTaskTimeMillis}ms, args: ${args}"
+                }
 
             } catch (Exception ignore) {
                 log.error LogUtils.logStackTrace(ignore)
             }
-//            sw.stop()
-//            log.info "Rendered TRANSITION in ${sw.toString()}, args: ${args}"
 
         } else { // When the user hits the browser REFRESH button
-//            StopWatch sw = new StopWatch()
-//            sw.start()
             try {
+                sw.start()
                 response.setHeader("Cache-Control", "no-store")
                 render page(args)
                 requestParams._21TransitionRendered = true
+                sw.stop()
+
+                if (EnvUtils.isDevelopment()) {
+                    log.warn "Rendered PAGE in ${sw.lastTaskTimeMillis}ms, args: ${args}"
+                }
 
             } catch (Exception ignore) {
                 log.error LogUtils.logStackTrace(ignore)
             }
-//            sw.stop()
-//            log.info "Rendered PAGE in ${sw.toString()}, args: ${args}"
         }
     }
 
