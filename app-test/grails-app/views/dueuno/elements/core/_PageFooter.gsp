@@ -36,7 +36,7 @@
     }
 </script>
 
-<%-- Mobile App --%>
+<%-- PWA - Progressive Web Application --%>
 <script>const serviceWorkerFilename = "${asset.assetPath(src:'elements/app-service-worker.js')}"</script>
 <asset:javascript src="elements/app-register.js"/>
 
