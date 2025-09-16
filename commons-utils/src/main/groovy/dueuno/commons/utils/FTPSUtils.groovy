@@ -40,7 +40,7 @@ class FTPSUtils {
             connect(host, port, username, password, indent)
             return true
 
-        } catch (Exception e) {
+        } catch (Exception ignore) {
             return false
         }
     }

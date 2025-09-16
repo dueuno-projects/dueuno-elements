@@ -672,7 +672,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
         TUser user = TUser.findByUsername(args.username as String)
         if (user) {
-            List userGroups = ((List<TUserRoleGroup>) TUserRoleGroup.findAllByUser(user))*.roleGroup.name
             log.warn "${tenant.tenantId} Tenant - User '${args.username}' already exists, skipping user creation."
             user.errors.rejectValue('username', 'user.username.already.exists', [args.username] as Object[], 'user.username.already.exists')
             return user

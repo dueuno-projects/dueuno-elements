@@ -223,7 +223,7 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
                 } else {
                     throw new Exception("Wrong use of the 'errors' feature.")
                 }
-            } catch (Exception e) {
+            } catch (Exception ignore) {
                 t.errorMessage("Cannot display errors, please refer to the Dueuno Elements user guide.")
             }
 
@@ -273,6 +273,7 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
         } else {
             // No other ways to submit errors at the moment
             t.errorMessage("Cannot use object '${componentErrors.class.name}' to display errors. Please specify a Map (eg. [fieldname: 'Some error']) or an instance of an object implementing '${Validateable.name}'")
+            return [:]
         }
     }
 

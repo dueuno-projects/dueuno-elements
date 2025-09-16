@@ -182,7 +182,7 @@ abstract class PropertyService {
             return ''
 
         try {
-            new URL(value)
+            URL url = new URL(value)
             return ''
 
         } catch (Exception e) {

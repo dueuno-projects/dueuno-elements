@@ -289,7 +289,7 @@ class TableRow extends Component {
 
             try {
                 value = values[keyColumn]
-            } catch (Exception e) {
+            } catch (Exception ignore) {
                 // ignore
             }
 

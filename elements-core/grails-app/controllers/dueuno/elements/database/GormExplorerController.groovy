@@ -172,7 +172,7 @@ class GormExplorerController implements ElementsController {
                 Number searchNumber
                 try {
                     searchNumber = table.filterParams.find as Long
-                } catch (Exception e) {
+                } catch (Exception ignore) {
                     searchNumber = null
                 }
 
