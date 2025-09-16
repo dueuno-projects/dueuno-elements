@@ -36,14 +36,15 @@
     }
 </script>
 
+<%-- Mobile App --%>
+<script>const serviceWorkerFilename = "${asset.assetPath(src:'elements/app-service-worker.js')}"</script>
+<asset:javascript src="elements/app-register.js"/>
+
 <%-- Elements --%>
 <asset:javascript src="elements/includes.js"/>
 <g:each var="elementsImplementation" in="${c.elementsRegistry}">
     <asset:javascript src="${elementsImplementation}.js"/>
 </g:each>
-
-<%-- Mobile App --%>
-<asset:javascript src="elements/app-init.js"/>
 
 <%-- Plugins Specific Javascript --%>
 <asset:assetPathExists src="plugin.js">

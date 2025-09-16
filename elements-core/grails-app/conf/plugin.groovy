@@ -58,7 +58,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         [pattern: '/**/favicon.png', access: ['permitAll']],
         [pattern: '/**/appicon.png', access: ['permitAll']],
         [pattern: '/**/app-manifest.json', access: ['permitAll']],
-        [pattern: '/**/app-init.js', access: ['permitAll']],
+        [pattern: '/**/app-register.js', access: ['permitAll']],
         [pattern: '/**/app-service-worker.js', access: ['permitAll']],
 ]
 
@@ -70,7 +70,7 @@ grails.plugin.springsecurity.filterChain.chainMap = [
         [pattern: '/**/favicon.png', filters: 'none'],
         [pattern: '/**/appicon.png', filters: 'none'],
         [pattern: '/**/app-manifest.json', filters: 'none'],
-        [pattern: '/**/app-init.js', filters: 'none'],
+        [pattern: '/**/app-register.js', filters: 'none'],
         [pattern: '/**/app-service-worker.js', filters: 'none'],
         [pattern: grails.plugin.springsecurity.externalId.filterProcessesUrl, filters: 'externalIdAuthenticationFilter'],
         [pattern: '/**', filters: 'JOINED_FILTERS,-externalIdAuthenticationFilter']
