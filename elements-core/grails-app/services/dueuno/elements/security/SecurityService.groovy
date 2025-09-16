@@ -212,9 +212,10 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     void initializeSessionDuration() {
         TUser user = currentUser
-        session.maxInactiveInterval = EnvUtils.isDevelopment() ? 10000 : user.sessionDuration * 60 // minutes to seconds
-        tokenBasedRememberMeServices.tokenValiditySeconds = user.rememberMeDuration * 60 // minutes to seconds
+        session.maxInactiveInterval = user.sessionDuration * 60 // minutes to seconds
         tokenBasedRememberMeServices.cookieName = applicationService.applicationName.toUpperCase() + '-REMEMBER-ME'
+        tokenBasedRememberMeServices.alwaysRemember = tenantPropertyService.getBoolean('LOGIN_REMEMBER_ME', true)
+        tokenBasedRememberMeServices.tokenValiditySeconds = user.rememberMeDuration * 60 // minutes to seconds
     }
 
     void initializeShell() {
@@ -697,8 +698,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 invertedMonth: args.invertedMonth == null ? false : args.invertedMonth,
                 twelveHours: args.twelveHours == null ? false : args.twelveHours,
                 firstDaySunday: args.firstDaySunday == null ? false : args.firstDaySunday,
-                sessionDuration: args.sessionDuration as Integer ?: tenantPropertyService.getNumber('DEFAULT_SESSION_DURATION') ?: 60,
-                rememberMeDuration: args.rememberMeDuration as Integer ?: tenantPropertyService.getNumber('DEFAULT_REMEMBER_ME_DURATION') ?: 600,
+                sessionDuration: args.sessionDuration as Integer ?: tenantPropertyService.getNumber('DEFAULT_SESSION_DURATION') ?: 5,
+                rememberMeDuration: args.rememberMeDuration as Integer ?: tenantPropertyService.getNumber('DEFAULT_REMEMBER_ME_DURATION') ?: 10080, // One week in minutes
                 fontSize: args.fontSize as Integer ?: systemPropertyService.getNumber('FONT_SIZE') as Integer,
                 animations: args.animations as Boolean ?: true,
                 defaultGroup: defaultGroup ? TRoleGroup.findByTenantAndName(tenant, defaultGroup) : null,
@@ -1118,8 +1119,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                     lastname: 'Admin',
                     username: USERNAME_SUPERADMIN,
                     password: USERNAME_SUPERADMIN,
-                    sessionDuration: 5, // always 5 minutes for the SuperAdmin
-                    rememberMeDuration: 5, // always 5 minutes for the SuperAdmin
+                    sessionDuration: EnvUtils.isDevelopment() ? 12 * 60 : 5, // always 5 minutes in production for the SuperAdmin
+                    rememberMeDuration: EnvUtils.isDevelopment() ? 12 * 60 : 5, // always 5 minutes in production for the SuperAdmin
             )
         }
 
@@ -1130,17 +1131,16 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 password: username,
                 firstname: tenantId,
                 lastname: 'Admin',
-                sessionDuration: 15, // defaults to 15 minutes for the Admin
-                rememberMeDuration: 15, // defaults to 15 minutes for the Admin
+                sessionDuration: EnvUtils.isDevelopment() ? 12 * 60 : 15, // defaults to 15 minutes in production for the Admin
+                rememberMeDuration: EnvUtils.isDevelopment() ? 12 * 60 : 15, // defaults to 15 minutes in production for the Admin
                 admin: true,
         )
 
-//        tenantService.withTenant(tenantId) {
         tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
-        tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
-        tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
+        tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 5)
+        tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 10080) // One week in minutes
 
-        tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', false)
+        tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', true)
         tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
         tenantPropertyService.setString('LOGIN_LANDING_URL', '')
         tenantPropertyService.setString('LOGOUT_LANDING_URL', '')
@@ -1150,6 +1150,5 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
         tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', linkPublicResource(tenantId, '/brand/login-background.jpg', false))
         tenantPropertyService.setString('LOGIN_LOGO', linkPublicResource(tenantId, '/brand/login-logo.png', false))
-//        }
     }
 }
