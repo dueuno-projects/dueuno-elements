@@ -12,8 +12,8 @@
     border-bottom-right-radius: var(--bs-border-radius-lg);
 }
 
-.input-group:has(.input-group-text) input[type],
-.input-group:has(button) input[type] {
+.input-group:has(.input-group-text:first-child) input[type],
+.input-group:has(button:first-child) input[type] {
     padding-left: .5rem !important;
 }
 

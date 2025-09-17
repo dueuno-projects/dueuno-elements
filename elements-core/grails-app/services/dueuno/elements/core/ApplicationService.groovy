@@ -340,7 +340,6 @@ class ApplicationService implements LinkGeneratorAware {
             String revisionName = revision.key
             Closure closure = revision.value
 
-            String pluginName = closure.getClass().getPackage().name
             log.info "Executing '${revisionName}'..."
             closure.call(session)
         }

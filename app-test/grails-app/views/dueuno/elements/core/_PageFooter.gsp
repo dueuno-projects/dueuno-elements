@@ -36,21 +36,12 @@
     }
 </script>
 
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("${asset.assetPath(src: 'elements/app-serviceworker.js')}")
-            .then(function(registration) {
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            })
-            .catch(function(error) {
-                console.log('ServiceWorker registration failed:', error);
-            });
-    }
-</script>
+<%-- PWA - Progressive Web Application --%>
+<script>const serviceWorkerFilename = "${asset.assetPath(src:'elements/app-service-worker.js')}"</script>
+<asset:javascript src="elements/app-register.js"/>
 
-<%-- Elements Javascript --%>
+<%-- Elements --%>
 <asset:javascript src="elements/includes.js"/>
-
 <g:each var="elementsImplementation" in="${c.elementsRegistry}">
     <asset:javascript src="${elementsImplementation}.js"/>
 </g:each>

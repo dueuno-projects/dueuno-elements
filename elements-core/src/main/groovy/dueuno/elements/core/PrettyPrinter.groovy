@@ -318,7 +318,6 @@ class PrettyPrinter {
 
             String date
             String time
-            String result
 
             if (properties.renderDate) {
                 LocalDate dateValue = value.toLocalDate()

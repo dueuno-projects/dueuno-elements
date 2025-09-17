@@ -12,6 +12,7 @@
 <title>${c.message('app.name')}</title>
 <link rel="manifest" href="${asset.assetPath(src: 'elements/app-manifest.json')}">
 
+<%-- Elements --%>
 <asset:stylesheet src="elements/includes.css" media="screen"/>
 <g:each var="elementsImplementation" in="${c.elementsRegistry}">
     <asset:stylesheet src="${elementsImplementation}.css" media="screen"/>
@@ -27,6 +28,7 @@
     <asset:stylesheet src="application.css"/>
 </asset:assetPathExists>
 
+<%-- Main --%>
 <asset:stylesheet src="elements/main.css" media="screen"/>
 
 <style>

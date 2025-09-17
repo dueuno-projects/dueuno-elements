@@ -231,7 +231,7 @@ class ResourceUtils {
     }
 
     static InputStream getPluginResourceInputStream(Class pluginClass, String filename) {
-        URL url
+        URL url = null
         try {
             String pathToClassFile = '/' + pluginClass.name.replace(".", "/") + ".class"
             URL classRes = pluginClass.getResource(pathToClassFile)
