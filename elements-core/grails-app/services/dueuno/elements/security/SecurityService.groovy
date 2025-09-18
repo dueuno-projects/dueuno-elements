@@ -652,12 +652,14 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     TUser createUser(Map args) {
         if (args.failOnError == null) args.failOnError = false
 
-        List<String> groups = args.groups ?: []
+        List<String> groups = [GROUP_USERS]
         if (args.admin) groups.add(GROUP_ADMINS)
         if (args.username != USERNAME_SUPERADMIN && EnvUtils.isDevelopment()) {
             groups.add(GROUP_DEVELOPERS)
         }
-        groups.add(GROUP_USERS)
+        if (args.groups) {
+            groups.addAll(args.groups as List)
+        }
         groups.unique()
 
         String defaultGroup = args.defaultGroup
