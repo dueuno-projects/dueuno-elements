@@ -96,6 +96,7 @@ class AuditController implements ElementsController {
                 row.cells.message.textWrap = TextWrap.SOFT_WRAP
                 row.cells.stateBefore.textWrap = TextWrap.SOFT_WRAP
                 row.cells.stateAfter.textWrap = TextWrap.SOFT_WRAP
+                row.cells.ip.textWrap = TextWrap.SOFT_WRAP
                 row.cells.userAgent.textWrap = TextWrap.SOFT_WRAP
             }
         }
