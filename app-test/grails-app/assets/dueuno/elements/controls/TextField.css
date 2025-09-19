@@ -40,8 +40,14 @@
     opacity: .5;
 }
 
-.input-group ::-ms-input-placeholder { /* Edge 12 -18 */
+/* Edge 12 -18 */
+.input-group ::-ms-input-placeholder {
     color: rgb(var(--elements-main-text));
     font-weight: normal;
     opacity: .5;
+}
+
+/* Hide MS password field reveal button */
+::-ms-reveal {
+    display: none;
 }
