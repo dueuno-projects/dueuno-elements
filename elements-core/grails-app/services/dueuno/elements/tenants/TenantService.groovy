@@ -134,12 +134,11 @@ class TenantService {
         return TTenant.findByTenantId(tenantId)
     }
 
-    private DetachedCriteria<TTenant> buildQuery(Map filters) {
+    private DetachedCriteria<TTenant> buildQuery(Map filterParams) {
         def query = TTenant.where {}
 
-        if (filters) {
-//            if (filters.code) query = query.where { code =~ "%${filters.code}%" }
-        }
+        if (filterParams.containsKey('tenantId')) query = query.where { tenantId == filterParams.tenantId }
+        if (filterParams.containsKey('host')) query = query.where { host == filterParams.host }
 
         return query
     }

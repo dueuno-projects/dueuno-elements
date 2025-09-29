@@ -29,6 +29,7 @@ class TTenant implements GormEntity, Serializable {
     LocalDateTime dateCreated
     String tenantId
     String description
+    String host
     Boolean deletable
 
     TConnectionSource connectionSource
@@ -36,5 +37,6 @@ class TTenant implements GormEntity, Serializable {
     static constraints = {
         tenantId blank: false, unique: true
         description nullable: true
+        host nullable: true
     }
 }
