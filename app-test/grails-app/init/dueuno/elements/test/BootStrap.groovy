@@ -81,6 +81,7 @@ class BootStrap {
             tenantService.create(
                     tenantId: 'TEST',
                     description: 'Test tenant',
+                    host: 'localhost:9443',
                     failOnError: true,
                     connectionSource: [
                             driverClassName: 'com.mysql.cj.jdbc.Driver',
