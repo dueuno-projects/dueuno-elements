@@ -135,6 +135,7 @@ class DateTimeField extends Control {
 
     static onKeyPress(event) {
         if (event.key == 'Enter') {
+            event.preventDefault();
             TextField.onEnter(event);
             return;
         }

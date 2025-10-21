@@ -46,6 +46,11 @@ class ResourceUtils {
         fromPath = FileUtils.normalizePath(fromPath) ?: '/'
         toPath = FileUtils.normalizePath(toPath)
 
+        log.trace "extractDirectory()"
+        log.trace " --> From Path: ${fromPath}"
+        log.trace " --> To Path:   ${toPath}"
+        log.trace " --- "
+
         for (Resource resource in resources) {
             Boolean isDeployedAsBootJar = resource.URL.protocol.equals('jar')
 
@@ -56,11 +61,13 @@ class ResourceUtils {
                 resourceFile = ''
 
             } else if (isDeployedAsBootJar) {
+                log.trace "Extracting Resources: Application deployed as JAR"
                 List<String> resourceParts = resource.URL.path.split('/BOOT-INF/classes!' + fromPath) as List<String>
                 resourceDir = resourceParts.first() + '/BOOT-INF/classes' + fromPath
                 resourceFile = resourceParts.size() > 1 ? resourceParts.last() : ''
 
-            } else { // Launched from IDE or JAR dependency
+            } else {
+                log.trace "Extracting Resources: Application launched from IDE or Plugin as JAR dependency"
                 List<String> resourceParts = normalizeResourcePath(resource.URL.path).split(fromPath) as List<String>
                 if (resourceParts.size() < 3) {
                     resourceDir = resourceParts.first() + fromPath
@@ -73,12 +80,12 @@ class ResourceUtils {
 
             String normalizedResourcePathname = FileUtils.normalizePath(resourceDir) + resourceFile
 
-//            log.debug "extractDirectory()"
-//            log.debug "**** Resource:            " + resource.URL.path
-//            log.debug "**** Resource Dir:        " + resourceDir
-//            log.debug "**** Resource File:       " + resourceFile
-//            log.debug "**** Normalized resource: " + normalizedResourcePathname
-//            log.debug ""
+            log.trace "extractDirectory()"
+            log.trace " --> Resource:            " + resource.URL.path
+            log.trace " --> Resource Dir:        " + resourceDir
+            log.trace " --> Resource File:       " + resourceFile
+            log.trace " --> Normalized resource: " + normalizedResourcePathname
+            log.trace ""
 
             Path rootPath
             Path resourcePath
@@ -192,9 +199,14 @@ class ResourceUtils {
         if (tempPath) FileUtils.deleteFile(tempPath.toString())
     }
 
-
     static void extractResource(Path root, Path resource, String toPath) {
         toPath = FileUtils.normalizePath(toPath)
+
+        log.trace "extractResource()"
+        log.trace " --> Root:     ${root}"
+        log.trace " --> Resource: ${resource}"
+        log.trace " --> To Path:  ${toPath}"
+        log.trace " --- "
 
         FileUtils.createDirectory(toPath)
         Files.walk(resource).forEach {
@@ -204,12 +216,11 @@ class ResourceUtils {
             if (it.toString() == baseDirectory)
                 return
 
-//            log.debug "extractResource()"
-//            log.debug " --> Resource:          " + it
-//            log.debug " --> Resource base dir: " + baseDirectory
-//            log.debug " --> Resource dir:      " + directory
-//            log.debug " --> To path:           " + toPath + directory + '/' + it.fileName
-//            log.debug ""
+            log.trace " --> Resource:          ${it}"
+            log.trace " --> Resource base dir: ${baseDirectory}"
+            log.trace " --> Resource dir:      ${directory}"
+            log.trace " --> To path:           ${toPath + directory + '/' + it.fileName}"
+            log.trace ""
 
             if (Files.isDirectory(it) && !FileUtils.exists(toPath + directory + '/' + it.fileName)) {
                 FileUtils.createDirectory(toPath + directory + '/' + it.fileName)

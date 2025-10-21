@@ -57,7 +57,7 @@ class TenantPropertyService extends PropertyService {
         setString('PRIMARY_BACKGROUND_COLOR', '#cc0000', '#cc0000')
         setNumber('PRIMARY_BACKGROUND_COLOR_ALPHA', 0.15, 0.15)
         setString('SECONDARY_TEXT_COLOR', '#ffffff', '#ffffff')
-        setString('SECONDARY_BACKGROUND_COLOR', '#504545', '#504545')
+        setString('SECONDARY_BACKGROUND_COLOR', '#4C4141', '#4C4141')
         setString('REQUIRED_TEXT_COLOR', '#cc0000', '#cc0000')
     }
 
