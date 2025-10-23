@@ -31,7 +31,7 @@ class Textarea extends TextField {
         super(args)
 
         valueType = Type.TEXT
-
+        autoSelect = args.autoSelect == null ? false : args.autoSelect
         acceptNewLine = args.acceptNewLine == null ? true : args.acceptNewLine
 
         containerSpecs.multiline = true
@@ -40,6 +40,7 @@ class Textarea extends TextField {
     @Override
     String getPropertiesAsJSON(Map properties = [:]) {
         Map thisProperties = [
+                autoSelect: autoSelect,
                 acceptNewLine: acceptNewLine,
         ]
         return super.getPropertiesAsJSON(thisProperties + properties)
