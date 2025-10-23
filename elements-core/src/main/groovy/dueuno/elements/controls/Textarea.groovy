@@ -14,6 +14,7 @@
  */
 package dueuno.elements.controls
 
+import dueuno.commons.utils.StringUtils
 import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
 
@@ -26,6 +27,7 @@ import groovy.transform.CompileStatic
 class Textarea extends TextField {
 
     Boolean acceptNewLine
+    Boolean encode
 
     Textarea(Map args) {
         super(args)
@@ -33,6 +35,7 @@ class Textarea extends TextField {
         valueType = Type.TEXT
         autoSelect = args.autoSelect == null ? false : args.autoSelect
         acceptNewLine = args.acceptNewLine == null ? true : args.acceptNewLine
+        encode = args.encode == null ? false : args.encode
 
         containerSpecs.multiline = true
     }
@@ -42,8 +45,15 @@ class Textarea extends TextField {
         Map thisProperties = [
                 autoSelect: autoSelect,
                 acceptNewLine: acceptNewLine,
+                encode: encode,
         ]
         return super.getPropertiesAsJSON(thisProperties + properties)
     }
 
+    //
+    // Utils
+    //
+    static String decodeText(String encodedString) {
+        return StringUtils.base64Decode(encodedString)
+    }
 }
