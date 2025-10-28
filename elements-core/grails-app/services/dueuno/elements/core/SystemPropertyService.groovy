@@ -18,7 +18,6 @@ import dueuno.commons.utils.FileUtils
 import dueuno.commons.utils.StringUtils
 import dueuno.elements.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
-import grails.gorm.multitenancy.WithoutTenant
 import groovy.util.logging.Slf4j
 
 import javax.annotation.PostConstruct
@@ -186,9 +185,6 @@ class SystemPropertyService extends PropertyService {
     }
 
     void validateAll() {
-//        StopWatch sw = new StopWatch()
-//        sw.start()
-
         List<TSystemProperty> properties = list()
         for (property in properties) {
             switch (property.type as PropertyType) {
@@ -208,9 +204,6 @@ class SystemPropertyService extends PropertyService {
                     break
             }
         }
-
-//        sw.stop()
-//        log.info "APPLICATION - Properties validated in ${sw.toString()}"
     }
 
     void delete(Serializable id) {

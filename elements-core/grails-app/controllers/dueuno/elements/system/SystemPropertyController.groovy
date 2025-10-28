@@ -52,6 +52,7 @@ class SystemPropertyController implements ElementsController {
                 )
                 for (String type in PropertyType.values()*.name()) {
                     if (type == 'STRING') continue
+                    if (type == 'PASSWORD') continue
                     addAction(
                             action: 'create',
                             params: [type: type],
@@ -128,10 +129,6 @@ class SystemPropertyController implements ElementsController {
                 if (values.type == PropertyType.BOOL) {
                     values.value = values.value ? 'TRUE' : 'FALSE'
                 }
-
-                if (values.type == PropertyType.PASSWORD) {
-                    values.value = '**********'
-                }
             }
         }
 
@@ -196,14 +193,6 @@ class SystemPropertyController implements ElementsController {
                             id: 'value',
                             textStyle: TextStyle.MONOSPACE,
                             rows: 2,
-                    )
-                    break
-
-                case PropertyType.PASSWORD:
-                    addField(
-                            class: PasswordField,
-                            id: 'value',
-                            help: 'systemProperty.password.help',
                     )
                     break
 
@@ -342,10 +331,6 @@ class SystemPropertyController implements ElementsController {
         if (obj) {
             c.form.values = obj
             c.form['value'].value = systemPropertyService.getValue(obj.type, obj.name, true)
-
-            if (obj.type == PropertyType.PASSWORD) {
-                c.form['value'].value = ''
-            }
         }
 
         return c

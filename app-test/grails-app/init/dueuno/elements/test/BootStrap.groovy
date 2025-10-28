@@ -92,6 +92,20 @@ class BootStrap {
         }
 
         applicationService.onInstall { String tenantId ->
+            tenantPropertyService.setNumber('TEST_NUMBER', 5 * 60)
+            tenantPropertyService.setString('TEST_STRING', 'This is a string', 'This is its default value')
+            tenantPropertyService.setDateTime('TEST_DATE_TIME', LocalDateTime.now())
+            tenantPropertyService.setDate('TEST_DATE', LocalDate.now())
+            tenantPropertyService.setTime('TEST_TIME', LocalTime.now())
+            tenantPropertyService.setBoolean('TEST_BOOLEAN', true)
+            tenantPropertyService.setDirectory('TEST_DIRECTORY', '', '/pippo/pluto')
+            tenantPropertyService.setFilename('TEST_FILENAME', '', '\\pippo\\pluto\\config.txt')
+            tenantPropertyService.setUrl('TEST_URL', 'http://www.dueuno.com', 'http://www.google.com/search')
+            tenantPropertyService.setDirectory('TEST_WRONG_DIRECTORY', '\\this\\directory\\doesnt\\exist', '')
+            tenantPropertyService.setFilename('TEST_WRONG_FILENAME', '\\this\\file\\doesnt\\exist.txt', '')
+            tenantPropertyService.setUrl('TEST_WRONG_URL', 'htp://www.wrong.url', '')
+            tenantPropertyService.setString('TEST_ON_CHANGE', 'Change me and check the console!', '')
+            tenantPropertyService.setPassword('TEST_PASSWORD', "${tenantId}Password")
 
             String appLink = servletContext.contextPath
             tenantPropertyService.setString('SHELL_URL_MAPPING', '/admin')
@@ -195,7 +209,6 @@ class BootStrap {
 
             systemPropertyService.setNumber('TEST_NUMBER', 5 * 60)
             systemPropertyService.setString('TEST_STRING', 'This is a string', 'This is its default value')
-            systemPropertyService.setPassword('TEST_PASSWORD', 'ThisIsAPassword!')
             systemPropertyService.setDateTime('TEST_DATE_TIME', LocalDateTime.now())
             systemPropertyService.setDate('TEST_DATE', LocalDate.now())
             systemPropertyService.setTime('TEST_TIME', LocalTime.now())

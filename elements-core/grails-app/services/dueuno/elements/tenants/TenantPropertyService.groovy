@@ -14,7 +14,10 @@
  */
 package dueuno.elements.tenants
 
+import dueuno.commons.utils.KeyStoreUtils
+import dueuno.commons.utils.LogUtils
 import dueuno.commons.utils.StringUtils
+import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.PropertyService
 import dueuno.elements.core.PropertyType
 import dueuno.elements.exceptions.ArgsException
@@ -22,6 +25,13 @@ import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import groovy.util.logging.Slf4j
+
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.attribute.PosixFilePermission
+import java.security.KeyStore
+import java.security.SecureRandom
 
 /**
  * @author Gianluca Sartori
@@ -31,6 +41,7 @@ import groovy.util.logging.Slf4j
 @CurrentTenant
 class TenantPropertyService extends PropertyService {
 
+    ApplicationService applicationService
     TenantService tenantService
 
     void install() {
@@ -59,6 +70,49 @@ class TenantPropertyService extends PropertyService {
         setString('SECONDARY_TEXT_COLOR', '#ffffff', '#ffffff')
         setString('SECONDARY_BACKGROUND_COLOR', '#4C4141', '#4C4141')
         setString('REQUIRED_TEXT_COLOR', '#cc0000', '#cc0000')
+
+        // Key Store
+        byte[] password = KeyStoreUtils.generateKeyStorePassword()
+        String pathname = tenantService.privateDir + applicationService.applicationName + '.key'
+        KeyStoreUtils.saveKeyStorePassword(password, pathname)
+        applicationService.setAttribute('KEYSTORE_PASSWORD', password)
+    }
+
+    void init() {
+        // Key Store
+        String pathname = tenantService.privateDir + applicationService.applicationName + '.key'
+        byte[] password = KeyStoreUtils.loadKeyStorePassword(pathname)
+        applicationService.setAttribute('KEYSTORE_PASSWORD', password)
+    }
+
+    void setPassword(String name, String value) {
+        String encryptedValue
+
+        if (value.trim()) {
+            byte[] ksp = applicationService.getAttribute('KEYSTORE_PASSWORD') as byte[]
+            KeyStore ks = KeyStoreUtils.create(ksp)
+            KeyStoreUtils.setKey(ks, ksp, name, value)
+            encryptedValue = KeyStoreUtils.saveToString(ks, ksp)
+
+        } else {
+            encryptedValue = value
+        }
+
+        setValue(PropertyType.PASSWORD, name, encryptedValue, null)
+    }
+
+    String getPassword(String name, Boolean reload = false) {
+        String encryptedValue = getValue(PropertyType.PASSWORD, name, reload) as String ?: ''
+        String decryptedValue
+
+        if (!encryptedValue) {
+            return ''
+        }
+
+        byte[] ksp = applicationService.getAttribute('KEYSTORE_PASSWORD') as byte[]
+        KeyStore ks = KeyStoreUtils.loadFromString(encryptedValue, ksp)
+        decryptedValue = KeyStoreUtils.getKey(ks, ksp, name)
+        return decryptedValue
     }
 
     DetachedCriteria<TTenantProperty> buildQuery(Map filters) {
@@ -198,9 +252,6 @@ class TenantPropertyService extends PropertyService {
     }
 
     void validateAll() {
-//        StopWatch sw = new StopWatch()
-//        sw.start()
-
         List<TTenantProperty> properties = list()
         for (property in properties) {
             switch (property.type as PropertyType) {
@@ -220,9 +271,6 @@ class TenantPropertyService extends PropertyService {
                     break
             }
         }
-
-//        sw.stop()
-//        log.info "${tenantService.currentTenantId}: Properties validated in ${sw.toString()}"
     }
 
     void delete(Serializable id) {

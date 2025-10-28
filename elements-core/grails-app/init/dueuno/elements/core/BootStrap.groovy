@@ -51,6 +51,7 @@ class BootStrap {
             Types.register(Quantity)
             
             securityService.init()
+            tenantPropertyService.init()
         }
 
         applicationService.afterInit {
