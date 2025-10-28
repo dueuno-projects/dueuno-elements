@@ -15,6 +15,7 @@
 package dueuno.elements.core
 
 import dueuno.elements.components.ShellService
+import dueuno.elements.security.KeyStoreService
 import dueuno.elements.security.SecurityService
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.types.Money
@@ -29,6 +30,7 @@ class BootStrap {
 //    GroovyPagesTemplateEngine groovyPagesTemplateEngine
     ApplicationService applicationService
     SecurityService securityService
+    KeyStoreService keyStoreService
     TenantPropertyService tenantPropertyService
     PageService pageService
     ShellService shellService
@@ -37,6 +39,7 @@ class BootStrap {
 
         applicationService.onPluginInstall { String tenantId ->
             securityService.install()
+            keyStoreService.install()
             tenantPropertyService.install()
             pageService.install(tenantId)
             shellService.install(tenantId)
@@ -51,11 +54,14 @@ class BootStrap {
             Types.register(Quantity)
             
             securityService.init()
-            tenantPropertyService.init()
         }
 
         applicationService.afterInit {
             securityService.registerFeatures()
+        }
+
+        securityService.afterLogin {
+            keyStoreService.afterLogin()
         }
     }
 
