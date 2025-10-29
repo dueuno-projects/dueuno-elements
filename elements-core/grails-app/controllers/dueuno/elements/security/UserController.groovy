@@ -408,7 +408,7 @@ class UserController implements ElementsController {
     }
 
     def onTenantChange() {
-        def rs = securityService.listGroup(tenant: params.tenant)
+        def rs = securityService.listGroup(tenant: params.tenant, hideUsers: true)
         def tenantGroups = Select.optionsFromRecordset(recordset: rs)
 
         def t = createTransition()
