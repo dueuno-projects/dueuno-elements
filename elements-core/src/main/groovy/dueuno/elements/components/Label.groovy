@@ -123,6 +123,12 @@ class Label extends Component {
                 text = value
             }
 
+        } else if (value in List) {
+            text = (value as List).join(', ')
+
+        } else if (value in Map) {
+            text = (value as Map).collect { k, v -> "${k} = ${v}" }.join(', ')
+
         } else {
             text = prettyPrint(value, prettyPrinterProperties)
         }

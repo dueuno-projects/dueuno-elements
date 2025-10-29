@@ -42,6 +42,10 @@ grails.plugin.springsecurity.externalId.propertyName = 'externalId'
 grails.plugin.springsecurity.useSessionFixationPrevention = true
 
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+        [pattern: '/**/authentication/login', access: ['permitAll']],
+        [pattern: '/**/login', access: ['permitAll']],
+        [pattern: '/**/authentication/logout', access: ['permitAll']],
+        [pattern: '/**/logout', access: ['permitAll']],
         [pattern: '/**', access: ['IS_AUTHENTICATED_REMEMBERED']],
         [pattern: '/**/h2-console/**', access: ['ROLE_DEVELOPER']],
 

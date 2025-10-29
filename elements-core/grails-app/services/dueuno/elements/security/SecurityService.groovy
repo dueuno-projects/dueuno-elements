@@ -213,8 +213,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     void initializeSessionDuration() {
         TUser user = currentUser
         session.maxInactiveInterval = user.sessionDuration * 60 // minutes to seconds
-        tokenBasedRememberMeServices.cookieName = applicationService.applicationName.toUpperCase() + '-REMEMBER-ME'
-        tokenBasedRememberMeServices.alwaysRemember = tenantPropertyService.getBoolean('LOGIN_REMEMBER_ME', true)
+        tokenBasedRememberMeServices.cookieName = tenantPropertyService.getString('REMEMBER_ME_COOKIE_NAME', true)
+        tokenBasedRememberMeServices.alwaysRemember = tenantPropertyService.getBoolean('REMEMBER_ME_ENABLED', true)
         tokenBasedRememberMeServices.tokenValiditySeconds = user.rememberMeDuration * 60 // minutes to seconds
     }
 
@@ -398,7 +398,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
         String tenantId = tenantService.currentTenantId
         log.info "${tenantId} Tenant - Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
-        auditService.log(AuditOperation.LOGIN, "Authorities: ${currentUserAuthorities}")
+        auditService.log(AuditOperation.LOGIN, currentUserAuthorities.join(', '))
 
         // Executes custom login code
         applicationService.executeBootEvents('afterLogin', session)
@@ -652,12 +652,14 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     TUser createUser(Map args) {
         if (args.failOnError == null) args.failOnError = false
 
-        List<String> groups = args.groups ?: []
+        List<String> groups = [GROUP_USERS]
         if (args.admin) groups.add(GROUP_ADMINS)
         if (args.username != USERNAME_SUPERADMIN && EnvUtils.isDevelopment()) {
             groups.add(GROUP_DEVELOPERS)
         }
-        groups.add(GROUP_USERS)
+        if (args.groups) {
+            groups.addAll(args.groups as List)
+        }
         groups.unique()
 
         String defaultGroup = args.defaultGroup
@@ -698,8 +700,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 invertedMonth: args.invertedMonth == null ? false : args.invertedMonth,
                 twelveHours: args.twelveHours == null ? false : args.twelveHours,
                 firstDaySunday: args.firstDaySunday == null ? false : args.firstDaySunday,
-                sessionDuration: args.sessionDuration as Integer ?: tenantPropertyService.getNumber('DEFAULT_SESSION_DURATION') ?: 5,
-                rememberMeDuration: args.rememberMeDuration as Integer ?: tenantPropertyService.getNumber('DEFAULT_REMEMBER_ME_DURATION') ?: 10080, // One week in minutes
+                sessionDuration: args.sessionDuration as Integer ?: tenantPropertyService.getNumber('SESSION_DEFAULT_DURATION') ?: 5,
+                rememberMeDuration: args.rememberMeDuration as Integer ?: tenantPropertyService.getNumber('REMEMBER_ME_DEFAULT_DURATION') ?: 10080, // One week in minutes
                 fontSize: args.fontSize as Integer ?: systemPropertyService.getNumber('FONT_SIZE') as Integer,
                 animations: args.animations as Boolean ?: true,
                 defaultGroup: defaultGroup ? TRoleGroup.findByTenantAndName(tenant, defaultGroup) : null,
@@ -1119,7 +1121,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                     lastname: 'Admin',
                     username: USERNAME_SUPERADMIN,
                     password: USERNAME_SUPERADMIN,
-                    sessionDuration: EnvUtils.isDevelopment() ? 12 * 60 : 5, // always 5 minutes in production for the SuperAdmin
+                    sessionDuration: EnvUtils.isDevelopment() ? 60 : 5, // always 5 minutes in production for the SuperAdmin
                     rememberMeDuration: EnvUtils.isDevelopment() ? 12 * 60 : 5, // always 5 minutes in production for the SuperAdmin
             )
         }
@@ -1131,16 +1133,18 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 password: username,
                 firstname: tenantId,
                 lastname: 'Admin',
-                sessionDuration: EnvUtils.isDevelopment() ? 12 * 60 : 15, // defaults to 15 minutes in production for the Admin
+                sessionDuration: EnvUtils.isDevelopment() ? 60 : 15, // defaults to 15 minutes in production for the Admin
                 rememberMeDuration: EnvUtils.isDevelopment() ? 12 * 60 : 15, // defaults to 15 minutes in production for the Admin
                 admin: true,
         )
 
         tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
-        tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 5)
-        tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 10080) // One week in minutes
+        tenantPropertyService.setString('SESSION_COOKIE_NAME', applicationService.applicationName.toUpperCase() + '-SESSION')
+        tenantPropertyService.setNumber('SESSION_DEFAULT_DURATION', 5)
+        tenantPropertyService.setString('REMEMBER_ME_COOKIE_NAME', applicationService.applicationName.toUpperCase() + '-REMEMBER-ME')
+        tenantPropertyService.setNumber('REMEMBER_ME_DEFAULT_DURATION', 10080) // One week in minutes
 
-        tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', true)
+        tenantPropertyService.setBoolean('REMEMBER_ME_ENABLED', true)
         tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
         tenantPropertyService.setString('LOGIN_LANDING_URL', '')
         tenantPropertyService.setString('LOGOUT_LANDING_URL', '')

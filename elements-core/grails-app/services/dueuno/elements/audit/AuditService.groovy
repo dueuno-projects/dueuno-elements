@@ -37,8 +37,8 @@ class AuditService implements WebRequestAware {
     SecurityService securityService
 
     void log(AuditOperation operation, String message) {
-        String userAgent = request.getHeader("User-Agent")
-        String ipAddress = getClientIpAddress(request).toMapString()
+        String userAgent = request.getHeader('User-Agent')
+        String ipAddress = getClientIpAddress(request)
 
         def auditLog = new TAuditLog(
                 ip: ipAddress,
@@ -66,8 +66,8 @@ class AuditService implements WebRequestAware {
     }
 
     void log(AuditOperation operation, String objectName, String stateBefore, String stateAfter = null) {
-        String userAgent = request.getHeader("User-Agent")
-        String ipAddress = getClientIpAddress(request).toMapString()
+        String userAgent = request.getHeader('User-Agent')
+        String ipAddress = getClientIpAddress(request)
 
         def auditLog = new TAuditLog(
                 ip: ipAddress,
@@ -81,31 +81,34 @@ class AuditService implements WebRequestAware {
         auditLog.save(flush: true, failOnError: true)
     }
 
-    private Map getClientIpAddress(HttpServletRequest request) {
+    private String getClientIpAddress(HttpServletRequest request) {
         List relevantHeaders = [
-                "X-Forwarded-For",
-                "Proxy-Client-IP",
-                "WL-Proxy-Client-IP",
-                "HTTP_X_FORWARDED_FOR",
-                "HTTP_X_FORWARDED",
-                "HTTP_X_CLUSTER_CLIENT_IP",
-                "HTTP_CLIENT_IP",
-                "HTTP_FORWARDED_FOR",
-                "HTTP_FORWARDED",
-                "HTTP_VIA",
-                "REMOTE_ADDR"
+                'CF-Connecting-IP',        // Cloudflare: IP reale del client dietro il loro CDN
+                'True-Client-IP',          // Akamai / altri CDN: IP reale del client
+                'X-Forwarded-For',         // De facto standard proxy: lista IP client + proxy
+                'X-Real-IP',               // Nginx: IP reale del client
+                'X-Cluster-Client-IP',     // Alcuni load balancer / proxy cluster: IP client
+                'Client-IP',               // Proxy meno comuni: IP originale del client
+                'X-Originating-IP',        // Alcuni webmail / proxy: IP originale del client
+                'X-Remote-IP',             // Alcuni proxy privati: IP originale del client
+                'X-Client-IP',             // Proxy custom: IP reale del client
+                'Proxy-Client-IP',         // Proxy / servlet container legacy: IP client
+                'WL-Proxy-Client-IP',      // WebLogic: IP client dietro il proxy
+                'X-Forwarded',             // Variante generica di X-Forwarded-For
+                'X-Forwarded-Host',        // Non contiene IP, ma può aiutare a ricostruire la connessione
+                'Via'                      // RFC 7230: lista dei proxy attraversati, informativo
         ]
 
         Map results = [:]
         for (header in relevantHeaders) {
             String ip = request.getHeader(header)
-            if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+            if (ip != null && ip.length() != 0 && !'unknown'.equalsIgnoreCase(ip)) {
                 results.put(header, ip)
             }
         }
 
-        results.put("REMOTE_ADDR", request.getRemoteAddr())
-        return results
+        results.put('TCP', request.getRemoteAddr() + ':' + request.getRemotePort())
+        return results.collect { k, v -> "${k} = ${v}" }.join(', ')
     }
 
     private String prettyProperties(Map properties) {
