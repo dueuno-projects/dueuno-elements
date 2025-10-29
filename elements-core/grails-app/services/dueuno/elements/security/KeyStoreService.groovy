@@ -38,24 +38,23 @@ class KeyStoreService {
     void install() {
         byte[] password = KeyStoreUtils.generateKeyStorePassword()
         KeyStoreUtils.saveKeyStorePassword(password, keyStorePasswordPathname)
-        applicationService.setAttribute('KEYSTORE_PASSWORD_' + tenantService.currentTenantId, password)
+        applicationService.setAttribute(keyStorePasswordAttributeName, password)
     }
 
     void afterLogin() {
         byte[] password = KeyStoreUtils.loadKeyStorePassword(keyStorePasswordPathname)
-        applicationService.setAttribute('KEYSTORE_PASSWORD_' +  tenantService.currentTenantId, password)
+        applicationService.setAttribute(keyStorePasswordAttributeName, password)
     }
 
     String encrypt(String value) {
-        if (value.trim()) {
-            byte[] ksp = keyStorePasswordForTenant
-            KeyStore ks = KeyStoreUtils.create(ksp)
-            KeyStoreUtils.setKey(ks, ksp, 'value', value)
-            return KeyStoreUtils.saveToString(ks, ksp)
-
-        } else {
-            return value
+        if (!value) {
+            return ''
         }
+
+        byte[] ksp = keyStorePasswordForTenant
+        KeyStore ks = KeyStoreUtils.create(ksp)
+        KeyStoreUtils.setKey(ks, ksp, 'value', value)
+        return KeyStoreUtils.saveToString(ks, ksp)
     }
 
     String decrypt(String value) {
@@ -68,12 +67,15 @@ class KeyStoreService {
         return KeyStoreUtils.getKey(ks, ksp, 'value')
     }
 
+    private byte[] getKeyStorePasswordForTenant() {
+        return applicationService.getAttribute(keyStorePasswordAttributeName) as byte[]
+    }
+
     private String getKeyStorePasswordPathname() {
         return tenantService.privateDir + applicationService.applicationName + '.key'
     }
 
-    private byte[] getKeyStorePasswordForTenant() {
-        return applicationService.getAttribute('KEYSTORE_PASSWORD_' +  tenantService.currentTenantId) as byte[]
+    private String getKeyStorePasswordAttributeName() {
+        return 'KEYSTORE_PASSWORD_' + tenantService.currentTenantId
     }
-
 }

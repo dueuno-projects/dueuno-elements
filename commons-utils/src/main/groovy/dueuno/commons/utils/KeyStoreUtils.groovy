@@ -64,7 +64,7 @@ class KeyStoreUtils {
             return keyStorePassword
 
         } catch (Exception e) {
-            log.error "Error loading '${pathname}'"
+            log.error "Error loading '${pathname}': ${e.message}"
             log.info LogUtils.logStackTrace(e)
             return null
         }
@@ -75,8 +75,9 @@ class KeyStoreUtils {
             return load(is, password)
 
         } catch (Exception e) {
-            log.warn "Cannot access key chain at '${filename}': ${e.message}"
-            return load(null, password)
+            log.warn "Error loading KeyStore file '${filename}': ${e.message}"
+            log.info LogUtils.logStackTrace(e)
+            return create(password)
         }
     }
 
@@ -90,6 +91,11 @@ class KeyStoreUtils {
         byte[] data = Base64.decoder.decode(base64String)
         try (InputStream is = new ByteArrayInputStream(data)) {
             return load(is, password)
+
+        } catch (Exception e) {
+            log.warn "Error loading KeyStore string: ${e.message}"
+            log.info LogUtils.logStackTrace(e)
+            return create(password)
         }
     }
 
@@ -115,8 +121,8 @@ class KeyStoreUtils {
                 : null
     }
 
-    static boolean contains(KeyStore keyStore, String alias) {
-        return keyStore.containsAlias(alias)
+    static boolean contains(KeyStore keyStore, String name) {
+        return keyStore.containsAlias(name)
     }
 
 
