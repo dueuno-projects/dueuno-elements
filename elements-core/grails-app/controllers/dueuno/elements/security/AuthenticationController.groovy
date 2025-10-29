@@ -17,6 +17,7 @@ package dueuno.elements.security
 import dueuno.elements.core.ElementsController
 import dueuno.elements.pages.Login
 import dueuno.elements.tenants.TenantPropertyService
+import dueuno.elements.tenants.TenantService
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -30,6 +31,7 @@ import grails.plugin.springsecurity.annotation.Secured
 class AuthenticationController implements ElementsController {
 
     SecurityService securityService
+    TenantService tenantService
     TenantPropertyService tenantPropertyService
 
     def login() {
@@ -38,14 +40,20 @@ class AuthenticationController implements ElementsController {
             return
         }
 
-        def loginArgs = [
-                backgroundImage    : tenantPropertyService.getString('LOGIN_BACKGROUND_IMAGE', true),
-                logoImage          : tenantPropertyService.getString('LOGIN_LOGO', true),
-                autocomplete       : tenantPropertyService.getBoolean('LOGIN_AUTOCOMPLETE', true),
-                copy               : tenantPropertyService.getString('LOGIN_COPY', true),
-                registerUrl        : tenantPropertyService.getString('LOGIN_REGISTRATION_URL', true),
-                passwordRecoveryUrl: tenantPropertyService.getString('LOGIN_PASSWORD_RECOVERY_URL', true),
-        ]
+        def tenantId = tenantService.currentTenantId
+        def tenantList = tenantService.list(host: requestHeader.host)
+        if (tenantList.size() == 1) tenantId = tenantList[0].tenantId
+        def loginArgs = [:]
+        tenantService.withTenant(tenantId) {
+            loginArgs = [
+                    backgroundImage    : tenantPropertyService.getString('LOGIN_BACKGROUND_IMAGE', true),
+                    logoImage          : tenantPropertyService.getString('LOGIN_LOGO', true),
+                    autocomplete       : tenantPropertyService.getBoolean('LOGIN_AUTOCOMPLETE', true),
+                    copy               : tenantPropertyService.getString('LOGIN_COPY', true),
+                    registerUrl        : tenantPropertyService.getString('LOGIN_REGISTRATION_URL', true),
+                    passwordRecoveryUrl: tenantPropertyService.getString('LOGIN_PASSWORD_RECOVERY_URL', true),
+            ]
+        }
         def login = createPage(Login, loginArgs)
 
         display page: login

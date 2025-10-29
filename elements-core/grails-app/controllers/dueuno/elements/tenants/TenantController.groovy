@@ -52,7 +52,11 @@ class TenantController implements ElementsController {
             columns = [
                     'tenantId',
                     'description',
+                    'host',
                     'connectionSource.url',
+            ]
+            labels = [
+                    'connectionSource.url': 'tenant.connection.info',
             ]
 
             actions.tailAction.confirmMessage = 'tenant.confirm.delete'
@@ -64,8 +68,8 @@ class TenantController implements ElementsController {
             }
         }
 
-        def filters = c.table.filterParams
-        c.table.body = tenantService.list(filters, params)
+        Map filters = c.table.filterParams
+        c.table.body = tenantService.list(filters, c.table.fetchParams)
         c.table.paginate = tenantService.count(filters)
 
         display content: c
@@ -103,14 +107,17 @@ class TenantController implements ElementsController {
             )
             addField(
                     class: TextField,
-                    id: 'description',
+                    id: 'host',
                     cols: 6,
+            )
+            addField(
+                    class: TextField,
+                    id: 'description',
             )
             addField(
                     class: Separator,
                     id: 'connection.info',
                     icon: 'fa-database',
-                    cols: 12,
             )
             addField(
                     class: Select,
@@ -128,7 +135,6 @@ class TenantController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'connectionSource.url',
-                    cols: 12,
             )
             addField(
                     class: TextField,
