@@ -92,7 +92,7 @@ class AuditController implements ElementsController {
                     'userAgent',
             ]
             actions.removeAllActions()
-            actions.addDefaultAction(action: 'verify', icon: 'fa-award')
+            actions.addDefaultAction(action: 'verify', icon: 'fa-bookmark', tooltip: 'audit.verify.tooltip')
             body.eachRow { TableRow row, Map values ->
                 row.cells.operation.tag = true
                 row.cells.message.textWrap = TextWrap.SOFT_WRAP
