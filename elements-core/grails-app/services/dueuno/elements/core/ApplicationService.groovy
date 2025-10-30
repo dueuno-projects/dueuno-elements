@@ -351,12 +351,12 @@ class ApplicationService implements LinkGeneratorAware {
             String revisionName = revision.key
             Closure closure = revision.value
 
-            List args = []
-            if (tenantId) args.add(tenantId)
-            if (session) args.add(session)
-
             log.info "Executing '${revisionName}'..."
-            closure.call(args)
+            if (closure.maximumNumberOfParameters == 1) {
+                closure.call(tenantId)
+            } else {
+                closure.call(tenantId, session)
+            }
         }
     }
 

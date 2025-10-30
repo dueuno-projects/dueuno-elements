@@ -14,14 +14,12 @@
  */
 package dueuno.elements.security
 
-import dueuno.commons.utils.KeyStoreUtils
+import dueuno.commons.utils.CryptoUtils
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.tenants.TenantService
 import grails.gorm.multitenancy.CurrentTenant
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-
-import java.security.KeyStore
 
 /**
  * @author Gianluca Sartori
@@ -36,46 +34,33 @@ class CryptoService {
     TenantService tenantService
 
     void install() {
-        byte[] password = KeyStoreUtils.generateKeyStorePassword()
-        KeyStoreUtils.saveKeyStorePassword(password, cryptoPasswordPathname)
-        applicationService.setAttribute(cryptoPasswordAttributeName, password)
+        byte[] password = CryptoUtils.generateAESKey()
+        CryptoUtils.saveAESKey(password, tenantAESKeyPathname)
+        applicationService.setAttribute(tenantAESKeyAttributeName, password)
     }
 
     void tenantInit() {
-        byte[] password = KeyStoreUtils.loadKeyStorePassword(cryptoPasswordPathname)
-        applicationService.setAttribute(cryptoPasswordAttributeName, password)
+        byte[] password = CryptoUtils.loadAESKey(tenantAESKeyPathname)
+        applicationService.setAttribute(tenantAESKeyAttributeName, password)
     }
 
     String encrypt(String value) {
-        if (!value) {
-            return ''
-        }
-
-        byte[] ksp = cryptoPasswordForTenant
-        KeyStore ks = KeyStoreUtils.create(ksp)
-        KeyStoreUtils.setKey(ks, ksp, 'value', value)
-        return KeyStoreUtils.saveToString(ks, ksp)
+        return CryptoUtils.encrypt(value, tenantAESKey)
     }
 
-    String decrypt(String value) {
-        if (!value) {
-            return ''
-        }
-
-        byte[] ksp = cryptoPasswordForTenant
-        KeyStore ks = KeyStoreUtils.loadFromString(value, ksp)
-        return KeyStoreUtils.getKey(ks, ksp, 'value')
+    String decrypt(String encryptedValue) {
+        return CryptoUtils.decrypt(encryptedValue, tenantAESKey)
     }
 
-    byte[] getCryptoPasswordForTenant() {
-        return applicationService.getAttribute(cryptoPasswordAttributeName) as byte[]
+    byte[] getTenantAESKey() {
+        return applicationService.getAttribute(tenantAESKeyAttributeName) as byte[]
     }
 
-    private String getCryptoPasswordPathname() {
+    private String getTenantAESKeyPathname() {
         return tenantService.privateDir + applicationService.applicationName + '.key'
     }
 
-    private String getCryptoPasswordAttributeName() {
-        return 'CRYPTO_PASSWORD_' + tenantService.currentTenantId
+    private String getTenantAESKeyAttributeName() {
+        return tenantService.currentTenantId + '_TENANT_AES_KEY'
     }
 }

@@ -84,8 +84,8 @@ class AuditService implements WebRequestAware {
 
     Boolean verifyLogIntegrity(TAuditLog obj) {
         Map log = buildLog(obj.id)
-        byte[] password = cryptoService.getCryptoPasswordForTenant()
-        String actualDigest = computeHmac(log, password)
+        byte[] AESKey = cryptoService.getTenantAESKey()
+        String actualDigest = computeHmac(log, AESKey)
 
         return MessageDigest.isEqual(actualDigest.bytes, obj.digest.bytes)
     }
@@ -118,10 +118,10 @@ class AuditService implements WebRequestAware {
     }
 
     private Map buildLogIntegrity(Map log) {
-        byte[] password = cryptoService.getCryptoPasswordForTenant()
+        byte[] AESKey = cryptoService.getTenantAESKey()
 
         Map integrity = [
-                digest: computeHmac(log, password),
+                digest: computeHmac(log, AESKey),
         ]
 
         return integrity

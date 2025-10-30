@@ -402,11 +402,9 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         // Executes custom login code
         applicationService.executeBootEvents('afterLogin', tenantService.currentTenantId, session)
 
-        // Keep logging after boot event execution (needs tenant cryptographic password loaded in "afterLogin")
-        auditService.log(AuditOperation.LOGIN, currentUserAuthorities.join(', '))
-
         String tenantId = tenantService.currentTenantId
         log.info "${tenantId} Tenant - Login '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
+        auditService.log(AuditOperation.LOGIN, currentUserAuthorities.join(', '))
     }
 
     void denyLogin(String message) {
