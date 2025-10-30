@@ -72,9 +72,9 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
                 requestParams._21TransitionRendered = true
                 sw.stop()
 
-                if (EnvUtils.isDevelopment()) {
-                    log.warn "TRANSITION rendered in ${sw.lastTaskTimeMillis}ms, args: ${args}"
-                }
+//                if (EnvUtils.isDevelopment()) {
+//                    log.warn "TRANSITION rendered in ${sw.lastTaskTimeMillis}ms, args: ${args}"
+//                }
 
             } catch (Exception ignore) {
                 log.error LogUtils.logStackTrace(ignore)
@@ -88,9 +88,9 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
                 requestParams._21TransitionRendered = true
                 sw.stop()
 
-                if (EnvUtils.isDevelopment()) {
-                    log.warn "PAGE rendered in ${sw.lastTaskTimeMillis}ms, args: ${args}"
-                }
+//                if (EnvUtils.isDevelopment()) {
+//                    log.warn "PAGE rendered in ${sw.lastTaskTimeMillis}ms, args: ${args}"
+//                }
 
             } catch (Exception ignore) {
                 log.error LogUtils.logStackTrace(ignore)
