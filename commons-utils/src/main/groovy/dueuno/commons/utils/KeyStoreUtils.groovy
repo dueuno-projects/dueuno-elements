@@ -57,9 +57,8 @@ class KeyStoreUtils {
     }
 
     static byte[] loadKeyStorePassword(String pathname) {
-        Path path = Paths.get(pathname)
-
         try {
+            Path path = Paths.get(pathname)
             byte[] keyStorePassword = Files.readAllBytes(path)
             return keyStorePassword
 
@@ -127,9 +126,8 @@ class KeyStoreUtils {
 
 
     private static KeyStore load(InputStream is, byte[] password) {
-        char[] pwd = passwordBytesToChars(password)
-
         try {
+            char[] pwd = passwordBytesToChars(password)
             KeyStore keyStore = KeyStore.getInstance(KEYSTORE_TYPE)
             keyStore.load(is, pwd)
             return keyStore
@@ -140,8 +138,8 @@ class KeyStoreUtils {
     }
 
     private static void save(KeyStore keyStore, byte[] password, OutputStream os) {
-        char[] pwd = passwordBytesToChars(password)
         try {
+            char[] pwd = passwordBytesToChars(password)
             keyStore.store(os, pwd)
 
         } catch (Exception e) {
