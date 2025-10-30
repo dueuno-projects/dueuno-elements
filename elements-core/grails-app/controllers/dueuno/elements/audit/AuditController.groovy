@@ -95,7 +95,6 @@ class AuditController implements ElementsController {
             actions.addDefaultAction(action: 'verify', icon: 'fa-award')
             body.eachRow { TableRow row, Map values ->
                 row.cells.operation.tag = true
-
                 row.cells.message.textWrap = TextWrap.SOFT_WRAP
                 row.cells.stateBefore.textWrap = TextWrap.SOFT_WRAP
                 row.cells.stateAfter.textWrap = TextWrap.SOFT_WRAP

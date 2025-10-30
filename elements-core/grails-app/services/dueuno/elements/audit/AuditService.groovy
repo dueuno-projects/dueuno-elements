@@ -60,11 +60,11 @@ class AuditService implements WebRequestAware {
     }
 
     void log(AuditOperation operation, String objectName, String stateBefore, String stateAfter = null) {
-        log(operation, objectName, null, stateBefore, stateAfter)
+        log(operation, null, objectName, stateBefore, stateAfter)
     }
 
     void log(AuditOperation operation, String message) {
-        log(operation, null, message, null, null)
+        log(operation, message, null, null, null)
     }
 
     void log(AuditOperation operation, String message, String objectName, String stateBefore, String stateAfter) {
