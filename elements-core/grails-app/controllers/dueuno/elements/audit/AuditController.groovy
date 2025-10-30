@@ -87,9 +87,12 @@ class AuditController implements ElementsController {
                     'stateBefore',
                     'stateAfter',
                     'ip',
+                    'port',
+                    'requestInfo',
                     'userAgent',
             ]
-            rowActions = false
+            actions.removeAllActions()
+            actions.addDefaultAction(action: 'verify', icon: 'fa-award')
             body.eachRow { TableRow row, Map values ->
                 row.cells.operation.tag = true
 
@@ -106,6 +109,19 @@ class AuditController implements ElementsController {
         c.table.paginate = auditService.count(filters)
 
         display content: c
+    }
+
+    def verify() {
+        def obj = auditService.get(params.id)
+        def verified = auditService.verifyLogIntegrity(obj)
+
+        if (verified) {
+            display message: 'audit.log.verified'
+
+        } else {
+            display errorMessage: 'audit.log.corrupted'
+
+        }
     }
 
 }

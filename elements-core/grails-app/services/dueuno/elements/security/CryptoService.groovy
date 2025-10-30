@@ -30,20 +30,20 @@ import java.security.KeyStore
 @Slf4j
 @CompileStatic
 @CurrentTenant
-class KeyStoreService {
+class CryptoService {
 
     ApplicationService applicationService
     TenantService tenantService
 
     void install() {
         byte[] password = KeyStoreUtils.generateKeyStorePassword()
-        KeyStoreUtils.saveKeyStorePassword(password, keyStorePasswordPathname)
-        applicationService.setAttribute(keyStorePasswordAttributeName, password)
+        KeyStoreUtils.saveKeyStorePassword(password, cryptoPasswordPathname)
+        applicationService.setAttribute(cryptoPasswordAttributeName, password)
     }
 
-    void afterLogin() {
-        byte[] password = KeyStoreUtils.loadKeyStorePassword(keyStorePasswordPathname)
-        applicationService.setAttribute(keyStorePasswordAttributeName, password)
+    void tenantInit() {
+        byte[] password = KeyStoreUtils.loadKeyStorePassword(cryptoPasswordPathname)
+        applicationService.setAttribute(cryptoPasswordAttributeName, password)
     }
 
     String encrypt(String value) {
@@ -51,7 +51,7 @@ class KeyStoreService {
             return ''
         }
 
-        byte[] ksp = keyStorePasswordForTenant
+        byte[] ksp = cryptoPasswordForTenant
         KeyStore ks = KeyStoreUtils.create(ksp)
         KeyStoreUtils.setKey(ks, ksp, 'value', value)
         return KeyStoreUtils.saveToString(ks, ksp)
@@ -62,20 +62,20 @@ class KeyStoreService {
             return ''
         }
 
-        byte[] ksp = keyStorePasswordForTenant
+        byte[] ksp = cryptoPasswordForTenant
         KeyStore ks = KeyStoreUtils.loadFromString(value, ksp)
         return KeyStoreUtils.getKey(ks, ksp, 'value')
     }
 
-    private byte[] getKeyStorePasswordForTenant() {
-        return applicationService.getAttribute(keyStorePasswordAttributeName) as byte[]
+    byte[] getCryptoPasswordForTenant() {
+        return applicationService.getAttribute(cryptoPasswordAttributeName) as byte[]
     }
 
-    private String getKeyStorePasswordPathname() {
+    private String getCryptoPasswordPathname() {
         return tenantService.privateDir + applicationService.applicationName + '.key'
     }
 
-    private String getKeyStorePasswordAttributeName() {
-        return 'KEYSTORE_PASSWORD_' + tenantService.currentTenantId
+    private String getCryptoPasswordAttributeName() {
+        return 'CRYPTO_PASSWORD_' + tenantService.currentTenantId
     }
 }

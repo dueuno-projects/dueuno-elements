@@ -120,22 +120,22 @@ class DateUtils {
 
     // FORMATTING
     //
-    static String format(LocalDateTime dateTime, String pattern) {
+    static String format(LocalDateTime dateTime, String pattern = "yyyy-MM-dd'T'HH:mm") {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern)
         return dateTime.format(dtf)
     }
 
-    static String format(LocalDate date, String pattern) {
+    static String format(LocalDate date, String pattern = "yyyy-MM-dd") {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern)
         return date.format(dtf)
     }
 
-    static String format(LocalTime time, String pattern) {
+    static String format(LocalTime time, String pattern = "HH:mm") {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern)
         return time.format(dtf)
     }
 
-    static String format(Date date, String pattern) {
+    static String format(Date date, String pattern = "yyyy-MM-dd") {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern)
         return simpleDateFormat.format(date)
     }

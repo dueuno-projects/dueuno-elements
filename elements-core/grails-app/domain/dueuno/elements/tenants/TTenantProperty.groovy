@@ -16,6 +16,7 @@ package dueuno.elements.tenants
 
 import dueuno.elements.core.PropertyType
 import dueuno.elements.core.TSystemProperty
+import grails.compiler.GrailsCompileStatic
 import grails.gorm.MultiTenant
 import org.grails.datastore.gorm.GormEntity
 
@@ -26,8 +27,12 @@ import java.time.LocalTime
 /**
  * @author Gianluca Sartori
  */
+
 // KEEP ALIGNED WITH TSystemProperty
+@GrailsCompileStatic
 class TTenantProperty implements GormEntity, MultiTenant<TTenantProperty> {
+
+    Long id
 
     String name
     PropertyType type

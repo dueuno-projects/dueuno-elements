@@ -30,6 +30,8 @@ import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.SpringSecurityUtils
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
@@ -43,6 +45,7 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 
 @Slf4j
 @CurrentTenant
+@CompileStatic
 class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     public static final String GROUP_SUPERADMINS = 'SUPERADMINS'
@@ -211,7 +214,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     }
 
     void initializeSessionDuration() {
-        TUser user = currentUser
+        TUser user = getCurrentUser()
         session.maxInactiveInterval = user.sessionDuration * 60 // minutes to seconds
         tokenBasedRememberMeServices.cookieName = tenantPropertyService.getString('REMEMBER_ME_COOKIE_NAME', true)
         tokenBasedRememberMeServices.alwaysRemember = tenantPropertyService.getBoolean('REMEMBER_ME_ENABLED', true)
@@ -219,7 +222,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     }
 
     void initializeShell() {
-        TUser user = currentUser
+        TUser user = getCurrentUser()
         String lang = (user?.language in applicationService.languages) ? user.language : tenantPropertyService.getString('DEFAULT_LANGUAGE', true)
         currentLanguage = lang
         fontSize = user.fontSize
@@ -342,7 +345,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
 
         Object principal = springSecurityService.principal
-        String username = (principal.username as String).toLowerCase()
+        String username = (principal['username'] as String).toLowerCase()
         TUser user = getUserByUsername(username)
         if (!user) {
             user = createUser(
@@ -361,7 +364,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @return the currently logged in user username
      */
     String getCurrentUsername() {
-        return currentUser?.username
+        return getCurrentUser()?.username
     }
 
     /**
@@ -396,12 +399,14 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         initializeSessionDuration()
         initializeShell()
 
-        String tenantId = tenantService.currentTenantId
-        log.info "${tenantId} Tenant - Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
+        // Executes custom login code
+        applicationService.executeBootEvents('afterLogin', tenantService.currentTenantId, session)
+
+        // Keep logging after boot event execution (needs tenant cryptographic password loaded in "afterLogin")
         auditService.log(AuditOperation.LOGIN, currentUserAuthorities.join(', '))
 
-        // Executes custom login code
-        applicationService.executeBootEvents('afterLogin', session)
+        String tenantId = tenantService.currentTenantId
+        log.info "${tenantId} Tenant - Login '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
     }
 
     void denyLogin(String message) {
@@ -440,7 +445,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      */
     void executeAfterLogout() {
         auditService.log(AuditOperation.LOGOUT, "-")
-        applicationService.executeBootEvents('afterLogout')
+        applicationService.executeBootEvents('afterLogout', tenantService.currentTenantId)
         executeLogout()
     }
 
@@ -448,6 +453,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * Returns the default landing page configured for the current user
      * @return
      */
+    @CompileDynamic
     String getUserLandingPage() {
         if (isSuperAdmin())
             return ''
@@ -489,6 +495,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     //
     // Users
     //
+    @CompileDynamic
     private DetachedCriteria<TUser> buildQueryUser(Map filterParams) {
         def query = TUser.where {}
 
@@ -541,22 +548,22 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     TUser getUser(Serializable id) {
         def query = TUser.where { id == id }
-        return query.get(fetch: fetchAll)
+        return query.get(fetch: fetchAll) as TUser
     }
 
     TUser getUserByUsername(String username) {
         def query = TUser.where { username == username }
-        return query.get(fetch: fetchAll)
+        return query.get(fetch: fetchAll) as TUser
     }
 
     TUser getUserByApiKey(String apiKey) {
         def query = TUser.where { apiKey == apiKey }
-        return query.get(fetch: fetchAll)
+        return query.get(fetch: fetchAll) as TUser
     }
 
     TUser getUserByExternalId(String externalId) {
         def query = TUser.where { externalId == externalId }
-        return query.get(fetch: fetchAll)
+        return query.get(fetch: fetchAll) as TUser
     }
 
     TUser getSuperAdminUser() {
@@ -574,7 +581,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return query.list(fetchParams)
     }
 
-    Integer countAllUser(Map filterParams = [:]) {
+    Number countAllUser(Map filterParams = [:]) {
         def query = buildQueryUser(filterParams)
         return query.count()
     }
@@ -584,7 +591,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return listAllUser(filterParams, fetchParams)
     }
 
-    Integer countUser(Map filterParams = [:]) {
+    Number countUser(Map filterParams = [:]) {
         filterParams.deletable = true
         return countAllUser(filterParams)
     }
@@ -609,8 +616,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     }
 
     /**
-     * Generates an API-KEY
-     * @return the API-KEY
+     * Generates an password
+     * @return the password
      */
     String generatePassword() {
         List alphabet = ('A'..'Z') + ('0'..'9') + ('a'..'z') + ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', ';', ':', '?', '.', '>']
@@ -649,6 +656,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      *
      * @return the newly created user
      */
+    @CompileDynamic
     TUser createUser(Map args) {
         if (args.failOnError == null) args.failOnError = false
 
@@ -748,6 +756,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @param args see createUser()
      * @return the modified user
      */
+    @CompileDynamic
     TUser updateUserAndGroups(Map args) {
         String username = (String) ArgsException.requireArgument(args, 'username')
         if (args.failOnError == null) args.failOnError = false
@@ -804,7 +813,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @param args see createUser()
      * @return the modified user
      */
-
+    @CompileDynamic
     TUser updateUser(Map args) {
         String username = (String) ArgsException.requireArgument(args, 'username')
         if (args.failOnError == null) args.failOnError = false
@@ -849,22 +858,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         user.delete(flush: true, failOnError: true)
     }
 
-    // TODO: To be implemented
-    void resetPassword(String email) {
-        TUser user = TUser.findByEmail(email)
-
-        if (user) {
-//            notificationService.sendEmail(
-//                    email,
-//                    applicationService.message('passwordReset.email.subject'),
-//                    applicationService.message('passwordReset.email.body', args: [
-//                            applicationService.linkApplicationAbsoluteUrl(),
-//                            user.id,
-//                    ])
-//            )
-        }
-    }
-
+    @CompileDynamic
     private DetachedCriteria<TRoleGroup> buildQueryGroup(Map filterParams) {
         def query = TRoleGroup.where {
             name != GROUP_SUPERADMINS && name != GROUP_ADMINS
@@ -905,7 +899,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return query.list(fetchParams)
     }
 
-    Integer countGroup(Map filterParams = [:]) {
+    Number countGroup(Map filterParams = [:]) {
         def query = buildQueryGroup(filterParams)
         return query.count()
     }
@@ -924,6 +918,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      *
      * @return the newly created group
      */
+    @CompileDynamic
     TRoleGroup createGroup(Map args) {
         if (args.failOnError == null) args.failOnError = false
 
@@ -986,6 +981,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      *
      * @return the updated group
      */
+    @CompileDynamic
     TRoleGroup updateGroup(Map args) {
         if (args.failOnError == null) args.failOnError = false
 
@@ -1027,7 +1023,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      *
      * @param name the name of the group to delete
      */
-
+    @CompileDynamic
     void deleteGroup(Serializable id) {
         TRoleGroup roleGroup = TRoleGroup.get(id)
 
@@ -1044,7 +1040,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      *
      * @return the newly created authority
      */
-
+    @CompileDynamic
     TRole createAuthority(String authority) {
         TRole role = TRole.findByAuthority(authority)
         if (role) {
@@ -1079,7 +1075,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * Returns the authorities configured for the application
      * @return the authorities configured for the application
      */
-
+    @CompileDynamic
     List<String> listAuthority() {
         List<String> results = []
         for (role in TRole.findAll()) {

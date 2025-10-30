@@ -14,6 +14,7 @@
  */
 package dueuno.elements.audit
 
+import grails.compiler.GrailsCompileStatic
 import grails.gorm.MultiTenant
 import org.grails.datastore.gorm.GormEntity
 
@@ -22,11 +23,17 @@ import java.time.LocalDateTime
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 class TAuditLog implements GormEntity, MultiTenant<TAuditLog> {
+
+    Long id
 
     LocalDateTime dateCreated
 
     String ip
+    String port
+    String requestInfo
     String userAgent
     String username
     AuditOperation operation
@@ -36,8 +43,12 @@ class TAuditLog implements GormEntity, MultiTenant<TAuditLog> {
     String stateBefore
     String stateAfter
 
+    String digest
+
     static constraints = {
         ip nullable: true
+        port nullable: true
+        requestInfo nullable: true
         userAgent nullable: true
         message nullable: true, maxSize: 4000
         objectName nullable: true

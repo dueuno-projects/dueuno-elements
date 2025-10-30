@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+import grails.compiler.GrailsCompileStatic
 import org.grails.datastore.gorm.GormEntity
 
 import java.time.LocalDate
@@ -23,7 +24,11 @@ import java.time.LocalTime
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 class TSystemProperty implements GormEntity {
+
+    Long id
 
     String name
     PropertyType type

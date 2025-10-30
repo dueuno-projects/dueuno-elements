@@ -63,7 +63,7 @@ class BootStrap {
             println "${tenantId} Tenant - UPDATE N.3"
         }
 
-        applicationService.onApplicationInstall {
+        applicationService.onInstall {
             systemPropertyService.setBoolean('DISPLAY_MENU', true)
             systemPropertyService.setString('DEFAULT_LANGUAGE', 'it')
             systemPropertyService.setString('EXCLUDED_LANGUAGES', 'de,pi')
@@ -92,7 +92,7 @@ class BootStrap {
             )
         }
 
-        applicationService.onInstall { String tenantId ->
+        applicationService.onTenantInstall { String tenantId ->
             tenantPropertyService.setNumber('TEST_NUMBER', 5 * 60)
             tenantPropertyService.setString('TEST_STRING', 'This is a string', 'This is its default value')
             tenantPropertyService.setDateTime('TEST_DATE_TIME', LocalDateTime.now())
@@ -271,12 +271,6 @@ class BootStrap {
                     lastname: 'THREE',
             )
 
-            //securityService.createUser(
-            //    username: 'testuser',
-            //    firstname: 'LDAP',
-            //    lastname: 'User',
-            //)
-
             securityService.createSystemUser(
                     username: '*',
                     firstname: 'Nessun',
@@ -284,18 +278,22 @@ class BootStrap {
             )
         }
 
-        securityService.afterLogin { GrailsHttpSession session ->
-            println "${tenantService.currentTenantId}: Benvenuto in ${shellService.shell.id} caro ${securityService.currentUsername}"
+        securityService.afterLogin { String tenantId, GrailsHttpSession session ->
+            println "${tenantId}: Benvenuto in ${shellService.shell.id} caro ${securityService.currentUsername}"
             if (systemPropertyService.getBoolean('TEST_DENY_LOGIN', true)) {
                 securityService.denyLogin('Cannot execute login because of X reason')
             }
         }
 
-        securityService.afterLogout {
-            println "Arrivederci ${securityService.currentUsername}!"
+        securityService.afterLogout { String tenantId ->
+            println "${tenantId}: Arrivederci ${securityService.currentUsername}!"
         }
 
-        applicationService.init {
+        applicationService.onTenantInit { String tenantId ->
+            println "INITIALIZING ${tenantId} Tenant"
+        }
+
+        applicationService.onInit {
             applicationService.registerPrettyPrinter(TPerson, '${it.name}')
             applicationService.registerPrettyPrinter(TCompany, '${it.name}')
             applicationService.registerPrettyPrinter('customCompanyPrinter', '${it.name} (${it.dateCreated})')
