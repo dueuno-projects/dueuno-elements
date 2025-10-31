@@ -66,7 +66,4 @@ class TTenantProperty implements GormEntity, MultiTenant<TTenantProperty> {
         importFrom TSystemProperty
     }
 
-    static mapping = {
-        password type: 'text'
-    }
 }

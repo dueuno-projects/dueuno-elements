@@ -86,7 +86,4 @@ class TSystemProperty implements GormEntity {
         password nullable: true
     }
 
-    static mapping = {
-        password type: 'text'
-    }
 }
