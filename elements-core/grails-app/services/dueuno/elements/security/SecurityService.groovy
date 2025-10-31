@@ -141,7 +141,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         )
         applicationService.registerAdminFeature(
                 controller: 'audit',
-                icon: 'fa-eye',
+                icon: 'fa-book',
         )
         applicationService.registerAdminFeature(
                 controller: 'tenantProperty',
