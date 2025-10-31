@@ -50,9 +50,11 @@ class BootStrap {
     ApplicationService applicationService
 
     def init = {
-        applicationService.init {
+
+        applicationService.onInit {
             // It's fine to leave this empty at the moment
         }
+
     }
 
     def destroy = {
