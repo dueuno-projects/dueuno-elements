@@ -160,4 +160,14 @@ class StringUtils {
         return result.toString("UTF-8")
     }
 
+    static String base64Encode(String inputString) {
+        String encoded = inputString.bytes.encodeBase64().toString()
+        return encoded
+    }
+
+    static String base64Decode(String encodedString) {
+        byte[] decoded = encodedString.decodeBase64()
+        String decode = new String(decoded)
+        return decode
+    }
 }

@@ -1,12 +1,24 @@
 class TextField extends Control {
 
     static finalize($element, $root) {
-        $element.off('focus').on('focus', Control.onFocus);
+        let autoSelect = Component.getProperty($element, 'autoSelect');
+        if (autoSelect) {
+            $element.off('focus').on('focus', TextField.onFocus);
+        }
         $element.off('paste').on('paste', Control.onPaste);
         $element.off('keypress').on('keypress', TextField.onKeyPress);
         $element.off('input').on('input', TextField.onChange);
 
         Transition.triggerEvent($element, 'load');
+    }
+
+    static onFocus(event) {
+        let $element = $(event.currentTarget);
+        let isReadonly = Component.getReadonly($element);
+
+        if (!isReadonly) {
+            $element.select();
+        }
     }
 
     static onChange(event) {

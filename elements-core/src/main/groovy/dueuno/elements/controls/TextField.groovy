@@ -40,6 +40,7 @@ class TextField extends Control {
     Integer maxSize
     String placeholder
     Boolean autocomplete
+    Boolean autoSelect
     TextTransform textTransform
 
     Boolean onChangeAsync
@@ -57,6 +58,7 @@ class TextField extends Control {
         maxSize = args.maxSize as Integer ?: 0
         placeholder = args.placeholder == null ? '' : args.placeholder
         autocomplete = args.autocomplete == null ? false : args.autocomplete
+        autoSelect = args.autoSelect == null ? true : args.autoSelect
         textTransform = args.textTransform as TextTransform ?: TextTransform.NONE
         prettyPrinterProperties.renderTextPrefix = args.renderTextPrefix == null ? false : args.renderTextPrefix
 
@@ -101,6 +103,7 @@ class TextField extends Control {
     String getPropertiesAsJSON(Map properties = [:]) {
         Map thisProperties = [
                 autocomplete: autocomplete,
+                autoSelect: autoSelect,
                 textTransform: textTransform as String,
                 onChangeAsync: onChangeAsync,
         ]

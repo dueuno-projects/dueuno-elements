@@ -7,6 +7,15 @@ class Textarea extends TextField {
         $element.off('keypress').on('keypress', Textarea.onKeyPress);
     }
 
+    static getValue($element) {
+        let serverValue = Control.getServerValue($element);
+        let value = $element.val();
+        let encode = Component.getProperty($element, 'encode');
+        if (encode) value = btoa(value);
+        serverValue['value'] = value;
+        return serverValue;
+    }
+
     static onKeyPress(event) {
         let $element = $(event.currentTarget);
         let properties = Component.getProperties($element);

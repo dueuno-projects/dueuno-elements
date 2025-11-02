@@ -11,15 +11,6 @@ class Control extends Component {
         );
     }
 
-    static onFocus(event) {
-        let $element = $(event.currentTarget);
-        let isReadonly = Component.getReadonly($element);
-
-        if (!isReadonly) {
-            $element.select();
-        }
-    }
-
     static onPaste(event) {
         let $element = $(event.currentTarget);
         let properties = Component.getProperties($element);
