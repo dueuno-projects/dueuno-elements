@@ -320,7 +320,7 @@ class BookController implements ElementsController {
             )
         }
 
-        applicationService.init {
+        applicationService.onInit {
 
             ...
 

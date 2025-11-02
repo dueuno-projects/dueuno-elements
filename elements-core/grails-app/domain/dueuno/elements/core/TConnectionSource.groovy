@@ -14,14 +14,19 @@
  */
 package dueuno.elements.core
 
+import grails.compiler.GrailsCompileStatic
 import org.grails.datastore.gorm.GormEntity
 
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 class TConnectionSource implements GormEntity, Serializable {
 
     private static final long serialVersionUID = 1
+
+    Long id
 
     Boolean tenant   // true if used by a tenant
     Boolean embedded // true if configured in application.yml (cannot be changed at runtime)

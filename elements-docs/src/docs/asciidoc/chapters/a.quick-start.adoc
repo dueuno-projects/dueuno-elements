@@ -47,7 +47,7 @@ You should see something like this:
 >                     / _` | | | |/ _ \ | | | '_ \ / _ \                     <
 >                    | (_| | |_| |  __/ |_| | | | | (_) |                    <
 >                     \__,_|\__,_|\___|\__,_|_| |_|\___/                     <
->                         20XX (c) https://dueuno.com                        <
+>                              http://dueuno.org                             <
 >                                                                            <
 >                                                                            <
 
@@ -196,7 +196,7 @@ class BootStrap {
 
     def init = {
 
-        applicationService.init { // <2>
+        applicationService.onInit { // <2>
             registerFeature( // <3>
                     controller: 'person',
                     icon: 'fa-user',
@@ -208,7 +208,7 @@ class BootStrap {
 ----
 <1> `ApplicationService` is the object in charge of the application setup
 <2> The `init = { ... }` Grails closure is executed each time the application starts up
-<3> Within the `applicationService.init { ... }` closure you can call any of the `applicationService` methods. In this case the method `<<registerFeature>>`
+<3> Within the `applicationService.onInit { ... }` closure you can call any of the `applicationService` methods. In this case the method `<<registerFeature>>`
 
 === Controllers
 
@@ -329,7 +329,7 @@ class BootStrap {
 
     def init = {
 
-        applicationService.onInstall { String tenantId -> // <3>
+        applicationService.onTenantInstall { String tenantId -> // <3>
             connectionSourceService.create( // <4>
                     name: 'runtimeDatasource',
                     driverClassName: 'org.h2.Driver',
@@ -386,13 +386,15 @@ class BootStrap {
     ApplicationService applicationService // <1>
 
     def init = {
-        applicationService.init {
+
+        applicationService.onInit {
             registerFeature( // <2>
                     controller: 'movie',
                     icon: 'fa-film',
                     favourite: true,
             )
         }
+
     }
 }
 ----

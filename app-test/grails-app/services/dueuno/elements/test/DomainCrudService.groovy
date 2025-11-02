@@ -55,7 +55,7 @@ class DomainCrudService {
         return query.list(fetchParams)
     }
 
-    Integer count(Map filterParams = [:]) {
+    Number count(Map filterParams = [:]) {
         def query = buildQuery(filterParams)
         return query.count()
     }

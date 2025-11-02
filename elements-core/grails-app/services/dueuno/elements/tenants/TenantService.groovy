@@ -28,6 +28,8 @@ import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.multitenancy.Tenants
 import grails.gorm.multitenancy.WithoutTenant
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.datastore.mapping.core.connections.ConnectionSource
 
@@ -36,6 +38,7 @@ import org.grails.datastore.mapping.core.connections.ConnectionSource
  */
 
 @Slf4j
+@CompileStatic
 class TenantService {
 
     ApplicationService applicationService
@@ -127,13 +130,15 @@ class TenantService {
     }
 
     TTenant get(Serializable id) {
-        return TTenant.get(id)
+        return TTenant.get(id) as TTenant
     }
 
+    @CompileDynamic
     TTenant getByTenantId(String tenantId) {
         return TTenant.findByTenantId(tenantId)
     }
 
+    @CompileDynamic
     private DetachedCriteria<TTenant> buildQuery(Map filterParams) {
         def query = TTenant.where {}
 
@@ -149,7 +154,7 @@ class TenantService {
         return query.list(fetchParams)
     }
 
-    Integer count(Map filters = [:]) {
+    Number count(Map filters = [:]) {
         def query = buildQuery(filters)
         return query.count()
     }
@@ -215,6 +220,7 @@ class TenantService {
         }
     }
 
+    @CompileDynamic
     TTenant update(Map args) {
         Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
@@ -225,6 +231,7 @@ class TenantService {
         return obj
     }
 
+    @CompileDynamic
     void delete(Serializable id) {
         TTenant tenant = TTenant.get(id)
         deleteTenantUsersAndGroups(tenant)
@@ -235,6 +242,7 @@ class TenantService {
         systemInstall.deleteAll()
     }
 
+    @CompileDynamic
     private void deleteTenantUsersAndGroups(TTenant tenant) {
         List<TUserRoleGroup> userRoleGroups = TUserRoleGroup.where { user.tenant == tenant }.list()
         for (userRoleGroup in userRoleGroups) {

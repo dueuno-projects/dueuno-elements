@@ -16,6 +16,7 @@ package dueuno.elements.core
 
 import dueuno.commons.utils.FileUtils
 import grails.gorm.multitenancy.CurrentTenant
+import groovy.transform.CompileStatic
 
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -25,9 +26,10 @@ import java.time.LocalTime
  * @author Gianluca Sartori
  */
 
+@CompileStatic
 abstract class PropertyService {
 
-    private static final String KEYRING_PASSWORD = 'akdbf2947vn3tfkjdhfg284divyot3u'
+    private static final String KEYSTORE_PASSWORD = 'akdbf2947vn3tfkjdhfg284divyot3u'
     protected static final Map<String, Map<String, Object>> inMemoryProperties = [:]
     protected static final Map<String, Closure> onChangeRegistry = [:]
 
@@ -41,21 +43,6 @@ abstract class PropertyService {
 
     String getString(String name, Boolean reload = false) {
         return getValue(PropertyType.STRING, name, reload) as String ?: ''
-    }
-
-    String getPassword(String name, Boolean reload = false) {
-        String encryptedValue = getValue(PropertyType.PASSWORD, name, reload) as String ?: ''
-        String decryptedValue
-
-//        if (encryptedValue) {
-//            keyChain.loadFromString(encryptedValue, KEYRING_PASSWORD)
-//            decryptedValue = keyChain.getKey(name)
-//
-//        } else {
-//            decryptedValue = ''
-//        }
-
-        return encryptedValue
     }
 
     String getFilename(String name, Boolean reload = false) {
@@ -115,21 +102,6 @@ abstract class PropertyService {
 
     void setString(String name, String value, String defaultValue = null) {
         setValue(PropertyType.STRING, name, value, defaultValue)
-    }
-
-    void setPassword(String name, String value, String defaultValue = null) {
-        String encryptedValue
-
-//        if (value.trim()) {
-//            keyChain.createEmpty(KEYRING_PASSWORD)
-//            keyChain.setKey(name, value)
-//            encryptedValue = keyChain.saveToString(KEYRING_PASSWORD)
-//
-//        } else {
-//            encryptedValue = value
-//        }
-
-        setValue(PropertyType.PASSWORD, name, value, defaultValue)
     }
 
     void setFilename(String name, String value, String defaultValue = null) {

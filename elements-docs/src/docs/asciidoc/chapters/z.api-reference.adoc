@@ -25,9 +25,11 @@ class BootStrap {
     ApplicationService applicationService
 
     def init = {
-        applicationService.init {
+
+        applicationService.onInit {
             // no-op // <1>
         }
+
     }
 }
 ----
@@ -72,7 +74,7 @@ class BootStrap {
 
     def init = {
 
-        applicationService.onInstall { String tenantId ->
+        applicationService.onTenantInstall { String tenantId ->
             tenantPropertyService.setString('SHELL_URL_MAPPING', '/admin')
             tenantPropertyService.setString('LOGIN_LANDING_URL', '/') // <1>
             tenantPropertyService.setString('LOGOUT_LANDING_URL', '/') // <2>
@@ -140,7 +142,7 @@ class BootStrap {
 
     def init = {
 
-        applicationService.onInstall { String tenantId -> //<1>
+        applicationService.onTenantInstall { String tenantId -> //<1>
             // ...
         }
 
@@ -220,7 +222,7 @@ class BootStrap {
 
     def init = {
 
-        applicationService.init { // <2>
+        applicationService.onInit { // <2>
             // ...
         }
 
@@ -228,7 +230,7 @@ class BootStrap {
 }
 ----
 <1> Injects an instance of the `ApplicationService`
-<2> The `init { ... }` closure is executed each time the application starts up
+<2> The `onInit { ... }` closure is executed each time the application starts up
 
 === afterLogin()
 Gets executed after the user logged in. The session is active, you can set session variables from here.
@@ -365,7 +367,7 @@ class BootStrap {
 
     def init = {
 
-        applicationService.init {
+        applicationService.onInit {
             registerFeature(
                     controller: 'book', // <1>
                     action: 'index', // <2>
@@ -491,7 +493,7 @@ class BootStrap {
 
     def init = {
 
-        applicationService.init {
+        applicationService.onInit {
             registerUserFeature(
                     controller: 'manual',
                     icon: 'fa-book',
@@ -516,7 +518,7 @@ class BootStrap {
 
     def init = {
 
-        applicationService.init {
+        applicationService.onInit {
             registerPrettyPrinter(TProject, '${it.name}') //<1>
             registerPrettyPrinter('PROJECT_ID', '${it.padLeft(4, "0")}') // <2>
         }
@@ -547,7 +549,7 @@ class BootStrap {
 
     def init = {
 
-        applicationService.init {
+        applicationService.onInit {
             registerTransformer('USER_FULLNAME') { Object value ->
                 return securityService.getUserByUsername(value).fullname
             }
@@ -570,7 +572,7 @@ class BootStrap {
 
     def init = {
 
-        applicationService.init {
+        applicationService.onInit {
             registerCredits('Application Development', 'Francesco Piceghello', 'Gianluca Sartori')
         }
 
@@ -1082,11 +1084,11 @@ class BootStrap {
     ApplicationService applicationService
 
     def init = {
-        applicationService.init {
 
+        applicationService.onInit {
             registerPrettyPrinter('BOOK', '${it.title} - ${it.author}') // <1>
-
         }
+
     }
 }
 ----

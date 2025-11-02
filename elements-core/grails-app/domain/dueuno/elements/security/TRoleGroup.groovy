@@ -15,6 +15,7 @@
 package dueuno.elements.security
 
 import dueuno.elements.tenants.TTenant
+import grails.compiler.GrailsCompileStatic
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
@@ -22,11 +23,15 @@ import org.grails.datastore.gorm.GormEntity
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 @EqualsAndHashCode(includes='name')
 @ToString(includes='name', includeNames=true, includePackage=false)
 class TRoleGroup implements GormEntity, Serializable {
 
     private static final long serialVersionUID = 1
+
+    Long id
 
     TTenant tenant
 
@@ -43,7 +48,7 @@ class TRoleGroup implements GormEntity, Serializable {
         cache true
     }
 
-    Set<TRole> getAuthorities() {
+    List<TRole> getAuthorities() {
         TRoleGroupRole.findAllByRoleGroup(this)*.role
     }
 }

@@ -15,6 +15,7 @@
 package dueuno.elements.tenants
 
 import dueuno.elements.core.TConnectionSource
+import grails.compiler.GrailsCompileStatic
 import org.grails.datastore.gorm.GormEntity
 
 import java.time.LocalDateTime
@@ -22,9 +23,13 @@ import java.time.LocalDateTime
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 class TTenant implements GormEntity, Serializable {
 
     private static final long serialVersionUID = 1
+
+    Long id
 
     LocalDateTime dateCreated
     String tenantId
