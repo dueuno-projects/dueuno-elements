@@ -1,9 +1,8 @@
 plugins {
     id "groovy"
-    id "org.grails.grails-gsp"
-    id "org.grails.grails-web"
-    id "com.github.erdi.webdriver-binaries"
-    id "com.bertramlabs.asset-pipeline"
+    id "org.apache.grails.gradle.grails-web"
+    id "org.apache.grails.gradle.grails-gsp"
+    id "cloud.wondrify.asset-pipeline"
     id "dueuno-asciidoctor"
     id "eclipse"
     id "idea"
@@ -13,71 +12,73 @@ group = projectGroup
 version = projectVersion
 
 repositories {
+    //mavenLocal()
     mavenCentral()
-    maven { url "https://repo.grails.org/grails/core" }
+    maven {
+        url = 'https://repo.grails.org/grails/restricted'
+    }
 }
 
 dependencies {
-    profile "org.grails.profiles:web"
-    implementation "org.grails:grails-core"
-    implementation "org.grails:grails-logging"
-    implementation "org.grails:grails-plugin-databinding"
-    implementation "org.grails:grails-plugin-i18n"
-    implementation "org.grails:grails-plugin-interceptors"
-    implementation "org.grails:grails-plugin-rest"
-    implementation "org.grails:grails-plugin-services"
-    implementation "org.grails:grails-plugin-url-mappings"
-    implementation "org.grails:grails-web-boot"
-    implementation "org.grails.plugins:gsp"
-    implementation "org.grails.plugins:hibernate5"
+    profile "org.apache.grails.profiles:web"
+    testAndDevelopmentOnly "org.webjars.npm:bootstrap"
+    testAndDevelopmentOnly "org.webjars.npm:bootstrap-icons"
+    testAndDevelopmentOnly "org.webjars.npm:jquery"
+    implementation platform("org.apache.grails:grails-bom:$grailsVersion")
+    implementation "org.apache.grails:grails-core"
+    implementation "org.apache.grails:grails-data-hibernate5"
+    implementation "org.apache.grails:grails-databinding"
+    implementation "org.apache.grails:grails-events"
+    implementation "org.apache.grails:grails-gsp"
+    implementation "org.apache.grails:grails-interceptors"
+    implementation "org.apache.grails:grails-layout"
+    implementation "org.apache.grails:grails-logging"
+    implementation "org.apache.grails:grails-rest-transforms"
+    implementation "org.apache.grails:grails-services"
+    implementation "org.apache.grails:grails-url-mappings"
+    implementation "org.apache.grails:grails-web-boot"
     implementation "org.springframework.boot:spring-boot-autoconfigure"
     implementation "org.springframework.boot:spring-boot-starter"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
     implementation "org.springframework.boot:spring-boot-starter-logging"
     implementation "org.springframework.boot:spring-boot-starter-tomcat"
     implementation "org.springframework.boot:spring-boot-starter-validation"
-    compileOnly "io.micronaut:micronaut-inject-groovy"
-    console "org.grails:grails-console"
-    runtimeOnly "com.bertramlabs.plugins:asset-pipeline-grails:${grailsAssetPipelineVersion}"
-    runtimeOnly "org.apache.tomcat:tomcat-jdbc"
-    runtimeOnly "org.fusesource.jansi:jansi:1.18"
-    testImplementation "io.micronaut:micronaut-inject-groovy"
-    testImplementation "org.grails:grails-gorm-testing-support"
-    testImplementation "org.grails:grails-web-testing-support"
-    testImplementation "org.grails.plugins:geb"
-    testImplementation "org.seleniumhq.selenium:selenium-api:4.19.1"
-    testImplementation "org.seleniumhq.selenium:selenium-remote-driver:4.19.1"
-    testImplementation "org.seleniumhq.selenium:selenium-support:4.19.1"
+    console "org.apache.grails:grails-console"
+    runtimeOnly "cloud.wondrify:asset-pipeline-grails"
+    runtimeOnly "com.h2database:h2"
+    runtimeOnly "com.zaxxer:HikariCP"
+    runtimeOnly "org.fusesource.jansi:jansi"
+    integrationTestImplementation testFixtures("org.apache.grails:grails-geb")
+    testImplementation "org.apache.grails:grails-testing-support-datamapping"
+    testImplementation "org.apache.grails:grails-testing-support-web"
     testImplementation "org.spockframework:spock-core"
-    testRuntimeOnly "org.seleniumhq.selenium:selenium-chrome-driver:4.19.1"
-    testRuntimeOnly "org.seleniumhq.selenium:selenium-firefox-driver:4.19.1"
-    testRuntimeOnly "org.seleniumhq.selenium:selenium-safari-driver:4.19.1"
 }
 
-tasks.withType(War).configureEach { War war ->
-    war.dependsOn compileGroovyPages
-}
+//tasks.withType(GroovyCompile) {
+//    groovyOptions.optimizationOptions.indy = false
+//}
 
 tasks.withType(Test) {
     useJUnitPlatform()
-    systemProperty "geb.env", System.getProperty('geb.env')
-    systemProperty "geb.build.reportsDir", reporting.file("geb/integrationTest")
-    systemProperty 'webdriver.chrome.driver', "${System.getenv('CHROMEWEBDRIVER')}/chromedriver"
-    systemProperty 'webdriver.gecko.driver', "${System.getenv('GECKOWEBDRIVER')}/geckodriver"
-}
-
-webdriverBinaries {
-    chromedriver '122.0.6260.0'
-    geckodriver '0.33.0'
-    edgedriver '110.0.1587.57'
 }
 
 assets {
-    skipNonDigests = true
     minifyCss = true
     minifyJs = true
     minifyOptions = [
             //SIMPLE (default) or ADVANCED or WHITESPACE_ONLY
             optimizationLevel: "SIMPLE",
+    ]
+    excludes = [
+            'webjars/jquery/**',
+            'webjars/bootstrap/**',
+            'webjars/bootstrap-icons/**'
+    ]
+    includes = [
+            'webjars/jquery/*/dist/jquery.js',
+            'webjars/bootstrap/*/dist/js/bootstrap.bundle.js',
+            'webjars/bootstrap/*/dist/css/bootstrap.css',
+            'webjars/bootstrap-icons/*/font/bootstrap-icons.css',
+            'webjars/bootstrap-icons/*/font/fonts/*',
     ]
 }

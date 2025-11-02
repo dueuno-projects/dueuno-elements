@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <conversionRule conversionWord="highlightLogLevel" converterClass="dueuno.commons.logs.HighlightLogLevel" />
+    <conversionRule conversionWord="highlightLogLevel" class="dueuno.commons.logs.HighlightLogLevel" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -31,22 +31,23 @@
         <appender-ref ref="FILE" />
     </root>
 
+    <logger name="org.springframework.boot.SpringApplication" level="INFO" />
     <logger name="dueuno" level="DEBUG" />
 
     <!-- DUEUNO -->
-    <!--    <logger name="dueuno.commons.utils.SqlUtils" level="TRACE" />-->
-    <!--    <logger name="dueuno.ImportUtils" level="TRACE" />-->
+<!--    <logger name="dueuno.commons.utils.SqlUtils" level="TRACE" />-->
+<!--    <logger name="dueuno.ImportUtils" level="TRACE" />-->
 
     <!-- GORM-->
-    <!--    <logger name="org.grails.datastore" level="DEBUG" />-->
-    <!--    <logger name="org.hibernate.SQL" level="DEBUG" />-->
-    <!--    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />-->
+<!--    <logger name="org.grails.datastore" level="DEBUG" />-->
+<!--    <logger name="org.hibernate.SQL" level="DEBUG" />-->
+<!--    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />-->
 
     <!-- SPRING SECURITY-->
-    <!--    <logger name="org.springframework.security" level="DEBUG" />-->
-    <!--    <logger name="grails.plugin.springsecurity.web.filter.DebugFilter" level="INFO" />-->
+<!--    <logger name="org.springframework.security" level="DEBUG" />-->
+<!--    <logger name="grails.plugin.springsecurity.web.filter.DebugFilter" level="INFO" />-->
 
     <!-- HTTP REST-->
-    <!--    <logger name="sun.net.www.protocol.http.HttpURLConnection" level="ALL" />-->
+<!--    <logger name="sun.net.www.protocol.http.HttpURLConnection" level="ALL" />-->
 
 </configuration>

@@ -27,7 +27,7 @@ import groovy.transform.CompileStatic
 
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import javax.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequest
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.time.LocalDateTime

@@ -25,7 +25,7 @@ import dueuno.elements.style.*
 import dueuno.elements.types.*
 import grails.gorm.multitenancy.CurrentTenant
 
-import javax.servlet.ServletContext
+import jakarta.servlet.ServletContext
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime

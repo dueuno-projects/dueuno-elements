@@ -14,7 +14,7 @@
  */
 package dueuno.elements.core
 
-import javax.servlet.ServletContext
+import jakarta.servlet.ServletContext
 
 /**
  * Page tags

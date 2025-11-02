@@ -45,7 +45,7 @@ import dueuno.elements.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 
-import javax.annotation.PostConstruct
+import jakarta.annotation.PostConstruct
 
 @CurrentTenant
 class BookService {

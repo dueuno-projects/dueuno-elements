@@ -1,4 +1,6 @@
-apply plugin: "org.apache.grails.gradle.grails-plugin"
+plugins {
+    id "dueuno-plugin"
+}
 
 dependencies {
     implementation project(":elements-core")

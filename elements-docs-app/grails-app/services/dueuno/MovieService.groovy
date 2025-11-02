@@ -18,8 +18,6 @@ import dueuno.elements.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 
-import javax.annotation.PostConstruct
-
 @CurrentTenant
 class MovieService {
 
@@ -62,7 +60,7 @@ class MovieService {
         return query.list(fetchParams)
     }
 
-    Number count(Map filters = [:]) {
+    Integer count(Map filters = [:]) {
         def query = buildQuery(filters)
         return query.count()
     }
