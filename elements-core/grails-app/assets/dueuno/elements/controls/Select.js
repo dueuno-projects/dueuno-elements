@@ -175,13 +175,13 @@ class Select extends Control {
     static setOptions($element, options) {
         let valueMap = Select.getValue($element);
 
-        $element.empty();
         if (!options || !options.length) {
             valueMap.value = null;
             Select.setValue($element, valueMap, false);
             return;
         }
 
+        $element.empty();
         let isValueInOptions = false;
         for (let option of options) {
             $element.append(new Option(option.text, option.id, false, false));
