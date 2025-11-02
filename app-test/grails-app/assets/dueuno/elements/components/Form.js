@@ -1,7 +1,10 @@
 class Form extends Component {
 
     static finalize($element, $root) {
-        Form.setFocusOnFirstInput($element);
+        let properties = Component.getProperties($element);
+        if (properties.autofocus) {
+            Form.setFocusOnFirstInput($element);
+        }
     }
 
     static setFocusOnFirstInput($element) {
@@ -32,6 +35,10 @@ class Form extends Component {
 
     static setErrors($element, value) {
         LoadingScreen.show(false);
+        if (PageModal.isActive) {
+            PageModal.show();
+        }
+
         Form.resetErrors($element);
 
         let errors = value.errors;

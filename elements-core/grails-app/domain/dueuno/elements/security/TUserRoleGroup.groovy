@@ -14,6 +14,7 @@
  */
 package dueuno.elements.security
 
+import grails.compiler.GrailsCompileStatic
 import grails.gorm.DetachedCriteria
 import groovy.transform.ToString
 import org.codehaus.groovy.util.HashCodeHelper
@@ -22,6 +23,8 @@ import org.grails.datastore.gorm.GormEntity
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 @ToString(cache=true, includeNames=true, includePackage=false)
 class TUserRoleGroup implements GormEntity, Serializable {
 
@@ -29,6 +32,11 @@ class TUserRoleGroup implements GormEntity, Serializable {
 
     TUser user
     TRoleGroup roleGroup
+
+    static mapping = {
+        id composite: ['roleGroup', 'user']
+        version false
+    }
 
     @Override
     boolean equals(other) {
@@ -50,7 +58,7 @@ class TUserRoleGroup implements GormEntity, Serializable {
     }
 
     static TUserRoleGroup get(long userId, long roleGroupId) {
-        criteriaFor(userId, roleGroupId).get()
+        criteriaFor(userId, roleGroupId).get() as TUserRoleGroup
     }
 
     static boolean exists(long userId, long roleGroupId) {
@@ -76,28 +84,11 @@ class TUserRoleGroup implements GormEntity, Serializable {
         }
     }
 
-    static int removeAll(TUser u) {
+    static Number removeAll(TUser u) {
         u == null ? 0 : TUserRoleGroup.where { user == u }.deleteAll()
     }
 
-    static int removeAll(TRoleGroup rg) {
+    static Number removeAll(TRoleGroup rg) {
         rg == null ? 0 : TUserRoleGroup.where { roleGroup == rg }.deleteAll()
-    }
-
-    //static constraints = {
-    //  user validator: { TUser u, TUserRoleGroup ug ->
-    //      if (ug.roleGroup?.id) {
-    //          TUserRoleGroup.withNewSession {
-    //              if (TUserRoleGroup.exists(u.id, ug.roleGroup.id)) {
-    //                  return ['userGroup.exists']
-    //              }
-    //          }
-    //      }
-    //  }
-    //}
-
-    static mapping = {
-        id composite: ['roleGroup', 'user']
-        version false
     }
 }

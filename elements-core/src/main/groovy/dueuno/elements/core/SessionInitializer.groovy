@@ -14,24 +14,26 @@
  */
 package dueuno.elements.core
 
-import jakarta.servlet.ServletContext
-import jakarta.servlet.ServletException
+import dueuno.elements.tenants.TenantPropertyService
+import dueuno.elements.tenants.TenantService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.servlet.ServletContextInitializer
-import org.springframework.stereotype.Component
+
+import javax.servlet.ServletContext
+import javax.servlet.ServletException
 
 /**
  * @author Gianluca Sartori
  */
 
-@Component
 class SessionInitializer implements ServletContextInitializer {
 
     @Autowired
-    ApplicationService applicationService
+    TenantPropertyService tenantPropertyService
 
     @Override
     void onStartup(ServletContext servletContext) throws ServletException {
-        servletContext.sessionCookieConfig.name = applicationService.applicationName.toUpperCase() + '-SESSION'
+        String sessionName = tenantPropertyService.getString('SESSION_COOKIE_NAME')
+        servletContext.sessionCookieConfig.name = sessionName
     }
 }

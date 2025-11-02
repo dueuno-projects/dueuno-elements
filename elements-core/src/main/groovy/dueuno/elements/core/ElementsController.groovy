@@ -18,12 +18,14 @@ import dueuno.commons.utils.LogUtils
 import dueuno.elements.contents.ContentHeader
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.pages.PageBlank
+import dueuno.elements.utils.EnvUtils
 import grails.artefact.Controller
 import grails.artefact.Enhances
 import grails.artefact.controller.RestResponder
 import grails.validation.Validateable
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
+import org.grails.core.util.StopWatch
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.validation.Errors
@@ -62,32 +64,50 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
             throw new ElementsException(DISPLAY_EXCEPTION_MESSAGE)
         }
 
+        StopWatch sw = new StopWatch()
         if (!args.page && requestParams._21Transition) {
-//            StopWatch sw = new StopWatch()
-//            sw.start()
             try {
+                sw.start()
                 render transition(args)
                 requestParams._21TransitionRendered = true
+                sw.stop()
+
+//                if (EnvUtils.isDevelopment()) {
+//                    log.warn "TRANSITION rendered in ${sw.lastTaskTimeMillis}ms, args: ${args}"
+//                }
 
             } catch (Exception ignore) {
                 log.error LogUtils.logStackTrace(ignore)
             }
-//            sw.stop()
-//            log.info "Rendered TRANSITION in ${sw.toString()}, args: ${args}"
 
         } else { // When the user hits the browser REFRESH button
-//            StopWatch sw = new StopWatch()
-//            sw.start()
             try {
+                sw.start()
+                response.setHeader("Cache-Control", "no-store")
                 render page(args)
                 requestParams._21TransitionRendered = true
+                sw.stop()
+
+//                if (EnvUtils.isDevelopment()) {
+//                    log.warn "PAGE rendered in ${sw.lastTaskTimeMillis}ms, args: ${args}"
+//                }
 
             } catch (Exception ignore) {
                 log.error LogUtils.logStackTrace(ignore)
             }
-//            sw.stop()
-//            log.info "Rendered PAGE in ${sw.toString()}, args: ${args}"
         }
+    }
+
+    @CompileDynamic
+    Map getRequestHeader() {
+        def headerMap = [:]
+        def headerNames = request.getHeaderNames()
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement()
+            String value = request.getHeader(key)
+            headerMap.put(key, value)
+        }
+        return headerMap
     }
 
     String getKeyPressed() {
@@ -161,17 +181,22 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
         } else if (args.message) {
             String message = args.message as String
             List messageArgs = args.messageArgs as List ?: []
-            t.infoMessage(message, messageArgs, args)
+            t.infoMessage(message, messageArgs, new ComponentEvent(args))
 
-        } else if (args.exception) {
-            Exception e = args.exception as Exception
-            log.error LogUtils.logStackTrace(e)
-            t.errorMessage(e.message, args)
+        } else if (args.confirmMessage) {
+            String message = args.confirmMessage as String
+            List messageArgs = args.messageArgs as List ?: []
+            t.confirmMessage(message, messageArgs, new ComponentEvent(args))
 
         } else if (args.errorMessage) {
             String message = args.errorMessage as String
             List messageArgs = args.messageArgs as List ?: []
-            t.errorMessage(message, messageArgs, args)
+            t.errorMessage(message, messageArgs, new ComponentEvent(args))
+
+        } else if (args.exception) {
+            Exception e = args.exception as Exception
+            log.error LogUtils.logStackTrace(e)
+            t.errorMessage(e.message, new ComponentEvent(args))
 
         } else if (args.errors) {
             Integer submittedComponentCount = requestParams._21SubmittedCount as Integer
@@ -210,7 +235,7 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
                 } else {
                     throw new Exception("Wrong use of the 'errors' feature.")
                 }
-            } catch (Exception e) {
+            } catch (Exception ignore) {
                 t.errorMessage("Cannot display errors, please refer to the Dueuno Elements user guide.")
             }
 
@@ -260,6 +285,7 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
         } else {
             // No other ways to submit errors at the moment
             t.errorMessage("Cannot use object '${componentErrors.class.name}' to display errors. Please specify a Map (eg. [fieldname: 'Some error']) or an instance of an object implementing '${Validateable.name}'")
+            return [:]
         }
     }
 

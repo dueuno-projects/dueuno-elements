@@ -31,10 +31,14 @@ class ComponentEvent extends LinkDefinition {
     /** Name of the event */
     String on
 
-    ComponentEvent(Map args) {
+    ComponentEvent(Map args = [:]) {
         super(args)
+        on = args.on ?: 'click'
+    }
 
-        on = args.on
+    ComponentEvent(String on) {
+        super()
+        this.on = on
     }
 
     Map asMap() {

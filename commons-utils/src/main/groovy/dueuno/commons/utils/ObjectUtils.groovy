@@ -55,7 +55,7 @@ class ObjectUtils {
             Object value = object[fieldName]
             return value
 
-        } catch (MissingPropertyException e) {
+        } catch (MissingPropertyException ignore) {
             return null
 
         } catch (Exception e) {

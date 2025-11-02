@@ -14,17 +14,22 @@
  */
 package dueuno.elements.audit
 
+import dueuno.commons.utils.DateUtils
 import dueuno.elements.core.Elements
 import dueuno.elements.core.WebRequestAware
+import dueuno.elements.security.CryptoService
 import dueuno.elements.security.SecurityService
-import grails.artefact.DomainClass
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import groovy.json.JsonBuilder
-import groovy.json.JsonOutput
-import groovy.util.logging.Slf4j
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 
-import jakarta.servlet.http.HttpServletRequest
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
+import javax.servlet.http.HttpServletRequest
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
 import java.time.LocalDateTime
 import java.time.LocalTime
 
@@ -32,121 +37,191 @@ import java.time.LocalTime
  * @author Gianluca Sartori
  */
 
-@Slf4j
 @CurrentTenant
+@CompileStatic
 class AuditService implements WebRequestAware {
 
     SecurityService securityService
+    CryptoService cryptoService
 
-    void log(AuditOperation operation, String message) {
-        String userAgent = request.getHeader("User-Agent")
-        String ipAddress = getClientIpAddress(request).toMapString()
-
-        def auditLog = new TAuditLog(
-                ip: ipAddress,
-                userAgent: userAgent,
-                operation: operation,
-                message: message?.take(2000), // Keep in sync with TAuditLog domain class constraints
-                username: securityService.currentUsername ?: 'super',
-        )
-        auditLog.save(flush: true, failOnError: true)
-    }
-
-    void log(AuditOperation operation, DomainClass domainObject) {
+    void log(AuditOperation operation, Object domainObject) {
         Map properties = Elements.toMap(domainObject)
-        log(operation, domainObject.toString(), prettyProperties(properties))
+        this.log(operation, domainObject.toString(), prettyProperties(properties), null, null)
     }
 
     void log(AuditOperation operation, Class domainObject, Map stateBefore, Map stateAfter = null) {
         String prettyStateBefore = prettyProperties(stateBefore)
         String prettyStateAfter = prettyProperties(stateAfter)
-        log(operation, domainObject.toString(), prettyStateBefore, prettyStateAfter)
+        this.log(operation, domainObject.toString(), prettyStateBefore, prettyStateAfter)
     }
 
     void log(AuditOperation operation, Class domainObject, String stateBefore, String stateAfter = null) {
-        log(operation, domainObject.toString(), stateBefore, stateAfter)
+        this.log(operation, domainObject.toString(), stateBefore, stateAfter)
     }
 
     void log(AuditOperation operation, String objectName, String stateBefore, String stateAfter = null) {
-        String userAgent = request.getHeader("User-Agent")
-        String ipAddress = getClientIpAddress(request).toMapString()
-
-        def auditLog = new TAuditLog(
-                ip: ipAddress,
-                userAgent: userAgent,
-                operation: operation,
-                objectName: objectName,
-                stateBefore: stateBefore?.take(4000), // Keep in sync with TAuditLog domain class constraints
-                stateAfter: stateAfter?.take(4000), // Keep in sync with TAuditLog domain class constraints
-                username: securityService.currentUsername ?: 'super',
-        )
-        auditLog.save(flush: true, failOnError: true)
+        log(operation, null, objectName, stateBefore, stateAfter)
     }
 
-    private Map getClientIpAddress(HttpServletRequest request) {
+    void log(AuditOperation operation, String message) {
+        log(operation, message, null, null, null)
+    }
+
+    void log(AuditOperation operation, String message, String objectName, String stateBefore, String stateAfter) {
+        String username = securityService.currentUsername ?: 'super'
+        LocalDateTime dateCreated = LocalDateTime.now()
+
+        Map log = buildLog(dateCreated, username, operation, message, objectName, stateBefore, stateAfter)
+        Map integrity = buildLogIntegrity(log)
+
+        // We can not use the following to compute HMAC since they could be different on each request
+        log.port = getClientPort(request)
+        log.requestInfo = getClientRequestInfo(request)
+
+        TAuditLog obj = new TAuditLog(log + integrity)
+        obj.save(flush: true, failOnError: true)
+    }
+
+    Boolean verifyLogIntegrity(TAuditLog obj) {
+        Map log = buildLog(obj.id)
+        byte[] AESKey = cryptoService.getTenantAESKey()
+        String actualDigest = computeHmac(log, AESKey)
+
+        return MessageDigest.isEqual(actualDigest.bytes, obj.digest.bytes)
+    }
+
+    private Map buildLog(Serializable id) {
+        TAuditLog obj = get(id)
+        return buildLog(obj.dateCreated, obj.username, obj.operation, obj.message, obj.objectName, obj.stateBefore, obj.stateAfter)
+    }
+
+    private Map buildLog(LocalDateTime dateCreated, String username, AuditOperation operation, String message, String objectName, String stateBefore, String stateAfter) {
+        String sDateCreated = DateUtils.format(dateCreated)
+        String sOperation = operation.toString()
+        String userAgent = request.getHeader('User-Agent')
+        String ip = getClientIp(request)
+
+        Map log = [
+                ip         : ip,
+                userAgent  : userAgent,
+                operation  : sOperation,
+                message    : message,
+                objectName : objectName,
+                stateBefore: stateBefore?.take(4000), // Keep in sync with TAuditLog domain class constraints
+                stateAfter : stateAfter?.take(4000), // Keep in sync with TAuditLog domain class constraints
+                username   : username,
+                dateCreated: sDateCreated,
+                seed       : generateLogSeed(username, sOperation, sDateCreated),
+        ]
+
+        return log
+    }
+
+    private Map buildLogIntegrity(Map log) {
+        byte[] AESKey = cryptoService.getTenantAESKey()
+
+        Map integrity = [
+                digest: computeHmac(log, AESKey),
+        ]
+
+        return integrity
+    }
+
+    private String generateLogSeed(String username, String operation, String dateCreated) {
+        return username.take(1) + operation.take(2) + dateCreated.take(3)
+    }
+
+    private String getClientIp(HttpServletRequest request) {
+        return request.getRemoteAddr()
+    }
+
+    private String getClientPort(HttpServletRequest request) {
+        return request.getRemotePort()
+    }
+
+    private String getClientRequestInfo(HttpServletRequest request) {
         List relevantHeaders = [
-                "X-Forwarded-For",
-                "Proxy-Client-IP",
-                "WL-Proxy-Client-IP",
-                "HTTP_X_FORWARDED_FOR",
-                "HTTP_X_FORWARDED",
-                "HTTP_X_CLUSTER_CLIENT_IP",
-                "HTTP_CLIENT_IP",
-                "HTTP_FORWARDED_FOR",
-                "HTTP_FORWARDED",
-                "HTTP_VIA",
-                "REMOTE_ADDR"
+                'CF-Connecting-IP',        // Cloudflare: IP reale del client dietro il loro CDN
+                'True-Client-IP',          // Akamai / altri CDN: IP reale del client
+                'X-Forwarded-For',         // De facto standard proxy: lista IP client + proxy
+                'X-Real-IP',               // Nginx: IP reale del client
+                'X-Cluster-Client-IP',     // Alcuni load balancer / proxy cluster: IP client
+                'Client-IP',               // Proxy meno comuni: IP originale del client
+                'X-Originating-IP',        // Alcuni webmail / proxy: IP originale del client
+                'X-Remote-IP',             // Alcuni proxy privati: IP originale del client
+                'X-Client-IP',             // Proxy custom: IP reale del client
+                'Proxy-Client-IP',         // Proxy / servlet container legacy: IP client
+                'WL-Proxy-Client-IP',      // WebLogic: IP client dietro il proxy
+                'X-Forwarded',             // Variante generica di X-Forwarded-For
+                'X-Forwarded-Host',        // Non contiene IP, ma può aiutare a ricostruire la connessione
+                'Via'                      // RFC 7230: lista dei proxy attraversati, informativo
         ]
 
         Map results = [:]
         for (header in relevantHeaders) {
             String ip = request.getHeader(header)
-            if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+            if (ip != null && ip.length() != 0 && !'unknown'.equalsIgnoreCase(ip)) {
                 results.put(header, ip)
             }
         }
 
-        results.put("REMOTE_ADDR", request.getRemoteAddr())
-        return results
+        return results.collect { k, v -> "${k} = ${v}" }.join(', ')
     }
 
     private String prettyProperties(Map properties) {
-        Map<String, String> stringifiedProperties = properties.collectEntries { [(it.key): it.value.toString()] }
+        Map stringifiedProperties = properties.collectEntries { [(it.key): it.value.toString()] } as Map
         String json = new JsonBuilder(stringifiedProperties).toPrettyString()
         return json
     }
 
-    private DetachedCriteria<TAuditLog> buildQuery(Map filters) {
-        def query = TAuditLog.where {
-        }
+    private String computeHmac(Map log, byte[] secret) {
+        // Sort keys to ensure deterministic order
+        def sortedKeys = log.keySet().sort()
 
-        if (filters) {
-            if (filters.dateFrom) query = query.where { dateCreated >= LocalDateTime.of(filters.dateFrom, LocalTime.MIN) }
-            if (filters.dateTo) query = query.where { dateCreated <= LocalDateTime.of(filters.dateTo, LocalTime.MAX) }
-            if (filters.operation) query = query.where { operation == filters.operation }
-            if (filters.username) query = query.where { username == filters.username }
-            if (filters.find) {
-                String search = filters.find.replaceAll('\\*', '%')
-                query = query.where {
-                    true
-                            || ip =~ "%${search}%"
-                            || userAgent =~ "%${search}%"
-                            || username =~ "%${search}%"
-                            || message =~ "%${search}%"
-                            || objectName =~ "%${search}%"
-                            || stateBefore =~ "%${search}%"
-                            || stateAfter =~ "%${search}%"
-                }
+        // Build canonical string representation
+        String canonical = sortedKeys.collect { k ->
+            "${k}=${log[k]}"
+        }.join('|')
+
+        // Create HMAC-SHA256
+        Mac mac = Mac.getInstance("HmacSHA256")
+        SecretKeySpec keySpec = new SecretKeySpec(secret, "HmacSHA256")
+        mac.init(keySpec)
+
+        byte[] hmacBytes = mac.doFinal(canonical.getBytes(StandardCharsets.UTF_8))
+
+        // Return as lowercase hex string
+        return hmacBytes.encodeHex().toString()
+    }
+
+    @CompileDynamic
+    private DetachedCriteria<TAuditLog> buildQuery(Map filterParams) {
+        def query = TAuditLog.where {}
+
+        if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
+        if (filterParams.dateFrom) query = query.where { dateCreated >= LocalDateTime.of(filterParams.dateFrom, LocalTime.MIN) }
+        if (filterParams.dateTo) query = query.where { dateCreated <= LocalDateTime.of(filterParams.dateTo, LocalTime.MAX) }
+        if (filterParams.operation) query = query.where { operation == filterParams.operation }
+        if (filterParams.username) query = query.where { username == filterParams.username }
+        if (filterParams.find) {
+            String search = filterParams.find.replaceAll('\\*', '%')
+            query = query.where {
+                true
+                        || ip =~ "%${search}%"
+                        || userAgent =~ "%${search}%"
+                        || username =~ "%${search}%"
+                        || message =~ "%${search}%"
+                        || objectName =~ "%${search}%"
+                        || stateBefore =~ "%${search}%"
+                        || stateAfter =~ "%${search}%"
             }
-//            if (filters.organizationalUnit) query = query.where { organizationalUnit.id == filters.organizationalUnit }
-//            if (filters.find) query = query.where {
-//                note =~ "%${filters.find}%" ||
-//                        firstname =~ "%${filters.find}%" ||
-//                        lastname =~ "%${filters.find}%"
-//            }
         }
 
         return query
+    }
+
+    TAuditLog get(Serializable id) {
+        return buildQuery(id: id).get()
     }
 
     List<TAuditLog> list(Map filterParams = [:], Map fetchParams = [:]) {
@@ -155,8 +230,8 @@ class AuditService implements WebRequestAware {
         return query.list(fetchParams)
     }
 
-    Integer count(Map filters = [:]) {
-        def query = buildQuery(filters)
+    Number count(Map filterParams = [:]) {
+        def query = buildQuery(filterParams)
         return query.count()
     }
 }

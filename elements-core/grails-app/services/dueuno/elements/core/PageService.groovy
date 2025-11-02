@@ -89,13 +89,17 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
         args.appicon = tenantPropertyService.getString('APPICON')
 
         /** Colors */
+        args.mainTextColor = tenantPropertyService.getString('MAIN_TEXT_COLOR')
+        args.mainBackgroundColor = tenantPropertyService.getString('MAIN_BACKGROUND_COLOR')
+        args.mainForegroundColor = tenantPropertyService.getString('MAIN_FOREGROUND_COLOR')
+        args.frameTextColor = tenantPropertyService.getString('FRAME_TEXT_COLOR')
+        args.frameBackgroundColor = tenantPropertyService.getString('FRAME_BACKGROUND_COLOR')
         args.primaryTextColor = tenantPropertyService.getString('PRIMARY_TEXT_COLOR')
         args.primaryBackgroundColor = tenantPropertyService.getString('PRIMARY_BACKGROUND_COLOR')
         args.primaryBackgroundColorAlpha = (Double) tenantPropertyService.getNumber('PRIMARY_BACKGROUND_COLOR_ALPHA')
-        args.tertiaryTextColor = tenantPropertyService.getString('TERTIARY_TEXT_COLOR')
-        args.tertiaryBackgroundColor = tenantPropertyService.getString('TERTIARY_BACKGROUND_COLOR')
         args.secondaryTextColor = tenantPropertyService.getString('SECONDARY_TEXT_COLOR')
         args.secondaryBackgroundColor = tenantPropertyService.getString('SECONDARY_BACKGROUND_COLOR')
+        args.requiredTextColor = tenantPropertyService.getString('REQUIRED_TEXT_COLOR')
 
         args.keyPress = [
                 triggerKey: tenantPropertyService.getString('KEYPRESS_TRIGGER_KEY'),

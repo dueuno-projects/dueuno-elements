@@ -42,6 +42,10 @@ grails.plugin.springsecurity.externalId.propertyName = 'externalId'
 grails.plugin.springsecurity.useSessionFixationPrevention = true
 
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+        [pattern: '/**/authentication/login', access: ['permitAll']],
+        [pattern: '/**/login', access: ['permitAll']],
+        [pattern: '/**/authentication/logout', access: ['permitAll']],
+        [pattern: '/**/logout', access: ['permitAll']],
         [pattern: '/**', access: ['IS_AUTHENTICATED_REMEMBERED']],
         [pattern: '/**/h2-console/**', access: ['ROLE_DEVELOPER']],
 
@@ -57,6 +61,9 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         [pattern: '/**/images/**', access: ['permitAll']],
         [pattern: '/**/favicon.png', access: ['permitAll']],
         [pattern: '/**/appicon.png', access: ['permitAll']],
+        [pattern: '/**/app-manifest.json', access: ['permitAll']],
+        [pattern: '/**/app-register.js', access: ['permitAll']],
+        [pattern: '/**/app-service-worker.js', access: ['permitAll']],
 ]
 
 grails.plugin.springsecurity.filterChain.chainMap = [
@@ -64,7 +71,11 @@ grails.plugin.springsecurity.filterChain.chainMap = [
         [pattern: '/**/js/**', filters: 'none'],
         [pattern: '/**/css/**', filters: 'none'],
         [pattern: '/**/images/**', filters: 'none'],
-        [pattern: '/**/favicon.ico', filters: 'none'],
+        [pattern: '/**/favicon.png', filters: 'none'],
+        [pattern: '/**/appicon.png', filters: 'none'],
+        [pattern: '/**/app-manifest.json', filters: 'none'],
+        [pattern: '/**/app-register.js', filters: 'none'],
+        [pattern: '/**/app-service-worker.js', filters: 'none'],
         [pattern: grails.plugin.springsecurity.externalId.filterProcessesUrl, filters: 'externalIdAuthenticationFilter'],
         [pattern: '/**', filters: 'JOINED_FILTERS,-externalIdAuthenticationFilter']
 ]

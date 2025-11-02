@@ -36,12 +36,20 @@
     }
 </script>
 
-<%-- Elements Javascript --%>
-<asset:javascript src="elements/includes.js"/>
+<%-- PWA - Progressive Web Application --%>
+<script>const serviceWorkerFilename = "${asset.assetPath(src:'elements/app-service-worker.js')}"</script>
+<asset:javascript src="elements/app-register.js"/>
 
+<%-- Elements --%>
+<asset:javascript src="elements/includes.js"/>
 <g:each var="elementsImplementation" in="${c.elementsRegistry}">
     <asset:javascript src="${elementsImplementation}.js"/>
 </g:each>
+
+<%-- Plugins Specific Javascript --%>
+<asset:assetPathExists src="plugin.js">
+    <asset:javascript src="plugin.js"/>
+</asset:assetPathExists>
 
 <%-- Application Specific Javascript --%>
 <asset:assetPathExists src="application.js">

@@ -17,9 +17,9 @@ package dueuno.elements.components
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ElementsController
+import dueuno.elements.pages.Shell
 import dueuno.elements.security.SecurityService
 import dueuno.elements.style.TextAlign
-import dueuno.elements.style.TextWrap
 import dueuno.elements.tenants.TenantPropertyService
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -38,8 +38,9 @@ class ShellController implements ElementsController {
     SecurityService securityService
 
     def index() {
-        shellService.shell.content = shellService.shell.home
-        display page: shellService.shell
+        Shell shell = shellService.shell
+        shell.content = shell.home
+        display page: shell
     }
 
     def credits() {

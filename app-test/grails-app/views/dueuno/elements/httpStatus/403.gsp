@@ -1,7 +1,8 @@
 <div id="err-404">
-    data-21-component="PageContent"
-    data-21-properties="{}"
-    data-21-events="{}"
+    <div id="page-content"
+         data-21-component="PageContent"
+         data-21-properties="{}"
+         data-21-events="{}"
     >
         <style>
         #err-not-found {

@@ -28,7 +28,7 @@ class UrlField extends TextField {
         super(args)
 
         viewTemplate = 'TextField'
-        pattern = args.pattern ?: '^[a-zA-Z0-9@:%._\\/+~#=!?&]*$'
+        pattern = args.pattern ?: '^[a-zA-Z0-9@\\-_.:\\/~#=!?&\\*()]*$'
 
         inputMode = TextFieldInputMode.URL
         icon = 'fa-globe'

@@ -117,7 +117,7 @@ class Table extends Component {
         rowHighlightLastChanged = (args.rowHighlightLastChanged == null) ? false : args.rowHighlightLastChanged
 
         noResults = (args.noResults == null) ? true : args.noResults
-        noResultsIcon = (args.noResultsIcon == null) ? 'fa-regular fa-folder-open' : args.noResultsIcon
+        noResultsIcon = (args.noResultsIcon == null) ? 'fa-regular fa-folder-open ps-4 mb-n2' : args.noResultsIcon
         noResultsMessage = (args.noResultsMessage) ?: 'component.table.no.results'
 
         readonly = (args.readonly == null) ? false : args.readonly
@@ -170,6 +170,7 @@ class Table extends Component {
                 action: 'onDelete',
                 text: '',
                 icon: 'fa-solid fa-trash-alt',
+                tooltip: TextDefault.HARD_DELETE,
                 confirmMessage: TextDefault.MESSAGE_CONFIRM_UNRECOVERABLE_OPERATION,
         )
         groupActions = createControl(

@@ -15,16 +15,21 @@
 package dueuno.elements.security
 
 import dueuno.elements.tenants.TTenant
+import grails.compiler.GrailsCompileStatic
 import groovy.transform.EqualsAndHashCode
 import org.grails.datastore.gorm.GormEntity
 
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 @EqualsAndHashCode(includes='username')
 class TUser implements GormEntity, Serializable {
 
     private static final long serialVersionUID = 1
+
+    Long id
 
     TTenant tenant
     String apiKey
@@ -64,10 +69,6 @@ class TUser implements GormEntity, Serializable {
     Integer fontSize
     Boolean animations
 
-    Set<TRoleGroup> getAuthorities() {
-        TUserRoleGroup.findAllByUser(this)*.roleGroup
-    }
-
     static constraints = {
         defaultGroup nullable: true
         password blank: false, password: true
@@ -85,11 +86,20 @@ class TUser implements GormEntity, Serializable {
         password column: '`password`'
     }
 
+    // Alias for the required getAuthorities() that better fits our naming structure
+    List<TRoleGroup> getGroups() {
+        getAuthorities()
+    }
+
+    List<TRoleGroup> getAuthorities() {
+        TUserRoleGroup.findAllByUser(this)*.roleGroup
+    }
+
     String getFullname() {
         if (firstname || lastname) {
             return "${firstname ?: ''}${lastname ? ' ' + lastname : ''}"
-        } else {
-            return username
         }
+
+        return username
     }
 }

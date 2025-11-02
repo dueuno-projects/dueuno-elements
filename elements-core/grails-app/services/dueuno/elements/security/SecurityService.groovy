@@ -21,6 +21,7 @@ import dueuno.elements.components.ShellService
 import dueuno.elements.core.*
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.pages.Shell
 import dueuno.elements.tenants.TTenant
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
@@ -29,6 +30,8 @@ import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.SpringSecurityUtils
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
@@ -42,6 +45,7 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 
 @Slf4j
 @CurrentTenant
+@CompileStatic
 class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     public static final String GROUP_SUPERADMINS = 'SUPERADMINS'
@@ -137,7 +141,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         )
         applicationService.registerAdminFeature(
                 controller: 'audit',
-                icon: 'fa-eye',
+                icon: 'fa-book',
         )
         applicationService.registerAdminFeature(
                 controller: 'tenantProperty',
@@ -210,21 +214,23 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     }
 
     void initializeSessionDuration() {
-        TUser user = currentUser
-        session.maxInactiveInterval = EnvUtils.isDevelopment() ? 10000 : user.sessionDuration * 60 // minutes to seconds
+        TUser user = getCurrentUser()
+        session.maxInactiveInterval = user.sessionDuration * 60 // minutes to seconds
+        tokenBasedRememberMeServices.cookieName = tenantPropertyService.getString('REMEMBER_ME_COOKIE_NAME', true)
+        tokenBasedRememberMeServices.alwaysRemember = tenantPropertyService.getBoolean('REMEMBER_ME_ENABLED', true)
         tokenBasedRememberMeServices.tokenValiditySeconds = user.rememberMeDuration * 60 // minutes to seconds
-        tokenBasedRememberMeServices.cookieName = applicationService.applicationName.toUpperCase() + '-REMEMBER-ME'
     }
 
     void initializeShell() {
-        TUser user = currentUser
+        TUser user = getCurrentUser()
         String lang = (user?.language in applicationService.languages) ? user.language : tenantPropertyService.getString('DEFAULT_LANGUAGE', true)
-        shellService.currentLanguage = lang
-        shellService.shell.setUser(currentUsername, user.firstname, user.lastname)
-        shellService.setFontSize(user.fontSize)
+        currentLanguage = lang
+        fontSize = user.fontSize
 
-        setMenuVisibility(shellService.shell.menu)
-        setMenuVisibility(shellService.shell.userMenu)
+        Shell shell = shellService.shell
+        shell.setUser(currentUsername, user.firstname, user.lastname)
+        setMenuVisibility(shell.menu)
+        setMenuVisibility(shell.userMenu)
     }
 
     private void setMenuVisibility(Menu menu) {
@@ -339,7 +345,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
 
         Object principal = springSecurityService.principal
-        String username = (principal.username as String).toLowerCase()
+        String username = (principal['username'] as String).toLowerCase()
         TUser user = getUserByUsername(username)
         if (!user) {
             user = createUser(
@@ -358,7 +364,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @return the currently logged in user username
      */
     String getCurrentUsername() {
-        return currentUser?.username
+        return getCurrentUser()?.username
     }
 
     /**
@@ -393,12 +399,12 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         initializeSessionDuration()
         initializeShell()
 
-        String tenantId = tenantService.currentTenantId
-        log.info "${tenantId}: Logged in as '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
-        auditService.log(AuditOperation.LOGIN, "Authorities: ${currentUserAuthorities}")
-
         // Executes custom login code
-        applicationService.executeBootEvents('afterLogin', session)
+        applicationService.executeBootEvents('afterLogin', tenantService.currentTenantId, session)
+
+        String tenantId = tenantService.currentTenantId
+        log.info "${tenantId} Tenant - Login '${currentUsername}', language '${currentLanguage}', authorised for ${currentUserAuthorities}"
+        auditService.log(AuditOperation.LOGIN, currentUserAuthorities.join(', '))
     }
 
     void denyLogin(String message) {
@@ -437,7 +443,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      */
     void executeAfterLogout() {
         auditService.log(AuditOperation.LOGOUT, "-")
-        applicationService.executeBootEvents('afterLogout')
+        applicationService.executeBootEvents('afterLogout', tenantService.currentTenantId)
         executeLogout()
     }
 
@@ -445,6 +451,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * Returns the default landing page configured for the current user
      * @return
      */
+    @CompileDynamic
     String getUserLandingPage() {
         if (isSuperAdmin())
             return ''
@@ -486,6 +493,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     //
     // Users
     //
+    @CompileDynamic
     private DetachedCriteria<TUser> buildQueryUser(Map filterParams) {
         def query = TUser.where {}
 
@@ -538,22 +546,22 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     TUser getUser(Serializable id) {
         def query = TUser.where { id == id }
-        return query.get(fetch: fetchAll)
+        return query.get(fetch: fetchAll) as TUser
     }
 
     TUser getUserByUsername(String username) {
         def query = TUser.where { username == username }
-        return query.get(fetch: fetchAll)
+        return query.get(fetch: fetchAll) as TUser
     }
 
     TUser getUserByApiKey(String apiKey) {
         def query = TUser.where { apiKey == apiKey }
-        return query.get(fetch: fetchAll)
+        return query.get(fetch: fetchAll) as TUser
     }
 
     TUser getUserByExternalId(String externalId) {
         def query = TUser.where { externalId == externalId }
-        return query.get(fetch: fetchAll)
+        return query.get(fetch: fetchAll) as TUser
     }
 
     TUser getSuperAdminUser() {
@@ -571,7 +579,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return query.list(fetchParams)
     }
 
-    Integer countAllUser(Map filterParams = [:]) {
+    Number countAllUser(Map filterParams = [:]) {
         def query = buildQueryUser(filterParams)
         return query.count()
     }
@@ -581,7 +589,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return listAllUser(filterParams, fetchParams)
     }
 
-    Integer countUser(Map filterParams = [:]) {
+    Number countUser(Map filterParams = [:]) {
         filterParams.deletable = true
         return countAllUser(filterParams)
     }
@@ -606,8 +614,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     }
 
     /**
-     * Generates an API-KEY
-     * @return the API-KEY
+     * Generates an password
+     * @return the password
      */
     String generatePassword() {
         List alphabet = ('A'..'Z') + ('0'..'9') + ('a'..'z') + ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', ';', ':', '?', '.', '>']
@@ -646,10 +654,20 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      *
      * @return the newly created user
      */
+    @CompileDynamic
     TUser createUser(Map args) {
         if (args.failOnError == null) args.failOnError = false
 
-        List<String> groups = args.groups ?: []
+        List<String> groups = [GROUP_USERS]
+        if (args.admin) groups.add(GROUP_ADMINS)
+        if (args.username != USERNAME_SUPERADMIN && EnvUtils.isDevelopment()) {
+            groups.add(GROUP_DEVELOPERS)
+        }
+        if (args.groups) {
+            groups.addAll(args.groups as List)
+        }
+        groups.unique()
+
         String defaultGroup = args.defaultGroup
         if (!defaultGroup && groups.size() > 0) {
             defaultGroup = groups[0]
@@ -659,10 +677,11 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 ?: tenantService.getByTenantId(args.tenantId as String)
                 ?: tenantService.currentTenant
 
+        log.info "${tenant.tenantId} Tenant - Creating user '${args.username}' in groups ${groups} (default '${defaultGroup}')"
+
         TUser user = TUser.findByUsername(args.username as String)
         if (user) {
-            List userGroups = ((List<TUserRoleGroup>) TUserRoleGroup.findAllByUser(user))*.roleGroup.name
-            log.error "ERROR Creating user '${args.username}', already exists in groups ${userGroups}, skipping user creation"
+            log.warn "${tenant.tenantId} Tenant - User '${args.username}' already exists, skipping user creation."
             user.errors.rejectValue('username', 'user.username.already.exists', [args.username] as Object[], 'user.username.already.exists')
             return user
         }
@@ -687,8 +706,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 invertedMonth: args.invertedMonth == null ? false : args.invertedMonth,
                 twelveHours: args.twelveHours == null ? false : args.twelveHours,
                 firstDaySunday: args.firstDaySunday == null ? false : args.firstDaySunday,
-                sessionDuration: args.sessionDuration as Integer ?: tenantPropertyService.getNumber('DEFAULT_SESSION_DURATION') ?: 60,
-                rememberMeDuration: args.rememberMeDuration as Integer ?: tenantPropertyService.getNumber('DEFAULT_REMEMBER_ME_DURATION') ?: 600,
+                sessionDuration: args.sessionDuration as Integer ?: tenantPropertyService.getNumber('SESSION_DEFAULT_DURATION') ?: 5,
+                rememberMeDuration: args.rememberMeDuration as Integer ?: tenantPropertyService.getNumber('REMEMBER_ME_DEFAULT_DURATION') ?: 10080, // One week in minutes
                 fontSize: args.fontSize as Integer ?: systemPropertyService.getNumber('FONT_SIZE') as Integer,
                 animations: args.animations as Boolean ?: true,
                 defaultGroup: defaultGroup ? TRoleGroup.findByTenantAndName(tenant, defaultGroup) : null,
@@ -697,24 +716,19 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         user.save(flush: true, failOnError: args.failOnError)
 
         if (user.hasErrors()) {
-            log.error "ERROR Creating user '${args.username}' initialised as: ${args}"
+            log.error "${tenant.tenantId} Tenant - Error creating user '${args.username}' initialised as: ${args}"
             log.error user.errors.toString()
+            return user
+        }
 
-        } else { // Sets the groups
-            groups.add(GROUP_USERS)
-            if (user.username != USERNAME_SUPERADMIN && EnvUtils.isDevelopment()) groups.add(GROUP_DEVELOPERS)
-            if (args.admin) groups.add(GROUP_ADMINS)
-
-            for (groupName in groups.unique()) {
-                TRoleGroup roleGroup = TRoleGroup.findByTenantAndName(tenant, groupName)
-                if (roleGroup) {
-                    TUserRoleGroup.create(user, roleGroup)
-                } else {
-                    log.error "ERROR Creating roleGroup '${groupName}' for user: ${args.username}"
-                }
+        // Sets the groups
+        for (groupName in groups) {
+            TRoleGroup roleGroup = TRoleGroup.findByTenantAndName(tenant, groupName)
+            if (roleGroup) {
+                TUserRoleGroup.create(user, roleGroup)
+            } else {
+                log.error "${tenant.tenantId} Tenant - Error assigning group '${groupName}' to user '${args.username}', group not found!"
             }
-
-            log.info "${tenant.tenantId} Tenant: Created user '${args.username}' in groups: ${groups}"
         }
 
         return user
@@ -740,6 +754,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @param args see createUser()
      * @return the modified user
      */
+    @CompileDynamic
     TUser updateUserAndGroups(Map args) {
         String username = (String) ArgsException.requireArgument(args, 'username')
         if (args.failOnError == null) args.failOnError = false
@@ -796,7 +811,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @param args see createUser()
      * @return the modified user
      */
-
+    @CompileDynamic
     TUser updateUser(Map args) {
         String username = (String) ArgsException.requireArgument(args, 'username')
         if (args.failOnError == null) args.failOnError = false
@@ -841,22 +856,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         user.delete(flush: true, failOnError: true)
     }
 
-    // TODO: To be implemented
-    void resetPassword(String email) {
-        TUser user = TUser.findByEmail(email)
-
-        if (user) {
-//            notificationService.sendEmail(
-//                    email,
-//                    applicationService.message('passwordReset.email.subject'),
-//                    applicationService.message('passwordReset.email.body', args: [
-//                            applicationService.linkApplicationAbsoluteUrl(),
-//                            user.id,
-//                    ])
-//            )
-        }
-    }
-
+    @CompileDynamic
     private DetachedCriteria<TRoleGroup> buildQueryGroup(Map filterParams) {
         def query = TRoleGroup.where {
             name != GROUP_SUPERADMINS && name != GROUP_ADMINS
@@ -897,9 +897,13 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return query.list(fetchParams)
     }
 
-    Integer countGroup(Map filterParams = [:]) {
+    Number countGroup(Map filterParams = [:]) {
         def query = buildQueryGroup(filterParams)
         return query.count()
+    }
+
+    List<String> listGroupName(Map filterParams = [:], Map fetchParams = [:]) {
+        return listGroup(filterParams, fetchParams)*.name
     }
 
     /**
@@ -912,6 +916,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      *
      * @return the newly created group
      */
+    @CompileDynamic
     TRoleGroup createGroup(Map args) {
         if (args.failOnError == null) args.failOnError = false
 
@@ -935,9 +940,9 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 ?: tenantService.getByTenantId(args.tenantId as String)
                 ?: tenantService.currentTenant
 
-        Boolean newGroup = false
         TRoleGroup roleGroup = TRoleGroup.findByNameAndTenant(groupName, tenant)
         if (!roleGroup) {
+            log.info "${tenant.tenantId} Tenant - Creating group '${groupName}' with authorities: ${authorities}"
             roleGroup = new TRoleGroup(
                     tenant: tenant,
                     name: groupName,
@@ -945,7 +950,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                     landingPage: landingPage,
             )
             roleGroup.save(flush: true, failOnError: args.failOnError)
-            newGroup = true
+        } else {
+            log.info "${tenant.tenantId} Tenant - Updating group '${groupName}' with authorities: ${authorities}"
         }
 
         for (authority in authorities) {
@@ -961,12 +967,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             }
         }
 
-        if (newGroup && authorities) {
-            log.info "${tenant.tenantId} Tenant: Created group '$groupName' with authorities: $authorities"
-        } else if (authorities) {
-            log.info "${tenant.tenantId} Tenant: Setting group '$groupName' with authorities: $authorities"
-        }
-
         return roleGroup
     }
 
@@ -979,6 +979,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      *
      * @return the updated group
      */
+    @CompileDynamic
     TRoleGroup updateGroup(Map args) {
         if (args.failOnError == null) args.failOnError = false
 
@@ -1020,12 +1021,14 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      *
      * @param name the name of the group to delete
      */
-
+    @CompileDynamic
     void deleteGroup(Serializable id) {
         TRoleGroup roleGroup = TRoleGroup.get(id)
+
+        log.info "Deleting group '${roleGroup}' with authorities ${roleGroup.authorities}"
+
         TRoleGroupRole.removeAll(roleGroup)
         roleGroup.delete(flush: true, failOnError: true)
-        log.info "Deleted group '$roleGroup' with authorities $roleGroup.authorities"
     }
 
     /**
@@ -1035,11 +1038,14 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      *
      * @return the newly created authority
      */
-
+    @CompileDynamic
     TRole createAuthority(String authority) {
         TRole role = TRole.findByAuthority(authority)
-        if (role)
+        if (role) {
             return role
+        }
+
+        log.info "Creating authority '$authority'"
 
         // Role does not exist we create it
         TRole newRole = new TRole(authority: authority).save(flush: true, failOnError: true)
@@ -1058,7 +1064,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         }
 
         springSecurityService.reloadDBRoleHierarchy()
-        log.info "Created authority '$authority'"
 
         newRole.save(flush: true, failOnError: true)
         return newRole
@@ -1068,7 +1073,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * Returns the authorities configured for the application
      * @return the authorities configured for the application
      */
-
+    @CompileDynamic
     List<String> listAuthority() {
         List<String> results = []
         for (role in TRole.findAll()) {
@@ -1110,8 +1115,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                     lastname: 'Admin',
                     username: USERNAME_SUPERADMIN,
                     password: USERNAME_SUPERADMIN,
-                    sessionDuration: 5, // always 5 minutes for the SuperAdmin
-                    rememberMeDuration: 5, // always 5 minutes for the SuperAdmin
+                    sessionDuration: EnvUtils.isDevelopment() ? 60 : 5, // always 5 minutes in production for the SuperAdmin
+                    rememberMeDuration: EnvUtils.isDevelopment() ? 12 * 60 : 5, // always 5 minutes in production for the SuperAdmin
             )
         }
 
@@ -1122,26 +1127,26 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 password: username,
                 firstname: tenantId,
                 lastname: 'Admin',
-                sessionDuration: 15, // defaults to 15 minutes for the Admin
-                rememberMeDuration: 15, // defaults to 15 minutes for the Admin
+                sessionDuration: EnvUtils.isDevelopment() ? 60 : 15, // defaults to 15 minutes in production for the Admin
+                rememberMeDuration: EnvUtils.isDevelopment() ? 12 * 60 : 15, // defaults to 15 minutes in production for the Admin
                 admin: true,
         )
 
-//        tenantService.withTenant(tenantId) {
-            tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
-            tenantPropertyService.setNumber('DEFAULT_SESSION_DURATION', 60)
-            tenantPropertyService.setNumber('DEFAULT_REMEMBER_ME_DURATION', 600)
+        tenantPropertyService.setBoolean('USER_CAN_CHANGE_PASSWORD', true)
+        tenantPropertyService.setString('SESSION_COOKIE_NAME', applicationService.applicationName.toUpperCase() + '-SESSION')
+        tenantPropertyService.setNumber('SESSION_DEFAULT_DURATION', 5)
+        tenantPropertyService.setString('REMEMBER_ME_COOKIE_NAME', applicationService.applicationName.toUpperCase() + '-REMEMBER-ME')
+        tenantPropertyService.setNumber('REMEMBER_ME_DEFAULT_DURATION', 10080) // One week in minutes
 
-            tenantPropertyService.setBoolean('LOGIN_REMEMBER_ME', false)
-            tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
-            tenantPropertyService.setString('LOGIN_LANDING_URL', '')
-            tenantPropertyService.setString('LOGOUT_LANDING_URL', '')
-            tenantPropertyService.setString('LOGIN_REGISTRATION_URL', '')
-            tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
-            tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
+        tenantPropertyService.setBoolean('REMEMBER_ME_ENABLED', true)
+        tenantPropertyService.setBoolean('LOGIN_AUTOCOMPLETE', true)
+        tenantPropertyService.setString('LOGIN_LANDING_URL', '')
+        tenantPropertyService.setString('LOGOUT_LANDING_URL', '')
+        tenantPropertyService.setString('LOGIN_REGISTRATION_URL', '')
+        tenantPropertyService.setString('LOGIN_PASSWORD_RECOVERY_URL', '')
+        tenantPropertyService.setString('LOGIN_COPY', 'Copyright &copy; <a href="https://dueuno.com">Dueuno</a><br/>All rights reserved')
 
-            tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', linkPublicResource(tenantId, '/brand/login-background.jpg', false))
-            tenantPropertyService.setString('LOGIN_LOGO', linkPublicResource(tenantId, '/brand/login-logo.png', false))
-//        }
+        tenantPropertyService.setString('LOGIN_BACKGROUND_IMAGE', linkPublicResource(tenantId, '/brand/login-background.jpg', false))
+        tenantPropertyService.setString('LOGIN_LOGO', linkPublicResource(tenantId, '/brand/login-logo.png', false))
     }
 }

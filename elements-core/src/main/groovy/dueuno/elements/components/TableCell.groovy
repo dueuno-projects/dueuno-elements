@@ -198,8 +198,8 @@ class TableCell extends Component {
 
         if (label && labelValue != null) {
             String backgroundColor = table.rowStriped
-                    ? (row.index % 2 == 0 ? Color.WHITE : tertiaryBackgroundColor)
-                    : tertiaryBackgroundColor
+                    ? (row.index % 2 == 0 ? mainForegroundColor : mainBackgroundColor)
+                    : mainBackgroundColor
 
             textAlign = TextAlign.CENTER
             label.tag = value

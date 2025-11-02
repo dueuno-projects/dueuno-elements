@@ -62,7 +62,7 @@ class MovieService {
         return query.list(fetchParams)
     }
 
-    Integer count(Map filters = [:]) {
+    Number count(Map filters = [:]) {
         def query = buildQuery(filters)
         return query.count()
     }

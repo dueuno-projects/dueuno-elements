@@ -93,8 +93,17 @@ class SandboxController implements ElementsController {
 
             addField(
                     class: Button,
-                    id: 'messageWithParams',
+                    id: 'messageAndRedirect',
                     action: 'onMessage',
+                    modal: true,
+                    displayLabel: false,
+                    cols: 12,
+                    colsSmall: 6,
+            )
+            addField(
+                    class: Button,
+                    id: 'confirmMessageAndRedirect',
+                    action: 'onConfirmMessage',
                     params: [name: 'Gianluca Sartori'],
                     displayLabel: false,
                     cols: 12,
@@ -103,15 +112,6 @@ class SandboxController implements ElementsController {
                     class: Button,
                     id: 'loadingScreen',
                     action: 'onHideLoadingScreen',
-                    displayLabel: false,
-                    cols: 12,
-                    colsSmall: 6,
-            )
-            addField(
-                    class: Button,
-                    id: 'redirectBtn',
-                    action: 'messageWithRedirect',
-                    modal: true,
                     displayLabel: false,
                     cols: 12,
                     colsSmall: 6,
@@ -173,6 +173,7 @@ class SandboxController implements ElementsController {
                     class: TimeField,
                     id: 't2',
                     value: LocalTime.now(),
+                    readonly: true,
                     cols: 2,
             )
             addField(
@@ -238,17 +239,25 @@ class SandboxController implements ElementsController {
             addField(
                     class: TextField,
                     id: 'placeholderText',
+                    placeholder: 'sandbox.placeholder.text',
                     validChars: '/:1234567890',
 //                    prefix: 'PRE',
                     icon: 'fa-box',
                     onChange: 'onIconChange',
                     highlight: true,
                     maxSize: 7,
-                    cols: 12,
+                    cols: 6,
+            )
+            addField(
+                    class: TextField,
+                    id: 'readonlyText',
+                    readonly: true,
+                    cols: 6,
             )
             addField(
                     class: Textarea,
                     id: 'placeholderArea',
+                    placeholder: 'sandbox.placeholder.textarea',
                     invalidChars: '+-*/',
                     acceptNewLine: false,
                     highlight: true,
@@ -665,7 +674,11 @@ Grails application running at http://localhost:9992/test in environment: develop
     }
 
     def onMessage() {
-        display message: 'sandbox.message.with.params', messageArgs: [params.name], controller: 'table'
+        display message: 'You will be redirected to "CRUD View"', controller: 'crud', modal: true, wide: true
+    }
+
+    def onConfirmMessage() {
+        display confirmMessage: 'sandbox.message.with.params', messageArgs: [params.name], controller: 'table', modal: true, wide: true
     }
 
     def onTextChange() {
@@ -678,10 +691,6 @@ Grails application running at http://localhost:9992/test in environment: develop
         def t = createTransition()
         t.loading(false)
         display transition: t
-    }
-
-    def messageWithRedirect() {
-        display message: 'You will be redirected to "CRUD View"', controller: 'crud', modal: true, wide: true
     }
 
     def onChangeCheckThisOut() {

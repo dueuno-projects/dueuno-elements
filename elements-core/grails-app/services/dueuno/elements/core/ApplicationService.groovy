@@ -21,7 +21,6 @@ import dueuno.elements.tenants.TenantService
 import dueuno.elements.utils.EnvUtils
 import grails.core.GrailsApplication
 import grails.gorm.multitenancy.Tenants
-import grails.gorm.multitenancy.WithoutTenant
 import grails.util.Holders
 import grails.web.servlet.mvc.GrailsHttpSession
 import groovy.transform.CompileDynamic
@@ -98,10 +97,10 @@ class ApplicationService implements LinkGeneratorAware {
      *
      * @param closure a closure containing specific application initialisation directives
      */
-    void init(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
+    void onInit(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
         performInstallation()
         registerLanguages()
-        registerInit(closure)
+        registerOnInit(closure)
         startApplication()
     }
 
@@ -111,7 +110,7 @@ class ApplicationService implements LinkGeneratorAware {
         if (!systemInstalled) {
             systemPropertyService.install()
             tenantService.install()
-            executeOnSystemInstall()
+            executeOnInstall()
         }
 
         // Tenant Provisioning
@@ -131,19 +130,15 @@ class ApplicationService implements LinkGeneratorAware {
     void startApplication() {
         log.info ""
         log.info "-" * 78
-        log.info "APPLICATION: STARTING UP..."
+        log.info "STARTING UP"
         log.info "-" * 78
 
         performInitialization()
         executeBeforeInit()
-        executeInit()
+        executeOnInit()
+        executeOnTenantInit()
         executeAfterInit()
         performFinalization()
-
-        log.info "-" * 78
-        log.info "APPLICATION: STARTED."
-        log.info "-" * 78
-        log.info ""
     }
 
     /**
@@ -194,8 +189,8 @@ class ApplicationService implements LinkGeneratorAware {
      * Used by plugins to register a System setup closure. The closure will be executed only once.
      * @param closure a closure containing specific setup code
      */
-    void onSystemInstall(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
-        registerBootEvent('onSystemInstall', closure)
+    void onInstall(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
+        registerBootEvent('onInstall', closure)
     }
 
     /**
@@ -210,12 +205,12 @@ class ApplicationService implements LinkGeneratorAware {
      * Used by the application to register a setup closure. The closure will be executed only once.
      * @param closure a closure containing specific setup code
      */
-    void onInstall(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
-        registerBootEvent('onInstall', closure)
+    void onTenantInstall(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
+        registerBootEvent('onTenantInstall', closure)
     }
 
     /**
-     * Same as onInstall() but only executed when in development environment
+     * Same as onTenantInstall() but only executed when in development environment
      * @param closure a closure containing specific setup code
      */
     void onDevInstall(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
@@ -228,6 +223,14 @@ class ApplicationService implements LinkGeneratorAware {
      */
     void onUpdate(String version, @DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
         registerBootEvent('onUpdate', version, closure)
+    }
+
+    /**
+     * Used by the application to register a closure containing tenant initialisation
+     * @param closure a closure containing tenant initialisation
+     */
+    void onTenantInit(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
+        registerBootEvent('onTenantInit', closure)
     }
 
     /**
@@ -252,29 +255,24 @@ class ApplicationService implements LinkGeneratorAware {
      *
      * @param closure a closure containing specific application initialisation directives
      */
-    private void registerInit(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
-        registerBootEvent('init', closure)
+    private void registerOnInit(@DelegatesTo(ApplicationService) Closure closure = { /* No setup */ }) {
+        registerBootEvent('onInit', closure)
     }
 
-    void executeOnSystemInstall() {
-        if (hasBootEvents('onSystemInstall')) {
-            log.info ""
+    void executeOnInstall() {
+        if (hasBootEvents('onInstall')) {
             log.info "-" * 78
-            log.info "SYSTEM: INSTALLING..."
+            log.info "INSTALLING"
             log.info "-" * 78
 
-            executeInstall('onSystemInstall', 'DEFAULT')
-
-            log.info "-" * 78
-            log.info "SYSTEM: INSTALLATION COMPLETE."
-            log.info "-" * 78
+            executeInstall('onInstall', 'DEFAULT')
         }
     }
 
     void executeOnPluginInstall(String tenantId) {
         if (hasBootEvents('onPluginInstall')) {
             log.info "-" * 78
-            log.info "${tenantId} Tenant: INSTALLING PLUGINS..."
+            log.info "${tenantId} Tenant - INSTALLING PLUGINS"
             log.info "-" * 78
 
             executeInstall('onPluginInstall', tenantId)
@@ -282,13 +280,12 @@ class ApplicationService implements LinkGeneratorAware {
     }
 
     void executeOnInstall(String tenantId) {
-        if (hasBootEvents('onInstall') || hasBootEvents('onDevInstall')) {
-            log.info ""
+        if (hasBootEvents('onTenantInstall') || hasBootEvents('onDevInstall')) {
             log.info "-" * 78
-            log.info "${tenantId} Tenant: INSTALLING APPLICATION..."
+            log.info "${tenantId} Tenant - INSTALLING"
             log.info "-" * 78
 
-            executeInstall('onInstall', tenantId)
+            executeInstall('onTenantInstall', tenantId)
             if (EnvUtils.isDevelopment()) {
                 executeInstall('onDevInstall', tenantId, true)
             }
@@ -297,9 +294,8 @@ class ApplicationService implements LinkGeneratorAware {
 
     void executeOnUpdate(String tenantId) {
         if (hasBootEvents('onUpdate')) {
-            log.info ""
             log.info "-" * 78
-            log.info "${tenantId} Tenant: INSTALLING UPDATES..."
+            log.info "${tenantId} Tenant - UPDATING"
             log.info "-" * 78
 
             executeInstall('onUpdate', tenantId, false, true)
@@ -318,27 +314,29 @@ class ApplicationService implements LinkGeneratorAware {
             String pluginName = closure.getClass().getPackage().getName()
             Integer isInstalled = TSystemInstall.countByPluginAndRevisionAndTenantIdAndDev(pluginName, revisionName, tenantId, isDev)
 
-            if (!isInstalled) {
-                log.info "${tenantId} Tenant: Executing '${revisionName}'..."
-
-                Tenants.withId(tenantId) {
-                    if (closure.maximumNumberOfParameters == 1) {
-                        closure.call(tenantId)
-                    } else {
-                        closure.call(tenantId, pluginName)
-                    }
-                }
-
-                new TSystemInstall(
-                        plugin: pluginName,
-                        revision: revisionName,
-                        tenantId: tenantId,
-                        dev: isDev,
-                ).save(flush: true, failOnError: true)
-
-                log.info "...done."
-                log.info ""
+            if (isInstalled) {
+                continue
             }
+
+            log.info "${tenantId} Tenant - Executing '${revisionName}'..."
+
+            Tenants.withId(tenantId) {
+                if (closure.maximumNumberOfParameters == 1) {
+                    closure.call(tenantId)
+                } else {
+                    closure.call(tenantId, pluginName)
+                }
+            }
+
+            new TSystemInstall(
+                    plugin: pluginName,
+                    revision: revisionName,
+                    tenantId: tenantId,
+                    dev: isDev,
+            ).save(flush: true, failOnError: true)
+
+            log.info "...done."
+            log.info ""
         }
     }
 
@@ -347,15 +345,18 @@ class ApplicationService implements LinkGeneratorAware {
      *
      * @param listName Name of the list to execute
      */
-    void executeBootEvents(String listName, GrailsHttpSession session = null) {
+    void executeBootEvents(String listName, String tenantId = null, GrailsHttpSession session = null) {
         Map<String, Closure> eventList = getBootEvents(listName)
         for (revision in eventList) {
             String revisionName = revision.key
             Closure closure = revision.value
 
-            String pluginName = closure.getClass().getPackage().name
             log.info "Executing '${revisionName}'..."
-            closure.call(session)
+            if (closure.maximumNumberOfParameters == 1) {
+                closure.call(tenantId)
+            } else {
+                closure.call(tenantId, session)
+            }
         }
     }
 
@@ -363,8 +364,14 @@ class ApplicationService implements LinkGeneratorAware {
         executeBootEvents('beforeInit')
     }
 
-    private void executeInit() {
-        executeBootEvents('init')
+    private void executeOnInit() {
+        executeBootEvents('onInit')
+    }
+
+    private void executeOnTenantInit() {
+        tenantService.eachTenant { String tenantId ->
+            executeBootEvents('onTenantInit', tenantId)
+        }
     }
 
     private void executeAfterInit() {
@@ -527,7 +534,7 @@ class ApplicationService implements LinkGeneratorAware {
     void registerSuperadminFeature(Map args = [:]) {
         Feature parent = getSuperadminFeature()
         if (!parent) {
-            throw new ElementsException("Cannot register Superadmin Feature '${args.controller}': applications must register features in the 'init' event. Plugins in the 'afterInit' event.")
+            throw new ElementsException("Cannot register Superadmin Feature '${args.controller}': applications must register features in the 'onInit' event. Plugins in the 'afterInit' event.")
         }
 
         Feature newFeature = getFeature(args.controller as String)
@@ -545,7 +552,7 @@ class ApplicationService implements LinkGeneratorAware {
     void registerAdminFeature(Map args = [:]) {
         Feature parent = getAdminFeature()
         if (!parent) {
-            throw new ElementsException("Cannot register Admin Feature '${args.controller}': applications must register features in the 'init' event. Plugins in the 'afterInit' event.")
+            throw new ElementsException("Cannot register Admin Feature '${args.controller}': applications must register features in the 'onInit' event. Plugins in the 'afterInit' event.")
         }
 
         Feature newFeature = getFeature(args.controller as String)
@@ -559,11 +566,9 @@ class ApplicationService implements LinkGeneratorAware {
     private void registerLanguages() {
         List<String> available = getLanguagesFromResources()
         systemPropertyService.setString('AVAILABLE_LANGUAGES', available.join(','))
-        log.info "Available languages ${available}"
 
         // Exclusions
         List<String> excluded = systemPropertyService.getString('EXCLUDED_LANGUAGES').split(',') as List<String>
-        if (excluded) log.debug "Excluded languages ${excluded}"
 
         // Main check
         String main = systemPropertyService.getString('DEFAULT_LANGUAGE')
@@ -574,7 +579,7 @@ class ApplicationService implements LinkGeneratorAware {
             """)
         }
 
-        log.debug "Setting default language to '${main}'"
+        log.info "Available languages ${available}, excluded ${excluded}, default '${main}'"
     }
 
     List<String> getLanguages() {

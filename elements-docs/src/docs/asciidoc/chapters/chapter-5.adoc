@@ -79,7 +79,7 @@ class BootStrap {
             )
         }
 
-        applicationService.init {
+        applicationService.onInit {
             registerFeature(
                     controller: 'person',
                     icon: 'fa-user',

@@ -1,0 +1,83 @@
+plugins {
+    id "groovy"
+    id "org.grails.grails-gsp"
+    id "org.grails.grails-web"
+    id "com.github.erdi.webdriver-binaries"
+    id "com.bertramlabs.asset-pipeline"
+    id "dueuno-asciidoctor"
+    id "eclipse"
+    id "idea"
+}
+
+group = projectGroup
+version = projectVersion
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.grails.org/grails/core" }
+}
+
+dependencies {
+    profile "org.grails.profiles:web"
+    implementation "org.grails:grails-core"
+    implementation "org.grails:grails-logging"
+    implementation "org.grails:grails-plugin-databinding"
+    implementation "org.grails:grails-plugin-i18n"
+    implementation "org.grails:grails-plugin-interceptors"
+    implementation "org.grails:grails-plugin-rest"
+    implementation "org.grails:grails-plugin-services"
+    implementation "org.grails:grails-plugin-url-mappings"
+    implementation "org.grails:grails-web-boot"
+    implementation "org.grails.plugins:gsp"
+    implementation "org.grails.plugins:hibernate5"
+    implementation "org.springframework.boot:spring-boot-autoconfigure"
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-logging"
+    implementation "org.springframework.boot:spring-boot-starter-tomcat"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    compileOnly "io.micronaut:micronaut-inject-groovy"
+    console "org.grails:grails-console"
+    runtimeOnly "com.bertramlabs.plugins:asset-pipeline-grails:${grailsAssetPipelineVersion}"
+    runtimeOnly "org.apache.tomcat:tomcat-jdbc"
+    runtimeOnly "org.fusesource.jansi:jansi:1.18"
+    testImplementation "io.micronaut:micronaut-inject-groovy"
+    testImplementation "org.grails:grails-gorm-testing-support"
+    testImplementation "org.grails:grails-web-testing-support"
+    testImplementation "org.grails.plugins:geb"
+    testImplementation "org.seleniumhq.selenium:selenium-api:4.19.1"
+    testImplementation "org.seleniumhq.selenium:selenium-remote-driver:4.19.1"
+    testImplementation "org.seleniumhq.selenium:selenium-support:4.19.1"
+    testImplementation "org.spockframework:spock-core"
+    testRuntimeOnly "org.seleniumhq.selenium:selenium-chrome-driver:4.19.1"
+    testRuntimeOnly "org.seleniumhq.selenium:selenium-firefox-driver:4.19.1"
+    testRuntimeOnly "org.seleniumhq.selenium:selenium-safari-driver:4.19.1"
+}
+
+tasks.withType(War).configureEach { War war ->
+    war.dependsOn compileGroovyPages
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+    systemProperty "geb.env", System.getProperty('geb.env')
+    systemProperty "geb.build.reportsDir", reporting.file("geb/integrationTest")
+    systemProperty 'webdriver.chrome.driver', "${System.getenv('CHROMEWEBDRIVER')}/chromedriver"
+    systemProperty 'webdriver.gecko.driver', "${System.getenv('GECKOWEBDRIVER')}/geckodriver"
+}
+
+webdriverBinaries {
+    chromedriver '122.0.6260.0'
+    geckodriver '0.33.0'
+    edgedriver '110.0.1587.57'
+}
+
+assets {
+    skipNonDigests = true
+    minifyCss = true
+    minifyJs = true
+    minifyOptions = [
+            //SIMPLE (default) or ADVANCED or WHITESPACE_ONLY
+            optimizationLevel: "SIMPLE",
+    ]
+}

@@ -12,7 +12,6 @@
             <div id="loading-screen-modal"><div class="ps-4"><i class="fa-solid fa-mug-hot fa-beat-fade"></i></div></div>
             <div id="page-modal-header"
                  class="modal-header"
-                 style="background-color: ${c.tertiaryBackgroundColor}"
             >
                 <render:component instance="${c.closeButton}" />
             </div>

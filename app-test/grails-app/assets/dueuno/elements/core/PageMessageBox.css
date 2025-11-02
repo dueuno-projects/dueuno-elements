@@ -1,6 +1,6 @@
 #page-messagebox .modal-content {
-    background-color: #303030;
-    color: white;
+    background-color: rgb(var(--elements-frame-bg));
+    color: rgb(var(--elements-frame-text));
 }
 
 #page-messagebox .modal-footer {
@@ -11,14 +11,14 @@
 #page-messagebox input:focus,
 #page-messagebox input {
     border-radius: var(--bs-border-radius-lg);
-    background-color: #545454;
+    background-color: rgba(var(--elements-frame-bg), .5);
     border: none;
     font-weight: bold;
 }
 
 #page-messagebox input::placeholder {
     font-weight: normal;
-    color: #a4a4a4;
+    color: rgba(var(--elements-frame-text), .7);
 }
 
 #page-messagebox .message-icon {

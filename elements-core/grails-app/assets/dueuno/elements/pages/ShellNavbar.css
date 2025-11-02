@@ -3,13 +3,13 @@
     margin-left: 15rem;
     padding: .5rem;
     height: 3.3rem;
-    background-color: rgba(var(--elements-tertiary-bg), .7);
+    background-color: rgba(var(--elements-main-bg), .7);
     backdrop-filter: blur(21px);
     -webkit-backdrop-filter: blur(21px);
 }
 
 #shell-navbar.has-sticky {
-    background-color: rgb(var(--elements-tertiary-bg));
+    background-color: rgb(var(--elements-main-bg));
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
 }
@@ -21,7 +21,7 @@
     border: 0;
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
     background: none;
-    color: #333333;
+    color: rgb(var(--elements-main-text));
 }
 
 #shell-navbar-home {
@@ -35,11 +35,11 @@
     margin-left: -.5rem;
     border: 0;
     background: transparent;
-    color: #333333;
+    color: rgb(var(--elements-main-text));
 }
 
 #shell-navbar-logo {
-    height: 1.6rem;
+    height: 2rem;
 }
 
 #shell-navbar:has(#shell-navbar-home) #shell-navbar-logo {
@@ -70,5 +70,5 @@
     border: 0;
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
     background: none;
-    color: #333333;
+    color: rgb(var(--elements-main-text));
 }

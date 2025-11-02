@@ -28,7 +28,7 @@ class ElementsExtraGrailsPlugin extends Plugin {
 
     static final String NAME = 'elements-extra'
     def loadAfter = [
-            'elements',
+            'elements-core',
     ]
 
     // the version or versions of Grails the plugin is designed for

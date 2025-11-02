@@ -18,7 +18,8 @@ import dueuno.commons.utils.FileUtils
 import dueuno.commons.utils.StringUtils
 import dueuno.elements.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
-import grails.gorm.multitenancy.WithoutTenant
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
 import jakarta.annotation.PostConstruct
@@ -28,6 +29,7 @@ import jakarta.annotation.PostConstruct
  */
 
 @Slf4j
+@CompileStatic
 class SystemPropertyService extends PropertyService {
 
     ApplicationService applicationService
@@ -55,9 +57,10 @@ class SystemPropertyService extends PropertyService {
 
     @PostConstruct
     void init() {
-        inMemoryProperties['SYSTEM'] = [:]
+        inMemoryProperties['SYSTEM'] = [:] as Map
     }
 
+    @CompileDynamic
     DetachedCriteria<TSystemProperty> buildQuery(Map filters) {
         def query = TSystemProperty.where {}
 
@@ -85,11 +88,12 @@ class SystemPropertyService extends PropertyService {
     }
 
     TSystemProperty get(Serializable id) {
-        TSystemProperty p = TSystemProperty.get(id)
+        TSystemProperty p = TSystemProperty.get(id) as TSystemProperty
         if (p) p.refresh()
         return p
     }
 
+    @CompileDynamic
     private TSystemProperty getByName(String name) {
         TSystemProperty p = TSystemProperty.findByName(name)
         if (p) p.refresh()
@@ -101,7 +105,7 @@ class SystemPropertyService extends PropertyService {
         return query.list(fetchParams)
     }
 
-    Integer count(Map filters = [:]) {
+    Number count(Map filters = [:]) {
         def query = buildQuery(filters)
         return query.count()
     }
@@ -112,6 +116,7 @@ class SystemPropertyService extends PropertyService {
         return obj
     }
 
+    @CompileDynamic
     private TSystemProperty update(Map args) {
         Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
@@ -159,7 +164,7 @@ class SystemPropertyService extends PropertyService {
 
         inMemoryProperties['SYSTEM'][name] = value
         if (onChangeRegistry[name]) {
-            log.info "SYSTEM: Property changed '$name' = '$value'"
+            log.info "APPLICATION - Property changed '$name' = '$value'"
             onChangeRegistry[name].call(oldValue, value, defaultValue)
         }
 
@@ -186,9 +191,6 @@ class SystemPropertyService extends PropertyService {
     }
 
     void validateAll() {
-//        StopWatch sw = new StopWatch()
-//        sw.start()
-
         List<TSystemProperty> properties = list()
         for (property in properties) {
             switch (property.type as PropertyType) {
@@ -208,9 +210,6 @@ class SystemPropertyService extends PropertyService {
                     break
             }
         }
-
-//        sw.stop()
-//        log.info "SYSTEM: Properties validated in ${sw.toString()}"
     }
 
     void delete(Serializable id) {

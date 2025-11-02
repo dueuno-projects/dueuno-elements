@@ -58,6 +58,13 @@ class PageTagLib {
         out << render(template: '/dueuno/elements/core/PageInitialize', model: null)
     }
 
+    /**
+     * Loading screen. Use: <page:loading />
+     */
+    def loading = { Map attrs ->
+        out << render(template: '/dueuno/elements/core/PageLoading', model: null)
+    }
+
     def contextPath = { Map attrs ->
         out << servletContext.contextPath
     }

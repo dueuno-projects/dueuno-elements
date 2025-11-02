@@ -4,7 +4,7 @@
 >
     <div id="shell-navbar-menu-toggle">
         <button type="button"
-                class="btn btn-secondary text-dark"
+                class="btn btn-secondary"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#shell-menu"
                 aria-controls="offcanvasResponsive">

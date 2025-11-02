@@ -86,6 +86,16 @@ class Button extends Component {
         Component.setReadonly($link, value);
     }
 
+    static setBackgroundColor($element, value) {
+        let $link = $element.find('> a');
+        $link.css('background-color', value);
+    }
+
+    static setTextColor($element, value) {
+        let $link = $element.find('> a');
+        $link.css('color', value);
+    }
+
     static setText($element, value) {
         let $text = $element.find('span');
         $text.html(value);

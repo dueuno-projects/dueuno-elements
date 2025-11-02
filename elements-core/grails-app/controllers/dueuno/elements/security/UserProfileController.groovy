@@ -232,6 +232,7 @@ class UserProfileController implements ElementsController {
         }
 
         securityService.updateUser(params)
+        securityService.getCurrentUser(true) // We reload the 'currentUser'
 
         currentLanguage = params.language
         decimalFormat = params.decimalFormat

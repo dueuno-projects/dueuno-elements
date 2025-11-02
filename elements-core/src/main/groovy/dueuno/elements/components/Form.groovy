@@ -40,6 +40,7 @@ class Form extends Component {
     Class validate
 
     Boolean autocomplete
+    Boolean autofocus
 
     Form(Map args) {
         super(args)
@@ -50,6 +51,7 @@ class Form extends Component {
         validate = args.validate as Class ?: args.constraints as Class ?: null
 
         autocomplete = (args.autocomplete == null) ? false : args.autocomplete
+        autofocus = (args.autofocus == null) ? true : args.autofocus
     }
 
     List<FormField> getComponents() {
@@ -175,6 +177,14 @@ class Form extends Component {
                 value: value,
         )
         keyFields += field
+    }
+
+    @Override
+    String getPropertiesAsJSON(Map properties = [:]) {
+        Map thisProperties = [
+                autofocus: autofocus,
+        ]
+        return super.getPropertiesAsJSON(thisProperties + properties)
     }
 
     @Override

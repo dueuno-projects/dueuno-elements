@@ -84,21 +84,31 @@ abstract class Component implements WebRequestAware, Serializable {
     String backgroundColor
 
     /** Colors */
+    String mainTextColor
+    List<Integer> mainTextColorInt
+    String mainBackgroundColor
+    List<Integer> mainBackgroundColorInt
+    String mainForegroundColor
+    List<Integer> mainForegroundColorInt
+
+    String frameTextColor
+    List<Integer> frameTextColorInt
+    String frameBackgroundColor
+    List<Integer> frameBackgroundColorInt
+
     String primaryTextColor
     List<Integer> primaryTextColorInt
     String primaryBackgroundColor
     List<Integer> primaryBackgroundColorInt
     Double primaryBackgroundColorAlpha
 
-    String tertiaryTextColor
-    List<Integer> tertiaryTextColorInt
-    String tertiaryBackgroundColor
-    List<Integer> tertiaryBackgroundColorInt
-
     String secondaryTextColor
     List<Integer> secondaryTextColorInt
     String secondaryBackgroundColor
     List<Integer> secondaryBackgroundColorInt
+
+    String requiredTextColor
+    List<Integer> errorTextColorInt
 
     /** Custom CSS */
     String cssClass
@@ -131,21 +141,31 @@ abstract class Component implements WebRequestAware, Serializable {
         textColor = args.textColor ?: ''
         backgroundColor = args.backgroundColor ?: ''
 
+        mainTextColor = args.mainTextColor ?: '#333030'
+        mainTextColorInt = Color.hexToIntColor(mainTextColor) ?: warnColorError(mainTextColor)
+        mainBackgroundColor = args.mainBackgroundColor ?: '#f4f1f1'
+        mainBackgroundColorInt = Color.hexToIntColor(mainBackgroundColor) ?: warnColorError(mainBackgroundColor)
+        mainForegroundColor = args.mainForegroundColor ?: '#ffffff'
+        mainForegroundColorInt = Color.hexToIntColor(mainForegroundColor) ?: warnColorError(mainForegroundColor)
+
+        frameTextColor = args.frameTextColor ?: '#f4f1f1'
+        frameTextColorInt = Color.hexToIntColor(frameTextColor) ?: warnColorError(frameTextColor)
+        frameBackgroundColor = args.frameBackgroundColor ?: '#333030'
+        frameBackgroundColorInt = Color.hexToIntColor(frameBackgroundColor) ?: warnColorError(frameBackgroundColor)
+
         primaryTextColor = args.primaryTextColor ?: '#ffffff'
         primaryTextColorInt = Color.hexToIntColor(primaryTextColor) ?: warnColorError(primaryTextColor)
         primaryBackgroundColor = args.primaryBackgroundColor ?: '#cc0000'
         primaryBackgroundColorInt = Color.hexToIntColor(primaryBackgroundColor) ?: warnColorError(primaryBackgroundColor)
         primaryBackgroundColorAlpha = (Double) (args.primaryBackgroundColorAlpha == null ? 0.15d : args.primaryBackgroundColorAlpha)
 
-        tertiaryTextColor = args.tertiaryTextColor ?: '#333333'
-        tertiaryTextColorInt = Color.hexToIntColor(tertiaryTextColor) ?: warnColorError(tertiaryTextColor)
-        tertiaryBackgroundColor = args.tertiaryBackgroundColor ?: '#f0ebeb'
-        tertiaryBackgroundColorInt = Color.hexToIntColor(tertiaryBackgroundColor) ?: warnColorError(tertiaryBackgroundColor)
-
         secondaryTextColor = args.secondaryTextColor ?: '#ffffff'
         secondaryTextColorInt = Color.hexToIntColor(secondaryTextColor) ?: warnColorError(secondaryTextColor)
-        secondaryBackgroundColor = args.secondaryBackgroundColor ?: '#6b5a5a'
+        secondaryBackgroundColor = args.secondaryBackgroundColor ?: '#504545'
         secondaryBackgroundColorInt = Color.hexToIntColor(secondaryBackgroundColor) ?: warnColorError(secondaryBackgroundColor)
+
+        requiredTextColor = args.requiredTextColor ?: '#cc0000'
+        errorTextColorInt = Color.hexToIntColor(requiredTextColor) ?: warnColorError(requiredTextColor)
 
         cssClass = args.cssClass ?: ''
     }
@@ -313,13 +333,17 @@ abstract class Component implements WebRequestAware, Serializable {
         args.textColor = args.textColor ?: this.textColor
         args.backgroundColor = args.backgroundColor ?: this.backgroundColor
 
+        args.mainTextColor = this.mainTextColor
+        args.mainForegroundColor = this.mainForegroundColor
+        args.mainBackgroundColor = this.mainBackgroundColor
+        args.frameTextColor = this.frameTextColor
+        args.frameBackgroundColor = this.frameBackgroundColor
         args.primaryTextColor = this.primaryTextColor
         args.primaryBackgroundColor = this.primaryBackgroundColor
         args.primaryBackgroundColorAlpha = this.primaryBackgroundColorAlpha
-        args.tertiaryTextColor = this.tertiaryTextColor
-        args.tertiaryBackgroundColor = this.tertiaryBackgroundColor
         args.secondaryTextColor = this.secondaryTextColor
         args.secondaryBackgroundColor = this.secondaryBackgroundColor
+        args.requiredTextColor = this.requiredTextColor
     }
 
     String getPrimaryBackgroundColorShade() {

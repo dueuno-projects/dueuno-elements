@@ -1,5 +1,6 @@
 #shell-user-menu {
     border: none;
+    background-color: rgb(var(--elements-main-fg));
 }
 
 #shell-user-menu .offcanvas-title {
@@ -48,6 +49,7 @@
     border: 0;
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
     background: none;
+    color: rgb(var(--elements-main-text));
 }
 
 .offcanvas.offcanvas-end {

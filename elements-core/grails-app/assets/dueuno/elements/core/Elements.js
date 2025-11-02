@@ -26,6 +26,10 @@ class Elements {
         Page.render();
     }
 
+    static getId($element) {
+        return $element.data('21-id');
+    }
+
     static getById(id) {
         let $element = Elements.getElementById(id);
         return Elements.getByElement($element);

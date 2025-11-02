@@ -48,22 +48,22 @@ class BootStrap {
     def init = {
 
         applicationService.onUpdate('2021-10-03') { String tenantId ->
-            println "${tenantId} Tenant: UPDATE N.2"
+            println "${tenantId} Tenant - UPDATE N.2"
         }
 
         applicationService.onUpdate('2021-10-02') { String tenantId ->
-            println "${tenantId} Tenant: UPDATE N.1"
+            println "${tenantId} Tenant - UPDATE N.1"
         }
 
         applicationService.onUpdate('2021-10-05') { String tenantId ->
-            println "${tenantId} Tenant: UPDATE N.4"
+            println "${tenantId} Tenant - UPDATE N.4"
         }
 
         applicationService.onUpdate('2021-10-04') { String tenantId ->
-            println "${tenantId} Tenant: UPDATE N.3"
+            println "${tenantId} Tenant - UPDATE N.3"
         }
 
-        applicationService.onSystemInstall {
+        applicationService.onInstall {
             systemPropertyService.setBoolean('DISPLAY_MENU', true)
             systemPropertyService.setString('DEFAULT_LANGUAGE', 'it')
             systemPropertyService.setString('EXCLUDED_LANGUAGES', 'de,pi')
@@ -81,6 +81,7 @@ class BootStrap {
             tenantService.create(
                     tenantId: 'TEST',
                     description: 'Test tenant',
+                    host: 'localhost:9443',
                     failOnError: true,
                     connectionSource: [
                             driverClassName: 'com.mysql.cj.jdbc.Driver',
@@ -91,7 +92,21 @@ class BootStrap {
             )
         }
 
-        applicationService.onInstall { String tenantId ->
+        applicationService.onTenantInstall { String tenantId ->
+            tenantPropertyService.setNumber('TEST_NUMBER', 5 * 60)
+            tenantPropertyService.setString('TEST_STRING', 'This is a string', 'This is its default value')
+            tenantPropertyService.setDateTime('TEST_DATE_TIME', LocalDateTime.now())
+            tenantPropertyService.setDate('TEST_DATE', LocalDate.now())
+            tenantPropertyService.setTime('TEST_TIME', LocalTime.now())
+            tenantPropertyService.setBoolean('TEST_BOOLEAN', true)
+            tenantPropertyService.setDirectory('TEST_DIRECTORY', '', '/pippo/pluto')
+            tenantPropertyService.setFilename('TEST_FILENAME', '', '\\pippo\\pluto\\config.txt')
+            tenantPropertyService.setUrl('TEST_URL', 'http://www.dueuno.com', 'http://www.google.com/search')
+            tenantPropertyService.setDirectory('TEST_WRONG_DIRECTORY', '\\this\\directory\\doesnt\\exist', '')
+            tenantPropertyService.setFilename('TEST_WRONG_FILENAME', '\\this\\file\\doesnt\\exist.txt', '')
+            tenantPropertyService.setUrl('TEST_WRONG_URL', 'htp://www.wrong.url', '')
+            tenantPropertyService.setString('TEST_ON_CHANGE', 'Change me and check the console!', '')
+            tenantPropertyService.setPassword('TEST_PASSWORD', "${tenantId}Password")
 
             String appLink = servletContext.contextPath
             tenantPropertyService.setString('SHELL_URL_MAPPING', '/admin')
@@ -189,13 +204,12 @@ class BootStrap {
         }
 
         applicationService.onDevInstall { String tenantId ->
-            println "${tenantId} Tenant: INSTALLING STUFF ONLY WHEN IN DEVELOPMENT ENVIRONMENT"
+            println "${tenantId} Tenant - INSTALLING STUFF ONLY WHEN IN DEVELOPMENT ENVIRONMENT"
 
             systemPropertyService.setBoolean('TEST_DENY_LOGIN', false)
 
             systemPropertyService.setNumber('TEST_NUMBER', 5 * 60)
             systemPropertyService.setString('TEST_STRING', 'This is a string', 'This is its default value')
-            systemPropertyService.setPassword('TEST_PASSWORD', 'ThisIsAPassword!')
             systemPropertyService.setDateTime('TEST_DATE_TIME', LocalDateTime.now())
             systemPropertyService.setDate('TEST_DATE', LocalDate.now())
             systemPropertyService.setTime('TEST_TIME', LocalTime.now())
@@ -257,12 +271,6 @@ class BootStrap {
                     lastname: 'THREE',
             )
 
-            //securityService.createUser(
-            //    username: 'testuser',
-            //    firstname: 'LDAP',
-            //    lastname: 'User',
-            //)
-
             securityService.createSystemUser(
                     username: '*',
                     firstname: 'Nessun',
@@ -270,25 +278,28 @@ class BootStrap {
             )
         }
 
-        securityService.afterLogin { GrailsHttpSession session ->
-            println "${tenantService.currentTenantId}: Benvenuto in ${shellService.shell.id} caro ${securityService.currentUsername}"
+        securityService.afterLogin { String tenantId, GrailsHttpSession session ->
+            println "${tenantId}: Benvenuto in ${shellService.shell.id} caro ${securityService.currentUsername}"
             if (systemPropertyService.getBoolean('TEST_DENY_LOGIN', true)) {
                 securityService.denyLogin('Cannot execute login because of X reason')
             }
         }
 
-        securityService.afterLogout {
-            println "Arrivederci ${securityService.currentUsername}!"
+        securityService.afterLogout { String tenantId ->
+            println "${tenantId}: Arrivederci ${securityService.currentUsername}!"
         }
 
-        applicationService.init {
+        applicationService.onTenantInit { String tenantId ->
+            println "INITIALIZING ${tenantId} Tenant"
+        }
+
+        applicationService.onInit {
             applicationService.registerPrettyPrinter(TPerson, '${it.name}')
             applicationService.registerPrettyPrinter(TCompany, '${it.name}')
             applicationService.registerPrettyPrinter('customCompanyPrinter', '${it.name} (${it.dateCreated})')
 
             transitionService.subscribe('macchina-1')
             transitionService.subscribe('macchina-2')
-
 
             systemPropertyService.onChange('TEST_ON_CHANGE') { Object oldValue, Object value, Object defaultValue ->
                 println "*** TEST_ON_CHANGE *************************************************************"

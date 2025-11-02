@@ -18,9 +18,12 @@ import dueuno.commons.utils.StringUtils
 import dueuno.elements.core.PropertyService
 import dueuno.elements.core.PropertyType
 import dueuno.elements.exceptions.ArgsException
+import dueuno.elements.security.CryptoService
 import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
 /**
@@ -29,8 +32,10 @@ import groovy.util.logging.Slf4j
 
 @Slf4j
 @CurrentTenant
+@CompileStatic
 class TenantPropertyService extends PropertyService {
 
+    CryptoService cryptoService
     TenantService tenantService
 
     void install() {
@@ -48,17 +53,30 @@ class TenantPropertyService extends PropertyService {
         // fa-solid, fa-regular, fa-light, fa-thin, fa-duotone, fa-brand
 
         // Colors
+        setString('MAIN_TEXT_COLOR', '#333030', '#333030')
+        setString('MAIN_BACKGROUND_COLOR', '#f4f1f1', '#f4f1f1')
+        setString('MAIN_FOREGROUND_COLOR', '#ffffff', '#ffffff')
+        setString('FRAME_TEXT_COLOR', '#f4f1f1', '#f4f1f1')
+        setString('FRAME_BACKGROUND_COLOR', '#333030', '#333030')
         setString('PRIMARY_TEXT_COLOR', '#ffffff', '#ffffff')
         setString('PRIMARY_BACKGROUND_COLOR', '#cc0000', '#cc0000')
         setNumber('PRIMARY_BACKGROUND_COLOR_ALPHA', 0.15, 0.15)
         setString('SECONDARY_TEXT_COLOR', '#ffffff', '#ffffff')
-        setString('SECONDARY_BACKGROUND_COLOR', '#625b5b', '#625b5b')
-        setNumber('SECONDARY_BACKGROUND_COLOR_ALPHA', 1, 1)
-        setString('TERTIARY_TEXT_COLOR', '#030303', '#030303')
-        setString('TERTIARY_BACKGROUND_COLOR', '#f4f1f1', '#f4f1f1')
-        setNumber('TERTIARY_BACKGROUND_COLOR_ALPHA', 1, 1)
+        setString('SECONDARY_BACKGROUND_COLOR', '#4C4141', '#4C4141')
+        setString('REQUIRED_TEXT_COLOR', '#cc0000', '#cc0000')
     }
 
+    void setPassword(String name, String value) {
+        String encryptedValue = cryptoService.encrypt(value)
+        setValue(PropertyType.PASSWORD, name, encryptedValue, null)
+    }
+
+    String getPassword(String name, Boolean reload = false) {
+        String encryptedValue = getValue(PropertyType.PASSWORD, name, reload) as String ?: ''
+        return cryptoService.decrypt(encryptedValue)
+    }
+
+    @CompileDynamic
     DetachedCriteria<TTenantProperty> buildQuery(Map filters) {
         def query = TTenantProperty.where {}
 
@@ -106,7 +124,7 @@ class TenantPropertyService extends PropertyService {
         return query.list(fetchParams)
     }
 
-    Integer count(Map filters = [:]) {
+    Number count(Map filters = [:]) {
         def query = buildQuery(filters)
         return query.count()
     }
@@ -118,6 +136,7 @@ class TenantPropertyService extends PropertyService {
         return obj
     }
 
+    @CompileDynamic
     private TTenantProperty update(Map args) {
         Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
@@ -163,11 +182,11 @@ class TenantPropertyService extends PropertyService {
         }
 
         String tenantId = tenantService.currentTenantId
-        if (!inMemoryProperties[tenantId]) inMemoryProperties[tenantId] = [:]
+        if (!inMemoryProperties[tenantId]) inMemoryProperties[tenantId] = [:] as Map
         inMemoryProperties[tenantId][name] = value
 
         if (onChangeRegistry[name]) {
-            log.info "${tenantId} Tenant: Property changed '$name' = '$value'"
+            log.info "${tenantId} Tenant - Property changed '$name' = '$value'"
             onChangeRegistry[name].call(oldValue, value, defaultValue)
         }
 
@@ -189,16 +208,13 @@ class TenantPropertyService extends PropertyService {
 
         Object value = property[typeName]
 
-        if (!inMemoryProperties[tenantId]) inMemoryProperties[tenantId] = [:]
+        if (!inMemoryProperties[tenantId]) inMemoryProperties[tenantId] = [:] as Map
         inMemoryProperties[tenantId][name] = value
 
         return value
     }
 
     void validateAll() {
-//        StopWatch sw = new StopWatch()
-//        sw.start()
-
         List<TTenantProperty> properties = list()
         for (property in properties) {
             switch (property.type as PropertyType) {
@@ -218,9 +234,6 @@ class TenantPropertyService extends PropertyService {
                     break
             }
         }
-
-//        sw.stop()
-//        log.info "${tenantService.currentTenantId}: Properties validated in ${sw.toString()}"
     }
 
     void delete(Serializable id) {

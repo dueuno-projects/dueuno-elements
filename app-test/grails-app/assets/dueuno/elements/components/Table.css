@@ -12,7 +12,7 @@
 }
 
 .component-table thead th {
-    background-color: white;
+    background-color: rgb(var(--elements-main-fg));
 }
 
 .component-table .component-label.tag {
@@ -25,7 +25,7 @@
 }
 
 .component-table ::-webkit-scrollbar-thumb {
-    background-color: rgba(var(--elements-primary-bg-shaded));
+    background-color: rgb(var(--elements-primary-bg-shaded));
     border-radius: var(--bs-border-radius);
 }
 
@@ -34,7 +34,6 @@
 }
 
 .component-table > .component-separator {
-    background-color: white;
     border-top-left-radius: var(--bs-border-radius-lg);
     border-top-right-radius: var(--bs-border-radius-lg);
     padding: .75rem;
@@ -53,6 +52,7 @@
 
 .component-table-dataset-wrapper {
     padding-bottom: .5rem;
+    background-color: rgb(var(--elements-main-fg));
 }
 
 .component-table-dataset .table-hover tr:hover td {
@@ -60,7 +60,7 @@
 }
 
 .component-table-dataset .sticky-header {
-    border-bottom: rgb(var(--elements-tertiary-bg)) .25rem solid;
+    border-bottom: rgb(var(--elements-main-bg)) .25rem solid;
 }
 
 .component-table-dataset .component-table-header a {
@@ -99,7 +99,6 @@
     padding-bottom: 0;
 }
 
-
 .table-no-results {
     width: 100% !important;
     text-align: center;
@@ -115,14 +114,16 @@
 
 .table-no-results > td:first-child i {
     font-size: 10rem;
-    padding-bottom: 1rem;
-    padding-left: 1.5rem;
+}
+
+.table-no-results > td:first-child i.mb-n2 {
+    margin-bottom: -.5rem !important;
 }
 
 .component-table tr.table-no-results,
 .component-table tr.table-no-results td,
 .component-table tr.table-no-results:hover td {
-    background-color: white;
+    background-color: rgb(var(--elements-main-fg));
 }
 
 .component-table:has(.table-no-results) {
@@ -163,20 +164,26 @@
 .component-table tr.table-no-results,
 .component-table tr.table-no-results td,
 .component-table tr.table-no-results:hover td {
-    color: rgba(var(--elements-secondary-bg), .5);
+    color: rgb(var(--elements-main-bg));
+}
+
+.component-table tr.table-no-results td div {
+    color: rgba(var(--elements-main-text), .7);
+    font-weight: bold;
+    margin-top: 1rem;
 }
 
 .component-table .table-hover tr.table-no-results:hover td {
-    background-color: white;
+    background-color: rgb(var(--elements-main-fg));
 }
 
 .component-table-dataset .table-hover tr:hover td {
-    background-color: rgba(var(--elements-primary-bg-shaded));
+    background-color: rgb(var(--elements-primary-bg-shaded));
     --bs-table-hover-color: none;
 }
 
 .component-table-dataset .table-striped tbody tr:nth-of-type(odd) {
-    --bs-table-striped-bg: rgb(var(--elements-tertiary-bg));
+    --bs-table-striped-bg: rgb(var(--elements-main-bg));
 }
 
 .component-table-dataset .component-table-header a {

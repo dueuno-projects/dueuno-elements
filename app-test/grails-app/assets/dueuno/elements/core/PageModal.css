@@ -1,5 +1,5 @@
 #page-modal-body {
-    background-color: rgb(var(--elements-tertiary-bg));
+    background-color: rgb(var(--elements-main-bg));
 }
 
 @media (min-width: 650px) {
@@ -53,6 +53,10 @@
     padding-bottom: .65rem;
 }
 
+.modal-content {
+    background-color: inherit;
+}
+
 #page-modal .component-header {
     padding: 0;
 }
@@ -65,9 +69,13 @@
 #page-modal-header .btn-group button:focus,
 #page-modal-header .btn-group button:active,
 #page-modal-header .btn-group button {
-    background-color: white;
-    color: #333333;
+    background-color: rgb(var(--elements-main-fg));
+    color: rgb(var(--elements-main-text));
     font-weight: normal;
+}
+
+#page-modal-header {
+    background-color: rgb(var(--elements-main-bg));
 }
 
 #page-modal-header > .component-button {

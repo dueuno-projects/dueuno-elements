@@ -1,12 +1,12 @@
 .component-header {
-    background-color: rgb(var(--elements-tertiary-bg));
+    background-color: rgb(var(--elements-main-bg));
 }
 
 .component-header .component-header-box {
     padding: .25rem;
     margin-bottom: .25rem;
     border-radius: var(--bs-border-radius-lg);
-    background-color: rgba(255, 255, 255, .5);
+    background-color: rgba(var(--elements-main-fg), .5);
 }
 
 .component-header .row {
@@ -40,7 +40,7 @@
 }
 
 #page-modal .component-header .component-header-box {
-    background-color: rgb(var(--elements-tertiary-bg));
+    background-color: rgb(var(--elements-main-bg));
     margin-bottom : 0;
     padding: 0;
 }

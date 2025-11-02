@@ -1,14 +1,22 @@
 <!doctype html>
 <html lang="${c.locale}">
 <head>
-    <title><render:message code='springSecurity.login.title'/></title>
+    <%-- Header --%>
     <page:header component="${c}" />
+
+    <%-- Custom Page CSS --%>
     <asset:stylesheet src="elements/pages/PageBlank.css" />
+
+    <%-- Colors --%>
     <page:colors component="${c}"/>
+</head>
 
 <body data-21-page="${c.className}"
       data-21-id="${c.id}"
 >
+
+    <page:loading />
+
     <div id="page-content">
         <div class="p-3">
             <render:component instance="${c.content}" />

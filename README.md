@@ -2,23 +2,19 @@
 
 Dueuno Elements
 ===
-With [Dueuno Elements](https://dueuno.com) we can build backoffice web applications with a single programming language: [Apache Groovy](https://groovy-lang.org).
+With [Dueuno Elements](https://dueuno.com), you can build Progressive Web Applications using a single programming language: [Apache Groovy](https://groovy-lang.org).
 
-The main goal is to strongly decouple the Business Logic from the GUI rising the abstraction level to a point where we don't need to know HTML, CSS and JavaScript to build CRUDs & common UIs.
+The main goal of the framework is to clearly separate Business Logic from the User Interface, raising the level of abstraction so developers don’t need to work directly with HTML, CSS, or JavaScript to create CRUD operations and common UIs.
 
-Dueuno Elements is built on top of the [Grails Framework](https://grails.org) and its [Conventions over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm to lower the cost of onboarding new developers, build projects faster and keep them updated easier.
-
-Work is ongoing to support the [Grace Framework](https://graceframework.org/) as well.
+Dueuno Elements is built on top of the [Grails Framework](https://grails.org), leveraging its [Conventions over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm to reduce onboarding costs, speed up development, and simplify maintenance.
 
 Getting Started
 ---
-You need Java Development Kit (JDK) 17 installed. We support only LTS Java releases.
-
-To create your first Dueuno Elements application you can download the [Dueuno Application Template](https://github.com/dueuno-projects/dueuno-app-template).
+To create your first Dueuno Elements application, download the [Dueuno Application Template](https://github.com/dueuno-projects/dueuno-app-template).
 
 Guides
 ---
-You can find the latest documentation here: https://dueuno.com
+Find the latest documentation here: https://dueuno.com
 
 Community
 ---
@@ -26,9 +22,8 @@ Join us on Discord: https://discord.gg/6yWnmT2hBj
 
 License
 ---
-Dueuno Elements is an Open Source software released under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
+Dueuno Elements is Open Source software, released under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
 
 Do you know?
 ---
-The name `Dueuno` is made up of two italian words: `due` which means two, and `uno` which means one. It represents two teams playing together to achieve the same goal.
-
+The name `Dueuno` comes from two Italian words: `due` (“two”) and `uno` (“one”). It represents two teams working together toward the same goal.

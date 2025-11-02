@@ -34,7 +34,6 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Login extends Page {
 
-    Boolean rememberMe
     Boolean autocomplete
 
     String copy
@@ -53,7 +52,6 @@ class Login extends Page {
         keyPress.enabled = false
         loginKeyPress = createComponent(KeyPress, 'loginKeyPress')
 
-        rememberMe = (args.rememberMe == null) ? true : args.rememberMe
         autocomplete = (args.autocomplete == null) ? false : args.autocomplete
 
         copy = args.copy
@@ -78,13 +76,6 @@ class Login extends Page {
                     placeholder: 'authentication.password.placeholder',
                     displayLabel: false,
             )
-            if (rememberMe) {
-                addField(
-                        class: Checkbox,
-                        id: 'rememberMe',
-                        displayLabel: false,
-                )
-            }
             addField(
                     class: Button,
                     id: 'login',

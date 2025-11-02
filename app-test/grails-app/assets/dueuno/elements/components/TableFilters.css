@@ -2,8 +2,8 @@
 .component-filters-buttons.btn-group .btn:active,
 .component-filters-buttons.btn-group .btn:focus,
 .component-filters-buttons.btn-group .btn {
-    color: #333333;
-    background-color: white;
+    color: rgb(var(--elements-main-text));
+    background-color: rgb(var(--elements-main-fg));
 }
 
 .component-filters-search {
@@ -38,5 +38,5 @@
 }
 
 .component-filters-box {
-    background-color: rgba(255, 255, 255, .75) !important;
+    background-color: rgba(var(--elements-main-fg), .75) !important;
 }

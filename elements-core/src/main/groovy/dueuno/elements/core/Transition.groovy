@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+import dueuno.elements.components.Link
 import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.types.Types
@@ -74,16 +75,17 @@ class Transition implements WebRequestAware {
     }
 
     void redirect(Map args) {
-        initializeWithRequestData(args)
+        ComponentEvent event = new ComponentEvent(args)
+        initializeWithRequestData(event)
         addCommand(
                 TransitionCommandMethod.REDIRECT,
                 null,
                 null,
-                new ComponentEvent(args).asMap(),
+                event.asMap(),
         )
     }
 
-    void initializeWithRequestData(Map componentEventData) {
+    void initializeWithRequestData(LinkDefinition componentEventData) {
         if (!componentEventData) {
             return
         }
@@ -133,10 +135,10 @@ class Transition implements WebRequestAware {
         )
     }
 
-    void append(String component, String newComponent) {
+    void append(String parentComponent, String newComponent) {
         addCommand(
                 TransitionCommandMethod.APPEND,
-                component,
+                parentComponent,
                 null,
                 newComponent,
         )
@@ -191,23 +193,23 @@ class Transition implements WebRequestAware {
         )
     }
 
-    void infoMessage(String msg, Map onClick = [:]) {
-        infoMessage('info', msg, [], onClick)
+    void infoMessage(String msg, ComponentEvent onClick = null) {
+        infoMessage('info', msg, null, onClick)
     }
 
-    void infoMessage(String msg, List msgArgs, Map onCLick = [:]) {
+    void infoMessage(String msg, List msgArgs, ComponentEvent onCLick = null) {
         infoMessage('info', msg, msgArgs, onCLick)
     }
 
-    void errorMessage(String msg, Map onCLick = [:]) {
-        infoMessage('error', msg, [], onCLick)
+    void errorMessage(String msg, ComponentEvent onCLick = null) {
+        infoMessage('error', msg, null, onCLick)
     }
 
-    void errorMessage(String msg, List msgArgs, Map onCLick = [:]) {
+    void errorMessage(String msg, List msgArgs, ComponentEvent onCLick = null) {
         infoMessage('error', msg, msgArgs, onCLick)
     }
 
-    void infoMessage(String type, String msg, List msgArgs = [], Map onClick = [:]) {
+    void infoMessage(String type, String msg, List msgArgs = [], ComponentEvent onClick = null) {
         String infoMessage = hasRequest()
                 ? message(msg, msgArgs)
                 : msg
@@ -215,27 +217,27 @@ class Transition implements WebRequestAware {
         Map args = [:]
         args.infoMessage = infoMessage
 
-        if (onClick.controller || onClick.action || onClick.url) {
+        if (onClick && (onClick.controller || onClick.action || onClick.url)) {
             initializeWithRequestData(onClick)
-            args.click = new ComponentEvent(onClick).asMap()
+            args.click = onClick.asMap()
         }
 
         call('messagebox', type, args)
     }
 
-    void confirmMessage(String msg, Map onClick) {
-        optionsMessage(msg, [], [:], onClick)
+    void confirmMessage(String msg, ComponentEvent onClickConfirm) {
+        optionsMessage(msg, [], null, onClickConfirm)
     }
 
-    void confirmMessage(String msg, List msgArgs, Map onClick) {
-        optionsMessage(msg, msgArgs, [:], onClick)
+    void confirmMessage(String msg, List msgArgs, ComponentEvent onClickConfirm) {
+        optionsMessage(msg, msgArgs, null, onClickConfirm)
     }
 
-    void optionsMessage(String msg, Map onOption1Click, Map onOption2Click) {
-        optionsMessage(msg, [], onOption1Click, onOption2Click)
+    void optionsMessage(String msg, ComponentEvent onClickCancel, ComponentEvent onClickConfirm) {
+        optionsMessage(msg, [], onClickCancel, onClickConfirm)
     }
 
-    void optionsMessage(String msg, List msgArgs, Map onOption1Click, Map onOption2Click) {
+    void optionsMessage(String msg, List msgArgs, ComponentEvent onClickCancel, ComponentEvent onClickConfirm) {
         String confirmMessage = hasRequest()
                 ? message(msg, msgArgs)
                 : msg
@@ -243,14 +245,14 @@ class Transition implements WebRequestAware {
         Map args = [:]
         args.confirmMessage = confirmMessage
 
-        if (onOption1Click.controller || onOption1Click.action || onOption1Click.url) {
-            initializeWithRequestData(onOption1Click)
-            args.option1Click = new ComponentEvent(onOption1Click).asMap()
+        if (onClickCancel && (onClickCancel.controller || onClickCancel.action || onClickCancel.url)) {
+            initializeWithRequestData(onClickCancel)
+            args.clickCancel = onClickCancel.asMap()
         }
 
-        if (onOption2Click.controller || onOption2Click.action || onOption2Click.url) {
-            initializeWithRequestData(onOption2Click)
-            args.option2Click = new ComponentEvent(onOption2Click).asMap()
+        if (onClickConfirm && (onClickConfirm.controller || onClickConfirm.action || onClickConfirm.url)) {
+            initializeWithRequestData(onClickConfirm)
+            args.clickConfirm = onClickConfirm.asMap()
         }
 
         call('messagebox', 'confirm', args)

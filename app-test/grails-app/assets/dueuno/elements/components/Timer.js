@@ -24,7 +24,9 @@ class Timer {
     }
 
     static onInterval($element) {
+        let timerId = Component.getProperty($element, 'timerId');
         let triggerEvent = Component.getEvent($element, 'interval');
+        triggerEvent.timerId = timerId;
         Transition.submit(triggerEvent);
     }
 

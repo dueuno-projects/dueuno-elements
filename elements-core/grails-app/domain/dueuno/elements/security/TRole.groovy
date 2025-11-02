@@ -14,6 +14,7 @@
  */
 package dueuno.elements.security
 
+import grails.compiler.GrailsCompileStatic
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
@@ -21,11 +22,15 @@ import org.grails.datastore.gorm.GormEntity
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 @EqualsAndHashCode(includes='authority')
 @ToString(includes='authority', includeNames=true, includePackage=false)
 class TRole implements GormEntity, Serializable {
 
     private static final long serialVersionUID = 1
+
+    Long id
 
     String authority
 

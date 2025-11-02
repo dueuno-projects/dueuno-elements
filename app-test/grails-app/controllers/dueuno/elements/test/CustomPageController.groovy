@@ -108,7 +108,7 @@ class CustomPageController implements ElementsController {
         try {
             status = new Random().nextInt(9 - 0 + 1) + 0
 
-        } catch (Exception e) {
+        } catch (Exception ignore) {
             status = '0'
         }
 

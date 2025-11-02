@@ -1,20 +1,21 @@
 .control-checkbox-simple .form-check-input {
-    border-radius: var(--bs-border-radius);
-    background-color: #f0f0f0;
-    border: .15rem solid #707070;
+    border-radius: 2rem;
+    background-color: rgb(var(--elements-main-bg));
+    border: .15rem solid rgb(var(--elements-secondary-bg));
     padding: 0;
     width: 1.3rem;
     height: 1.3rem;
 }
 
 .control-checkbox-simple .form-check-input:checked {
-    background-color: rgba(var(--elements-primary-bg), 1);
+    background-color: rgb(var(--elements-primary-bg));
     border: none;
 }
 
-.control-checkbox.input-group-text {
+.control-checkbox.input-group-text,
+.input-group:has([readonly], [disabled]) .control-checkbox.input-group-text {
     border-radius: var(--bs-border-radius-lg) !important;
-    color: #333333 !important;
+    color: rgb(var(--elements-main-text)) !important;
     width: 100%;
     font-weight: normal;
     text-align: left;
@@ -61,6 +62,7 @@
 
 .help .control-checkbox .form-switch .form-check-input {
     right: calc(1rem + 1rem * 1.6);
+    border-radius: 2rem;
 }
 
 .control-checkbox .form-switch .form-check-input:checked {
@@ -76,7 +78,7 @@
 }
 
 .control-checkbox .form-switch .form-check-input:focus-visible {
-    box-shadow: 0 0 0 .25rem rgba(var(--elements-primary-bg-shaded));
+    box-shadow: 0 0 0 .25rem rgb(var(--elements-primary-bg-shaded));
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(132,132,132,1)'/></svg>");
 }
 .control-checkbox .form-switch .form-check-input:checked {

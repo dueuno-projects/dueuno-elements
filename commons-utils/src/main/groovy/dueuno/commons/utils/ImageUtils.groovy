@@ -16,6 +16,8 @@ package dueuno.commons.utils
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.rendering.PDFRenderer
 
 import javax.imageio.ImageIO
 import java.awt.*
@@ -47,7 +49,7 @@ class ImageUtils {
      * @param pathname The pathname of the file to save
      * @param format File format, it may be 'gif', 'png' or 'jpg'
      */
-    static void save(BufferedImage image, String pathname, ImageUtilsFormat format) {
+    static void save(BufferedImage image, String pathname, ImageUtilsFormat format = getFormatFromFilename(pathname)) {
         File file = new File(pathname)
 
         try {
@@ -58,33 +60,29 @@ class ImageUtils {
         }
     }
 
-    static BufferedImage resize(BufferedImage image , Integer width, Integer height = -1 /* auto calculate height by default */) {
-        /**
-         * SCALE_AREA_AVERAGING
-         * SCALE_DEFAULT
-         * SCALE_FAST
-         * SCALE_REPLICATE
-         * SCALE_SMOOTH
-         */
-        Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH)
-        return convertToBufferedImage(resizedImage)
+    /**
+     * Returns a byte[] from a BufferedImage
+     *
+     * @param image The image
+     * @param format File format, it may be 'gif', 'png' or 'jpg'
+     */
+    static byte[] toByteArray(BufferedImage image, ImageUtilsFormat format) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        ImageIO.write(image, format.extension, baos)
+        return baos.toByteArray()
     }
 
-    private static BufferedImage convertToBufferedImage(Image img) {
-        if (img instanceof BufferedImage) {
-            return (BufferedImage) img
-        }
+    static BufferedImage scaleWidth(BufferedImage image , Integer width) {
+        return resize(image, width, -1)
+    }
 
-        // Create a buffered image with transparency
-        BufferedImage bi = new BufferedImage(
-                img.getWidth(null), img.getHeight(null),
-                BufferedImage.TYPE_INT_RGB)
+    static BufferedImage scaleHeight(BufferedImage image , Integer height) {
+        return resize(image, -1, height)
+    }
 
-        Graphics2D graphics2D = bi.createGraphics()
-        graphics2D.drawImage(img, 0, 0, null)
-        graphics2D.dispose()
-
-        return bi
+    static BufferedImage resize(BufferedImage image , Integer width, Integer height = -1 /* auto calculate height by default */) {
+        Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH)
+        return imageToBufferedImage(resizedImage)
     }
 
     static BufferedImage rotate(BufferedImage bi, Boolean right = true) {
@@ -102,6 +100,34 @@ class ImageUtils {
         g2d.dispose()
 
         return rotated
+    }
+
+    static BufferedImage generatePdfPreview(String pathname, Integer dpi = 300) {
+        PDDocument pd = PDDocument.load(new File(pathname))
+        PDFRenderer pr = new PDFRenderer(pd)
+        return pr.renderImageWithDPI(0, dpi)
+    }
+
+    static ImageUtilsFormat getFormatFromFilename(String filename) {
+        String extension = FileUtils.stripExtension(filename)
+        return ImageUtilsFormat.get(extension)
+    }
+
+    private static BufferedImage imageToBufferedImage(Image img) {
+        if (img instanceof BufferedImage) {
+            return (BufferedImage) img
+        }
+
+        // Create a buffered image with transparency
+        BufferedImage bi = new BufferedImage(
+                img.getWidth(null), img.getHeight(null),
+                BufferedImage.TYPE_INT_RGB)
+
+        Graphics2D graphics2D = bi.createGraphics()
+        graphics2D.drawImage(img, 0, 0, null)
+        graphics2D.dispose()
+
+        return bi
     }
 
 }

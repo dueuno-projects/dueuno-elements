@@ -42,9 +42,9 @@ class Login extends Page {
 
         if (event.target.tagName == 'INPUT') {
             if (printable && !isModifierPressed && checkMinTime) {
-                $(event.target).css('color', 'rgb(var(--elements-tertiary-bg))');
+                $(event.target).css('color', 'rgb(var(--elements-main-bg))');
             } else {
-                $(event.target).css('color', 'rgb(var(--elements-tertiary-text))');
+                $(event.target).css('color', 'rgb(var(--elements-main-text))');
             }
         }
 

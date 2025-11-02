@@ -42,10 +42,10 @@ class Link extends Label {
         }
 
         if (componentEvent['confirmMessage']) {
-            let option2EventData = Object.assign({}, componentEvent);
+            let confirmEventData = Object.assign({}, componentEvent);
             PageMessageBox.confirm(null, {
-                confirmMessage: option2EventData.confirmMessage,
-                option2Click: option2EventData,
+                confirmMessage: confirmEventData.confirmMessage,
+                clickConfirm: confirmEventData,
             });
 
         } else if (componentEvent['infoMessage']) {

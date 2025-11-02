@@ -15,14 +15,14 @@
 .progress .progress-line{
     position: absolute;
     opacity: .4;
-    background: #3465a4;
+    background: rgb(var(--elements-primary-bg));
     width: 150%;
     height: 20px;
 }
 
 .progress .progress-subline{
     position: absolute;
-    background: #3465a4;
+    background: rgb(var(--elements-primary-bg));
     height: 20px;
 }
 

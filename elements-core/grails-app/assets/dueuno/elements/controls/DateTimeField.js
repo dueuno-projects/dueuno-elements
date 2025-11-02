@@ -37,7 +37,7 @@ class DateTimeField extends Control {
         let td = $element.data('td');
         td.updateOptions(initOptions);
 
-        $element.off('focus').on('focus', Control.onFocus);
+        $element.off('focus').on('focus', DateTimeField.onFocus);
         $element.off('paste').on('paste', Control.onPaste);
         $element.off('keypress').on('keypress', DateTimeField.onKeyPress);
         $element.off('change.td').on('change.td', DateTimeField.onChange);
@@ -110,6 +110,15 @@ class DateTimeField extends Control {
         return dateTime;
     }
 
+    static onFocus(event) {
+        let $element = $(event.currentTarget);
+        let isReadonly = Component.getReadonly($element);
+
+        if (!isReadonly) {
+            $element.select();
+        }
+    }
+
     static onError(event) {
         let $element = $(event.currentTarget).find('input');
         DateTimeField.setValue($element, {value: null}, false);
@@ -135,6 +144,7 @@ class DateTimeField extends Control {
 
     static onKeyPress(event) {
         if (event.key == 'Enter') {
+            event.preventDefault();
             TextField.onEnter(event);
             return;
         }

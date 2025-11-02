@@ -17,6 +17,7 @@ package dueuno.elements.contents
 import dueuno.elements.components.ShellService
 import dueuno.elements.core.Menu
 import dueuno.elements.core.WebRequestAware
+import dueuno.elements.pages.Shell
 
 /**
  * INTERNAL USE ONLY
@@ -35,7 +36,8 @@ class ContentHomeTagLib implements WebRequestAware {
      * INTERNAL USE ONLY. Returns the 'home' menu item that holds all of the session menu items.
      */
     def displayFavourites = { attrs ->
-        Menu parent = attrs.parent ?: shellService.shell.home.favouriteMenu
+        Shell shell = shellService.shell
+        Menu parent = attrs.parent ?: shell.home.favouriteMenu
         List<Menu> favourites = parent.items.findAll { !it.hasSubitems() }
 
         for (feature in favourites) {

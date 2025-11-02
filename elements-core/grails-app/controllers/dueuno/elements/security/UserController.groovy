@@ -198,14 +198,14 @@ class UserController implements ElementsController {
                 addField(
                         class: Select,
                         id: 'groups',
-                        optionsFromRecordset: securityService.listGroup([hideUsers: true]),
+                        optionsFromRecordset: securityService.listGroup(hideUsers: true),
                         search: false,
                         multiple: true,
                 )
                 addField(
                         class: Select,
                         id: 'defaultGroup',
-                        optionsFromRecordset: securityService.listGroup([hideUsers: true]),
+                        optionsFromRecordset: securityService.listGroup(),
                         search: false,
                 )
                 addField(
@@ -213,7 +213,7 @@ class UserController implements ElementsController {
                         id: 'sessionDuration',
                         prefix: 'min',
                         decimals: 0,
-                        defaultValue: tenantPropertyService.getNumber('DEFAULT_SESSION_DURATION'),
+                        defaultValue: tenantPropertyService.getNumber('SESSION_DEFAULT_DURATION'),
                         cols: 6,
                 )
                 addField(
@@ -221,7 +221,7 @@ class UserController implements ElementsController {
                         id: 'rememberMeDuration',
                         prefix: 'min',
                         decimals: 0,
-                        defaultValue: tenantPropertyService.getNumber('DEFAULT_REMEMBER_ME_DURATION'),
+                        defaultValue: tenantPropertyService.getNumber('REMEMBER_ME_DEFAULT_DURATION'),
                         cols: 6,
                 )
                 addField(
@@ -424,8 +424,8 @@ class UserController implements ElementsController {
             def tenant = tenantService.get(params.tenant)
             if (tenant) {
                 tenantService.withTenant(tenant.tenantId) {
-                    def sessionDuration = tenantPropertyService.getNumber('DEFAULT_SESSION_DURATION')
-                    def rememberMeDuration = tenantPropertyService.getNumber('DEFAULT_REMEMBER_ME_DURATION')
+                    def sessionDuration = tenantPropertyService.getNumber('SESSION_DEFAULT_DURATION')
+                    def rememberMeDuration = tenantPropertyService.getNumber('REMEMBER_ME_DEFAULT_DURATION')
                     t.setValue('sessionDuration',  sessionDuration)
                     t.setValue('rememberMeDuration',  rememberMeDuration)
                 }

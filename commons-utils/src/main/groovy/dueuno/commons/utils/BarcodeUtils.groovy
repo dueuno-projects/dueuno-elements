@@ -38,27 +38,27 @@ import java.awt.image.BufferedImage
 class BarcodeUtils {
 
     static BufferedImage generateEAN13(String code, Integer width, Integer height) {
-        encode(BarcodeFormat.EAN_13, code, width, height)
+        return encode(BarcodeFormat.EAN_13, code, width, height)
     }
 
     static BufferedImage generateUPCA(String code, Integer width, Integer height) {
-        encode(BarcodeFormat.UPC_A, code, width, height)
+        return encode(BarcodeFormat.UPC_A, code, width, height)
     }
 
     static BufferedImage generateCode128(String code, Integer width, Integer height) {
-        encode(BarcodeFormat.CODE_128, code, width, height)
+        return encode(BarcodeFormat.CODE_128, code, width, height)
     }
 
     static BufferedImage generateITF(String code, Integer width, Integer height) {
-        encode(BarcodeFormat.ITF, code, width, height)
+        return encode(BarcodeFormat.ITF, code, width, height)
     }
 
     static BufferedImage generateDataMatrix(String code, Integer width, Integer height) {
-        encode(BarcodeFormat.DATA_MATRIX, code, width, height)
+        return encode(BarcodeFormat.DATA_MATRIX, code, width, height)
     }
 
     static BufferedImage generateQRCode(String code, Integer width, Integer height) {
-        encode(BarcodeFormat.QR_CODE, code, width, height)
+        return encode(BarcodeFormat.QR_CODE, code, width, height)
     }
 
     static BufferedImage encode(BarcodeFormat format, String code, Integer width, Integer height, Map hints = [:]) {

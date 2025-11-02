@@ -41,7 +41,7 @@ class ServletController {
         try {
             servlet = (Servlet) Elements.getBean(servletName)
 
-        } catch (e) {
+        } catch (Exception ignore) {
             log.info "Cannot find a servlet called ${servletName}."
             render status: '404'
             return

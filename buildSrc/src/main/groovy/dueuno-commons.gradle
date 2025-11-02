@@ -1,0 +1,23 @@
+plugins {
+    id "groovy"
+    id "java-library"
+    id "maven-publish"
+    id "dueuno-asciidoctor"
+    id "dueuno-codenarc"
+    id "dueuno-publish"
+}
+
+group = projectGroup
+version = projectVersion
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.codehaus.groovy:groovy:${groovyVersion}"
+    implementation "org.codehaus.groovy:groovy-sql:${groovyVersion}"
+    implementation "org.codehaus.groovy:groovy-json:${groovyVersion}"
+    implementation "org.codehaus.groovy:groovy-templates:${groovyVersion}"
+    implementation "ch.qos.logback:logback-classic:1.2.12"
+}
