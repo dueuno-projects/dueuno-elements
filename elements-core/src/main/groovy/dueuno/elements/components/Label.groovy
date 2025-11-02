@@ -33,7 +33,7 @@ import java.time.temporal.Temporal
 @CompileStatic
 class Label extends Component {
 
-    String text
+    Object text
     String html
     String url
 
@@ -110,7 +110,7 @@ class Label extends Component {
         if (value == null) {
             text = buildLabel(id, prettyPrinterProperties)
 
-        } else if (value in String) {
+        } else if (value in String || prettyPrinterProperties.prettyPrinter) {
             text = value
 
         } else if (value in Boolean) {
@@ -130,7 +130,7 @@ class Label extends Component {
             text = (value as Map).collect { k, v -> "${k} = ${v}" }.join(', ')
 
         } else {
-            text = prettyPrint(value, prettyPrinterProperties)
+            text = value
         }
 
         if (value in Number && prettyPrinterProperties.highlightNegative) {
@@ -138,7 +138,7 @@ class Label extends Component {
         }
     }
 
-    String getPrettyText() {
+    String getText() {
         prettyPrinterProperties.locale = locale
         return prettyPrint(text, prettyPrinterProperties)
     }
@@ -177,7 +177,7 @@ class Label extends Component {
         html = value
     }
 
-    String getPrettyHtml() {
+    String getHtml() {
         prettyPrinterProperties.locale = locale
         return prettyPrint(html, prettyPrinterProperties)
     }

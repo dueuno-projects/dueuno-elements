@@ -49,6 +49,8 @@ class CrudController implements ElementsController {
             return "<i class='fa-fw fa-solid fa-building me-1'></i>${value.name.toUpperCase()}"
         }
 
+        applicationService.registerPrettyPrinter('PRETTY_MAP', '${it.a} ${it.b} ${it.c} ${it.d}')
+
 //        throw new Exception("ATTENZIONE!!!")
 
         def c = createContent(ContentTable)
@@ -159,6 +161,7 @@ class CrudController implements ElementsController {
                         'dateStart',
                         'dateEnd',
                         'active',
+                        'prettyMap',
                 ]
                 includeValues = [
                         'company.employees',
@@ -168,6 +171,9 @@ class CrudController implements ElementsController {
                         salaryPerMonth: [highlightNegative: false, renderZero: '-'],
                         name: [renderTextPrefix: true],
                 ]
+                prettyPrinters = [
+                        prettyMap: 'PRETTY_MAP',
+                ]
                 widths = [
                         company: 300,
                 ]
@@ -176,6 +182,7 @@ class CrudController implements ElementsController {
 //                sort = [name: 'desc']
 
                 body.eachRow { TableRow row, Map values ->
+                    values.prettyMap = [a: 'This', b: "is", c: "a", d: "Map"]
 //                    row.verticalAlign = VerticalAlign.TOP
                     row.cells.postcode.tag = true
 

@@ -15,9 +15,9 @@ When modifying this template, please update also:
       data-21-events="${c.eventsAsJSON}"
       ${c.cssStyleColors ? raw('style="' + c.cssStyleColors + '"') : ''}
 >
-    <g:if test="${c.html}">${raw(c.prettyHtml)}</g:if>
+    <g:if test="${c.html}">${raw(c.html)}</g:if>
     <g:else>
-        <% text = c.prettyText %>
+        <% text = c.text %>
         <g:if test="${c.tooltip}"><span ${raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + c.message(c.tooltip) + '"')}></g:if>
         <g:if test="${c.image}"><i><asset:image src="${c.image}" class="${text ? 'me-1' : ''} ${c.imageClass}"/></i></g:if>
         <g:elseif test="${c.icon}"><render:icon icon="${c.icon}" class="${c.icon && text ? 'me-1' : ''} ${c.iconFixedWidth ? 'fa-fw' : ''}"/></g:elseif>
