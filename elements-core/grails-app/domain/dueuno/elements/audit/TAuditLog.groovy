@@ -54,5 +54,6 @@ class TAuditLog implements GormEntity, MultiTenant<TAuditLog> {
         objectName nullable: true
         stateBefore nullable: true, maxSize: 4000
         stateAfter nullable: true, maxSize: 4000
+        digest nullable: true
     }
 }
