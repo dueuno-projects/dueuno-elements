@@ -34,7 +34,7 @@ class ElementsGrailsPlugin extends Plugin {
 
     static final String NAME = 'elements-core'
 
-    def version = '2.9.3'
+    def version = '2.9.4'
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = '6.2.0 > *'
     // resources that are excluded from plugin packaging
