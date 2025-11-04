@@ -162,6 +162,7 @@ class CrudController implements ElementsController {
                         'dateEnd',
                         'active',
                         'prettyMap',
+                        'prettyHtml',
                 ]
                 includeValues = [
                         'company.employees',
@@ -183,6 +184,7 @@ class CrudController implements ElementsController {
 
                 body.eachRow { TableRow row, Map values ->
                     values.prettyMap = [a: 'This', b: "is", c: "a", d: "Map"]
+                    row.cells.prettyHtml.html = 'table.cell.label.html'
 //                    row.verticalAlign = VerticalAlign.TOP
                     row.cells.postcode.tag = true
 
