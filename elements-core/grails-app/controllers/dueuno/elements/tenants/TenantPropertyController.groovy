@@ -134,7 +134,7 @@ class TenantPropertyController implements ElementsController {
                 }
 
                 if (values.type == PropertyType.PASSWORD) {
-                    values.value = '**********'
+                    values.value = '*******'
                 }
             }
         }
@@ -205,7 +205,6 @@ class TenantPropertyController implements ElementsController {
                     addField(
                             class: PasswordField,
                             id: 'value',
-                            help: 'tenantProperty.password.help',
                     )
                     break
 
@@ -343,10 +342,10 @@ class TenantPropertyController implements ElementsController {
 
         if (obj) {
             c.form.values = obj
-            c.form['value'].value = tenantPropertyService.getValue(obj.type, obj.name, true)
-
             if (obj.type == PropertyType.PASSWORD) {
-                c.form['value'].value = ''
+                c.form['value'].value = tenantPropertyService.getPassword(obj.name, true)
+            } else {
+                c.form['value'].value = tenantPropertyService.getValue(obj.type, obj.name, true)
             }
         }
 
@@ -396,7 +395,13 @@ class TenantPropertyController implements ElementsController {
             return
         }
 
-        tenantPropertyService.setValue(params.type as PropertyType, params.name, params.value)
+        if (params.type == 'PASSWORD') {
+            tenantPropertyService.setPassword(params.name, params.value)
+
+        } else {
+            tenantPropertyService.setValue(params.type as PropertyType, params.name, params.value)
+        }
+
         display action: 'index'
     }
 

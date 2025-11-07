@@ -14,6 +14,7 @@
  */
 package dueuno.elements.security
 
+import grails.compiler.GrailsCompileStatic
 import grails.gorm.DetachedCriteria
 import groovy.transform.ToString
 import org.codehaus.groovy.util.HashCodeHelper
@@ -22,6 +23,8 @@ import org.grails.datastore.gorm.GormEntity
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 @ToString(cache=true, includeNames=true, includePackage=false)
 class TRoleGroupRole implements GormEntity, Serializable {
 
@@ -55,7 +58,7 @@ class TRoleGroupRole implements GormEntity, Serializable {
     }
 
     static TRoleGroupRole get(long roleGroupId, long roleId) {
-        criteriaFor(roleGroupId, roleId).get()
+        criteriaFor(roleGroupId, roleId).get() as TRoleGroupRole
     }
 
     static boolean exists(long roleGroupId, long roleId) {
@@ -81,11 +84,11 @@ class TRoleGroupRole implements GormEntity, Serializable {
         }
     }
 
-    static int removeAll(TRole r) {
+    static Number removeAll(TRole r) {
         r == null ? 0 : TRoleGroupRole.where { role == r }.deleteAll()
     }
 
-    static int removeAll(TRoleGroup rg) {
+    static Number removeAll(TRoleGroup rg) {
         rg == null ? 0 : TRoleGroupRole.where { roleGroup == rg }.deleteAll()
     }
 }

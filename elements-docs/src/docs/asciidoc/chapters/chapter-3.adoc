@@ -26,8 +26,8 @@ class BootStrap {
     ApplicationService applicationService
 
     def init = {
-        applicationService.init {
 
+        applicationService.onInit {
             registerFeature(
                     controller: 'person',
                     icon: 'fa-user',

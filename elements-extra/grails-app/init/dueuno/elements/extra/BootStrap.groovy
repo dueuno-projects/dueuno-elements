@@ -15,7 +15,9 @@
 package dueuno.elements.extra
 
 import dueuno.elements.core.ApplicationService
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class BootStrap {
 
     ApplicationService applicationService

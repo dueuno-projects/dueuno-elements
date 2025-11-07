@@ -21,7 +21,7 @@ class BootStrap {
     ApplicationService applicationService
 
     def init = { servletContext ->
-        applicationService.init {
+        applicationService.onInit {
 
             registerPrettyPrinter('BOOK', '${it.title} - ${it.author}')
 

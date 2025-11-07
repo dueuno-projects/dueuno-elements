@@ -109,7 +109,7 @@ class BootStrap {
 
     def init = {
 
-        applicationService.onInstall { String tenantId ->
+        applicationService.onTenantInstall { String tenantId ->
             tenantPropertyService.setString('PRIMARY_BACKGROUND_COLOR', '#018B84')
             tenantPropertyService.setNumber('PRIMARY_BACKGROUND_COLOR_ALPHA', 0.25)
             tenantPropertyService.setString('LOGIN_COPY', '2024 &copy; <a href="https://my-company.com" target="_blank">My Company</a><br/>Made in Italy')

@@ -15,16 +15,21 @@
 package dueuno.elements.security
 
 import dueuno.elements.tenants.TTenant
+import grails.compiler.GrailsCompileStatic
 import groovy.transform.EqualsAndHashCode
 import org.grails.datastore.gorm.GormEntity
 
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 @EqualsAndHashCode(includes='username')
 class TUser implements GormEntity, Serializable {
 
     private static final long serialVersionUID = 1
+
+    Long id
 
     TTenant tenant
     String apiKey
@@ -82,11 +87,11 @@ class TUser implements GormEntity, Serializable {
     }
 
     // Alias for the required getAuthorities() that better fits our naming structure
-    Set<TRoleGroup> getGroups() {
+    List<TRoleGroup> getGroups() {
         getAuthorities()
     }
 
-    Set<TRoleGroup> getAuthorities() {
+    List<TRoleGroup> getAuthorities() {
         TUserRoleGroup.findAllByUser(this)*.roleGroup
     }
 

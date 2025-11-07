@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+import grails.compiler.GrailsCompileStatic
 import org.grails.datastore.gorm.GormEntity
 
 import java.time.LocalDateTime
@@ -21,7 +22,11 @@ import java.time.LocalDateTime
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 class TSystemInstall implements GormEntity {
+
+    Long id
 
     LocalDateTime dateCreated
 

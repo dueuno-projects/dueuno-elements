@@ -14,12 +14,15 @@
  */
 package dueuno.elements.components
 
+import grails.compiler.GrailsCompileStatic
 import grails.gorm.MultiTenant
 import org.grails.datastore.gorm.GormEntity
 
 /**
  * @author Gianluca Sartori
  */
+
+@GrailsCompileStatic
 class TShellDashboardItem implements GormEntity, MultiTenant<TShellDashboardItem> {
 
     String username

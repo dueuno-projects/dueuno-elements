@@ -122,7 +122,7 @@ class ConnectionSourceService {
                 'url'                   : connectionSource.url,
                 'username'              : connectionSource.username,
                 'password'              : connectionSource.password,
-        ] as Map<String, Object>)
+        ] as Map)
     }
 
     @CompileDynamic

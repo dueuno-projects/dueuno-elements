@@ -16,12 +16,14 @@ package dueuno.elements.types
 
 import dueuno.elements.tenants.TenantPropertyService
 import grails.gorm.multitenancy.CurrentTenant
+import groovy.transform.CompileStatic
 
 /**
  * @author Gianluca Sartori
  */
 
 @CurrentTenant
+@CompileStatic
 class QuantityService {
 
     TenantPropertyService tenantPropertyService
@@ -29,11 +31,11 @@ class QuantityService {
     List<String> listUnitByOffset(Integer offset = 0, Integer max = 0, List<String> unitList = null) {
         if (!unitList) unitList = QuantityUnit.values()*.name()
 
-        List<QuantityUnit> results = []
+        List<String> results = []
         def i = 0
         for (unit in unitList) {
             if (i >= offset && (max == 0 || i < offset + max)) {
-                results.add unit
+                results.add(unit)
             }
             i++
         }
@@ -56,7 +58,7 @@ class QuantityService {
     List<String> listUnit() {
         String units = tenantPropertyService.getString('UNIT')
         if (units) {
-            return units.split(',')
+            return units.split(',') as List<String>
         } else {
             return []
         }
@@ -77,7 +79,7 @@ class QuantityService {
     List<String> listUnitMass() {
         String units = tenantPropertyService.getString('UNIT_MASS')
         if (units) {
-            return units.split(',')
+            return units.split(',') as List<String>
         } else {
             return []
         }
@@ -98,7 +100,7 @@ class QuantityService {
     List<String> listUnitLength() {
         String units = tenantPropertyService.getString('UNIT_LENGTH')
         if (units) {
-            return units.split(',')
+            return units.split(',') as List<String>
         } else {
             return []
         }
@@ -119,7 +121,7 @@ class QuantityService {
     List<String> listUnitArea() {
         String units = tenantPropertyService.getString('UNIT_AREA')
         if (units) {
-            return units.split(',')
+            return units.split(',') as List<String>
         } else {
             return []
         }
@@ -140,7 +142,7 @@ class QuantityService {
     List<String> listUnitVolume() {
         String units = tenantPropertyService.getString('UNIT_VOLUME')
         if (units) {
-            return units.split(',')
+            return units.split(',') as List<String>
         } else {
             return []
         }
@@ -161,7 +163,7 @@ class QuantityService {
     List<String> listUnitVolumeLitre() {
         String units = tenantPropertyService.getString('UNIT_LITRE')
         if (units) {
-            return units.split(',')
+            return units.split(',') as List<String>
         } else {
             return []
         }
@@ -182,7 +184,7 @@ class QuantityService {
     List<String> listUnitTime() {
         String units = tenantPropertyService.getString('UNIT_TIME')
         if (units) {
-            return units.split(',')
+            return units.split(',') as List<String>
         } else {
             return []
         }
@@ -203,7 +205,7 @@ class QuantityService {
     List<String> listUnitPower() {
         String units = tenantPropertyService.getString('UNIT_POWER')
         if (units) {
-            return units.split(',')
+            return units.split(',') as List<String>
         } else {
             return []
         }
@@ -224,7 +226,7 @@ class QuantityService {
     List<String> listUnitEnergy() {
         String units = tenantPropertyService.getString('UNIT_ENERGY')
         if (units) {
-            return units.split(',')
+            return units.split(',') as List<String>
         } else {
             return []
         }
