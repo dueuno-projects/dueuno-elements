@@ -395,7 +395,7 @@ class TenantPropertyController implements ElementsController {
             return
         }
 
-        if (params.type = 'PASSWORD') {
+        if (params.type == 'PASSWORD') {
             tenantPropertyService.setPassword(params.name, params.value)
 
         } else {
