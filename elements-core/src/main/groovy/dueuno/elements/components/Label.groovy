@@ -20,11 +20,7 @@ import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
-import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
-
-import java.time.LocalDate
-import java.time.temporal.Temporal
 
 /**
  * @author Gianluca Sartori
@@ -107,34 +103,27 @@ class Label extends Component {
     }
 
     void setText(Object value) {
-        if (value == null) {
-            text = buildLabel(id, prettyPrinterProperties)
+        switch (value) {
+            case null:
+                text = buildLabel(id, prettyPrinterProperties)
+                break
 
-        } else if (value in String || prettyPrinterProperties.prettyPrinter) {
-            text = value
-
-        } else if (value in Boolean) {
-            if (prettyPrinterProperties.renderBoolean) {
-                text = ''
-                if (value) {
-                    icon = 'fa-solid fa-check'
+            case Boolean:
+                if (prettyPrinterProperties.renderBoolean) {
+                    if (value) icon = 'fa-solid fa-check'
+                    text = ''
                 }
-            } else {
+                break
+
+            case Number:
+                if (prettyPrinterProperties.highlightNegative) {
+                    if ((value as Number) < 0) textColor = '#cc0000'
+                    text = value
+                }
+                break
+
+            default:
                 text = value
-            }
-
-        } else if (value in List) {
-            text = (value as List).join(', ')
-
-        } else if (value in Map) {
-            text = (value as Map).collect { k, v -> "${k} = ${v}" }.join(', ')
-
-        } else {
-            text = value
-        }
-
-        if (value in Number && prettyPrinterProperties.highlightNegative) {
-            if ((value as Number) < 0) textColor = '#cc0000'
         }
     }
 
