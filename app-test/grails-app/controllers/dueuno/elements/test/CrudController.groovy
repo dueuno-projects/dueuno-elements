@@ -163,6 +163,7 @@ class CrudController implements ElementsController {
                         'active',
                         'prettyMap',
                         'prettyHtml',
+                        'prettyObjectList',
                 ]
                 includeValues = [
                         'company.employees',
@@ -184,6 +185,7 @@ class CrudController implements ElementsController {
 
                 body.eachRow { TableRow row, Map values ->
                     values.prettyMap = [a: 'This', b: "is", c: "a", d: "Map"]
+                    values.prettyObjectList = [new TCompany(name: 'Company 1'), new TCompany(name: 'Company 2')]
                     row.cells.prettyHtml.html = 'table.cell.label.html'
 //                    row.verticalAlign = VerticalAlign.TOP
                     row.cells.postcode.tag = true
