@@ -27,6 +27,7 @@ import org.apache.hc.client5.http.ssl.NoopHostnameVerifier
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder
 import org.apache.hc.client5.http.ssl.TrustAllStrategy
+import org.apache.hc.core5.http.ClassicHttpResponse
 import org.apache.hc.core5.http.ContentType
 import org.apache.hc.core5.http.HttpEntity
 import org.apache.hc.core5.http.io.entity.EntityUtils
@@ -142,135 +143,147 @@ class HttpClient {
      * @throws Exception if the body object cannot be serialized to JSON
      */
     private static HttpUriRequestBase buildHttpRequest(HttpRequest request) {
-        String url = request.buildUrl()
-
         HttpUriRequestBase httpRequest
         switch (request.method) {
-            case HttpMethod.GET: httpRequest = new HttpGet(url); break
-            case HttpMethod.POST: httpRequest = new HttpPost(url); break
-            case HttpMethod.PUT: httpRequest = new HttpPut(url); break
-            case HttpMethod.PATCH: httpRequest = new HttpPatch(url); break
-            case HttpMethod.DELETE: httpRequest = new HttpDelete(url); break
+            case HttpMethod.GET: httpRequest = new HttpGet(request.url); break
+            case HttpMethod.POST: httpRequest = new HttpPost(request.url); break
+            case HttpMethod.PUT: httpRequest = new HttpPut(request.url); break
+            case HttpMethod.PATCH: httpRequest = new HttpPatch(request.url); break
+            case HttpMethod.DELETE: httpRequest = new HttpDelete(request.url); break
             default: throw new IllegalArgumentException("Unsupported HTTP method: ${request.method}")
         }
 
-        request.headers.each { k, v -> httpRequest.setHeader(k, v) }
+        for (header in request.headers) {
+            httpRequest.setHeader(header)
+        }
 
         if (request.body == null) {
             return httpRequest
         }
 
-        switch (request.body) {
+        def body = request.body
+        if (body == null) {
+            return httpRequest
+        }
+
+        switch (body) {
             case HttpEntity:
-                httpRequest.entity = request.body as HttpEntity
+                httpRequest.entity = body as HttpEntity
                 break
 
             case String:
-                ContentType contentType = ContentType.parse(request.headers["Content-Type"])
-                httpRequest.entity = new StringEntity(request.body as String, contentType)
+                ContentType contentType = request.hasHeader("Content-Type")
+                        ? ContentType.parse(request.hasHeader("Content-Type").value)
+                        : ContentType.TEXT_PLAIN
+                httpRequest.entity = new StringEntity(body as String, contentType)
 
-                if (!request.headers["Accept"]) {
+                if (!request.hasHeader("Accept")) {
                     httpRequest.setHeader("Accept", ContentType.TEXT_PLAIN.mimeType)
                 }
-                if (!request.headers["Content-Type"]) {
+                if (!request.hasHeader("Content-Type")) {
                     httpRequest.setHeader("Content-Type", ContentType.TEXT_PLAIN.mimeType)
                 }
                 break
 
             default:
                 try {
-                    String jsonBody = JsonOutput.toJson(request.body)
-                    ContentType contentType = ContentType.parse(request.headers["Content-Type"])
+                    String jsonBody = JsonOutput.toJson(body)
+                    ContentType contentType = request.hasHeader("Content-Type")
+                            ? ContentType.parse(request.hasHeader("Content-Type").value)
+                            : ContentType.APPLICATION_JSON
                     httpRequest.entity = new StringEntity(jsonBody, contentType)
 
-                    if (!request.headers["Accept"]) {
+                    if (!request.hasHeader("Accept")) {
                         httpRequest.setHeader("Accept", ContentType.APPLICATION_JSON.mimeType)
                     }
-                    if (!request.headers["Content-Type"]) {
+                    if (!request.hasHeader("Content-Type")) {
                         httpRequest.setHeader("Content-Type", ContentType.APPLICATION_JSON.mimeType)
                     }
 
                 } catch (Exception e) {
-                    throw new Exception("Body of type '${request.body.getClass()}' is not supported: ${e.message ?: e.cause.message}")
+                    throw new Exception("Body of type '${body.getClass()}' is not supported: ${e.message ?: e.cause.message}")
                 }
         }
 
         return httpRequest
     }
 
-    /**
-     * Executes the HTTP request and returns the response body as a String.
-     *
-     * @param client The {@link CloseableHttpClient} to execute the request
-     * @param request The {@link HttpRequest} object
-     * @return Response body as String
-     * @throws Exception if the request fails
-     */
-    static String call(CloseableHttpClient client, HttpRequest request) {
+    static HttpResponse call(CloseableHttpClient client, HttpRequest request, HttpResponseType responseType = HttpResponseType.MAP) {
         HttpUriRequestBase httpRequest = buildHttpRequest(request)
 
-        return client.execute(httpRequest) { response ->
-            String bodyText = response.entity ? EntityUtils.toString(response.entity) : ""
-            return bodyText
-        }
-    }
-
-    /**
-     * Executes the HTTP request and parses the JSON response into a Map.
-     *
-     * @param client The {@link CloseableHttpClient} to execute the request
-     * @param request The {@link HttpRequest} object
-     * @return Parsed JSON as Map, or null if the response body is empty
-     * @throws Exception if the response is not valid JSON
-     */
-    static Map callAsMap(CloseableHttpClient client, HttpRequest request) {
-        String responseText = call(client, request)
-        if (!responseText) {
-            return null
-        }
-
-        try {
-            Object parsed = new JsonSlurper().parseText(responseText)
-            if (parsed in Map) {
-                return parsed as Map
-            } else {
-                throw new Exception("Invalid JSON response.\nBody: ${responseText}")
-            }
-
-        } catch (Exception e) {
-            throw new Exception("Invalid JSON response: ${e.message}\nBody: ${responseText}")
-        }
-    }
-
-    /**
-     * Executes the HTTP request and returns the response as a byte array.
-     *
-     * @param client The {@link CloseableHttpClient} to execute the request
-     * @param request The {@link HttpRequest} object
-     * @return Response body as byte array
-     * @throws Exception if the HTTP status is not in the 2xx range
-     */
-    static byte[] callAsBytes(CloseableHttpClient client, HttpRequest request) {
-        HttpUriRequestBase httpRequest = buildHttpRequest(request)
-
-        if (!request.headers.containsKey("Accept")) {
+        if (!request.hasHeader("Accept")) {
             httpRequest.setHeader("Accept", "*/*")
         }
 
-        return client.execute(httpRequest) { response ->
-            int status = response.code
-            byte[] bytes = response.entity ? EntityUtils.toByteArray(response.entity) : new byte[0]
-
-            if (status >= 200 && status < 300) {
-                return bytes
-            } else {
-                String errorText = ""
-                try {
-                    errorText = new String(bytes)
-                } catch (ignored) {
+        try {
+            return client.execute(httpRequest) { response ->
+                switch (responseType) {
+                    case HttpResponseType.STRING: return handleStringResponse(response)
+                    case HttpResponseType.MAP: return handleMapResponse(response)
+                    case HttpResponseType.BYTES: return handleBytesResponse(response)
+                    default: throw new IllegalArgumentException("Unsupported ResponseType: $responseType")
                 }
-                throw new Exception("HTTP Error: ${status} - ${errorText}")
             }
+
+        } catch (Exception e) {
+            return HttpResponse.error(-1, e.message, null, null)
         }
     }
+
+    static HttpResponse download(CloseableHttpClient client, HttpRequest request) {
+        return call(client, request, HttpResponseType.BYTES)
+    }
+
+    private static HttpResponse handleStringResponse(ClassicHttpResponse response) {
+        Integer status = response.code
+        String raw = response.entity ? EntityUtils.toString(response.entity) : ''
+
+        if (status >= 200 && status < 300) {
+            return HttpResponse.success(status, response.headers, raw)
+        } else {
+            return HttpResponse.error(status, "HTTP error $status", response.headers, raw)
+        }
+    }
+
+    private static HttpResponse handleMapResponse(ClassicHttpResponse response) {
+        Integer status = response.code
+        String json = response.entity ? EntityUtils.toString(response.entity) : ''
+
+        if (status >= 200 && status < 300) {
+            if (!json) {
+                return HttpResponse.success(status, response.headers, [:])
+            }
+
+            try {
+                Object parsed = new JsonSlurper().parseText(json)
+                if (parsed instanceof Map) {
+                    return HttpResponse.success(status, response.headers, parsed as Map)
+                } else {
+                    return HttpResponse.error(status, "JSON is not a Map", response.headers, json)
+                }
+
+            } catch (Exception e) {
+                return HttpResponse.error(status, "Invalid JSON: ${e.message}", response.headers, json)
+            }
+
+        } else {
+            return HttpResponse.error(status, "HTTP error $status", response.headers, json)
+        }
+    }
+
+    private static HttpResponse handleBytesResponse(ClassicHttpResponse response) {
+        int status = response.code
+        byte[] bytes = response.entity ? EntityUtils.toByteArray(response.entity) : new byte[0]
+
+        if (status >= 200 && status < 300) {
+            return HttpResponse.success(status, response.headers, bytes)
+        } else {
+            String errorText = ''
+            try {
+                errorText = new String(bytes)
+            } catch (ignored) { }
+            return HttpResponse.error(status, "HTTP error $status", response.headers, errorText)
+        }
+    }
+
 }
