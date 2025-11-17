@@ -27,6 +27,7 @@ import org.apache.hc.client5.http.ssl.NoopHostnameVerifier
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder
 import org.apache.hc.client5.http.ssl.TrustAllStrategy
+import org.apache.hc.core5.http.ClassicHttpResponse
 import org.apache.hc.core5.http.ContentType
 import org.apache.hc.core5.http.HttpEntity
 import org.apache.hc.core5.http.io.entity.EntityUtils
@@ -37,29 +38,19 @@ import org.apache.hc.core5.util.Timeout
 import javax.net.ssl.SSLContext
 
 /**
- * Utility class for executing HTTP requests using Apache HttpClient 5.
- * <p>
- * Provides static methods for performing standard REST operations (GET, POST, PUT, PATCH, DELETE)
- * with support for JSON payloads, plain text, and multipart bodies.
- * <p>
- * This class allows configuring connection and response timeouts, custom headers
- * (e.g., Authorization tokens), and automatic JSON serialization/deserialization.
- * </p>
+ * Utility class providing simplified HTTP communication using Apache HttpClient.
+ * Supports building and executing HTTP requests with JSON, text, or byte responses.
+ * NOTE: We use Apache HttpClient 5 for compatibility with SAP BTP.
  *
- * <p>Typical usage:</p>
- * <pre>{@code
- * def client = HttpClient.create(30)
- * def headers = ['Authorization': 'Bearer myToken']
- * def response = HttpClient.callAsJson(client, "https://api.example.com/data", HttpRequest.get("/endpoint").headers(headers))
- *}</pre>
- *
- * <p>Features:</p>
- * <ul>
- *   <li>Configurable connection, request, and response timeouts</li>
- *   <li>Automatic JSON serialization/deserialization for request and response bodies</li>
- *   <li>Support for custom headers including Authorization tokens</li>
- *   <li>Exception handling for non-2xx HTTP responses</li>
- * </ul>
+ * <p><b>Example usage:</b></p>
+ * <pre>
+ * CloseableHttpClient client = HttpClient.create(30, false)
+ * HttpRequest request = HttpRequest.GET("https://example.com/data")
+ * HttpResponse response = HttpClient.call(client, request)
+ * if (response.ok) {
+ *     println response.body
+ * }
+ * </pre>
  *
  * @author Gianluca Sartori
  */
@@ -67,23 +58,28 @@ import javax.net.ssl.SSLContext
 class HttpClient {
 
     /**
-     * Creates a reusable {@link CloseableHttpClient} with configurable timeouts.
+     * Creates a configured {@link CloseableHttpClient} instance.
      *
-     * @param timeoutSeconds Timeout in seconds for connection request and response (default 30s)
-     * @param forceCertificateVerification If true, enforces SSL certificate validation; if false, trusts all certificates
-     * @return A configured {@link CloseableHttpClient} instance
+     * @param timeoutSeconds timeout in seconds for both connection request and response
+     * @param forceCertificateVerification whether SSL certificate verification should be enforced
+     * @return a configured {@link CloseableHttpClient}
+     *
+     * <p><b>Example:</b></p>
+     * <pre>
+     * CloseableHttpClient client = HttpClient.create(10, true)
+     * </pre>
      */
-    static CloseableHttpClient create(Integer timeoutSeconds = 30, Boolean forceCertificateVerification = false) {
+    static CloseableHttpClient create(Integer timeoutSeconds = 30, Boolean forceCertificateVerification = true) {
         return forceCertificateVerification
                 ? createValidCertHttpClient(timeoutSeconds)
                 : createNoCertHttpClient(timeoutSeconds)
     }
 
     /**
-     * Creates a {@link CloseableHttpClient} with SSL certificate verification enabled.
+     * Creates an HTTP client that validates SSL certificates.
      *
-     * @param timeoutSeconds Timeout in seconds for connection request and response
-     * @return A {@link CloseableHttpClient} instance
+     * @param timeoutSeconds timeout in seconds
+     * @return a client with SSL certificate validation enabled
      */
     private static CloseableHttpClient createValidCertHttpClient(Integer timeoutSeconds) {
         RequestConfig requestConfig = RequestConfig.custom()
@@ -97,11 +93,10 @@ class HttpClient {
     }
 
     /**
-     * Creates a {@link CloseableHttpClient} that disables SSL certificate verification and hostname checks.
-     * Useful for testing against servers with self-signed certificates.
+     * Creates an HTTP client that accepts all SSL certificates.
      *
-     * @param timeoutSeconds Timeout in seconds for connection request and response
-     * @return A {@link CloseableHttpClient} instance
+     * @param timeoutSeconds timeout in seconds
+     * @return a client with SSL certificate validation disabled
      */
     private static CloseableHttpClient createNoCertHttpClient(Integer timeoutSeconds) {
         SSLContext sslContext = SSLContextBuilder.create()
@@ -131,67 +126,72 @@ class HttpClient {
     }
 
     /**
-     * Builds an {@link HttpUriRequestBase} from a {@link HttpRequest} object,
-     * setting headers, query parameters, and body.
-     * <p>
-     * Automatically handles JSON serialization and content type defaults for String or object bodies.
-     * </p>
+     * Builds an Apache HttpClient request object from a custom {@link HttpRequest}.
+     * Supports String bodies, JSON bodies, and {@link HttpEntity} bodies.
      *
-     * @param request The {@link HttpRequest} containing method, URL, headers, query, and body
-     * @return Configured {@link HttpUriRequestBase} instance
-     * @throws Exception if the body object cannot be serialized to JSON
+     * @param request the custom request definition
+     * @return a constructed {@link HttpUriRequestBase}
      */
     private static HttpUriRequestBase buildHttpRequest(HttpRequest request) {
-        String url = request.buildUrl()
-
         HttpUriRequestBase httpRequest
         switch (request.method) {
-            case HttpMethod.GET: httpRequest = new HttpGet(url); break
-            case HttpMethod.POST: httpRequest = new HttpPost(url); break
-            case HttpMethod.PUT: httpRequest = new HttpPut(url); break
-            case HttpMethod.PATCH: httpRequest = new HttpPatch(url); break
-            case HttpMethod.DELETE: httpRequest = new HttpDelete(url); break
+            case HttpMethod.GET: httpRequest = new HttpGet(request.url); break
+            case HttpMethod.POST: httpRequest = new HttpPost(request.url); break
+            case HttpMethod.PUT: httpRequest = new HttpPut(request.url); break
+            case HttpMethod.PATCH: httpRequest = new HttpPatch(request.url); break
+            case HttpMethod.DELETE: httpRequest = new HttpDelete(request.url); break
             default: throw new IllegalArgumentException("Unsupported HTTP method: ${request.method}")
         }
 
-        request.headers.each { k, v -> httpRequest.setHeader(k, v) }
+        for (header in request.headers) {
+            httpRequest.setHeader(header)
+        }
 
         if (request.body == null) {
             return httpRequest
         }
 
-        switch (request.body) {
+        def body = request.body
+        if (body == null) {
+            return httpRequest
+        }
+
+        switch (body) {
             case HttpEntity:
-                httpRequest.entity = request.body as HttpEntity
+                httpRequest.entity = body as HttpEntity
                 break
 
             case String:
-                ContentType contentType = ContentType.parse(request.headers["Content-Type"])
-                httpRequest.entity = new StringEntity(request.body as String, contentType)
+                ContentType contentType = request.hasHeader("Content-Type")
+                        ? ContentType.parse(request.hasHeader("Content-Type").value)
+                        : ContentType.TEXT_PLAIN
+                httpRequest.entity = new StringEntity(body as String, contentType)
 
-                if (!request.headers["Accept"]) {
+                if (!request.hasHeader("Accept")) {
                     httpRequest.setHeader("Accept", ContentType.TEXT_PLAIN.mimeType)
                 }
-                if (!request.headers["Content-Type"]) {
+                if (!request.hasHeader("Content-Type")) {
                     httpRequest.setHeader("Content-Type", ContentType.TEXT_PLAIN.mimeType)
                 }
                 break
 
             default:
                 try {
-                    String jsonBody = JsonOutput.toJson(request.body)
-                    ContentType contentType = ContentType.parse(request.headers["Content-Type"])
+                    String jsonBody = JsonOutput.toJson(body)
+                    ContentType contentType = request.hasHeader("Content-Type")
+                            ? ContentType.parse(request.hasHeader("Content-Type").value)
+                            : ContentType.APPLICATION_JSON
                     httpRequest.entity = new StringEntity(jsonBody, contentType)
 
-                    if (!request.headers["Accept"]) {
+                    if (!request.hasHeader("Accept")) {
                         httpRequest.setHeader("Accept", ContentType.APPLICATION_JSON.mimeType)
                     }
-                    if (!request.headers["Content-Type"]) {
+                    if (!request.hasHeader("Content-Type")) {
                         httpRequest.setHeader("Content-Type", ContentType.APPLICATION_JSON.mimeType)
                     }
 
                 } catch (Exception e) {
-                    throw new Exception("Body of type '${request.body.getClass()}' is not supported: ${e.message ?: e.cause.message}")
+                    throw new Exception("Body of type '${body.getClass()}' is not supported: ${e.message ?: e.cause.message}")
                 }
         }
 
@@ -199,78 +199,89 @@ class HttpClient {
     }
 
     /**
-     * Executes the HTTP request and returns the response body as a String.
+     * Executes an HTTP request and returns a structured {@link HttpResponse}.
      *
-     * @param client The {@link CloseableHttpClient} to execute the request
-     * @param request The {@link HttpRequest} object
-     * @return Response body as String
-     * @throws Exception if the request fails
+     * @param client the HTTP client to use
+     * @param request the request to execute
+     * @param responseType how the response body should be interpreted (STRING, MAP, BYTES)
+     * @return a structured {@link HttpResponse} containing the result
      */
-    static String call(CloseableHttpClient client, HttpRequest request) {
+    static HttpResponse call(CloseableHttpClient client, HttpRequest request, HttpResponseType responseType = HttpResponseType.MAP) {
         HttpUriRequestBase httpRequest = buildHttpRequest(request)
 
-        return client.execute(httpRequest) { response ->
-            String bodyText = response.entity ? EntityUtils.toString(response.entity) : ""
-            return bodyText
-        }
-    }
-
-    /**
-     * Executes the HTTP request and parses the JSON response into a Map.
-     *
-     * @param client The {@link CloseableHttpClient} to execute the request
-     * @param request The {@link HttpRequest} object
-     * @return Parsed JSON as Map, or null if the response body is empty
-     * @throws Exception if the response is not valid JSON
-     */
-    static Map callAsMap(CloseableHttpClient client, HttpRequest request) {
-        String responseText = call(client, request)
-        if (!responseText) {
-            return null
-        }
-
-        try {
-            Object parsed = new JsonSlurper().parseText(responseText)
-            if (parsed in Map) {
-                return parsed as Map
-            } else {
-                throw new Exception("Invalid JSON response.\nBody: ${responseText}")
-            }
-
-        } catch (Exception e) {
-            throw new Exception("Invalid JSON response: ${e.message}\nBody: ${responseText}")
-        }
-    }
-
-    /**
-     * Executes the HTTP request and returns the response as a byte array.
-     *
-     * @param client The {@link CloseableHttpClient} to execute the request
-     * @param request The {@link HttpRequest} object
-     * @return Response body as byte array
-     * @throws Exception if the HTTP status is not in the 2xx range
-     */
-    static byte[] callAsBytes(CloseableHttpClient client, HttpRequest request) {
-        HttpUriRequestBase httpRequest = buildHttpRequest(request)
-
-        if (!request.headers.containsKey("Accept")) {
+        if (!request.hasHeader("Accept")) {
             httpRequest.setHeader("Accept", "*/*")
         }
 
-        return client.execute(httpRequest) { response ->
-            int status = response.code
-            byte[] bytes = response.entity ? EntityUtils.toByteArray(response.entity) : new byte[0]
-
-            if (status >= 200 && status < 300) {
-                return bytes
-            } else {
-                String errorText = ""
-                try {
-                    errorText = new String(bytes)
-                } catch (ignored) {
+        try {
+            return client.execute(httpRequest) { response ->
+                switch (responseType) {
+                    case HttpResponseType.STRING: return handleStringResponse(response)
+                    case HttpResponseType.MAP: return handleMapResponse(response)
+                    case HttpResponseType.BYTES: return handleBytesResponse(response)
+                    default: throw new IllegalArgumentException("Unsupported ResponseType: $responseType")
                 }
-                throw new Exception("HTTP Error: ${status} - ${errorText}")
             }
+
+        } catch (Exception e) {
+            return HttpResponse.error(-1, e.message, null, null)
         }
     }
+
+    /**
+     * Shortcut for downloading binary content.
+     *
+     * @param client the HTTP client to use
+     * @param request the HTTP request
+     * @return a {@link HttpResponse} containing raw bytes
+     */
+    static HttpResponse download(CloseableHttpClient client, HttpRequest request) {
+        return call(client, request, HttpResponseType.BYTES)
+    }
+
+    private static HttpResponse handleStringResponse(ClassicHttpResponse response) {
+        Integer status = response.code
+        String raw = response.entity ? EntityUtils.toString(response.entity) : ''
+
+        if (status >= 200 && status < 300) {
+            return HttpResponse.success(status, response.headers, raw)
+        } else {
+            return HttpResponse.error(status, "HTTP error $status", response.headers, raw)
+        }
+    }
+
+    private static HttpResponse handleMapResponse(ClassicHttpResponse response) {
+        Integer status = response.code
+        String json = response.entity ? EntityUtils.toString(response.entity) : ''
+
+        Map parsed = [:]
+        try {
+            parsed = new JsonSlurper().parseText(json) as Map
+        } catch (Exception e) {
+            return HttpResponse.error(status, "Invalid JSON (must be a Map): ${e.message}", response.headers, json)
+        }
+
+        if (status >= 200 && status < 300) {
+            return HttpResponse.success(status, response.headers, parsed)
+        } else {
+            return HttpResponse.error(status, "HTTP error $status", response.headers, parsed)
+        }
+    }
+
+    private static HttpResponse handleBytesResponse(ClassicHttpResponse response) {
+        int status = response.code
+        byte[] bytes = response.entity ? EntityUtils.toByteArray(response.entity) : new byte[0]
+
+        if (status >= 200 && status < 300) {
+            return HttpResponse.success(status, response.headers, bytes)
+        } else {
+            String errorText = ''
+            try {
+                errorText = new String(bytes)
+            } catch (ignored) {
+            }
+            return HttpResponse.error(status, "HTTP error $status", response.headers, errorText)
+        }
+    }
+
 }
