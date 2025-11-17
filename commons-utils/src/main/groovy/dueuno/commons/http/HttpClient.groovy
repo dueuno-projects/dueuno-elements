@@ -254,25 +254,17 @@ class HttpClient {
         Integer status = response.code
         String json = response.entity ? EntityUtils.toString(response.entity) : ''
 
+        Map parsed = [:]
+        try {
+            parsed = new JsonSlurper().parseText(json) as Map
+        } catch (Exception e) {
+            return HttpResponse.error(status, "Invalid JSON (must be a Map): ${e.message}", response.headers, json)
+        }
+
         if (status >= 200 && status < 300) {
-            if (!json) {
-                return HttpResponse.success(status, response.headers, [:])
-            }
-
-            try {
-                Object parsed = new JsonSlurper().parseText(json)
-                if (parsed instanceof Map) {
-                    return HttpResponse.success(status, response.headers, parsed as Map)
-                } else {
-                    return HttpResponse.error(status, "JSON is not a Map", response.headers, json)
-                }
-
-            } catch (Exception e) {
-                return HttpResponse.error(status, "Invalid JSON: ${e.message}", response.headers, json)
-            }
-
+            return HttpResponse.success(status, response.headers, parsed)
         } else {
-            return HttpResponse.error(status, "HTTP error $status", response.headers, json)
+            return HttpResponse.error(status, "HTTP error $status", response.headers, parsed)
         }
     }
 
@@ -286,7 +278,8 @@ class HttpClient {
             String errorText = ''
             try {
                 errorText = new String(bytes)
-            } catch (ignored) { }
+            } catch (ignored) {
+            }
             return HttpResponse.error(status, "HTTP error $status", response.headers, errorText)
         }
     }

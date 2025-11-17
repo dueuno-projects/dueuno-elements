@@ -87,10 +87,10 @@ class HttpResponse {
      * @param status  the HTTP status code
      * @param message the error message
      * @param headers the response headers
-     * @param body    the response body (usually text)
+     * @param body    the response body
      * @return a new HttpResponse instance
      */
-    static HttpResponse error(Integer status, String message, Header[] headers, String body) {
+    static HttpResponse error(Integer status, String message, Header[] headers, Object body) {
         return new HttpResponse(status, message, headers, body)
     }
 
