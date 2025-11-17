@@ -38,29 +38,19 @@ import org.apache.hc.core5.util.Timeout
 import javax.net.ssl.SSLContext
 
 /**
- * Utility class for executing HTTP requests using Apache HttpClient 5.
- * <p>
- * Provides static methods for performing standard REST operations (GET, POST, PUT, PATCH, DELETE)
- * with support for JSON payloads, plain text, and multipart bodies.
- * <p>
- * This class allows configuring connection and response timeouts, custom headers
- * (e.g., Authorization tokens), and automatic JSON serialization/deserialization.
- * </p>
+ * Utility class providing simplified HTTP communication using Apache HttpClient.
+ * Supports building and executing HTTP requests with JSON, text, or byte responses.
+ * NOTE: We use Apache HttpClient 5 for compatibility with SAP BTP.
  *
- * <p>Typical usage:</p>
- * <pre>{@code
- * def client = HttpClient.create(30)
- * def headers = ['Authorization': 'Bearer myToken']
- * def response = HttpClient.callAsJson(client, "https://api.example.com/data", HttpRequest.get("/endpoint").headers(headers))
- *}</pre>
- *
- * <p>Features:</p>
- * <ul>
- *   <li>Configurable connection, request, and response timeouts</li>
- *   <li>Automatic JSON serialization/deserialization for request and response bodies</li>
- *   <li>Support for custom headers including Authorization tokens</li>
- *   <li>Exception handling for non-2xx HTTP responses</li>
- * </ul>
+ * <p><b>Example usage:</b></p>
+ * <pre>
+ * CloseableHttpClient client = HttpClient.create(30, false)
+ * HttpRequest request = HttpRequest.GET("https://example.com/data")
+ * HttpResponse response = HttpClient.call(client, request)
+ * if (response.ok) {
+ *     println response.body
+ * }
+ * </pre>
  *
  * @author Gianluca Sartori
  */
@@ -68,23 +58,28 @@ import javax.net.ssl.SSLContext
 class HttpClient {
 
     /**
-     * Creates a reusable {@link CloseableHttpClient} with configurable timeouts.
+     * Creates a configured {@link CloseableHttpClient} instance.
      *
-     * @param timeoutSeconds Timeout in seconds for connection request and response (default 30s)
-     * @param forceCertificateVerification If true, enforces SSL certificate validation; if false, trusts all certificates
-     * @return A configured {@link CloseableHttpClient} instance
+     * @param timeoutSeconds timeout in seconds for both connection request and response
+     * @param forceCertificateVerification whether SSL certificate verification should be enforced
+     * @return a configured {@link CloseableHttpClient}
+     *
+     * <p><b>Example:</b></p>
+     * <pre>
+     * CloseableHttpClient client = HttpClient.create(10, true)
+     * </pre>
      */
-    static CloseableHttpClient create(Integer timeoutSeconds = 30, Boolean forceCertificateVerification = false) {
+    static CloseableHttpClient create(Integer timeoutSeconds = 30, Boolean forceCertificateVerification = true) {
         return forceCertificateVerification
                 ? createValidCertHttpClient(timeoutSeconds)
                 : createNoCertHttpClient(timeoutSeconds)
     }
 
     /**
-     * Creates a {@link CloseableHttpClient} with SSL certificate verification enabled.
+     * Creates an HTTP client that validates SSL certificates.
      *
-     * @param timeoutSeconds Timeout in seconds for connection request and response
-     * @return A {@link CloseableHttpClient} instance
+     * @param timeoutSeconds timeout in seconds
+     * @return a client with SSL certificate validation enabled
      */
     private static CloseableHttpClient createValidCertHttpClient(Integer timeoutSeconds) {
         RequestConfig requestConfig = RequestConfig.custom()
@@ -98,11 +93,10 @@ class HttpClient {
     }
 
     /**
-     * Creates a {@link CloseableHttpClient} that disables SSL certificate verification and hostname checks.
-     * Useful for testing against servers with self-signed certificates.
+     * Creates an HTTP client that accepts all SSL certificates.
      *
-     * @param timeoutSeconds Timeout in seconds for connection request and response
-     * @return A {@link CloseableHttpClient} instance
+     * @param timeoutSeconds timeout in seconds
+     * @return a client with SSL certificate validation disabled
      */
     private static CloseableHttpClient createNoCertHttpClient(Integer timeoutSeconds) {
         SSLContext sslContext = SSLContextBuilder.create()
@@ -132,15 +126,11 @@ class HttpClient {
     }
 
     /**
-     * Builds an {@link HttpUriRequestBase} from a {@link HttpRequest} object,
-     * setting headers, query parameters, and body.
-     * <p>
-     * Automatically handles JSON serialization and content type defaults for String or object bodies.
-     * </p>
+     * Builds an Apache HttpClient request object from a custom {@link HttpRequest}.
+     * Supports String bodies, JSON bodies, and {@link HttpEntity} bodies.
      *
-     * @param request The {@link HttpRequest} containing method, URL, headers, query, and body
-     * @return Configured {@link HttpUriRequestBase} instance
-     * @throws Exception if the body object cannot be serialized to JSON
+     * @param request the custom request definition
+     * @return a constructed {@link HttpUriRequestBase}
      */
     private static HttpUriRequestBase buildHttpRequest(HttpRequest request) {
         HttpUriRequestBase httpRequest
@@ -208,6 +198,14 @@ class HttpClient {
         return httpRequest
     }
 
+    /**
+     * Executes an HTTP request and returns a structured {@link HttpResponse}.
+     *
+     * @param client the HTTP client to use
+     * @param request the request to execute
+     * @param responseType how the response body should be interpreted (STRING, MAP, BYTES)
+     * @return a structured {@link HttpResponse} containing the result
+     */
     static HttpResponse call(CloseableHttpClient client, HttpRequest request, HttpResponseType responseType = HttpResponseType.MAP) {
         HttpUriRequestBase httpRequest = buildHttpRequest(request)
 
@@ -230,6 +228,13 @@ class HttpClient {
         }
     }
 
+    /**
+     * Shortcut for downloading binary content.
+     *
+     * @param client the HTTP client to use
+     * @param request the HTTP request
+     * @return a {@link HttpResponse} containing raw bytes
+     */
     static HttpResponse download(CloseableHttpClient client, HttpRequest request) {
         return call(client, request, HttpResponseType.BYTES)
     }
