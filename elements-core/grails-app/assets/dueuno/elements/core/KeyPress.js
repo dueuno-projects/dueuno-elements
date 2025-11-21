@@ -1,3 +1,5 @@
+//= require Component
+
 class KeyPress extends Component {
 
     static finalize($element, $root) {

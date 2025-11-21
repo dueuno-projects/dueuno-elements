@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation project(":elements-core")
-    implementation project(":elements-extra")
+//    implementation project(":elements-extra")
 
     // Spring Boot DevTools may cause performance slowdowns or compatibility issues on larger applications
     developmentOnly "org.springframework.boot:spring-boot-devtools"
@@ -41,5 +41,6 @@ assets {
     minifyOptions = [
             //SIMPLE (default) or ADVANCED or WHITESPACE_ONLY
             optimizationLevel: "SIMPLE",
+            excludes: ["**/libs/**"]
     ]
 }

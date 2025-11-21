@@ -54,6 +54,12 @@ dependencies {
     testImplementation "org.spockframework:spock-core"
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(javaVersion)
+    }
+}
+
 //tasks.withType(GroovyCompile) {
 //    groovyOptions.optimizationOptions.indy = false
 //}
@@ -74,11 +80,11 @@ assets {
             'webjars/bootstrap/**',
             'webjars/bootstrap-icons/**'
     ]
-    includes = [
-            'webjars/jquery/*/dist/jquery.js',
-            'webjars/bootstrap/*/dist/js/bootstrap.bundle.js',
-            'webjars/bootstrap/*/dist/css/bootstrap.css',
-            'webjars/bootstrap-icons/*/font/bootstrap-icons.css',
-            'webjars/bootstrap-icons/*/font/fonts/*',
-    ]
+//    includes = [
+//            'webjars/jquery/*/dist/jquery.js',
+//            'webjars/bootstrap/*/dist/js/bootstrap.bundle.js',
+//            'webjars/bootstrap/*/dist/css/bootstrap.css',
+//            'webjars/bootstrap-icons/*/font/bootstrap-icons.css',
+//            'webjars/bootstrap-icons/*/font/fonts/*',
+//    ]
 }

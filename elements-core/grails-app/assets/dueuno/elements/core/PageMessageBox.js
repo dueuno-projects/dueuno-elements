@@ -1,3 +1,5 @@
+//= require Component
+
 // Temporary solutions until we get support for static fields
 // See: https://github.com/google/closure-compiler/issues/2731
 let PageMessageBox_isActive = false;

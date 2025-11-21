@@ -62,8 +62,8 @@ class ResourceUtils {
 
             } else if (isDeployedAsBootJar) {
                 log.trace "Extracting Resources: Application deployed as JAR"
-                List<String> resourceParts = resource.URL.path.split('/BOOT-INF/classes!' + fromPath) as List<String>
-                resourceDir = resourceParts.first() + '/BOOT-INF/classes' + fromPath
+                List<String> resourceParts = resource.URL.path.split('/!BOOT-INF/classes/!' + fromPath) as List<String>
+                resourceDir = resourceParts.first() + '!/BOOT-INF/classes' + fromPath
                 resourceFile = resourceParts.size() > 1 ? resourceParts.last() : ''
 
             } else {
@@ -78,7 +78,7 @@ class ResourceUtils {
                 }
             }
 
-            String normalizedResourcePathname = FileUtils.normalizePath(resourceDir) + resourceFile
+            String normalizedResourcePathname = resourceDir + resourceFile
 
             log.trace "extractDirectory()"
             log.trace " --> Resource:            " + resource.URL.path
