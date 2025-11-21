@@ -256,7 +256,6 @@ class PrettyPrinter {
         // If a prettyPrinter is specified we consider the whole Map as an Object...
         if (properties.prettyPrinter) {
             return printObject(value, properties)
-
         }
 
         // ...otherwise we render each element of the map

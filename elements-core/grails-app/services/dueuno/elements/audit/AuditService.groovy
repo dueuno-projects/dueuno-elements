@@ -46,17 +46,18 @@ class AuditService implements WebRequestAware {
 
     void log(AuditOperation operation, Object domainObject) {
         Map properties = Elements.toMap(domainObject)
-        this.log(operation, domainObject.toString(), prettyProperties(properties), null, null)
+        String message = prettyProperties(properties)
+        log(operation, message, domainObject.toString(), null, null)
     }
 
     void log(AuditOperation operation, Class domainObject, Map stateBefore, Map stateAfter = null) {
         String prettyStateBefore = prettyProperties(stateBefore)
         String prettyStateAfter = prettyProperties(stateAfter)
-        this.log(operation, domainObject.toString(), prettyStateBefore, prettyStateAfter)
+        log(operation, domainObject.toString(), prettyStateBefore, prettyStateAfter)
     }
 
     void log(AuditOperation operation, Class domainObject, String stateBefore, String stateAfter = null) {
-        this.log(operation, domainObject.toString(), stateBefore, stateAfter)
+        log(operation, domainObject.toString(), stateBefore, stateAfter)
     }
 
     void log(AuditOperation operation, String objectName, String stateBefore, String stateAfter = null) {
