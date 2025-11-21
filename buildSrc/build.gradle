@@ -10,20 +10,6 @@ repositories {
     }
 }
 
-loadProperties()
-
-dependencies {
-    // See: https://github.com/zyro23/grails-spring-websocket/issues/73
-    implementation "com.google.javascript:closure-compiler-unshaded:v20240317"
-    implementation platform("org.apache.grails:grails-bom:${grailsVersion}")
-    implementation "org.apache.grails:grails-gradle-plugins:${grailsVersion}"
-    implementation "cloud.wondrify:asset-pipeline-gradle:5.0.16"
-
-    implementation "org.asciidoctor:asciidoctor-gradle-jvm:4.0.0-alpha.1"
-    implementation "org.asciidoctor:asciidoctor-gradle-jvm-pdf:4.0.0-alpha.1"
-    implementation "org.asciidoctor.jvm.convert:org.asciidoctor.jvm.convert.gradle.plugin:3.3.2"
-}
-
 def loadProperties() {
     // Gives access to project root properties
     Properties properties = new Properties()
@@ -34,4 +20,14 @@ def loadProperties() {
     for (String key : properties.stringPropertyNames()) {
         ext.set(key, properties.getProperty(key))
     }
+}; loadProperties()
+
+dependencies {
+    implementation platform("org.apache.grails:grails-bom:${grailsVersion}")
+    implementation "org.apache.grails:grails-gradle-plugins:${grailsVersion}"
+    implementation "cloud.wondrify:asset-pipeline-gradle:5.0.20"
+
+    implementation "org.asciidoctor:asciidoctor-gradle-jvm:4.0.5"
+    implementation "org.asciidoctor:asciidoctor-gradle-jvm-pdf:4.0.5"
+    implementation 'org.asciidoctor.jvm.convert:org.asciidoctor.jvm.convert.gradle.plugin:4.0.5'
 }
