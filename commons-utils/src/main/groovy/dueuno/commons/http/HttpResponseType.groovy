@@ -14,8 +14,38 @@
  */
 package dueuno.commons.http
 
+/**
+ * Defines the type of content returned by an HttpResponse.
+ * <p>
+ * This enumeration is used by {@link HttpClient#call} to determine
+ * how the response body should be parsed or represented. It provides three
+ * response types:
+ * </p>
+ *
+ * <ul>
+ *   <li><b>RAW</b> – The response body is returned as a plain {@link String}.</li>
+ *   <li><b>JSON</b> – The response body is parsed into a {@link java.util.Map}.</li>
+ *   <li><b>BYTES</b> – The response body is returned as a {@code byte[]} array.</li>
+ * </ul>
+ *
+ * @author Gianluca Sartori
+ */
 enum HttpResponseType {
-    STRING,
-    MAP,
+
+    /**
+     * Indicates that the HttpResponse body should be returned as a raw {@link String}.
+     */
+    RAW,
+
+    /**
+     * Indicates that the HttpResponse body should be parsed and returned as a
+     * {@link java.util.Map} representing a JSON object.
+     */
+    JSON,
+
+    /**
+     * Indicates that the HttpResponse body should be returned as a raw
+     * {@code byte[]} array.
+     **/
     BYTES
 }

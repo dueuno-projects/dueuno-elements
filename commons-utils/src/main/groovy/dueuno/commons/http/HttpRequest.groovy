@@ -250,10 +250,11 @@ class HttpRequest {
      *
      * <p>Example:
      * <pre>{@code
-     * HttpMultipartBody multipart = new HttpMultipartBody()
+     * HttpMultipartBody multipart = HttpMultipartBody.create()
      *     .addField("name", "value")
-     *     .addFile("file", someFile);
-     * request.multipartBody(multipart);
+     *     .addFile("file", someFile)
+     *
+     * request.multipartBody(multipart)
      * }</pre>
      *
      * @param multipart the multipart body builder

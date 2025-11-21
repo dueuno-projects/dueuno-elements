@@ -16,11 +16,39 @@ package dueuno.commons.http
 
 import groovy.transform.CompileStatic
 
+/**
+ * Represents the standard HTTP methods used in requests.
+ *
+ * @author Gianluca Sartori
+ */
 @CompileStatic
 enum HttpMethod {
+
+    /**
+     * The GET method requests a representation of the specified resource.
+     * Requests using GET should only retrieve data.
+     */
     GET,
+
+    /**
+     * The POST method submits data to the specified resource, often causing
+     * a change in state or side effects on the server.
+     */
     POST,
+
+    /**
+     * The PUT method replaces all current representations of the target resource
+     * with the uploaded content.
+     */
     PUT,
+
+    /**
+     * The DELETE method deletes the specified resource.
+     */
     DELETE,
+
+    /**
+     * The PATCH method applies partial modifications to a resource.
+     */
     PATCH
 }
