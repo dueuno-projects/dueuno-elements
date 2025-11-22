@@ -62,3 +62,8 @@ signing {
     // Send the Dueuno public key to a public server for Maven Central to work
     // gpg --keyserver keyserver.ubuntu.com --send-keys 320BDF4E3F5990F2F3AE8DC93470E26E4FB7C68E
 }
+
+// Ensure signing tasks run before publishing tasks (required by Gradle 8+)
+tasks.withType(PublishToMavenRepository).configureEach {
+    dependsOn(tasks.withType(Sign))
+}
