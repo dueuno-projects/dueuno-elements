@@ -75,9 +75,6 @@ class ElementsGrailsPlugin extends Plugin {
 
         tenantForCurrentUserResolver(TenantForCurrentUserResolver)
         sessionInitializer(SessionInitializer)
-//        keyChain(KeyChain)
-
-        ConfigObject conf = SpringSecurityUtils.securityConfig
 
         customUserDetailsService(CustomUserDetailsService) {
             grailsApplication = ref('grailsApplication')
@@ -87,6 +84,7 @@ class ElementsGrailsPlugin extends Plugin {
             customUserDetailsService = ref('customUserDetailsService')
         }
 
+        ConfigObject conf = SpringSecurityUtils.securityConfig
         externalIdAuthenticationFilter(ExternalIdAuthenticationFilter, conf.externalId.filterProcessesUrl) {
             authenticationManager = ref('authenticationManager')
             authenticationSuccessHandler = ref('authenticationSuccessHandler')
