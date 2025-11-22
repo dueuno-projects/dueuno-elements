@@ -17,6 +17,7 @@ package dueuno.elements.test
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
 import grails.util.Holders
+import groovy.transform.CompileStatic
 import org.apache.catalina.Context
 import org.apache.catalina.connector.Connector
 import org.apache.tomcat.util.descriptor.web.SecurityCollection
@@ -25,6 +26,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory
 import org.springframework.context.annotation.Bean
 
+@CompileStatic
 class Application extends GrailsAutoConfiguration {
 
     static void main(String[] args) {

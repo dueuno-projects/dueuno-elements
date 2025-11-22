@@ -21,6 +21,8 @@ import dueuno.elements.security.ExternalIdAuthenticationProvider
 import dueuno.elements.tenants.TenantForCurrentUserResolver
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugins.Plugin
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.scheduling.annotation.EnableScheduling
 
@@ -29,6 +31,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
  */
 
 @Slf4j
+@CompileStatic
 @EnableScheduling
 class ElementsGrailsPlugin extends Plugin {
 
@@ -68,11 +71,8 @@ class ElementsGrailsPlugin extends Plugin {
     // Online location of the plugin's browseable source code.
 //    def scm = [ url: 'http://svn.codehaus.org/grails-plugins/' ]
 
+    @CompileDynamic
     Closure doWithSpring() { {->
-        // See: https://github.com/grails/grails-core/issues/3164
-        xmlns context: 'http://www.springframework.org/schema/context'
-        context.'component-scan' 'base-package': 'dueuno'
-
         tenantForCurrentUserResolver(TenantForCurrentUserResolver)
         sessionInitializer(SessionInitializer)
 
