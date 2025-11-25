@@ -21,6 +21,7 @@ import dueuno.elements.security.CryptoService
 import dueuno.elements.security.SecurityService
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
+import grails.gorm.transactions.Transactional
 import groovy.json.JsonBuilder
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
@@ -38,6 +39,7 @@ import java.time.LocalTime
  */
 
 @CurrentTenant
+@Transactional
 @CompileStatic
 class AuditService implements WebRequestAware {
 
