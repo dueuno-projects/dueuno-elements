@@ -17,9 +17,11 @@ package dueuno.elements.test
 import dueuno.elements.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
+import grails.gorm.transactions.Transactional
 import org.grails.datastore.gorm.GormEntity
 
 @CurrentTenant
+@Transactional
 class DomainCrudService {
     private DetachedCriteria<TCompany> buildQuery(Map filterParams) {
         def query = TCompany.where {}

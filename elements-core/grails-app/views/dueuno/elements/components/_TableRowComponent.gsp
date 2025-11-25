@@ -1,3 +1,11 @@
+<%--
+================
+ATTENTION PLEASE
+================
+
+When modifying this template, please update also:
+ - `_TableRow.gsp`
+--%>
 <tr class="component-table-row ${c.textStyle} ${c.cssClass}"
     style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}"
     data-21-component="${c.className}"
@@ -18,7 +26,7 @@
             <td class="component-table-selection-footer ${c.verticalAlign}"></td>
         </g:elseif>
         <g:else>
-            <td class="component-table-selection ${c.verticalAlign}" data-rowid="${c.id}">
+            <td class="component-table-selection ${c.verticalAlign}">
                 <g:if test="${c.hasSelection}">
                     <render:component instance="${c.selected}" />
                     <span class="rowKeys d-none">${raw(c.keysAsJSON)}</span>

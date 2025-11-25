@@ -16,9 +16,11 @@ package dueuno.elements.tenants
 
 import dueuno.commons.utils.FileUtils
 import dueuno.elements.ElementsGrailsPlugin
-import dueuno.elements.core.*
+import dueuno.elements.core.ApplicationService
+import dueuno.elements.core.ConnectionSourceService
+import dueuno.elements.core.SystemPropertyService
+import dueuno.elements.core.TSystemInstall
 import dueuno.elements.exceptions.ArgsException
-import dueuno.elements.security.SecurityService
 import dueuno.elements.security.TRoleGroup
 import dueuno.elements.security.TRoleGroupRole
 import dueuno.elements.security.TUser
@@ -27,7 +29,7 @@ import dueuno.elements.utils.ResourceUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.multitenancy.Tenants
-import grails.gorm.multitenancy.WithoutTenant
+import grails.gorm.transactions.Transactional
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -38,6 +40,7 @@ import org.grails.datastore.mapping.core.connections.ConnectionSource
  */
 
 @Slf4j
+@Transactional
 @CompileStatic
 class TenantService {
 

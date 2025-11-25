@@ -51,23 +51,29 @@ class BootStrap {
         }
 
         applicationService.beforeInit {
+            securityService.init()
+
             // It works only from the 'app-test' within this project
             // not working as application dependency when compiled as plugin
 //            groovyPagesTemplateEngine.groovyPageSourceDecorators = [new PageWhitespacesStripper() as GroovyPageSourceDecorator]
 
             Types.register(Money)
             Types.register(Quantity)
-            
-            securityService.init()
         }
 
         applicationService.afterInit {
+            systemPropertyService.validateAll()
             securityService.registerFeatures()
         }
 
-        applicationService.onTenantInit { String tenantId ->
+        applicationService.beforeTenantInit { String tenantId ->
             cryptoService.tenantInit()
         }
+
+        applicationService.afterTenantInit { String tenantId ->
+            tenantPropertyService.validateAll()
+        }
+
     }
 
     def destroy = {
