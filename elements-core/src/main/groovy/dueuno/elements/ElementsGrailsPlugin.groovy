@@ -33,7 +33,6 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @Slf4j
 @CompileStatic
 @EnableScheduling
-@CompileStatic
 class ElementsGrailsPlugin extends Plugin {
 
     static final String NAME = 'elements-core'

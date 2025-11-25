@@ -29,7 +29,6 @@ import java.time.LocalTime
 @CompileStatic
 abstract class PropertyService {
 
-    private static final String KEYSTORE_PASSWORD = 'akdbf2947vn3tfkjdhfg284divyot3u'
     protected static final Map<String, Map<String, Object>> inMemoryProperties = [:]
     protected static final Map<String, Closure> onChangeRegistry = [:]
 
