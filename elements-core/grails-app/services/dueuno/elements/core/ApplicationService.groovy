@@ -19,7 +19,7 @@ import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.tenants.TenantService
 import dueuno.elements.utils.EnvUtils
 import grails.core.GrailsApplication
-import grails.gorm.multitenancy.Tenants
+import grails.gorm.transactions.Transactional
 import grails.util.Holders
 import grails.web.servlet.mvc.GrailsHttpSession
 import groovy.transform.CompileDynamic
@@ -295,7 +295,7 @@ class ApplicationService implements LinkGeneratorAware {
         }
     }
 
-    void executeOnInstall(String tenantId) {
+    void executeOnTenantInstall(String tenantId) {
         if (hasBootEvents('onTenantInstall') || hasBootEvents('onDevInstall')) {
             log.info "-" * 78
             log.info "${tenantId} Tenant - INSTALLING"
@@ -319,6 +319,19 @@ class ApplicationService implements LinkGeneratorAware {
     }
 
     @CompileDynamic
+    @Transactional
+    Boolean getSystemInstalled() {
+        return TSystemInstall.count() > 0
+    }
+
+    @CompileDynamic
+    @Transactional
+    Boolean isPluginInstalled(String pluginName) {
+        return TSystemInstall.where { plugin == pluginName }.count() > 0
+    }
+
+    @CompileDynamic
+    @Transactional
     private void executeInstall(String listName, String tenantId, Boolean isDev = false, Boolean sort = false) {
         Map<String, Closure> eventList = getBootEvents(listName)
         Map revisionList = sort ? eventList.sort() : eventList
@@ -336,12 +349,10 @@ class ApplicationService implements LinkGeneratorAware {
 
             log.info "${tenantId} Tenant - Executing '${revisionName}'..."
 
-            Tenants.withId(tenantId) {
-                if (closure.maximumNumberOfParameters == 1) {
-                    closure.call(tenantId)
-                } else {
-                    closure.call(tenantId, pluginName)
-                }
+            if (closure.maximumNumberOfParameters == 1) {
+                closure.call(tenantId)
+            } else {
+                closure.call(tenantId, pluginName)
             }
 
             new TSystemInstall(
@@ -404,16 +415,6 @@ class ApplicationService implements LinkGeneratorAware {
         tenantService.eachTenant { String tenantId ->
             executeBootEvents('afterTenantInit', tenantId)
         }
-    }
-
-    @CompileDynamic
-    Boolean getSystemInstalled() {
-        return TSystemInstall.count() > 0
-    }
-
-    @CompileDynamic
-    Boolean isPluginInstalled(String pluginName) {
-        return TSystemInstall.where { plugin == pluginName }.count() > 0
     }
 
     void registerCredits(String task, String... people) {

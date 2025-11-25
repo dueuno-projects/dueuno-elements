@@ -30,6 +30,7 @@ import dueuno.elements.style.TextWrap
 import dueuno.elements.types.QuantityService
 import dueuno.elements.types.Type
 import grails.gorm.multitenancy.CurrentTenant
+import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 
 import java.time.LocalDate
@@ -40,6 +41,7 @@ class CrudController implements ElementsController {
     AuditService auditService
     ApplicationService applicationService
     QuantityService quantityService
+    PersonService personService
 
     def index() {
 
@@ -211,24 +213,13 @@ class CrudController implements ElementsController {
                     if (values.name == 'aaa') row.actions.setDefaultAction(controller: 'myController', action: 'rowAction3')
                     //row.tailAction.danger = true
 
-                    row.cells.address.component.textWrap = TextWrap.NO_WRAP
+                    row.cells.address.label.textWrap = TextWrap.NO_WRAP
                 }
             }
         }
 
-        // QUERY
-        //
-        def query = TPerson.where {}
-
-        def filters = c.table.filterParams
-        if (filters.name) query = query.where { name =~ "%${filters.name}%" }
-        if (filters.company) query = query.where { company.id == filters.company }
-//        if (filters.company) query = query.where { company.id in filters.company.collect { it.toLong() } }
-
-        // VALUES
-        //
-        c.table.body = query.list(params)
-        c.table.paginate = query.count()
+        c.table.body = personService.list(c.table.filterParams, c.table.fetchParams)
+        c.table.paginate = personService.count(c.table.filterParams)
 
         display content: c
     }
@@ -363,28 +354,6 @@ class CrudController implements ElementsController {
         display transition: t
     }
 
-    def printWithNiceLabel() {
-        def columns = [
-                'company',
-                'name',
-                'picture',
-                'address',
-                'postcode',
-                'salary',
-                'salaryPerMonth',
-                'distanceKm',
-                'dateStart',
-                'dateEnd',
-                'active',
-        ]
-        def rs = TPerson.list()
-        printService.printWithNiceLabel(1, rs, columns, 'NLtest', 1) { record ->
-            record.company = record.company.id
-        }
-
-        display
-    }
-
     def create() {
         def c = buildForm()
         display content: c, modal: true
@@ -396,9 +365,7 @@ class CrudController implements ElementsController {
     }
 
     def onCreate() {
-        TPerson obj = new TPerson(params)
-        obj.save(flush: true)
-
+        TPerson obj = personService.create(params)
         if (obj.hasErrors()) {
             display errors: obj
             return
@@ -412,10 +379,7 @@ class CrudController implements ElementsController {
     }
 
     def onEdit() {
-        TPerson obj = TPerson.read(params.id)
-        obj.properties = params
-        obj.save(flush: true)
-
+        TPerson obj = personService.update(params)
         if (obj.hasErrors()) {
             display errors: obj
         } else {
@@ -425,9 +389,9 @@ class CrudController implements ElementsController {
 
     def onDelete(TPerson obj) {
         try {
-            obj.delete(flush: true, failOnError: true)
-            auditService.log(AuditOperation.DELETE, obj)
+            personService.delete(obj.id)
             display action: 'index'
+
         } catch (e) {
             e.printStackTrace()
             display exception: e
