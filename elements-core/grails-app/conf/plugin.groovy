@@ -3,11 +3,6 @@ import dueuno.elements.hibernate.ElementsNamingStrategy
 // H2 Console enabled by default (protected by Spring Security, only "superadmin" can access it)
 spring.h2.console.enabled = true
 
-// We need this to avoid wrapping db operations with transactions & sessions all over the codebase
-// See: https://github.com/grails/grails-core/issues/11376
-// See: https://stackoverflow.com/questions/68845778/upgrading-hibernate-version-to-5-4-gives-me-no-transaction-is-in-progress
-hibernate.allow_update_outside_transaction = true
-
 // Uses custom table naming
 hibernate.naming_strategy = ElementsNamingStrategy
 

@@ -28,6 +28,7 @@ import dueuno.elements.tenants.TenantService
 import dueuno.elements.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
+import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.transform.CompileDynamic
@@ -45,6 +46,7 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 
 @Slf4j
 @CurrentTenant
+@Transactional
 @CompileStatic
 class SecurityService implements WebRequestAware, LinkGeneratorAware {
 

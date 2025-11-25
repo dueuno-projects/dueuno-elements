@@ -16,8 +16,10 @@ package dueuno.elements.test
 
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.services.Service
+import grails.gorm.transactions.Transactional
 
 @CurrentTenant
+@Transactional
 @Service(TPerson)
 abstract class PersonService {
     protected abstract TPerson get(Serializable id)

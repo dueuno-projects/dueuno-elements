@@ -18,6 +18,7 @@ import dueuno.commons.utils.CryptoUtils
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.tenants.TenantService
 import grails.gorm.multitenancy.CurrentTenant
+import grails.gorm.transactions.Transactional
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
@@ -26,8 +27,9 @@ import groovy.util.logging.Slf4j
  */
 
 @Slf4j
-@CompileStatic
 @CurrentTenant
+@Transactional
+@CompileStatic
 class CryptoService {
 
     ApplicationService applicationService
