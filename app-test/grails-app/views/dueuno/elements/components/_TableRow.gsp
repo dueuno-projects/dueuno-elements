@@ -79,9 +79,9 @@ When modifying this template, please update also:
                         <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.tag ? 'tag' : ''} ${label.cssClass}"
                               ${label.cssStyleColors ? raw('style="' + label.cssStyleColors + '"') : ''}
                         >
-                            <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
+                            <g:if test="${label.html}">${raw(label.html)}</g:if>
                             <g:else>
-                                <% text = label.prettyText %>
+                                <% text = label.text %>
                                 <g:if test="${label.tooltip}"><span ${raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"')}></g:if>
                                 <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon && text ? 'me-1' : ''} ${label.iconFixedWidth ? 'fa-fw' : ''}"/></g:if>
                                 <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${text}${label.tag && !text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
@@ -105,9 +105,9 @@ When modifying this template, please update also:
                     <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.tag ? 'tag' : ''} ${label.userSelect ? 'user-select-text' : ''} ${label.html ? 'html' : ''} ${label.cssClass}"
                           ${label.cssStyleColors ? raw('style="' + label.cssStyleColors + '"') : ''}
                     >
-                        <g:if test="${label.html}">${raw(label.prettyHtml)}</g:if>
+                        <g:if test="${label.html}">${raw(label.html)}</g:if>
                         <g:else>
-                            <% text = label.prettyText %>
+                            <% text = label.text %>
                             <g:if test="${label.tooltip}"><span ${raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"')}></g:if>
                             <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon && text ? 'me-1' : ''} ${label.iconFixedWidth ? 'fa-fw' : ''}"/></g:if>
                             <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${text}${label.tag && !text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>

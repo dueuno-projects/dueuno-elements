@@ -20,11 +20,7 @@ import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
-import dueuno.elements.types.Types
 import groovy.transform.CompileStatic
-
-import java.time.LocalDate
-import java.time.temporal.Temporal
 
 /**
  * @author Gianluca Sartori
@@ -33,7 +29,7 @@ import java.time.temporal.Temporal
 @CompileStatic
 class Label extends Component {
 
-    String text
+    Object text
     String html
     String url
 
@@ -107,38 +103,31 @@ class Label extends Component {
     }
 
     void setText(Object value) {
-        if (value == null) {
-            text = buildLabel(id, prettyPrinterProperties)
+        switch (value) {
+            case null:
+                text = buildLabel(id, prettyPrinterProperties)
+                break
 
-        } else if (value in String) {
-            text = value
-
-        } else if (value in Boolean) {
-            if (prettyPrinterProperties.renderBoolean) {
-                text = ''
-                if (value) {
-                    icon = 'fa-solid fa-check'
+            case Boolean:
+                if (prettyPrinterProperties.renderBoolean) {
+                    if (value) icon = 'fa-solid fa-check'
+                    text = ''
                 }
-            } else {
+                break
+
+            case Number:
+                if (prettyPrinterProperties.highlightNegative) {
+                    if ((value as Number) < 0) textColor = '#cc0000'
+                    text = value
+                }
+                break
+
+            default:
                 text = value
-            }
-
-        } else if (value in List) {
-            text = (value as List).join(', ')
-
-        } else if (value in Map) {
-            text = (value as Map).collect { k, v -> "${k} = ${v}" }.join(', ')
-
-        } else {
-            text = prettyPrint(value, prettyPrinterProperties)
-        }
-
-        if (value in Number && prettyPrinterProperties.highlightNegative) {
-            if ((value as Number) < 0) textColor = '#cc0000'
         }
     }
 
-    String getPrettyText() {
+    String getText() {
         prettyPrinterProperties.locale = locale
         return prettyPrint(text, prettyPrinterProperties)
     }
@@ -177,7 +166,7 @@ class Label extends Component {
         html = value
     }
 
-    String getPrettyHtml() {
+    String getHtml() {
         prettyPrinterProperties.locale = locale
         return prettyPrint(html, prettyPrinterProperties)
     }
