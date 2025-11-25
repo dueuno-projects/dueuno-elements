@@ -25,8 +25,6 @@ import groovy.util.logging.Slf4j
  */
 
 @Slf4j
-@CurrentTenant
-@Transactional
 @CompileStatic
 class TransitionService implements WebSocket {
 

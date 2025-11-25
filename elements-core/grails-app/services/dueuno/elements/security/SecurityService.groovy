@@ -45,7 +45,6 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
  */
 
 @Slf4j
-@CurrentTenant
 @Transactional
 @CompileStatic
 class SecurityService implements WebRequestAware, LinkGeneratorAware {
