@@ -21,10 +21,10 @@ import grails.gorm.transactions.Transactional
 
 @CurrentTenant
 @Transactional
-class PersonService {
+class CompanyService {
     
-    private DetachedCriteria<TPerson> buildQuery(Map filterParams) {
-        def query = TPerson.where {}
+    private DetachedCriteria<TCompany> buildQuery(Map filterParams) {
+        def query = TCompany.where {}
 
         if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
 
@@ -40,16 +40,11 @@ class PersonService {
         return query
     }
 
-    TPerson get(Serializable id) {
-        // Add single-sided relationships here (Eg. references to other Domain Objects)
-        Map fetch = [
-                company: 'join',
-        ]
-
-        return buildQuery(id: id).get(fetch: fetch)
+    TCompany get(Serializable id) {
+        return TCompany.get(id)
     }
 
-    List<TPerson> list(Map filterParams = [:], Map fetchParams = [:]) {
+    List<TCompany> list(Map filterParams = [:], Map fetchParams = [:]) {
         if (!fetchParams.sort) fetchParams.sort = [dateCreated: 'asc']
 
         // Add single-sided relationships here (Eg. references to other DomainObjects)
@@ -67,26 +62,26 @@ class PersonService {
         return query.count()
     }
 
-    TPerson create(Map args = [:]) {
+    TCompany create(Map args = [:]) {
         if (args.failOnError == null) args.failOnError = false
 
-        TPerson obj = new TPerson(args)
+        TCompany obj = new TCompany(args)
         obj.save(flush: true, failOnError: args.failOnError)
         return obj
     }
 
-    TPerson update(Map args = [:]) {
+    TCompany update(Map args = [:]) {
         Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TPerson obj = get(id)
+        TCompany obj = get(id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
         return obj
     }
 
     void delete(Serializable id) {
-        TPerson obj = get(id)
+        TCompany obj = get(id)
         obj.delete(flush: true, failOnError: true)
     }
 }
