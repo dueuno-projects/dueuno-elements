@@ -26,7 +26,7 @@ import java.time.LocalDate
 
 class CrudDataServicesController implements ElementsController {
 
-    PersonService personService
+    PersonDataService personDataService
 
     def index() {
         def c = createContent(ContentTable)
@@ -77,8 +77,8 @@ class CrudDataServicesController implements ElementsController {
 
         // VALUES
         //
-        c.table.body = personService.listByNameLike(filters.name ?: '%', c.table.fetchParams)
-        c.table.paginate = personService.countByNameLike(filters.name ?: '%')
+        c.table.body = personDataService.listByNameLike(filters.name ?: '%', c.table.fetchParams)
+        c.table.paginate = personDataService.countByNameLike(filters.name ?: '%')
 
         display content: c
     }
@@ -183,7 +183,7 @@ class CrudDataServicesController implements ElementsController {
     }
 
     def onCreate() {
-        TPerson obj = personService.create(params)
+        TPerson obj = personDataService.create(params)
         if (obj.hasErrors()) {
             display errors: obj
             return
@@ -197,7 +197,7 @@ class CrudDataServicesController implements ElementsController {
     }
 
     def onEdit() {
-        TPerson obj = personService.update(params.id, params)
+        TPerson obj = personDataService.update(params.id, params)
         if (obj.hasErrors()) {
             display errors: obj
             return
@@ -208,7 +208,7 @@ class CrudDataServicesController implements ElementsController {
 
     def onDelete() {
         try {
-            personService.delete(params.id)
+            personDataService.delete(params.id)
             display action: 'index'
 
         } catch (e) {

@@ -214,13 +214,11 @@ class TenantService {
 
     void provisionTenant(String tenantId) {
         applicationService.executeOnPluginInstall(tenantId)
-        applicationService.executeOnInstall(tenantId)
+        applicationService.executeOnTenantInstall(tenantId)
     }
 
     void provisionTenantUpdate(String tenantId) {
-        withTenant(tenantId) {
-            applicationService.executeOnUpdate(tenantId)
-        }
+        applicationService.executeOnUpdate(tenantId)
     }
 
     @CompileDynamic

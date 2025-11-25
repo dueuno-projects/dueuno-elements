@@ -26,8 +26,9 @@ import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextDefault
 import grails.gorm.multitenancy.CurrentTenant
 
-@CurrentTenant
 class CrudCustomController implements ElementsController {
+
+    PersonService personService
 
     def index() {
 
@@ -342,10 +343,15 @@ class CrudCustomController implements ElementsController {
         display content: c, modal: true, wide: true
     }
 
-    def onCreate(TPerson obj) {
-        obj.save(flush: true)
+    def onCreate() {
+        TPerson obj = personService.create(params)
         if (obj.hasErrors()) {
             display errors: obj
+            return
+        }
+
+        if (params.embedded) {
+            display returnPoint(person: obj.id) + [modal: true]
         } else {
             display action: 'index'
         }
@@ -357,8 +363,8 @@ class CrudCustomController implements ElementsController {
         display content: c, modal: true, wide: true
     }
 
-    def onEdit(TPerson obj) {
-        obj.save(flush: true)
+    def onEdit() {
+        TPerson obj = personService.update(params)
         if (obj.hasErrors()) {
             display errors: obj
         } else {
@@ -368,8 +374,9 @@ class CrudCustomController implements ElementsController {
 
     def onDelete(TPerson obj) {
         try {
-            obj.delete(flush: true, failOnError: true)
+            personService.delete(obj.id)
             display action: 'index'
+
         } catch (e) {
             e.printStackTrace()
             display exception: e

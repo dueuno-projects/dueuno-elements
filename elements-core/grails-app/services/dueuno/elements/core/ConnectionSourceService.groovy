@@ -17,6 +17,7 @@ package dueuno.elements.core
 import dueuno.elements.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.WithoutTenant
+import grails.gorm.transactions.Transactional
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -33,6 +34,8 @@ import java.sql.DriverManager
  */
 
 @Slf4j
+@WithoutTenant
+@Transactional
 @CompileStatic
 class ConnectionSourceService {
 
