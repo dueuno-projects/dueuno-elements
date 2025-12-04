@@ -18,7 +18,6 @@ import dueuno.commons.utils.LogUtils
 import dueuno.elements.contents.ContentHeader
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.pages.PageBlank
-import dueuno.elements.utils.EnvUtils
 import grails.artefact.Controller
 import grails.artefact.Enhances
 import grails.artefact.controller.RestResponder
@@ -111,7 +110,7 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
     }
 
     String getKeyPressed() {
-        return KeyPress.keyPressed
+        return getMainPage().keyPress.keyPressed
     }
 
     private PageService getPageService() {

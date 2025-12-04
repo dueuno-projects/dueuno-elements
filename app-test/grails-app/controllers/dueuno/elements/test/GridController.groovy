@@ -21,9 +21,7 @@ import dueuno.elements.controls.NumberField
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextAlign
-import grails.gorm.multitenancy.CurrentTenant
 
-@CurrentTenant
 class GridController implements ElementsController {
 
     def index() {

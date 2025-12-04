@@ -23,9 +23,7 @@ import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.TransitionService
 import dueuno.elements.security.SecurityService
-import grails.gorm.multitenancy.CurrentTenant
 
-@CurrentTenant
 class WebsocketController implements ElementsController {
 
     TransitionService transitionService

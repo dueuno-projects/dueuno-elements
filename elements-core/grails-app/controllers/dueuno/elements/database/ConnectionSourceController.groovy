@@ -27,7 +27,6 @@ import dueuno.elements.core.ConnectionSourceService
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.TConnectionSource
 import dueuno.elements.style.Color
-import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.annotation.Secured
 
 import java.sql.Driver
@@ -35,7 +34,6 @@ import java.sql.Driver
 /**
  * @author Gianluca Sartori
  */
-@CurrentTenant
 @Secured(['ROLE_DEVELOPER'])
 class ConnectionSourceController implements ElementsController {
 

@@ -23,7 +23,10 @@ import dueuno.elements.controls.*
 import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PropertyType
 import dueuno.elements.security.SecurityService
-import dueuno.elements.style.*
+import dueuno.elements.style.TextAlign
+import dueuno.elements.style.TextDefault
+import dueuno.elements.style.TextStyle
+import dueuno.elements.style.TextTransform
 import grails.plugin.springsecurity.annotation.Secured
 
 /**

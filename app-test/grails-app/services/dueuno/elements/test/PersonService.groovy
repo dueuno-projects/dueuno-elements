@@ -22,7 +22,7 @@ import grails.gorm.transactions.Transactional
 @CurrentTenant
 @Transactional
 class PersonService {
-    
+
     private DetachedCriteria<TPerson> buildQuery(Map filterParams) {
         def query = TPerson.where {}
 

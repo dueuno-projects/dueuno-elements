@@ -20,8 +20,7 @@ import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.pages.Shell
 import dueuno.elements.pages.ShellConfig
 import dueuno.elements.tenants.TenantPropertyService
-import grails.gorm.multitenancy.CurrentTenant
-import groovy.transform.CompileDynamic
+import dueuno.elements.tenants.TenantService
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
@@ -33,12 +32,14 @@ import groovy.util.logging.Slf4j
 @CompileStatic
 class ShellService implements WebRequestAware, LinkGeneratorAware {
 
+    ApplicationService applicationService
+    TenantService tenantService
     SystemPropertyService systemPropertyService
     TenantPropertyService tenantPropertyService
-    ApplicationService applicationService
     PageService pageService
 
-    void install(String tenantId) {
+    void tenantInstall() {
+        String tenantId = tenantService.currentTenantId
         tenantPropertyService.setString('LOGO', linkPublicResource(tenantId, '/brand/logo.png', false))
     }
 
@@ -78,37 +79,5 @@ class ShellService implements WebRequestAware, LinkGeneratorAware {
         shellConfig.display.logo = tenantPropertyService.getString('LOGO', true)
 
         return shellConfig
-    }
-
-    void setShellDashboardItem(String controller) {
-        setShellDashboardItem(controller, null, -1)
-    }
-
-    void setShellDashboardItem(String controller, Integer order) {
-        setShellDashboardItem(controller, null, order)
-    }
-
-    @CurrentTenant
-    @CompileDynamic
-    void setShellDashboardItem(String controller, String parent, Integer order = -1) {
-        TShellDashboardItem item = TShellDashboardItem.findBy(controller: controller)
-
-        if (item) {
-            if (order == -1) order = TShellDashboardItem.count() + 1
-            item.order = order
-
-        } else {
-            item = new TShellDashboardItem(
-                    controller: controller,
-                    order: order,
-            )
-        }
-
-        item.save(flush: true, failOnError: true)
-    }
-
-    @CompileDynamic
-    List<TShellDashboardItem> listShellDashboardItem() {
-        return TShellDashboardItem.findAllByUserOrderByOrder()
     }
 }

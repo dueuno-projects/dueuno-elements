@@ -18,9 +18,10 @@ import dueuno.elements.utils.EnvUtils
 import grails.core.GrailsApplication
 import grails.plugins.GrailsPluginManager
 import groovy.transform.CompileStatic
+import jakarta.servlet.ServletContext
 import org.springframework.beans.factory.annotation.Autowired
 
-import jakarta.servlet.ServletContext
+import java.lang.management.ManagementFactory
 
 /**
  * @author Gianluca Sartori
@@ -42,6 +43,7 @@ class SystemInfoService implements WebRequestAware {
         Double freeMemory = Runtime.getRuntime().freeMemory() / Math.pow(1024, 2)
         Double maxMemory = Runtime.getRuntime().maxMemory() / Math.pow(1024, 2)
         Double usedMemory = (Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()) / Math.pow(1024, 2)
+        String gcNames = ManagementFactory.getGarbageCollectorMXBeans().collect { it.name }.join(", ")
 
         return [
                 environment  : message('default.env.' + EnvUtils.currentEnvironment),
@@ -59,6 +61,7 @@ class SystemInfoService implements WebRequestAware {
                 jvmHeapMax   : "${Math.round(maxMemory)} Mb",
                 jvmHeapUsed  : "${Math.round(usedMemory)} Mb",
                 jvmHeapFree  : "${Math.round(freeMemory)} Mb",
+                jvmGC        : gcNames,
                 jvmPath      : System.getProperty('java.home'),
                 jvmVersion   : System.getProperty('java.version') + ' ' + System.getProperty('java.vendor'),
 

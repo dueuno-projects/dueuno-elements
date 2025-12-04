@@ -18,7 +18,6 @@ import dueuno.elements.components.Button
 import dueuno.elements.components.Form
 import dueuno.elements.components.Label
 import dueuno.elements.components.Link
-import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.PasswordField
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.KeyPress

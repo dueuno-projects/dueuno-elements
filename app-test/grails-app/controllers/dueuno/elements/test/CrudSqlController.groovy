@@ -26,12 +26,10 @@ import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.QuantityUnit
 import dueuno.elements.types.Type
-import grails.gorm.multitenancy.CurrentTenant
-
 import jakarta.annotation.PostConstruct
+
 import java.time.LocalDate
 
-@CurrentTenant
 class CrudSqlController implements ElementsController {
 
     ApplicationService applicationService

@@ -14,17 +14,16 @@
  */
 package dueuno.elements.test
 
-
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.types.Money
-import grails.gorm.multitenancy.CurrentTenant
 
-@CurrentTenant
 class TableStressTestController implements ElementsController {
+
+    PersonService personService
 
     private rowsQty = 100
     private colsQtyPerType = 50
@@ -95,7 +94,7 @@ class TableStressTestController implements ElementsController {
                     addField(
                             class: Select,
                             id: 'user1',
-                            optionsFromRecordset: TPerson.list(),
+                            optionsFromRecordset: personService.list(),
                             keys: ['id'],
                     )
                     addField(

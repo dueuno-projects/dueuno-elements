@@ -26,6 +26,8 @@ import java.time.LocalTime
  * Created by sartori on 01/08/16.
  */
 class TDemo implements GormEntity, MultiTenant<TDemo> {
+    Long id
+
     String textfield
     Integer numberfield
     Money moneyfield

@@ -23,13 +23,10 @@ import dueuno.elements.core.TransitionService
 import dueuno.elements.security.SecurityService
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
-import dueuno.elements.types.Money
 import dueuno.elements.types.QuantityService
-import grails.gorm.multitenancy.CurrentTenant
-import grails.gorm.transactions.Transactional
 import grails.web.servlet.mvc.GrailsHttpSession
-
 import jakarta.servlet.ServletContext
+
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -38,6 +35,7 @@ class BootStrap {
 
     ServletContext servletContext
     ApplicationService applicationService
+    TestService testService
     QuantityService quantityService
     SystemPropertyService systemPropertyService
     TenantPropertyService tenantPropertyService
@@ -148,7 +146,7 @@ class BootStrap {
             // Creating a new tenant from the GUI gives an error here, to solve it you need to
             // remove the 'spring-dev-tools' dependency in build.gradle
             // See: https://github.com/spring-projects/spring-data-jpa/issues/2552
-            installDemo()
+            testService.installDemo()
         }
 
         applicationService.onDevInstall { String tenantId ->
@@ -434,65 +432,6 @@ class BootStrap {
                     authorities: ['ROLE_3']
             )
         }
-    }
-
-    @CurrentTenant
-    @Transactional
-    private void installDemo() {
-        TDemo demo = new TDemo(
-                textfield: 'Ventuno',
-                numberfield: 21,
-                checkbox: true,
-                moneyfield: new Money(21),
-        ).save(flush: true)
-        TCompany none = new TCompany(name: '000.no.company').save(flush: true)
-        TCompany dueuno = new TCompany(name: 'Dueuno S.r.l.').save(flush: true)
-        TCompany duedue = new TCompany(name: 'Duedue S.r.l.').save(flush: true)
-        TPerson user1 = new TPerson(active: true, company: dueuno, name: 'user1', address: 'Via del Primo', postcode: 30020).save(flush: true)
-        TPerson user2 = new TPerson(active: true, company: dueuno, name: 'user2', address: 'Via del Secondo', postcode: 30020).save(flush: true)
-        TPerson user3 = new TPerson(active: true, company: dueuno, name: 'user3', address: 'Via del Terzo', postcode: 30020).save(flush: true)
-        TPerson admin = new TPerson(active: true, company: dueuno, name: 'admin', address: 'Via dell\'Admin', postcode: 30020).save(flush: true)
-
-        dueuno.addToEmployees(user1).save(flush: true, failOnError: true)
-        dueuno.addToEmployees(user2).save(flush: true, failOnError: true)
-        dueuno.addToEmployees(user3).save(flush: true, failOnError: true)
-
-        new TFruit(name: 'Acerola', image: 'acerola_small.png').save(flush: true)
-        new TFruit(name: 'Apple', image: 'apple_small.png').save(flush: true)
-        new TFruit(name: 'Apricots', image: 'apricot_small.jpg').save(flush: true)
-        new TFruit(name: 'Avocado', image: 'avocado_small.jpg').save(flush: true)
-        new TFruit(name: 'Banana', image: 'banana_small.png').save(flush: true)
-        new TFruit(name: 'Blackberry', image: 'blackberry_small.jpg').save(flush: true)
-        new TFruit(name: 'Blackcurrant', image: 'blackcurrant_small.png').save(flush: true)
-        new TFruit(name: 'Blueberries', image: 'blueberries_small.jpg').save(flush: true)
-        new TFruit(name: 'Breadfruit', image: 'breadfruit_small.png').save(flush: true)
-        new TFruit(name: 'Cantaloupe', image: 'cantaloupe_small.png').save(flush: true)
-        new TFruit(name: 'Carambola', image: 'carambola_small.jpg').save(flush: true)
-        new TFruit(name: 'Cherimoya', image: 'cherimoya_small.png').save(flush: true)
-        new TFruit(name: 'Cherries', image: 'cherries_small.jpg').save(flush: true)
-        new TFruit(name: 'Clementine', image: 'clementine_small.png').save(flush: true)
-        new TFruit(name: 'Coconut Meat', image: 'coconutmeat_small.png').save(flush: true)
-        new TFruit(name: 'Cranberries', image: 'cranberries_small.jpg').save(flush: true)
-        new TFruit(name: 'Custard-Apple', image: 'custardapple_small.png').save(flush: true)
-        new TFruit(name: 'Date Fruit', image: 'datefruit_small.png').save(flush: true)
-        new TFruit(name: 'Durian', image: 'durian_samll.png').save(flush: true)
-        new TFruit(name: 'Elderberries', image: 'elderberries_small.png').save(flush: true)
-        new TFruit(name: 'Feijoa', image: 'feijoa_small.gif').save(flush: true)
-        new TFruit(name: 'Figs', image: 'fig_small.png').save(flush: true)
-        new TFruit(name: 'Gooseberries', image: 'gooseberries_small.png').save(flush: true)
-        new TFruit(name: 'Grapefruit', image: 'grapefruit_samll.png').save(flush: true)
-        new TFruit(name: 'Grapes', image: 'grapes_small.jpg').save(flush: true)
-        new TFruit(name: 'Guava', image: 'guava_small.jpg').save(flush: true)
-        new TFruit(name: 'Honeydew Melon', image: 'honeydewmelon_small.gif').save(flush: true)
-        new TFruit(name: 'Jackfruit', image: 'jackfruit_small.gif').save(flush: true)
-        new TFruit(name: 'Java-Plum', image: 'javplum_small.png').save(flush: true)
-        new TFruit(name: 'Jujube Fruit', image: 'jujube_small.png').save(flush: true)
-        new TFruit(name: 'Kiwifruit', image: 'kiwi_small.gif').save(flush: true)
-        new TFruit(name: 'Kumquat', image: 'kumquat_small.png').save(flush: true)
-        new TFruit(name: 'Lemon', image: 'lemon_small.gif').save(flush: true)
-        new TFruit(name: 'Lime', image: 'lime_small.jpg').save(flush: true)
-        new TFruit(name: 'Longan', image: 'longan_small.png').save(flush: true)
-        new TFruit(name: 'Loquat', image: 'loquat_small.png').save(flush: true)
     }
 
     def destroy = {

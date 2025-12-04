@@ -23,9 +23,8 @@ import dueuno.elements.security.SecurityService
 import dueuno.elements.security.TUser
 import dueuno.elements.style.*
 import dueuno.elements.types.*
-import grails.gorm.multitenancy.CurrentTenant
-
 import jakarta.servlet.ServletContext
+
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -34,14 +33,13 @@ class MyType {
     Integer i
 }
 
-
-@CurrentTenant
 class SandboxController implements ElementsController {
 
     ServletContext servletContext
     ApplicationService applicationService
     QuantityService quantityService
     SecurityService securityService
+    PersonService personService
 
     def handleException(Exception e) {
         display exception: e
@@ -379,7 +377,7 @@ Grails application running at http://localhost:9992/test in environment: develop
 //            addField(
 //                    class: MultipleCheckbox,
 //                    id: 'employees',
-//                    optionsFromRecordset: TPerson.list(),
+//                    optionsFromRecordset: personService.list(),
 ////                    value: TCompany.get(2).employees,
 //            )
 //            addField(
@@ -481,8 +479,8 @@ Grails application running at http://localhost:9992/test in environment: develop
 
             }
             max = 10
-            body = TPerson.list(max: 10)
-            paginate = TPerson.count()
+            body = personService.list(max: 10)
+            paginate = personService.count()
         }
 
         c.addComponent(
@@ -526,7 +524,7 @@ Grails application running at http://localhost:9992/test in environment: develop
             ]
             body.eachRow { TableRow row, Map values ->
             }
-            body = TPerson.list(max: 10)
+            body = personService.list(max: 10)
         }
 //
 //        def form = c.addComponent(Form)
@@ -837,7 +835,7 @@ Grails application running at http://localhost:9992/test in environment: develop
     def onSearch() {
         def t = createTransition()
         t.set('select1', 'options', Select.optionsFromRecordset(
-                recordset: TPerson.where { name =~ "%${params.select1}%" }.list(),
+                recordset: personService.list(name: params.select1),
         ))
         display transition: t
     }

@@ -1,8 +1,10 @@
 package dueuno.elements.security
 
 import grails.plugin.springsecurity.userdetails.GrailsUser
+import groovy.transform.CompileStatic
 import org.springframework.security.core.GrantedAuthority
 
+@CompileStatic
 class CustomGrailsUser extends GrailsUser {
 
     final String externalId

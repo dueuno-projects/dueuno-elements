@@ -14,11 +14,7 @@
  */
 package dueuno.elements.test
 
-import dueuno.elements.components.Button
-import dueuno.elements.components.Label
-import dueuno.elements.components.Separator
-import dueuno.elements.components.Table
-import dueuno.elements.components.TableRow
+import dueuno.elements.components.*
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
 import dueuno.elements.core.ApplicationService
@@ -29,17 +25,16 @@ import dueuno.elements.style.TextTransform
 import dueuno.elements.style.TextWrap
 import dueuno.elements.types.QuantityService
 import dueuno.elements.types.QuantityUnit
-import grails.gorm.multitenancy.CurrentTenant
 
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-@CurrentTenant
 class FormController implements ElementsController {
 
     ApplicationService applicationService
     QuantityService quantityService
+    PersonService personService
 
     def index() {
         def c = createContent(ContentForm)
@@ -143,7 +138,7 @@ class FormController implements ElementsController {
             def user1 = addField(
                     class: Select,
                     id: 'user1',
-                    optionsFromRecordset: TPerson.list(),
+                    optionsFromRecordset: personService.list(),
                     keys: ['id'],
                     value: params.person,
                     help: 'Questo è un messaggio di aiuto per te che non sai cosa diavolo fare',
@@ -183,7 +178,7 @@ class FormController implements ElementsController {
             addField(
                     class: Select,
                     id: 'userTrans',
-                    optionsFromRecordset: TPerson.list(),
+                    optionsFromRecordset: personService.list(),
                     transformer: 'T_PERSON',
             )
             addField(
@@ -332,7 +327,7 @@ class FormController implements ElementsController {
             addField(
                     class: Select,
                     id: 'user2',
-                    optionsFromRecordset: TPerson.list(),
+                    optionsFromRecordset: personService.list(),
                     keys: ['id'],
                     search: false,
             )
@@ -497,9 +492,8 @@ class FormController implements ElementsController {
             actions.addAction(action: 'test4')
             actions.addAction(action: 'test5')
             actions.addAction(action: 'test6')
-            def query = TPerson.where {}
-            body = query.list(max: 10)
-            paginate = query.count()
+            body = personService.list(max: 10)
+            paginate = personService.count()
         }
 
         display content: c, modal: modal, wide: wide, fullscreen: fullscreen, animate: animate, closeButton: closeButton

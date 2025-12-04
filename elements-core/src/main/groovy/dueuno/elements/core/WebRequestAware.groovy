@@ -19,13 +19,12 @@ import grails.web.mvc.FlashScope
 import grails.web.servlet.mvc.GrailsHttpSession
 import grails.web.servlet.mvc.GrailsParameterMap
 import groovy.transform.CompileStatic
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.grails.web.servlet.mvc.GrailsWebRequest
 import org.grails.web.util.WebUtils
 import org.springframework.validation.ObjectError
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
-
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 
 /**
  * Helper trait to access request bound properties and methods from any class
@@ -37,7 +36,7 @@ import jakarta.servlet.http.HttpServletResponse
 @CompileStatic
 trait WebRequestAware {
 
-    static Boolean hasRequest() {
+    Boolean hasRequest() {
         try {
             WebUtils.retrieveGrailsWebRequest()
             return true
@@ -47,7 +46,7 @@ trait WebRequestAware {
         }
     }
 
-    static GrailsWebRequest getGrailsWebRequest() {
+    GrailsWebRequest getGrailsWebRequest() {
         return WebUtils.retrieveGrailsWebRequest()
     }
 

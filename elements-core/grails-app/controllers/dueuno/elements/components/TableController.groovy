@@ -17,25 +17,27 @@ package dueuno.elements.components
 /**
  * @author Gianluca Sartori
  */
-import dueuno.commons.utils.DateUtils
 
-import jakarta.servlet.http.HttpServletResponse
+import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 
+@Slf4j
+@CompileStatic
 class TableController {
 
     def download() {
         //...
     }
 
-    void toExcel(HttpServletResponse response, List recordset, List<String> columns = [], Map exportProperties = [:], Closure exporter = {}) {
-        String filename = exportProperties.filename ?: 'ExcelExport_' + DateUtils.filenameTimestamp
-
-        response.setHeader('Content-disposition', 'attachment; filename="' + filename + '.xlsx"')
-        response.setContentType('application/octet-stream')
-        OutputStream fos = response.outputStream
-
-        log.info "DOWNLOADING FILE '${filename}'"
-        toExcel(fos, recordset, columns, exportProperties, exporter)
-    }
+//    void toExcel(HttpServletResponse response, List recordset, List<String> columns = [], Map exportProperties = [:], Closure exporter = {}) {
+//        String filename = exportProperties.filename ?: 'ExcelExport_' + DateUtils.filenameTimestamp
+//
+//        response.setHeader('Content-disposition', 'attachment; filename="' + filename + '.xlsx"')
+//        response.setContentType('application/octet-stream')
+//        OutputStream fos = response.outputStream
+//
+//        log.info "DOWNLOADING FILE '${filename}'"
+//        toExcel(fos, recordset, columns, exportProperties, exporter)
+//    }
 
 }

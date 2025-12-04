@@ -1,10 +1,11 @@
 package dueuno.elements.security
 
-
+import groovy.transform.CompileStatic
 import org.springframework.security.authentication.AbstractAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.util.Assert
 
+@CompileStatic
 class ExternalIdAuthenticationToken extends AbstractAuthenticationToken {
 
     private final Object principal

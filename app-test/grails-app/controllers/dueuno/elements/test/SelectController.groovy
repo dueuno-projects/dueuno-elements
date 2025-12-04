@@ -14,15 +14,14 @@
  */
 package dueuno.elements.test
 
-
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.Select
 import dueuno.elements.core.ElementsController
-import grails.gorm.multitenancy.CurrentTenant
 
-@CurrentTenant
 class SelectController implements ElementsController {
+
+    CompanyService companyService
 
     def index() {
 
@@ -37,14 +36,14 @@ class SelectController implements ElementsController {
 //                addField(
 //                        class: Select,
 //                        id: 'company1',
-//                        optionsFromRecordset: TCompany.list(),
+//                        optionsFromRecordset: companyService.list(),
 //                        placeholder: 'Sync load',
 //                        cols: 3,
 //                )
                 addField(
                         class: Select,
                         id: 'company1Default',
-                        optionsFromRecordset: TCompany.list(),
+                        optionsFromRecordset: companyService.list(),
                         placeholder: 'Sync load (defaultValue)',
                         defaultValue: 3,
                         cols: 3,
@@ -108,8 +107,8 @@ class SelectController implements ElementsController {
         if (filters.company3) query = query.where { company.id in filters.company3.collect { it as Long }  }
         if (filters.company4) query = query.where { company.id in filters.company4.collect { it as Long }  }
 
-        c.table.body = query.list(params)
-        c.table.paginate = query.count()
+        c.table.body = companyService.list(params)
+        c.table.paginate = companyService.count()
 
         display content: c
     }
@@ -126,7 +125,7 @@ class SelectController implements ElementsController {
 
     def onLoadCompany2() {
         def t = createTransition()
-        def results = TCompany.list()
+        def results = companyService.list()
         def options = Select.optionsFromRecordset(recordset: results)
         t.set('company2', 'options', options)
         t.setValue('company2', params.company2, false)
@@ -135,7 +134,7 @@ class SelectController implements ElementsController {
 
     def onLoadCompany3() {
         def t = createTransition()
-        def results = TCompany.get(params.company3)
+        def results = companyService.get(params.company3)
         def options = Select.optionsFromRecordset(recordset: [results])
         t.set('company3', 'options', options)
         display transition: t
@@ -143,9 +142,7 @@ class SelectController implements ElementsController {
 
     def onSearchCompany3() {
         def t = createTransition()
-        def results = TCompany.where {
-            name =~ "%${params.company3}%"
-        }.list()
+        def results = companyService.list(name: params.company3)
         def options = Select.optionsFromRecordset(recordset: results)
         t.set('company3', 'options', options)
         display transition: t
@@ -153,7 +150,7 @@ class SelectController implements ElementsController {
 
     def onLoadCompany4() {
         def t = createTransition()
-        def results = TCompany.list()
+        def results = companyService.list()
         def options = Select.optionsFromRecordset(recordset: results)
         t.set('company4', 'options', options)
         t.setValue('company4', params.company4, false)

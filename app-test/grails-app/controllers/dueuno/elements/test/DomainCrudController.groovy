@@ -21,9 +21,7 @@ import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
-import grails.gorm.multitenancy.CurrentTenant
 
-@CurrentTenant
 class DomainCrudController implements ElementsController {
 
     def index() {

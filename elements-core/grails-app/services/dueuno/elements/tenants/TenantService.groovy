@@ -27,7 +27,6 @@ import dueuno.elements.security.TUser
 import dueuno.elements.security.TUserRoleGroup
 import dueuno.elements.utils.ResourceUtils
 import grails.gorm.DetachedCriteria
-import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.multitenancy.Tenants
 import grails.gorm.transactions.Transactional
 import groovy.transform.CompileDynamic
@@ -40,7 +39,6 @@ import org.grails.datastore.mapping.core.connections.ConnectionSource
  */
 
 @Slf4j
-@Transactional
 @CompileStatic
 class TenantService {
 
@@ -51,20 +49,18 @@ class TenantService {
     void install() {
         create(
                 tenantId: defaultTenantId,
-                description: 'System tenant',
+                description: 'Default Tenant',
                 deletable: false,
                 failOnError: true,
                 connectionSource: connectionSourceService.default,
         )
     }
 
-    @CurrentTenant
     String getPrivateDir() {
         String tenantIdUpper = currentTenantId.toUpperCase()
         return systemPropertyService.getDirectory(tenantIdUpper + '_TENANT_PRIVATE_DIR')
     }
 
-    @CurrentTenant
     String getPublicDir() {
         String tenantIdUpper = currentTenantId.toUpperCase()
         return systemPropertyService.getDirectory(tenantIdUpper + '_TENANT_PUBLIC_DIR')
@@ -116,7 +112,6 @@ class TenantService {
      * Returns the name of the current tenantId
      * @return the name of the current tenantId
      */
-    @CurrentTenant
     String getCurrentTenantId() {
         return Tenants.currentId()
     }
@@ -127,15 +122,16 @@ class TenantService {
      * Returns the name of the current tenant
      * @return the name of the current tenant
      */
-    @CurrentTenant
     TTenant getCurrentTenant() {
         return getByTenantId(currentTenantId)
     }
 
+    @Transactional
     TTenant get(Serializable id) {
         return TTenant.get(id) as TTenant
     }
 
+    @Transactional
     @CompileDynamic
     TTenant getByTenantId(String tenantId) {
         return TTenant.findByTenantId(tenantId)
@@ -151,20 +147,22 @@ class TenantService {
         return query
     }
 
+    @Transactional
     List<TTenant> list(Map filterParams = [:], Map fetchParams = [:]) {
         if (!fetchParams.sort) fetchParams.sort = [dateCreated: 'asc']
         def query = buildQuery(filterParams)
         return query.list(fetchParams)
     }
 
+    @Transactional
     Number count(Map filters = [:]) {
         def query = buildQuery(filters)
         return query.count()
     }
 
+    @Transactional
     TTenant create(Map args) {
         if (args.deletable == null) args.deletable = true
-        if (args.provision == null) args.provision = false
 
         TTenant obj = new TTenant(args)
         if (obj.connectionSource.embedded == null) obj.connectionSource.embedded = false
@@ -203,24 +201,35 @@ class TenantService {
                 log.info "${obj.tenantId} Tenant - Connecting to database..."
                 connectionSourceService.connect(obj.connectionSource)
             }
-
-            if (args.provision) {
-                provisionTenant(obj.tenantId)
-            }
         }
 
         return obj
     }
 
-    void provisionTenant(String tenantId) {
-        applicationService.executeOnPluginInstall(tenantId)
-        applicationService.executeOnTenantInstall(tenantId)
+    void provision(String tenantId) {
+        withTenant(tenantId) {
+            provisionTenant()
+        }
     }
 
-    void provisionTenantUpdate(String tenantId) {
-        applicationService.executeOnUpdate(tenantId)
+    private void provisionTenant() {
+        applicationService.executeOnPluginTenantInstall()
+        applicationService.executeOnTenantInstall()
     }
 
+    void provisionAllTenants() {
+        eachTenant { String tenantId ->
+            provisionTenant()
+        }
+    }
+
+    void updateAllTenants() {
+        eachTenant { String tenantId ->
+            applicationService.executeOnUpdate()
+        }
+    }
+
+    @Transactional
     @CompileDynamic
     TTenant update(Map args) {
         Serializable id = ArgsException.requireArgument(args, 'id')
@@ -232,6 +241,7 @@ class TenantService {
         return obj
     }
 
+    @Transactional
     @CompileDynamic
     void delete(Serializable id) {
         TTenant tenant = TTenant.get(id)
@@ -243,6 +253,7 @@ class TenantService {
         systemInstall.deleteAll()
     }
 
+    @Transactional
     @CompileDynamic
     private void deleteTenantUsersAndGroups(TTenant tenant) {
         List<TUserRoleGroup> userRoleGroups = TUserRoleGroup.where { user.tenant == tenant }.list()
@@ -265,5 +276,4 @@ class TenantService {
             roleGroup.delete(flush: true, failOnError: true)
         }
     }
-
 }

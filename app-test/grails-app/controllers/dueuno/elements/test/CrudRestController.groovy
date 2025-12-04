@@ -14,14 +14,11 @@
  */
 package dueuno.elements.test
 
-
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.core.ElementsController
-import grails.gorm.multitenancy.CurrentTenant
 
-@CurrentTenant
 class CrudRestController implements ElementsController {
 
     String LAYOUT = 'W_T002_Artidoli_dettaglio'

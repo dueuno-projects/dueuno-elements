@@ -15,16 +15,12 @@
 package dueuno.elements.types
 
 import dueuno.elements.tenants.TenantPropertyService
-import grails.gorm.multitenancy.CurrentTenant
-import grails.gorm.transactions.Transactional
 import groovy.transform.CompileStatic
 
 /**
  * @author Gianluca Sartori
  */
 
-@CurrentTenant
-@Transactional
 @CompileStatic
 class QuantityService {
 

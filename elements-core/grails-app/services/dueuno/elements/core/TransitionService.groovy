@@ -14,8 +14,6 @@
  */
 package dueuno.elements.core
 
-import grails.gorm.multitenancy.CurrentTenant
-import grails.gorm.transactions.Transactional
 import grails.plugin.springwebsocket.WebSocket
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j

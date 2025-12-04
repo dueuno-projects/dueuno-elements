@@ -335,7 +335,7 @@ class CrudCustomController implements ElementsController {
     }
 
     def onCreate() {
-        TPerson obj = personService.create(params)
+        def obj = personService.create(params)
         if (obj.hasErrors()) {
             display errors: obj
             return
@@ -350,13 +350,13 @@ class CrudCustomController implements ElementsController {
 
     def edit() {
         def c = buildForm(create: false)
-        TPerson obj = personService.get(params.id)
+        def obj = personService.get(params.id)
         c.form.values = obj
         display content: c, modal: true, wide: true
     }
 
     def onEdit() {
-        TPerson obj = personService.update(params)
+        def obj = personService.update(params)
         if (obj.hasErrors()) {
             display errors: obj
         } else {
@@ -364,9 +364,9 @@ class CrudCustomController implements ElementsController {
         }
     }
 
-    def onDelete(TPerson obj) {
+    def onDelete() {
         try {
-            personService.delete(obj.id)
+            personService.delete(params.id)
             display action: 'index'
 
         } catch (e) {

@@ -19,9 +19,7 @@ import dueuno.elements.controls.Select
 import dueuno.elements.core.Elements
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextDefault
-import grails.gorm.multitenancy.CurrentTenant
 
-@CurrentTenant
 class MessageBoxDemoController implements ElementsController {
 
     def index() {
