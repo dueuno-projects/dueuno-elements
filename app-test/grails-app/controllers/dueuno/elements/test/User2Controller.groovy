@@ -14,14 +14,11 @@
  */
 package dueuno.elements.test
 
-
 import dueuno.elements.components.Table
 import dueuno.elements.core.ElementsController
-import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['ROLE_2'])
-@CurrentTenant
 class User2Controller implements ElementsController {
 
     def index() {

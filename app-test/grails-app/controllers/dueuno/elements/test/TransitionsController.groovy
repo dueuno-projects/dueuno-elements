@@ -27,16 +27,15 @@ import dueuno.elements.style.TextStyle
 import dueuno.elements.types.Money
 import dueuno.elements.types.Quantity
 import dueuno.elements.types.QuantityUnit
-import grails.gorm.multitenancy.CurrentTenant
 
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-@CurrentTenant
 class TransitionsController implements ElementsController {
 
     SecurityService securityService
+    PersonService personService
 
     def index() {
         // PAGE SETUP
@@ -114,7 +113,7 @@ class TransitionsController implements ElementsController {
             addField(
                     class: Select,
                     id: 'user1',
-                    optionsFromRecordset: TPerson.list(),
+                    optionsFromRecordset: personService.list(),
                     keys: ['id'],
                     loading: true,
                     onChange: 'onSelectChange',
@@ -196,7 +195,7 @@ class TransitionsController implements ElementsController {
             addField(
                     class: MultipleCheckbox,
                     id: 'multiple',
-                    optionsFromRecordset: TPerson.list(max: 5),
+                    optionsFromRecordset: personService.list(max: 5),
                     keys: ['id'],
                     cols: 12,
             )
@@ -303,7 +302,7 @@ class TransitionsController implements ElementsController {
         t.set('btn4Field', 'display', true)
         t.set('select2', 'options',
                 Select.optionsFromRecordset(
-                        recordset: TPerson.list(),
+                        recordset: personService.list(),
                         keys: ['id'],
                 ))
         t.set('modal.select2', 'readonly', false)
@@ -352,7 +351,7 @@ class TransitionsController implements ElementsController {
         def t = createTransition()
         t.set('select3', 'options',
                 Select.optionsFromRecordset(
-                        recordset: TPerson.list(),
+                        recordset: personService.list(),
                         keys: ['name'],
                 ))
         t.setValue('select3', 'admin')
@@ -365,7 +364,7 @@ class TransitionsController implements ElementsController {
         def t = createTransition()
         t.set('searchfield', 'options',
                 Select.optionsFromRecordset(
-                        recordset: TPerson.findAllByNameLike("%${params.searchfield}%"),
+                        recordset: personService.list(name: params.searchfield),
                         keys: ['id'],
                 )
         )

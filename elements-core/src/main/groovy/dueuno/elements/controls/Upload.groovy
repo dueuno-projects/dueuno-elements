@@ -17,6 +17,7 @@ package dueuno.elements.controls
 import dueuno.elements.core.Control
 import dueuno.elements.types.Type
 import groovy.transform.CompileStatic
+import org.grails.web.util.WebUtils
 import org.springframework.web.multipart.MultipartFile
 
 import java.nio.file.Paths
@@ -60,15 +61,15 @@ class Upload extends Control {
     }
 
     static String getFilename() {
-        return getGrailsWebRequest().params._21Upload['filename']
+        return WebUtils.retrieveGrailsWebRequest().params._21Upload['filename']
     }
 
     static void save(String path, String newFilename = null) {
-        if (!getGrailsWebRequest().params._21Upload) {
+        if (!WebUtils.retrieveGrailsWebRequest().params._21Upload) {
             return
         }
 
-        MultipartFile request = getGrailsWebRequest().params._21Upload as MultipartFile
+        MultipartFile request = WebUtils.retrieveGrailsWebRequest().params._21Upload as MultipartFile
         String pathname = path + (newFilename ?: filename)
         request.transferTo(Paths.get(pathname))
     }

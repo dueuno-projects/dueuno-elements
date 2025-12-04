@@ -24,14 +24,12 @@ import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.types.Money
-import grails.gorm.multitenancy.CurrentTenant
-
 import jakarta.annotation.PostConstruct
 
-@CurrentTenant
 class TableController implements ElementsController {
 
     ApplicationService applicationService
+    PersonService personService
 
     @PostConstruct
     void init() {
@@ -68,7 +66,7 @@ class TableController implements ElementsController {
                 addField(
                         class: Select,
                         id: 'user1',
-                        optionsFromRecordset: TPerson.list(),
+                        optionsFromRecordset: personService.list(),
                         keys: ['id'],
                 )
                 addField(
@@ -126,12 +124,12 @@ class TableController implements ElementsController {
             }
 
             // Assignment of "header", "body" and "footer" data must be done after ".eachRow" setup
-            body = TPerson.list(params)
+            body = personService.list(params)
             footer = [
                     [actions: 'Subtotale', name: '10.000', postcode: '200'],
                     [actions: 'Totale', name: '10.000', postcode: '200'],
             ]
-            paginate = TPerson.count()
+            paginate = personService.count()
         }
 
         /*page.addComponent(class: Table, id: 'table2').with {

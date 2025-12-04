@@ -14,7 +14,6 @@
  */
 package dueuno.elements.test
 
-
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.core.ElementsController
 import dueuno.elements.types.Money

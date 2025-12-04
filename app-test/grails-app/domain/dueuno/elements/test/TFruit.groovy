@@ -18,6 +18,8 @@ import grails.gorm.MultiTenant
 import org.grails.datastore.gorm.GormEntity
 
 class TFruit implements GormEntity, MultiTenant<TFruit> {
+    Long id
+
     String name
     String image
 

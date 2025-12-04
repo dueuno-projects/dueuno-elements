@@ -14,19 +14,19 @@
  */
 package dueuno.elements.test
 
-import dueuno.elements.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.transactions.Transactional
 
 @CurrentTenant
 @Transactional
-class PersonService {
+class CompanyService {
 
-    private DetachedCriteria<TPerson> buildQuery(Map filterParams) {
-        def query = TPerson.where {}
+    private DetachedCriteria<TCompany> buildQuery(Map filterParams) {
+        def query = TCompany.where {}
 
         if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
+        if (filterParams.containsKey('name')) query = query.where { name == filterParams.name }
 
         if (filterParams.find) {
             String search = filterParams.find.replaceAll('\\*', '%')
@@ -40,22 +40,22 @@ class PersonService {
         return query
     }
 
-    TPerson get(Serializable id) {
+    TCompany get(Serializable id) {
         // Add single-sided relationships here (Eg. references to other Domain Objects)
         Map fetch = [
-                company: 'join',
+                employees: 'join',
         ]
 
         return buildQuery(id: id).get(fetch: fetch)
     }
 
-    List<TPerson> list(Map filterParams = [:], Map fetchParams = [:]) {
+    List<TCompany> list(Map filterParams = [:], Map fetchParams = [:]) {
         if (!fetchParams.sort) fetchParams.sort = [dateCreated: 'asc']
 
         // Add single-sided relationships here (Eg. references to other DomainObjects)
         // DO NOT add hasMany relationships, you are going to have troubles with pagination
-        fetchParams.fetch = [
-                company: 'join',
+        fetchParams.fetch = [:
+//                employees: 'join',
         ]
 
         def query = buildQuery(filterParams)
@@ -67,26 +67,26 @@ class PersonService {
         return query.count()
     }
 
-    TPerson create(Map args = [:]) {
+    TCompany create(Map args = [:]) {
         if (args.failOnError == null) args.failOnError = false
 
-        TPerson obj = new TPerson(args)
+        TCompany obj = new TCompany(args)
         obj.save(flush: true, failOnError: args.failOnError)
         return obj
     }
 
-    TPerson update(Map args = [:]) {
+    TCompany update(Map args = [:]) {
         Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TPerson obj = get(id)
+        TCompany obj = get(id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
         return obj
     }
 
     void delete(Serializable id) {
-        TPerson obj = get(id)
+        TCompany obj = get(id)
         obj.delete(flush: true, failOnError: true)
     }
 }

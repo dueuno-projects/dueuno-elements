@@ -15,12 +15,10 @@
 package dueuno.elements.core
 
 import dueuno.elements.tenants.TenantPropertyService
-import dueuno.elements.tenants.TenantService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.web.servlet.ServletContextInitializer
-
 import jakarta.servlet.ServletContext
 import jakarta.servlet.ServletException
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.web.servlet.ServletContextInitializer
 
 /**
  * @author Gianluca Sartori

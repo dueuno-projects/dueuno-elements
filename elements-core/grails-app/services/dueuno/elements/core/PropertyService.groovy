@@ -15,7 +15,6 @@
 package dueuno.elements.core
 
 import dueuno.commons.utils.FileUtils
-import grails.gorm.multitenancy.CurrentTenant
 import groovy.transform.CompileStatic
 
 import java.time.LocalDate

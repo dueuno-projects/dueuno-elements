@@ -15,7 +15,6 @@
 package dueuno.elements.controls
 
 import dueuno.elements.core.Control
-import dueuno.elements.core.PrettyPrinter
 import dueuno.elements.exceptions.ElementsException
 import dueuno.elements.types.Type
 import groovy.transform.CompileStatic

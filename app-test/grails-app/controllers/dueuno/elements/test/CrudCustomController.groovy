@@ -24,11 +24,11 @@ import dueuno.elements.controls.*
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextDefault
-import grails.gorm.multitenancy.CurrentTenant
 
 class CrudCustomController implements ElementsController {
 
     PersonService personService
+    CompanyService companyService
 
     def index() {
 
@@ -258,26 +258,17 @@ class CrudCustomController implements ElementsController {
             }
         }
 
-        // QUERY
-        //
-        def query = TPerson.where {} // def user1 = user1 }
-
-        def filters = table.filterParams
-        //if (filters.user1) query = query.where {user1.username == filters.user1}
-        if (filters.dateFrom) query = query.where { dateCreated >= filters.dateFrom.atTime(0, 0) }
-        if (filters.dateTo) query = query.where { dateCreated <= filters.dateTo.atTime(23, 59) }
-
         // VALUES
         //
         println actionSession
-        table.body = query.list(table.fetchParams)
-        table.paginate = query.count()
-        table2.body = query.list(table2.fetchParams)
+        table.body = personService.list(table.filterParams, table.fetchParams)
+        table.paginate = personService.count(table.filterParams)
+        table2.body = personService.list(table2.filterParams, table2.fetchParams)
         table2.footer = [[dateCreated: 'TOTAL']]
-        table2.paginate = query.count()
+        table2.paginate = personService.count(table2.filterParams)
         table2.pagination.reset()
-        table3.body = query.list(table3.fetchParams)
-        table3.paginate = query.count()
+        table3.body = personService.list(table3.filterParams, table3.fetchParams)
+        table3.paginate = personService.count(table3.filterParams)
 
         display content: c
     }
@@ -291,7 +282,7 @@ class CrudCustomController implements ElementsController {
             addField(
                     class: Select,
                     id: 'company',
-                    optionsFromRecordset: TCompany.list(),
+                    optionsFromRecordset: companyService.list(),
             )
             addField(
                     class: TextField,
@@ -344,7 +335,7 @@ class CrudCustomController implements ElementsController {
     }
 
     def onCreate() {
-        TPerson obj = personService.create(params)
+        def obj = personService.create(params)
         if (obj.hasErrors()) {
             display errors: obj
             return
@@ -357,14 +348,15 @@ class CrudCustomController implements ElementsController {
         }
     }
 
-    def edit(TPerson obj) {
+    def edit() {
         def c = buildForm(create: false)
+        def obj = personService.get(params.id)
         c.form.values = obj
         display content: c, modal: true, wide: true
     }
 
     def onEdit() {
-        TPerson obj = personService.update(params)
+        def obj = personService.update(params)
         if (obj.hasErrors()) {
             display errors: obj
         } else {
@@ -372,9 +364,9 @@ class CrudCustomController implements ElementsController {
         }
     }
 
-    def onDelete(TPerson obj) {
+    def onDelete() {
         try {
-            personService.delete(obj.id)
+            personService.delete(params.id)
             display action: 'index'
 
         } catch (e) {

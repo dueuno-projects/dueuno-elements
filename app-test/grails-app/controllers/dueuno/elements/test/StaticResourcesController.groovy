@@ -14,13 +14,10 @@
  */
 package dueuno.elements.test
 
-
 import dueuno.elements.components.Table
 import dueuno.elements.components.TableRow
 import dueuno.elements.core.ElementsController
-import grails.gorm.multitenancy.CurrentTenant
 
-@CurrentTenant
 class StaticResourcesController implements ElementsController {
 
     def index() {

@@ -21,10 +21,8 @@ import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextDefault
-import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.annotation.Secured
 
-@CurrentTenant
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class PublicPageController implements ElementsController {
 

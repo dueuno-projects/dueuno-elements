@@ -31,7 +31,7 @@ class CryptoService {
     ApplicationService applicationService
     TenantService tenantService
 
-    void install() {
+    void tenantInstall() {
         byte[] password = CryptoUtils.generateAESKey()
         CryptoUtils.saveAESKey(password, tenantAESKeyPathname)
         applicationService.setAttribute(tenantAESKeyAttributeName, password)

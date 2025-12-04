@@ -22,7 +22,6 @@ import dueuno.elements.controls.NumberField
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ElementsController
 import grails.plugin.springsecurity.annotation.Secured
-
 import jakarta.annotation.PostConstruct
 
 @Secured(['ROLE_USER', /* other ROLE_... */])

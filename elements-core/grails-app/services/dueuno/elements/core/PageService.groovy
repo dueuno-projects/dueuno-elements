@@ -18,6 +18,7 @@ import dueuno.commons.utils.FileUtils
 import dueuno.elements.contents.ContentHeader
 import dueuno.elements.security.SecurityService
 import dueuno.elements.tenants.TenantPropertyService
+import dueuno.elements.tenants.TenantService
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
@@ -30,11 +31,13 @@ import groovy.util.logging.Slf4j
 class PageService implements WebRequestAware, LinkGeneratorAware {
 
     SecurityService securityService
+    TenantService tenantService
     SystemPropertyService systemPropertyService
     TenantPropertyService tenantPropertyService
     TransitionService transitionService
 
-    void install(String tenantId) {
+    void tenantInstall() {
+        String tenantId = tenantService.currentTenantId
         tenantPropertyService.setString('FAVICON', linkPublicResource(tenantId, 'brand/favicon.png', false))
         tenantPropertyService.setString('APPICON', linkPublicResource(tenantId, 'brand/appicon.png', false))
 

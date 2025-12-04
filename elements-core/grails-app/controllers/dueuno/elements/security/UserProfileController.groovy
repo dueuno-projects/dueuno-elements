@@ -22,7 +22,6 @@ import dueuno.elements.core.ElementsController
 import dueuno.elements.core.PrettyPrinterDecimalFormat
 import dueuno.elements.style.TextDefault
 import dueuno.elements.tenants.TenantPropertyService
-import grails.gorm.multitenancy.WithoutTenant
 import grails.plugin.springsecurity.annotation.Secured
 
 /**

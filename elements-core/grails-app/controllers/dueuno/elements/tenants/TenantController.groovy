@@ -24,10 +24,8 @@ import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ConnectionSourceService
 import dueuno.elements.core.ElementsController
-import dueuno.elements.security.SecurityService
 import dueuno.elements.style.Color
 import dueuno.elements.style.TextTransform
-import dueuno.elements.style.TextWrap
 import dueuno.elements.utils.EnvUtils
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -38,7 +36,6 @@ import grails.plugin.springsecurity.annotation.Secured
 class TenantController implements ElementsController {
 
     TenantService tenantService
-    SecurityService securityService
     ConnectionSourceService connectionSourceService
 
     def index() {
@@ -164,7 +161,6 @@ class TenantController implements ElementsController {
     }
 
     def onCreate() {
-        params.provision = true
         def obj
         try {
             obj = tenantService.create(params)
@@ -178,6 +174,7 @@ class TenantController implements ElementsController {
             return
         }
 
+        tenantService.provision(obj.tenantId)
         display action: 'index'
     }
 
