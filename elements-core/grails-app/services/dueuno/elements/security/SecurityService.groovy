@@ -37,6 +37,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices
 
+import javax.servlet.http.HttpServletRequest
+
 /**
  * Security API
  *
@@ -609,14 +611,23 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return query.get(fetch: fetchAll) as TUser
     }
 
+    TUser getUserByExternalId(String externalId) {
+        def query = TUser.where { externalId == externalId }
+        return query.get(fetch: fetchAll) as TUser
+    }
+
     TUser getUserByApiKey(String apiKey) {
         def query = TUser.where { apiKey == apiKey }
         return query.get(fetch: fetchAll) as TUser
     }
 
-    TUser getUserByExternalId(String externalId) {
-        def query = TUser.where { externalId == externalId }
-        return query.get(fetch: fetchAll) as TUser
+    TUser getUserByXAuthToken(HttpServletRequest request) {
+        String apiKey = request.getHeader('X-Auth-Token')
+        if (!apiKey) {
+            return null
+        }
+
+        return getUserByApiKey(apiKey)
     }
 
     TUser getSuperAdminUser() {

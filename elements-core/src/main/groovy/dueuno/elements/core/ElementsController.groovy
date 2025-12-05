@@ -17,7 +17,7 @@ package dueuno.elements.core
 import dueuno.commons.utils.LogUtils
 import dueuno.elements.contents.ContentHeader
 import dueuno.elements.exceptions.ElementsException
-import dueuno.elements.pages.PageBlank
+import dueuno.elements.pages.PageWebsocket
 import grails.artefact.Controller
 import grails.artefact.Enhances
 import grails.artefact.controller.RestResponder
@@ -118,7 +118,7 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
     }
 
     private Page getMainPage() {
-        return getPageService().mainPage ?: createPage(PageBlank)
+        return getPageService().mainPage ?: createPage(PageWebsocket)
     }
 
     /**
