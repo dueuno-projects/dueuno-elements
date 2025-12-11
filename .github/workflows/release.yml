@@ -1,0 +1,80 @@
+name: Release to Maven Central
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: gradle
+
+      - name: Extract version from tag
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      - name: Update version in files
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          sed -i "s/^projectVersion=.*/projectVersion=${VERSION}/" gradle.properties
+          sed -i "s/^[[:space:]]*def version = .*/    def version = '${VERSION}'/" elements-core/src/main/groovy/dueuno/elements/ElementsGrailsPlugin.groovy
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          
+          git checkout -b release/${VERSION}
+          git add gradle.properties elements-core/src/main/groovy/dueuno/elements/ElementsGrailsPlugin.groovy
+          git commit -m "${VERSION}" || echo "No changes"
+          git push origin release/${VERSION}
+
+      - name: Build
+        run: |
+          ./gradlew clean build
+
+      - name: Publish to Maven Central (Sonatype)
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
+
+      - name: Generate changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          configuration: ".github/workflows/changelog-config.json"
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: "Release ${{ github.ref_name }}"
+          body: |
+            ## Version ${{ github.ref_name }}
+            
+            ### What's changed
+            ${{ steps.changelog.outputs.changelog }}
+            
+            ### Commits
+            ${{ env.COMMITS }}
+            
+            ### Artifacts
+            - Maven: `https://repo1.maven.org/maven2/com/tuo/progetto/${{ github.ref_name }}/`
+
+          draft: false
+          prerelease: false
