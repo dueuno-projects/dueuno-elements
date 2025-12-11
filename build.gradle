@@ -8,11 +8,11 @@ version = projectVersion
 nexusPublishing {
     repositories {
         sonatype {
+            stagingProfileId = projectGroup
             nexusUrl = uri("https://ossrh-staging-api.central.sonatype.com/service/local/")
             snapshotRepositoryUrl = uri("https://central.sonatype.com/repository/maven-snapshots/")
-            stagingProfileId = projectGroup
-            username = sonatypeUsername
-            password = sonatypePassword
+            username = System.getenv("SONATYPE_USERNAME")
+            password = System.getenv("SONATYPE_PASSWORD")
         }
     }
 }
