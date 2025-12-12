@@ -30,12 +30,12 @@ jobs:
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
           sed -i "s/^projectVersion=.*/projectVersion=${VERSION}/" gradle.properties
-          sed -i "s/^[[:space:]]*def version = .*/    def version = '${VERSION}'/" elements-core/src/main/groovy/dueuno/elements/ElementsGrailsPlugin.groovy
+          sed -i "s/^[[:space:]]*def version = .*/    def version = '${VERSION}'/" elements-core/src/main/groovy/dueuno/ElementsGrailsPlugin.groovy
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           
           git checkout -b release/${VERSION}
-          git add gradle.properties elements-core/src/main/groovy/dueuno/elements/ElementsGrailsPlugin.groovy
+          git add gradle.properties elements-core/src/main/groovy/dueuno/ElementsGrailsPlugin.groovy
           git commit -m "${VERSION}" || echo "No changes"
           git push origin release/${VERSION}
 
