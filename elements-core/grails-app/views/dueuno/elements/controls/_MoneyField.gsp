@@ -1,5 +1,5 @@
 <g:if test="${c.icon || c.prefix}">
-    <span class="input-group-text"><g:if test="${c.icon}"><render:icon icon="${c.icon}" force="fa-solid" class="fa-fw"/></g:if>${c.prefix}</span>
+    <span class="input-group-text"><g:if test="${c.icon}"><render:icon icon="${c.icon}" force="fa-solid"/></g:if>${c.prefix}</span>
 </g:if>
 <input type="text"
        class="control-money-field form-control ${c.textStyle} ${c.cssClass}"

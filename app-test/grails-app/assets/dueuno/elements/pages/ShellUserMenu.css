@@ -62,6 +62,10 @@
     color: var(--bs-light-rgb);
 }
 
+#shell-user-menu .nav-item span {
+    padding-left: .25rem;
+}
+
 #shell-user-menu .nav-item hr {
     margin: 1rem 0;
 }

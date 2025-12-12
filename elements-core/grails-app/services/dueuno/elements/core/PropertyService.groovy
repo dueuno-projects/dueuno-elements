@@ -15,6 +15,7 @@
 package dueuno.elements.core
 
 import dueuno.commons.utils.FileUtils
+import dueuno.properties.PropertyType
 import groovy.transform.CompileStatic
 
 import java.time.LocalDate

@@ -64,6 +64,10 @@ class CryptoUtils {
             return ''
         }
 
+        if (!symmetricKey) {
+            throw new Exception("Encryption error: no key provided.")
+        }
+
         // Genera IV casuale
         byte[] iv = new byte[16]
         new SecureRandom().nextBytes(iv)

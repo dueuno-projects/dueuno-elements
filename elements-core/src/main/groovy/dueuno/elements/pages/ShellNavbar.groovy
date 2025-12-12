@@ -14,9 +14,11 @@
  */
 package dueuno.elements.pages
 
+import dueuno.elements.Component
 import dueuno.elements.components.Button
-import dueuno.elements.core.Component
-import dueuno.elements.exceptions.ArgsException
+import dueuno.elements.components.Image
+import dueuno.elements.components.Link
+import dueuno.exceptions.ArgsException
 import groovy.transform.CompileStatic
 
 /**
@@ -28,6 +30,7 @@ class ShellNavbar extends Component {
 
     Shell shell
     Button home
+    Link logo
 
     ShellNavbar(Map args) {
         super(args)
@@ -35,13 +38,25 @@ class ShellNavbar extends Component {
         viewPath = '/dueuno/elements/pages/'
 
         shell = (Shell) ArgsException.requireArgument(args, 'shell')
-        home = (Button) createControl(
+        home = (Button) createComponent(
                 class: Button,
                 id: 'home',
                 controller: 'shell',
                 icon: 'fa-solid fa-home',
                 text: '',
+                tooltip: 'shell.home.menu',
                 animate: 'fade',
+        )
+        logo = (Link) createComponent(
+                class: Link,
+                id: 'logo',
+                controller: 'shell',
+                animate: 'fade',
+        )
+        logo.addComponent(
+                class: Image,
+                id: 'logoImg',
+                image: shell.config.display.logo,
         )
     }
 }

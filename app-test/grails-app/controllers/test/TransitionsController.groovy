@@ -20,13 +20,13 @@ import dueuno.elements.components.Label
 import dueuno.elements.components.Separator
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
-import dueuno.elements.core.ComponentEvent
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ComponentEvent
+import dueuno.elements.ElementsController
 import dueuno.elements.security.SecurityService
 import dueuno.elements.style.TextStyle
-import dueuno.elements.types.Money
-import dueuno.elements.types.Quantity
-import dueuno.elements.types.QuantityUnit
+import dueuno.types.Money
+import dueuno.types.Quantity
+import dueuno.types.QuantityUnit
 
 import java.time.LocalDate
 import java.time.LocalDateTime

@@ -18,12 +18,13 @@ import dueuno.elements.components.Button
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.TextField
 import dueuno.elements.controls.Upload
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import dueuno.elements.tenants.TenantService
 
 class UploadController implements ElementsController {
 
     TenantService tenantService
+    DemoService demoService
 
     private buildForm(TDemo obj) {
         def c = createContent(ContentForm)
@@ -87,7 +88,7 @@ class UploadController implements ElementsController {
     }
 
     def index() {
-        def obj = TDemo.get(1)
+        def obj = demoService.get(1)
         def c = buildForm(obj)
         display content: c, modal: true
     }
@@ -121,10 +122,9 @@ class UploadController implements ElementsController {
     }
 
     def onUploadSuccess() {
-        TDemo obj = TDemo.get(1)
-        obj.properties = params
-        obj.filename = params.somefile[0]
-        obj.save(flush: true, failOnError: true)
+        params.id = 1
+        params.filename = params.somefile[0]
+        def obj = demoService.update(params)
 
         def t = createTransition()
         t.set('file', 'text', obj.filename)
@@ -137,15 +137,12 @@ class UploadController implements ElementsController {
     }
 
     def onConfirm() {
-        def demo = TDemo.get(1)
-        demo.filename = params.somefile
-        demo.save(flush: true, failOnError: true)
-
+        demoService.update(id: 1, filename: params.somefile[0])
         display action: 'index'
     }
 
     def onDownloadAttachment() {
-        def obj = TDemo.get(1)
+        def obj = demoService.get(1)
         def path = tenantService.getPublicDir() + 'upload/'
         String filename = path + obj.filename
 

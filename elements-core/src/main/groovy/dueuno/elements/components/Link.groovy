@@ -14,8 +14,8 @@
  */
 package dueuno.elements.components
 
-import dueuno.elements.core.ComponentEvent
-import dueuno.elements.core.LinkDefinition
+import dueuno.core.LinkDefinition
+import dueuno.elements.ComponentEvent
 import groovy.transform.CompileStatic
 
 /**

@@ -34,7 +34,7 @@ class HttpStatusController {
                 respond obj
             }
             '*' {
-                render view: '/dueuno/elements/httpStatus/500'
+                render view: '/dueuno/httpStatus/500'
             }
         }
     }
@@ -45,7 +45,7 @@ class HttpStatusController {
                 render status: 404
             }
             '*' {
-                render view: '/dueuno/elements/httpStatus/404'
+                render view: '/dueuno/httpStatus/404'
             }
         }
     }

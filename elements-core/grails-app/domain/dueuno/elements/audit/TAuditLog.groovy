@@ -14,6 +14,7 @@
  */
 package dueuno.elements.audit
 
+import dueuno.audit.AuditOperation
 import grails.compiler.GrailsCompileStatic
 import grails.gorm.MultiTenant
 import org.grails.datastore.gorm.GormEntity

@@ -14,8 +14,8 @@
  */
 package dueuno.elements.system
 
+import dueuno.core.WebRequestAware
 import dueuno.elements.core.TransitionService
-import dueuno.elements.core.WebRequestAware
 import grails.plugin.springsecurity.annotation.Secured
 
 /**

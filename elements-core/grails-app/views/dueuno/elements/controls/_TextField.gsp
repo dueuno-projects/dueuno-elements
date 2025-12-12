@@ -1,5 +1,5 @@
 <g:if test="${c.icon || c.prefix}">
-    <span class="input-group-text"><g:if test="${c.icon}"><render:icon icon="${c.icon}" force="fa-solid" class="fa-fw"/></g:if>${c.prefix}</span>
+    <span class="input-group-text"><g:if test="${c.icon}"><render:icon icon="${c.icon}" force="fa-solid"/></g:if>${c.prefix}</span>
 </g:if>
 <input type="${c.inputType}"
        class="control-text-field form-control ${c.textStyle} ${c.cssClass}"
@@ -26,6 +26,6 @@
 --></g:if>
 <g:if test="${c.inputType == 'password'}">
     <button class="show-password btn btn-secondary show-hide-password" type="button">
-        <i class="fa-fw fa-solid fa-eye"></i>
+        <i class="fa-solid fa-eye"></i>
     </button>
 </g:if>

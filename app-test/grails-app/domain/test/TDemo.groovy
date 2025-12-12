@@ -14,8 +14,8 @@
  */
 package test
 
-import dueuno.elements.types.Money
-import dueuno.elements.types.Quantity
+import dueuno.types.Money
+import dueuno.types.Quantity
 import grails.gorm.MultiTenant
 import org.grails.datastore.gorm.GormEntity
 

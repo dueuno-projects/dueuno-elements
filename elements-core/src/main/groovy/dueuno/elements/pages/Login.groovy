@@ -14,14 +14,14 @@
  */
 package dueuno.elements.pages
 
+import dueuno.elements.KeyPress
+import dueuno.elements.Page
 import dueuno.elements.components.Button
 import dueuno.elements.components.Form
 import dueuno.elements.components.Label
 import dueuno.elements.components.Link
 import dueuno.elements.controls.PasswordField
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.KeyPress
-import dueuno.elements.core.Page
 import dueuno.elements.style.TextAlign
 import groovy.transform.CompileStatic
 

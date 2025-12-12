@@ -12,10 +12,10 @@ repositories {
 
 dependencies {
     implementation project(":elements-core")
-//    implementation project(":elements-extra")
+    implementation project(":elements-extra")
 
     // Spring Boot DevTools may cause performance slowdowns or compatibility issues on larger applications
-//    developmentOnly "org.springframework.boot:spring-boot-devtools"
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
 
     // LDAP
     implementation "org.apache.grails:grails-spring-security-ldap:7.0.0"

@@ -16,7 +16,8 @@ package dueuno.elements.core
 
 import dueuno.commons.utils.FileUtils
 import dueuno.commons.utils.StringUtils
-import dueuno.elements.exceptions.ArgsException
+import dueuno.exceptions.ArgsException
+import dueuno.properties.PropertyType
 import grails.gorm.DetachedCriteria
 import grails.gorm.transactions.Transactional
 import groovy.transform.CompileDynamic

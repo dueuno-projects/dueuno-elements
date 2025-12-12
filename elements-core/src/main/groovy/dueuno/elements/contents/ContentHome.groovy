@@ -14,7 +14,7 @@
  */
 package dueuno.elements.contents
 
-import dueuno.elements.core.Menu
+import dueuno.elements.Menu
 import groovy.transform.CompileStatic
 
 /**

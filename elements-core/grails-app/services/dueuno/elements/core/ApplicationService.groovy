@@ -15,10 +15,15 @@
 package dueuno.elements.core
 
 import dueuno.commons.utils.FileUtils
-import dueuno.elements.exceptions.ArgsException
-import dueuno.elements.exceptions.ElementsException
+import dueuno.core.Feature
+import dueuno.core.LinkGeneratorAware
+import dueuno.core.PrettyPrinter
+import dueuno.core.Transformer
+import dueuno.elements.Elements
 import dueuno.elements.tenants.TenantService
-import dueuno.elements.utils.EnvUtils
+import dueuno.exceptions.ArgsException
+import dueuno.exceptions.ElementsException
+import dueuno.utils.EnvUtils
 import grails.core.GrailsApplication
 import grails.gorm.transactions.Transactional
 import grails.util.Holders
@@ -79,14 +84,14 @@ class ApplicationService implements LinkGeneratorAware {
     }
 
     /**
-     * Enables third party elements implementations.
-     * See BootStrap.groovy in project Elements Charts
+     * Enables third party components implementations.
+     * See BootStrap.groovy in the 'elements-extra' project
      *
-     * @param elementsImplementation The path to the elements implementation assets (.css and .js main files),
-     * Eg: /thirdparty/elements-name (see "Elements Extra" implementation)
+     * @param componentsImplementation The path to the components implementation assets (.css and .js main files),
+     * Eg: /thirdparty/my-components (see "Elements Extra" implementation)
      */
-    void registerElements(String elementsImplementation) {
-        Elements.registerElements(elementsImplementation)
+    void registerComponents(String componentsImplementation) {
+        Elements.registerComponents(componentsImplementation)
     }
 
     /**

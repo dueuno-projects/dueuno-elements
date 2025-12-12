@@ -14,9 +14,10 @@
  */
 package dueuno.elements.audit
 
+import dueuno.audit.AuditOperation
 import dueuno.commons.utils.DateUtils
-import dueuno.elements.core.Elements
-import dueuno.elements.core.WebRequestAware
+import dueuno.core.WebRequestAware
+import dueuno.elements.Elements
 import dueuno.elements.security.CryptoService
 import dueuno.elements.security.SecurityService
 import grails.gorm.DetachedCriteria

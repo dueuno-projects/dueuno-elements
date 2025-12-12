@@ -17,8 +17,8 @@ package test
 import dueuno.elements.components.Button
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.ElementsController
-import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.ElementsController
+import dueuno.exceptions.ElementsException
 import dueuno.elements.style.TextDefault
 import groovy.util.logging.Slf4j
 

@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+import dueuno.properties.PropertyType
 import grails.compiler.GrailsCompileStatic
 import org.grails.datastore.gorm.GormEntity
 

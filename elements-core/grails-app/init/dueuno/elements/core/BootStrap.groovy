@@ -18,9 +18,9 @@ import dueuno.elements.components.ShellService
 import dueuno.elements.security.CryptoService
 import dueuno.elements.security.SecurityService
 import dueuno.elements.tenants.TenantPropertyService
-import dueuno.elements.types.Money
-import dueuno.elements.types.Quantity
-import dueuno.elements.types.Types
+import dueuno.types.Money
+import dueuno.types.Quantity
+import dueuno.types.Types
 import groovy.transform.CompileStatic
 
 /**

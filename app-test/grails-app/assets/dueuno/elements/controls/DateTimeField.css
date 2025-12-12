@@ -10,8 +10,8 @@
 }
 
 .control-date .input-group-text {
-    border-top-right-radius: var(--bs-border-radius-lg);
-    border-bottom-right-radius: var(--bs-border-radius-lg);
+    border-top-right-radius: var(--bs-border-radius-sm);
+    border-bottom-right-radius: var(--bs-border-radius-sm);
 }
 
 .tempus-dominus-widget {
@@ -59,7 +59,10 @@
     padding: .5rem
 }
 
-.tempus-dominus-widget,
+.tempus-dominus-widget {
+    border-radius: var(--bs-border-radius);
+}
+
 .tempus-dominus-widget .toolbar div,
 .tempus-dominus-widget .calendar-header,
 .tempus-dominus-widget .time-container-clock div:hover,
@@ -69,7 +72,7 @@
 .tempus-dominus-widget .date-container-years div:not(.no-highlight),
 .tempus-dominus-widget .date-container-months div:not(.no-highlight),
 .tempus-dominus-widget .date-container-days div:not(.no-highlight) {
-    border-radius: var(--bs-border-radius-lg);
+    border-radius: var(--bs-border-radius-sm);
 }
 
 .tempus-dominus-widget.light .date-container-days :not(.no-highlight).today:hover:before {

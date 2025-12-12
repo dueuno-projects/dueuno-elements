@@ -14,11 +14,11 @@
  */
 package dueuno.elements.controls
 
-import dueuno.elements.core.Elements
-import dueuno.elements.core.PrettyPrinterProperties
-import dueuno.elements.exceptions.ElementsException
-import dueuno.elements.types.Quantity
-import dueuno.elements.types.QuantityUnit
+import dueuno.core.PrettyPrinterProperties
+import dueuno.elements.Elements
+import dueuno.exceptions.ElementsException
+import dueuno.types.Quantity
+import dueuno.types.QuantityUnit
 import groovy.transform.CompileStatic
 
 /**

@@ -1,6 +1,6 @@
 package dueuno.elements.components
 
-import dueuno.elements.core.Component
+import dueuno.elements.Component
 import groovy.transform.CompileStatic
 
 @CompileStatic

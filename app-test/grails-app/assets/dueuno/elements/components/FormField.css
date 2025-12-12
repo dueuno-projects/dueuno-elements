@@ -1,6 +1,7 @@
 .btn,
 input[type] {
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
+    border-radius: var(--bs-border-radius-sm);
 }
 
 .component-form label {
@@ -24,9 +25,14 @@ input[type] {
 .component-form textarea:focus,
 .component-form input,
 .component-form input:focus {
-    border-radius: var(--bs-border-radius-lg);
+    border-radius: var(--bs-border-radius-sm);
     border: none;
     font-weight: bold;
+}
+
+.input-group a.btn,
+.input-group button {
+    border: none;
 }
 
 
@@ -128,11 +134,11 @@ input:focus-visible,
 }
 
 .input-group.error-highlight {
-    border-radius: var(--bs-border-radius-lg);
+    border-radius: var(--bs-border-radius-sm);
     box-shadow: 0 0 0 .08rem rgba(var(--elements-required-text), .5) !important;
 }
 
 .input-group.field-highlight {
-    border-radius: var(--bs-border-radius-lg);
+    border-radius: var(--bs-border-radius-sm);
     box-shadow: 0 0 0 .25rem rgb(var(--elements-primary-bg-shaded)) !important;
 }

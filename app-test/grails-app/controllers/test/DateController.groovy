@@ -17,7 +17,7 @@ package test
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.DateField
 import dueuno.elements.controls.TimeField
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 
 import java.time.LocalDate
 

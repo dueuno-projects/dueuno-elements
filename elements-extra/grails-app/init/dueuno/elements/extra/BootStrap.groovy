@@ -23,7 +23,7 @@ class BootStrap {
     ApplicationService applicationService
 
     def init = {
-        applicationService.registerElements('elements/elements-extra')
+        applicationService.registerComponents('elements/elements-extra')
     }
 
     def destroy = {

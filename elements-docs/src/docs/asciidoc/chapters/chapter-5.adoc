@@ -131,7 +131,7 @@ Services are classes located into the `/grails-app/services` folder whose name i
 ----
 package com.example
 
-import dueuno.elements.exceptions.ArgsException
+import dueuno.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import jakarta.annotation.PostConstruct
@@ -243,7 +243,7 @@ package com.example
 
 import dueuno.elements.contents.*
 import dueuno.elements.controls.*
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import grails.validation.Validateable
 import java.time.LocalDate
 

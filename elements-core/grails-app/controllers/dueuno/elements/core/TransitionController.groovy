@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+import dueuno.elements.ElementsController
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 

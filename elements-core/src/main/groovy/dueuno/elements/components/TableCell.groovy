@@ -15,14 +15,14 @@
 package dueuno.elements.components
 
 import dueuno.commons.utils.ObjectUtils
+import dueuno.core.PrettyPrinterProperties
+import dueuno.elements.Component
 import dueuno.elements.controls.HiddenField
-import dueuno.elements.core.Component
-import dueuno.elements.core.PrettyPrinterProperties
-import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
+import dueuno.exceptions.ArgsException
 import groovy.transform.CompileStatic
 
 /**

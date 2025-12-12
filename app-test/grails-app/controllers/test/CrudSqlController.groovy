@@ -21,11 +21,11 @@ import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.*
 import dueuno.elements.core.ApplicationService
-import dueuno.elements.core.ElementsController
-import dueuno.elements.types.Money
-import dueuno.elements.types.Quantity
-import dueuno.elements.types.QuantityUnit
-import dueuno.elements.types.Type
+import dueuno.elements.ElementsController
+import dueuno.types.Money
+import dueuno.types.Quantity
+import dueuno.types.QuantityUnit
+import dueuno.types.Type
 import jakarta.annotation.PostConstruct
 
 import java.time.LocalDate

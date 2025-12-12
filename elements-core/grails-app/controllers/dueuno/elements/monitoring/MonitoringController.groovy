@@ -1,6 +1,6 @@
 package dueuno.elements.monitoring
 
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 
 class MonitoringController implements ElementsController {
 

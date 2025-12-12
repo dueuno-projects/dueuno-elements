@@ -16,8 +16,8 @@ package test
 
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.Select
-import dueuno.elements.core.Elements
-import dueuno.elements.core.ElementsController
+import dueuno.elements.Elements
+import dueuno.elements.ElementsController
 import dueuno.elements.style.TextDefault
 
 class MessageBoxDemoController implements ElementsController {

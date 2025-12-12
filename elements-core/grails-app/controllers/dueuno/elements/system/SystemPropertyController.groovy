@@ -15,13 +15,12 @@
 package dueuno.elements.system
 
 import dueuno.commons.utils.StringUtils
+import dueuno.elements.ElementsController
 import dueuno.elements.components.Label
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.*
-import dueuno.elements.core.ElementsController
-import dueuno.elements.core.PropertyType
 import dueuno.elements.core.SystemPropertyService
 import dueuno.elements.core.TSystemProperty
 import dueuno.elements.security.SecurityService
@@ -29,6 +28,7 @@ import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextDefault
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextTransform
+import dueuno.properties.PropertyType
 import grails.plugin.springsecurity.annotation.Secured
 
 /**

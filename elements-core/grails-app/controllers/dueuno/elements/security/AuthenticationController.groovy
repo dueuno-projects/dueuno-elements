@@ -14,7 +14,7 @@
  */
 package dueuno.elements.security
 
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import dueuno.elements.pages.Login
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService

@@ -1,7 +1,7 @@
 <span class="input-group-text ${c.cssClass}"
       data-td-target="#${c.id}"
       data-td-toggle="datetimepicker">
-    <i class="fa-solid fa-fw fa-calendar-day"></i>
+    <i class="fa-solid fa-calendar-day"></i>
 </span>
 <input type="text"
        class="control-month-field form-control ${c.textStyle}"

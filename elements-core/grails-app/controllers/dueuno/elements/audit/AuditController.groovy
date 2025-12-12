@@ -14,12 +14,13 @@
  */
 package dueuno.elements.audit
 
+import dueuno.audit.AuditOperation
+import dueuno.elements.ElementsController
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.DateField
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.ElementsController
 import dueuno.elements.security.SecurityService
 import dueuno.elements.style.TextDefault
 import dueuno.elements.style.TextWrap

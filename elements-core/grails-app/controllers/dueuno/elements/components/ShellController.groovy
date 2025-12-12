@@ -14,9 +14,9 @@
  */
 package dueuno.elements.components
 
+import dueuno.elements.ElementsController
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.core.ApplicationService
-import dueuno.elements.core.ElementsController
 import dueuno.elements.pages.Shell
 import dueuno.elements.security.SecurityService
 import dueuno.elements.style.TextAlign

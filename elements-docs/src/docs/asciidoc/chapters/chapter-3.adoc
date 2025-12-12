@@ -95,7 +95,7 @@ We create a skeleton first, a controller with just the action firms, so we can f
 ----
 package com.example
 
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import grails.validation.Validateable
 
 class PersonController implements ElementsController {
@@ -145,7 +145,7 @@ package com.example
 
 import dueuno.elements.contents.*
 import dueuno.elements.controls.*
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import grails.validation.Validateable
 
 import java.time.LocalDate

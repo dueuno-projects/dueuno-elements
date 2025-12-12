@@ -15,6 +15,8 @@
 package dueuno.elements.database
 
 import dueuno.commons.utils.SqlUtils
+import dueuno.elements.Elements
+import dueuno.elements.ElementsController
 import dueuno.elements.components.Button
 import dueuno.elements.components.Form
 import dueuno.elements.components.Table
@@ -24,12 +26,10 @@ import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
 import dueuno.elements.core.ConnectionSourceService
-import dueuno.elements.core.Elements
-import dueuno.elements.core.ElementsController
 import dueuno.elements.style.TextDefault
 import dueuno.elements.tenants.TenantService
-import dueuno.elements.types.CustomType
-import dueuno.elements.types.Types
+import dueuno.types.CustomType
+import dueuno.types.Types
 import grails.gorm.DetachedCriteria
 import grails.plugin.springsecurity.annotation.Secured
 import jakarta.annotation.PostConstruct

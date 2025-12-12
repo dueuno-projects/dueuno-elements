@@ -20,10 +20,10 @@ import dueuno.elements.components.TableRow
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
 import dueuno.elements.core.ApplicationService
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
-import dueuno.elements.types.Money
+import dueuno.types.Money
 import jakarta.annotation.PostConstruct
 
 class TableController implements ElementsController {

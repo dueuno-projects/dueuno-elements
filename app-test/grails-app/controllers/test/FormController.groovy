@@ -18,13 +18,13 @@ import dueuno.elements.components.*
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
 import dueuno.elements.core.ApplicationService
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import dueuno.elements.style.Color
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextTransform
 import dueuno.elements.style.TextWrap
 import dueuno.elements.types.QuantityService
-import dueuno.elements.types.QuantityUnit
+import dueuno.types.QuantityUnit
 
 import java.time.LocalDate
 import java.time.LocalDateTime

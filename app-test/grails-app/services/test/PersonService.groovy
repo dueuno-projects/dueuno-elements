@@ -14,7 +14,7 @@
  */
 package test
 
-import dueuno.elements.exceptions.ArgsException
+import dueuno.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.transactions.Transactional

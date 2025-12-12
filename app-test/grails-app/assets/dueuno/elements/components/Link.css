@@ -1,8 +1,5 @@
-.btn i > img, li a i > img {
-    margin-top: -.2rem;
-    height: 1.3rem;
-    border: .15rem solid rgb(var(--elements-main-fg));
-    border-radius: 100%;
+.component-link span {
+    padding-right: var(--elements-spacing-y);
 }
 
 .input-group:has(.component-link[readonly]) {

@@ -38,7 +38,8 @@
     color: rgb(var(--elements-main-text));
 }
 
-#shell-navbar-logo {
+#shell-navbar-logo img {
+    border-radius: 0;
     height: 2rem;
 }
 

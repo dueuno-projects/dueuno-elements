@@ -19,8 +19,8 @@ import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.*
-import dueuno.elements.core.ElementsController
-import dueuno.elements.types.Type
+import dueuno.elements.ElementsController
+import dueuno.types.Type
 
 import java.time.LocalDate
 

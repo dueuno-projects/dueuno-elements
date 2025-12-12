@@ -14,8 +14,8 @@
  */
 package dueuno.elements.pages
 
-import dueuno.elements.core.Menu
-import dueuno.elements.exceptions.ArgsException
+import dueuno.elements.Menu
+import dueuno.exceptions.ArgsException
 import groovy.transform.CompileStatic
 
 /**

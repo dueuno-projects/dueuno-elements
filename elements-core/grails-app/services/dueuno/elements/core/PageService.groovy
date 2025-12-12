@@ -15,6 +15,11 @@
 package dueuno.elements.core
 
 import dueuno.commons.utils.FileUtils
+import dueuno.core.LinkGeneratorAware
+import dueuno.core.WebRequestAware
+import dueuno.elements.Component
+import dueuno.elements.Page
+import dueuno.elements.Transition
 import dueuno.elements.contents.ContentHeader
 import dueuno.elements.security.SecurityService
 import dueuno.elements.tenants.TenantPropertyService
@@ -63,7 +68,8 @@ class PageService implements WebRequestAware, LinkGeneratorAware {
      */
     public <T> T createPage(Class<T> clazz, Map args = [:]) {
         if (!securityService.isLoggedIn()) {
-            fontSize = systemPropertyService.getNumber('FONT_SIZE', true) as Integer
+            fontSize = tenantPropertyService.getNumber('FONT_SIZE', true) as Integer
+            guiStyle = tenantPropertyService.getString('GUI_STYLE', true)
         }
 
         return Component.createInstance(clazz, clazz.simpleName.uncapitalize(), initialize(args))

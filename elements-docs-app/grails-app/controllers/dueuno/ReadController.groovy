@@ -14,11 +14,10 @@
  */
 package dueuno
 
-
+import dueuno.elements.ElementsController
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.Textarea
-import dueuno.elements.core.ElementsController
 
 class ReadController implements ElementsController {
 

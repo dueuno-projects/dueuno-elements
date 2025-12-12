@@ -14,18 +14,18 @@
  */
 package dueuno.elements.tenants
 
+import dueuno.ElementsGrailsPlugin
 import dueuno.commons.utils.FileUtils
-import dueuno.elements.ElementsGrailsPlugin
 import dueuno.elements.core.ApplicationService
 import dueuno.elements.core.ConnectionSourceService
 import dueuno.elements.core.SystemPropertyService
 import dueuno.elements.core.TSystemInstall
-import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.security.TRoleGroup
 import dueuno.elements.security.TRoleGroupRole
 import dueuno.elements.security.TUser
 import dueuno.elements.security.TUserRoleGroup
-import dueuno.elements.utils.ResourceUtils
+import dueuno.exceptions.ArgsException
+import dueuno.utils.ResourceUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.Tenants
 import grails.gorm.transactions.Transactional

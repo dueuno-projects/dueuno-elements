@@ -14,7 +14,7 @@
  */
 package test
 
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])

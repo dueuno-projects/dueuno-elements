@@ -14,8 +14,8 @@
  */
 package dueuno.elements.tenants
 
-import dueuno.elements.core.PropertyType
 import dueuno.elements.core.TSystemProperty
+import dueuno.properties.PropertyType
 import grails.compiler.GrailsCompileStatic
 import grails.gorm.MultiTenant
 import org.grails.datastore.gorm.GormEntity

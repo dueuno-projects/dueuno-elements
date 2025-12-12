@@ -1,10 +1,10 @@
-import dueuno.elements.hibernate.ElementsNamingStrategy
+import dueuno.database.TNamingStrategy
 
 // H2 Console enabled by default (protected by Spring Security, only "superadmin" can access it)
 spring.h2.console.enabled = true
 
 // Uses custom table naming
-hibernate.naming_strategy = ElementsNamingStrategy
+hibernate.naming_strategy = TNamingStrategy
 
 // Tenants are stored in separate database schemas
 grails.gorm.multiTenancy.mode = 'DATABASE'
