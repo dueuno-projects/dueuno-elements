@@ -14,12 +14,13 @@
  */
 package dueuno.elements.security
 
+import dueuno.core.GuiStyle
+import dueuno.core.PrettyPrinterDecimalFormat
+import dueuno.elements.ElementsController
 import dueuno.elements.components.Separator
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
 import dueuno.elements.core.ApplicationService
-import dueuno.elements.core.ElementsController
-import dueuno.elements.core.PrettyPrinterDecimalFormat
 import dueuno.elements.style.TextDefault
 import dueuno.elements.tenants.TenantPropertyService
 import grails.plugin.springsecurity.annotation.Secured
@@ -136,20 +137,33 @@ class UserProfileController implements ElementsController {
                     search: false,
                     cols: 6,
             )
+
+            addField(
+                    class: Separator,
+                    id: 'appearance',
+                    icon: 'fa-circle-half-stroke',
+            )
             addField(
                     class: Select,
                     id: 'fontSize',
                     optionsFromList: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
                     defaultValue: 14,
                     renderTextPrefix: false,
-                    cols: 6,
+                    cols: 4,
+                    colsSmall: 6,
+            )
+            addField(
+                    class: Select,
+                    id: 'guiStyle',
+                    optionsFromEnum: GuiStyle,
+                    textPrefix: 'default',
+                    cols: 4,
                     colsSmall: 6,
             )
             addField(
                     class: Checkbox,
                     id: 'animations',
-                    cols: 6,
-                    colsSmall: 6,
+                    cols: 4,
             )
         }
     }
@@ -242,9 +256,9 @@ class UserProfileController implements ElementsController {
         twelveHours = (params.twelveHours == 'false') ? false : true
         firstDaySunday = (params.firstDaySunday == 'false') ? false : true
         fontSize = params.fontSize as Integer
+        guiStyle = params.guiStyle as String
         animations = params.animations as Boolean
 
         display controller: securityService.userLandingPage ?: 'shell', direct: true
     }
 }
-

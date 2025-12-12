@@ -33,7 +33,7 @@
 
     <g:if test="${c.component.getClassName() != 'HiddenField'}">
         <div class="error-message d-none">
-            <i class="fa-solid fa-fw fa-circle-exclamation pe-2"></i>
+            <i class="fa-solid fa-circle-exclamation pe-2"></i>
             <span>Error!</span>
         </div>
 

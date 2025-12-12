@@ -7,7 +7,7 @@ import dueuno.elements.components.Grid
 import dueuno.elements.components.Timer
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.NumberField
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import dueuno.elements.core.TransitionService
 import dueuno.elements.style.TextDefault
 import grails.plugin.springsecurity.annotation.Secured

@@ -15,6 +15,7 @@
 package dueuno.elements.types
 
 import dueuno.elements.tenants.TenantPropertyService
+import dueuno.types.QuantityUnit
 import groovy.transform.CompileStatic
 
 /**

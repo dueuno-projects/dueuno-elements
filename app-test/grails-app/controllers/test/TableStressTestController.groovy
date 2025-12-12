@@ -18,8 +18,8 @@ import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.ElementsController
-import dueuno.elements.types.Money
+import dueuno.elements.ElementsController
+import dueuno.types.Money
 
 class TableStressTestController implements ElementsController {
 

@@ -14,18 +14,25 @@
  */
 package dueuno.elements.security
 
+import dueuno.audit.AuditOperation
 import dueuno.commons.utils.StringUtils
-import dueuno.elements.audit.AuditOperation
+import dueuno.core.Feature
+import dueuno.core.GuiStyle
+import dueuno.core.LinkGeneratorAware
+import dueuno.core.PrettyPrinterDecimalFormat
+import dueuno.core.WebRequestAware
+import dueuno.elements.Menu
 import dueuno.elements.audit.AuditService
 import dueuno.elements.components.ShellService
-import dueuno.elements.core.*
-import dueuno.elements.exceptions.ArgsException
-import dueuno.elements.exceptions.ElementsException
+import dueuno.elements.core.ApplicationService
+import dueuno.elements.core.SystemPropertyService
 import dueuno.elements.pages.Shell
 import dueuno.elements.tenants.TTenant
 import dueuno.elements.tenants.TenantPropertyService
 import dueuno.elements.tenants.TenantService
-import dueuno.elements.utils.EnvUtils
+import dueuno.exceptions.ArgsException
+import dueuno.exceptions.ElementsException
+import dueuno.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.SpringSecurityService
@@ -33,11 +40,10 @@ import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices
-
-import jakarta.servlet.http.HttpServletRequest
 
 /**
  * Security API
@@ -283,6 +289,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         String lang = (user?.language in applicationService.languages) ? user.language : tenantPropertyService.getString('DEFAULT_LANGUAGE', true)
         currentLanguage = lang
         fontSize = user.fontSize
+        guiStyle = user.guiStyle
 
         Shell shell = shellService.shell
         shell.setUser(currentUsername, user.firstname, user.lastname)
@@ -774,7 +781,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 firstDaySunday: args.firstDaySunday == null ? false : args.firstDaySunday,
                 sessionDuration: args.sessionDuration as Integer ?: tenantPropertyService.getNumber('SESSION_DEFAULT_DURATION') ?: 5,
                 rememberMeDuration: args.rememberMeDuration as Integer ?: tenantPropertyService.getNumber('REMEMBER_ME_DEFAULT_DURATION') ?: 10080, // One week in minutes
-                fontSize: args.fontSize as Integer ?: systemPropertyService.getNumber('FONT_SIZE') as Integer,
+                fontSize: args.fontSize as Integer ?: tenantPropertyService.getNumber('FONT_SIZE') as Integer ?: 14,
+                guiStyle: args.guiStyle ?: tenantPropertyService.getString('GUI_STYLE') ?: GuiStyle.ROUNDED,
                 animations: args.animations as Boolean ?: true,
                 defaultGroup: defaultGroup ? TRoleGroup.findByTenantAndName(tenant, defaultGroup) : null,
                 note: args.note,

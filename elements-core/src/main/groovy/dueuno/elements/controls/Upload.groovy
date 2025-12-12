@@ -14,8 +14,8 @@
  */
 package dueuno.elements.controls
 
-import dueuno.elements.core.Control
-import dueuno.elements.types.Type
+import dueuno.elements.Control
+import dueuno.types.Type
 import groovy.transform.CompileStatic
 import org.grails.web.util.WebUtils
 import org.springframework.web.multipart.MultipartFile

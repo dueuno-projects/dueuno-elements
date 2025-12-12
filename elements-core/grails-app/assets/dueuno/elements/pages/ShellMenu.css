@@ -10,6 +10,10 @@
     box-shadow: none;
 }
 
+#shell-menu .nav-link span {
+    padding-left: .25rem;
+}
+
 #shell-menu {
     position: fixed;
     width: 15rem;
@@ -76,8 +80,8 @@
     padding-left: .5rem;
     transition: none;
     color: var(--bs-light-rgb);
+    --bs-nav-pills-border-radius: var(--bs-border-radius-sm);
 }
-
 #shell-menu .nav-item a:focus {
     background-color: rgba(var(--elements-frame-text), .2) !important;
     outline: none;

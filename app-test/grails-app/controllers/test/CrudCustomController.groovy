@@ -21,7 +21,7 @@ import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.controls.*
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextDefault
 

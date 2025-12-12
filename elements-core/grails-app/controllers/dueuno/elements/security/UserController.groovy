@@ -14,6 +14,9 @@
  */
 package dueuno.elements.security
 
+import dueuno.core.GuiStyle
+import dueuno.core.PrettyPrinterDecimalFormat
+import dueuno.elements.ElementsController
 import dueuno.elements.components.Separator
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
@@ -22,8 +25,6 @@ import dueuno.elements.contents.ContentForm
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.*
 import dueuno.elements.core.ApplicationService
-import dueuno.elements.core.ElementsController
-import dueuno.elements.core.PrettyPrinterDecimalFormat
 import dueuno.elements.core.SystemPropertyService
 import dueuno.elements.style.TextDefault
 import dueuno.elements.tenants.TenantPropertyService
@@ -365,12 +366,19 @@ class UserController implements ElementsController {
                     search: false,
                     cols: 6,
             )
+
+            addField(
+                    class: Separator,
+                    id: 'appearance',
+                    icon: 'fa-circle-half-stroke',
+            )
             if (securityService.isDeveloper()) {
                 addField(
                         class: NumberField,
                         id: 'fontSize',
                         defaultValue: 14,
-                        cols: 6,
+                        cols: 4,
+                        colsSmall: 6,
                 )
             } else {
                 addField(
@@ -379,15 +387,23 @@ class UserController implements ElementsController {
                         optionsFromList: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
                         defaultValue: 14,
                         renderTextPrefix: false,
-                        cols: 6,
+                        cols: 4,
                         colsSmall: 6,
                 )
             }
             addField(
+                    class: Select,
+                    id: 'guiStyle',
+                    optionsFromEnum: GuiStyle,
+                    textPrefix: 'default',
+                    cols: 4,
+                    colsSmall: 6,
+            )
+            addField(
                     class: Checkbox,
                     id: 'animations',
                     defaultValue: true,
-                    cols: 6,
+                    cols: 4,
             )
         }
     }
@@ -536,5 +552,3 @@ class UserController implements ElementsController {
         }
     }
 }
-
-

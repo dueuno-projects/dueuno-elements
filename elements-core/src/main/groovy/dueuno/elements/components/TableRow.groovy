@@ -15,18 +15,18 @@
 package dueuno.elements.components
 
 import dueuno.commons.utils.ObjectUtils
+import dueuno.core.Transformer
+import dueuno.elements.Component
+import dueuno.elements.Elements
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.HiddenField
-import dueuno.elements.core.Component
-import dueuno.elements.core.Elements
-import dueuno.elements.core.Transformer
-import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
-import dueuno.elements.types.Money
-import dueuno.elements.types.Quantity
+import dueuno.exceptions.ArgsException
+import dueuno.types.Money
+import dueuno.types.Quantity
 import groovy.transform.CompileStatic
 
 import java.time.temporal.Temporal

@@ -15,11 +15,12 @@
 package dueuno.elements.tenants
 
 import dueuno.commons.utils.StringUtils
+import dueuno.core.GuiStyle
 import dueuno.elements.core.PropertyService
-import dueuno.elements.core.PropertyType
-import dueuno.elements.exceptions.ArgsException
 import dueuno.elements.security.CryptoService
-import dueuno.elements.utils.EnvUtils
+import dueuno.exceptions.ArgsException
+import dueuno.properties.PropertyType
+import dueuno.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.transactions.Transactional
@@ -53,6 +54,9 @@ class TenantPropertyService extends PropertyService {
         setString('ICON_STYLE', 'fa-solid', 'fa-solid')
         // See: /assets/dueuno/libs/FONTAWESOME-README.TXT, use one of:
         // fa-solid, fa-regular, fa-light, fa-thin, fa-duotone, fa-brand
+        // Other
+        setNumber('FONT_SIZE', 14, 14)
+        setString('GUI_STYLE', GuiStyle.ROUNDED as String)
 
         // Colors
         setString('MAIN_TEXT_COLOR', '#333030', '#333030')
@@ -62,7 +66,7 @@ class TenantPropertyService extends PropertyService {
         setString('FRAME_BACKGROUND_COLOR', '#333030', '#333030')
         setString('PRIMARY_TEXT_COLOR', '#ffffff', '#ffffff')
         setString('PRIMARY_BACKGROUND_COLOR', '#cc0000', '#cc0000')
-        setNumber('PRIMARY_BACKGROUND_COLOR_ALPHA', 0.15, 0.15)
+        setNumber('PRIMARY_BACKGROUND_COLOR_ALPHA', 0.20, 0.20)
         setString('SECONDARY_TEXT_COLOR', '#ffffff', '#ffffff')
         setString('SECONDARY_BACKGROUND_COLOR', '#4C4141', '#4C4141')
         setString('REQUIRED_TEXT_COLOR', '#cc0000', '#cc0000')

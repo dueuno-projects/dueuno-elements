@@ -14,10 +14,9 @@
  */
 package dueuno.elements.pages
 
-
+import dueuno.elements.Page
 import dueuno.elements.contents.ContentHome
-import dueuno.elements.core.Page
-import dueuno.elements.exceptions.ArgsException
+import dueuno.exceptions.ArgsException
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 

@@ -14,7 +14,8 @@
  */
 package dueuno.elements.core
 
-import dueuno.elements.types.Types
+import dueuno.elements.ElementsController
+import dueuno.types.Types
 import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j

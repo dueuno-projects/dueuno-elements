@@ -14,12 +14,12 @@
  */
 package dueuno.elements.controls
 
+import dueuno.elements.Component
+import dueuno.elements.Control
+import dueuno.elements.Elements
 import dueuno.elements.components.Button
-import dueuno.elements.core.Component
-import dueuno.elements.core.Control
-import dueuno.elements.core.Elements
 import dueuno.elements.style.TextTransform
-import dueuno.elements.types.Type
+import dueuno.types.Type
 import groovy.transform.CompileStatic
 
 /**

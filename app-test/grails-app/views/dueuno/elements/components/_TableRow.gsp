@@ -4,7 +4,7 @@ ATTENTION PLEASE
 ================
 
 When modifying this template, please update also:
-- `_TableRowComponent.gsp`
+ - `_TableRowComponent.gsp`
 --%>
 <tr class="component-table-row ${c.textStyle} ${c.cssClass}"
     style="${c.backgroundColor ? '--bs-table-striped-bg: ' + c.backgroundColor + '; ' : ''}${c.cssStyleColors}"
@@ -71,24 +71,25 @@ When modifying this template, please update also:
                     data-21-events="${cell.eventsAsJSON}"
                     ${cell.cssStyleColors ? raw('style="' + cell.cssStyleColors + '"') : ''}
                 >${c.table.widths[column] ? raw('<div style="width: ' + c.table.widths[column] + 'px">') : ''}
-                    <g:if test="${cell.component.class in dueuno.elements.components.Link}">
-                        <render:component instance="${cell.component}" />
-                    </g:if>
+                <g:if test="${cell.component.class in dueuno.elements.components.Link}">
+                    <render:component instance="${cell.component}" />
+                </g:if>
+                <g:else>
+                    <g:set var="label" value="${cell.component}" />
+                    <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.tag ? 'tag' : ''} ${label.cssClass}"
+                          ${label.cssStyleColors ? raw('style="' + label.cssStyleColors + '"') : ''}
+                    >
+                    <g:if test="${label.html}">${raw(label.html)}</g:if>
                     <g:else>
-                        <g:set var="label" value="${cell.component}" />
-                        <span class="component-label w-100 ${label.textAlign} ${label.textWrap} ${label.textStyle} ${label.tag ? 'tag' : ''} ${label.cssClass}"
-                              ${label.cssStyleColors ? raw('style="' + label.cssStyleColors + '"') : ''}
-                        >
-                            <g:if test="${label.html}">${raw(label.html)}</g:if>
-                            <g:else>
-                                <% text = label.text %>
-                                <g:if test="${label.tooltip}"><span ${raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"')}></g:if>
-                                <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon && text ? 'me-1' : ''} ${label.iconFixedWidth ? 'fa-fw' : ''}"/></g:if>
-                                <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${text}${label.tag && !text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
-                                <g:if test="${label.tooltip}"></span></g:if>
-                            </g:else>
-                        </span>
+                        <% text = label.text %>
+                        <g:if test="${label.tooltip}"><span ${raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"')}></g:if>
+                        <g:if test="${label.image}"><i><asset:image src="${label.image}" class="image-icon ${label.imageClass}"/></i></g:if>
+                        <g:if test="${label.icon}"><render:icon icon="${label.icon}"/></g:if>
+                        <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${text}${label.tag && !text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
+                        <g:if test="${label.tooltip}"></span></g:if>
                     </g:else>
+                    </span>
+                </g:else>
                 ${c.table.widths[column] ? raw('</div>') : ''}
                 </th>
             </g:if>
@@ -109,7 +110,8 @@ When modifying this template, please update also:
                 <g:else>
                     <% text = label.text %>
                     <g:if test="${label.tooltip}"><span ${raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + label.message(label.tooltip) + '"')}></g:if>
-                    <g:if test="${label.icon}"><render:icon icon="${label.icon}" class="${label.icon && text ? 'me-1' : ''} ${label.iconFixedWidth ? 'fa-fw' : ''}"/></g:if>
+                    <g:if test="${label.image}"><i><asset:image src="${label.image}" class="image-icon ${label.imageClass}"/></i></g:if>
+                    <g:if test="${label.icon}"><render:icon icon="${label.icon}"/></g:if>
                     <g:if test="${label.url}"><a href="${label.url}" target="_blank"></g:if><span class="text ${label.verticalAlign}">${text}${label.tag && !text ? raw('&nbsp;') : ''}</span><g:if test="${label.url}"></a></g:if>
                     <g:if test="${label.tooltip}"></span></g:if>
                 </g:else>

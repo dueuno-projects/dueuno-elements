@@ -17,7 +17,7 @@ package test
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentTable
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 
 class CrudRestController implements ElementsController {
 

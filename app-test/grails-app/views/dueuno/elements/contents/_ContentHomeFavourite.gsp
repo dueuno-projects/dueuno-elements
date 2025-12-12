@@ -9,11 +9,10 @@
              style="color: ${c.primaryTextColor}; background-color: ${c.primaryBackgroundColor};">
             <render:icon
                     icon="${feature.link.icon}"
-                    class="icon-back fa-fw"
+                    class="icon-back"
             />
             <render:icon
                     icon="${feature.link.icon}"
-                    class="fa-fw"
             />
             <div class="p-4 text-white text-shadow-1">
                 <h2 class="card-title text-truncate"><render:icon icon="${feature.link.icon}" class="me-3" /><render:message code="shell.${feature.link.controller}"/></h2>

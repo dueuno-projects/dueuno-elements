@@ -14,9 +14,9 @@
  */
 package dueuno.elements.controls
 
-import dueuno.elements.core.Elements
-import dueuno.elements.exceptions.ElementsException
-import dueuno.elements.types.Money
+import dueuno.elements.Elements
+import dueuno.exceptions.ElementsException
+import dueuno.types.Money
 import groovy.transform.CompileStatic
 
 /**

@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+import dueuno.elements.ElementsController
 import dueuno.elements.tenants.TenantService
 import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.annotation.Secured

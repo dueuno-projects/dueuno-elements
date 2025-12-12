@@ -31,7 +31,7 @@
     color: rgb(var(--elements-primary-text));
     background-color: rgb(var(--elements-primary-bg));
     font-size: .7rem;
-    border-radius: var(--bs-border-radius-xl);
+    border-radius: 1rem;
     display: inline-block;
     min-width: 1.05rem;
     margin-left: -.3rem;

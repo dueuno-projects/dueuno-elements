@@ -14,7 +14,7 @@
  */
 package dueuno.elements.components
 
-import dueuno.elements.core.WebRequestAware
+import dueuno.core.WebRequestAware
 import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
 

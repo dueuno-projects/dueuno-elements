@@ -15,7 +15,7 @@
 package test
 
 import dueuno.elements.core.ApplicationService
-import dueuno.elements.types.Money
+import dueuno.types.Money
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.transactions.Transactional
 import groovy.util.logging.Slf4j

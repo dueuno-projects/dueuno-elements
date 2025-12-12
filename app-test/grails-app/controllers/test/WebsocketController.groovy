@@ -20,7 +20,7 @@ import dueuno.elements.components.Separator
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import dueuno.elements.core.TransitionService
 import dueuno.elements.security.SecurityService
 

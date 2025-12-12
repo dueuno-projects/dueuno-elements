@@ -16,7 +16,7 @@ package test
 
 import dueuno.elements.components.Table
 import dueuno.elements.components.TableRow
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 
 class StaticResourcesController implements ElementsController {
 

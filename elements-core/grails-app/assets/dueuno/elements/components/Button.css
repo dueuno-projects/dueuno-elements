@@ -1,11 +1,20 @@
 a.btn,
 button,
-.input-group a.btn,
-.input-group button,
+.btn-group a.btn,
+.btn-group button,
 .dropdown-toggle {
-    border-radius: var(--bs-border-radius-lg);
-    padding: var(--elements-spacing-y) var(--elements-spacing-x);
+    border-radius: var(--bs-border-radius);
+    padding: var(--elements-spacing-y) .5rem;
     border: none;
+}
+
+.component-button button {
+    padding-left: .75rem;
+    padding-right: .75rem;
+}
+
+.component-button:not(:has(i)) span {
+    padding-left: var(--elements-spacing-y);
 }
 
 .component-button .component-button-default-action {
@@ -58,7 +67,7 @@ button {
 
 .dropdown-item:focus,
 .dropdown-item:hover {
-    border-radius: var(--bs-border-radius);
+    border-radius: var(--bs-border-radius-sm);
     outline: none;
 }
 

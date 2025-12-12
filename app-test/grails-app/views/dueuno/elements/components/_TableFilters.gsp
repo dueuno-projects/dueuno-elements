@@ -8,7 +8,7 @@
     <div class="d-flex mb-1">
 
         <div class="component-filters-buttons ${c.controls ? '' : 'd-none'} btn-group me-1">
-            <button class="component-filters-toggle btn btn-secondary dropdown-toggle ${c.isFolded() ? 'collapsed' : ''} border-0 rounded-3"
+            <button class="component-filters-toggle btn btn-secondary dropdown-toggle ${c.isFolded() ? 'collapsed' : ''} border-0"
                     type="button"
                     data-bs-toggle="collapse">
                 <i class="fa-solid fa-filter"></i>
@@ -17,10 +17,10 @@
             <div class="component-filters-search collapse ${c.isFolded() ? '' : 'show'} collapse-horizontal text-nowrap gx-0">
                 <render:component
                         instance="${c.searchButton}"
-                        properties="[cssClass: (c.isFiltering ? 'btn btn-secondary rounded-0' : 'btn btn-secondary rounded-start-0 rounded-end-3')]"/><g:if
+                        properties="[cssClass: (c.isFiltering ? 'btn btn-secondary rounded-0' : 'btn btn-secondary rounded-start-0')]"/><g:if
                     test="${c.isFiltering}"><render:component
                         instance="${c.resetButton}"
-                        properties="[cssClass: 'component-filters-search-reset btn btn-secondary rounded-start-0 rounded-end-3']"/>
+                        properties="[cssClass: 'component-filters-search-reset btn btn-secondary rounded-start-0']"/>
             </g:if>
             </div>
         </div>

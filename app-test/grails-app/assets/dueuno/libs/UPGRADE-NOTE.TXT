@@ -1,0 +1,11 @@
+The asset-pipeline plugin does not support JavaScript "import".
+
+To minify our js/css we need to do the following each time we upgrade a library:
+
+BOOTSTRAP
+File: bootstrap.esm.min.js
+Todo: Remove the first instruction: import*as Popper from"@popperjs/core";
+
+TEMPUS DOMINUS
+File: tempus-dominus.min.js
+Todo: Replace: await import("@popperjs/core") with Popper

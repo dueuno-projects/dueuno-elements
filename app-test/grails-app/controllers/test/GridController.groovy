@@ -19,7 +19,7 @@ import dueuno.elements.components.Grid
 import dueuno.elements.components.Label
 import dueuno.elements.controls.NumberField
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import dueuno.elements.style.TextAlign
 
 class GridController implements ElementsController {

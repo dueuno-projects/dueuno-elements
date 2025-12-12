@@ -14,8 +14,8 @@
  */
 package dueuno.elements.components
 
-import dueuno.elements.core.Component
-import dueuno.elements.core.PrettyPrinterProperties
+import dueuno.core.PrettyPrinterProperties
+import dueuno.elements.Component
 import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap

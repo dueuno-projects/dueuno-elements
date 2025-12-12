@@ -14,13 +14,13 @@
  */
 package dueuno
 
+import dueuno.elements.ElementsController
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.NumberField
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.ElementsController
 import grails.plugin.springsecurity.annotation.Secured
 import jakarta.annotation.PostConstruct
 

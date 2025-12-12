@@ -15,7 +15,7 @@
 package test
 
 
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['ROLE_DOES_NOT_EXIST'])

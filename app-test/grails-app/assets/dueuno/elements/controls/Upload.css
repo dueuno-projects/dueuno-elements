@@ -3,6 +3,7 @@
     min-height: auto;
     align-content: center;
     text-align: center;
+    border-radius: var(--bs-border-radius-sm);
 }
 
 .control-upload .dz-message {
@@ -35,7 +36,7 @@
 
 .control-upload .dz-preview.dz-file-preview .dz-image,
 .control-upload .dz-preview.dz-image-preview .dz-image {
-    border-radius: var(--bs-border-radius-xl);
+    border-radius: var(--bs-border-radius);
 }
 
 .control-upload .dz-preview.dz-file-preview .dz-details::before {

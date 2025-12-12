@@ -14,7 +14,7 @@
  */
 package test
 
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 
 class ExceptionController implements ElementsController {
     def index() {

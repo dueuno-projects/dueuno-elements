@@ -58,7 +58,7 @@ class TUser implements GormEntity, Serializable {
     Integer sessionDuration
     Integer rememberMeDuration
 
-    // User preferences
+    // Localization preferences
     String decimalFormat // 'ISO_COM' (# ###,#) or 'ISO_DOT' (# ###.#)
     Boolean prefixedUnit
     Boolean symbolicCurrency
@@ -66,7 +66,10 @@ class TUser implements GormEntity, Serializable {
     Boolean invertedMonth
     Boolean twelveHours
     Boolean firstDaySunday
+
+    // UI preferences
     Integer fontSize
+    String guiStyle // 'ROUNDED' or 'SQUARED'
     Boolean animations
 
     static constraints = {

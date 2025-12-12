@@ -14,8 +14,8 @@
  */
 package dueuno.elements.components
 
-import dueuno.elements.core.Component
-import dueuno.elements.core.Elements
+import dueuno.elements.Component
+import dueuno.elements.Elements
 import dueuno.elements.style.TextDefault
 import groovy.transform.CompileStatic
 

@@ -18,10 +18,9 @@
         </div>
     </g:if>
 
-    <img id="shell-navbar-logo"
-         class="mx-auto"
-         src="${c.shell.config.display.logo}"
-    />
+    <div id="shell-navbar-logo" class="mx-auto">
+        <render:component instance="${c.logo}"/>
+    </div>
 
     <!--    <div class="shell-navbar-notifications-toggle">-->
     <!--        <button type="button" class="btn btn-secondary text-dark"-->
@@ -36,6 +35,7 @@
                     data-bs-toggle="offcanvas" data-bs-target="#shell-user-menu">
                 <i>
                     <asset:image src="libs/flags/${shell.displayFlagCode()}.svg"
+                                 class="image-icon"
                                  data-bs-custom-class="tooltip"
                                  data-bs-toggle="tooltip"
                                  data-bs-title="${c.message('shell.user.menu')}"/>

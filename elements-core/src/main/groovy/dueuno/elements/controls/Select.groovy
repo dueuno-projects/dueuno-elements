@@ -14,10 +14,14 @@
  */
 package dueuno.elements.controls
 
+import dueuno.core.PrettyPrinter
+import dueuno.core.PrettyPrinterProperties
+import dueuno.elements.Component
+import dueuno.elements.Control
+import dueuno.elements.Elements
 import dueuno.elements.components.Button
-import dueuno.elements.core.*
-import dueuno.elements.exceptions.ArgsException
-import dueuno.elements.types.Type
+import dueuno.exceptions.ArgsException
+import dueuno.types.Type
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import org.grails.orm.hibernate.cfg.GrailsHibernateUtil

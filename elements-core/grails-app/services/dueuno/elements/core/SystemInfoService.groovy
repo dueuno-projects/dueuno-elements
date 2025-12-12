@@ -14,7 +14,8 @@
  */
 package dueuno.elements.core
 
-import dueuno.elements.utils.EnvUtils
+import dueuno.core.WebRequestAware
+import dueuno.utils.EnvUtils
 import grails.core.GrailsApplication
 import grails.plugins.GrailsPluginManager
 import groovy.transform.CompileStatic

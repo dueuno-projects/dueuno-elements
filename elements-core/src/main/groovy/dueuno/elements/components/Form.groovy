@@ -15,14 +15,14 @@
 package dueuno.elements.components
 
 import dueuno.commons.utils.ObjectUtils
+import dueuno.elements.Component
+import dueuno.elements.Control
+import dueuno.elements.Elements
 import dueuno.elements.controls.HiddenField
-import dueuno.elements.core.Component
-import dueuno.elements.core.Control
-import dueuno.elements.core.Elements
-import dueuno.elements.exceptions.ArgsException
-import dueuno.elements.exceptions.ElementsException
-import dueuno.elements.types.Type
-import dueuno.elements.types.Types
+import dueuno.exceptions.ArgsException
+import dueuno.exceptions.ElementsException
+import dueuno.types.Type
+import dueuno.types.Types
 import grails.gorm.validation.ConstrainedProperty
 import grails.validation.Validateable
 import groovy.transform.CompileStatic

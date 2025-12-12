@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+import dueuno.elements.Component
 import jakarta.servlet.ServletContext
 
 /**
@@ -32,7 +33,7 @@ class PageTagLib {
      */
     def header = { Map attrs ->
         Component component = attrs.component
-        out << render(template: '/dueuno/elements/core/PageHeader', model: component.getModel())
+        out << render(template: '/dueuno/core/PageHeader', model: component.getModel())
     }
 
     /**
@@ -40,7 +41,7 @@ class PageTagLib {
      */
     def colors = { Map attrs ->
         Component component = attrs.component
-        out << render(template: '/dueuno/elements/core/PageColors', model: component.getModel())
+        out << render(template: '/dueuno/core/PageColors', model: component.getModel())
     }
 
     /**
@@ -48,21 +49,21 @@ class PageTagLib {
      */
     def footer = { Map attrs ->
         Component component = attrs.component
-        out << render(template: '/dueuno/elements/core/PageFooter', model: component.getModel())
+        out << render(template: '/dueuno/core/PageFooter', model: component.getModel())
     }
 
     /**
      * Initializes JS. Use: <page:initialize />
      */
     def initialize = { Map attrs ->
-        out << render(template: '/dueuno/elements/core/PageInitialize', model: null)
+        out << render(template: '/dueuno/core/PageInitialize', model: null)
     }
 
     /**
      * Loading screen. Use: <page:loading />
      */
     def loading = { Map attrs ->
-        out << render(template: '/dueuno/elements/core/PageLoading', model: null)
+        out << render(template: '/dueuno/core/PageLoading', model: null)
     }
 
     def contextPath = { Map attrs ->

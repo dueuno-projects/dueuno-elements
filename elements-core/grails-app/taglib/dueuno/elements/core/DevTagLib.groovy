@@ -14,8 +14,9 @@
  */
 package dueuno.elements.core
 
+import dueuno.core.WebRequestAware
 import dueuno.elements.tenants.TenantPropertyService
-import dueuno.elements.utils.EnvUtils
+import dueuno.utils.EnvUtils
 
 /**
  * @author Gianluca Sartori

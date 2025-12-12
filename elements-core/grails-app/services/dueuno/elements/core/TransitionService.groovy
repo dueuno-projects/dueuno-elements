@@ -14,6 +14,7 @@
  */
 package dueuno.elements.core
 
+import dueuno.elements.Transition
 import grails.plugin.springwebsocket.WebSocket
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j

@@ -30,7 +30,7 @@
                     </li>
                 </g:if>
                 <g:else>
-                    <li><render:component instance="${action.link}" properties="[cssClass: 'dropdown-item', iconClass: 'fa-fw']" /></li>
+                    <li><render:component instance="${action.link}" properties="[cssClass: 'dropdown-item']" /></li>
                 </g:else>
             </g:each>
         </ul>

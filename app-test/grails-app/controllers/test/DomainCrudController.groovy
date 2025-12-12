@@ -20,7 +20,7 @@ import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.TextField
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 
 class DomainCrudController implements ElementsController {
 

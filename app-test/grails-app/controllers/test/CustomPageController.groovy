@@ -19,7 +19,7 @@ import dueuno.elements.components.Form
 import dueuno.elements.components.Label
 import dueuno.elements.components.Table
 import dueuno.elements.components.TableRow
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 import dueuno.elements.security.SecurityService
 import grails.plugin.springsecurity.annotation.Secured
 

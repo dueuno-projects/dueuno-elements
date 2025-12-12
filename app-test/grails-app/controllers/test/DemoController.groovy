@@ -15,8 +15,8 @@
 package test
 
 import dueuno.elements.contents.ContentTable
-import dueuno.elements.core.ElementsController
-import dueuno.elements.types.Money
+import dueuno.elements.ElementsController
+import dueuno.types.Money
 
 class DemoController implements ElementsController {
 

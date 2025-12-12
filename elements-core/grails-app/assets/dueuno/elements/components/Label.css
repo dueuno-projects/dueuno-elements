@@ -2,10 +2,18 @@
     --bs-tooltip-font-size: .9rem;
     --bs-tooltip-color: rgb(var(--elements-frame-text));
     --bs-tooltip-bg: rgb(var(--elements-frame-bg));
+    --bs-border-radius: var(--bs-border-radius-sm);
 }
 
 .tooltip.show {
     opacity: 1;
+}
+
+.image-icon {
+    margin-top: -.2rem;
+    height: 1.3rem;
+    border: .15rem solid rgb(var(--elements-main-fg));
+    border-radius: 100%;
 }
 
 .component-label {
@@ -14,7 +22,7 @@
 
 .component-label.tag {
     padding: var(--elements-spacing-y) var(--elements-spacing-x);
-    border-radius: var(--bs-border-radius-lg);
+    border-radius: var(--bs-border-radius-sm);
     border: none !important;
     height: 100%;
 }

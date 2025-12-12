@@ -14,13 +14,13 @@
  */
 package dueuno.elements.security
 
+import dueuno.elements.ElementsController
 import dueuno.elements.components.Button
 import dueuno.elements.components.Label
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.EmailField
-import dueuno.elements.core.ElementsController
 import dueuno.elements.pages.Login
-import dueuno.elements.types.Type
+import dueuno.types.Type
 import grails.plugin.springsecurity.annotation.Secured
 
 /**

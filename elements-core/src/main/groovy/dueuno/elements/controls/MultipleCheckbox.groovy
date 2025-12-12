@@ -14,9 +14,9 @@
  */
 package dueuno.elements.controls
 
-import dueuno.elements.core.Control
-import dueuno.elements.exceptions.ElementsException
-import dueuno.elements.types.Type
+import dueuno.elements.Control
+import dueuno.exceptions.ElementsException
+import dueuno.types.Type
 import groovy.transform.CompileStatic
 
 /**

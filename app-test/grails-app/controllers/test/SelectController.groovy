@@ -17,7 +17,7 @@ package test
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.Select
-import dueuno.elements.core.ElementsController
+import dueuno.elements.ElementsController
 
 class SelectController implements ElementsController {
 

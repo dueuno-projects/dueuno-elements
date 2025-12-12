@@ -14,7 +14,7 @@
  */
 package dueuno.elements.components
 
-import dueuno.elements.core.Control
+import dueuno.elements.Control
 import groovy.transform.CompileStatic
 
 /**

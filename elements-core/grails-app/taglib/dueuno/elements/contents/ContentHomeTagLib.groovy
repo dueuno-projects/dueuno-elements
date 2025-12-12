@@ -14,9 +14,9 @@
  */
 package dueuno.elements.contents
 
+import dueuno.core.WebRequestAware
+import dueuno.elements.Menu
 import dueuno.elements.components.ShellService
-import dueuno.elements.core.Menu
-import dueuno.elements.core.WebRequestAware
 import dueuno.elements.pages.Shell
 
 /**
