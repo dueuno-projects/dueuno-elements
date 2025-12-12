@@ -19,9 +19,6 @@
 
     /* Bootstrap */
     --bs-body-color: rgb(var(--elements-main-text));
-    --bs-border-radius: .3rem;
-    --bs-border-radius-lg: .5rem;
-    --bs-border-radius-xl: 1rem;
 }
 
 html {
