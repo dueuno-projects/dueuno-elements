@@ -91,7 +91,7 @@ class CrudController implements ElementsController {
                     addField(
                             class: Select,
                             id: 'company',
-                            optionsFromRecordset: personService.list(),
+                            optionsFromRecordset: companyService.list(),
                             transformer: 'TRANSFORM_ME',
 //                            renderTextPrefix: true,
                             multiple: true,
@@ -148,6 +148,7 @@ class CrudController implements ElementsController {
                         name: 'desc',
                 ]
                 columns = [
+                        'tagIcon',
                         'company',
                         'employeeCount',
                         'name',
@@ -188,6 +189,10 @@ class CrudController implements ElementsController {
                     row.cells.prettyHtml.html = 'table.cell.label.html'
 //                    row.verticalAlign = VerticalAlign.TOP
                     row.cells.postcode.tag = true
+
+                    row.cells.tagIcon.icon = 'fa-user'
+                    row.cells.tagIcon.tag = true
+                    row.cells.tagIcon.tooltip = 'User'
 
                     row.cells['name'].textWrap = TextWrap.SOFT_WRAP
                     row.cells['company'].textWrap = TextWrap.LINE_WRAP

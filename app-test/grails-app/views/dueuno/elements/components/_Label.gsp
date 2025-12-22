@@ -21,7 +21,7 @@ When modifying this template, please update also:
     <g:if test="${c.tooltip}"><span ${raw('data-bs-custom-class="tooltip" data-bs-toggle="tooltip" data-bs-title="' + c.message(c.tooltip) + '"')}></g:if>
     <g:if test="${c.image}"><i><asset:image src="${c.image}" class="image-icon ${c.imageClass}"/></i></g:if>
     <g:elseif test="${c.icon}"><render:icon icon="${c.icon}"/></g:elseif>
-    <g:if test="${c.url}"><a href="${c.url}" target="_blank"></g:if><span class="text ${c.verticalAlign}">${text}${c.tag && !text ? raw('&nbsp;') : ''}</span><g:if test="${c.url}"></a></g:if>
+    <g:if test="${c.url}"><a href="${c.url}" target="_blank"></g:if><span class="text ${c.verticalAlign}">${text}${c.tag && !c.icon && !text ? raw('&nbsp;') : ''}</span><g:if test="${c.url}"></a></g:if>
     <g:if test="${c.tooltip}"></span></g:if>
 </g:else>
 </span>

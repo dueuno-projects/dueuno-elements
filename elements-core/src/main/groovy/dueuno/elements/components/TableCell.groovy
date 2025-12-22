@@ -195,7 +195,7 @@ class TableCell extends Component {
         Label label = getLabel()
         Object labelValue = ObjectUtils.getValue(row.values, column)
 
-        if (label && labelValue != null) {
+        if (label && (labelValue != null || label.icon)) {
             String backgroundColor = table.rowStriped
                     ? (row.index % 2 == 0 ? mainForegroundColor : mainBackgroundColor)
                     : mainBackgroundColor
