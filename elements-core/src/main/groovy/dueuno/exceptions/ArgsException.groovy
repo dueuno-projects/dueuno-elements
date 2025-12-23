@@ -71,10 +71,6 @@ class ArgsException extends Exception {
         if (requiredArg == null || requiredArg == '') {
             return null
 
-// TODO: Gianluca, non ricordo perché esiste questa logica.. ??
-//        } else if (Element.isDomainClass(requiredArg.getClass())) {
-//            return requiredArg['id']
-
         } else {
             return requiredArg
         }

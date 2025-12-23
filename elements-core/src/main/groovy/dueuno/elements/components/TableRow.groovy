@@ -117,7 +117,7 @@ class TableRow extends Component {
             HiddenField fieldComponent = field.value
             Object fieldValue = values[fieldName]
 
-            if (Elements.hasId(fieldValue)) {
+            if (ObjectUtils.hasId(fieldValue)) {
                 fieldComponent.value = fieldValue['id'].toString()
 
             } else {
@@ -304,7 +304,7 @@ class TableRow extends Component {
 
             } else if (value) {
                 // GORM Objects handling
-                if (Elements.hasId(value)) {
+                if (ObjectUtils.hasId(value)) {
                     // GORM Keys must be strings otherwise GORM sometimes complains (don't really know why)
                     results[keyColumn] = value['id'].toString()
 

@@ -25,6 +25,22 @@ import groovy.util.logging.Slf4j
 @CompileStatic
 class ObjectUtils {
 
+    static Boolean hasId(Object obj) {
+        if (!obj) {
+            return false
+        }
+
+        if (obj in Map) {
+            return (obj as Map).containsKey('id')
+        }
+
+        if (obj.hasProperty('id')) {
+            return true
+        }
+
+        return false
+    }
+
     /**
      * Returns the value of a field in an object from its name in dotted path format descending recursively
      * into sub-objects. Eg: 'person.address.street'

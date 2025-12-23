@@ -196,10 +196,10 @@ class Form extends Component {
     }
 
     void setValues(Object obj) {
-        if (Elements.hasId(obj) && !getControl('id')) {
+        if (ObjectUtils.hasId(obj) && !getControl('id')) {
             // This is not sufficient, we must add the fields that represents the real GORM key
             // that could be a composite key
-            addKeyField('id')
+            addKeyField('id', Type.NUMBER, obj['id'])
         }
 
         for (controlEntry in controls) {
@@ -210,7 +210,7 @@ class Form extends Component {
 
     private void setValue(Control control, Object obj = null) {
         Object value = ObjectUtils.getValue(obj, control.id)
-        if (value != null) {
+        if (control.value == null && value != null) {
             control.value = value
 
         } else {

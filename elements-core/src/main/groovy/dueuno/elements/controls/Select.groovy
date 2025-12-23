@@ -14,6 +14,7 @@
  */
 package dueuno.elements.controls
 
+import dueuno.commons.utils.ObjectUtils
 import dueuno.core.PrettyPrinter
 import dueuno.core.PrettyPrinterProperties
 import dueuno.elements.Component
@@ -151,7 +152,7 @@ class Select extends Control {
 
     @Override
     void setValue(Object value) {
-        if (Elements.hasId(value)) {
+        if (ObjectUtils.hasId(value)) {
             super.setValue(value['id'])
         } else {
             super.setValue(value)
@@ -191,9 +192,9 @@ class Select extends Control {
         }
 
         if (firstRecord) {
-            if (!Elements.hasId(firstRecord) && !keys) {
+            if (!ObjectUtils.hasId(firstRecord) && !keys) {
                 throw new ArgsException("Object does not contain an 'id' property. You must specify at least one key in the 'keys' list.")
-            } else if (Elements.hasId(firstRecord) && !keys) {
+            } else if (ObjectUtils.hasId(firstRecord) && !keys) {
                 keys = ['id']
             }
         }

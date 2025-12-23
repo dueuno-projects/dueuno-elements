@@ -158,22 +158,6 @@ class Elements {
         return results
     }
 
-    static Boolean hasId(Object obj) {
-        if (!obj) {
-            return false
-        }
-
-        if (obj in Map) {
-            return (obj as Map).containsKey('id')
-        }
-
-        if (obj.hasProperty('id')) {
-            return true
-        }
-
-        return false
-    }
-
     static String encodeAsJSON(Object obj) {
         return obj as JSON
     }
