@@ -56,9 +56,9 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         [pattern: '/**/images/**', access: ['permitAll']],
         [pattern: '/**/favicon.png', access: ['permitAll']],
         [pattern: '/**/appicon.png', access: ['permitAll']],
-        [pattern: '/**/app-manifest.json', access: ['permitAll']],
-        [pattern: '/**/app-register.js', access: ['permitAll']],
-        [pattern: '/**/app-service-worker.js', access: ['permitAll']],
+        [pattern: '/**/pwa/manifest.json', access: ['permitAll']],
+        [pattern: '/**/pwa/register.js', access: ['permitAll']],
+        [pattern: '/**/pwa/service-worker.js', access: ['permitAll']],
 ]
 
 grails.plugin.springsecurity.filterChain.chainMap = [
