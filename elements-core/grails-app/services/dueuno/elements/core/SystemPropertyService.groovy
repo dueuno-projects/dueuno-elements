@@ -52,9 +52,6 @@ class SystemPropertyService extends PropertyService {
         setBoolean('DISPLAY_MENU_SEARCH', true)
         setBoolean('DISPLAY_HOME_BUTTON', true)
         setBoolean('DISPLAY_USER_MENU', true)
-
-        // Other
-        setNumber('FONT_SIZE', 14, 14)
     }
 
     @PostConstruct
