@@ -169,13 +169,13 @@ class HttpRequest {
      *
      * <p>Example:
      * <pre>{@code
-     * Header h = request.hasHeader("Accept");
+     * Header h = request.getHeader("Accept");
      * }</pre>
      *
      * @param name the header name
      * @return the matching Header or {@code null}
      */
-    Header hasHeader(String name) {
+    Header getHeader(String name) {
         return headers.find { it.name.equalsIgnoreCase(name) }
     }
 

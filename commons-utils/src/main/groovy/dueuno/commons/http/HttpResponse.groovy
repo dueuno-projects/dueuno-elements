@@ -101,7 +101,7 @@ class HttpResponse {
      * @param name the header name
      * @return the matching header or {@code null} if not found
      */
-    Header hasHeader(String name) {
+    Header getHeader(String name) {
         return headers.find { it.name.equalsIgnoreCase(name) }
     }
 

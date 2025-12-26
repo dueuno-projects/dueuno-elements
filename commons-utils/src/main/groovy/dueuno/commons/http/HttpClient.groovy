@@ -163,15 +163,15 @@ class HttpClient {
                 break
 
             case String:
-                ContentType contentType = request.hasHeader("Content-Type")
-                        ? ContentType.parse(request.hasHeader("Content-Type").value)
+                ContentType contentType = request.getHeader("Content-Type")
+                        ? ContentType.parse(request.getHeader("Content-Type").value)
                         : ContentType.TEXT_PLAIN
                 httpRequest.entity = new StringEntity(body as String, contentType)
 
-                if (!request.hasHeader("Accept")) {
+                if (!request.getHeader("Accept")) {
                     httpRequest.setHeader("Accept", ContentType.TEXT_PLAIN.mimeType)
                 }
-                if (!request.hasHeader("Content-Type")) {
+                if (!request.getHeader("Content-Type")) {
                     httpRequest.setHeader("Content-Type", ContentType.TEXT_PLAIN.mimeType)
                 }
                 break
@@ -179,15 +179,15 @@ class HttpClient {
             default:
                 try {
                     String jsonBody = JsonOutput.toJson(body)
-                    ContentType contentType = request.hasHeader("Content-Type")
-                            ? ContentType.parse(request.hasHeader("Content-Type").value)
+                    ContentType contentType = request.getHeader("Content-Type")
+                            ? ContentType.parse(request.getHeader("Content-Type").value)
                             : ContentType.APPLICATION_JSON
                     httpRequest.entity = new StringEntity(jsonBody, contentType)
 
-                    if (!request.hasHeader("Accept")) {
+                    if (!request.getHeader("Accept")) {
                         httpRequest.setHeader("Accept", ContentType.APPLICATION_JSON.mimeType)
                     }
-                    if (!request.hasHeader("Content-Type")) {
+                    if (!request.getHeader("Content-Type")) {
                         httpRequest.setHeader("Content-Type", ContentType.APPLICATION_JSON.mimeType)
                     }
 
@@ -210,12 +210,12 @@ class HttpClient {
     static HttpResponse call(CloseableHttpClient client, HttpRequest request, HttpResponseType responseType = HttpResponseType.JSON) {
         HttpUriRequestBase httpRequest = buildHttpRequest(request)
 
-        if (!request.hasHeader("Accept")) {
+        if (!request.getHeader("Accept")) {
             httpRequest.setHeader("Accept", "*/*")
         }
 
         try {
-            return client.execute(httpRequest) { response ->
+            return client.execute(httpRequest) { ClassicHttpResponse response ->
                 switch (responseType) {
                     case HttpResponseType.RAW: return handleRawResponse(response)
                     case HttpResponseType.JSON: return handleJsonResponse(response)
