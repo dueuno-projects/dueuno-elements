@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: read
 
 jobs:
   release:
@@ -26,22 +27,24 @@ jobs:
       - name: Extract version from tag
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
 
-      - name: Update version in files
+      - name: Create release branch and update version
         run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
-          sed -i "s/^projectVersion=.*/projectVersion=${VERSION}/" gradle.properties
-          sed -i "s/^[[:space:]]*def version = .*/    def version = '${VERSION}'/" elements-core/src/main/groovy/dueuno/ElementsGrailsPlugin.groovy
+          VERSION=${VERSION}
+
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          
+
           git checkout -b release/${VERSION}
+
+          sed -i "s/^projectVersion=.*/projectVersion=${VERSION}/" gradle.properties
+          sed -i "s/^[[:space:]]*def version = .*/    def version = '${VERSION}'/" elements-core/src/main/groovy/dueuno/ElementsGrailsPlugin.groovy
+
           git add gradle.properties elements-core/src/main/groovy/dueuno/ElementsGrailsPlugin.groovy
-          git commit -m "${VERSION}" || echo "No changes"
+          git commit -m "Release ${VERSION}" || echo "No changes to commit"
           git push origin release/${VERSION}
 
       - name: Build
-        run: |
-          ./gradlew clean build
+        run: ./gradlew clean build
 
       - name: Publish to Maven Central (Sonatype)
         env:
@@ -52,32 +55,11 @@ jobs:
         run: |
           ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
 
-      - name: Generate changelog
-        id: changelog
-        uses: mikepenz/release-changelog-builder-action@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          configuration: ".github/workflows/changelog-config.json"
-
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          release_name: "Release ${{ github.ref_name }}"
-          body: |
-            ## Version ${{ github.ref_name }}
-            
-            ### What's changed
-            ${{ steps.changelog.outputs.changelog }}
-            
-            ### Commits
-            ${{ env.COMMITS }}
-            
-            ### Artifacts
-            - Maven: `https://repo1.maven.org/maven2/com/tuo/progetto/${{ github.ref_name }}/`
-
-          draft: false
-          prerelease: false
+          name: "Release ${{ github.ref_name }}"
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
