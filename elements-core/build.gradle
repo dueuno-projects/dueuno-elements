@@ -10,7 +10,6 @@ dependencies {
 
     // Quartz (to schedule jobs when no Scheduler solution is in use)
     api "org.apache.grails:grails-quartz:4.0.0"
-//    api "org.quartz-scheduler:quartz:2.3.2" // Is not pulled in by defaults
 
     // Websockets
     api "io.github.zyro23:grails-spring-websocket:2.7.0"
