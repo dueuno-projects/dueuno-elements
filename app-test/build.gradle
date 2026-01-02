@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation project(":elements-core")
-    implementation project(":elements-extra")
+//    implementation project(":elements-extra")
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 
     // LDAP
