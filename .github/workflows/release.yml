@@ -1,0 +1,65 @@
+name: Release to Maven Central
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: gradle
+
+      - name: Extract version from tag
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      - name: Create release branch and update version
+        run: |
+          VERSION=${VERSION}
+
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git checkout -b release/${VERSION}
+
+          sed -i "s/^projectVersion=.*/projectVersion=${VERSION}/" gradle.properties
+          sed -i "s/^[[:space:]]*def version = .*/    def version = '${VERSION}'/" elements-core/src/main/groovy/dueuno/ElementsGrailsPlugin.groovy
+
+          git add gradle.properties elements-core/src/main/groovy/dueuno/ElementsGrailsPlugin.groovy
+          git commit -m "Release ${VERSION}" || echo "No changes to commit"
+          git push origin release/${VERSION}
+
+      - name: Build
+        run: ./gradlew clean build
+
+      - name: Publish to Maven Central (Sonatype)
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "Release ${{ github.ref_name }}"
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
