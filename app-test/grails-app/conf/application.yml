@@ -56,10 +56,10 @@ grails:
   plugin:
     springsecurity:
       providerNames:
-        - rememberMeAuthenticationProvider
         - daoAuthenticationProvider
         - externalIdAuthenticationProvider
 #        - ldapAuthProvider
+        - rememberMeAuthenticationProvider
 
 ---
 spring:
