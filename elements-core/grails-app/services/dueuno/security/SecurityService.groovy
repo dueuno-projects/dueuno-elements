@@ -15,23 +15,17 @@
 package dueuno.security
 
 import dueuno.audit.AuditOperation
-import dueuno.commons.utils.StringUtils
-import dueuno.core.Feature
-import dueuno.core.GuiStyle
-import dueuno.core.LinkGeneratorAware
-import dueuno.core.PrettyPrinterDecimalFormat
-import dueuno.core.WebRequestAware
-import dueuno.elements.Menu
 import dueuno.audit.AuditService
-import dueuno.elements.pages.ShellService
-import dueuno.core.ApplicationService
-import dueuno.properties.SystemPropertyService
+import dueuno.commons.utils.StringUtils
+import dueuno.core.*
+import dueuno.elements.Menu
 import dueuno.elements.pages.Shell
-import dueuno.tenants.TTenant
-import dueuno.properties.TenantPropertyService
-import dueuno.tenants.TenantService
+import dueuno.elements.pages.ShellService
 import dueuno.exceptions.ArgsException
 import dueuno.exceptions.ElementsException
+import dueuno.properties.TenantPropertyService
+import dueuno.tenants.TTenant
+import dueuno.tenants.TenantService
 import dueuno.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.transactions.Transactional
@@ -78,8 +72,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     @Autowired
     TokenBasedRememberMeServices tokenBasedRememberMeServices
 
+    AuthenticationProviderService authenticationProviderService
     SpringSecurityService springSecurityService
-    SystemPropertyService systemPropertyService
     TenantPropertyService tenantPropertyService
     ApplicationService applicationService
     ShellService shellService
@@ -171,16 +165,16 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     private void registerSuperadminFeatures() {
         applicationService.registerSuperadminFeature(
+                controller: 'authenticationProvider',
+                icon: 'fa-lock',
+        )
+        applicationService.registerSuperadminFeature(
                 controller: 'tenant',
                 icon: 'fa-house-user',
         )
         applicationService.registerSuperadminFeature(
                 controller: 'connectionSource',
                 icon: 'fa-plug',
-        )
-        applicationService.registerSuperadminFeature(
-                controller: 'authenticationProvider',
-                icon: 'fa-at',
         )
         applicationService.registerSuperadminFeature(
                 controller: 'monitoring',

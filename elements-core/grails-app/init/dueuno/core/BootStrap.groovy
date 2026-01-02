@@ -16,6 +16,7 @@ package dueuno.core
 
 import dueuno.elements.PageService
 import dueuno.elements.pages.ShellService
+import dueuno.security.AuthenticationProviderService
 import dueuno.security.CryptoService
 import dueuno.security.SecurityService
 import dueuno.properties.TenantPropertyService
@@ -34,6 +35,7 @@ class BootStrap {
 //    GroovyPagesTemplateEngine groovyPagesTemplateEngine
     ApplicationService applicationService
     SecurityService securityService
+    AuthenticationProviderService authenticationProviderService
     CryptoService cryptoService
     TenantPropertyService tenantPropertyService
     PageService pageService
@@ -45,6 +47,7 @@ class BootStrap {
             systemPropertyService.install()
             tenantService.install()
             securityService.install()
+            authenticationProviderService.install()
         }
 
         applicationService.onPluginTenantInstall { String tenantId ->
