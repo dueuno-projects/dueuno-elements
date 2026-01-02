@@ -1,5 +1,4 @@
 plugins {
-    id "groovy"
     id "java-library"
     id "maven-publish"
     id "signing"
@@ -57,9 +56,14 @@ publishing {
 }
 
 signing {
-    sign publishing.publications.mavenJava
-    sign configurations.runtimeElements
+    def key = System.getenv("GPG_PRIVATE_KEY")
+    def pass = System.getenv("GPG_PASSPHRASE")
 
-    // Send the Dueuno public key to a public server for Maven Central to work
-    // gpg --keyserver keyserver.ubuntu.com --send-keys 320BDF4E3F5990F2F3AE8DC93470E26E4FB7C68E
+    if (key && pass) {
+        useInMemoryPgpKeys(key, pass)
+        sign publishing.publications.mavenJava
+
+    } else {
+        logger.lifecycle("GPG keys not found — skipping signing (probably local build)")
+    }
 }
