@@ -15,23 +15,17 @@
 package dueuno.security
 
 import dueuno.audit.AuditOperation
-import dueuno.commons.utils.StringUtils
-import dueuno.core.Feature
-import dueuno.core.GuiStyle
-import dueuno.core.LinkGeneratorAware
-import dueuno.core.PrettyPrinterDecimalFormat
-import dueuno.core.WebRequestAware
-import dueuno.elements.Menu
 import dueuno.audit.AuditService
-import dueuno.elements.pages.ShellService
-import dueuno.core.ApplicationService
-import dueuno.properties.SystemPropertyService
+import dueuno.commons.utils.StringUtils
+import dueuno.core.*
+import dueuno.elements.Menu
 import dueuno.elements.pages.Shell
-import dueuno.tenants.TTenant
-import dueuno.properties.TenantPropertyService
-import dueuno.tenants.TenantService
+import dueuno.elements.pages.ShellService
 import dueuno.exceptions.ArgsException
 import dueuno.exceptions.ElementsException
+import dueuno.properties.TenantPropertyService
+import dueuno.tenants.TTenant
+import dueuno.tenants.TenantService
 import dueuno.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.transactions.Transactional
@@ -79,7 +73,6 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     TokenBasedRememberMeServices tokenBasedRememberMeServices
 
     SpringSecurityService springSecurityService
-    SystemPropertyService systemPropertyService
     TenantPropertyService tenantPropertyService
     ApplicationService applicationService
     ShellService shellService
@@ -575,7 +568,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         if (filterParams.containsKey('id')) query = query.where { id == filterParams.id }
         if (filterParams.containsKey('username')) query = query.where { username == filterParams.username }
         if (filterParams.containsKey('apiKey')) query = query.where { apiKey == filterParams.apiKey }
-        if (filterParams.containsKey('externalId')) query = query.where { externalId == filterParams.externalId }
+        if (filterParams.containsKey('hardwareToken')) query = query.where { hardwareToken == filterParams.hardwareToken }
         if (filterParams.containsKey('tenant')) query = query.where { tenant.id == filterParams.tenant }
         if (filterParams.containsKey('tenantId')) query = query.where { tenant.tenantId == filterParams.tenantId }
         if (filterParams.containsKey('deletable')) query = query.where { deletable == filterParams.deletable }
@@ -585,7 +578,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
             query = query.where {
                 true
                         || apiKey =~ "%${filterParams.find}%"
-                        || externalId =~ "%${filterParams.find}%"
+                        || hardwareToken =~ "%${filterParams.find}%"
                         || username =~ "%${filterParams.find}%"
                         || firstname =~ "%${filterParams.find}%"
                         || lastname =~ "%${filterParams.find}%"
@@ -622,8 +615,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return query.get(fetch: fetchAll) as TUser
     }
 
-    TUser getUserByExternalId(String externalId) {
-        def query = TUser.where { externalId == externalId }
+    TUser getUserByHardwareToken(String hardwareToken) {
+        def query = TUser.where { hardwareToken == hardwareToken }
         return query.get(fetch: fetchAll) as TUser
     }
 
@@ -766,7 +759,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         user = new TUser(
                 tenant: tenant,
                 apiKey: args.apiKey,
-                externalId: args.externalId,
+                hardwareToken: args.hardwareToken,
                 deletable: args.deletable == null ? true : args.deletable,
                 username: args.username,
                 password: args.password ? encodePassword((String) args.password) : null,

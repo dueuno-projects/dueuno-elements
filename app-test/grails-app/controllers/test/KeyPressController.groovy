@@ -8,8 +8,8 @@ class KeyPressController implements ElementsController {
     SecurityService securityService
 
     def onKeyPress() {
-        String externalId = keyPressed
-        def user = securityService.getUserByExternalId(externalId)
+        String token = keyPressed
+        def user = securityService.getUserByHardwareToken(token)
         if (user) {
             display controller: 'authentication', action: 'logout'
             return

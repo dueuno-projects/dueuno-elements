@@ -69,8 +69,8 @@ class Login extends Page {
                    };
                 } else if ($search.val().length > 0) {
                     data = {
-                        processUrl: 'api/auth/external',
-                        externalId: $search.val(),
+                        processUrl: 'authentication/hardware',
+                        token: $search.val(),
                     };
                 }
 
@@ -100,7 +100,6 @@ class Login extends Page {
     }
 
     static onLogin($element, data) {
-
         let call = {
             type: 'POST',
             url: _21_.app.url + data.processUrl,

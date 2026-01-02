@@ -15,9 +15,9 @@
 package dueuno
 
 import dueuno.core.SessionInitializer
-import dueuno.security.CustomUserDetailsService
-import dueuno.security.ExternalIdAuthenticationFilter
-import dueuno.security.ExternalIdAuthenticationProvider
+
+import dueuno.security.authentication.hardware.HardwareAuthenticationFilter
+import dueuno.security.authentication.hardware.HardwareAuthenticationProvider
 import dueuno.tenants.TenantForCurrentUserResolver
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugins.Plugin
@@ -25,6 +25,7 @@ import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.scheduling.annotation.EnableScheduling
+import org.springframework.security.authentication.AuthenticationManager
 
 /**
  * @author Gianluca Sartori
@@ -76,22 +77,18 @@ class ElementsGrailsPlugin extends Plugin {
         tenantForCurrentUserResolver(TenantForCurrentUserResolver)
         sessionInitializer(SessionInitializer)
 
-        customUserDetailsService(CustomUserDetailsService) {
-            grailsApplication = ref('grailsApplication')
+        hardwareAuthenticationProvider(HardwareAuthenticationProvider) {
+            securityService = ref('securityService')
         }
 
-        externalIdAuthenticationProvider(ExternalIdAuthenticationProvider) {
-            customUserDetailsService = ref('customUserDetailsService')
-        }
-
-        ConfigObject conf = SpringSecurityUtils.securityConfig
-        externalIdAuthenticationFilter(ExternalIdAuthenticationFilter, conf.externalId.filterProcessesUrl) {
+        hardwareAuthenticationFilter(HardwareAuthenticationFilter) {
             authenticationManager = ref('authenticationManager')
-            authenticationSuccessHandler = ref('authenticationSuccessHandler')
-            authenticationFailureHandler = ref('authenticationFailureHandler')
-            sessionAuthenticationStrategy = ref('sessionAuthenticationStrategy')
-            rememberMeServices = ref('rememberMeServices')
-            securityContextRepository = ref('securityContextRepository')
+        }
+
+        authenticationManager(AuthenticationManager) {
+            providers = [
+                    ref('hardwareAuthenticationProvider'),
+            ]
         }
     } }
 

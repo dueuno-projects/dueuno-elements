@@ -58,7 +58,7 @@ grails:
       providerNames:
         - rememberMeAuthenticationProvider
         - daoAuthenticationProvider
-        - externalIdAuthenticationProvider
+        - hardwareAuthenticationProvider
 #        - ldapAuthProvider
 
 ---
