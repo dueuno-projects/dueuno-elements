@@ -34,7 +34,7 @@
             <button type="button" class="btn btn-secondary text-dark"
                     data-bs-toggle="offcanvas" data-bs-target="#shell-user-menu">
                 <i>
-                    <asset:image src="libs/flags/${shell.displayFlagCode()}.svg"
+                    <asset:image src="libs/flags/${c.localeFlagCode}.svg"
                                  class="image-icon"
                                  data-bs-custom-class="tooltip"
                                  data-bs-toggle="tooltip"

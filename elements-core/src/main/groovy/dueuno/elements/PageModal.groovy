@@ -14,7 +14,6 @@
  */
 package dueuno.elements
 
-
 import dueuno.elements.components.Button
 import groovy.transform.CompileStatic
 
@@ -31,7 +30,7 @@ class PageModal extends Component {
     PageModal(Map args) {
         super(args)
 
-        viewPath = '/dueuno/core/'
+        viewPath = '/dueuno/elements/'
 
         closeButton = createComponent(
                 class: Button,

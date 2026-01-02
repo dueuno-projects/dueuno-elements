@@ -8,7 +8,7 @@ import dueuno.elements.components.Timer
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.NumberField
 import dueuno.elements.ElementsController
-import dueuno.elements.core.TransitionService
+import dueuno.elements.TransitionService
 import dueuno.elements.style.TextDefault
 import grails.plugin.springsecurity.annotation.Secured
 import groovy.util.logging.Slf4j

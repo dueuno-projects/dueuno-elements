@@ -14,7 +14,7 @@
  */
 package dueuno.core
 
-import dueuno.elements.tenants.TenantPropertyService
+import dueuno.properties.TenantPropertyService
 import jakarta.servlet.ServletContext
 import jakarta.servlet.ServletException
 import org.springframework.beans.factory.annotation.Autowired

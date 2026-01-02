@@ -6,13 +6,16 @@
 
 <body>
 
-<h1>Backoffice</h1>
-<p><a href="/test/admin">SHELL</a></p>
+<h1>Backoffice Application</h1>
+<p><a href="/test/admin">LOGIN</a></p>
 
 <h1>Website</h1>
-<p><a href="/test/admin/login?landingPage=/">ADMIN</a></p>
 <p><a href="/test/publicPage">PUBLIC PAGE</a></p>
-<p><a href="/test/logout">LOGOUT</a></p>
+<ol>
+    <li><a href="/test/login?landingPage=/">LOGIN</a></li>
+    <li><a href="/test/admin">ADMIN</a></li>
+    <li><a href="/test/logout?landingPage=/">LOGOUT</a></li>
+</ol>
 
 </body>
 </html>

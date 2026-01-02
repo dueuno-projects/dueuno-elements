@@ -20,7 +20,7 @@ import dueuno.elements.components.Label
 import dueuno.elements.components.Table
 import dueuno.elements.components.TableRow
 import dueuno.elements.ElementsController
-import dueuno.elements.security.SecurityService
+import dueuno.security.SecurityService
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])

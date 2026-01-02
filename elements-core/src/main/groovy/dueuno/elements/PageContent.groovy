@@ -35,7 +35,7 @@ abstract class PageContent extends Component {
     PageContent(Map args = [:]) {
         super(args)
 
-        viewPath = '/dueuno/core/'
+        viewPath = '/dueuno/elements/'
         viewTemplate = 'PageContent'
 
         String defaultTitle = controllerName + '.' + actionName + '.title'

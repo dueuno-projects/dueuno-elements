@@ -34,7 +34,7 @@ class Transition implements WebRequestAware {
     private List<Component> components
 
     Transition() {
-        view = '/dueuno/core/Transition'
+        view = '/dueuno/elements/Transition'
         commands = []
         components = []
     }

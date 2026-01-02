@@ -10,15 +10,15 @@ hibernate.naming_strategy = TNamingStrategy
 grails.gorm.multiTenancy.mode = 'DATABASE'
 
 // Tenants
-grails.gorm.multiTenancy.tenantResolverClass = 'dueuno.elements.tenants.TenantForCurrentUserResolver'
+grails.gorm.multiTenancy.tenantResolverClass = 'dueuno.tenants.TenantForCurrentUserResolver'
 
 // Spring Security Core plugin setup example
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'dueuno.elements.security.TUser'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'dueuno.elements.security.TUserRole'
-grails.plugin.springsecurity.authority.className = 'dueuno.elements.security.TRole'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'dueuno.security.TUser'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'dueuno.security.TUserRole'
+grails.plugin.springsecurity.authority.className = 'dueuno.security.TRole'
 grails.plugin.springsecurity.authority.groupAuthorityNameField = 'authorities'
 grails.plugin.springsecurity.useRoleGroups = true
-grails.plugin.springsecurity.roleHierarchyEntryClassName = 'dueuno.elements.security.TRoleHierarchyEntry'
+grails.plugin.springsecurity.roleHierarchyEntryClassName = 'dueuno.security.TRoleHierarchyEntry'
 grails.plugin.springsecurity.auth.loginFormUrl = '/authentication/login'
 grails.plugin.springsecurity.apf.filterProcessesUrl = '/authentication/authenticate' // See Login.js
 grails.plugin.springsecurity.successHandler.alwaysUseDefault = true

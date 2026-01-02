@@ -37,7 +37,7 @@ class KeyPress extends Component {
     KeyPress(Map args) {
         super(args)
 
-        viewPath = '/dueuno/core/'
+        viewPath = '/dueuno/elements/'
 
         enabled = args.enabled == null ? true : args.enabled
         triggerKey = args.triggerKey ?: 'Enter'

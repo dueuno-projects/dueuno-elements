@@ -14,7 +14,6 @@
  */
 package dueuno.elements
 
-
 import dueuno.elements.components.Button
 import dueuno.elements.controls.TextField
 import dueuno.elements.style.TextDefault
@@ -35,7 +34,7 @@ class PageMessageBox extends Component {
     PageMessageBox(Map args) {
         super(args)
 
-        viewPath = '/dueuno/core/'
+        viewPath = '/dueuno/elements/'
 
         cancel = addComponent(Button, 'cancel')
         cancel.icon = 'fa-circle-xmark'

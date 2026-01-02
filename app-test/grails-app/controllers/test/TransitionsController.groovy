@@ -22,7 +22,7 @@ import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
 import dueuno.elements.ComponentEvent
 import dueuno.elements.ElementsController
-import dueuno.elements.security.SecurityService
+import dueuno.security.SecurityService
 import dueuno.elements.style.TextStyle
 import dueuno.types.Money
 import dueuno.types.Quantity

@@ -1,7 +1,7 @@
 package test
 
 import dueuno.elements.ElementsController
-import dueuno.elements.security.SecurityService
+import dueuno.security.SecurityService
 
 class KeyPressController implements ElementsController {
 

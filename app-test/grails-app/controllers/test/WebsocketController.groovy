@@ -21,8 +21,8 @@ import dueuno.elements.controls.Checkbox
 import dueuno.elements.controls.Select
 import dueuno.elements.controls.TextField
 import dueuno.elements.ElementsController
-import dueuno.elements.core.TransitionService
-import dueuno.elements.security.SecurityService
+import dueuno.elements.TransitionService
+import dueuno.security.SecurityService
 
 class WebsocketController implements ElementsController {
 

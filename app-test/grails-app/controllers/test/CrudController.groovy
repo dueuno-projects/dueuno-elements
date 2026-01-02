@@ -14,7 +14,7 @@
  */
 package test
 
-import dueuno.elements.audit.AuditService
+import dueuno.audit.AuditService
 import dueuno.elements.components.Form
 import dueuno.elements.components.TableRow
 import dueuno.elements.contents.ContentCreate
@@ -22,11 +22,11 @@ import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.contents.ContentTable
 import dueuno.elements.controls.*
-import dueuno.elements.core.ApplicationService
+import dueuno.core.ApplicationService
 import dueuno.elements.ElementsController
 import dueuno.elements.style.TextDefault
 import dueuno.elements.style.TextWrap
-import dueuno.elements.types.QuantityService
+import dueuno.types.QuantityService
 import dueuno.types.Type
 import grails.plugin.springsecurity.annotation.Secured
 

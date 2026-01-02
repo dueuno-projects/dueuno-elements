@@ -18,7 +18,6 @@ import dueuno.commons.utils.LogUtils
 import dueuno.core.LinkGeneratorAware
 import dueuno.core.WebRequestAware
 import dueuno.elements.contents.ContentHeader
-import dueuno.elements.core.PageService
 import dueuno.elements.pages.PageBlank
 import dueuno.exceptions.ElementsException
 import grails.artefact.Controller

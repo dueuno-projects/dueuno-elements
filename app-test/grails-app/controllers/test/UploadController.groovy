@@ -19,7 +19,7 @@ import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.TextField
 import dueuno.elements.controls.Upload
 import dueuno.elements.ElementsController
-import dueuno.elements.tenants.TenantService
+import dueuno.tenants.TenantService
 
 class UploadController implements ElementsController {
 

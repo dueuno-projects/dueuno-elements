@@ -15,15 +15,15 @@
 package test
 
 import dueuno.commons.utils.FileUtils
-import dueuno.elements.components.ShellService
-import dueuno.elements.core.ApplicationService
-import dueuno.elements.core.ConnectionSourceService
-import dueuno.elements.core.SystemPropertyService
-import dueuno.elements.core.TransitionService
-import dueuno.elements.security.SecurityService
-import dueuno.elements.tenants.TenantPropertyService
-import dueuno.elements.tenants.TenantService
-import dueuno.elements.types.QuantityService
+import dueuno.elements.pages.ShellService
+import dueuno.core.ApplicationService
+import dueuno.core.ConnectionSourceService
+import dueuno.properties.SystemPropertyService
+import dueuno.elements.TransitionService
+import dueuno.security.SecurityService
+import dueuno.properties.TenantPropertyService
+import dueuno.tenants.TenantService
+import dueuno.types.QuantityService
 import grails.web.servlet.mvc.GrailsHttpSession
 import jakarta.servlet.ServletContext
 

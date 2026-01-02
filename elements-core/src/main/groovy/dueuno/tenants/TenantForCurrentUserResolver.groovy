@@ -15,8 +15,8 @@
 package dueuno.tenants
 
 import dueuno.core.WebRequestAware
-import dueuno.elements.security.TUser
-import dueuno.elements.tenants.TenantService
+import dueuno.security.TUser
+import dueuno.tenants.TenantService
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.datastore.mapping.multitenancy.TenantResolver

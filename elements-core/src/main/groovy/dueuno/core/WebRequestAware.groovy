@@ -15,6 +15,7 @@
 package dueuno.core
 
 import dueuno.exceptions.ArgsException
+import dueuno.utils.LocaleUtils
 import grails.web.servlet.mvc.GrailsHttpSession
 import grails.web.servlet.mvc.GrailsParameterMap
 import groovy.transform.CompileStatic
@@ -116,6 +117,10 @@ trait WebRequestAware {
                 SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME,
                 locale
         )
+    }
+
+    String getLocaleFlagCode() {
+        return LocaleUtils.getFlagCode(currentLanguage)
     }
 
     /**
