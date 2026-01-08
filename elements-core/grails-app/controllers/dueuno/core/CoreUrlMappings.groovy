@@ -26,5 +26,8 @@ class CoreUrlMappings {
         // DEFAULT
         "/$controller/$action?/$id?"()
 
+        // PWA
+        "/manifest.json"(controller: "pwaManifest", action: "index")
+
     }
 }
