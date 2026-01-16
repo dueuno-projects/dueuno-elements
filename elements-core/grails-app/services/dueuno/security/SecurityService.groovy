@@ -178,10 +178,10 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
                 controller: 'connectionSource',
                 icon: 'fa-plug',
         )
-        applicationService.registerSuperadminFeature(
-                controller: 'authenticationProvider',
-                icon: 'fa-at',
-        )
+//        applicationService.registerSuperadminFeature(
+//                controller: 'authenticationProvider',
+//                icon: 'fa-at',
+//        )
         applicationService.registerSuperadminFeature(
                 controller: 'monitoring',
                 icon: 'fa-chart-simple',
