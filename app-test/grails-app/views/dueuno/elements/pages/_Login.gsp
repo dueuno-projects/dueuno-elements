@@ -2,7 +2,6 @@
 <html lang="${c.locale}">
 <head>
     <page:header component="${c}" />
-    <asset:stylesheet src="elements/pages/Login.css" />
     <page:colors component="${c}"/>
 </head>
 
@@ -33,7 +32,6 @@
 </div>
 
 <page:footer component="${c}" />
-<asset:javascript src="elements/pages/Login.js" />
 <page:initialize />
 
 </body>

@@ -14,7 +14,6 @@
  */
 package dueuno.elements.pages
 
-
 import groovy.transform.CompileStatic
 
 /**

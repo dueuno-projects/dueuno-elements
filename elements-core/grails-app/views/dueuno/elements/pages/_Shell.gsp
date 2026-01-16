@@ -2,7 +2,6 @@
 <html lang="${c.locale}">
 <head>
     <page:header component="${c}"/>
-    <asset:stylesheet src="elements/pages/Shell.css" />
 </head>
 
 <body class="${c.isProduction() ? 'prod' : ''}"
@@ -26,7 +25,6 @@
     </div>
 
     <page:footer component="${c}"/>
-    <asset:javascript src="elements/pages/Shell.js" />
     <page:initialize />
 
 </body>
