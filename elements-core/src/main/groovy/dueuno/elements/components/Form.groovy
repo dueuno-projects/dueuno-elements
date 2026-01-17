@@ -210,7 +210,7 @@ class Form extends Component {
 
     private void setValue(Control control, Object obj = null) {
         Object value = ObjectUtils.getValue(obj, control.id)
-        if (control.value == null && value != null) {
+        if (value != null) {
             control.value = value
 
         } else {
