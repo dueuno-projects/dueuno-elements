@@ -40,12 +40,11 @@ class AuthenticationController implements ElementsController {
             return
         }
 
-        def tenantId = tenantService.currentTenantId
-        def tenantList = tenantService.list(host: requestHeader.host)
-        if (tenantList.size() == 1) tenantId = tenantList[0].tenantId
-        def loginArgs = [:]
+        def hostTenant = tenantService.getByHost(request.getHeader('host'))
+        def tenantId =  hostTenant?.tenantId ?: tenantService.defaultTenantId
+
         tenantService.withTenant(tenantId) {
-            loginArgs = [
+            def loginArgs = [
                     backgroundImage    : tenantPropertyService.getString('LOGIN_BACKGROUND_IMAGE', true),
                     logoImage          : tenantPropertyService.getString('LOGIN_LOGO', true),
                     autocomplete       : tenantPropertyService.getBoolean('LOGIN_AUTOCOMPLETE', true),
@@ -53,10 +52,8 @@ class AuthenticationController implements ElementsController {
                     registerUrl        : tenantPropertyService.getString('LOGIN_REGISTRATION_URL', true),
                     passwordRecoveryUrl: tenantPropertyService.getString('LOGIN_PASSWORD_RECOVERY_URL', true),
             ]
+            display page: createPage(Login, loginArgs)
         }
-        def login = createPage(Login, loginArgs)
-
-        display page: login
     }
 
     @Secured(['ROLE_USER'])

@@ -99,18 +99,6 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
         }
     }
 
-    @CompileDynamic
-    Map getRequestHeader() {
-        def headerMap = [:]
-        def headerNames = request.getHeaderNames()
-        while (headerNames.hasMoreElements()) {
-            String key = (String) headerNames.nextElement()
-            String value = request.getHeader(key)
-            headerMap.put(key, value)
-        }
-        return headerMap
-    }
-
     String getKeyPressed() {
         return getMainPage().keyPress.keyPressed
     }

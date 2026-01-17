@@ -40,8 +40,8 @@ class TTenant implements GormEntity, Serializable {
     TConnectionSource connectionSource
 
     static constraints = {
-        tenantId blank: false, unique: true
+        tenantId unique: true
         description nullable: true
-        host nullable: true
+        host nullable: true, unique: true
     }
 }

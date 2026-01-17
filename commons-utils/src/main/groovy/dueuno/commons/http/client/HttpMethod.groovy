@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dueuno.commons.http
+package dueuno.commons.http.client
 
 import groovy.transform.CompileStatic
 
