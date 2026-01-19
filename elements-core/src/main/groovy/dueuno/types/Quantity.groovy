@@ -50,8 +50,8 @@ class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Qua
         this(0)
     }
 
-    Quantity(Double amount, QuantityUnit unit = QuantityUnit.PCS) {
-        this(new BigDecimal(amount), unit)
+    Quantity(Number amount, QuantityUnit unit = QuantityUnit.PCS) {
+        this(new BigDecimal(amount as Double), unit)
     }
 
     Quantity(BigDecimal amount, QuantityUnit unit = QuantityUnit.PCS) {

@@ -49,8 +49,8 @@ class Money extends Number implements CustomType, GormEntity, MultiTenant<Money>
         this(0)
     }
 
-    Money(Double amount, String currency = 'EUR') {
-        this(new BigDecimal(amount), currency)
+    Money(Number amount, String currency = 'EUR') {
+        this(new BigDecimal(amount as Double), currency)
     }
 
     Money(BigDecimal amount, String currency = 'EUR') {
