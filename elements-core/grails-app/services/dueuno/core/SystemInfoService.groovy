@@ -71,10 +71,11 @@ class SystemInfoService implements WebRequestAware {
                 jvmPath           : System.getProperty('java.home'),
                 jvmVersion        : System.getProperty('java.version') + ' ' + System.getProperty('java.vendor'),
 
-                osVersion         : System.getProperty('os.name') + ' ' + System.getProperty('os.version') + ' (' + System.getProperty('os.arch') + ')',
+                osVersion         : System.getProperty('os.name') + ' ' + System.getProperty('os.version'),
+
                 hardwareHD        : "${(hwHD.totalSpace / 1_000_000_000).round(0)} GB (${(hwHD.totalSpace / (1024**3)).round(0)} GiB)",
                 hardwareRAM       : "${(hw.totalMemorySize / (1024**3))} GB",
-                hardwareCPU       : "${hw.availableProcessors} Core(s)",
+                hardwareCPU       : "${hw.availableProcessors} Cores (${hw.arch})",
         ]
     }
 
