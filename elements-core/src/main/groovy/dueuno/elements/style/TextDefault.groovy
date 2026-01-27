@@ -27,6 +27,7 @@ class TextDefault {
     static final String NO = 'default.text.no'
     static final String NEW = 'default.text.new'
     static final String ADD = 'default.text.add'
+    static final String REMOVE = 'default.text.remove'
     static final String CLONE = 'default.text.clone'
     static final String CREATE = 'default.text.create'
     static final String EDIT = 'default.text.edit'
