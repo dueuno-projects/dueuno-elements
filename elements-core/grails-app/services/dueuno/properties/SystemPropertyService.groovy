@@ -31,7 +31,6 @@ import jakarta.annotation.PostConstruct
  */
 
 @Slf4j
-@Transactional
 @CompileStatic
 class SystemPropertyService extends PropertyService {
 
@@ -110,12 +109,14 @@ class SystemPropertyService extends PropertyService {
         return query.count()
     }
 
+    @Transactional
     private TSystemProperty create(Map args) {
         TSystemProperty obj = new TSystemProperty(args)
         obj.save(flush: true, failOnError: args.failOnError)
         return obj
     }
 
+    @Transactional
     @CompileDynamic
     private TSystemProperty update(Map args) {
         Serializable id = ArgsException.requireArgument(args, 'id')
@@ -130,6 +131,7 @@ class SystemPropertyService extends PropertyService {
     }
 
     @Override
+    @Transactional
     void setValue(PropertyType type, String name, Object value, Object defaultValue = null, String validation = null) {
         TSystemProperty property = getByName(name)
         String typeName = StringUtils.screamingSnakeToCamel(type as String)
@@ -212,6 +214,7 @@ class SystemPropertyService extends PropertyService {
         }
     }
 
+    @Transactional
     void delete(Serializable id) {
         TSystemProperty obj = get(id)
         obj.delete(flush: true, failOnError: true)

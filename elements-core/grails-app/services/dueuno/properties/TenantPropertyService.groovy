@@ -34,7 +34,6 @@ import groovy.util.logging.Slf4j
 
 @Slf4j
 @CurrentTenant
-@Transactional
 @CompileStatic
 class TenantPropertyService extends PropertyService {
 
@@ -72,6 +71,7 @@ class TenantPropertyService extends PropertyService {
         setString('REQUIRED_TEXT_COLOR', '#cc0000', '#cc0000')
     }
 
+    @Transactional
     void setPassword(String name, String value) {
         String encryptedValue = cryptoService.encrypt(value)
         setValue(PropertyType.PASSWORD, name, encryptedValue, null)
@@ -135,6 +135,7 @@ class TenantPropertyService extends PropertyService {
         return query.count()
     }
 
+    @Transactional
     private TTenantProperty create(Map args) {
         if (args.failOnError == null) args.failOnError = false
         TTenantProperty obj = new TTenantProperty(args)
@@ -142,6 +143,7 @@ class TenantPropertyService extends PropertyService {
         return obj
     }
 
+    @Transactional
     @CompileDynamic
     private TTenantProperty update(Map args) {
         Serializable id = ArgsException.requireArgument(args, 'id')
@@ -154,6 +156,7 @@ class TenantPropertyService extends PropertyService {
     }
 
     @Override
+    @Transactional
     void setValue(PropertyType type, String name, Object value, Object defaultValue = null, String validation = null) {
         TTenantProperty property = getByName(name)
         String typeName = StringUtils.screamingSnakeToCamel(type as String)
@@ -242,6 +245,7 @@ class TenantPropertyService extends PropertyService {
         }
     }
 
+    @Transactional
     void delete(Serializable id) {
         TTenantProperty obj = get(id)
         obj.delete(flush: true, failOnError: true)
