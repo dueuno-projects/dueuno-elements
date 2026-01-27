@@ -185,7 +185,8 @@ trait ElementsController implements Controller, RestResponder, WebRequestAware, 
         } else if (args.exception) {
             Exception e = args.exception as Exception
             log.error LogUtils.logStackTrace(e)
-            t.errorMessage(e.message, new ComponentEvent(args))
+            String message = e.message ?: e.cause.message ?: "${e.toString()} caused by ${e.cause.toString()}"
+            t.errorMessage(message , new ComponentEvent(args))
 
         } else if (args.errors) {
             Integer submittedComponentCount = requestParams._21SubmittedCount as Integer
