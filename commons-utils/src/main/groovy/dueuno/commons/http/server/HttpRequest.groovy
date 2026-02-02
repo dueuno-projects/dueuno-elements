@@ -113,38 +113,40 @@ class HttpRequest {
     }
 
     /**
-     * Saves a file part to the filesystem. If a pathname is provided, the file is saved there;
-     * otherwise, a temporary file is created.
+     * Saves all uploaded file parts with the given name to the filesystem.
+     * Files are saved in the specified path using their original uploaded filenames.
      *
      * @param request the HttpServletRequest
-     * @param partName the name of the file part to save
-     * @param pathname optional path where the file should be saved; if null, a temporary file is created
-     * @return the saved File object, or null if the part does not exist or is not a file
+     * @param partName the name of the multipart file field
+     * @param path directory where files will be saved; must exist or be creatable
+     * @return list of saved File objects (empty if none found)
      */
-    static File partToFile(HttpServletRequest request, String partName, String pathname = null) {
-        Part part = getPart(request, partName)
-        if (!part) {
-            return null
+    static List<File> partToFiles(HttpServletRequest request, String partName, String path = null) {
+        if (!isMultipart(request)) {
+            return []
         }
 
-        if (!isFilePart(part)) {
-            log.warn("Part '${partName}' is not a file")
-            return null
-        }
-
-        File file
-        if (pathname) {
-            String safeFilename = FileUtils.buildSafeFilename(pathname)
-            file = new File(safeFilename)
-
+        File dir
+        if (path) {
+            dir = new File(path)
+            if (!dir.exists() && !dir.mkdirs()) {
+                throw new IOException("Unable to create directory: ${path}")
+            }
         } else {
-            String safeFilename = FileUtils.buildSafeFilename(part.submittedFileName)
-            file = File.createTempFile("upload-", "-" + safeFilename)
-            pathname = file.absolutePath
+            dir = File.createTempDir('upload')
         }
 
-        part.write(pathname)
-        return file
+        List<File> files = []
+        for (part in request.parts) {
+            if (part.name == partName && isFilePart(part)) {
+                String safeFilename = FileUtils.buildSafeFilename(part.submittedFileName)
+                File file = new File(dir, safeFilename)
+                part.write(file.absolutePath)
+                files << file
+            }
+        }
+
+        return files
     }
 
 }
