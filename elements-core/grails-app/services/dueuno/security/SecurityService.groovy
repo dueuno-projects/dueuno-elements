@@ -965,17 +965,27 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         return query.get()
     }
 
+    List<TRoleGroup> listGroup(Map filterParams = [:], Map fetchParams = [:]) {
+        filterParams.deletable = true
+        return listAllGroup(filterParams, fetchParams)
+    }
+
     /**
      * Returns the groups configured for the application
      * @return the groups configured for the application
      */
-    List<TRoleGroup> listGroup(Map filterParams = [:], Map fetchParams = [:]) {
+    List<TRoleGroup> listAllGroup(Map filterParams = [:], Map fetchParams = [:]) {
         if (!fetchParams.sort) fetchParams.sort = 'name'
         def query = buildQueryGroup(filterParams)
         return query.list(fetchParams)
     }
 
     Number countGroup(Map filterParams = [:]) {
+        filterParams.deletable = true
+        return countAllGroup(filterParams)
+    }
+
+    Number countAllGroup(Map filterParams = [:]) {
         def query = buildQueryGroup(filterParams)
         return query.count()
     }

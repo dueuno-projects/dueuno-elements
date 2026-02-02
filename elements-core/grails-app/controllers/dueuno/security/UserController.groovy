@@ -199,14 +199,14 @@ class UserController implements ElementsController {
                 addField(
                         class: Select,
                         id: 'groups',
-                        optionsFromRecordset: securityService.listGroup(hideUsers: true),
+                        optionsFromRecordset: securityService.listAllGroup(hideUsers: true),
                         search: false,
                         multiple: true,
                 )
                 addField(
                         class: Select,
                         id: 'defaultGroup',
-                        optionsFromRecordset: securityService.listGroup(),
+                        optionsFromRecordset: securityService.listAllGroup(),
                         search: false,
                 )
                 addField(
@@ -424,7 +424,7 @@ class UserController implements ElementsController {
     }
 
     def onTenantChange() {
-        def rs = securityService.listGroup(tenant: params.tenant, hideUsers: true)
+        def rs = securityService.listAllGroup(tenant: params.tenant, hideUsers: true)
         def tenantGroups = Select.optionsFromRecordset(recordset: rs)
 
         def t = createTransition()

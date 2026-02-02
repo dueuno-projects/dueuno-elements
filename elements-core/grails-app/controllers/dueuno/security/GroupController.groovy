@@ -97,7 +97,7 @@ class GroupController implements ElementsController {
 
         def filters = c.table.filterParams
         def rows = []
-        def groups = securityService.listGroup(filters, params)
+        def groups = securityService.listAllGroup(filters, params)
         for (group in groups) {
             def cells = [
                     id         : group.id,
