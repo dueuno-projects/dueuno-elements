@@ -61,6 +61,10 @@ class PrettyPrinter {
         templateRegistry[templateName] = tpl
     }
 
+    static Boolean isRegistered(Object nameOrClass) {
+        return getTemplate(nameOrClass)
+    }
+
     private static Template getTemplate(Object nameOrClass) {
         if (nameOrClass instanceof String) {
             return getTemplate(nameOrClass as String)

@@ -200,8 +200,9 @@ class Select extends Control {
         }
 
         for (row in recordset) {
-            if (forEachOption)
+            if (forEachOption) {
                 forEachOption.call(row)
+            }
 
             String text = PrettyPrinter.print(row, prettyPrinterProperties)
 
@@ -217,8 +218,9 @@ class Select extends Control {
 
         List<Map<String, String>> results = []
         for (value in list) {
-            if (forEachOption)
+            if (forEachOption) {
                 forEachOption.call(value)
+            }
 
             String text = PrettyPrinter.print(value, prettyPrinterProperties)
             results.add([id: value as String, text: text])
@@ -229,7 +231,7 @@ class Select extends Control {
 
     @CompileDynamic
     static List<Map<String, String>> optionsFromEnum(Map args) {
-        args.list = args.enum?.values()*.name()
+        args.list = args.enum?.values()
         return optionsFromList(args)
     }
 
@@ -240,8 +242,9 @@ class Select extends Control {
 
         List<Map<String, String>> results = []
         for (entry in options) {
-            if (forEachOption)
+            if (forEachOption) {
                 forEachOption.call(entry)
+            }
 
             String text = PrettyPrinter.print(entry, prettyPrinterProperties)
             results.add([id: entry.key as String, text: text])
@@ -261,8 +264,12 @@ class Select extends Control {
 
         if (args.prettyPrinter) {
             result.prettyPrinter = args.prettyPrinter
+
         } else if (firstItem) {
             result.prettyPrinter = firstItem.getClass()
+            if (PrettyPrinter.isRegistered(result.prettyPrinter)) {
+                result.renderTextPrefix = false
+            }
         }
 
         return result
