@@ -23,10 +23,15 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.Part
 
 /**
+ * This class is deprecated.
+ *
+ * @deprecated Use {@link dueuno.commons.http.client.HttpClient} or {@link dueuno.commons.http.server.HttpRequest} instead.
+ *
  * @author Gianluca Sartori
  */
 
 @Slf4j
+@Deprecated
 @CompileStatic
 class RestUtils {
 

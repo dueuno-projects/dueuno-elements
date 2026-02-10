@@ -26,13 +26,28 @@ import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
 
 /**
- * @author Gianluca Sartori
+ * Utility class for handling ZIP compression and decompression.
+ * <p>
+ * Provides methods to zip an entire directory into a ZIP file and
+ * to extract the contents of a ZIP file into a target directory.
+ * </p>
+ *
+ * Author: Gianluca Sartori
  */
-
 @Slf4j
 @CompileStatic
 class ZipUtils {
 
+    /**
+     * Zips the contents of a directory into a ZIP file.
+     * <p>
+     * Preserves the directory structure and file modification times.
+     * </p>
+     *
+     * @param fromDir the source directory to zip
+     * @param toZipFile the target ZIP file path
+     * @param indent optional string prefix used for logging indentation
+     */
     static void zipDir(String fromDir, String toZipFile, String indent = '') {
         String fromDirN = FileUtils.normalizePath(fromDir)
         String toZipFileN = FileUtils.normalizePathname(toZipFile)
@@ -62,6 +77,17 @@ class ZipUtils {
         zis.close()
     }
 
+    /**
+     * Extracts the contents of a ZIP file into a target directory.
+     * <p>
+     * Preserves the directory structure of the ZIP file and overwrites
+     * existing files if necessary.
+     * </p>
+     *
+     * @param fromZipFile the path of the ZIP file to extract
+     * @param toDir the target directory to extract the files into
+     * @param indent optional string prefix used for logging indentation
+     */
     static void unzipFile(String fromZipFile, String toDir, String indent = '') {
         String fromZipFileN = FileUtils.normalizePathname(fromZipFile)
         String toDirN = FileUtils.normalizePath(toDir)

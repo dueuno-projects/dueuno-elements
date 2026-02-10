@@ -22,16 +22,33 @@ import groovy.util.logging.Slf4j
 import javax.sql.DataSource
 
 /**
- * @author Gianluca Sartori
+ * Utility class for performing CRUD (Create, Read, Update, Delete) operations
+ * on a relational database using a {@link DataSource}.
+ * <p>
+ * Provides methods for simple queries, inserts, updates, deletes, and counting records.
+ * </p>
+ *
+ * <h3>Example usage:</h3>
+ * <pre>
+ * DataSource ds = ...
+ * GroovyRowResult row = SqlUtils.get(ds, "person", [id: 1])
+ * List<GroovyRowResult> people = SqlUtils.list(ds, "person", [name: "John"])
+ * </pre>
+ *
+ * Author: Gianluca Sartori
  */
-
 @Slf4j
 @CompileStatic
 class SqlUtils {
 
-    //
-    // CRUD OPERATIONS
-    //
+    /**
+     * Retrieves a single row from a table using the specified key values.
+     *
+     * @param dataSource the data source to query
+     * @param table the table name
+     * @param keys a map of column names to values used as keys
+     * @return a {@link GroovyRowResult} representing the first matching row
+     */
     static GroovyRowResult get(DataSource dataSource, String table, Map keys) {
         Sql sql = new Sql(dataSource)
         String query = generateSelect(false, table, [], keys)
@@ -41,10 +58,29 @@ class SqlUtils {
         return results[0]
     }
 
+    /**
+     * Retrieves a list of rows from a table using optional filter and fetch parameters.
+     *
+     * @param dataSource the data source to query
+     * @param table the table name
+     * @param filterParams optional map of column names to filter values
+     * @param fetchParams optional map with pagination and sorting parameters
+     * @return a list of {@link GroovyRowResult} objects
+     */
     static List<GroovyRowResult> list(DataSource dataSource, String table, Map filterParams = [:], Map fetchParams = [:]) {
         return list(dataSource, table, [], filterParams, fetchParams)
     }
 
+    /**
+     * Retrieves a list of rows from a table using optional filters and LIKE fields.
+     *
+     * @param dataSource the data source to query
+     * @param table the table name
+     * @param fieldsInLike list of columns that should use LIKE matching
+     * @param filterParams map of column names to filter values
+     * @param fetchParams map of pagination/sorting parameters
+     * @return a list of {@link GroovyRowResult} objects
+     */
     static List<GroovyRowResult> list(DataSource dataSource, String table, List fieldsInLike, Map filterParams = [:], Map fetchParams = [:]) {
         Sql sql = new Sql(dataSource)
         String query = generateSelect(false, table, fieldsInLike, filterParams, fetchParams)
@@ -54,6 +90,14 @@ class SqlUtils {
         return results
     }
 
+    /**
+     * Counts the number of rows in a table that match the specified filters.
+     *
+     * @param dataSource the data source to query
+     * @param table the table name
+     * @param filterParams optional map of column names to filter values
+     * @return the number of matching rows
+     */
     static Integer count(DataSource dataSource, String table, Map filterParams = [:]) {
         Sql sql = new Sql(dataSource)
         String query = generateSelect(true, table, [], filterParams)
@@ -63,6 +107,14 @@ class SqlUtils {
         return results[0][0] as Integer
     }
 
+    /**
+     * Inserts a new row into the specified table.
+     *
+     * @param dataSource the data source to query
+     * @param table the table name
+     * @param values a map of column names to values to insert
+     * @return a list of generated keys
+     */
     static List<List<Object>> create(DataSource dataSource, String table, Map values) {
         Sql sql = new Sql(dataSource)
         String query = generateInsert(table, values)
@@ -72,6 +124,15 @@ class SqlUtils {
         return results
     }
 
+    /**
+     * Updates rows in the specified table matching the given keys.
+     *
+     * @param dataSource the data source to query
+     * @param table the table name
+     * @param keys map of column names to match rows
+     * @param values map of column names to new values
+     * @return the number of rows updated
+     */
     static Integer update(DataSource dataSource, String table, Map keys, Map values) {
         Sql sql = new Sql(dataSource)
         String query = generateUpdate(table, keys, values)
@@ -81,6 +142,14 @@ class SqlUtils {
         return sql.updateCount
     }
 
+    /**
+     * Deletes rows in the specified table matching the given keys.
+     *
+     * @param dataSource the data source to query
+     * @param table the table name
+     * @param keys map of column names to match rows
+     * @return the number of rows deleted
+     */
     static Integer delete(DataSource dataSource, String table, Map keys) {
         Sql sql = new Sql(dataSource)
         String query = generateDelete(table, keys)
@@ -90,6 +159,14 @@ class SqlUtils {
         return sql.updateCount
     }
 
+    /**
+     * Executes a SELECT query with optional fetch parameters (pagination).
+     *
+     * @param dataSource the data source to query
+     * @param query the SQL query string
+     * @param fetchParams optional map with offset and max for pagination
+     * @return a list of {@link GroovyRowResult} objects
+     */
     static List<GroovyRowResult> select(DataSource dataSource, String query, Map fetchParams = [:]) {
         Sql sql = new Sql(dataSource)
         log.trace(query)
@@ -98,6 +175,13 @@ class SqlUtils {
         return results
     }
 
+    /**
+     * Executes an arbitrary SQL statement.
+     *
+     * @param dataSource the data source to query
+     * @param query the SQL statement
+     * @return true if the statement executed successfully
+     */
     static Boolean execute(DataSource dataSource, String query) {
         Sql sql = new Sql(dataSource)
         log.trace(query)
@@ -106,6 +190,13 @@ class SqlUtils {
         return result
     }
 
+    /**
+     * Executes a SELECT query and returns the resulting rows.
+     *
+     * @param dataSource the data source to query
+     * @param query the SQL SELECT query
+     * @return a list of {@link GroovyRowResult} objects
+     */
     static List<GroovyRowResult> executeSelect(DataSource dataSource, String query) {
         Sql sql = new Sql(dataSource)
         log.trace(query)
@@ -113,6 +204,8 @@ class SqlUtils {
         sql.close()
         return results
     }
+
+    // --- Private helper methods ---
 
     private static String generateWhere(Map<String, Object> filterParams, List<String> fieldsInLike = []) {
         String query = ''

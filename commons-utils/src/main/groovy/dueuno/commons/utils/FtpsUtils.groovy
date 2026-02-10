@@ -27,13 +27,35 @@ import java.nio.file.PathMatcher
 import java.nio.file.Paths
 
 /**
- * @author Gianluca Sartori
+ * Utility class for working with FTPS (FTP over SSL/TLS).
+ * <p>
+ * Provides methods to verify connections, list files, download and upload files,
+ * rename or delete files and directories, and create remote folders on an FTPS server.
+ * All operations automatically handle FTPS connections and disconnections.
+ * </p>
+ * Example usage:
+ * <pre>
+ * boolean isConnected = FtpsUtils.verifyConnection("host", 21, "user", "pass")
+ * List<File> files = FtpsUtils.listFiles("/remote/path/*.txt", "host", 21, "user", "pass")
+ * FtpsUtils.downloadFile("/remote/path/file.txt", "/local/path/file.txt", "host", 21, "user", "pass")
+ * FtpsUtils.uploadFile("/local/path/file.txt", "/remote/path/file.txt", "host", 21, "user", "pass")
+ * </pre>
+ *
+ * Author: Gianluca Sartori
  */
-
 @Slf4j
 @CompileStatic
-class FTPSUtils {
+class FtpsUtils {
 
+    /**
+     * Verifies if an FTPS connection can be established with the given credentials.
+     * @param host FTPS server hostname
+     * @param port FTPS server port
+     * @param username username for login
+     * @param password password for login
+     * @param indent optional indentation for logging
+     * @return true if connection is successful, false otherwise
+     */
     static Boolean verifyConnection(String host, Integer port, String username, String password, String indent = '') {
         log.info "${indent}Verifing connection to 'ftps://${host}:${port}'"
         try {
@@ -45,6 +67,17 @@ class FTPSUtils {
         }
     }
 
+    /**
+     * Lists remote files matching a path or pattern on the FTPS server.
+     * @param remotePath remote path including filename or glob pattern
+     * @param host FTPS server hostname
+     * @param port FTPS server port
+     * @param username login username
+     * @param password login password
+     * @param indent optional log indentation
+     * @return list of matching File objects (paths only)
+     * @throws Exception if FTPS operation fails
+     */
     static List<File> listFiles(String remotePath, String host, Integer port, String username, String password, String indent = '') {
         String remotePathN = FileUtils.normalizePathname(remotePath)
         File remotePathFile = new File(remotePathN)
@@ -74,6 +107,17 @@ class FTPSUtils {
         return files
     }
 
+    /**
+     * Downloads a remote file from the FTPS server to a local path.
+     * @param remoteFile remote file path on the server
+     * @param localFile local file path to save
+     * @param host FTPS server hostname
+     * @param port FTPS server port
+     * @param username login username
+     * @param password login password
+     * @param indent optional log indentation
+     * @throws IOException if download fails
+     */
     static void downloadFile(String remoteFile, String localFile, String host, Integer port, String username, String password, String indent = '') {
         String remoteFileN = FileUtils.normalizePathname(remoteFile)
         String localFileN = FileUtils.normalizePathname(localFile)
@@ -96,6 +140,16 @@ class FTPSUtils {
         disconnect(ftp, indent)
     }
 
+    /**
+     * Downloads a remote file into a local directory, preserving the filename.
+     * @param remoteFile remote file path on the server
+     * @param localDir local directory path
+     * @param host FTPS server hostname
+     * @param port FTPS server port
+     * @param username login username
+     * @param password login password
+     * @param indent optional log indentation
+     */
     static void downloadFileToDir(String remoteFile, String localDir, String host, Integer port,
                                   String username, String password, String indent = '') {
         String filenameFrom = new File(remoteFile).name
@@ -104,6 +158,16 @@ class FTPSUtils {
         downloadFile(remoteFile, localFile, host, port, username, password, indent)
     }
 
+    /**
+     * Renames a remote file on the FTPS server.
+     * @param remoteFile current remote file path
+     * @param remoteFileRenamed new remote file path
+     * @param host FTPS server hostname
+     * @param port FTPS server port
+     * @param username login username
+     * @param password login password
+     * @param indent optional log indentation
+     */
     static void renameFile(String remoteFile, String remoteFileRenamed, String host, Integer port,
                            String username, String password, String indent = '') {
         String fileN = FileUtils.normalizePathname(remoteFile)
@@ -123,6 +187,15 @@ class FTPSUtils {
         disconnect(ftp, indent)
     }
 
+    /**
+     * Deletes a remote file from the FTPS server.
+     * @param remoteFile remote file path
+     * @param host FTPS server hostname
+     * @param port FTPS server port
+     * @param username login username
+     * @param password login password
+     * @param indent optional log indentation
+     */
     static void deleteFile(String remoteFile, String host, Integer port, String username, String password, String indent = '') {
         String fileN = FileUtils.normalizePathname(remoteFile)
         log.info "${indent}Deleting '${fileN}'"
@@ -140,6 +213,15 @@ class FTPSUtils {
         disconnect(ftp, indent)
     }
 
+    /**
+     * Deletes a remote directory from the FTPS server.
+     * @param remoteDir remote directory path
+     * @param host FTPS server hostname
+     * @param port FTPS server port
+     * @param username login username
+     * @param password login password
+     * @param indent optional log indentation
+     */
     static void deleteDir(String remoteDir, String host, Integer port, String username, String password, String indent = '') {
         String dirN = FileUtils.normalizePath(remoteDir)
         log.info "${indent}Deleting '${dirN}'"
@@ -157,6 +239,15 @@ class FTPSUtils {
         disconnect(ftp, indent)
     }
 
+    /**
+     * Creates a folder on the FTPS server.
+     * @param folder remote folder path
+     * @param host FTPS server hostname
+     * @param port FTPS server port
+     * @param username login username
+     * @param password login password
+     * @param indent optional log indentation
+     */
     static void createFolder(String folder, String host, Integer port, String username, String password, String indent = '') {
         log.info "${indent}Creating 'ftps://${host}:${port}${folder}'"
         FTPSClient ftp = connect(host, port, username, password, indent)
@@ -172,6 +263,16 @@ class FTPSUtils {
         disconnect(ftp, indent)
     }
 
+    /**
+     * Uploads a local file to a remote directory on the FTPS server.
+     * @param localFile local file path
+     * @param remoteDir remote directory path
+     * @param host FTPS server hostname
+     * @param port FTPS server port
+     * @param username login username
+     * @param password login password
+     * @param indent optional log indentation
+     */
     static void uploadFileToDir(String localFile, String remoteDir, String host, Integer port, String username, String password, String indent = '') {
         String localFileN = FileUtils.normalizePathname(localFile)
         String remoteDirN = FileUtils.normalizePath(remoteDir)
@@ -189,6 +290,16 @@ class FTPSUtils {
         )
     }
 
+    /**
+     * Uploads a local file to a remote path on the FTPS server.
+     * @param localFile local file path
+     * @param remoteFile remote file path
+     * @param host FTPS server hostname
+     * @param port FTPS server port
+     * @param username login username
+     * @param password login password
+     * @param indent optional log indentation
+     */
     static void uploadFile(String localFile, String remoteFile, String host, Integer port, String username, String password, String indent = '') {
         log.info "${indent}Uploading '${localFile}' to 'ftps://${host}:${port}${remoteFile}'"
         FTPSClient ftp = connect(host, port, username, password, indent)
@@ -209,6 +320,10 @@ class FTPSUtils {
         disconnect(ftp, indent)
     }
 
+    /**
+     * Connects to an FTPS server and logs in.
+     * @return connected FTPSClient
+     */
     private static FTPSClient connect(String host, Integer port, String username, String password, String indent = '') {
         FTPSClient ftp = new FTPSClient()
 
@@ -221,11 +336,20 @@ class FTPSUtils {
         return ftp
     }
 
+    /**
+     * Disconnects from the FTPS server.
+     */
     private static void disconnect(FTPSClient ftp, indent = '') {
         ftp.logout()
         ftp.disconnect()
     }
 
+    /**
+     * Checks for FTPS errors and throws an exception if any.
+     * @param ftp connected FTPSClient
+     * @param indent optional log indentation
+     * @throws Exception if FTPS reply code is not positive
+     */
     private static void verifyErrors(FTPSClient ftp, String indent = '') {
         //log.info "${indent}${ftp.replyString}" - "\r\n"
 

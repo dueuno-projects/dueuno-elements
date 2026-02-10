@@ -22,13 +22,36 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 /**
- * @author Gianluca Sartori
+ * Utility class for performing SSH and SFTP operations.
+ * <p>
+ * Provides methods for verifying SSH connections, listing remote files,
+ * downloading/uploading files, renaming and deleting files or directories,
+ * and executing commands on a remote host.
+ * </p>
+ *
+ * Example usage:
+ * <pre>
+ * boolean connected = SshUtils.verifyConnection("host", 22, "user", "password")
+ * List<File> files = SshUtils.listFiles("/remote/path", "host", 22, "user", "password")
+ * SshUtils.downloadFile("/remote/file.txt", "/local/file.txt", "host", 22, "user", "password")
+ * </pre>
+ *
+ * Author: Gianluca Sartori
  */
-
 @Slf4j
 @CompileStatic
-class SSHUtils {
+class SshUtils {
 
+    /**
+     * Verifies SSH connection to the specified host.
+     *
+     * @param host the remote host
+     * @param port the SSH port
+     * @param username the SSH username
+     * @param password the SSH password
+     * @param indent optional string for logging indentation
+     * @return true if connection succeeds, false otherwise
+     */
     static Boolean verifyConnection(String host, Integer port, String username, String password, String indent = '') {
         println "${indent}Verifing connection to 'sftp://${host}:${port}'"
         try {
@@ -41,6 +64,17 @@ class SSHUtils {
         }
     }
 
+    /**
+     * Lists files in a remote directory over SFTP.
+     *
+     * @param remotePath remote directory path
+     * @param host remote host
+     * @param port SSH port
+     * @param username SSH username
+     * @param password SSH password
+     * @param indent optional string for logging indentation
+     * @return list of {@link File} representing remote files (not directories)
+     */
     static List<File> listFiles(String remotePath, String host, Integer port, String username, String password, String indent = '') {
         Session session = connect(host, port, username, password, indent)
         ChannelSftp channel = openChannelSFTP(session)
@@ -63,6 +97,17 @@ class SSHUtils {
         return files
     }
 
+    /**
+     * Downloads a remote file to a local path.
+     *
+     * @param remoteFile remote file path
+     * @param localFile local file path
+     * @param host remote host
+     * @param port SSH port
+     * @param username SSH username
+     * @param password SSH password
+     * @param indent optional string for logging indentation
+     */
     static void downloadFile(String remoteFile, String localFile, String host, Integer port,
                              String username, String password, String indent = '') {
         String fileFromN = FileUtils.normalizePathname(remoteFile)
@@ -78,6 +123,17 @@ class SSHUtils {
         disconnect(session)
     }
 
+    /**
+     * Downloads a remote file to a local directory.
+     *
+     * @param remoteFile remote file path
+     * @param localDir local directory
+     * @param host remote host
+     * @param port SSH port
+     * @param username SSH username
+     * @param password SSH password
+     * @param indent optional string for logging indentation
+     */
     static void downloadFileToDir(String remoteFile, String localDir, String host, Integer port,
                                   String username, String password, String indent = '') {
         String filenameFrom = new File(remoteFile).name
@@ -86,6 +142,17 @@ class SSHUtils {
         downloadFile(remoteFile, localFile, host, port, username, password, indent)
     }
 
+    /**
+     * Renames a remote file.
+     *
+     * @param remoteFile original remote file path
+     * @param remoteFileRenamed new remote file path
+     * @param host remote host
+     * @param port SSH port
+     * @param username SSH username
+     * @param password SSH password
+     * @param indent optional string for logging indentation
+     */
     static void renameFile(String remoteFile, String remoteFileRenamed, String host, Integer port,
                            String username, String password, String indent = '') {
         String fileN = FileUtils.normalizePathname(remoteFile)
@@ -105,6 +172,16 @@ class SSHUtils {
         disconnect(session)
     }
 
+    /**
+     * Deletes a remote file.
+     *
+     * @param remoteFile remote file path
+     * @param host remote host
+     * @param port SSH port
+     * @param username SSH username
+     * @param password SSH password
+     * @param indent optional string for logging indentation
+     */
     static void deleteFile(String remoteFile, String host, Integer port, String username, String password, String indent = '') {
         String fileN = FileUtils.normalizePathname(remoteFile)
         log.info "${indent}Deleting '${fileN}'"
@@ -122,6 +199,16 @@ class SSHUtils {
         disconnect(session)
     }
 
+    /**
+     * Deletes a remote directory.
+     *
+     * @param remoteDir remote directory path
+     * @param host remote host
+     * @param port SSH port
+     * @param username SSH username
+     * @param password SSH password
+     * @param indent optional string for logging indentation
+     */
     static void deleteDir(String remoteDir, String host, Integer port, String username, String password, String indent = '') {
         String dirN = FileUtils.normalizePath(remoteDir)
         log.info "${indent}Deleting '${dirN}'"
@@ -139,6 +226,16 @@ class SSHUtils {
         disconnect(session)
     }
 
+    /**
+     * Deletes a remote directory tree recursively using a shell command.
+     *
+     * @param remoteDir remote directory path
+     * @param host remote host
+     * @param port SSH port
+     * @param username SSH username
+     * @param password SSH password
+     * @param indent optional string for logging indentation
+     */
     static void deleteDirTree(String remoteDir, String host, Integer port, String username, String password, String indent = '') {
         String dirN = FileUtils.normalizePath(remoteDir)
         log.info "${indent}Deleting '${dirN}'"
@@ -147,6 +244,17 @@ class SSHUtils {
         execute(command, host, port, username, password, indent)
     }
 
+    /**
+     * Uploads a local file to a remote directory.
+     *
+     * @param localFile local file path
+     * @param remoteDir remote directory path
+     * @param host remote host
+     * @param port SSH port
+     * @param username SSH username
+     * @param password SSH password
+     * @param indent optional string for logging indentation
+     */
     static void uploadFileToDir(String localFile, String remoteDir, String host, Integer port,
                                 String username, String password, String indent = '') {
         String localFileN = FileUtils.normalizePathname(localFile)
@@ -165,6 +273,17 @@ class SSHUtils {
         )
     }
 
+    /**
+     * Uploads a local file to a remote path.
+     *
+     * @param localFile local file path
+     * @param remoteFile remote file path
+     * @param host remote host
+     * @param port SSH port
+     * @param username SSH username
+     * @param password SSH password
+     * @param indent optional string for logging indentation
+     */
     static void uploadFile(String localFile, String remoteFile, String host, Integer port,
                            String username, String password, String indent = '') {
         String fileFromN = FileUtils.normalizePathname(localFile)
@@ -180,6 +299,17 @@ class SSHUtils {
         disconnect(session)
     }
 
+    /**
+     * Executes a remote command over SSH.
+     *
+     * @param command the shell command to execute
+     * @param host remote host
+     * @param port SSH port
+     * @param username SSH username
+     * @param password SSH password
+     * @param indent optional string for logging indentation
+     * @return the command output as string
+     */
     static String execute(String command, String host, Integer port, String username, String password, String indent = '') {
         Session session = connect(host, port, username, password, indent)
         ChannelExec channel = openChannelEXEC(session, command)
@@ -198,6 +328,8 @@ class SSHUtils {
 
         return result
     }
+
+    // --- Private helper methods ---
 
     private static Session connect(String host, Integer port, String username, String password, String indent = '') {
         JSch jsch = new JSch()

@@ -22,50 +22,111 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 
 /**
- * @author Gianluca Sartori
+ * Utility class for handling dates and times.
+ * <p>
+ * This class provides methods to:
+ * <ul>
+ *     <li>Retrieve the current date and time components (year, month, day, hour, minute, second).</li>
+ *     <li>Convert between {@link java.util.Date} and {@link java.time.LocalDateTime}, {@link java.time.LocalDate}, {@link java.time.LocalTime}.</li>
+ *     <li>Format dates and times to strings and parse strings to dates and times.</li>
+ *     <li>Generate timestamps suitable for filenames.</li>
+ * </ul>
+ * <p>
+ * Example usage:
+ * <pre>{@code
+ * String year = DateUtils.getCurrentYear(); // e.g., "2026"
+ * String timestamp = DateUtils.getFilenameTimestamp(); // e.g., "2026-02-10-14-35-20"
+ *
+ * LocalDateTime ldt = DateUtils.parseLocalDateTime("10/02/2026 14:35");
+ * Date date = DateUtils.toDate(ldt);
+ * String formatted = DateUtils.format(ldt, "yyyy/MM/dd HH:mm");
+ * }</pre>
+ *
+ * @author Gianluca
  */
-
 @Slf4j
 @CompileStatic
 class DateUtils {
 
+    /**
+     * Returns the current year as a string.
+     *
+     * @return the current year, e.g., "2026"
+     */
     static String getCurrentYear() {
         String year = LocalDate.now().year
         return year
     }
 
+    /**
+     * Returns the current month as a 2-digit string.
+     *
+     * @return the current month, e.g., "02"
+     */
     static String getCurrentMonth() {
         String month = LocalDate.now().monthValue
         return month.padLeft(2, '0')
     }
 
+    /**
+     * Returns the current day of the month as a 2-digit string.
+     *
+     * @return the current day, e.g., "10"
+     */
     static String getCurrentDay() {
         String day = LocalDate.now().dayOfMonth
         return day.padLeft(2, '0')
     }
 
+    /**
+     * Returns the current hour (24-hour format) as a 2-digit string.
+     *
+     * @return the current hour, e.g., "14"
+     */
     static String getCurrentHour() {
         String time = LocalTime.now().hour
         return time.padLeft(2, '0')
     }
 
+    /**
+     * Returns the current minute as a 2-digit string.
+     *
+     * @return the current minute, e.g., "35"
+     */
     static String getCurrentMinute() {
         String time = LocalTime.now().minute
         return time.padLeft(2, '0')
     }
 
+    /**
+     * Returns the current second as a 2-digit string.
+     *
+     * @return the current second, e.g., "20"
+     */
     static String getCurrentSecond() {
         String time = LocalTime.now().second
         return time.padLeft(2, '0')
     }
 
+    /**
+     * Returns a timestamp suitable for filenames using the pattern "yyyy-MM-dd-HH-mm-ss".
+     *
+     * @return the formatted timestamp, e.g., "2026-02-10-14-35-20"
+     */
     static String getFilenameTimestamp() {
         return format(LocalDateTime.now(), 'yyyy-MM-dd-HH-mm-ss')
     }
 
-
+    // -------------------------
     // CONVERSIONS
-    //
+    // -------------------------
+
+    /**
+     * Converts a {@link java.time.LocalDateTime} to a {@link java.util.Date}.
+     *
+     * @param localDateTime the local date-time to convert
+     * @return the corresponding {@link Date}, or null if input is null
+     */
     static Date toDate(LocalDateTime localDateTime) {
         if (!localDateTime) {
             return null
@@ -76,6 +137,12 @@ class DateUtils {
         return datetime
     }
 
+    /**
+     * Converts a {@link java.time.LocalDate} to a {@link java.util.Date}.
+     *
+     * @param localDate the local date to convert
+     * @return the corresponding {@link Date}, or null if input is null
+     */
     static Date toDate(LocalDate localDate) {
         if (!localDate) {
             return null
@@ -86,6 +153,12 @@ class DateUtils {
         return date
     }
 
+    /**
+     * Converts a {@link java.util.Date} to {@link java.time.LocalDateTime}.
+     *
+     * @param datetime the date to convert
+     * @return the corresponding {@link LocalDateTime}, or null if input is null
+     */
     static LocalDateTime toLocalDateTime(Date datetime) {
         if (!datetime) {
             return null
@@ -96,6 +169,12 @@ class DateUtils {
         return localDateTime
     }
 
+    /**
+     * Converts a {@link java.util.Date} to {@link java.time.LocalDate}.
+     *
+     * @param date the date to convert
+     * @return the corresponding {@link LocalDate}, or null if input is null
+     */
     static LocalDate toLocalDate(Date date) {
         if (!date) {
             return null
@@ -106,6 +185,12 @@ class DateUtils {
         return localDate
     }
 
+    /**
+     * Converts a {@link java.util.Date} to {@link java.time.LocalTime}.
+     *
+     * @param date the date to convert
+     * @return the corresponding {@link LocalTime}, or null if input is null
+     */
     static LocalTime toLocalTime(Date date) {
         if (!date) {
             return null
@@ -116,30 +201,66 @@ class DateUtils {
         return localTime
     }
 
-
-
+    // -------------------------
     // FORMATTING
-    //
+    // -------------------------
+
+    /**
+     * Formats a {@link java.time.LocalDateTime} using the specified pattern.
+     *
+     * @param dateTime the local date-time to format
+     * @param pattern the format pattern (default: "yyyy-MM-dd'T'HH:mm")
+     * @return the formatted string
+     */
     static String format(LocalDateTime dateTime, String pattern = "yyyy-MM-dd'T'HH:mm") {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern)
         return dateTime.format(dtf)
     }
 
+    /**
+     * Formats a {@link java.time.LocalDate} using the specified pattern.
+     *
+     * @param date the local date to format
+     * @param pattern the format pattern (default: "yyyy-MM-dd")
+     * @return the formatted string
+     */
     static String format(LocalDate date, String pattern = "yyyy-MM-dd") {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern)
         return date.format(dtf)
     }
 
+    /**
+     * Formats a {@link java.time.LocalTime} using the specified pattern.
+     *
+     * @param time the local time to format
+     * @param pattern the format pattern (default: "HH:mm")
+     * @return the formatted string
+     */
     static String format(LocalTime time, String pattern = "HH:mm") {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern)
         return time.format(dtf)
     }
 
+    /**
+     * Formats a {@link java.util.Date} using the specified pattern.
+     *
+     * @param date the date to format
+     * @param pattern the format pattern (default: "yyyy-MM-dd")
+     * @return the formatted string
+     */
     static String format(Date date, String pattern = "yyyy-MM-dd") {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern)
         return simpleDateFormat.format(date)
     }
 
+    /**
+     * Reformats a date string from one pattern to another.
+     *
+     * @param date the date string to reformat
+     * @param patternFrom the original format
+     * @param patternTo the desired format
+     * @return the reformatted string, or empty string if input is null
+     */
     static String reformat(String date, String patternFrom, String patternTo) {
         if (!date) {
             return ''
@@ -149,10 +270,17 @@ class DateUtils {
         return format(localDate, patternTo)
     }
 
-
-
+    // -------------------------
     // PARSING
-    //
+    // -------------------------
+
+    /**
+     * Parses a string into {@link java.time.LocalDateTime} using the given pattern.
+     *
+     * @param dateTime the string to parse
+     * @param pattern the format pattern (default: "dd/MM/yyyy HH:mm")
+     * @return the parsed {@link LocalDateTime}, or null if input is null
+     */
     static LocalDateTime parseLocalDateTime(String dateTime, String pattern = 'dd/MM/yyyy HH:mm') {
         if (!dateTime) {
             return null
@@ -162,6 +290,13 @@ class DateUtils {
         return LocalDateTime.parse(dateTime, dtf)
     }
 
+    /**
+     * Parses a string into {@link java.time.LocalDate} using the given pattern.
+     *
+     * @param date the string to parse
+     * @param pattern the format pattern (default: "dd/MM/yyyy")
+     * @return the parsed {@link LocalDate}, or null if input is null
+     */
     static LocalDate parseLocalDate(String date, String pattern = 'dd/MM/yyyy') {
         if (!date) {
             return null
@@ -171,6 +306,13 @@ class DateUtils {
         return LocalDate.parse(date, dtf)
     }
 
+    /**
+     * Parses a string into {@link java.time.LocalTime} using the given pattern.
+     *
+     * @param time the string to parse
+     * @param pattern the format pattern (default: "HH:mm")
+     * @return the parsed {@link LocalTime}, or null if input is null
+     */
     static LocalTime parseLocalTime(String time, String pattern = 'HH:mm') {
         if (!time) {
             return null
@@ -180,6 +322,13 @@ class DateUtils {
         return LocalTime.parse(time, dtf)
     }
 
+    /**
+     * Parses a string into {@link java.util.Date} using the given pattern.
+     *
+     * @param date the string to parse
+     * @param pattern the format pattern (default: "dd/MM/yyyy")
+     * @return the parsed {@link Date}, or null if input is null
+     */
     static Date parseDate(String date, String pattern = 'dd/MM/yyyy') {
         if (!date) {
             return null
@@ -188,5 +337,4 @@ class DateUtils {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern)
         return sdf.parse(date)
     }
-
 }

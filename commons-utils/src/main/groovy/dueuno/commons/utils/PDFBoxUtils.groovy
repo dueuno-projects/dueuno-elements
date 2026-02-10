@@ -32,6 +32,7 @@ import java.awt.image.BufferedImage
  * @author Francesco Piceghello
  */
 @Slf4j
+@Deprecated
 @CompileStatic
 class PDFBoxUtils {
 
