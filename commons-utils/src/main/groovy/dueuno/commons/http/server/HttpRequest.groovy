@@ -70,7 +70,7 @@ class HttpRequest {
      * @return true if the part has a submitted file name, false otherwise
      */
     static Boolean isFilePart(Part part) {
-        return part?.submittedFileName != null
+        return part?.submittedFileName
     }
 
     /**
