@@ -53,7 +53,7 @@ class SystemInfoService implements WebRequestAware {
 
         List gpuList = []
         for (gpu in hw.gpus) {
-            gpuList << "[${gpu.index}] ${gpu.model} (${gpu.cores} Cores)"
+            gpuList << "[${gpu.index}] ${gpu.model} (" + (gpu.cores ? "${gpu.cores} cores" : "${gpu.vram / (1024**3)} GB") + ")"
         }
 
         return [
@@ -81,8 +81,8 @@ class SystemInfoService implements WebRequestAware {
 
                 hardwareHD        : "${(hwHD.totalSpace / 1_000_000_000).round(0)} GB (${(hwHD.totalSpace / (1024**3)).round(0)} GiB)",
                 hardwareRAM       : "${(hw.ram / (1024**3))} GB",
-                hardwareGPUs      : gpuList.join(', '),
-                hardwareCPU       : "${hw.cpu.model} (${hw.cpu.physicalCores} Cores, ${hw.cpu.architecture})",
+                hardwareGPU       : gpuList.join(', '),
+                hardwareCPU       : "${hw.cpu.model} (${hw.cpu.physicalCores} cores, ${hw.cpu.architecture})",
         ]
     }
 
