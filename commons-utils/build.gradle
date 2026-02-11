@@ -3,6 +3,9 @@ plugins {
 }
 
 dependencies {
+    // Hardware Info
+    implementation "com.github.oshi:oshi-core:6.9.3"
+
     // Servlet
     implementation "jakarta.servlet:jakarta.servlet-api:6.0.0"
 

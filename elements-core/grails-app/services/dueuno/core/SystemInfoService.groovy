@@ -14,7 +14,8 @@
  */
 package dueuno.core
 
-import com.sun.management.OperatingSystemMXBean
+import dueuno.commons.utils.hardware.HardwareInfo
+import dueuno.commons.utils.hardware.HardwareUtils
 import dueuno.utils.EnvUtils
 import grails.core.GrailsApplication
 import grails.plugins.GrailsPluginManager
@@ -42,13 +43,18 @@ class SystemInfoService implements WebRequestAware {
      * INTERNAL USE ONLY. Returns a map with the system info.
      */
     Map getInfo() {
-        OperatingSystemMXBean hw = ManagementFactory.operatingSystemMXBean as OperatingSystemMXBean
+        HardwareInfo hw = HardwareUtils.getInfo()
         File hwHD = File.listRoots()[0]
         String jvmGC = ManagementFactory.getGarbageCollectorMXBeans().collect { it.name }.join(", ")
         Double jvmHeapFree = Runtime.getRuntime().freeMemory() / Math.pow(1024, 2)
         Double jvmHeapMax = Runtime.getRuntime().maxMemory() / Math.pow(1024, 2)
         Double jvmHeapUsed = (Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()) / Math.pow(1024, 2)
         Duration uptime = Duration.ofMillis(ManagementFactory.runtimeMXBean.uptime)
+
+        List gpuList = []
+        for (gpu in hw.gpus) {
+            gpuList << "[${gpu.index}] ${gpu.model} (${gpu.cores} Cores)"
+        }
 
         return [
                 environment       : message('default.env.' + EnvUtils.currentEnvironment),
@@ -74,8 +80,9 @@ class SystemInfoService implements WebRequestAware {
                 osVersion         : System.getProperty('os.name') + ' ' + System.getProperty('os.version'),
 
                 hardwareHD        : "${(hwHD.totalSpace / 1_000_000_000).round(0)} GB (${(hwHD.totalSpace / (1024**3)).round(0)} GiB)",
-                hardwareRAM       : "${(hw.totalMemorySize / (1024**3))} GB",
-                hardwareCPU       : "${hw.availableProcessors} Cores (${hw.arch})",
+                hardwareRAM       : "${(hw.ram / (1024**3))} GB",
+                hardwareGPUs      : gpuList.join(', '),
+                hardwareCPU       : "${hw.cpu.model} (${hw.cpu.physicalCores} Cores, ${hw.cpu.architecture})",
         ]
     }
 
