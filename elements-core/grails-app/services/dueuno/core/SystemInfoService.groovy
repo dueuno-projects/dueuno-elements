@@ -80,7 +80,7 @@ class SystemInfoService implements WebRequestAware {
                 osVersion         : System.getProperty('os.name') + ' ' + System.getProperty('os.version'),
 
                 hardwareHD        : "${(hwHD.totalSpace / 1_000_000_000).round(0)} GB (${(hwHD.totalSpace / (1024**3)).round(0)} GiB)",
-                hardwareRAM       : "${Math.ceil(hw.ram / Math.pow(1024, 3) as Long) as Long} GB",
+                hardwareRAM       : "${Math.ceil(hw.ram / Math.pow(1024, 3) as Double) as Long} GB",
                 hardwareGPU       : gpuList.join(', '),
                 hardwareCPU       : "${hw.cpu.model} (${hw.cpu.physicalCores} cores, ${hw.cpu.architecture})",
         ]
