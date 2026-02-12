@@ -22,27 +22,32 @@ import groovy.transform.CompileStatic
  *
  * Presets:
  * <ul>
- *     <li>{@link #LOW} — 1020x1320, 120 DPI</li>
- *     <li>{@link #MEDIUM} — 1699x2200, 200 DPI</li>
- *     <li>{@link #HIGH} — 2550x3299, 300 DPI</li>
+ *      <li>{@link #LOW} — 595x842, 72 DPI</li>
+ *      <li>{@link #MEDIUM} — 992x1403, 120 DPI</li>
+ *      <li>{@link #HIGH} — 1654x2339, 200 DPI</li>
+ *      <li>{@link #ULTRA} — 2480x3508, 300 DPI</li>
  * </ul>
  */
 @CompileStatic
 enum RenderQuality {
     /**
-     * Low render quality for lightweight previews (≈ A4 @ 120 DPI).
+     * Low render quality for thumbnails, previews, and VLM ingestion (≈ A4 @ 72 DPI).
      */
-    LOW(992, 1403, 120),
+    LOW(595, 842, 72),
+    /**
+     * Balanced render quality for screen viewing and document AI (≈ A4 @ 120 DPI).
+     */
+    MEDIUM(992, 1403, 120),
 
     /**
-     * Balanced render quality (≈ A4 @ 200 DPI).
+     * High render quality (≈ A4 @ 200 DPI).
      */
-    MEDIUM(1654, 2339, 200),
+    HIGH(1654, 2339, 200),
 
     /**
-     * High render quality (≈ A4 @ 300 DPI).
+     * Ultra render quality (≈ A4 @ 300 DPI).
      */
-    HIGH(2480, 3508, 300)
+    ULTRA(2480, 3508, 300)
 
     /**
      * Target width in pixels for this quality preset.

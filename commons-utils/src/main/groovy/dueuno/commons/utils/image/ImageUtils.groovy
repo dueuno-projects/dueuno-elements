@@ -264,24 +264,6 @@ class ImageUtils {
     }
 
     /**
-     * Generates a preview image from the first page of a PDF document.
-     *
-     * @param pathname Path to the PDF file
-     * @param renderQuality the desired rendering quality. Defaults to {@link RenderQuality#LOW}.
-     * @return A rendered preview as {@link BufferedImage}
-     *
-     * <h3>Example</h3>
-     * <pre>
-     * BufferedImage preview = ImageUtils.generatePdfPreview("doc.pdf", RenderQuality.LOW)
-     * </pre>
-     */
-    static BufferedImage generatePdfPreview(String pathname, RenderQuality renderQuality = RenderQuality.LOW) {
-        PDDocument pd = PDDocument.load(new File(pathname))
-        PDFRenderer pr = new PDFRenderer(pd)
-        return pr.renderImageWithDPI(0, renderQuality.dpi)
-    }
-
-    /**
      * Resolves the {@link ImageFormat} from a filename
      * extension.
      *
@@ -362,7 +344,25 @@ class ImageUtils {
     }
 
     /**
-     * Renders a document (PDF or other) into a list of images, one per page.
+     * Generates a preview image from the first page of a PDF document.
+     *
+     * @param pathname Path to the PDF file
+     * @param renderQuality the desired rendering quality. Defaults to {@link RenderQuality#LOW}.
+     * @return A rendered preview as {@link BufferedImage}
+     *
+     * <h3>Example</h3>
+     * <pre>
+     * BufferedImage preview = ImageUtils.previewPdf("doc.pdf", RenderQuality.LOW)
+     * </pre>
+     */
+    static BufferedImage previewPdf(String pathname, RenderQuality renderQuality = RenderQuality.LOW) {
+        PDDocument pd = PDDocument.load(new File(pathname))
+        PDFRenderer pr = new PDFRenderer(pd)
+        return pr.renderImageWithDPI(0, renderQuality.dpi)
+    }
+
+    /**
+     * Renders a PDF document into a list of images, one per page.
      * <p>
      * If the input file is a PDF, each page will be rendered as a PNG image with the
      * resolution and size specified by the {@link RenderQuality} parameter.
@@ -376,7 +376,7 @@ class ImageUtils {
      * <p><b>Example usage:</b></p>
      * <pre>
      * File pdfFile = new File("document.pdf")
-     * List&lt;File&gt; pages = ImageUtils.renderDocument(pdfFile, RenderQuality.MEDIUM)
+     * List&lt;File&gt; pages = ImageUtils.renderPdf(pdfFile, RenderQuality.MEDIUM)
      *
      * // pages now contains PNG files for each page of the PDF
      * pages.each { println it.path }
@@ -387,7 +387,7 @@ class ImageUtils {
      * @return a list of image files corresponding to the pages of the document, or a single-element list containing the original file if it is not a PDF
      * @throws Exception if an error occurs during rendering or image writing
      */
-    static List<File> renderDocument(File document, RenderQuality renderQuality = RenderQuality.LOW) {
+    static List<File> renderPdf(File document, RenderQuality renderQuality = RenderQuality.LOW) {
         ImageFormat format = ImageFormat.PNG
         String filename = FileUtils.removeExtension(document.path)
 
@@ -395,14 +395,14 @@ class ImageUtils {
             return [document]
         }
 
-        log.info "Rendering '${document.name}'..."
+        log.info "Rendering PDF '${document.name}'..."
         PDDocument pd = null
         List<File> result = []
         try {
             pd = PDDocument.load(document)
             PDFRenderer renderer = new PDFRenderer(pd)
             for (int page = 0; page < pd.numberOfPages; page++) {
-                String pathname = "${filename}_page${page + 1}.${format.extension}"
+                String pathname = "${filename}_${page + 1}.${format.extension}"
                 BufferedImage image = renderer.renderImageWithDPI(page, renderQuality.dpi)
                 File imageFile = save(image, pathname, format)
                 result.add(imageFile)
