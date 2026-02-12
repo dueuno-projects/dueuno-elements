@@ -53,7 +53,7 @@ class SystemInfoService implements WebRequestAware {
 
         List gpuList = []
         for (gpu in hw.gpus) {
-            gpuList << "[${gpu.index}] ${gpu.model} (" + (gpu.cores ? "${gpu.cores} cores" : "${gpu.vram / (1024**3)} GB") + ")"
+            gpuList << "[${gpu.index}] ${gpu.model} (" + (gpu.cores ? "${gpu.cores} cores" : "${ramToGb(gpu.vram)} GB") + ")"
         }
 
         return [
@@ -80,7 +80,7 @@ class SystemInfoService implements WebRequestAware {
                 osVersion         : System.getProperty('os.name') + ' ' + System.getProperty('os.version'),
 
                 hardwareHD        : "${(hwHD.totalSpace / 1_000_000_000).round(0)} GB (${(hwHD.totalSpace / (1024**3)).round(0)} GiB)",
-                hardwareRAM       : "${Math.ceil(hw.ram / Math.pow(1024, 3) as Double) as Long} GB",
+                hardwareRAM       : "${ramToGb(hw.ram)} GB",
                 hardwareGPU       : gpuList.join(', '),
                 hardwareCPU       : "${hw.cpu.model} (${hw.cpu.physicalCores} cores, ${hw.cpu.architecture})",
         ]
@@ -88,6 +88,10 @@ class SystemInfoService implements WebRequestAware {
 
     String getElementsVersion() {
         return (grailsPluginManager.allPlugins.find { it.name == 'elements' })?.version
+    }
+
+    Long ramToGb(Long ram) {
+        return Math.ceil(ram / Math.pow(1024, 3) as Double) as Long
     }
 
 }
