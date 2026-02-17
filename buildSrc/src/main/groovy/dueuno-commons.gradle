@@ -22,6 +22,6 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:1.2.12"
 }
 
-//tasks.withType(GroovyCompile) {
-//    groovyOptions.optimizationOptions.indy = false
-//}
+tasks.withType(GroovyCompile).configureEach {
+    groovyOptions.optimizationOptions.indy = false
+}
