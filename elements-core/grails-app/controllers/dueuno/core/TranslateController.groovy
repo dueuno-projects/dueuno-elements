@@ -23,7 +23,7 @@ import grails.plugin.springsecurity.annotation.Secured
  * @author Gianluca Sartori
  * @author Francesco Piceghello
  */
-@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+@Secured(['permitAll'])
 class TranslateController implements ElementsController {
 
     def index() {

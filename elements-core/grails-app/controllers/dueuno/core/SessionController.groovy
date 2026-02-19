@@ -20,7 +20,7 @@ import grails.plugin.springsecurity.annotation.Secured
 /**
  * @author Gianluca Sartori
  */
-@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+@Secured(['isAuthenticated()'])
 class SessionController implements WebRequestAware {
 
     TransitionService transitionService

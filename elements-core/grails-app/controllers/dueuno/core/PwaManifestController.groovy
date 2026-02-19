@@ -21,7 +21,7 @@ import grails.plugin.springsecurity.annotation.Secured
 import groovy.transform.CompileStatic
 
 @CompileStatic
-@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+@Secured(['permitAll'])
 class PwaManifestController implements ElementsController {
 
     TenantPropertyService tenantPropertyService

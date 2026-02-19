@@ -36,7 +36,7 @@ class DownloadResourceController implements ElementsController {
         return !pathname.contains('..')
     }
 
-    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+    @Secured(['permitAll'])
     def system() {
         String root = systemPropertyService.getDirectory(params.root)
         String pathname = params.pathname
@@ -51,7 +51,7 @@ class DownloadResourceController implements ElementsController {
         download root + pathname
     }
 
-    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+    @Secured(['permitAll'])
     def tenant() {
         String tenantId = params.tenantId
         String root = tenantService.getPublicDir(tenantId)

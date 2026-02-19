@@ -23,7 +23,7 @@ import dueuno.elements.ElementsController
 import dueuno.elements.style.TextDefault
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+@Secured(['permitAll'])
 class PublicPageController implements ElementsController {
 
 

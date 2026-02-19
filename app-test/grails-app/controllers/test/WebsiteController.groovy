@@ -17,7 +17,7 @@ package test
 import dueuno.elements.ElementsController
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+@Secured(['permitAll'])
 class WebsiteController implements ElementsController {
 
     def index() {}

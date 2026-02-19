@@ -400,7 +400,7 @@ class CrudController implements ElementsController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+    @Secured(['permitAll'])
     def register() {
         def c = createContent(ContentForm)
         c.header.removeNextButton()
@@ -408,7 +408,7 @@ class CrudController implements ElementsController {
         display content: c, modal: true
     }
 
-    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+    @Secured(['permitAll'])
     def passwordRecovery() {
         def c = createContent(ContentForm)
         c.header.removeNextButton()
