@@ -35,8 +35,8 @@ import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import jakarta.inject.Inject
 import jakarta.servlet.http.HttpServletRequest
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices
 
@@ -67,10 +67,10 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
 
     public static final String DENY_AUTHORIZATION_MESSAGE = 'DENY_AUTHORIZATION_MESSAGE'
 
-    @Autowired
+    @Inject
     SecurityContextLogoutHandler securityContextLogoutHandler
 
-    @Autowired
+    @Inject
     TokenBasedRememberMeServices tokenBasedRememberMeServices
 
     SpringSecurityService springSecurityService

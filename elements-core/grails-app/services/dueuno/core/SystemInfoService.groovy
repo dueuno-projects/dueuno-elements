@@ -20,8 +20,8 @@ import dueuno.utils.EnvUtils
 import grails.core.GrailsApplication
 import grails.plugins.GrailsPluginManager
 import groovy.transform.CompileStatic
+import jakarta.inject.Inject
 import jakarta.servlet.ServletContext
-import org.springframework.beans.factory.annotation.Autowired
 
 import java.lang.management.ManagementFactory
 import java.time.Duration
@@ -33,7 +33,7 @@ import java.time.Duration
 @CompileStatic
 class SystemInfoService implements WebRequestAware {
 
-    @Autowired
+    @Inject
     GrailsPluginManager grailsPluginManager
 
     GrailsApplication grailsApplication
