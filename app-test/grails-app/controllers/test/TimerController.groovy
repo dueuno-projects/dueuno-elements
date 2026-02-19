@@ -1,14 +1,13 @@
 package test
 
 import dueuno.commons.utils.LogUtils
+import dueuno.elements.ElementsController
 import dueuno.elements.components.Button
 import dueuno.elements.components.Form
 import dueuno.elements.components.Grid
 import dueuno.elements.components.Timer
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.NumberField
-import dueuno.elements.ElementsController
-import dueuno.elements.TransitionService
 import dueuno.elements.style.TextDefault
 import grails.plugin.springsecurity.annotation.Secured
 import groovy.util.logging.Slf4j
@@ -21,7 +20,6 @@ import java.time.format.DateTimeFormatter
 @Secured(['ROLE_USER', /* other ROLE_... */])
 class TimerController implements ElementsController {
 
-    TransitionService transitionService
     TimerService timerService
 
     @PostConstruct

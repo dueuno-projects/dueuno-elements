@@ -14,16 +14,14 @@
  */
 package dueuno.core
 
-import dueuno.elements.TransitionService
+import grails.artefact.Controller
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
  * @author Gianluca Sartori
  */
 @Secured(['isAuthenticated()'])
-class SessionController implements WebRequestAware {
-
-    TransitionService transitionService
+class SessionController implements Controller, WebRequestAware {
 
     def set() {
         String scope = params.scope
