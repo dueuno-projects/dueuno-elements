@@ -2,17 +2,20 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-        version="1.1"
-        id="svg26090"
-        width="940"
-        height="430"
-        viewBox="0 0 939.99998 430"
-        sodipodi:docname="logo.svg"
-        inkscape:version="1.2.1 (9c6d41e, 2022-07-14)"
-        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-        xmlns="http://www.w3.org/2000/svg"
->
+   version="1.1"
+   id="svg26090"
+   width="940"
+   height="430"
+   viewBox="0 0 939.99998 430"
+   sodipodi:docname="login-logo.svg"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   inkscape:export-filename="../main/resources/brand/login-logo.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs26094">
     <rect
@@ -769,14 +772,14 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
      inkscape:zoom="0.71743565"
-     inkscape:cx="417.45904"
-     inkscape:cy="336.61556"
-     inkscape:window-width="1419"
-     inkscape:window-height="1205"
+     inkscape:cx="443.94225"
+     inkscape:cy="211.86569"
+     inkscape:window-width="2560"
+     inkscape:window-height="1293"
      inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-y="31"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g26098">
+     inkscape:current-layer="g1">
     <inkscape:page
        x="0"
        y="0"
@@ -785,7 +788,9 @@
        height="430"
        inkscape:export-filename="../src/main/resources/deploy/public/brand/login-logo.png"
        inkscape:export-xdpi="156.28"
-       inkscape:export-ydpi="156.28" />
+       inkscape:export-ydpi="156.28"
+       margin="0"
+       bleed="0" />
   </sodipodi:namedview>
   <g
      id="g26098"
@@ -819,41 +824,60 @@
        inkscape:export-filename="../src/main/resources/deploy/public/brand/logo.png"
        inkscape:export-xdpi="150.84"
        inkscape:export-ydpi="150.84">
-      <rect
-         style="fill:#cc0000;fill-opacity:1;stroke-width:3.90707;stroke-linecap:square"
-         id="rect5870"
-         width="502.59915"
-         height="119.24361"
-         x="1240.1404"
-         y="-1159.6871"
-         transform="matrix(1,0,0.97311946,-0.23030092,0,0)"
-         ry="20.622719"
-         rx="32.407085"
-         inkscape:export-filename="../src/main/resources/deploy/public/brand/logo.png"
-         inkscape:export-xdpi="130"
-         inkscape:export-ydpi="130" />
       <g
-         id="g5878"
-         transform="matrix(3.1411974,0,0,3.1411974,-377.93908,791.05437)"
-         style="stroke:#ffffff;stroke-width:3.58144;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-         inkscape:export-filename="logo.png"
-         inkscape:export-xdpi="130"
-         inkscape:export-ydpi="130">
+         id="g1"
+         inkscape:export-filename="../main/resources/deploy/public/brand/logo.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96">
         <g
-           id="g5876"
-           style="stroke:#ffffff;stroke-width:3.58144;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers">
-          <text
-             xml:space="preserve"
-             style="font-size:30.7784px;line-height:285.3;font-family:Anton;-inkscape-font-specification:Anton;text-align:center;text-anchor:middle;fill:#1a1a1a;stroke:#ffffff;stroke-width:3.58144;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-             x="253.69351"
-             y="163.48201"
-             id="text5874"
-             transform="scale(1,-1)"><tspan
-               sodipodi:role="line"
-               id="tspan5872"
-               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lobster;-inkscape-font-specification:Lobster;fill:#1a1a1a;stroke:#ffffff;stroke-width:3.58144;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-               x="253.69351"
-               y="163.48201">:appname</tspan></text>
+           id="g2"
+           inkscape:export-filename="../main/resources/brand/logo.png"
+           inkscape:export-xdpi="96"
+           inkscape:export-ydpi="96">
+          <g
+             id="g5878"
+             transform="matrix(2.9731994,0,0,2.9731994,-335.17946,765.41756)"
+             style="stroke:#ffffff;stroke-width:3.58144;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+             inkscape:export-filename="logo.png"
+             inkscape:export-xdpi="130"
+             inkscape:export-ydpi="130">
+            <g
+               id="g5876"
+               style="stroke:#ffffff;stroke-width:3.58144;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               transform="matrix(1.4521303,0,0,1.4521303,-115.07824,68.995908)">
+              <g
+                 id="g3">
+                <g
+                   id="g4">
+                  <rect
+                     style="fill:#cc0000;fill-opacity:1;stroke-width:3.90707;stroke-linecap:square"
+                     id="rect5870"
+                     width="502.59915"
+                     height="119.24361"
+                     x="1240.1404"
+                     y="-1159.6871"
+                     transform="matrix(0.23161697,0,0.22539098,-0.0533416,156.88113,-224.79728)"
+                     ry="20.622719"
+                     rx="32.407085"
+                     inkscape:export-filename="../src/main/resources/deploy/public/brand/logo.png"
+                     inkscape:export-xdpi="130"
+                     inkscape:export-ydpi="130" />
+                  <text
+                     xml:space="preserve"
+                     style="font-size:30.7784px;line-height:285.3;font-family:Anton;-inkscape-font-specification:Anton;text-align:center;text-anchor:middle;fill:#1a1a1a;stroke:#ffffff;stroke-width:3.58144;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                     x="253.69351"
+                     y="163.48201"
+                     id="text5874"
+                     transform="scale(1,-1)"><tspan
+                       sodipodi:role="line"
+                       id="tspan5872"
+                       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lobster;-inkscape-font-specification:Lobster;fill:#1a1a1a;stroke:#ffffff;stroke-width:3.58144;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                       x="253.69351"
+                       y="163.48201">:appname</tspan></text>
+                </g>
+              </g>
+            </g>
+          </g>
         </g>
       </g>
     </g>
