@@ -37,6 +37,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import jakarta.inject.Inject
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpSession
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices
 
@@ -498,7 +499,8 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         tokenBasedRememberMeServices.logout(request, response, null)
 
         // Session must be explicitly invalidated, default behaviour has been disabled, see 'plugin.groovy'
-        session.invalidate()
+        HttpSession session = request.getSession(false)
+        session?.invalidate()
     }
 
     /**
