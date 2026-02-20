@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation project(":elements-core")
+    implementation project(":dueuno-core")
 }

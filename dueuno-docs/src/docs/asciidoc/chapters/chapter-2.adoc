@@ -31,7 +31,7 @@ Find the `dependencies` section of the `build.gradle` file and add the following
 dependencies {
 ...
 
-    implementation 'org.dueuno:elements-core:{revnumber}'
+    implementation 'org.dueuno:dueuno-core:{revnumber}'
 }
 ----
 

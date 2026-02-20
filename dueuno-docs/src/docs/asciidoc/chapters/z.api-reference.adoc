@@ -10,7 +10,7 @@ Use https://start.grails.org[Grails Forge,window=_blank] to generate a *Web Appl
 ----
 dependencies {
     ...
-    implementation "org.dueuno:elements-core:{revnumber}"
+    implementation "org.dueuno:dueuno-core:{revnumber}"
 }
 ----
 

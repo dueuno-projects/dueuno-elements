@@ -70,7 +70,7 @@ NOTE: The Apache Groovy programming language has been the first language, other 
 == Basics
 In _Dueuno Elements_ everything is a component. All visual objects of the application are derived from the same base class `Component` and they can be assembled together like we do with a LEGO set.
 
-Some of these components are automatically created and managed by the `org.dueuno:elements-core` Grails plugin for each application instance. Let's give them a quick look.
+Some of these components are automatically created and managed by the `org.dueuno:dueuno-core` Grails plugin for each application instance. Let's give them a quick look.
 
 === The Shell
 The `Shell` component is the _Dueuno Elements_ GUI. Each _Dueuno Elements_ application share a common user experience and content structure.

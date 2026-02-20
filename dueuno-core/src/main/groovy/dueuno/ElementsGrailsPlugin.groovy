@@ -35,7 +35,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @EnableScheduling
 class ElementsGrailsPlugin extends Plugin {
 
-    static final String NAME = 'elements-core'
+    static final String NAME = 'dueuno-core'
 
     def version = '3.x-SNAPSHOT'
     // the version or versions of Grails the plugin is designed for
@@ -45,10 +45,10 @@ class ElementsGrailsPlugin extends Plugin {
         'grails-app/views/error.gsp'
     ]
 
-    def title = 'Elements' // Headline display name of the plugin
+    def title = 'Dueuno' // Headline display name of the plugin
     def author = 'Gianluca Sartori, Francesco Piceghello'
     def authorEmail = 'g.sartori@gmail.com, f.piceghello@gmail.com'
-    def description = 'Dueuno Elements Core'
+    def description = 'Dueuno Core'
     def profiles = ['web']
 
     // URL to the plugin's documentation

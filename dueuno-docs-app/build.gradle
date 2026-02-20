@@ -70,7 +70,7 @@ dependencies {
     testImplementation "org.spockframework:spock-core"
 
     // DUEUNO
-    implementation "org.dueuno:elements-core:3.0.0-RC1"
+    implementation "org.dueuno:dueuno-core:3.0.0-RC1"
 }
 
 compileJava.options.release = 17

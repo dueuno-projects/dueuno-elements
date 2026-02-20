@@ -26,9 +26,9 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @EnableScheduling
 class ElementsExtraGrailsPlugin extends Plugin {
 
-    static final String NAME = 'elements-extra'
+    static final String NAME = 'dueuno-extra'
     def loadAfter = [
-            'elements-core',
+            'dueuno-core',
     ]
 
     // the version or versions of Grails the plugin is designed for
@@ -38,10 +38,10 @@ class ElementsExtraGrailsPlugin extends Plugin {
         'grails-app/views/error.gsp'
     ]
 
-    def title = 'Elements Extra' // Headline display name of the plugin
+    def title = 'Dueuno Extra' // Headline display name of the plugin
     def author = 'Gianluca Sartori, Francesco Piceghello'
     def authorEmail = 'g.sartori@gmail.com, f.piceghello@gmail.com'
-    def description = 'Elements Extra'
+    def description = 'Dueuno Extra'
     def profiles = ['web']
 
     // URL to the plugin's documentation
