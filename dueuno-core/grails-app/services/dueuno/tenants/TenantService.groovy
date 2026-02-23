@@ -14,7 +14,7 @@
  */
 package dueuno.tenants
 
-import dueuno.ElementsGrailsPlugin
+import dueuno.DueunoGrailsPlugin
 import dueuno.commons.utils.FileUtils
 import dueuno.core.ApplicationService
 import dueuno.core.ConnectionSourceService
@@ -195,8 +195,8 @@ class TenantService {
             systemPropertyService.validateAll()
 
             ResourceUtils.extractDirectoryFromPlugin(
-                    ElementsGrailsPlugin,
-                    ElementsGrailsPlugin.NAME,
+                    DueunoGrailsPlugin,
+                    DueunoGrailsPlugin.NAME,
                     '/brand',
                     publicDir
             )

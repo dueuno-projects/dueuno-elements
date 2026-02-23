@@ -33,7 +33,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @Slf4j
 @CompileStatic
 @EnableScheduling
-class ElementsGrailsPlugin extends Plugin {
+class DueunoGrailsPlugin extends Plugin {
 
     static final String NAME = 'dueuno-core'
 

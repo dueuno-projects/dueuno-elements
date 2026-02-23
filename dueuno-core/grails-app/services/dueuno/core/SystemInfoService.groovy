@@ -64,11 +64,9 @@ class SystemInfoService implements WebRequestAware {
                 applicationPath     : servletContext.getRealPath('/'),
                 applicationVersion  : grailsApplication.config.getProperty('info.app.version', String) as String,
 
-                dueunoVersion       : elementsVersion,
+                dueunoVersion       : dueunoVersion,
                 grailsVersion       : grailsApplication.config.getProperty('info.app.grailsVersion', String) as String,
                 groovyVersion       : GroovySystem.getVersion(),
-
-                serverVirtualThreads: Thread.currentThread().isVirtual() ? 'Enabled' : 'Disabled',
                 serverVersion       : servletContext.getServerInfo(),
 
                 jvmUptime           : "${uptime.toDays()}d ${uptime.toHoursPart()}h ${uptime.toMinutesPart()}m ${uptime.toSecondsPart()}s",
@@ -88,8 +86,8 @@ class SystemInfoService implements WebRequestAware {
         ]
     }
 
-    String getElementsVersion() {
-        return (grailsPluginManager.allPlugins.find { it.name == 'elements' })?.version
+    String getDueunoVersion() {
+        return (grailsPluginManager.allPlugins.find { it.name == "dueuno" })?.version
     }
 
     Long ramToGb(Long ram) {
