@@ -22,6 +22,11 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:1.2.12"
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(javaVersion)
+    }
+}
 tasks.withType(GroovyCompile).configureEach {
     groovyOptions.optimizationOptions.indy = false
 }
