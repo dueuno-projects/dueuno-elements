@@ -37,9 +37,9 @@ jobs:
           git checkout -b release/${VERSION}
 
           sed -i "s/^projectVersion=.*/projectVersion=${VERSION}/" gradle.properties
-          sed -i "s/^[[:space:]]*def version = .*/    def version = '${VERSION}'/" dueuno-core/src/main/groovy/dueuno/ElementsGrailsPlugin.groovy
+          sed -i "s/^[[:space:]]*def version = .*/    def version = '${VERSION}'/" dueuno-core/src/main/groovy/dueuno/DueunoGrailsPlugin.groovy
 
-          git add gradle.properties dueuno-core/src/main/groovy/dueuno/ElementsGrailsPlugin.groovy
+          git add gradle.properties dueuno-core/src/main/groovy/dueuno/DueunoGrailsPlugin.groovy
           git commit -m "Release ${VERSION}" || echo "No changes to commit"
           git push origin release/${VERSION}
 
