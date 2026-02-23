@@ -30,37 +30,103 @@ import groovy.util.logging.Slf4j
 import java.awt.image.BufferedImage
 
 /**
+ * Utility class for generating various types of barcodes and QR codes as {@link BufferedImage} instances.
+ * <p>
+ * Supported barcode formats include EAN-13, UPC-A, Code 128, ITF, Data Matrix, and QR Code.
+ * <p>
+ * This class uses the ZXing library to encode the barcode data into images.
+ *
  * @author Gianluca Sartori
  */
-
 @Slf4j
 @CompileStatic
 class BarcodeUtils {
 
+    /**
+     * Generates an EAN-13 barcode image from the given code.
+     *
+     * @param code the numeric code to encode (must comply with EAN-13 format)
+     * @param width the desired image width in pixels
+     * @param height the desired image height in pixels
+     * @return a {@link BufferedImage} representing the EAN-13 barcode
+     * @throws IllegalArgumentException if the code is invalid
+     */
     static BufferedImage generateEAN13(String code, Integer width, Integer height) {
         return encode(BarcodeFormat.EAN_13, code, width, height)
     }
 
+    /**
+     * Generates a UPC-A barcode image from the given code.
+     *
+     * @param code the numeric code to encode (must comply with UPC-A format)
+     * @param width the desired image width in pixels
+     * @param height the desired image height in pixels
+     * @return a {@link BufferedImage} representing the UPC-A barcode
+     * @throws IllegalArgumentException if the code is invalid
+     */
     static BufferedImage generateUPCA(String code, Integer width, Integer height) {
         return encode(BarcodeFormat.UPC_A, code, width, height)
     }
 
+    /**
+     * Generates a Code 128 barcode image from the given code.
+     *
+     * @param code the text or numeric code to encode
+     * @param width the desired image width in pixels
+     * @param height the desired image height in pixels
+     * @return a {@link BufferedImage} representing the Code 128 barcode
+     */
     static BufferedImage generateCode128(String code, Integer width, Integer height) {
         return encode(BarcodeFormat.CODE_128, code, width, height)
     }
 
+    /**
+     * Generates an ITF (Interleaved 2 of 5) barcode image from the given code.
+     *
+     * @param code the numeric code to encode (must be an even number of digits)
+     * @param width the desired image width in pixels
+     * @param height the desired image height in pixels
+     * @return a {@link BufferedImage} representing the ITF barcode
+     */
     static BufferedImage generateITF(String code, Integer width, Integer height) {
         return encode(BarcodeFormat.ITF, code, width, height)
     }
 
+    /**
+     * Generates a Data Matrix barcode image from the given code.
+     *
+     * @param code the text or numeric code to encode
+     * @param width the desired image width in pixels
+     * @param height the desired image height in pixels
+     * @return a {@link BufferedImage} representing the Data Matrix barcode
+     */
     static BufferedImage generateDataMatrix(String code, Integer width, Integer height) {
         return encode(BarcodeFormat.DATA_MATRIX, code, width, height)
     }
 
+    /**
+     * Generates a QR Code image from the given code.
+     *
+     * @param code the text or numeric code to encode
+     * @param width the desired image width in pixels
+     * @param height the desired image height in pixels
+     * @return a {@link BufferedImage} representing the QR Code
+     */
     static BufferedImage generateQRCode(String code, Integer width, Integer height) {
         return encode(BarcodeFormat.QR_CODE, code, width, height)
     }
 
+    /**
+     * Encodes a given code into a barcode or QR Code image using the specified format.
+     *
+     * @param format the {@link BarcodeFormat} to use for encoding
+     * @param code the text or numeric code to encode
+     * @param width the desired image width in pixels
+     * @param height the desired image height in pixels
+     * @param hints optional encoding hints (may be empty)
+     * @return a {@link BufferedImage} representing the encoded barcode
+     * @throws IllegalArgumentException if the specified format is not supported
+     */
     static BufferedImage encode(BarcodeFormat format, String code, Integer width, Integer height, Map hints = [:]) {
         Writer writer
 
@@ -96,5 +162,4 @@ class BarcodeUtils {
         BitMatrix bitImage = writer.encode(code, format, width, height, hints)
         return MatrixToImageWriter.toBufferedImage(bitImage)
     }
-
 }

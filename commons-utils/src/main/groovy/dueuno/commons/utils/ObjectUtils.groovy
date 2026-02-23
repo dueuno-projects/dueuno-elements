@@ -18,21 +18,64 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
 /**
- * @author Gianluca Sartori
+ * Utility class for dynamically accessing object properties, including nested properties.
+ * <p>
+ * This class allows retrieving the value of a field from an object using a dotted path notation.
+ * It is particularly useful when working with domain objects or maps with nested structures.
+ * </p>
+ *
+ * <h3>Example usage:</h3>
+ * <pre>
+ * def person = [name: 'Alice', address: [street: 'Main St', city: 'Springfield']]
+ *
+ * // Retrieve top-level property
+ * def name = ObjectUtils.getValue(person, 'name')  // returns 'Alice'
+ *
+ * // Retrieve nested property
+ * def street = ObjectUtils.getValue(person, 'address.street')  // returns 'Main St'
+ *
+ * // Access non-existent property safely
+ * def zip = ObjectUtils.getValue(person, 'address.zip')  // returns null
+ * </pre>
+ *
+ * Author: Gianluca Sartori
  */
-
 @Slf4j
 @CompileStatic
 class ObjectUtils {
 
+    static Boolean hasId(Object obj) {
+        if (!obj) {
+            return false
+        }
+
+        if (obj in Map) {
+            return (obj as Map).containsKey('id')
+        }
+
+        if (obj.hasProperty('id')) {
+            return true
+        }
+
+        return false
+    }
+
     /**
-     * Returns the value of a field in an object from its name in dotted path format descending recursively
-     * into sub-objects. Eg: 'person.address.street'
+     * Retrieves the value of a property from an object using a dotted path notation.
+     * <p>
+     * Supports recursive access to nested properties.
      *
-     * @param propertyName Dotted path name of the field
-     * @param object The object containing the field
+     * @param object the object containing the property
+     * @param propertyName the dotted path name of the property (e.g., 'person.address.street')
+     * @return the value of the property, or null if not found
      *
-     * @return The field value; 'null' if not found
+     * <h3>Example:</h3>
+     * <pre>
+     * def person = [name: 'Alice', address: [street: 'Main St']]
+     * ObjectUtils.getValue(person, 'name')          // returns 'Alice'
+     * ObjectUtils.getValue(person, 'address.street') // returns 'Main St'
+     * ObjectUtils.getValue(person, 'address.zip')   // returns null
+     * </pre>
      */
     static Object getValue(Object object, String propertyName) {
         if (!object) {
@@ -50,6 +93,25 @@ class ObjectUtils {
         }
     }
 
+    /**
+     * Retrieves the value of a direct property from an object.
+     * <p>
+     * If the property does not exist, returns null.
+     * If the property exists but cannot be read due to an unexpected error (e.g., lazy-loaded domain object),
+     * an exception is thrown with a descriptive message.
+     *
+     * @param object the object containing the property
+     * @param fieldName the name of the property
+     * @return the value of the property, or null if the property does not exist
+     * @throws Exception if the property cannot be read due to an unexpected error
+     *
+     * <h3>Example:</h3>
+     * <pre>
+     * def person = [name: 'Alice', age: 30]
+     * ObjectUtils.getValueOrThrowException(person, 'name')  // returns 'Alice'
+     * ObjectUtils.getValueOrThrowException(person, 'email') // returns null
+     * </pre>
+     */
     private static Object getValueOrThrowException(Object object, String fieldName) {
         try {
             Object value = object[fieldName]

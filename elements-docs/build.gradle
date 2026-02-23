@@ -1,7 +1,0 @@
-plugins {
-    id "dueuno-asciidoctor"
-}
-
-repositories {
-    mavenCentral()
-}

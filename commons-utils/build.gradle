@@ -3,29 +3,31 @@ plugins {
 }
 
 dependencies {
+    // Hardware Info
+    implementation "com.github.oshi:oshi-core:6.9.3"
+
     // Servlet
-    implementation "javax.servlet:javax.servlet-api:4.0.0"
+    implementation "jakarta.servlet:jakarta.servlet-api:6.0.0"
 
     // Apache HttpClient 5
     // Keep aligned with the versions provided by the Spring Boot version used by Grails
-    api 'org.apache.httpcomponents.client5:httpclient5:5.1.4'
-    implementation 'org.apache.httpcomponents.client5:httpclient5-fluent:5.1.4'
-    implementation 'org.apache.httpcomponents.core5:httpcore5:5.1.5'
-    implementation 'org.apache.httpcomponents.core5:httpcore5-h2:5.1.5'
+    api 'org.apache.httpcomponents.client5:httpclient5:5.5.2'
+    implementation 'org.apache.httpcomponents.client5:httpclient5-fluent:5.5.2'
+    implementation 'org.apache.httpcomponents.core5:httpcore5:5.3.6'
+    implementation 'org.apache.httpcomponents.core5:httpcore5-h2:5.3.6'
 
     // SSH
     implementation "com.jcraft:jsch:0.1.55"
 
     // FTP
-    implementation "commons-net:commons-net:3.10.0"
+    implementation "commons-net:commons-net:3.12.0"
 
     // 1D/2D codes generation
-    api "com.google.zxing:core:3.5.3"
-    api "com.google.zxing:javase:3.5.3"
+    api "com.google.zxing:core:3.5.4"
+    api "com.google.zxing:javase:3.5.4"
 
-    // PDF Generation
-    api "org.apache.pdfbox:pdfbox:2.0.33"
+    // PDF Generation (Use 2.x version)
+    api "org.apache.pdfbox:pdfbox:2.0.35"
     implementation "com.github.jai-imageio:jai-imageio-core:1.4.0"
     implementation "com.github.jai-imageio:jai-imageio-jpeg2000:1.3.0"
 }
-

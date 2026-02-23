@@ -19,15 +19,19 @@ import groovy.json.JsonSlurper
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.Part
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.Part
 
 /**
+ * This class is deprecated.
+ *
+ * @deprecated Use {@link dueuno.commons.http.client.HttpClient} or {@link dueuno.commons.http.server.HttpRequest} instead.
+ *
  * @author Gianluca Sartori
  */
 
 @Slf4j
+@Deprecated
 @CompileStatic
 class RestUtils {
 

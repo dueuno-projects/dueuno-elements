@@ -17,11 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '25'
           cache: gradle
 
       - name: Extract version from tag
@@ -37,9 +37,9 @@ jobs:
           git checkout -b release/${VERSION}
 
           sed -i "s/^projectVersion=.*/projectVersion=${VERSION}/" gradle.properties
-          sed -i "s/^[[:space:]]*def version = .*/    def version = '${VERSION}'/" elements-core/src/main/groovy/dueuno/elements/ElementsGrailsPlugin.groovy
+          sed -i "s/^[[:space:]]*def version = .*/    def version = '${VERSION}'/" dueuno-core/src/main/groovy/dueuno/DueunoGrailsPlugin.groovy
 
-          git add gradle.properties elements-core/src/main/groovy/dueuno/elements/ElementsGrailsPlugin.groovy
+          git add gradle.properties dueuno-core/src/main/groovy/dueuno/DueunoGrailsPlugin.groovy
           git commit -m "Release ${VERSION}" || echo "No changes to commit"
           git push origin release/${VERSION}
 

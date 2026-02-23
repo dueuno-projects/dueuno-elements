@@ -22,13 +22,35 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 /**
- * @author Gianluca Sartori
+ * Utility class for common file and directory operations.
+ * <p>
+ * Provides methods to normalize paths, handle filenames and extensions,
+ * create, delete, copy, move files and directories, generate temporary filenames,
+ * and serialize/deserialize log filenames.
+ * <p>
+ * Example usage:
+ * <pre>
+ * String normalizedPath = FileUtils.normalizePathname("C:\\Users\\Test")
+ * String tempDir = FileUtils.getTempDirectory()
+ * FileUtils.createDirectory("logs")
+ * FileUtils.createFile("logs/example.log")
+ * FileUtils.copyFile("logs/example.log", "logs/copy.log")
+ * FileUtils.renameFile("logs/copy.log", "logs/copyRenamed.log")
+ * boolean exists = FileUtils.exists("logs/example.log")
+ * List<File> files = FileUtils.listFiles("logs")
+ * </pre>
+ *
+ * Author: Gianluca Sartori
  */
-
 @Slf4j
 @CompileStatic
 class FileUtils {
 
+    /**
+     * Normalizes a pathname by replacing backslashes with forward slashes.
+     * @param pathname the original path
+     * @return normalized pathname or null if input is null
+     */
     static String normalizePathname(String pathname) {
         if (!pathname) {
             return pathname
@@ -37,6 +59,11 @@ class FileUtils {
         return pathname.replace("\\", "/")
     }
 
+    /**
+     * Normalizes a path and ensures it ends with a slash.
+     * @param path the original path
+     * @return normalized path ending with '/'
+     */
     static String normalizePath(String path) {
         if (!path) {
             return path
@@ -50,6 +77,11 @@ class FileUtils {
         return result
     }
 
+    /**
+     * Extracts the directory path from a pathname.
+     * @param pathname full path including filename
+     * @return the path without the filename
+     */
     static String stripPath(String pathname) {
         if (!pathname) {
             return pathname
@@ -65,6 +97,11 @@ class FileUtils {
         return result
     }
 
+    /**
+     * Extracts the filename from a full pathname.
+     * @param pathname full path including filename
+     * @return filename only
+     */
     static String stripFilename(String pathname) {
         if (!pathname) {
             return pathname
@@ -76,6 +113,11 @@ class FileUtils {
         return result
     }
 
+    /**
+     * Extracts the file extension from a pathname.
+     * @param pathname full path or filename
+     * @return lowercase extension without the dot
+     */
     static String stripExtension(String pathname) {
         if (!pathname) {
             return pathname
@@ -87,6 +129,11 @@ class FileUtils {
                 .toLowerCase()
     }
 
+    /**
+     * Removes the extension from a filename or pathname.
+     * @param pathname full path or filename
+     * @return path or filename without extension
+     */
     static String removeExtension(String pathname) {
         if (!pathname) {
             return pathname
@@ -98,6 +145,12 @@ class FileUtils {
         return result
     }
 
+    /**
+     * Builds a safe filename by replacing invalid characters and spaces.
+     * @param filename the original filename
+     * @param spaceReplacementChar character to replace spaces (default '-')
+     * @return sanitized filename
+     */
     static String buildSafeFilename(String filename, String spaceReplacementChar = '-') {
         def unixFilenameInvalidChars = '[/]'
         def unixFilenameInvalidNonPrintableChars = '[\\u0000]' // NULL
@@ -116,40 +169,79 @@ class FileUtils {
                 spaceReplacementChar)
     }
 
+    /**
+     * Returns the system temporary directory with normalized path.
+     * @return normalized temporary directory path ending with '/'
+     */
     static String getTempDirectory() {
         def result = System.getProperty("java.io.tmpdir")
         return normalizePath(result)
     }
 
+    /**
+     * Returns the current working directory with normalized path.
+     * @return normalized working directory path ending with '/'
+     */
     static String getWorkingDirectory() {
         Path userDirPath = Paths.get(System.getProperty("user.dir")).normalize()
         return normalizePath(userDirPath.toString())
     }
 
+    /**
+     * Generates a temporary filename with timestamp and random token.
+     * @param length length of random token (default 10)
+     * @return temporary filename string
+     */
     static String getTempFilename(Integer length = 10) {
         String token = StringUtils.generateRandomToken(length)
         def fileName = "${getFilenameTimestamp('yyyyMMddHHmmssS')}-${token}"
         return fileName
     }
 
+    /**
+     * Returns the path where the application is running.
+     * @return normalized application path
+     */
     static String getApplicationPath() {
         Path workDirPath = Paths.get(FileUtils.getProtectionDomain().getCodeSource().getLocation().toString()).normalize()
         return normalizePath(workDirPath.toString())
     }
 
+    /**
+     * Returns the current timestamp formatted for filenames.
+     * @param pattern timestamp pattern (default 'YYYYMMddHHmm')
+     * @return formatted timestamp string
+     */
     static String getFilenameTimestamp(String pattern = 'YYYYMMddHHmm') {
         return getFilenameTimestamp(LocalDateTime.now(), pattern)
     }
 
+    /**
+     * Returns the timestamp of a given LocalDateTime formatted for filenames.
+     * @param dateTime date-time to format
+     * @param pattern timestamp pattern (default 'YYYYMMddHHmm')
+     * @return formatted timestamp string
+     */
     static String getFilenameTimestamp(LocalDateTime dateTime, String pattern = 'YYYYMMddHHmm') {
         DateTimeFormatter format = DateTimeFormatter.ofPattern(pattern)
         return dateTime.format(format)
     }
 
+    /**
+     * Serializes a log filename with current timestamp and optional parts.
+     * @param parts additional parts to include in filename
+     * @return serialized log filename ending with '.log'
+     */
     static String serializeLogFilename(String... parts) {
         serializeLogFilename(LocalDateTime.now(), parts)
     }
 
+    /**
+     * Serializes a log filename with given date-time and parts.
+     * @param dateTime timestamp for filename
+     * @param parts additional parts to include
+     * @return serialized log filename ending with '.log'
+     */
     static String serializeLogFilename(LocalDateTime dateTime, Object... parts) {
         String result = getFilenameTimestamp(dateTime)
         for (part in parts) {
@@ -159,6 +251,13 @@ class FileUtils {
         return result
     }
 
+    /**
+     * Deserializes a log filename into timestamp and named parts.
+     * @param logFilename the filename to deserialize
+     * @param parts names of the parts to extract
+     * @return map containing timestamp and part values
+     * @throws Exception if filename format or extension is invalid
+     */
     static Map deserializeLogFilename(String logFilename, String... parts) {
         String fileName = stripFilename(logFilename)
         String fileExt = stripExtension(logFilename)
@@ -186,6 +285,10 @@ class FileUtils {
         return result
     }
 
+    /**
+     * Updates the last modified timestamp of a file, creating it if it does not exist.
+     * @param pathname path of the file
+     */
     static void touch(String pathname) {
         File f = new File(pathname)
         if (!f.exists()) {
@@ -194,15 +297,31 @@ class FileUtils {
         f.setLastModified(System.currentTimeMillis())
     }
 
+    /**
+     * Checks if a file exists.
+     * @param pathname path of the file
+     * @return true if file exists, false otherwise
+     */
     static Boolean exists(String pathname) {
         File f = new File(pathname)
         return f.exists()
     }
 
+    /**
+     * Lists all files in a directory.
+     * @param path directory path
+     * @return list of files
+     */
     static List<File> listFiles(String path) {
         return listFiles(path, '*')
     }
 
+    /**
+     * Lists files in a directory matching a pattern.
+     * @param path directory path
+     * @param pattern glob pattern
+     * @return list of files matching the pattern
+     */
     static List<File> listFiles(String path, String pattern) {
         Path folderPath = Paths.get(path)
         DirectoryStream<Path> dir = Files.newDirectoryStream(folderPath, pattern)
@@ -216,6 +335,11 @@ class FileUtils {
         return results
     }
 
+    /**
+     * Creates a new empty file.
+     * @param pathname path of the file to create
+     * @param indent optional log indentation
+     */
     static void createFile(String pathname, String indent = '') {
         String newPathname = normalizePathname(pathname)
 
@@ -224,6 +348,11 @@ class FileUtils {
         emptyFile.createNewFile()
     }
 
+    /**
+     * Deletes a file if it exists.
+     * @param pathname path of the file to delete
+     * @param indent optional log indentation
+     */
     static void deleteFile(String pathname, String indent = '') {
         String deletePathname = normalizePathname(pathname)
         Path fileToDelete = Paths.get(deletePathname)
@@ -232,6 +361,12 @@ class FileUtils {
         Files.deleteIfExists(fileToDelete)
     }
 
+    /**
+     * Renames a file.
+     * @param fromPathname current path
+     * @param toPathname new path
+     * @param indent optional log indentation
+     */
     static void renameFile(String fromPathname, String toPathname, String indent = '') {
         String renameFromPathname = normalizePathname(fromPathname)
         String renameToPathname = normalizePathname(toPathname)
@@ -242,6 +377,12 @@ class FileUtils {
         from.renameTo(to)
     }
 
+    /**
+     * Copies a file to another location.
+     * @param fromPathname source path
+     * @param toPathname destination path
+     * @param indent optional log indentation
+     */
     static void copyFile(String fromPathname, String toPathname, String indent = '') {
         String copyFromPathname = normalizePathname(fromPathname)
         String copyToPathname = normalizePathname(toPathname)
@@ -252,6 +393,12 @@ class FileUtils {
         Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING)
     }
 
+    /**
+     * Copies a file to a directory, preserving its name.
+     * @param fromPathname source file
+     * @param toPath destination directory
+     * @param indent optional log indentation
+     */
     static void copyFileToDirectory(String fromPathname, String toPath, String indent = '') {
         String copyFromPathname = normalizePathname(fromPathname)
         String copyToPath = normalizePath(toPath)
@@ -263,6 +410,13 @@ class FileUtils {
         Files.copy(from, toFile, StandardCopyOption.REPLACE_EXISTING)
     }
 
+    /**
+     * Moves a file to a new path.
+     * @param fromPathname source path
+     * @param toPathname destination path
+     * @param indent optional log indentation
+     * @return path of the moved file
+     */
     static String moveFile(String fromPathname, String toPathname, String indent = '') {
         String moveFromPathname = normalizePathname(fromPathname)
         String moveToPathname = normalizePathname(toPathname)
@@ -273,6 +427,13 @@ class FileUtils {
         return Files.move(from, to, StandardCopyOption.REPLACE_EXISTING).toString()
     }
 
+    /**
+     * Moves a file to a directory, preserving its filename.
+     * @param fromPathname source file
+     * @param toPath destination directory
+     * @param indent optional log indentation
+     * @return path of the moved file
+     */
     static String moveFileToDirectory(String fromPathname, String toPath, String indent = '') {
         String moveFromPathname = normalizePathname(fromPathname)
         String moveToPath = normalizePath(toPath)
@@ -284,6 +445,11 @@ class FileUtils {
         return Files.move(from, to, StandardCopyOption.REPLACE_EXISTING).toString()
     }
 
+    /**
+     * Creates a directory and any nonexistent parent directories.
+     * @param path directory path
+     * @param indent optional log indentation
+     */
     static void createDirectory(String path, String indent = '') {
         String newPath = normalizePath(path)
         Path pathToCreate = Paths.get(newPath)
@@ -294,6 +460,11 @@ class FileUtils {
         }
     }
 
+    /**
+     * Deletes a directory and all its contents recursively.
+     * @param path directory path
+     * @param indent optional log indentation
+     */
     static void deleteDirectory(String path, String indent = '') {
         String deleteDir = normalizePath(path)
         Path dirToDelete = Paths.get(deleteDir)
@@ -310,6 +481,12 @@ class FileUtils {
         log.info "${indent}... done."
     }
 
+    /**
+     * Copies a directory recursively to another location.
+     * @param fromPath source directory
+     * @param toPath destination directory
+     * @param indent optional log indentation
+     */
     static void copyDirectory(String fromPath, String toPath, String indent = '') {
         String copyFromPath = normalizePath(fromPath)
         String copyToPath = normalizePath(toPath)
@@ -319,6 +496,9 @@ class FileUtils {
         log.info "${indent}... done."
     }
 
+    /**
+     * Helper method for recursively copying a directory.
+     */
     private static void copyDirectoryRecursive(String fromPath, String toPath, String indent = '') {
         createDirectory(toPath)
         DirectoryStream<Path> directory = Files.newDirectoryStream(Paths.get(fromPath))
@@ -332,5 +512,4 @@ class FileUtils {
             }
         }
     }
-
 }

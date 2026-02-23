@@ -1,1 +1,0 @@
-<div id="loading-screen-page"><div class="ps-4"><i class="fa-solid fa-mug-hot fa-beat-fade"></i></div></div>

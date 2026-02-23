@@ -1,0 +1,7 @@
+plugins {
+    id "dueuno-plugin"
+}
+
+dependencies {
+    implementation project(":dueuno-core")
+}

@@ -60,11 +60,16 @@ grails:
         - externalIdAuthenticationProvider
 #        - ldapAuthProvider
         - rememberMeAuthenticationProvider
+
 ---
 spring:
+  threads:
+    virtual:
+      enabled: true
   h2:
     console:
       enabled: true
+
 ---
 grails:
   controllers:
@@ -109,7 +114,26 @@ management:
     enabled-by-default: false
 
 ---
+info:
+  app:
+    name: '@info.app.name@'
+    version: '@info.app.version@'
+    grailsVersion: '@info.app.grailsVersion@'
 grails:
+  views:
+    default:
+      codec: html
+    gsp:
+      encoding: UTF-8
+      htmlcodec: xml
+      codecs:
+        expression: html
+        scriptlet: html
+        taglib: none
+        staticparts: none
+  codegen:
+    defaultPackage: com.example
+  profile: web
   mime:
     disable:
       accept:
@@ -142,28 +166,6 @@ grails:
       xml:
         - text/xml
         - application/xml
-  urlmapping:
-    cache:
-      maxsize: 1000
-  controllers:
-    defaultScope: singleton
-  converters:
-    encoding: UTF-8
-  views:
-    default:
-      codec: html
-    gsp:
-      encoding: UTF-8
-      htmlcodec: xml
-      codecs:
-        expression: html
-        scriptlet: html
-        taglib: none
-        staticparts: none
-management:
-  endpoints:
-    jmx:
-      unique-names: true
 
 ---
 hibernate:

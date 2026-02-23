@@ -1,0 +1,84 @@
+:root {
+    /* Spacing */
+    --elements-spacing-x: .65rem;
+    --elements-spacing-y: .25rem;
+
+    /* Colors, see _PageColors.gsp */
+    --elements-main-bg: 244, 241, 241;
+    --elements-main-fg: 255, 255, 255;
+    --elements-main-text: 51, 48, 48;
+    --elements-frame-bg: 51, 48, 48;
+    --elements-frame-text: 244, 241, 241;
+    --elements-primary-bg: 204, 0, 0;
+    --elements-primary-bg-alpha: .15;
+    --elements-primary-bg-shaded: 204, 0, 0, .15;
+    --elements-primary-text: 255, 255, 255;
+    --elements-secondary-bg: 82, 71, 71;
+    --elements-secondary-text: 255, 255, 255;
+    --elements-required-text: 204, 0, 0;
+
+    /* Bootstrap */
+    --bs-body-color: rgb(var(--elements-main-text));
+}
+
+html {
+    /* See _PageHeader.gsp */
+    font-size: var(--elements-font-size);
+}
+
+body {
+    background-color: rgb(var(--elements-main-bg));
+    visibility: hidden;
+}
+
+:focus-visible {
+    outline: none;
+}
+
+::selection {
+    background-color: rgb(var(--elements-primary-bg-shaded)) !important;
+}
+
+/* See: https://github.com/twbs/bootstrap/pull/41246
+*/
+.user-select-text {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  user-select: text !important;
+}
+
+/* Disable text selection when compiled for PROD environment */
+body.prod {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+a,
+a:hover {
+    color: rgb(var(--elements-primary-bg));
+}
+
+.font-monospace, pre {
+    font-size: .95rem !important;
+}
+
+pre {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.dev-hints {
+    background-color: rgb(var(--elements-primary-bg-shaded));
+    color: rgb(var(--elements-primary-bg));
+    border-radius: var(--bs-border-radius-lg);
+    position: relative;
+    z-index: 1040;
+}
+
+/* Remove iOS top shadow in controls */
+textarea, input:matches([type="text"], [type="number"], [type="password"], [type="search"], [type="email"], [type="tel"], [type="url"], [type="range"]) {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
