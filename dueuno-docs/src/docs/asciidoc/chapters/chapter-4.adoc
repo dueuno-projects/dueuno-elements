@@ -148,7 +148,7 @@ image::images/chapter-4/image-1.webp[align="center"]
 
 === Git
 
-Dueuno Elements applications will create a working directory when they first start. It is good practice not to share its content in the _Git repository_. Also, it’s good practice not to share the IDE’s own project configuration since that is handled by Gradle.
+Dueuno applications will create a working directory when they first start. It is good practice not to share its content in the _Git repository_. Also, it’s good practice not to share the IDE’s own project configuration since that is handled by Gradle.
 
 The following configuration can help keeping your _Git repository_ clean.
 

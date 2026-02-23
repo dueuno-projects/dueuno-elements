@@ -1,7 +1,7 @@
 
 == First Real Application
 
-Now we are going to finish our first Dueuno Elements application.
+Now we are going to finish our first Dueuno application.
 
 === Database Setup
 
@@ -39,7 +39,7 @@ class TPerson implements GormEntity, MultiTenant<TPerson> {
 
 A couple of things to note:
 
-. The class name starts with `T`. This is a Dueuno Elements convention to let us immediately realize when we are working on a domain object. `T` stands for _Table (I know, it’s such an original decision)._
+. The class name starts with `T`. This is a Dueuno convention to let us immediately realize when we are working on a domain object. `T` stands for _Table (I know, it’s such an original decision)._
 . The class `implements GormEntity, MultiTenant<TPerson>`. This means the domain object will be replicated in every new tenant created after the application gets deployed. The `GormEntity` is technically optional, we can omit it, but this way we gain a minimum of support from common IDEs with no need for the Grails Plugin (available only for IntelliJ IDEA).
 
 We are going to mock-up some data to help us with the development of the application. We do it in the `onDevInstall` method since it will only get executed while developing the application. It will not be executed when running the application in the production environment.
@@ -51,7 +51,7 @@ The _mock-up_ code uses the `PersonService` we are going to create in a minute.
 ----
 package com.example
 
-import dueuno.elements.core.ApplicationService
+import dueuno.core.ApplicationService
 import java.time.LocalDate
 
 class BootStrap {
@@ -120,7 +120,7 @@ NOTE: Table names starts with `T_` to avoid conflicting with database keywords o
 
 === Business Logic
 
-We don’t like writing the _Business Logic_ in controllers. It is an _anti-pattern_. Dueuno Elements uses controllers as a way to implement the _User Interface_.
+We don’t like writing the _Business Logic_ in controllers. It is an _anti-pattern_. Dueuno uses controllers as a way to implement the _User Interface_.
 
 Fortunately the Grails Framework comes into rescue giving us a convention to implement our logic. We just need to implement a *Service*.
 
@@ -137,6 +137,7 @@ import grails.gorm.multitenancy.CurrentTenant
 import jakarta.annotation.PostConstruct
 
 @CurrentTenant
+@CompileStatic
 class PersonService {
 
     @PostConstruct
@@ -144,6 +145,7 @@ class PersonService {
         // Executes only once when the application starts
     }
 
+    @CompileDynamic
     private DetachedCriteria<TPerson> buildQuery(Map filterParams) {
         def query = TPerson.where {}
 
@@ -190,6 +192,7 @@ class PersonService {
         return query.count()
     }
 
+    @Transactional
     TPerson create(Map args = [:]) {
         if (args.failOnError == null) args.failOnError = false
 
@@ -198,6 +201,8 @@ class PersonService {
         return obj
     }
 
+    @Transactional
+    @CompileDynamic
     TPerson update(Map args = [:]) {
         Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
@@ -208,6 +213,7 @@ class PersonService {
         return obj
     }
 
+    @Transactional
     void delete(Serializable id) {
         TPerson obj = get(id)
         obj.delete(flush: true, failOnError: true)
@@ -394,7 +400,7 @@ person.birthdate=Nato il
 
 Delete all the others `.properties` files in `~/demo/grails-app/i18n/`
 
-Now, with a bit of luck, we should be able to run our first complete Dueuno Elements application:
+Now, with a bit of luck, we should be able to run our first complete Dueuno application:
 
 .Execute the application
 [source,console,subs="attributes+"]
@@ -404,7 +410,7 @@ $ ./gradlew bootRun
 
 video::lB12PqKSRXw[youtube,width=640,height=480]
 
-This chapter closes the first round on the Dueuno Elements basics.
+This chapter closes the first round on the Dueuno basics.
 
 In the next chapter we are going to explore the Tenant Properties to configure the application to reflect our customer’s brand.
 

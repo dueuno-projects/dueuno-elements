@@ -1,15 +1,15 @@
 
 == Application Basics
 
-I love _Philosophy_. I could write thousands of words about Dueuno Elements but there’s another thing I love: *Practice*.
+I love _Philosophy_. I could write thousands of words about Dueuno but there’s another thing I love: *Practice*.
 
-So let’s write our first Dueuno Elements application, shall we?
+So let’s write our first Dueuno application, shall we?
 
-NOTE: If you are a seasoned developer, or you’re in a hurry, install https://www.oracle.com/java/technologies/downloads/?er=221886#java{version-java}[Java {version-java}, window=_blank], go download the https://github.com/dueuno-projects/dueuno-app-template[Dueuno Elements Template Application, window=_blank], run it with `./gradlew bootRun` and these are your three steps.
+NOTE: If you are a seasoned developer, or you’re in a hurry, install https://www.oracle.com/java/technologies/downloads/?er=221886#java{version-java}[Java {version-java}, window=_blank], go download the https://github.com/dueuno-projects/dueuno-app-template[Dueuno Template Application, window=_blank], run it with `./gradlew bootRun` and these are your three steps.
 
 === Apache Grails
 
-Dueuno Elements is built on top of the Grails Framework. The Grails website gives us what we need to quickly start up with a _“blank”_ application project.
+Dueuno is built on top of the Grails Framework. The Grails website gives us what we need to quickly start up with a _“blank”_ application project.
 
 image::images/chapter-2/image-1.webp[Grails Forge]
 
@@ -19,7 +19,7 @@ image::images/chapter-2/image-1.webp[Grails Forge]
 . Click _“Generate Project”_
 . Download the `demo.zip` file and uncompress it on your home folder
 
-=== Dueuno Elements
+=== Dueuno
 
 Find the `dependencies` section of the `build.gradle` file and add the following line:
 
@@ -42,7 +42,7 @@ Copy the following code in `BootStrap.groovy`:
 ----
 package com.example
 
-import dueuno.elements.core.ApplicationService
+import dueuno.core.ApplicationService
 
 class BootStrap {
 
@@ -88,4 +88,4 @@ This is the _Superuser_, it has full power on the system. You can create new ten
 - `admin/admin` +
 This is the _DEFAULT Tenant Administrator_. It can configure the tenant properties, manage groups, users and watch audit logs.
 
-We can now play around with the basics of a Dueuno Elements application. When done, we can terminate the application pressing `CTRL + C`.
+We can now play around with the basics of a Dueuno application. When done, we can terminate the application pressing `CTRL + C`.

@@ -1,7 +1,7 @@
 
 == Responsive Design
 
-We are going to see what the _User Experience_ of a Dueuno Elements application looks like on different devices.
+We are going to see what the _User Experience_ of a Dueuno application looks like on different devices.
 
 image::images/chapter-7/image-1.webp[align="center"]
 
@@ -86,7 +86,7 @@ def index() {
 }
 ----
 
-To layout the fields in a Dueuno Elements `Form` we use the `cols` parameter. It represents the number of columns the field will occupy in a line. Since Dueuno Elements uses https://getbootstrap.com/[Bootstrap,window=_blank] under the hood, we use its https://getbootstrap.com/docs/5.3/layout/grid/[Grid System,window=_blank] to decide how to layout fields in a form.
+To layout the fields in a Dueuno `Form` we use the `cols` parameter. It represents the number of columns the field will occupy in a line. Since Dueuno uses https://getbootstrap.com/[Bootstrap,window=_blank] under the hood, we use its https://getbootstrap.com/docs/5.3/layout/grid/[Grid System,window=_blank] to decide how to layout fields in a form.
 
 TIP: In short, we have 12 invisible columns for each row. Each field can occupy one single column or any number of columns up to 12. It’s up to us to decide what layout best fits our needs.
 
@@ -193,7 +193,7 @@ video::X8TmOplEX9c[youtube,width=640,height=480]
 
 === Conclusions
 
-As we have seen, Dueuno Elements applications work out of the box on different devices. They are not optimized for any one of them, but hey, they work without you having to worry about it.
+As we have seen, Dueuno applications work out of the box on different devices. They are not optimized for any one of them, but hey, they work without you having to worry about it.
 
 To answer the question you have in your mind right now: yes, we can optimize them but that requires building specific components. It will cost more, of course.
 

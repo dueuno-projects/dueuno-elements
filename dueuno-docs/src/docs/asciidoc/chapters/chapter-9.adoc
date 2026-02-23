@@ -1,7 +1,7 @@
 
 == Table
 
-One of the most important components in a Dueuno Elements application is the `Table` component. Its main purpose is displaying data in columns and rows. Usually, each row displays a record on a database, but it can display anything from in-memory data to the results of a web service call.
+One of the most important components in a Dueuno application is the `Table` component. Its main purpose is displaying data in columns and rows. Usually, each row displays a record on a database, but it can display anything from in-memory data to the results of a web service call.
 
 The user can interact by clicking on one of the buttons displayed on the left side of each row. By default the `Table` component creates the `edit` and `delete` buttons. We call them _actions_. Actions can be customized removing or adding as many as we need. Each row can have different actions depending on the logged-in user or a specific state of the record.
 
@@ -48,6 +48,7 @@ import grails.gorm.multitenancy.CurrentTenant
 import jakarta.annotation.PostConstruct
 
 @CurrentTenant
+@CompileStatic
 class BookService {
 
     @PostConstruct
@@ -55,6 +56,7 @@ class BookService {
         // Executes only once when the application starts
     }
 
+    @CompileDynamic
     private DetachedCriteria<TBook> buildQuery(Map filterParams) {
         def query = TBook.where {}
 
@@ -101,6 +103,7 @@ class BookService {
         return query.count()
     }
 
+    @Transactional
     TBook create(Map args = [:]) {
         if (args.failOnError == null) args.failOnError = false
 
@@ -109,6 +112,8 @@ class BookService {
         return obj
     }
 
+    @Transactional
+    @CompileDynamic
     TBook update(Map args = [:]) {
         Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
@@ -119,6 +124,7 @@ class BookService {
         return obj
     }
 
+    @Transactional
     void delete(Serializable id) {
         TBook obj = get(id)
         obj.delete(flush: true, failOnError: true)
