@@ -1,1 +1,1 @@
-apply plugin: "org.asciidoctor.jvm.convert"
+apply plugin: "dueuno-asciidoctor"
