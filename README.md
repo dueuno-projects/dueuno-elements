@@ -1,8 +1,8 @@
 [![Dueuno on X](https://img.shields.io/twitter/follow/dueunoframework?style=social)](https://x.com/dueunoframework)
 
-Dueuno Elements
+Dueuno
 ===
-With [Dueuno Elements](https://dueuno.com), you can build Progressive Web Applications using a single programming language: [Apache Groovy](https://groovy-lang.org).
+With [Dueuno](https://dueuno.com), you can build Progressive Web Applications using a single programming language: [Apache Groovy](https://groovy-lang.org).
 
 The main goal of the framework is to clearly separate Business Logic from the User Interface, raising the level of abstraction so developers don’t need to work directly with HTML, CSS, or JavaScript to create CRUD operations and common UIs.
 
@@ -10,7 +10,7 @@ Dueuno Elements is built on top of the [Grails Framework](https://grails.org), l
 
 Getting Started
 ---
-To create your first Dueuno Elements application, download the [Dueuno Application Template](https://github.com/dueuno-projects/dueuno-app-template).
+To create your first Dueuno application, download the [Dueuno Application Template](https://github.com/dueuno-projects/dueuno-app-template).
 
 Guides
 ---
