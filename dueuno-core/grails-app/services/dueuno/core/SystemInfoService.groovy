@@ -68,7 +68,6 @@ class SystemInfoService implements WebRequestAware {
                 grailsVersion       : grailsApplication.config.getProperty('info.app.grailsVersion', String) as String,
                 groovyVersion       : GroovySystem.getVersion(),
 
-                serverVirtualThreads: Thread.currentThread().isVirtual() ? 'Enabled' : 'Disabled',
                 serverVersion       : servletContext.getServerInfo(),
 
                 jvmUptime           : "${uptime.toDays()}d ${uptime.toHoursPart()}h ${uptime.toMinutesPart()}m ${uptime.toSecondsPart()}s",
