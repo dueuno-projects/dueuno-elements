@@ -5,7 +5,7 @@ A `Button` is the main _human-interaction_ point in a GUI. A button triggers an 
 
 === Anatomy of a Button
 
-Buttons in Dueuno Elements are made up of three components:
+Buttons in Dueuno are made up of three components:
 
 - `mainAction` +
   A `Button` with just a main action will look like a common button. It will display just one text label, and it will trigger just one action. The main action will always take the first position from left to right in a button.

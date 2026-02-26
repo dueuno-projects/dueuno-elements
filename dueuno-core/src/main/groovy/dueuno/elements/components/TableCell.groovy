@@ -43,6 +43,8 @@ class TableCell extends Component {
     TextAlign textAlign
     VerticalAlign verticalAlign
 
+    String componentId
+
     TableCell(Map args) {
         super(args)
 
@@ -54,6 +56,8 @@ class TableCell extends Component {
         rowspan = 0
         textAlign = TextAlign.DEFAULT
         verticalAlign = VerticalAlign.DEFAULT
+
+        componentId = getId() + '-component'
 
         buildCellComponent(args.component as Component)
     }
@@ -77,7 +81,7 @@ class TableCell extends Component {
     private void setLabel() {
         addComponent(
                 class: Label,
-                id: getId() + '-component',
+                id: componentId,
                 replace: true,
                 iconFixedWidth: true,
                 textPrefix: controllerName,
@@ -101,7 +105,7 @@ class TableCell extends Component {
             row.viewTemplate = 'TableRowComponent'
         }
 
-        component.id = getId() + '-component'
+        component.id = componentId
         addComponent(component)
     }
 
@@ -111,13 +115,17 @@ class TableCell extends Component {
             row.viewTemplate = 'TableRowComponent'
         }
 
-        args.id = getId() + '-component'
+        if (args.id) {
+            componentId = args.id
+        } else {
+            args.id = componentId
+        }
         args.replace = true
         addComponent(args)
     }
 
     Component getComponent() {
-        return getComponent(getId() + '-component')
+        return getComponent(componentId)
     }
 
     void setSubmitValue(Object value) {

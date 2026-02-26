@@ -50,13 +50,13 @@ image::images/chapter-6/image-5.webp[align="center"]
 
 === Colors
 
-Dueuno Elements applications can be configured from the _Tenant Properties_ _(System Administration -> Settings)_. That means each tenant can have a different setup.
+Dueuno applications can be configured from the _Tenant Properties_ _(System Administration -> Settings)_. That means each tenant can have a different setup.
 
 Login as `admin/admin`, click on _“System Administration -> Settings”_ on the Main Menu _(on the left)_ and search for “color”.
 
 image::images/chapter-6/image-6.webp[align="center"]
 
-Each Dueuno Elements application can be configured with three different colors:
+Each Dueuno application can be configured with three different colors:
 
 - `PRIMARY` +
 The color used for primary actions. Primary actions are main buttons, buttons that “create” stuff or buttons that we want the user to see as different from the others because they do something relevant in the context they are displayed.
@@ -176,4 +176,4 @@ Grails application running at http://localhost:8080 in environment: development
 
 We made our client happy. That means we are happy too. Do we need anything more?
 
-In the next chapter we are going to see what happens when we use a Dueuno Elements application from a Desktop Computer, from a Tablet and from a Mobile Phone.
+In the next chapter we are going to see what happens when we use a Dueuno application from a Desktop Computer, from a Tablet and from a Mobile Phone.

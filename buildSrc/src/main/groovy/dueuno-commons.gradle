@@ -27,6 +27,7 @@ java {
         languageVersion = JavaLanguageVersion.of(javaVersion)
     }
 }
+
 tasks.withType(GroovyCompile).configureEach {
     groovyOptions.optimizationOptions.indy = false
 }

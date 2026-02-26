@@ -1,4 +1,4 @@
-= Dueuno Elements
+= Dueuno
 :source-highlighter: highlight.js
 :compat-mode!:
 :icons: font

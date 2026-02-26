@@ -1,6 +1,6 @@
 
 [#dueuno-elements-book]
-== The Dueuno Elements Book
+== The Dueuno Book
 
 My name is Gianluca Sartori, I was born in Italy. I studied _Computer Science_ and started my career as a _Software Developer_, but quickly moved to _Project Management_.
 
@@ -82,13 +82,13 @@ So, we had to build what is called a _Back-Office Application_. One of the most 
 - Other more exotic stuff, let’s call it _Custom Views_
 - Translate the application to English, Italian, Polish and Chinese
 
-=== Dueuno Elements
+=== Dueuno
 
 That’s the name of the technology we’ve created.
 
 We decided to go with Java because _Java is everywhere_. We have the most comprehensive set of libraries and frameworks, it is actively developed, mainteined and evolved, and many industries already adopted it.
 
-So, Dueuno Elements runs on the _JVM_. It builds on top of open source technologies like the https://grails.org/[Grails Framework (Spring), window=_blank], https://getbootstrap.com/[Bootstrap, window=_blank] and https://jquery.com/[jQuery, window=_blank] but lets you develop web applications with just one single programming language: the beautiful https://groovy-lang.org/[Apache Groovy, window=_blank].
+So, Dueuno runs on the _JVM_. It builds on top of open source technologies like the https://grails.org/[Grails Framework (Spring), window=_blank], https://getbootstrap.com/[Bootstrap, window=_blank] and https://jquery.com/[jQuery, window=_blank] but lets you develop web applications with just one single programming language: the beautiful https://groovy-lang.org/[Apache Groovy, window=_blank].
 
 - No need to know HTML, CSS, JavaScript or any frotend framework;
 - No need to know the screen resolution of the device your app will be consumed;
@@ -96,6 +96,6 @@ So, Dueuno Elements runs on the _JVM_. It builds on top of open source technolog
 
 CAUTION: We took decisions, of course. We created our standard UI and UX. Is it perfect? No. Does it do the job. Yes. And we can only make it better from now on. At least we were able to develop our back office web applications that https://world.hey.com/dhh/the-one-person-framework-711e6318[One-Person, window=_blank] can handle.
 
-TIP: BEWARE: If you like doing things, Dueuno Elements is not for you. If you like things to be done, follow me down the rabbit hole, you may find something useful.
+TIP: BEWARE: If you like doing things, Dueuno is not for you. If you like things to be done, follow me down the rabbit hole, you may find something useful.
 
-In the next chapters we’ll be going through the _Quirks and Quarks_ of building back-office web applications with Dueuno Elements.
+In the next chapters we’ll be going through the _Quirks and Quarks_ of building back-office web applications with Dueuno.
