@@ -463,7 +463,7 @@ Grails application running at http://localhost:9992/test in environment: develop
 
                 row.cells.input.component = [
                         class   : NumberField,
-                        id      : 'number',
+                        id      : "number${values.id}",
                         min     : -2,
                         max     : 10,
                         textAlign: TextAlign.END,
