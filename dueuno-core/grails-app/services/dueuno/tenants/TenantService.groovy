@@ -216,15 +216,15 @@ class TenantService {
         }
     }
 
-    private void provisionTenant() {
-        applicationService.executeOnPluginTenantInstall()
-        applicationService.executeOnTenantInstall()
-    }
-
     void provisionAllTenants() {
         eachTenant { String tenantId ->
             provisionTenant()
         }
+    }
+
+    private void provisionTenant() {
+        applicationService.executeOnPluginTenantInstall()
+        applicationService.executeOnTenantInstall()
     }
 
     void updateAllTenants() {
