@@ -334,20 +334,20 @@ class ApplicationService implements LinkGeneratorAware {
         }
     }
 
-    @CompileDynamic
     @Transactional
+    @CompileDynamic
     Boolean getSystemInstalled() {
         return TSystemInstall.count() > 0
     }
 
-    @CompileDynamic
     @Transactional
+    @CompileDynamic
     Boolean isPluginInstalled(String pluginName) {
         return TSystemInstall.where { plugin == pluginName }.count() > 0
     }
 
-    @CompileDynamic
     @Transactional
+    @CompileDynamic
     private void executeInstall(String listName, Boolean isDev = false, Boolean sort = false) {
         String tenantId = tenantService.currentTenantId
         Map<String, Closure> eventList = getBootEvents(listName)
