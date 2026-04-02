@@ -80,6 +80,11 @@ class Form extends Component {
             args.maxSize = fieldConstraints.maxSize ?: 255 // GORM default value for strings
         }
 
+        // Auto squeeze if first component
+        if (args.sqeeze == null && !components.size()) {
+            args.squeeze = true
+        }
+
         // Set common args
         if (args.submit == null) args.submit = getId()
         if (args.readonly == null) args.readonly = readonly
