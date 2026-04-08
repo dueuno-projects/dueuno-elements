@@ -15,6 +15,7 @@
 package dueuno.database
 
 import dueuno.commons.utils.SqlUtils
+import dueuno.core.ConnectionSourceService
 import dueuno.elements.Elements
 import dueuno.elements.ElementsController
 import dueuno.elements.components.Button
@@ -25,8 +26,8 @@ import dueuno.elements.contents.ContentCreate
 import dueuno.elements.contents.ContentEdit
 import dueuno.elements.contents.ContentForm
 import dueuno.elements.controls.*
-import dueuno.core.ConnectionSourceService
 import dueuno.elements.style.TextDefault
+import dueuno.security.SecurityService
 import dueuno.tenants.TenantService
 import dueuno.types.CustomType
 import dueuno.types.Types
@@ -42,6 +43,7 @@ import java.time.LocalTime
 @Secured(['ROLE_DEVELOPER'])
 class GormExplorerController implements ElementsController {
 
+    SecurityService securityService
     TenantService tenantService
     ConnectionSourceService connectionSourceService
 
@@ -88,7 +90,7 @@ class GormExplorerController implements ElementsController {
         c.header.nextButton.action = 'sqlConsole'
 
         def resetPagination = false
-        String tenantId = params.tenantId ?: controllerSession['tenantId'] ?: tenantService.defaultTenantId
+        String tenantId = params.tenantId ?: controllerSession['tenantId'] ?: securityService.currentUser.tenant.tenantId
         if (params.tenantId && params.tenantId != controllerSession['tenantId']) resetPagination = true
         controllerSession['tenantId'] = tenantId
 
@@ -104,17 +106,28 @@ class GormExplorerController implements ElementsController {
         def form = c.addComponent(Form)
         form.with {
             sticky = true
-            addField(
-                    class: Select,
-                    id: 'tenantId',
-                    optionsFromRecordset: tenantService.list(),
-                    keys: ['tenantId'],
-                    allowClear: false,
-                    defaultValue: tenantId,
-                    onChange: 'index',
-                    submit: 'form',
-                    cols: 3,
-            )
+            if (securityService.isSuperAdmin()) {
+                addField(
+                        class: Select,
+                        id: 'tenantId',
+                        optionsFromRecordset: tenantService.list(),
+                        keys: ['tenantId'],
+                        allowClear: false,
+                        defaultValue: tenantService.defaultTenantId,
+                        onChange: 'index',
+                        submit: 'form',
+                        cols: 3,
+                )
+            } else {
+                addField(
+                        class: TextField,
+                        id: 'tenantId',
+                        defaultValue: tenantId,
+                        readonly: true,
+                        cols: 3,
+                )
+            }
+
             addField(
                     class: Select,
                     id: 'domainClassName',
@@ -176,6 +189,17 @@ class GormExplorerController implements ElementsController {
                 }
 
                 def query = new DetachedCriteria(domainClass).build {
+
+                    // Dynamic associations fetch
+                    for (property in getDomainProperties(domainClass)) {
+                        Class propertyClass = property.value.property.propertyType
+                        String propertyName = property.key
+
+                        if (Elements.isDomainClass(propertyClass)) {
+                            join propertyName
+                        }
+                    }
+
                     if (searchId) {
                         eq 'id', searchId
                     }
@@ -340,6 +364,7 @@ class GormExplorerController implements ElementsController {
         }
     }
 
+    @Transactional
     def onEdit() {
         String tenantId = controllerSession['tenantId']
         Class domainClass = controllerSession['domainClass']
