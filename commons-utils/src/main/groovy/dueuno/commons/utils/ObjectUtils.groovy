@@ -17,6 +17,10 @@ package dueuno.commons.utils
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+
 /**
  * Utility class for dynamically accessing object properties, including nested properties.
  * <p>
@@ -60,6 +64,16 @@ class ObjectUtils {
         return false
     }
 
+    static Boolean isBasicType(Object object) {
+        return false
+                || object in Boolean
+                || object in String
+                || object in Number
+                || object in LocalDate
+                || object in LocalTime
+                || object in LocalDateTime
+    }
+
     /**
      * Retrieves the value of a property from an object using a dotted path notation.
      * <p>
@@ -80,6 +94,10 @@ class ObjectUtils {
     static Object getValue(Object object, String propertyName) {
         if (!object) {
             return null
+        }
+
+        if (isBasicType(object[propertyName])) {
+            return object[propertyName]
         }
 
         String[] fieldNameList = propertyName.split('\\.')
