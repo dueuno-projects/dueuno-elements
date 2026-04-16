@@ -3,7 +3,7 @@ plugins {
 }
 
 repositories {
-    gradlePluginPortal()
+    mavenCentral()
     maven {url = "https://repo.grails.org/grails/restricted" }
 }
 
@@ -21,8 +21,9 @@ def loadProperties() {
 
 dependencies {
     implementation platform("org.apache.grails:grails-bom:${grailsVersion}")
-    implementation "org.apache.grails:grails-gradle-plugins:${grailsVersion}"
-    implementation "cloud.wondrify:asset-pipeline-gradle:5.0.20"
+    implementation "org.apache.grails:grails-gradle-plugins"
+    implementation "org.apache.grails:grails-data-hibernate5"
+    implementation "cloud.wondrify:asset-pipeline-gradle"
 
     implementation "org.asciidoctor:asciidoctor-gradle-jvm:4.0.5"
     implementation "org.asciidoctor:asciidoctor-gradle-jvm-pdf:4.0.5"

@@ -96,7 +96,7 @@ class ObjectUtils {
             return null
         }
 
-        if (isBasicType(object[propertyName])) {
+        if (object.hasProperty(propertyName) && isBasicType(object[propertyName])) {
             return object[propertyName]
         }
 
