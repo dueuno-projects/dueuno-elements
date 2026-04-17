@@ -59,10 +59,33 @@ input[type] {
     margin-right: var(--bs-border-width);
 }
 
-.component-form .error-message,
-.component-form .help-message {
+.component-form .error-message div,
+.component-form .help-message div {
     font-size: .85rem;
-    padding: .25rem .25rem 0 .25rem;
+    padding: .5rem .75rem .5rem .75rem;
+}
+
+.component-form .help-message {
+    color: rgba(var(--elements-main-text), .7) !important;
+    background-color: rgba(var(--elements-main-bg), .4);
+    border-bottom-left-radius: var(--bs-border-radius-sm);
+    border-bottom-right-radius: var(--bs-border-radius-sm);
+}
+
+.component-form-field:has(.help-message.collapsing,.help-message.collapse.show) .input-group > :last-child {
+    border-bottom-right-radius: 0 !important;
+}
+
+.component-form-field:has(.help-message.collapsing,.help-message.collapse.show) .input-group > :first-child {
+    border-bottom-left-radius: 0 !important;
+}
+
+.component-form-field:has(.help-message.collapsing,.help-message.collapse.show) .select2-container.select2-container--bootstrap-5 > .select2-selection {
+    border-bottom-left-radius: 0 !important;
+}
+
+.component-form-field:has(.help-message.collapsing,.help-message.collapse.show) > .btn.component-help {
+    border-bottom-right-radius: 0 !important;
 }
 
 .component-form .input-group .component-help,

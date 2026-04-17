@@ -33,15 +33,12 @@
 
     <g:if test="${c.component.getClassName() != 'HiddenField'}">
         <div class="error-message d-none">
-            <i class="fa-solid fa-circle-exclamation pe-2"></i>
-            <span>Error!</span>
+            <div><i class="fa-solid fa-circle-exclamation pe-2"></i>Error!</div>
         </div>
 
         <g:if test="${c.help}">
-            <div id="${c.id}-help" class="collapse${c.helpCollapsed ? '' : ' show'}">
-                <div class="help-message">
-                    <render:message code="${c.help}" args="${c.helpArgs}"/>
-                </div>
+            <div id="${c.id}-help" class="help-message collapse${c.helpCollapsed ? '' : ' show'}">
+                <div><render:message code="${c.help}" args="${c.helpArgs}"/></div>
             </div>
         </g:if>
     </g:if>
