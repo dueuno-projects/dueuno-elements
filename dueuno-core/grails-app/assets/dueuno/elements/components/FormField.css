@@ -62,6 +62,13 @@ input[type] {
 .component-form .error-message div,
 .component-form .help-message div {
     font-size: .85rem;
+}
+
+.component-form .error-message div {
+    padding: .25rem .75rem .5rem .25rem;
+}
+
+.component-form .help-message div {
     padding: .5rem .75rem .5rem .75rem;
 }
 
