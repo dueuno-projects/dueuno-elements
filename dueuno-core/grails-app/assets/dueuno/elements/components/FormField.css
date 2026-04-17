@@ -80,11 +80,16 @@ input[type] {
     border-bottom-left-radius: 0 !important;
 }
 
-.component-form-field:has(.help-message.collapsing,.help-message.collapse.show) .select2-container.select2-container--bootstrap-5 > .select2-selection {
+.component-form-field:has(.help-message.collapsing,.help-message.collapse.show) .select2-container.select2-container--bootstrap-5 .select2-selection {
     border-bottom-left-radius: 0 !important;
 }
 
 .component-form-field:has(.help-message.collapsing,.help-message.collapse.show) > .btn.component-help {
+    border-bottom-right-radius: 0 !important;
+}
+
+.component-form-field:has(.help-message.collapsing,.help-message.collapse.show) > .input-group.error-highlight {
+    border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
 }
 
