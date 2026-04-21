@@ -1067,7 +1067,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @return the updated group
      */
     @CompileDynamic
-    @Requires({ args.id && args.tenantId })
+    @Requires({ args.id || args.tenantId })
     TRoleGroup updateGroup(Map args) {
         Serializable id = args.id as Serializable
         if (args.failOnError == null) args.failOnError = false
