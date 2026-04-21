@@ -619,7 +619,7 @@ abstract class Component implements WebRequestAware, Serializable {
      *
      * @param args Named parameters. At least an 'event' and an 'action' must be specified
      */
-    @Requires({ args.event || args.action })
+    @Requires({ args.event && args.action })
     Component on(Map args) {
         args.controller = args.controller ?: controllerName
 
