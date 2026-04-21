@@ -19,7 +19,6 @@ import dueuno.commons.utils.FileUtils
 import dueuno.core.ApplicationService
 import dueuno.core.ConnectionSourceService
 import dueuno.core.TSystemInstall
-import dueuno.exceptions.ArgsException
 import dueuno.properties.SystemPropertyService
 import dueuno.security.TRoleGroup
 import dueuno.security.TRoleGroupRole
@@ -29,6 +28,7 @@ import dueuno.utils.ResourceUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.Tenants
 import grails.gorm.transactions.Transactional
+import groovy.contracts.Requires
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -235,11 +235,11 @@ class TenantService {
 
     @Transactional
     @CompileDynamic
+    @Requires({ args.id })
     TTenant update(Map args) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TTenant obj = get(id)
+        TTenant obj = get(args.id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
         return obj

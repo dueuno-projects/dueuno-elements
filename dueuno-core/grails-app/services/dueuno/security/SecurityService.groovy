@@ -21,7 +21,6 @@ import dueuno.core.*
 import dueuno.elements.Menu
 import dueuno.elements.pages.Shell
 import dueuno.elements.pages.ShellService
-import dueuno.exceptions.ArgsException
 import dueuno.exceptions.ElementsException
 import dueuno.properties.TenantPropertyService
 import dueuno.tenants.TTenant
@@ -32,6 +31,7 @@ import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.SpringSecurityUtils
+import groovy.contracts.Requires
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -830,8 +830,9 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @return the modified user
      */
     @CompileDynamic
+    @Requires({ args.username })
     TUser updateUserAndGroups(Map args) {
-        String username = (String) ArgsException.requireArgument(args, 'username')
+        String username = args.username
         if (args.failOnError == null) args.failOnError = false
 
         TTenant tenant = args.tenant
@@ -887,8 +888,9 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @return the modified user
      */
     @CompileDynamic
+    @Requires({ args.username })
     TUser updateUser(Map args) {
-        String username = (String) ArgsException.requireArgument(args, 'username')
+        String username = args.username
         if (args.failOnError == null) args.failOnError = false
 
         if (args.password) {
@@ -1065,10 +1067,11 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
      * @return the updated group
      */
     @CompileDynamic
+    @Requires({ args.id && args.tenantId })
     TRoleGroup updateGroup(Map args) {
+        Serializable id = args.id as Serializable
         if (args.failOnError == null) args.failOnError = false
 
-        Map group = ArgsException.requireArgument(args, ['id', 'tenantId'], true)
         if (args.tenantId && !args.name) {
             throw new ElementsException("Please specify the 'name' of the group to update.")
         }
@@ -1080,9 +1083,9 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         TTenant tenant = TTenant.findByTenantId(args.tenantId)
         TRoleGroup roleGroup = tenant
                 ? TRoleGroup.findByTenantAndName(tenant, groupName)
-                : TRoleGroup.get(group.id)
+                : TRoleGroup.get(id as Serializable)
         if (!roleGroup) {
-            throw new ElementsException("Group '${group.id}' not found!")
+            throw new ElementsException("Group '${id}' not found!")
         }
 
         if (args.authorities != null) {

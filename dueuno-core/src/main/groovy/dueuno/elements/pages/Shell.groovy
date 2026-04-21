@@ -16,7 +16,7 @@ package dueuno.elements.pages
 
 import dueuno.elements.Page
 import dueuno.elements.contents.ContentHome
-import dueuno.exceptions.ArgsException
+import groovy.contracts.Requires
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
@@ -39,11 +39,12 @@ class Shell extends Page {
     String username
     String userFullname
 
+    @Requires({ args.config })
     Shell(Map args) {
         super(args)
 
         // Default configuration
-        config = (ShellConfig) ArgsException.requireArgument(args, 'config')
+        config = args.config as ShellConfig
 
         username = ''
         userFullname = ''

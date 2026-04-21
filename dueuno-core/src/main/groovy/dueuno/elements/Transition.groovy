@@ -16,9 +16,9 @@ package dueuno.elements
 
 import dueuno.core.LinkDefinition
 import dueuno.core.WebRequestAware
-import dueuno.exceptions.ArgsException
 import dueuno.exceptions.ElementsException
 import dueuno.types.Types
+import groovy.contracts.Requires
 import groovy.transform.CompileStatic
 
 /**
@@ -63,9 +63,10 @@ class Transition implements WebRequestAware {
         return addComponent(args)
     }
 
+    @Requires({ args.id && args.class })
     public <T> T addComponent(Map args) {
-        Class<T> clazz = ArgsException.requireArgument(args, 'class') as Class<T>
-        String id = ArgsException.requireArgument(args, 'id')
+        Class<T> clazz = args.class as Class<T>
+        String id = args.id
 
         args.remove('class')
         args.remove('id')

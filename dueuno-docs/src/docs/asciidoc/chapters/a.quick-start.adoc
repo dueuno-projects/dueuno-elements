@@ -645,11 +645,11 @@ class MovieService {
 
     @Transactional
     @CompileDynamic
+    @Requires({ args.id })
     TMovie update(Map args = [:]) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TMovie obj = get(id)
+        TMovie obj = get(args.id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
 

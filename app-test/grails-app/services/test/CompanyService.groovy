@@ -17,11 +17,16 @@ package test
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.transactions.Transactional
+import groovy.contracts.Requires
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 
 @CurrentTenant
 @Transactional
+@CompileStatic
 class CompanyService {
 
+    @CompileDynamic
     private DetachedCriteria<TCompany> buildQuery(Map filterParams) {
         def query = TCompany.where {}
 
@@ -75,11 +80,12 @@ class CompanyService {
         return obj
     }
 
+    @CompileDynamic
+    @Requires({ args.id })
     TCompany update(Map args = [:]) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TCompany obj = get(id)
+        TCompany obj = get(args.id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
         return obj

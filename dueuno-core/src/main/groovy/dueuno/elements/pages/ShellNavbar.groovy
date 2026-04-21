@@ -18,7 +18,7 @@ import dueuno.elements.Component
 import dueuno.elements.components.Button
 import dueuno.elements.components.Image
 import dueuno.elements.components.Link
-import dueuno.exceptions.ArgsException
+import groovy.contracts.Requires
 import groovy.transform.CompileStatic
 
 /**
@@ -32,12 +32,13 @@ class ShellNavbar extends Component {
     Button home
     Link logo
 
+    @Requires({ args.shell })
     ShellNavbar(Map args) {
         super(args)
 
         viewPath = '/dueuno/elements/pages/'
 
-        shell = (Shell) ArgsException.requireArgument(args, 'shell')
+        shell = args.shell as Shell
         home = (Button) createComponent(
                 class: Button,
                 id: 'home',

@@ -24,9 +24,9 @@ import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
-import dueuno.exceptions.ArgsException
 import dueuno.types.Money
 import dueuno.types.Quantity
+import groovy.contracts.Requires
 import groovy.transform.CompileStatic
 
 import java.time.temporal.Temporal
@@ -56,12 +56,13 @@ class TableRow extends Component {
     VerticalAlign verticalAlign
     List<TextStyle> textStyle
 
+    @Requires({ args.table && args.rowset && args.index != null })
     TableRow(Map args) {
         super(args)
 
-        table = (Table) ArgsException.requireArgument(args, 'table')
-        rowset = (TableRowset) ArgsException.requireArgument(args, 'rowset')
-        index = (Integer) ArgsException.requireArgument(args, 'index')
+        table = args.table as Table
+        rowset = args.rowset as TableRowset
+        index = args.index as Integer
 
         cells = [:]
         submit = [:]

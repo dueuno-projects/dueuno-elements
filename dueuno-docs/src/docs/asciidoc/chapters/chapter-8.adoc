@@ -83,7 +83,6 @@ The `CompanyService` will hold the logic to query and operate with the `TCompany
 ----
 package com.example
 
-import dueuno.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 
@@ -154,11 +153,11 @@ class CompanyService {
 
     @Transactional
     @CompileDynamic
+    @Requires({ args.id })
     TCompany update(Map args = [:]) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TCompany obj = get(id)
+        TCompany obj = get(args.id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
         return obj
@@ -177,7 +176,6 @@ class CompanyService {
 ----
 package com.example
 
-import dueuno.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import jakarta.annotation.PostConstruct
@@ -251,11 +249,11 @@ class PersonService {
 
     @Transactional
     @CompileDynamic
+    @Requires({ args.id })
     TPerson update(Map args = [:]) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TPerson obj = get(id)
+        TPerson obj = get(args.id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
         return obj

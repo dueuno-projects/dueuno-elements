@@ -15,7 +15,7 @@
 package dueuno.elements.pages
 
 import dueuno.elements.Menu
-import dueuno.exceptions.ArgsException
+import groovy.contracts.Requires
 import groovy.transform.CompileStatic
 
 /**
@@ -28,12 +28,13 @@ class ShellUserMenu extends Menu {
     Shell shell
     String title
 
+    @Requires({ args.shell })
     ShellUserMenu(Map args) {
         super(args)
 
         viewPath = '/dueuno/elements/pages/'
 
-        shell = (Shell) ArgsException.requireArgument(args, 'shell')
+        shell = args.shell as Shell
         title = prettyPrint('shell.user.menu')
     }
 }

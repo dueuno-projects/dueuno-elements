@@ -14,15 +14,19 @@
  */
 package test
 
-import dueuno.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.transactions.Transactional
+import groovy.contracts.Requires
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 
 @CurrentTenant
 @Transactional
+@CompileStatic
 class PersonService {
 
+    @CompileDynamic
     private DetachedCriteria<TPerson> buildQuery(Map filterParams) {
         def query = TPerson.where {}
 
@@ -75,11 +79,12 @@ class PersonService {
         return obj
     }
 
+    @CompileDynamic
+    @Requires({ args.id })
     TPerson update(Map args = [:]) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TPerson obj = get(id)
+        TPerson obj = get(args.id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
         return obj

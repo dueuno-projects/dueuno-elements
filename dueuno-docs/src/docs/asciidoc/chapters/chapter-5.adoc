@@ -131,7 +131,6 @@ Services are classes located into the `/grails-app/services` folder whose name i
 ----
 package com.example
 
-import dueuno.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import jakarta.annotation.PostConstruct
@@ -203,11 +202,11 @@ class PersonService {
 
     @Transactional
     @CompileDynamic
+    @Requires({ args.id })
     TPerson update(Map args = [:]) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TPerson obj = get(id)
+        TPerson obj = get(args.id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
         return obj

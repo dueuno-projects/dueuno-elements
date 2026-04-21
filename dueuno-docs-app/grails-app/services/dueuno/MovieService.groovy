@@ -14,7 +14,6 @@
  */
 package dueuno
 
-import dueuno.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 
@@ -73,11 +72,11 @@ class MovieService {
         return obj
     }
 
+    @Requires({ args.id })
     TMovie update(Map args = [:]) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TMovie obj = get(id)
+        TMovie obj = get(args.id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
         return obj

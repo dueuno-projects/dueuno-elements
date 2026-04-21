@@ -17,13 +17,13 @@ package dueuno.properties
 import dueuno.commons.utils.StringUtils
 import dueuno.core.GuiStyle
 import dueuno.security.CryptoService
-import dueuno.exceptions.ArgsException
 import dueuno.tenants.TTenantProperty
 import dueuno.tenants.TenantService
 import dueuno.utils.EnvUtils
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.transactions.Transactional
+import groovy.contracts.Requires
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -145,11 +145,11 @@ class TenantPropertyService extends PropertyService {
 
     @Transactional
     @CompileDynamic
+    @Requires({ args.id })
     private TTenantProperty update(Map args) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TTenantProperty obj = get(id)
+        TTenantProperty obj = get(args.id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
         return obj

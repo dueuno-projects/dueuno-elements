@@ -16,7 +16,7 @@ package dueuno.elements.components
 
 import dueuno.elements.Component
 import dueuno.elements.style.TextDefault
-import dueuno.exceptions.ArgsException
+import groovy.contracts.Requires
 import groovy.transform.CompileStatic
 
 /**
@@ -38,10 +38,11 @@ class TablePagination extends Component {
     Number offset
     Number total
 
+    @Requires({ args.table })
     TablePagination(Map args) {
         super(args)
 
-        table = (Table) ArgsException.requireArgument(args, 'table')
+        table = args.table as Table
         total = args.total as Integer
 
         goFirst = createControl(

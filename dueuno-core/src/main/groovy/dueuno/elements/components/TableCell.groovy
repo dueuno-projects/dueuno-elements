@@ -22,7 +22,7 @@ import dueuno.elements.style.TextAlign
 import dueuno.elements.style.TextStyle
 import dueuno.elements.style.TextWrap
 import dueuno.elements.style.VerticalAlign
-import dueuno.exceptions.ArgsException
+import groovy.contracts.Requires
 import groovy.transform.CompileStatic
 
 /**
@@ -45,12 +45,13 @@ class TableCell extends Component {
 
     String componentId
 
+    @Requires({ args.table && args.row && args.column })
     TableCell(Map args) {
         super(args)
 
-        table = (Table) ArgsException.requireArgument(args, 'table')
-        row = (TableRow) ArgsException.requireArgument(args, 'row')
-        column = ArgsException.requireArgument(args, 'column')
+        table = args.table as Table
+        row = args.row as TableRow
+        column = args.column
 
         colspan = 0
         rowspan = 0

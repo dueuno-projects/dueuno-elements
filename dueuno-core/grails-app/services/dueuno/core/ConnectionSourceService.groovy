@@ -14,9 +14,9 @@
  */
 package dueuno.core
 
-import dueuno.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.transactions.Transactional
+import groovy.contracts.Requires
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -180,11 +180,11 @@ class ConnectionSourceService {
     }
 
     @CompileDynamic
+    @Requires({ args.id })
     TConnectionSource update(Map args) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TConnectionSource obj = get(id)
+        TConnectionSource obj = get(args.id)
         obj.properties = args
 
         obj.validate()

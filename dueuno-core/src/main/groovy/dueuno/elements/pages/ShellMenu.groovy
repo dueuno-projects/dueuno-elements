@@ -15,7 +15,7 @@
 package dueuno.elements.pages
 
 import dueuno.elements.Menu
-import dueuno.exceptions.ArgsException
+import groovy.contracts.Requires
 import groovy.transform.CompileStatic
 
 /**
@@ -29,12 +29,13 @@ class ShellMenu extends Menu {
     Boolean favourite
     Boolean displaySearch
 
+    @Requires({ args.shell })
     ShellMenu(Map args) {
         super(args)
 
         viewPath = '/dueuno/elements/pages/'
 
-        shell = (Shell) ArgsException.requireArgument(args, 'shell')
+        shell = args.shell as Shell
         favourite = args.favourite == null ? false : args.favourite
         displaySearch = args.displaySearch == null ? true : args.displaySearch
     }

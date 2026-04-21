@@ -17,7 +17,7 @@ package dueuno.types
 import dueuno.core.PrettyPrinter
 import dueuno.core.PrettyPrinterProperties
 import dueuno.elements.controls.MoneyField
-import dueuno.exceptions.ArgsException
+import dueuno.exceptions.ElementsException
 import grails.gorm.MultiTenant
 import grails.gorm.annotation.Entity
 import groovy.transform.CompileDynamic
@@ -145,7 +145,7 @@ class Money extends Number implements CustomType, GormEntity, MultiTenant<Money>
 
     private void checkOperandsCompatibility(Money money) {
         if (currency != money.currency)
-            throw new ArgsException("Cannot operate on money with different currencies: $currency + $money.currency")
+            throw new ElementsException("Cannot operate on money with different currencies: $currency + $money.currency")
     }
 
     Money plus(Money money) {

@@ -41,7 +41,6 @@ class TBook implements GormEntity, MultiTenant<TBook> {
 ----
 package com.example
 
-import dueuno.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.multitenancy.CurrentTenant
 
@@ -114,11 +113,11 @@ class BookService {
 
     @Transactional
     @CompileDynamic
+    @Requires({ args.id })
     TBook update(Map args = [:]) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
-        TBook obj = get(id)
+        TBook obj = get(args.id)
         obj.properties = args
         obj.save(flush: true, failOnError: args.failOnError)
         return obj

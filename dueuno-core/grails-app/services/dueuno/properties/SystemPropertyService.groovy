@@ -18,9 +18,9 @@ import dueuno.commons.utils.FileUtils
 import dueuno.commons.utils.StringUtils
 import dueuno.core.ApplicationService
 import dueuno.core.TSystemProperty
-import dueuno.exceptions.ArgsException
 import grails.gorm.DetachedCriteria
 import grails.gorm.transactions.Transactional
+import groovy.contracts.Requires
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -118,12 +118,12 @@ class SystemPropertyService extends PropertyService {
 
     @Transactional
     @CompileDynamic
+    @Requires({ args.id })
     private TSystemProperty update(Map args) {
-        Serializable id = ArgsException.requireArgument(args, 'id')
         if (args.failOnError == null) args.failOnError = false
 
         TSystemProperty.withTransaction {
-            TSystemProperty obj = get(id)
+            TSystemProperty obj = get(args.id)
             obj.properties = args
             obj.save(flush: true, failOnError: args.failOnError)
             return obj

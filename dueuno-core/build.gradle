@@ -5,6 +5,9 @@ plugins {
 dependencies {
     api project(":commons-utils")
 
+    // Design by Contract support
+    api "org.apache.groovy:groovy-contracts"
+
     // Security (to use the @Secured annotation)
     api "org.apache.grails:grails-spring-security:7.0.1"
 

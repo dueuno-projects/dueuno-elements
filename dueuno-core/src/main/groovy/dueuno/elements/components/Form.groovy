@@ -19,12 +19,12 @@ import dueuno.elements.Component
 import dueuno.elements.Control
 import dueuno.elements.Elements
 import dueuno.elements.controls.HiddenField
-import dueuno.exceptions.ArgsException
 import dueuno.exceptions.ElementsException
 import dueuno.types.Type
 import dueuno.types.Types
 import grails.gorm.validation.ConstrainedProperty
 import grails.validation.Validateable
+import groovy.contracts.Requires
 import groovy.transform.CompileStatic
 
 import java.lang.reflect.Field
@@ -66,9 +66,10 @@ class Form extends Component {
         return fields
     }
 
+    @Requires({ args.id && args.class })
     FormField addField(Map args) {
-        Class clazz = ArgsException.requireArgument(args, 'class') as Class
-        String id = ArgsException.requireArgument(args, 'id')
+        Class clazz = args.class as Class
+        String id = args.id
 
         Map fieldConstraints = getFieldConstraints(validate, id)
         // Auto assigns 'nullable' flag

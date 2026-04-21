@@ -21,7 +21,7 @@ import dueuno.elements.Component
 import dueuno.elements.Control
 import dueuno.elements.Elements
 import dueuno.elements.components.Button
-import dueuno.exceptions.ArgsException
+import dueuno.exceptions.ElementsException
 import dueuno.types.Type
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
@@ -193,7 +193,7 @@ class Select extends Control {
 
         if (firstRecord) {
             if (!ObjectUtils.hasId(firstRecord) && !keys) {
-                throw new ArgsException("Object does not contain an 'id' property. You must specify at least one key in the 'keys' list.")
+                throw new ElementsException("Object does not contain an 'id' property. You must specify at least one key in the 'keys' list.")
             } else if (ObjectUtils.hasId(firstRecord) && !keys) {
                 keys = ['id']
             }

@@ -17,7 +17,7 @@ package dueuno.types
 import dueuno.core.PrettyPrinter
 import dueuno.core.PrettyPrinterProperties
 import dueuno.elements.controls.QuantityField
-import dueuno.exceptions.ArgsException
+import dueuno.exceptions.ElementsException
 import grails.gorm.MultiTenant
 import grails.gorm.annotation.Entity
 import groovy.transform.CompileDynamic
@@ -172,7 +172,7 @@ class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Qua
     //
     Quantity convert(QuantityUnit toUnit) {
         if (unit.parent != toUnit.parent) {
-            throw new ArgsException("Cannot convert '${unit.parent}' to '${toUnit.parent}'")
+            throw new ElementsException("Cannot convert '${unit.parent}' to '${toUnit.parent}'")
         }
 
         if (toUnit in [QuantityUnit.MASS, QuantityUnit.LENGTH, QuantityUnit.AREA, QuantityUnit.VOLUME]) {
@@ -186,12 +186,12 @@ class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Qua
 
         }
 
-        throw new ArgsException("Cannot convert '${unit.parent}' to '${toUnit.parent}'")
+        throw new ElementsException("Cannot convert '${unit.parent}' to '${toUnit.parent}'")
     }
 
     private Quantity fromSeconds(Double seconds, QuantityUnit unit) {
         if (unit.parent != QuantityUnit.TIME) {
-            throw new ArgsException("Please specify one of the 'TIME' units")
+            throw new ElementsException("Please specify one of the 'TIME' units")
         }
 
         switch (unit) {
@@ -201,12 +201,12 @@ class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Qua
             case QuantityUnit.HOUR: return new Quantity(seconds * 60 * 60, QuantityUnit.HOUR)
         }
 
-        throw new ArgsException("Cannot convert seconds to ${unit}")
+        throw new ElementsException("Cannot convert seconds to ${unit}")
     }
 
     private Double toSeconds(Quantity quantity) {
         if (quantity.unit.parent != QuantityUnit.TIME) {
-            throw new ArgsException("Please specify a 'TIME' quantity")
+            throw new ElementsException("Please specify a 'TIME' quantity")
         }
 
         switch (quantity.unit) {
@@ -216,7 +216,7 @@ class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Qua
             case QuantityUnit.HOUR: return quantity.amount * 60 * 60
         }
 
-        throw new ArgsException("Cannot convert ${quantity.unit} to seconds")
+        throw new ElementsException("Cannot convert ${quantity.unit} to seconds")
     }
 
     private QuantityUnit getResultUnit(Quantity quantity) {
@@ -231,7 +231,7 @@ class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Qua
         } else if (unit.parent == 'LENGTH' && quantity.unit.parent == 'VOLUME') {
             return (getUpperUnit(getUpperUnit(this)))
         } else {
-            throw new ArgsException("Cannot multiply '${unit}' with '${quantity.unit}'")
+            throw new ElementsException("Cannot multiply '${unit}' with '${quantity.unit}'")
         }
     }
 
@@ -247,7 +247,7 @@ class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Qua
         } else if (unit.parent == 'LENGTH' && toUnit.parent == 'VOLUME') {
             return convert(getLowerUnit(getLowerUnit(toUnit)))
         } else {
-            throw new ArgsException("Cannot multiply '${unit}' with '${toUnit}'")
+            throw new ElementsException("Cannot multiply '${unit}' with '${toUnit}'")
         }
     }
 
@@ -286,7 +286,7 @@ class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Qua
         } else if (unit == QuantityUnit.UM2) {
             result = QuantityUnit.UM3
         } else {
-            throw new ArgsException("Cannot multiply '${this.unit}' with '${unit}'")
+            throw new ElementsException("Cannot multiply '${this.unit}' with '${unit}'")
         }
         return result
     }
@@ -344,7 +344,7 @@ class Quantity extends Number implements CustomType, GormEntity, MultiTenant<Qua
                 break
             default:
                 //result = null
-                throw new ArgsException("Cannot multiply '${this.unit}' with '${unit}'")
+                throw new ElementsException("Cannot multiply '${this.unit}' with '${unit}'")
                 break
         }
         return result

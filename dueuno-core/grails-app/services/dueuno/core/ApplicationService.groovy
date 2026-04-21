@@ -17,7 +17,6 @@ package dueuno.core
 import dueuno.commons.utils.FileUtils
 import dueuno.elements.Elements
 import dueuno.tenants.TenantService
-import dueuno.exceptions.ArgsException
 import dueuno.exceptions.ElementsException
 import dueuno.properties.SystemPropertyService
 import dueuno.utils.EnvUtils
@@ -619,7 +618,7 @@ class ApplicationService implements LinkGeneratorAware {
         // Main check
         String main = systemPropertyService.getString('DEFAULT_LANGUAGE')
         if (main !in available) {
-            throw new ArgsException("""
+            throw new ElementsException("""
                 The language '${main}' does not have a corresponding '/i18n/messages_${main}.properties' file,
                 please provide one or choose a default from ${available} then try again.
             """)
