@@ -1,11 +1,5 @@
-To publish Dueuno Elements to Maven Central execute the following. Do not execute the tasks separately, it will not work (!).
-```
-./gradlew clean build publishToSonatype closeAndReleaseSonatypeStagingRepository
-```
+To publish Dueuno to Maven Central just create a new GIT tag following the Semantic Versioning guidelines
+(https://semver.org/) and push it.
 
-Then go to:
-```
-https://central.sonatype.com/publishing/deployments
-```
+Eg: Pushing tag "v10.7.3" releases version "10.7.3"
 
-And verify the state of the publishing
