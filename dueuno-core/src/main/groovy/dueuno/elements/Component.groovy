@@ -641,6 +641,11 @@ abstract class Component implements WebRequestAware, Serializable {
         return this
     }
 
+    Boolean hasEvent(String event) {
+        String eventName = event.toString().toLowerCase()
+        return events.find { it.key == eventName } ? true : false
+    }
+
     void addContainerAttribute(String name, String value) {
         containerSpecs.attributes[name] = value
     }

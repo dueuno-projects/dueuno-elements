@@ -80,8 +80,13 @@ abstract class Control extends Component {
     }
 
     Component onSubmit(Map args) {
-        args.event = 'enter'
-        return on(args)
+        String submitEvent = 'enter'
+        if (!hasEvent(submitEvent)) {
+            args.event = submitEvent
+            on(args)
+        }
+
+        return this
     }
 
     void setTransformer(String value) {

@@ -73,8 +73,13 @@ class Checkbox extends Control {
 
     @Override
     Component onSubmit(Map args) {
-        args.event = 'change'
-        return on(args)
+        String submitEvent = 'change'
+        if (!hasEvent(submitEvent)) {
+            args.event = submitEvent
+            on(args)
+        }
+
+        return this
     }
 
     @Override

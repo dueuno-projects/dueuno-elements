@@ -75,12 +75,6 @@ class TextField extends Control {
         )
     }
 
-    @Override
-    Component onSubmit(Map args) {
-        args.event = 'enter'
-        return on(args)
-    }
-
     String getInputType() {
         return inputType.toString().toLowerCase()
     }
