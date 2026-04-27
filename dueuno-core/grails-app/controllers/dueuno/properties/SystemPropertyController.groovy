@@ -112,7 +112,7 @@ class SystemPropertyController implements ElementsController {
                 row.cells.type.tag = true
 
                 if (values.validation) {
-                    row.textColor = '#cc0000'
+                    row.textColor = '#aa0000'
                     row.cells.issues.icon = 'fa-circle-exclamation'
                     row.cells.issues.tooltip = values.validation
                 }

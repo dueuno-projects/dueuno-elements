@@ -117,7 +117,7 @@ class Label extends Component {
 
             case Number:
                 if (prettyPrinterProperties.highlightNegative) {
-                    if ((value as Number) < 0) textColor = '#cc0000'
+                    if ((value as Number) < 0) textColor = '#aa0000'
                     text = value
                 }
                 break

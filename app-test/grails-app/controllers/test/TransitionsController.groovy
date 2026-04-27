@@ -50,7 +50,7 @@ class TransitionsController implements ElementsController {
                         class: Label,
                         id: 'transitioned',
                         text: 'Hai confermato, bravo!',
-                        textColor: '#cc0000',
+                        textColor: '#aa0000',
                         backgroundColor: "rgba(${primaryBackgroundColorInt.join(', ')}, ${primaryBackgroundColorAlpha})",
                         tag: true,
                         displayLabel: false,

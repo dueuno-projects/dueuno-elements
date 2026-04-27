@@ -24,7 +24,7 @@ import groovy.util.logging.Slf4j
 @CompileStatic
 class Color {
 
-    static final String DANGER_TEXT = '#cc0000'
+    static final String DANGER_TEXT = '#aa0000'
     static final String DANGER_BACKGROUND = '#ffdddd'
     static final String WARNING_TEXT = '#755e01'
     static final String WARNING_BACKGROUND = '#ffeeaa'

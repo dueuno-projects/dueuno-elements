@@ -233,7 +233,7 @@ class TableController implements ElementsController {
 
             if (row.values.username == 'user2') {
                 // coloro riga
-                row.backgroundColor = '#cc0000'
+                row.backgroundColor = '#aa0000'
             }
         }
 

@@ -158,7 +158,7 @@ abstract class Component implements WebRequestAware, Serializable {
 
         primaryTextColor = args.primaryTextColor ?: '#ffffff'
         primaryTextColorInt = Color.hexToIntColor(primaryTextColor) ?: warnColorError(primaryTextColor)
-        primaryBackgroundColor = args.primaryBackgroundColor ?: '#cc0000'
+        primaryBackgroundColor = args.primaryBackgroundColor ?: '#aa0000'
         primaryBackgroundColorInt = Color.hexToIntColor(primaryBackgroundColor) ?: warnColorError(primaryBackgroundColor)
         primaryBackgroundColorAlpha = (Double) (args.primaryBackgroundColorAlpha == null ? 0.15d : args.primaryBackgroundColorAlpha)
 
@@ -167,7 +167,7 @@ abstract class Component implements WebRequestAware, Serializable {
         secondaryBackgroundColor = args.secondaryBackgroundColor ?: '#504545'
         secondaryBackgroundColorInt = Color.hexToIntColor(secondaryBackgroundColor) ?: warnColorError(secondaryBackgroundColor)
 
-        requiredTextColor = args.requiredTextColor ?: '#cc0000'
+        requiredTextColor = args.requiredTextColor ?: '#aa0000'
         errorTextColorInt = Color.hexToIntColor(requiredTextColor) ?: warnColorError(requiredTextColor)
 
         cssClass = args.cssClass ?: ''
