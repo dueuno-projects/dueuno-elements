@@ -217,6 +217,6 @@ class SystemPropertyService extends PropertyService {
     @Transactional
     void delete(Serializable id) {
         TSystemProperty obj = get(id)
-        obj.delete(flush: true, failOnError: true)
+        obj.delete(flush: true)
     }
 }

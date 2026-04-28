@@ -201,7 +201,7 @@ class PublicPageController implements ElementsController {
 
     def onDelete(TPerson obj) {
         try {
-            obj.delete(flush: true, failOnError: true)
+            obj.delete(flush: true)
             display action: 'index'
         } catch (e) {
             e.printStackTrace()

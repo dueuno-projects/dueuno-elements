@@ -84,6 +84,6 @@ class MovieService {
 
     void delete(Serializable id) {
         TMovie obj = get(id)
-        obj.delete(flush: true, failOnError: true)
+        obj.delete(flush: true)
     }
 }

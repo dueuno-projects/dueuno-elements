@@ -92,6 +92,6 @@ class PersonService {
 
     void delete(Serializable id) {
         TPerson obj = get(id)
-        obj.delete(flush: true, failOnError: true)
+        obj.delete(flush: true)
     }
 }

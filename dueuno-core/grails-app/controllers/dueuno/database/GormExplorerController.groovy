@@ -391,7 +391,7 @@ class GormExplorerController implements ElementsController {
         tenantService.withTenant(tenantId) {
             try {
                 def obj = domainClass.get(params.id)
-                obj.delete(flush: true, failOnError: true)
+                obj.delete(flush: true)
                 display action: 'index'
 
             } catch (e) {

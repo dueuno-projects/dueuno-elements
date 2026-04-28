@@ -250,8 +250,8 @@ class TenantService {
     void delete(Serializable id) {
         TTenant tenant = TTenant.get(id)
         deleteTenantUsersAndGroups(tenant)
-        tenant.delete(flush: true, failOnError: true)
-        tenant.connectionSource.delete(flush: true, failOnError: true)
+        tenant.delete(flush: true)
+        tenant.connectionSource.delete(flush: true)
 
         DetachedCriteria<TSystemInstall> systemInstall = TSystemInstall.where { tenantId == tenant.tenantId }
         systemInstall.deleteAll()
@@ -262,22 +262,22 @@ class TenantService {
     private void deleteTenantUsersAndGroups(TTenant tenant) {
         List<TUserRoleGroup> userRoleGroups = TUserRoleGroup.where { user.tenant == tenant }.list()
         for (userRoleGroup in userRoleGroups) {
-            userRoleGroup.delete(flush: true, failOnError: true)
+            userRoleGroup.delete(flush: true)
         }
 
         List<TUser> users = TUser.where { tenant == tenant }.list()
         for (user in users) {
-            user.delete(flush: true, failOnError: true)
+            user.delete(flush: true)
         }
 
         List<TRoleGroupRole> roleGroupRoles = TRoleGroupRole.where { roleGroup.tenant == tenant }.list()
         for (roleGroupRole in roleGroupRoles) {
-            roleGroupRole.delete(flush: true, failOnError: true)
+            roleGroupRole.delete(flush: true)
         }
 
         List<TRoleGroup> roleGroups = TRoleGroup.where { tenant == tenant }.list()
         for (roleGroup in roleGroups) {
-            roleGroup.delete(flush: true, failOnError: true)
+            roleGroup.delete(flush: true)
         }
     }
 }

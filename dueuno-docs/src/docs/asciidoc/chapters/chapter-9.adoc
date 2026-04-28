@@ -126,7 +126,7 @@ class BookService {
     @Transactional
     void delete(Serializable id) {
         TBook obj = get(id)
-        obj.delete(flush: true, failOnError: true)
+        obj.delete(flush: true)
     }
 
     void take(Serializable id) {

@@ -930,7 +930,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
     void deleteUser(String username) {
         TUser user = getUserByUsername(username)
         TUserRoleGroup.removeAll(user)
-        user.delete(flush: true, failOnError: true)
+        user.delete(flush: true)
     }
 
     @CompileDynamic
@@ -1116,7 +1116,7 @@ class SecurityService implements WebRequestAware, LinkGeneratorAware {
         log.info "Deleting group '${roleGroup}' with authorities ${roleGroup.authorities}"
 
         TRoleGroupRole.removeAll(roleGroup)
-        roleGroup.delete(flush: true, failOnError: true)
+        roleGroup.delete(flush: true)
     }
 
     /**

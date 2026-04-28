@@ -248,6 +248,6 @@ class TenantPropertyService extends PropertyService {
     @Transactional
     void delete(Serializable id) {
         TTenantProperty obj = get(id)
-        obj.delete(flush: true, failOnError: true)
+        obj.delete(flush: true)
     }
 }
