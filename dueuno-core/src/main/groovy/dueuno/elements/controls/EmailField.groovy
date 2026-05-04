@@ -30,6 +30,6 @@ class EmailField extends TextField {
         viewTemplate = 'TextField'
         inputMode = args.inputMode as TextFieldInputMode ?: TextFieldInputMode.EMAIL
         pattern = args.pattern ?: '^(?!.*@.*@)(?!.*(\\.)\\1).[A-Za-z0-9_\\-\\.@]*$'
-        icon = 'fa-envelope'
+        icon = 'fa-at'
     }
 }
