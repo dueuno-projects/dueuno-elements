@@ -9,7 +9,7 @@
    viewBox="0 0 939.99998 430"
    sodipodi:docname="dueuno-logo.svg"
    inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
-   inkscape:export-filename="../main/resources/deploy/public/brand/login-logo.png"
+   inkscape:export-filename="/Users/sartori/IdeaProjects/dueuno-elements-release/dueuno.com/images/dueuno-logo.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -773,11 +773,11 @@
      showgrid="false"
      inkscape:zoom="0.71743565"
      inkscape:cx="443.94225"
-     inkscape:cy="211.86569"
-     inkscape:window-width="2560"
-     inkscape:window-height="1293"
+     inkscape:cy="211.16876"
+     inkscape:window-width="1512"
+     inkscape:window-height="844"
      inkscape:window-x="0"
-     inkscape:window-y="31"
+     inkscape:window-y="34"
      inkscape:window-maximized="0"
      inkscape:current-layer="g1">
     <inkscape:page
@@ -830,48 +830,59 @@
          inkscape:export-xdpi="96"
          inkscape:export-ydpi="96">
         <g
-           id="g2"
-           inkscape:export-filename="/Users/sartori/Documents/dueuno-logo.png"
-           inkscape:export-xdpi="96"
-           inkscape:export-ydpi="96">
-          <rect
-             style="fill:#cc0000;fill-opacity:1;stroke-width:3.90707;stroke-linecap:square"
-             id="rect5870"
-             width="502.59915"
-             height="119.24361"
-             x="1240.1404"
-             y="-1159.6871"
-             transform="matrix(1,0,0.97311946,-0.23030092,0,0)"
-             ry="20.622719"
-             rx="32.407085"
-             inkscape:export-filename="../src/main/resources/deploy/public/brand/logo.png"
-             inkscape:export-xdpi="130"
-             inkscape:export-ydpi="130" />
+           id="g5878"
+           transform="matrix(2.9731994,0,0,2.9731994,-334.9435,675.79769)"
+           style="stroke:#ffffff;stroke-width:3.5815;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+           inkscape:export-filename="logo.png"
+           inkscape:export-xdpi="130"
+           inkscape:export-ydpi="130">
           <g
-             id="g5878"
-             transform="matrix(2.9731994,0,0,2.9731994,-335.17946,765.41756)"
-             style="stroke:#ffffff;stroke-width:3.58144;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-             inkscape:export-filename="logo.png"
-             inkscape:export-xdpi="130"
-             inkscape:export-ydpi="130">
-            <g
-               id="g5876"
-               style="stroke:#ffffff;stroke-width:3.58144;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-               transform="matrix(1.4521303,0,0,1.4521303,-115.07824,68.995908)">
-              <text
-                 xml:space="preserve"
-                 style="font-size:30.7784px;line-height:285.3;font-family:Anton;-inkscape-font-specification:Anton;text-align:center;text-anchor:middle;fill:#1a1a1a;stroke:#ffffff;stroke-width:3.58144;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+             id="g5876"
+             style="stroke:#ffffff;stroke-width:2.46637;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+             transform="matrix(1.4521303,0,0,1.4521303,-115.07824,68.995908)">
+            <text
+               xml:space="preserve"
+               style="font-size:30.7784px;line-height:285.3;font-family:Anton;-inkscape-font-specification:Anton;text-align:center;text-anchor:middle;fill:#1a1a1a;stroke:#ffffff;stroke-width:2.46637;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               x="253.69351"
+               y="163.48201"
+               id="text5874"
+               transform="scale(1,-1)"><tspan
+                 sodipodi:role="line"
+                 id="tspan5872"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lobster;-inkscape-font-specification:Lobster;fill:#1a1a1a;stroke:#ffffff;stroke-width:2.46637;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
                  x="253.69351"
-                 y="163.48201"
-                 id="text5874"
-                 transform="scale(1,-1)"><tspan
-                   sodipodi:role="line"
-                   id="tspan5872"
-                   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lobster;-inkscape-font-specification:Lobster;fill:#1a1a1a;stroke:#ffffff;stroke-width:3.58144;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-                   x="253.69351"
-                   y="163.48201">:dueuno</tspan></text>
-            </g>
+                 y="163.48201">:dueuno</tspan></text>
           </g>
+        </g>
+        <circle
+           style="fill:#aa0000;fill-opacity:1;stroke:#ffffff;stroke-width:6.00000015;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+           id="path408-08"
+           cx="421.18094"
+           cy="-337.42081"
+           r="65.661934"
+           transform="scale(1,-1)" />
+        <g
+           id="g2021"
+           transform="matrix(0.91567846,0,0,-0.91567846,342.73666,440.68589)"
+           style="stroke:none;stroke-width:8.19065;stroke-dasharray:none;stroke-opacity:1">
+          <rect
+             style="fill:#ffffff;stroke:none;stroke-width:8.19065;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+             id="rect1981"
+             width="23.136774"
+             height="49.83305"
+             x="56.062183"
+             y="80.978714"
+             rx="0"
+             ry="11.568387" />
+          <rect
+             style="fill:#ffffff;stroke:none;stroke-width:8.19065;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+             id="rect1981-7"
+             width="23.136774"
+             height="49.83305"
+             x="105.89523"
+             y="80.978714"
+             rx="0"
+             ry="11.568387" />
         </g>
       </g>
     </g>
