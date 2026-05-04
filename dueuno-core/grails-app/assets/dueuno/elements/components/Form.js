@@ -47,12 +47,12 @@ class Form extends Component {
             let message;
 
             if (error.field) {
-                let controlIdParts = error.field.split('.');
-                let controlId = controlIdParts.shift();
-                let fieldId = controlId + 'Field';
+                // let controlIdParts = error.field.split('.');
+                // let controlId = controlIdParts.shift();
+                let fieldId = error.field + 'Field';
 
                 $field = Elements.getElementById(fieldId, $element);
-                message = error.message
+                message = error.message;
 
             } else {
                 message = error.message;
