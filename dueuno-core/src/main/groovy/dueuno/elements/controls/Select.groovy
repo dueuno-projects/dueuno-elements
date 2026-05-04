@@ -157,8 +157,15 @@ class Select extends Control {
 
     @Override
     void setValue(Object value) {
-        if (ObjectUtils.hasId(value)) {
+        if (value in Collection) {
+            Collection collection = value as Collection
+            if (ObjectUtils.hasId(collection[0])) {
+                super.setValue(value.collect { it['id'] })
+            }
+
+        } else if (ObjectUtils.hasId(value)) {
             super.setValue(value['id'])
+
         } else {
             super.setValue(value)
         }
@@ -297,7 +304,7 @@ class Select extends Control {
     String getValueAsJSON() {
         Map valueMap
 
-        if (value in List) {
+        if (value in Collection) {
             valueMap = [
                     type : Type.LIST.toString(),
                     value: value.collect { it != null ? it as String : null },

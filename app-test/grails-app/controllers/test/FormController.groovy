@@ -328,6 +328,7 @@ class FormController implements ElementsController {
                     class: Select,
                     id: 'user2',
                     optionsFromRecordset: personService.list(),
+                    multiple: true,
                     keys: ['id'],
                     search: false,
             )
